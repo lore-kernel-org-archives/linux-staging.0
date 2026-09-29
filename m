@@ -1,121 +1,179 @@
-Received: from mta60.mailii.org (mta60.mailii.org [78.129.155.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25E23B05BD
-	for <linux-staging@lists.linux.dev>; Tue, 29 Sep 2026 20:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.129.155.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CACE3DB320;
+	Tue, 29 Sep 2026 22:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790715022; cv=none; b=n/Llw/mYQQ4oqufB9j7djYosJ+NpKr7PYoxAGU9hfE4VrfmXXE0RvxV3anEvvP1DBYSatjjZSETxdKmWqur+Ms03ggbHsMFmjp24vygnFtbEZ4je45RCF4HOe18Rm0EnptIM9vKS1aO5Dl7XjSgTyS6xjR7GJNqY1KHzA7b8ADs=
+	t=1790721715; cv=none; b=sS3QuMAF4j1JFhrlefITqAcANxNeUoT1RXCNN4R7zF0g4tfohnX+n41WZbEXBMFHlJypcrZdm17zqlU+LpBwqKjiuRUySUBHbmFansDRBck097jUHPDDWmcj8LriM0vkycFyZvKTcXUHqR6niXkjwHvllyGXWwgYzKGEQboiacE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790715022; c=relaxed/simple;
-	bh=wi++sukDdPnxVVbXT+JzNXYcNslN/l4C0vtpkpxslOY=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=ooK7DHMbKMS12L/KB1kZMz5eT+y8I8Co54knaFXHHqRYpoAn/MGO9Qt6W4/LMrfpdT+tatvi58phXVgYd4GvOZBIakL+LqVhn+PkgPix0/5fCZjdVnodIRcZzOqsDhGIM1ilOcVOpjdTj6obIe4gAO0/0knVUHGa5PaxNPC/yBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hajimohammadi.net; spf=pass smtp.mailfrom=hajimohammadi.net; dkim=pass (1024-bit key) header.d=srs.mailii.net header.i=@srs.mailii.net header.b=FxQFrMq0; arc=none smtp.client-ip=78.129.155.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hajimohammadi.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hajimohammadi.net
+	s=arc-20240116; t=1790721715; c=relaxed/simple;
+	bh=0T3gCO8tWZxos4GP1TYHCuCatUIYaQOBRijsytZ3s1k=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=OoQUrXM3dVn8id7oeZnp20frCzGtDK0JAbTtGwR4hQGM4cgBBTc1leKiAJzEu4iMH/HE3cjFtbxlSKAxRxXugPnAPR1JdZRsj8SbyFFPG3BaUNIpPRoRubcBJkYksdeiZKqWUr3JzG4GVPDL8Dt7Rn7f5MJaJGSt4fddGfTv+Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qh7dnXpV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=srs.mailii.net header.i=@srs.mailii.net header.b="FxQFrMq0"
-X-Mailin-Tag: 95.217.242.122
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=srs.mailii.net; s=mail;
-	h=to:cc:date:message-id:subject:mime-version:content-transfer-encoding:
-	 content-type:from:from;
-	bh=m2kT/Bips4xccD7h1FNq1w1jQ0t94+MxG3h9hpcCRCM=;
-	b=FxQFrMq0qaDYV9X9gyN1sl4Lqj0sVyuI0a9p13o+G4gBqa2vRY3RCcpMp1iG83kpnwz5tSNss3BhP
-	 ThA9nj6uetsPzCurbsZjySjdFQTRZaeYMoidXVybKHSdtF7U6Qxngixin5S7LeGtBfvVeNsNScIPSv
-	 eE0o+trPi3dpAEpk=
-Received: from linux1de.centraldnserver.com (static.122.242.217.95.clients.your-server.de [95.217.242.122])
-	by ukgw.mailii.org (Halon) with ESMTPSA
-	id b69bbb4f-bc2b-11f1-ab49-005056a23964;
-	Tue, 29 Sep 2026 21:02:16 +0330 (+0330)
-Received: from [78.154.57.70] (port=62707 helo=smtpclient.apple)
-	by linux1de.centraldnserver.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <info@hajimohammadi.net>)
-	id 1xBbgc-000000005xT-2Qij;
-	Tue, 29 Sep 2026 21:02:14 +0330
-From: Amirhossein Hajimohammadi <info@hajimohammadi.net>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qh7dnXpV"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EBF9BC4AF0B;
+	Tue, 29 Sep 2026 22:41:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790721715;
+	bh=0T3gCO8tWZxos4GP1TYHCuCatUIYaQOBRijsytZ3s1k=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=qh7dnXpV+z3a+gVdgBnW/l1YHWFRjGqmPfOhRmXBgU5K29gJqFcmYana6ot07tKmh
+	 /We+uyi4cMAqvfONiwhq8iABpkYcrn1maSSM837udnjoI6YfYDuX1ek17AdT0jgPyC
+	 cu8AfX7BYeEClYqVj0hxq59Ms01ZssmAqzfYk/V27+fSa5iCAdNBvjzuxPYeBxBJdV
+	 fMTyqwd3Rb7FtVFUcihC04jwY4mxhOxUOmpjcSYXu4jpA4g779zu9O1jN6H5kHy3ki
+	 VWnvwY9v+OLKgEBtPXGu6CfbzA4Lnn6WHUi0xzlmptb757fG93krk4GlNMxkwn731o
+	 4gQvwRU7aL3qA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9039CA5FA5;
+	Tue, 29 Sep 2026 22:41:54 +0000 (UTC)
+From: Dumitru Ceclan via B4 Relay <devnull+dumitru.ceclan.analog.com@kernel.org>
+Date: Wed, 30 Sep 2026 01:41:35 +0300
+Subject: [PATCH v18 01/23] media: mc: Add INTERNAL pad flag
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.1\))
-Subject: [PATCH] staging: rtl8723bs: remove unused monitor interface name
-Message-Id: <71228854-6533-486D-B930-BBFD2B51D2B1@hajimohammadi.net>
-Date: Tue, 29 Sep 2026 21:02:00 +0330
-Cc: linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-To: gregkh@linuxfoundation.org
-X-Mailer: Apple Mail (2.3864.700.51.1.1)
-X-YourOrg-MailScanner-Information: Please contact the ISP for more information
-X-YourOrg-MailScanner-ID: 1xBbgc-000000005xT-2Qij
-X-YourOrg-MailScanner: Found to be clean
-X-YourOrg-MailScanner-SpamCheck: 
-X-YourOrg-MailScanner-From: info@hajimohammadi.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260930-gmsl2-3_serdes-v18-1-43117818f499@analog.com>
+References: <20260930-gmsl2-3_serdes-v18-0-43117818f499@analog.com>
+In-Reply-To: <20260930-gmsl2-3_serdes-v18-0-43117818f499@analog.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Dumitru Ceclan <dumitru.ceclan@analog.com>, mitrutzceclan@gmail.com, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-gpio@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Martin Hecht <Martin.Hecht@avnet.eu>, 
+ Andrian Suciu <Adrian.Suciu@analog.com>, Martin Hecht <mhecht73@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790721712; l=4257;
+ i=dumitru.ceclan@analog.com; s=20240313; h=from:subject:message-id;
+ bh=AjWI5epk+kN0BnyzM5CLFxA3YXSEUO2r8K59QBAwlF0=;
+ b=f06A+2YjGjtRyyg0V428C1PlouL2v28b5oEwXfqJMArBMxTGsi9A4JgpYA8JhZ2OG/Udm2smd
+ hHEMJ7/2VWpAx7H/YbLBrsGmbpwMlhjf9pkOI4apmxvKrMGzGgiO8kB
+X-Developer-Key: i=dumitru.ceclan@analog.com; a=ed25519;
+ pk=HdqMlVyrcazwoiai7oN6ghU+Bj1pusGUFRl30jhS7Bo=
+X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
+ with auth_id=140
+X-Original-From: Dumitru Ceclan <dumitru.ceclan@analog.com>
+Reply-To: dumitru.ceclan@analog.com
 
-From: AmirHossein HajiMohammadi <info@hajimohammadi.net>
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-ifname_mon is assigned when the monitor interface is created and cleared
-when it is deleted, but the value is never read.
+Internal sink pads will be used as routing endpoints in V4L2 [GS]_ROUTING
+IOCTLs, to indicate that the stream begins in the entity. Internal sink
+pads are pads that have both SINK and INTERNAL flags set.
 
-Remove the unused field and its dead stores.
+Also prevent creating links to pads that have been flagged as internal and
+initialising SOURCE pads with INTERNAL flag set.
 
-Signed-off-by: AmirHossein HajiMohammadi <info@hajimohammadi.net>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Tested-by: Martin Hecht <mhecht73@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/ioctl_cfg80211.h | 1 -
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c  | 3 ---
- 2 files changed, 4 deletions(-)
+ .../userspace-api/media/mediactl/media-types.rst          |  9 +++++++++
+ drivers/media/mc/mc-entity.c                              | 15 ++++++++++++---
+ include/uapi/linux/media.h                                |  1 +
+ 3 files changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/ioctl_cfg80211.h =
-b/drivers/staging/rtl8723bs/include/ioctl_cfg80211.h
-index a1fc18cd2..15c14b281 100644
---- a/drivers/staging/rtl8723bs/include/ioctl_cfg80211.h
-+++ b/drivers/staging/rtl8723bs/include/ioctl_cfg80211.h
-@@ -16,7 +16,6 @@ struct rtw_wdev_priv {
- 	spinlock_t scan_req_lock;
-=20
- 	struct net_device *pmon_ndev;/* for monitor interface */
--	char ifname_mon[IFNAMSIZ + 1]; /* interface name for monitor =
-interface */
-=20
- 	bool block;
- 	bool power_mgmt;
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c =
-b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 4416d0ec1..9444553a3 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -2158,7 +2158,6 @@ static int rtw_cfg80211_add_monitor_if(struct =
-adapter *padapter, char *name, str
- 		goto out;
-=20
- 	*ndev =3D pwdev_priv->pmon_ndev =3D mon_ndev;
--	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ + 1);
-=20
- out:
- 	if (ret && mon_wdev) {
-@@ -2232,7 +2231,6 @@ static int cfg80211_rtw_del_virtual_intf(struct =
-wiphy *wiphy,
-=20
- 	if (ndev =3D=3D pwdev_priv->pmon_ndev) {
- 		pwdev_priv->pmon_ndev =3D NULL;
--		pwdev_priv->ifname_mon[0] =3D '\0';
- 	}
-=20
- exit:
-@@ -2739,7 +2737,6 @@ int rtw_wdev_alloc(struct adapter *padapter, =
-struct device *dev)
- 	pwdev_priv =3D adapter_wdev_data(padapter);
- 	pwdev_priv->rtw_wdev =3D wdev;
- 	pwdev_priv->pmon_ndev =3D NULL;
--	pwdev_priv->ifname_mon[0] =3D '\0';
- 	pwdev_priv->padapter =3D padapter;
- 	pwdev_priv->scan_request =3D NULL;
- 	spin_lock_init(&pwdev_priv->scan_req_lock);
---=20
-2.39.5 (Apple Git-154)
+diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+index 6332e8395263..200c37a1da26 100644
+--- a/Documentation/userspace-api/media/mediactl/media-types.rst
++++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+@@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
+ .. _MEDIA-PAD-FL-SINK:
+ .. _MEDIA-PAD-FL-SOURCE:
+ .. _MEDIA-PAD-FL-MUST-CONNECT:
++.. _MEDIA-PAD-FL-INTERNAL:
+ 
+ .. flat-table:: Media pad flags
+     :header-rows:  0
+@@ -381,6 +382,14 @@ Types and flags used to represent the media graph elements
+ 	  enabled links even when this flag isn't set; the absence of the flag
+ 	  doesn't imply there is none.
+ 
++    *  -  ``MEDIA_PAD_FL_INTERNAL``
++       -  The internal flag indicates an internal pad that has no external
++	  connections. As they are internal to entities, internal pads shall not
++	  be connected with links.
++
++	  The internal flag may currently be present only in a sink pad where it
++	  indicates that the :ref:``stream <media-glossary-stream>`` originates
++	  from within the entity.
+ 
+ One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
+ must be set for every pad.
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 3fa0bc687851..7938f785e2e3 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -209,11 +209,16 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
+ 		mutex_lock(&mdev->graph_mutex);
+ 
+ 	media_entity_for_each_pad(entity, iter) {
++		const u32 pad_flags = iter->flags & (MEDIA_PAD_FL_SINK |
++						     MEDIA_PAD_FL_SOURCE |
++						     MEDIA_PAD_FL_INTERNAL);
++
+ 		iter->entity = entity;
+ 		iter->index = i++;
+ 
+-		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
+-					     MEDIA_PAD_FL_SOURCE)) != 1) {
++		if (pad_flags != MEDIA_PAD_FL_SINK &&
++		    pad_flags != (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL) &&
++		    pad_flags != MEDIA_PAD_FL_SOURCE) {
+ 			ret = -EINVAL;
+ 			break;
+ 		}
+@@ -1118,7 +1123,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
+ 
+ 	for (i = 0; i < entity->num_pads; i++) {
+ 		if ((entity->pads[i].flags &
+-		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
++		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
++		      MEDIA_PAD_FL_INTERNAL)) != pad_type)
+ 			continue;
+ 
+ 		if (entity->pads[i].sig_type == sig_type)
+@@ -1148,6 +1154,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
+ 		return -EINVAL;
+ 	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
+ 		return -EINVAL;
++	if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL) ||
++	    WARN_ON(sink->pads[sink_pad].flags & MEDIA_PAD_FL_INTERNAL))
++		return -EINVAL;
+ 
+ 	link = media_add_link(&source->links);
+ 	if (link == NULL)
+diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+index 1c80b1d6bbaf..80cfd12a43fc 100644
+--- a/include/uapi/linux/media.h
++++ b/include/uapi/linux/media.h
+@@ -208,6 +208,7 @@ struct media_entity_desc {
+ #define MEDIA_PAD_FL_SINK			(1U << 0)
+ #define MEDIA_PAD_FL_SOURCE			(1U << 1)
+ #define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
++#define MEDIA_PAD_FL_INTERNAL			(1U << 3)
+ 
+ struct media_pad_desc {
+ 	__u32 entity;		/* entity ID */
+
+-- 
+2.53.0
+
 
