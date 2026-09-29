@@ -1,83 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mta60.mailii.org (mta60.mailii.org [78.129.155.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877024FD78A;
-	Tue, 29 Sep 2026 16:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED163D1A81
+	for <linux-staging@lists.linux.dev>; Tue, 29 Sep 2026 18:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.129.155.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790697926; cv=none; b=i/N5Ou5dmXZNhl3YmltM/1eBW+SgnUuWJ7nqxPETnqSAAzoQSwRI2kphYyo7IiU8r0+TZZA7ZXhXVmFX8LDUEFTCV8sqpbMpg87wQPM9ijX9Qad+1c14h56/Rpzxd/H/GKR3lt1HQb0lyisUr/PvmtispudOXc61/4ectSWbeeo=
+	t=1790707613; cv=none; b=rvWzcp+fax2fvO93AeWTrQds8i8KzsfQPqo1R8NREtG57ifSDQV0oPksJcBp1g4uLXT8bj2DMFMTnp87XI15/4Yn2nYoYBcOLAkw+ZvLtoO9ds9gb6ELcTnew2LrnwG7vRXHsn+7EvSG+DLycqEmCRW4zzholPZEpfr0oB3JXxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790697926; c=relaxed/simple;
-	bh=McJ8z5XBo11cViQ+wyvp109B22XdP5gvjWylc4F7Rs4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gKtQcub0/XzXjZU7ErKsf8vpfCRsDoNLy/rT0MlvvpbpbVQTQSNAj138OZi1jHFnmpO7kdsqmDDTtFqjymKm+dpkfMVxU4C7lS/Cqgvnv1ri89YVAntMtNWlYsIN+GBd3B7TqBxyALylIJIiDptWcNuho7LJXaY387MDWoAOwzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RlPW8VJ1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790707613; c=relaxed/simple;
+	bh=5BcuclSv2CC11HeMfuLEgsOS0onZ41ycm9dJjHThZ3c=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=Rnm9sB6SFb/52ZdIK0JyltNOu/mP6nC2S0iIHmKKDdqlxeg+P01VU5qjqTBHK2Y6lsAYKMnx1vBq9C0H07BJ3eDJFEKSpvgxG6nCy4uARGRQ/1JFDndRm2M44ShfGFhsCyANe8MZcx4cWE8URG21whC3wjU2uNnRDgan0pfIFiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hajimohammadi.net; spf=pass smtp.mailfrom=hajimohammadi.net; dkim=pass (1024-bit key) header.d=srs.mailii.net header.i=@srs.mailii.net header.b=JsvPkHHG; arc=none smtp.client-ip=78.129.155.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hajimohammadi.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hajimohammadi.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RlPW8VJ1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEFF81F0089A;
-	Tue, 29 Sep 2026 16:05:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790697916;
-	bh=OGn63YaPShNrl1yPLo3koVX6LHPw+HKS2Nou9lHW8Ws=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RlPW8VJ1sQqjB4hTsawkcrr/6s9j9Q/udhKoST5cGFnCscKfwCGZA0vMV182To5mc
-	 J6/Ij+mI4EkzAGPP//9vUUL7ENIepc6f9vpzUALAXODu/gTaA8EKiIyBQdTIV6GVVs
-	 ra1T6fGe6Mv05Jb1LH4q/mn8q3ojJ/G9FrqRdzY0=
-Date: Tue, 29 Sep 2026 18:05:12 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Amirhossein Hajimohammadi <info@hajimohammadi.net>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: stop overreading monitor
- interface name
-Message-ID: <2026092915-luxury-shush-6b29@gregkh>
-References: <3B4B0B72-4DCE-4E40-9E87-732DCBAA4EAF@hajimohammadi.net>
+	dkim=pass (1024-bit key) header.d=srs.mailii.net header.i=@srs.mailii.net header.b="JsvPkHHG"
+X-Mailin-Tag: 95.217.242.122
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=srs.mailii.net; s=mail;
+	h=to:references:message-id:content-transfer-encoding:cc:date:in-reply-to:from:
+	 subject:mime-version:content-type:from;
+	bh=5BcuclSv2CC11HeMfuLEgsOS0onZ41ycm9dJjHThZ3c=;
+	b=JsvPkHHG7r8CHAoQLZkDegsBnk8+VJ6P5jIVrinBZGwPIfDoxRdqA3QUMMVsZ3qNR5aHdE0Hm+VBu
+	 lyuvodzLHBwEV1wMi+E6eL3KgrdbdEtuKIZ0OPNcNf92IL9UhSArgItZoG0XYhvHklwUp62TO/GEQX
+	 TbTm1rdJR1G8lyfg=
+Received: from linux1de.centraldnserver.com (static.122.242.217.95.clients.your-server.de [95.217.242.122])
+	by ukgw.mailii.org (Halon) with ESMTPSA
+	id 3eab6364-bc2b-11f1-ab49-005056a23964;
+	Tue, 29 Sep 2026 20:58:55 +0330 (+0330)
+Received: from [78.154.57.70] (port=64672 helo=smtpclient.apple)
+	by linux1de.centraldnserver.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <info@hajimohammadi.net>)
+	id 1xBbdO-000000004D3-14xf;
+	Tue, 29 Sep 2026 20:58:53 +0330
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3B4B0B72-4DCE-4E40-9E87-732DCBAA4EAF@hajimohammadi.net>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.1\))
+Subject: Re: [PATCH v3] staging: rtl8723bs: stop overreading monitor interface
+ name
+From: Amirhossein Hajimohammadi <info@hajimohammadi.net>
+In-Reply-To: <2026092915-luxury-shush-6b29@gregkh>
+Date: Tue, 29 Sep 2026 20:58:40 +0330
+Cc: linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <D45E885D-B05E-4BDB-9AB9-D5AFD5E82F47@hajimohammadi.net>
+References: <3B4B0B72-4DCE-4E40-9E87-732DCBAA4EAF@hajimohammadi.net>
+ <2026092915-luxury-shush-6b29@gregkh>
+To: Greg KH <gregkh@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3864.700.51.1.1)
+X-YourOrg-MailScanner-Information: Please contact the ISP for more information
+X-YourOrg-MailScanner-ID: 1xBbdO-000000004D3-14xf
+X-YourOrg-MailScanner: Found to be clean
+X-YourOrg-MailScanner-SpamCheck: 
+X-YourOrg-MailScanner-From: info@hajimohammadi.net
 
-On Tue, Sep 29, 2026 at 07:18:11PM +0330, Amirhossein Hajimohammadi wrote:
-> From: AmirHossein HajiMohammadi <info@hajimohammadi.net>
-> 
-> cfg80211 passes a NUL-terminated interface name. memcpy() always reads
-> IFNAMSIZ + 1 bytes, even when the caller supplied a shorter string.
-> 
-> Use strscpy() to stop at the terminator and bound the write to the
-> destination buffer.
-> 
-> Signed-off-by: AmirHossein HajiMohammadi <info@hajimohammadi.net>
-> ---
-> Changes in v3:
-> - Add an explicit From header matching the Signed-off-by identity.
-> 
-> Changes in v2:
-> - Send the patch inline instead of as a MIME attachment.
-> 
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 4416d0ec1..8f5032844 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2158,7 +2158,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
->  		goto out;
->  
->  	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
-> -	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ + 1);
-> +	strscpy(pwdev_priv->ifname_mon, name);
+You are right. I noticed this during manual source inspection and
+incorrectly treated the fixed-size copy as something that should use a
+string helper.
 
-But we are replacing str*() calls in the kernel with memcpy() calls
-where it can happen, so why go backwards here?
+I did not measure any throughput improvement or test the change on
+hardware. The original patch was only checked with checkpatch and by
+applying the received email, so it is not sufficiently justified. Please
+drop it.
 
-What caused you to notice this change is needed?  Have you measured a
-speed up in throughput with this change applied?  How was it tested?
+On rechecking the code, ifname_mon is written and cleared but never read.
+The appropriate cleanup is to remove the unused field and its dead stores
+instead. I have compile-tested that cleanup with W=1 against staging-next
+and will send it separately.
 
-thanks,
-
-greg k-h
+Sorry for the noise, and thanks for the review.
