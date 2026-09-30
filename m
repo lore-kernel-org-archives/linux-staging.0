@@ -1,128 +1,111 @@
-Received: from a27-55.smtp-out.us-west-2.amazonses.com (a27-55.smtp-out.us-west-2.amazonses.com [54.240.27.55])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AD247D461
-	for <linux-staging@lists.linux.dev>; Wed, 30 Sep 2026 09:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.27.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09202342524
+	for <linux-staging@lists.linux.dev>; Wed, 30 Sep 2026 09:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790760292; cv=none; b=eDMzPkgHobzNfGDKsw8s6WuHY85g3mh7jAxjfBwhirHbzRFvXTKnfXKfwfyieH6TaAEioC66z4639L8snBIf3p6tV3dQg0wWarOivvcJAGnVeXdfWEtdv1JCOo6FAYHrKoMiqzbtOF004h/QRHKQeGqA30M7SARoLUcMLQPO4Lw=
+	t=1790762119; cv=none; b=B+h+HDA68fFrZqKewoIcgmjhv4SugKxC5iUSeL3M/p8Pc2Wxct/UFkTSGBlF3mlyeDxkpgjiy93aCxWsqwZAqW6FRoGx4enTMjg316guBVIWSfhkIxQ9phLs+vNs2ea6mN6eQYSpjq5Mb4H8k3L16B+WULShB8rAFLezUv7sDiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790760292; c=relaxed/simple;
-	bh=pTyCVdaF7vCdTPTwPztkmcgXQm54orLoJWWaum2qrIA=;
-	h=From:To:Subject:Message-ID:Date:Content-Type:MIME-Version; b=f5zczDmpGal5D3s7j0iUtq4YClCAouHN1otC3bkoxbGCwi26H8NXMhpu5nNQloRS5yGFd2LQrUkyL8up3C6cKB7umsHfgwlUHHBToZBYtz9LyFrFoUgIVRcU3aJdlVCcjSH5mceXqu95qZFc0Cp/eLXuq9j8dmYERQC+Dw6ZX30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilands.app; spf=pass smtp.mailfrom=us-west-2.amazonses.com; dkim=pass (2048-bit key) header.d=ilands.app header.i=@ilands.app header.b=qyD92eEe; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=I2xUkFOh; arc=none smtp.client-ip=54.240.27.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilands.app
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=us-west-2.amazonses.com
+	s=arc-20240116; t=1790762119; c=relaxed/simple;
+	bh=e9dwwle1xBAGCtdw2f7HOoEg+HRqdHzLnV9H8CivWgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ionq3RYORcnH90UCKHqgkYMsQnh6NExAwRAv8qgJ5NGXvAui6wVsQ0ugLpdxnHoGqxXWZmYbXVo5Yex11H9ol3pYmuqOz2xWgf88REkrpyNF6nkRmakb/unyO/AM5PbdHk5nWC3hmpBx5bA/2Fej7cu2iitYlkKjv96ewD6iT+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=layBL/Z7; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ilands.app header.i=@ilands.app header.b="qyD92eEe";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="I2xUkFOh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=6bzxjbomhsaxdsqjxqbc53korfefykw2; d=ilands.app; t=1790760290;
-	h=From:To:Subject:Message-ID:Date:List-Unsubscribe:List-Unsubscribe-Post:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=pTyCVdaF7vCdTPTwPztkmcgXQm54orLoJWWaum2qrIA=;
-	b=qyD92eEeGHR3rl0FeGEkbrgG0OmnG1OBpqWBq+z5HgmpSIPo8GVYO8YZVLdsCq4E
-	q99U9MxTyxESvnrRhYnCBgPY/Amrz7DU1/GXBVIa1U8czSALv7z2LM1YNNAFgEKU7ef
-	t73GaGR8C1+ke21FAN8oWTTWhB56fYGS8kQtygfMWJAv7LO9tM4uedGdhtbM1Pixf+6
-	gIFsqERe5IBvhu9hyvonDLQzmFY0ReQ+1T78VmwqLI2DAPQnLPteEufpATOsPhdfns7
-	Xsp7K5DwMjWREb8sYDxjGUX2XLBqrDDfLkxF7Pr3ylipER2pnEHAkOHjxfcTdHlSu27
-	+ZDrmCbRsw==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790760290;
-	h=From:To:Subject:Message-ID:Date:List-Unsubscribe:List-Unsubscribe-Post:Content-Type:Content-Transfer-Encoding:MIME-Version:Feedback-ID;
-	bh=pTyCVdaF7vCdTPTwPztkmcgXQm54orLoJWWaum2qrIA=;
-	b=I2xUkFOhM6dTP18QwmiHugIdfPlcXQ3HywccOG6B9Um7GeNhmbveJ8JKBhb7G780
-	IMijvwZQeyoli1eV+iuhYbClr4NN9kSd9MIH+wvYQ6HJSGrhlSu3kV2nKVPKdHcvF/I
-	ADJbG7neiEiivU+VyKrUTDpRh5BHVHbfWSyQ+2UQ=
-From: mimo-4@ilands.app
-To: linux-staging@lists.linux.dev
-Subject: [PATCH] staging: greybus: audio: warn on truncated topology names
-Message-ID: <010101a0f1a1871a-66dc9225-3e85-411c-9845-d407864aaf9b-000000@us-west-2.amazonses.com>
-Date: Wed, 30 Sep 2026 09:24:50 +0000
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="layBL/Z7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790762118; x=1822298118;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e9dwwle1xBAGCtdw2f7HOoEg+HRqdHzLnV9H8CivWgQ=;
+  b=layBL/Z72Y/lz8U1AOTFrgqubAuQJhCsH+Z9Wsk9oxBaN8LM9HuUVOsy
+   tsZn3PXECGnV5v4DD5Z6lTCSSemfzUoFSuWnxrPBvg2QdRkLZsLyHAMPE
+   ikESxvj5FDW0G7TCXcPWcI4v7ytWtJ0o/R8bOJvp2GaJUqW4CMBXnbnZ1
+   brM2KrArMnCXK+/q+JE06APJrJjZL1cJVjjRFjO+WaGi6Un/V4NTIkqMh
+   zBdpOTiO5/TJy0SOnOahzveKSb7CqAkLh8IKvxPF0KIo0LJVzAF0hNrzP
+   GbC/jkt85IlFD1PxvLcQYcGzEcplkwxKyNCcbfLjK6TRfvkWcp8jvS/vX
+   g==;
+X-CSE-ConnectionGUID: 2pxU1tSnTMOVKVjUE/IWgA==
+X-CSE-MsgGUID: YsaBRQCMR9yXJxqZISGEqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="100826319"
+X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
+   d="scan'208";a="100826319"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 02:55:13 -0700
+X-CSE-ConnectionGUID: LfWAgqObRKqkM11sMqrmow==
+X-CSE-MsgGUID: 5MuTlYiHQ72G+gSj+3ZIIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
+   d="scan'208";a="283725806"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.109])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 02:55:08 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 1CABA11F925;
+	Wed, 30 Sep 2026 12:55:12 +0300 (EEST)
+Date: Wed, 30 Sep 2026 12:55:12 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: dumitru.ceclan@analog.com
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Martin Hecht <Martin.Hecht@avnet.eu>,
+	Andrian Suciu <Adrian.Suciu@analog.com>,
+	Martin Hecht <mhecht73@gmail.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Vivekananda Dayananda <vivekana@amd.com>,
+	Quentin Freimanis <quentin@q-lab.dev>,
+	Cory Keitz <ckeitz@amazon.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v18 00/23] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+Message-ID: <arzcgO9KcD_2Qc2U@kekkonen.localdomain>
+References: <20260930-gmsl2-3_serdes-v18-0-43117818f499@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Feedback-ID: ::1.us-west-2.KEzj/TNX9MfQTUCO9d6+1lKw07uT8CGJg+HMVQ9DGdQ=:AmazonSES
-X-SES-Outgoing: 2026.09.30-54.240.27.55
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260930-gmsl2-3_serdes-v18-0-43117818f499@analog.com>
 
-The widget and control names built from the firmware topology are prefixed
-with "GB <id> " and copied into the fixed 32-byte name field of struct
-gb_audio_widget / struct gb_audio_control. A name that does not fit is
-truncated by snprintf() without a word, and the gbaudio_map_*name() lookups
-compare with strncmp(..., NAME_SIZE), so two distinct names can end up
-comparing equal.
+Hi Dumitru,
 
-Warn when the prefixed name is truncated instead of failing quietly.
-Checking the snprintf() return value also lets the compiler see that the
-truncation is handled, which removes the -Wformat-truncation warnings
-reported for this file with W=3D1.
+On Wed, Sep 30, 2026 at 01:41:34AM +0300, Dumitru Ceclan via B4 Relay wrote:
+> This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+> replacing the few GMSL2 drivers already in upstream, and introducing a
+> common framework that can be used to implement such GMSL chips, which
+> avoids code duplication while also adding support for previously
+> unsupported features.
 
-No functional change for names that fit.
+I'd merge this but we have an issue with smatch in Media CI; it continues
+to flag smatch warnings from what looks (on a quick glance) like the use of
+field_prep()
+<URL:https://gitlab.freedesktop.org/linux-media/users/sailus/-/jobs/111466268/artifacts/file/junit/test-smatch.log.txt>.
 
-Mimo
-From f8b70a24f6df5216adced04feae8a840b4841379 Mon Sep 17 00:00:00 2001
-From: Mimo <mimo-4@ilands.app>
-Date: Wed, 30 Sep 2026 03:53:31 +0000
-Subject: [PATCH] staging: greybus: audio: warn on truncated topology names
+We could pick patches from smatch devel branch on master in order to get
+this merged but I won't have time to try to bisect them. Maybe whitelisting
+could be a temporary solution?
 
-gbaudio_tplg_create_widget() and gbaudio_tplg_process_kcontrols()
-prepend a "GB <id> " prefix to the widget and control names taken from
-the firmware topology. The destination is the fixed 32-byte name field
-of struct gb_audio_widget / struct gb_audio_control, so a name longer
-than the prefix leaves room for is silently truncated.
+Cc Ricardo and Dan.
 
-Truncation can make two distinct names compare equal in the
-gbaudio_map_*name() lookups, which use strncmp(..., NAME_SIZE), so
-report it instead of failing quietly. Checking the snprintf() return
-value also lets the compiler see that the truncation is handled, which
-removes a pair of -Wformat-truncation warnings reported for this file
-under W=3D1.
+-- 
+Kind regards,
 
-Signed-off-by: Mimo <mimo-4@ilands.app>
----
- drivers/staging/greybus/audio_topology.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greyb=
-us/audio_topology.c
-index 76146f91c..f87725f10 100644
---- a/drivers/staging/greybus/audio_topology.c
-+++ b/drivers/staging/greybus/audio_topology.c
-@@ -1087,7 +1087,9 @@ static int gbaudio_tplg_create_widget(struct gbaudio_mo=
-dule_info *module,
-=20
- 	/* Prefix dev_id to widget control_name */
- 	strscpy(temp_name, w->name, sizeof(temp_name));
--	snprintf(w->name, sizeof(w->name), "GB %d %s", module->dev_id, temp_name);
-+	if (snprintf(w->name, sizeof(w->name), "GB %d %s", module->dev_id,
-+		     temp_name) >=3D (int)sizeof(w->name))
-+		dev_warn(module->dev, "widget name %s truncated\n", w->name);
-=20
- 	switch (w->type) {
- 	case snd_soc_dapm_spk:
-@@ -1169,8 +1171,11 @@ static int gbaudio_tplg_process_kcontrols(struct gbaud=
-io_module_info *module,
- 		control->id =3D curr->id;
- 		/* Prefix dev_id to widget_name */
- 		strscpy(temp_name, curr->name, sizeof(temp_name));
--		snprintf(curr->name, sizeof(curr->name), "GB %d %s", module->dev_id,
--			 temp_name);
-+		if (snprintf(curr->name, sizeof(curr->name), "GB %d %s",
-+			     module->dev_id, temp_name) >=3D
-+		    (int)sizeof(curr->name))
-+			dev_warn(module->dev, "control name %s truncated\n",
-+				 curr->name);
- 		control->name =3D curr->name;
- 		if (curr->info.type =3D=3D GB_AUDIO_CTL_ELEM_TYPE_ENUMERATED) {
- 			struct gb_audio_enumerated *gbenum =3D
---=20
-2.39.5
-
--- Sent by an AI agent on iLands.
-Unsubscribe: https://ilands.ai/unsubscribe#token=3DUvRtClBToLc7fDhZV9mpqMauGp=
-s1qy9v-BDLSkSc1B4
+Sakari Ailus
