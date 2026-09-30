@@ -1,80 +1,80 @@
-Received: from mail-oo2-f40.google.com (mail-oo2-f40.google.com [74.125.231.168])
+Received: from mail-oo2-f36.google.com (mail-oo2-f36.google.com [74.125.231.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319E03BED42
-	for <linux-staging@lists.linux.dev>; Wed, 30 Sep 2026 11:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E724A263C
+	for <linux-staging@lists.linux.dev>; Wed, 30 Sep 2026 11:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.164
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790768059; cv=pass; b=d4a0zIosApqzs615Cwwe/l6vzJsCFUoA6XQFA5jIsZ+NIIWCY53WBZO8xlAfSvycP5bZWPbqzg2hoxtvKk5WXHsyZ2JjkxLPbKbkjYd/dLRllyjFZTQIAcMSeI5SXIR8Stoyk0EgxHA6IsPW3V2byrUZxO8fZGn2pilLLDqt+ts=
+	t=1790768132; cv=pass; b=rPuX6sDtop4dZT8UltqJbZyw7OorP1STAz5cMT6FwfZNmMtDhhcEVqYF6AnXlCzR9BsJ5p3q7VP6+nzR+HSD5x2U5oxFB/8xxwTK7bUHzERH9E/muMrvhOqvZbeFMV1EOs+MDOjvC/Ai4/zRgGJU3Ec52E/MsQyTx2jTWg8ssPE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790768059; c=relaxed/simple;
-	bh=aYrSFshnjc1dLaRx+4fcphgUxBfodGw4jGAuwnmXMOE=;
+	s=arc-20240116; t=1790768132; c=relaxed/simple;
+	bh=Ai/Jf8BwEUO5H8StrVs1vR9aM5EMKcYU9MwuHF4t1kQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H+yRvU1fOytEIlsO/JAMeMM1oGUdvexA3RZTNr/KGK5LLCjmr71HcMAGnv9vdx6XNXXdHRMGS2IQYWi7ZZ2/KZRblb+vGt21hn9aEwiJuebHAzaKkr5vcLE2ZrXxVNrvgp8V17AKF/2ZmueBLjs/AFMa2hGLJxBl0mzhBMoaOu8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C5LFezG/; arc=pass smtp.client-ip=74.125.231.168
+	 To:Cc:Content-Type; b=NDv9vkV6URRf0Db5NL9jxXDh66RQkuZhr34Lvr8FxTUn4s5QoJoyuQV6clTHqyzTyJaKkuAz3NpSSwOcgEPfnmrrETyb8bdJrqiEjtBZcHBtePC9Y4I7iNV0GwGrqUekck19gG7qbm9ejhOBhhlCktJFczY0leg11VLfHtIeMH8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FQnEcqpw; arc=pass smtp.client-ip=74.125.231.164
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C5LFezG/"
-Received: by mail-oo2-f40.google.com with SMTP id 006d021491bc7-6c72bd8a02fso2851382eaf.0
-        for <linux-staging@lists.linux.dev>; Wed, 30 Sep 2026 04:34:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790768057; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQnEcqpw"
+Received: by mail-oo2-f36.google.com with SMTP id 006d021491bc7-6d762782f99so1886456eaf.0
+        for <linux-staging@lists.linux.dev>; Wed, 30 Sep 2026 04:35:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790768129; cv=none;
         d=google.com; s=arc-20260327;
-        b=IjtiEkJ2m5bZWcYWO/8kHoRetDhY0S96TnSkCMgWfw/iB+M5BmjUv/pVWoCno2S7w2
-         1SU4RdWIQOyxxKhAMUDZa5LG93XAKAqS0ulUwPYbnUN1zTqNLctN4jLs905XMQGGyZtH
-         EQ3lRn9gzb6Qt3CWKPkIRt60+Ka6MXiHcW6BSOSpro55HwBLSwOfF7Sb3V5aWFrd6X8y
-         /b9dH1EyiOHGsTScDHbt8LVWaqNnt8pxVlL87R+NlRnKlntalpgiAY164zf06Eu67Cwa
-         vxFx4XPUWyTkShOy1HTYOrFh8kp3ybod3/ykmQRk6KKNdWzXqzPM5RUD9Rf0IKIhwAiQ
-         QiCg==
+        b=gzXw3/Zxo39QQ/MuHLnkQ0frYHVLejuKc4wonkQxPrGvfmP9MkS4uPZP7pGCXKlSZa
+         4Mz2NmS6xIzapKkV+/yheea0LrsR1B6VrPXptQeaUBqjau6Chftr6kJELrK9djH9HJNe
+         WiGvJx2LdT+N/elwqz9FPF4UW/1D8zwhU1sdEuG5mBn0uFINkC4Dbe+P9sthzL+olyCm
+         1P3LOamY0zAwrb644YvjzIdwgUDnx3q0nrgicFyda86y3LYeLoyyO5QOH8lkk+/kBfLq
+         xPGjSA7UZCbjZq1P1flgGKI/wWmnIY2pstLNpavD690TYW3wmooUgB4Fa0ZPDp2M+TGn
+         aMxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=srVWHQ34fmEZwN42zGAC9YE78eGz/CHZFtfzts5HK8c=;
-        fh=i5iw7t8Kimn9/9lAniNWDxwOq2n2ljsnipS99ZJZjCQ=;
-        b=kVVUfRFbKOvOvR4yfkN/0xoFiPd5KdYlLiLYw+WGFQp88POTxgRlkFwx46xTk9pNG+
-         BNYWLtY019H0ntMBTWCSRXaBgOvev4h9rmUckAabjc0DcY5rdxj8fNFosZLO+hwxkJDQ
-         yQTJfcXhZawgezfq7fDms05v9/U37o79o5I42TlmRGhoe+0eXpq+6Po3q1ze5xqLQ8TY
-         pU5Mm+gYc41VLOa5xY08rZ+TT2zOcMUjlfbOaSC0LJQqIvdbh78BPtnbMm7ZrSJYWWSp
-         1hiCzhnzrKko+Sh5OBmtCQtEx1YmtMwy8bXAMc4d/4N/TF3y4+uFNCz2mKTTr+Lik5sL
-         rMbQ==;
+        bh=Ai/Jf8BwEUO5H8StrVs1vR9aM5EMKcYU9MwuHF4t1kQ=;
+        fh=NeaWRFvQVb8v2TE9dTQyTtx6b+2zvvksed8UwdbMdh0=;
+        b=FvN4GGkCJXBir1+F8hqS2Pvmz9pHbDyR994a/R+wyLesQY7hfKK5fZUkEIvWz1xzR9
+         4aaixFqlFr3Ayb5hT+FeBl7yFaoKe12j4JcUYj31S+vohNBPjhu3hvDeJM3rFOtPEhMA
+         UhDFgemXe91u/I2IEyRM2zDl85pK9v9vcH2OgTcp1Yz8J3D33EkNxWvvGXojULr5EomY
+         kpQkkN9iLd6bBbZ/LbW4wBXRalgIdgVIfu/skyhojy/Qxzt76vHhEXu+eU0BR/tWQWXm
+         AnJkiWgfWkTkk3lWqFrB9ZrceGVh94bc83gBghGEjDg4Wg/cDcY+hVpAf4j/kkt8YM5q
+         NAEA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790768057; x=1791372857; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790768129; x=1791372929; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=srVWHQ34fmEZwN42zGAC9YE78eGz/CHZFtfzts5HK8c=;
-        b=C5LFezG/TfVKdUPoQrMDf0UbLIu9y9+d8dHB6zkNK/cZIneZ8EfoLH2AKqka5E+REo
-         B3Ajn+4ZiC14cAkquEXnoMuhysd/iEAlP4kaQAlZPslu1uSdw+/vBCY79LR74jRukY9l
-         ahOiiZLEE1kQs19rv/1C5w6+IkR4dx4Pe37AKRaXqla2zr/yR0xrxiWyWXjrIWxP508C
-         1QzDqltzWJ9aYGUZGQszal/HX416zevfeJ4/SNcVrqwKghjXwk2w4qF8PKA+XaPJiyU1
-         H5x/fZaKx8Urry2RGr3BSMZhxrUoK6QlRjdXY6R1PsnMfr590bBhsGZL4Iuv+FZYoZaV
-         Usrw==
+        bh=Ai/Jf8BwEUO5H8StrVs1vR9aM5EMKcYU9MwuHF4t1kQ=;
+        b=FQnEcqpwSzGV2jLq8jYZ3HSmZZHIqUDRJ8W+40ERWDgijlHxke77VpUBsq6hgBOerb
+         qYIznzba1SxKiwr9UIyeh5bqLnLGmSCk+mJVpdwO64Dtu8gqgmBoFOqErGIQ6YXJj/cX
+         GPjvr3ScKguwlBxroF/HN50bwQ9Il8E5plqte4+L4wdF08vY5mSAW6leppW1DseXSFYa
+         mCsYJKdAYLi0GlY9TcIoWZGP/0fu1KVqSUZ2d7zTqTb0Fg0mWx0Irz90+ZiJezbMZD3v
+         oVnJVQUyQf7RmOp7xyIf2Arl9LZhdfiVoLojoluNn77Iq+26amrvF5j3aQadbhSQCPY3
+         JYWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790768057; x=1791372857;
+        d=1e100.net; s=20260707; t=1790768129; x=1791372929;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=srVWHQ34fmEZwN42zGAC9YE78eGz/CHZFtfzts5HK8c=;
-        b=r5AH7kZO+gmb0o6DIGWVfnuNJEUNqJESsCLlvOzgIDhnJLeI2JWSH5R3jJkhG2AYb0
-         7dXaoI1gZiIq0X2yFfSr8N3/jLGMwnrn1d+E53XwTXMofFlhYXROhdLn+v/EaeNl7PL9
-         3meBd4A4nqDcBvuM8TbnC3+E/ARPgQEcja1OY/No1FrOWzv1IPxmqksvPfhxRx1K7nAm
-         tkORUwXc1wXZE9aMNPvh1C1QRBL/lhaMsg2Nw2SulZb1KrqgimIb2UQGAj/966cei0tC
-         X6wegItkaPbtBDzQ0UL1TNH3D+FX3sII969CX0eA+0JAq3z+HHMqhyM2CVr7KLoVPCZE
-         H3xA==
-X-Forwarded-Encrypted: i=1; AKwUvBzwp3ifK7IjB0xMDVeQ08zc/iOs35MjBKVhMKPjKXFJIXgGUAZ+0YCOKtV5kccMRQoARBjQUKT6NYfRlEMA@lists.linux.dev
-X-Gm-Message-State: AFuF++lA4NYDFNDonnu7Xpjhymd1S1LnL+PcheLezf0o17u80P+l9GxR
-	doyf91I7Ofk9eupsqdWyl7cnrsZ2eiaZTlwMk1UG3Wx7QHEYGqgBWuPZxh3uk9Lz4OkoDjVCbwG
-	J4AunGXkqoWvUHKkd/uH6aUP5+CO51Qg=
-X-Gm-Gg: AYBFou2rx8dIc8xT+sNNEHQ2JJj+GrnMgdgZxxZnefBpd/4o5kI6YkZ5zZ0BtZMCCX7
-	p7GI4DqTtGmZmfbq+0eHuUo1Wc1d/GQseHb4NjMYUoEBhwcZXJ4lsKB7ITWa4rxm7pDVM4Ezmkh
-	6rLxMBCg/arKxtFImH72yzrbTvsavV9/I0nJVnMm81TQ8do5ZSOqyE2F9QPgCE1ki4BAzjWe0yo
-	Ji6MUyf86tTvQNn8pXnBrCqmZ7g+p4NCv1Ccl4g42tX36jNnOyVaE3cyUx/Cr51QXZ8rY1wQUQx
-	OlqEtxbukV44dXE6BtZj7XePz0zAV+TUTijaEARbI/y+LvKthOGPU2/Onu/ShEdt2cQy
-X-Received: by 2002:a05:6820:4ccb:b0:6c9:80d8:a205 with SMTP id
- 006d021491bc7-6dcf6b1c1efmr862593eaf.66.1790768057073; Wed, 30 Sep 2026
- 04:34:17 -0700 (PDT)
+        bh=Ai/Jf8BwEUO5H8StrVs1vR9aM5EMKcYU9MwuHF4t1kQ=;
+        b=R7edvcYe/Imzur/SnINwq7tpbJ6mm4BwItMBJGwvwpM/M9hNfwOyJ+yuNEdAgEkSIM
+         oVehZADmbDdczRXsS571Jb8h73/XBoc6Y8CrQOIkU7QwFR0wGWUyj7Xi0xA7ZndRpvci
+         qvfR9dvYqNjUQAWgffH1OebHgZXYcGdIVY8/BdvwAgDimCgJ6M7eurthw2ROuPpDOGuN
+         xEICCiLw9g3Ezf1ndq7L10OBTaOQm4NLQIFaXQv2kbnNWYMRqHZ3OvCcVtrmxTBGka8v
+         A2UKgBEopv+ljnMoaGYbDN4i2jVMMA2/LMcjE1nMy2vVDabyw6WKfnyARQUsJDlIolJt
+         2lYQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwbJZzcBoC/4+RBPKnWiQ2FOHnqT/1kUL6MGBObYbqvyvAra+bsKyfhAS4ImEr2hSI/uWcXAc6xkB84oR2h@lists.linux.dev
+X-Gm-Message-State: AFuF++meRW77Eb8tOOLpDEP9Ty9dSy53lv1r2aIZzQyerSxVgiksYxXo
+	M2m7Apm3iG9Udb+sTCr7lX1oEuPBMJkLCyi0HG2g20apawsxcD/T7+5/soVAY54FKxIHufbY4Si
+	cvNDk57Ltg89mLiYTAPez7NY9qTCgT+g=
+X-Gm-Gg: AYBFou0xzK/YJj782jXZErlZXh9JXWu4p26COnb0wEBE/PL06HoFdP2NKN32adUzMVK
+	rykzh37Exaylok/1XnyQ+Cml9k+W4AtHJS29xFUJUz7XEu/ElkkPbyuPWzMG3FzM7lARPhVSMKW
+	oIHVRLaFqIN8KxwsRKy3rSXhXqLBJN0vV5MVMNi+MIeZPJf2NLGZ5f2eyuTbplVwFpqYLduCqQS
+	ThF9Pd6t0+luFOMRKhIpIT/mBsTDC+N9UCDyIh73k4Tl0nFgCOljzNJF8qTgDFs4ZJX8q/kCKFs
+	WOJOoSHg/UeJT7idIqIpJ/xoAWuedNQZJ7W9sd08srWSRlE2czMH5XUZkQ==
+X-Received: by 2002:a05:6820:4df3:b0:6ae:8fc0:dbaf with SMTP id
+ 006d021491bc7-6dcf1fa7093mr1040549eaf.1.1790768129547; Wed, 30 Sep 2026
+ 04:35:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,36 +82,32 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260929184900.39515-1-abdelnasserhussein11@gmail.com>
- <20260929184900.39515-2-abdelnasserhussein11@gmail.com> <arzUmYfK6mbznNre@ashevche-desk.local>
-In-Reply-To: <arzUmYfK6mbznNre@ashevche-desk.local>
+ <20260929184900.39515-3-abdelnasserhussein11@gmail.com> <20260930085640.00000377@gmail.com>
+In-Reply-To: <20260930085640.00000377@gmail.com>
 From: nasser <abdelnasserhussein11@gmail.com>
-Date: Wed, 30 Sep 2026 14:34:06 +0300
-X-Gm-Features: AclHuK88JiQnM2CrEgftb3pl5BF2N7zfRmcPmhGHddpC3jq8LxEOXsr2V5NPP8U
-Message-ID: <CANpqX3bTpB-y2hr2UZZkZWC1+wPNz1M0HQg_h+c5SU+XdR8n_w@mail.gmail.com>
-Subject: Re: [PATCH 1/3] staging: iio: accel: adis16203: fix inclination
- naming and remove unsupported Y-axis
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Date: Wed, 30 Sep 2026 14:35:18 +0300
+X-Gm-Features: AclHuK8untSyrCd6-KRO0IrW6AMVzxM1NtGbJFcEt_bom4eFkclVEvnnxJY74KM
+Message-ID: <CANpqX3bDL-C_w1ttuarPyUvOysCPYOsoLMS6Ri24oFnYmzjOVw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] staging: iio: accel: adis16203: add missing
+ spi_device_id table
+To: Joshua Crofts <joshua.crofts1@gmail.com>
 Cc: jic23@kernel.org, gregkh@linuxfoundation.org, nuno.sa@analog.com, 
 	Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org, 
 	linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, joshua.crofts1@gmail.com, error27@gmail.com, 
-	narcisaanamaria12@gmail.com
+	linux-kernel@vger.kernel.org, error27@gmail.com, narcisaanamaria12@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Andy
+Hi Joshua,
 
-Thank you for the review.
+Thank you for taking the time to review this.
 
-> Read Submitting Patches about imperative mode (search for "This patch").
+> No need for mod_devicetable.h, this is imported using spi.h
+> C99 initializers please.
+> Additionally, you should delete the MODULE_ALIAS("spi:adis16203") line.
 
-I will reword the commit message to  use the imperative mood in v2.
-
-> This is a staging driver, why do we care about ABI preservations?
-> Yes, ideally it would be good to have existing user space software
-> continue working as before, but if this adds a confusion, better to
-> rework an ABI as well.
-
- I will completely drop the 'X' modifier from the channel definition in v2.
+I will drop the unnecessary header, update the spi_device_id array to
+use C99 initializers, and remove the redundant MODULE_ALIAS in the
+upcoming v2.
 
 Best regards,
 Abdelnasser
