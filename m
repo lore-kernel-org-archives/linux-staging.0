@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860F34756C9
-	for <linux-staging@lists.linux.dev>; Wed, 30 Sep 2026 09:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CE6476059
+	for <linux-staging@lists.linux.dev>; Wed, 30 Sep 2026 09:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790759932; cv=none; b=IUlcpLRH9uu81cRFSj7eDb/8HjjuKiSpXbust2BPfh8+CXjuVzeuy0fKAirIW1mBQkQINpnPl3HE6LRorI/LtaamBA7EvNzlQojX5M/ZGe+TGIx7VJPo3xMZBWcrTkM5nlXSNUsvfTPqqOxYwl/AhyZMJGdXRFgv3GEkFTlPUDY=
+	t=1790760096; cv=none; b=nAWvzwVr7zDBG41n64oJUnzd8N9gsV+h5nKZ7DphghfNDiWanq/dqqq9tjvP1kudNmKVpuzHkpM8/5HiIkmwHh8QPkhvfDvL1sFn2BjepfPz+dI2wBVaNNKi30XPA8OzvVXDZ0S4uU1rKTmmoQEmbHEBs27z3A6lfWTWR+Omc3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790759932; c=relaxed/simple;
-	bh=ur94HM4NCGW1jH1XMX+Z74cc3paQBBqXZ1coP0AVx5o=;
+	s=arc-20240116; t=1790760096; c=relaxed/simple;
+	bh=o4mzAhdtR3ZyMyeMHr9MsCfbRcoP52IE2QYJBsA2YaM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LhV+CvKa8NkBn+uEzjfhu+DZHpYFN6eV0WNx5X9Z/7m5ln9QSYNLBo4kRHUSbSyv+0mTUWXaah+c3v/JgHu5LvKQEXEWBvxNa+6Jhs7q0OGu/evo/q3IXwAZ/mdXQQVQpuJCo8jCehFEaPyMo2C3f4k6ivOns47b6zhw+YoklAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NjnAG+IJ; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=uewzi+f4l80yZ5YKbQ182dd0IPJBlu5u9AIhUtoZsWtudsADpu9Qm9vjLGiC7AyewzeipGIRaodNMzQgOJYF40T+g83i8skTeAP/SrV1oBT/I8+Ko9thzCS03VlYCk0ybUNr000WXk2qdqtGu1NsUFpw0Mrap1DA2GZTsERKmBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CcwpzGTq; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NjnAG+IJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CcwpzGTq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790759931; x=1822295931;
+  t=1790760096; x=1822296096;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ur94HM4NCGW1jH1XMX+Z74cc3paQBBqXZ1coP0AVx5o=;
-  b=NjnAG+IJxt42ba0+eBtmZ+A/bfosB0KaF4jtHaJitTb5ZvUXqyOwGICY
-   u4yp8m9sfOFSxhmLaB0slfcvKcdNcAO93yZLPYeY2w+RF4OaMU87EmQBF
-   yINJaj8KSNZfnr+KjQllDHc7Sl4z2usvIKT0YogNQFO6CmP+D/3FzqBt4
-   Zckd9BdFFrq5MR5en7ZwUol5ONUmtQl8RHPLHFAF76QFh50KI1zeRlXW9
-   FmqirZw2elV/ZIXFDtGue6Xowj20bPZiqtg2LuwL388OJZpgBIEoKgVlF
-   aAmZscpCS77P/AWp6T4dV4ebNxUklOJ7dViCk39sMZBDUeCY0o0OYFMDR
-   Q==;
-X-CSE-ConnectionGUID: 4/qZCDIZQ52nmVVjMeIPWw==
-X-CSE-MsgGUID: j+Hyqvb+SKKAMK3rEwJeJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90543387"
+  bh=o4mzAhdtR3ZyMyeMHr9MsCfbRcoP52IE2QYJBsA2YaM=;
+  b=CcwpzGTqObasAgGTmVxsNSbrLD3ahgE+vzoyCR5h6gWrYZ/Cds08oYPl
+   fHYvTJeJNno/y3DHOEj6F2F9KZXbisA8q9yR+B4v+XAfEMEKpV6t/Uxw5
+   FAD5SI3g65nTV836gcF298t4ceMuR+mnPwz1f37623VKuhMGB7CkirA+4
+   McU1IqFehR0MbVocDM6M1EjTNuU8a0uB0d1ds+eExWxEo68B3rRLc7+b/
+   5hFe3/emeWgdnizmB3tlxr9i/EXW/2TG8dP9bM40tn6/7TgtaNsfK7uYk
+   j0wU1j1mc92i6kAtDejc1xNECv0UiAMoVrqRxs2yRkQP2B7R8ooBdGBOC
+   g==;
+X-CSE-ConnectionGUID: eTTqxw0rSr2CbuhIKmoiGg==
+X-CSE-MsgGUID: PMSpTC6GRlGefZkKrMo3jg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="101657171"
 X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="90543387"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 02:18:48 -0700
-X-CSE-ConnectionGUID: zloNdDUDRc+dC+Jn4Hqfog==
-X-CSE-MsgGUID: CItMX/BwQlaX6UY/zMpfog==
+   d="scan'208";a="101657171"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 02:21:35 -0700
+X-CSE-ConnectionGUID: 6n4MU58uS0qM1es9KTtW9A==
+X-CSE-MsgGUID: zRk6/kJpRlyOuik0gf7fXw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="278841742"
 Received: from spandruv-desk1.amr.corp.intel.com (HELO localhost) ([10.245.245.137])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 02:18:46 -0700
-Date: Wed, 30 Sep 2026 12:18:43 +0300
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 02:21:32 -0700
+Date: Wed, 30 Sep 2026 12:21:29 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Prajval Chaudhary <prajvalchaudhari733@gmail.com>
-Cc: hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
-	sakari.ailios@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5 2/2] staging: media: atomisp: Remove dbg_level and
- dbg_func module parameters
-Message-ID: <arzT86qPj-GOFRP-@ashevche-desk.local>
-References: <YOUR_ANDY_EMAIL_MESSAGE_ID_HERE>
- <20260722054615.21492-1-prajvalchaudhari733@gmail.com>
- <20260722054615.21492-3-prajvalchaudhari733@gmail.com>
+To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Cc: jic23@kernel.org, gregkh@linuxfoundation.org, nuno.sa@analog.com,
+	Michael.Hennerich@analog.com, dlechner@baylibre.com,
+	andy@kernel.org, linux@analog.com, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	joshua.crofts1@gmail.com, error27@gmail.com,
+	narcisaanamaria12@gmail.com
+Subject: Re: [PATCH 1/3] staging: iio: accel: adis16203: fix inclination
+ naming and remove unsupported Y-axis
+Message-ID: <arzUmYfK6mbznNre@ashevche-desk.local>
+References: <20260929184900.39515-1-abdelnasserhussein11@gmail.com>
+ <20260929184900.39515-2-abdelnasserhussein11@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,33 +63,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260722054615.21492-3-prajvalchaudhari733@gmail.com>
+In-Reply-To: <20260929184900.39515-2-abdelnasserhussein11@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Jul 22, 2026 at 11:16:15AM +0530, Prajval Chaudhary wrote:
-> Remove the 'dbg_level' and 'dbg_func' module parameters to align the
-> driver's debug logging with standard Linux kernel printk infrastructure.
-> 
-> Previously:
-> - 'dbg_level' controlled trace verbosity level (default 0, up to 9).
-> - 'dbg_func' selected whether CSS trace outputs routed to printk (1)
->   or remained disabled/unrouted (0).
-> 
-> Since module-level custom parameters duplicate modern dynamic debug and
-> printk capabilities, remove them and filter trace messages in
-> ia_css_debug_vdtrace() to IA_CSS_DEBUG_WARNING or lower.
+On Tue, Sep 29, 2026 at 09:48:58PM +0300, Abdelnasser Hussein wrote:
+> The ADIS16203 measures inclination around a single axis. As per the
+> datasheet, register 0x0C gives a 360-degree output, and 0x0E gives a
+> +/- 180-degree output of the exact same measurement.
 
-...
+> The current driver incorrectly maps 0x0E as a separate Y-axis. This patch
+> removes the phantom Y-axis, updates the naming, and adjusts the timestamp
+> channel index.
 
->  unsigned int ia_css_debug_get_dtrace_level(void)
->  {
-> -	return dbg_level;
-> +	return 0;
->  }
+Read Submitting Patches about imperative mode (search for "This patch").
 
-I believe this changes the flexibility of the tracing. But like I said, the
-whole infrastructure should be switched to use trace events and trace points.
+> Note: The ADIS_INCLI_CHAN(X, ...) modifier is intentionally kept to
+> preserve the existing userspace ABI (incli_x_raw).
+
+This is a staging driver, why do we care about ABI preservations?
+Yes, ideally it would be good to have existing user space software
+continue working as before, but if this adds a confusion, better to
+rework an ABI as well.
+
+> Furthermore, removing
+> the phantom Y-axis inherently shifts the scan indexes of subsequent
+> channels down by one, which is expected to correct the hardware
+> representation.
 
 -- 
 With Best Regards,
