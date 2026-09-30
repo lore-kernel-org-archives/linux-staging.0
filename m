@@ -1,63 +1,62 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E07B357D09
-	for <linux-staging@lists.linux.dev>; Wed, 30 Sep 2026 06:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722C33E7BAD;
+	Wed, 30 Sep 2026 06:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790749663; cv=none; b=ZmlhXbLV3DeDnx35lXX8aPbFpwdY/rpn68iO50Akp5bmCyG07DqWQkWgHnReFcgAmyCdeFh9KCgNuHKT3NY9zZwOLKNqm/VHtSFeuNaimHZt+FsRZsTkQhxqOFe/Q2lj1FWDbr5sHLWkGaLsPNFTkrnrvCYhy/NYuUSCKInG5/o=
+	t=1790750316; cv=none; b=NAtB1fmlUcoFZXWqV1enfDEmyG9Mf3rz1Syqa2XDI+aORTDw/ar49zz3ScOZ3JGWM5UVjoNxAB1FRSm97axJslncsHAGgOqeMT01xtR9nTCsws3kzzWsINLpNNI0CvmLfR88kIfFDCy4dmRs7Ke/q+F727an7yh+ec/p43FTfn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790749663; c=relaxed/simple;
-	bh=/3PP4SPVUyVv/tJE5eEBnmm0ZOE0YaDqelzacF/iyEM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZNxS1e7MpkyrYIGatL3IT8JZXBO55Oqm51Ei41OBlAhNSPhKQd+7YKkAbcl2bLOXTfhJoHlulZbJyn/FmOhp0HzagqhzeJgWPMx5vMA1NaOIbYSY3+/TP6S1DE4A4UIcMOOvmXOhOLakrpEbBRhoWH1neR8joYuPNZD75ASEcaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=M1W7PZ4r; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1790750316; c=relaxed/simple;
+	bh=2mWfXzVQ0wFbUgDXb0z3as+IJLD0NLDeL4Zp9YaiZPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OkwsdnJlTfnwxTcUiHVKW78UcKRYidtPRyYCdTISnKkfbWAmdrXrIb/5Eh3fcokoPvrLwjijY++PKD4r1V47EGCNm60Pu+hHS/V0aB0lSizhOvBOicTI8WZ5BMlExF/MEGxoAKQbO8ISE3WCp0sh/0qI7VwXp5hv9MD2x6MJLP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=I8PTEoG1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="M1W7PZ4r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=/3
-	PP4SPVUyVv/tJE5eEBnmm0ZOE0YaDqelzacF/iyEM=; b=M1W7PZ4rS2NN9f/I4b
-	c0KmgKO/0R4Q4XS9T61JSQ1J/VBgIblgXB7jytb2vkXEQ9C/zMe7PCMsHZ8L3S7R
-	mUwYDHOcF8S6AT6/gvs+LBUgSeAUlWM9FGv896ifjYVKH9VgK3k+Tx+BVfuh8ESy
-	iFEkLNAnhV/qeyBT1Yz5GFy5o=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDXP8rCq7xqTpaaBg--.34713S2;
-	Wed, 30 Sep 2026 14:27:15 +0800 (CST)
-From: "Gongwei Li" <13875017792@163.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	Hans de Goede <hansg@kernel.org>,
-	Dan Carpenter <error27@gmail.com>,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="I8PTEoG1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68A221F000FF;
+	Wed, 30 Sep 2026 06:38:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790750315;
+	bh=mAapfqsVmhY158vFhfbv9M/7PuYnyMLG882EyG0k0pg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=I8PTEoG1kZ5X2W32m8dDCd7PuLqKfLssyoSWG9eq8ccpjYLguvEOZvTncgU4iZTvw
+	 ByM6vxAStphg/H0p/Z7zgvw4oPthuudkxbaBdkq1Jpl8dJY1iVA42HA15I4lnso2LJ
+	 z8oDvckA1jK21QqbopA5AJ0a3uYJtclEo9C0TjYs=
+Date: Wed, 30 Sep 2026 08:38:31 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Gongwei Li <13875017792@163.com>
+Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>,
+	Dan Carpenter <error27@gmail.com>, linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix scan-abort timeout in rtw_scan_abort()
-Date: Wed, 30 Sep 2026 14:27:08 +0800
-Message-Id: <20260930062708.1585771-1-13875017792@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <2026093048-thrive-phoney-5b9e@gregkh>
-References: <20260930015024.3627275-1-13875017792@163.com> <2026093048-thrive-phoney-5b9e@gregkh>
+Subject: Re: [PATCH] staging: rtl8723bs: fix scan-abort timeout in
+ rtw_scan_abort()
+Message-ID: <2026093011-diner-presuming-5b33@gregkh>
+References: <20260930015024.3627275-1-13875017792@163.com>
+ <2026093048-thrive-phoney-5b9e@gregkh>
+ <20260930062708.1585771-1-13875017792@163.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDXP8rCq7xqTpaaBg--.34713S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUercfUUUUU
-X-CM-SenderInfo: rprtmlyvqrllizs6il2tof0z/xtbC-gPkn2q8q8NP9QAA3C
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260930062708.1585771-1-13875017792@163.com>
 
-> How was this found and tested?
+On Wed, Sep 30, 2026 at 02:27:08PM +0800, Gongwei Li wrote:
+> > How was this found and tested?
+> 
+> Every other jiffies_to_msecs() call in this driver passes an elapsed
+> time (jiffies - x), but this loop hands it the absolute start value,
+> and the check never passes.
+> 
+> I haven't tested it on real hardware. I don't have an rtl8723bs device.
 
-Every other jiffies_to_msecs() call in this driver passes an elapsed
-time (jiffies - x), but this loop hands it the absolute start value,
-and the check never passes.
+Ok, let's wait until you can do that as I don't want to break anything
+as obviously this works as-is today.
 
-I haven't tested it on real hardware. I don't have an rtl8723bs device.
+thanks,
 
-Thanks,
-Gongwei Li
-
+greg k-h
