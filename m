@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B3F4DDB38;
-	Thu,  1 Oct 2026 09:19:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0704F473A
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 09:19:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790846361; cv=none; b=WOfz6qSym1A5dmbuzmPprPxcQ1FVh+R3E+5PA4sa3ALgjdyD1QnRU90oXWNesRDyeFV8Mia5u82OdyYjgn8eNS94l/GAcQG9INE58OaL5U5iJCn3No2uY8a4CyXGRH0J0tNP6OiXZTLrbCJBUAmiHWx93qvUqbHPsEDxHq/pMko=
+	t=1790846392; cv=none; b=iSLDe4faO7OgldIodLfB3TTRmH5MGJPFo8u1DpgPFrTthYey53UbREvgBhzlR688vxBl/wWWVRL1Ps4RsMex020nFx5ZI5oO/hJYjQBOqCLvR95rEPLZXoAgTG9IU5dtuLaxhfXKasG8Ox+op0GhJEq6talMfA544TNGhzdUMIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790846361; c=relaxed/simple;
-	bh=1f3ayNH92AQGA+d6NX/xxygpywxEN7rSWbZQ+o8yCBE=;
+	s=arc-20240116; t=1790846392; c=relaxed/simple;
+	bh=am6KVHeUXu27/oaA8MiPFu1mTY1R0QjGIi5ebQdj/WM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cISzY9JRm1Lv54hA69E130k15J7JWJVATk707VPhFRKkjFuJHP6swNLykhHW+obi5rVouQ9Q++TNcq5cYq+NRyHNr7Dt+wLnQn9zYUiWvAnha+DYmmha9dPsnBAL9FdjNhoz0beyyuukwCoInr2Rcsnd9YtjGb+S/1drI/UMysg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Fr16Gz5l; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=bLw0RjJASP7x0NOqddhBQDzcQkXVa11ke+miGVEtZEWP0wlHDfkB38+fV/rJHq111GyIJsvCEQ0wRzHYmTYg7jjDOF/dJ3HgqPqJi8LtWSB+h0lVwdjz16dz9bQeYQN7faypfLgARVAO/lV7pAOA+SYDX22hSaqNqXEqypOQ45I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xxhwpJFO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Fr16Gz5l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D8481F000FF;
-	Thu,  1 Oct 2026 09:19:19 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xxhwpJFO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2906D1F000FF;
+	Thu,  1 Oct 2026 09:19:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790846359;
-	bh=rkBCGv8X8EgsQbqyaFsSMbFPbzcaxb2OzoA7RbNiWdo=;
+	s=korg; t=1790846390;
+	bh=t/u4ezamwsp6AskizgcClkPG6spQruG1cfmxIff3zLI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Fr16Gz5lTOZlHnbl+NqdkswFG6oCnbUyLgm42UIIeuFwPWoNDb7W94rn5ltW+3IuA
-	 ig1a5MtC1dJ+zncgeRD9BqS7VY1SnHioIGZvfkRs9iQFRTuXW7C6LSxeQUlaIYRBO1
-	 mJgb1CO5shddH5na52O/F7R8EZp5Ii61Je+mN2Gk=
-Date: Thu, 1 Oct 2026 11:19:13 +0200
+	b=xxhwpJFOAgBN9zP41so5a76lJH2a92Yz27h8kv29NHK+e1JaXXtGLfgO65IhYNjMz
+	 o9PQvTmRtWovnJR/pvCW1hUvcBUs5wsuZgBtXv3xejDF5hsNxOSXRk9Eohczt0zyY0
+	 YIzYe9cxXo/0fw/4G2LKdA3I/29yetWqZCtTeFzI=
+Date: Thu, 1 Oct 2026 11:19:44 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ashutosh Yadav <yadavxashutosh@gmail.com>
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>,
+	Hisam Mehboob <hisamshar@gmail.com>,
+	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>,
 	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: add missing newlines in sysfs_emit
- formats
-Message-ID: <2026100159-hacked-encourage-fe18@gregkh>
-References: <20260925205328.59183-1-yadavxashutosh@gmail.com>
+	Agatha Isabelle Moreira <code@agatha.dev>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>
+Subject: Re: [PATCH v2] staging: greybus: remove driver depending on
+ nonexistent config option
+Message-ID: <2026100125-puppy-pacific-52c6@gregkh>
+References: <20260915020308.83636-1-enelsonmoore@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,27 +44,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260925205328.59183-1-yadavxashutosh@gmail.com>
+In-Reply-To: <20260915020308.83636-1-enelsonmoore@gmail.com>
 
-On Sat, Sep 26, 2026 at 02:23:28AM +0530, Ashutosh Yadav wrote:
-> According to Documentation/filesystems/sysfs.rst, sysfs attribute show
-> functions should output a single value and terminate with a newline.
+On Mon, Sep 14, 2026 at 07:02:59PM -0700, Ethan Nelson-Moore wrote:
+> The Greybus Arche Platform driver depends on the config options
+> USB_HSIC_USB3613 or COMPILE_TEST. USB_HSIC_USB3613 has never existed in
+> mainline Linux, and COMPILE_TEST is intended to enable the compilation
+> of drivers on platforms that can't support them to improve code
+> coverage and ease testing of trivial or tree-wide changes. Therefore,
+> it is impossible for anyone to be using this driver with unmodified
+> mainline kernels. Remove it and move the former maintainer to the
+> CREDITS file.
 > 
-> Currently, gb_audio_module_name_show(), gb_audio_module_vid_show(),
-> gb_audio_module_pid_show(), gb_audio_module_intf_id_show(),
-> gb_audio_module_ip_devices_show(), and gb_audio_module_op_devices_show()
-> call sysfs_emit() without a trailing newline in their format strings.
-> 
-> Add the missing newline character to each sysfs_emit() format string to
-> comply with the sysfs documentation and silence checkpatch warnings.
-> 
-> Signed-off-by: Ashutosh Yadav <yadavxashutosh@gmail.com>
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 > ---
->  drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> Changes in v2: Clarify commit message - mention COMPILE_TEST
 > 
+>  CREDITS                                  |   4 +
+>  MAINTAINERS                              |   7 -
+>  drivers/staging/greybus/Kconfig          |   9 -
+>  drivers/staging/greybus/Makefile         |   6 -
+>  drivers/staging/greybus/arche-apb-ctrl.c | 490 -----------------
+>  drivers/staging/greybus/arche-platform.c | 653 -----------------------
+>  drivers/staging/greybus/arche_platform.h |  28 -
+>  7 files changed, 4 insertions(+), 1193 deletions(-)
+>  delete mode 100644 drivers/staging/greybus/arche-apb-ctrl.c
+>  delete mode 100644 drivers/staging/greybus/arche-platform.c
+>  delete mode 100644 drivers/staging/greybus/arche_platform.h
 
-Please read the archives for why this patch keeps getting rejected :)
+Yeah, it's time to finally drop this.  If it's needed in the future, it
+can come back with a simple revert.
 
 thanks,
 
