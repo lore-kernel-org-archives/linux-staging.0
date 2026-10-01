@@ -1,40 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f43.google.com (mail-ej2-f43.google.com [74.125.228.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC76448B9B;
-	Thu,  1 Oct 2026 16:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D927644064A
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 17:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790870808; cv=none; b=lWoJvs5Eu2p6FNImGjGrLLP1IisTsaarCUajiGHna22S+PJKhMuzp835ikcHKfdSGYDU5zXOxWHzkU0cBIJm8SufGEZ0SIO0C78fNXDgu5jjIRZjeWTvYRMgjDzsJ/8vZq8BpNrzwWJtuYlWJII9zsxEQAmmc+57vlc4MUdLuQA=
+	t=1790876832; cv=none; b=aidE51m0/gVZfXNnSr2F53fnt/j7PyEe02E25PYzQYHdWqnMFoARLCi/+jLg5fUxqMKRHqXNuEpXCJEO5VqSZNje9tOV78F11DKLLOtjfGg6G3Ak/FlEjBHwQ16fssTcTDdjbmK7Uvk+yVhvvHKtLb/LZ+aA5VkTTQvvTSERv9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790870808; c=relaxed/simple;
-	bh=B68Cer7DOS5VhOjaq0WU57dQFZHwLItSc0UvX0jtCrk=;
+	s=arc-20240116; t=1790876832; c=relaxed/simple;
+	bh=yrsdKmL2y9lPPr18nFAgKM0SX9Dw5bHdA3om1AWFKw8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CbyGgiusZGGA0Q2cush6KmDY6dh3zUfJNjjsaxtbkqeSmOlkqLEuMXGnfNz8ewvUOl9h8acrV2jJnxxeMHRO1zosmQoXg3By+dphd35hu62CNDGrFuu6Ba/J5dZPzjwHRe2x6TQyX2MREbEVzpPqtmoLJvMjuPrSKqR9v/DTwsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Jm0Jb4qT; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rqyjxHQqLAnh+v9wrPCqTeaE9K3LJ7TNHoJzVzN9wBtvN1bKTGAde5RyjTTkIKKF8sOOGkEHExRvE4N77XC/N+HnFdMnIZS9JshoiIlbd8EuOTchpTQ8vZAY3PE/RVDYcd/xQzrQVVd4kFLw9WfCNGhLKxRhD2cbi4dLl3EFCW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nM7XgFiK; arc=none smtp.client-ip=74.125.228.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Jm0Jb4qT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56BCF1F008BC;
-	Thu,  1 Oct 2026 16:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790870805;
-	bh=S+CR/k1bIRO6Ds98SDH7fis+WEl31ClPXh+IdiWRxkw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Jm0Jb4qT7GZNqd3wXqZuoFbfN0Kwv3vD91NaTZa/EyTJTtLplGEgxFEXh3p8A+eKg
-	 sSiQe3HQ7yBFviPNWO2oSePSlVI/N3+RDMrToOh09L2yjx3NVKcTDJulKLfFsLqBRS
-	 IDB4wf+1da79wmfeOpUoOIevgEXLOPQd4AINowrs=
-Date: Thu, 1 Oct 2026 18:06:39 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Timo Joannin <timo.joannin@gmail.com>
-Cc: guojy.bj@gmail.com, m.steinmoetzger@gmail.com, atharvmargur@gmail.com,
-	straube.linux@gmail.com, andriy.shevchenko@intel.com,
-	s9430939@naver.com, qstrydom0@gmail.com, dev.lmmrtns@gmail.com,
-	khomenkov@mailbox.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: rename phy_status_rpt_8192cd_t to
- rtl8723bs_phy_status_rpt.
-Message-ID: <2026100155-abiding-immunity-0c8d@gregkh>
-References: <20261001155134.159481-1-timo.joannin@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nM7XgFiK"
+Received: by mail-ej2-f43.google.com with SMTP id a640c23a62f3a-c2a4fbc5586so1077009866b.2
+        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 10:47:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790876827; x=1791481627; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=H6z/w//LhWCZLSKNntdvRXZK6X4eFaUVprUdafE2INY=;
+        b=nM7XgFiKvpkjVDHQEetl8ip1jdNYzu3+TEUipmBcss1E9zTZwHK8ec9moxxPsrgNgC
+         Uwxt92UIBPvs/HNqUQwAieFqXYM2WPwqrptmou/C0l2EJ48MiBUN9cnxqmVUFd07Mwpd
+         mlElJXQTWEAWefajGix9y8hDjek2tBR11sluZXfEbLEOaEbSix3XuHQhufQ/ZUsk59iH
+         3EMvZlq8Z4dZ5LglZz3Ea0034yP5UKSIh9WwMFLbSopdlLv14mpEDoBhyPInkZwxsGru
+         tbB1fpvSLaP2Y5h/QaY7fBgwM+8nNcnV7VpKJcbe4vQiTbpiIwYtk8H/1KqCoUBfJHwe
+         APtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790876827; x=1791481627;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=H6z/w//LhWCZLSKNntdvRXZK6X4eFaUVprUdafE2INY=;
+        b=xWICG2+8Firny9vaVqbs4ht7KUJPDRCDew/SF0BWweSxEx2HM8fBgmXJCxtwgTpzEQ
+         0jEhpoa9ZE9urU/cSbZTDQzBgXD8wLN/s4E5av41GVWUowiBKh3IgX0bMTtpqtR2jmE6
+         Yd5KSjXuKS606WGk24GoEJcb8KYc+lYbV6BNFedDHRdT79H0JlGUvcqGXQ+exEdeZgSB
+         JpSU/v9BLBqdqAeS7Ns1FfCjOU/mvgSti5hcOSxArG8V5xzyrQGtmNDkZ/PqQaKHtBfK
+         rwWM8jaQhMe6dTQGQUm+cAXx887tojXY1UBZJbnerXWKKGhmJqJy17JowXv/Xf07jSVr
+         eWHQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxYIIPf14EFtV9Caw7s1hwuuY+zvyeXyotfQdyi60zpNhji5yIqkA6jE7uVGzEF+zkRZmU1lioEKTFxV9Dz@lists.linux.dev
+X-Gm-Message-State: AFuF++lO9OikD6A8tm4npc93/ICSTnRASoLYCVzw91fgx7X5vAAf8geP
+	U/kp8rnVroKpSSC2gKUiWc0L/dMF4UOSwHtGKM87y89QcyKWAJ61FF1U
+X-Gm-Gg: AYBFou2ZUPjLl537lJra5xzeR5Stl6YcsXmvng6CgnIMuZidHxJts2uj4TADrfmdmmg
+	GyRMMnDkB15G/CrrpKEXsNPPwqnHWHE0mgzo8Bt1gXob3bPQxCbIL78gSvI9D6FEcbKKxoWkYlN
+	vglOhvyRwNx3ddT0Sk0F58l/FfrgLIW7FY1FjsXpU2K3o1gWXnNXPyv4VW5zLj0euzjeZIeeMfw
+	jsxfzbjSfFAcIQLHdhkTnrtzaoxhHoheVZRN+i+kuhfFKyPNAkxoQd8pdhVz8GZhay7jYrRZuT6
+	mjW+ZKus0x/YcT4TL3xWuIir37hFwlrastf3XfRNZdWWha1watyL1vScXieyji937DLg/eCPQwq
+	CUfG0dHWSVoCkKiatI39ixgkPtko+Hhe4h1lYAQTI9oIiD78i3KsS0lb/smyd+L/I4mVnJVcoAc
+	Zt3L4fN8uOaUl/CH4EU5I6gc8OqP04G4FaYyOpR+lQKkPtONSSL8juJ71WIPZkKJakfWba7CzrG
+	JErJw==
+X-Received: by 2002:a17:907:ea8f:b0:c25:6c9a:88bc with SMTP id a640c23a62f3a-c2e4ad565f4mr28222466b.19.1790876826406;
+        Thu, 01 Oct 2026 10:47:06 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2e4b9b1f4csm11560766b.69.2026.10.01.10.47.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 10:47:05 -0700 (PDT)
+Date: Thu, 1 Oct 2026 20:47:00 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Amirhossein Hajimohammadi <info@hajimohammadi.net>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: rtl8723bs: stop overreading monitor
+ interface name
+Message-ID: <ar6clK3N4by6EN0O@stanley.mountain>
+References: <3B4B0B72-4DCE-4E40-9E87-732DCBAA4EAF@hajimohammadi.net>
+ <2026092915-luxury-shush-6b29@gregkh>
+ <ar4vH3F5lLFijgTU@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,125 +79,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261001155134.159481-1-timo.joannin@gmail.com>
+In-Reply-To: <ar4vH3F5lLFijgTU@stanley.mountain>
 
-On Thu, Oct 01, 2026 at 05:51:34PM +0200, Timo Joannin wrote:
-> The struct identifier references the 8192CD chip while being in a
-> rtl8723bs codebase. Additionally, the identifier uses the _t suffix,
-> while being generally reserved for typedef identifiers.
+On Thu, Oct 01, 2026 at 12:59:59PM +0300, Dan Carpenter wrote:
+> > > diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> > > index 4416d0ec1..8f5032844 100644
+> > > --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> > > +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> > > @@ -2158,7 +2158,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
+> > >  		goto out;
+> > >  
+> > >  	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
+> > > -	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ + 1);
+> > > +	strscpy(pwdev_priv->ifname_mon, name);
+> > 
+> > But we are replacing str*() calls in the kernel with memcpy() calls
+> > where it can happen, so why go backwards here?
+> > 
+> > What caused you to notice this change is needed?  Have you measured a
+> > speed up in throughput with this change applied?  How was it tested?
 > 
-> Rename the struct to rtl8723bs_phy_status_rpt
-> across the rtl8723bs codebase to accurately
-> reflect the driver and clean up the naming.
+> This seems like a legit patch to me, although it's probably AI generated.
 > 
-> Additionally, propagate the real structure type all the way
-> through the call chain to remove redundant casts to and from u8 *.
+> net/wireless/nl80211.c
+>   5199          wdev = rdev_add_virtual_intf(rdev,
+>   5200                                  nla_data(info->attrs[NL80211_ATTR_IFNAME]),
+>                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> This means that it is a string up to IFNAMSIZ (16) bytes long counting
+> the NUL terminator, but it could be less.  So doing a memcpy() is a
+> read overflow.
 > 
-> Signed-off-by: Timo Joannin <timo.joannin@gmail.com>
-> ---
-> Changes in v3:
-> - Included patch version changelog (missed in v2, sorry).
+>   5201                                  NET_NAME_USER, type, &params);
 > 
-> Changes in v2:
-> - Propagated the real struct type through the call chain to remove u8 * casting.
-> 
->  drivers/staging/rtl8723bs/hal/odm_HWConfig.c   | 6 +++---
->  drivers/staging/rtl8723bs/hal/odm_HWConfig.h   | 5 +++--
->  drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c | 7 ++++---
->  3 files changed, 10 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-> index 34b0369a7936..c85194c8fe67 100644
-> --- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-> +++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-> @@ -95,7 +95,7 @@ static s8 odm_cck_rssi(u8 lna_idx, u8 vga_idx)
->  
->  static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
->  				      struct odm_phy_info *phy_info,
-> -				      u8 *phy_status,
-> +				      struct rtl8723bs_phy_status_rpt *phy_sta_rpt,
->  				      struct odm_packet_info *pkt_info)
->  {
->  	u8 i;
-> @@ -105,7 +105,6 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
->  	bool is_cck_rate = false;
->  	u8 rf_rx_num = 0;
->  	u8 lna_idx, vga_idx;
-> -	struct phy_status_rpt_8192cd_t *phy_sta_rpt = (struct phy_status_rpt_8192cd_t *)phy_status;
->  
->  	is_cck_rate = pkt_info->data_rate <= DESC_RATE11M;
->  	phy_info->rx_mimo_signal_quality[RF_PATH_A] = -1;
-> @@ -383,7 +382,8 @@ static void odm_Process_RSSIForDM(
->  
->  /*  Endianness before calling this API */
->  void odm_phy_status_query(struct dm_odm_t *dm_odm, struct odm_phy_info *phy_info,
-> -			  u8 *phy_status, struct odm_packet_info *pkt_info)
-> +			  struct rtl8723bs_phy_status_rpt *phy_status,
-> +			  struct odm_packet_info *pkt_info)
->  {
->  
->  	odm_rx_phy_status_parsing(dm_odm, phy_info, phy_status, pkt_info);
-> diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.h b/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-> index ca3380328a72..21182a880da3 100644
-> --- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-> +++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-> @@ -18,7 +18,7 @@ struct phy_rx_agc_info_t {
->  	#endif
->  };
->  
-> -struct phy_status_rpt_8192cd_t {
-> +struct rtl8723bs_phy_status_rpt {
->  	struct phy_rx_agc_info_t path_agc[2];
->  	u8 ch_corr[2];
->  	u8 cck_sig_qual_ofdm_pwdb_all;
-> @@ -57,7 +57,8 @@ struct phy_status_rpt_8192cd_t {
->  };
->  
->  void odm_phy_status_query(struct dm_odm_t *dm_odm, struct odm_phy_info *phy_info,
-> -			  u8 *phy_status, struct odm_packet_info *pkt_info);
-> +			  struct rtl8723bs_phy_status_rpt *phy_status,
-> +			  struct odm_packet_info *pkt_info);
->  
->  enum hal_status ODM_ConfigRFWithTxPwrTrackHeaderFile(struct dm_odm_t *pDM_Odm);
->  
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-> index 304fda3a3b5c..a62b845c69f9 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-> @@ -73,7 +73,7 @@ static void update_recvframe_attrib(struct adapter *padapter,
->   *precvframe->u.hdr.rx_data should be ready!
->   */
->  static void update_recvframe_phyinfo(union recv_frame *precvframe,
-> -				     struct phy_stat *pphy_status)
-> +				     struct rtl8723bs_phy_status_rpt *pphy_status)
->  {
->  	struct adapter *padapter = precvframe->u.hdr.adapter;
->  	struct rx_pkt_attrib *pattrib = &precvframe->u.hdr.attrib;
-> @@ -125,7 +125,7 @@ static void update_recvframe_phyinfo(union recv_frame *precvframe,
->  	pkt_info.data_rate = pattrib->data_rate;
->  
->  	odm_phy_status_query(&p_hal_data->odmpriv, p_phy_info,
-> -			   (u8 *)pphy_status, &(pkt_info));
-> +			   pphy_status, &(pkt_info));
->  	if (psta)
->  		psta->rssi = pattrib->phy_info.RecvSignalPower;
->  	precvframe->u.hdr.psta = NULL;
-> @@ -317,7 +317,8 @@ static void rtl8723bs_recv_tasklet(struct tasklet_struct *t)
->  
->  				if (pattrib->pkt_rpt_type == NORMAL_RX) { /* Normal rx packet */
->  					if (pattrib->physt)
-> -						update_recvframe_phyinfo(precvframe, (struct phy_stat *)ptr);
-> +						update_recvframe_phyinfo(precvframe,
-> +							(struct rtl8723bs_phy_status_rpt *)ptr);
 
-Something is wrong here.  WHy is this "phy_stat" to start with and not
-just struct rtl8723bs_phy_status_rpt?
+I tasked ChatGPT with writing a Smatch check for this and it noticed
+that the "+ 1" in "IFNAMSIZ + 1" is wrong as well.  "name" can only
+be 16 characters long (counting the NUL terminator).
 
-This should probably be a patch series, first one renames the structure,
-and then the rest unwind the cast mess so that you end up with just one
-structure being used here and not two different ones with different
-fields in them.
+drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:2164 rtw_cfg80211_add_monitor_if()
+warn: buffer 'name' too small user_len=1-16 for 17 byte copy
 
-thanks,
-
-greg k-h
+regards,
+dan carpenter
