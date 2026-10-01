@@ -1,130 +1,145 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F9E51EE18
-	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 14:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8E53E557D
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 14:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790865987; cv=none; b=YKpwP/HfYKwSt5iij4t8hTGwJu7kSHzvwT5N7CJ9Jr4cjlN/qAEUbKYFkD4rpqhYzks/IBWEGD7HTXnAP2dfwEJT+3jDl5xyOC4lCV/2p0TTW033wiHlzkvIBhN2r27DvoZXHdCdxx1kspl9W5kParvIStfe0lsK5/qbojUnoRs=
+	t=1790866085; cv=none; b=fribdTiu2BOSikIO2hchSlYoUXzqBIOVFyR3yvWlag0fKpNRBCVqxSoWmnsw6tmq6nQEoeQSDIa8kvRWHSECjMja47vjliQRiJccmymyU+rKaujDWCJt6pyhn3frH21RJ1wf3kJIx4EQNLJrVAPBgN3iMaQo7KEWQR/N13cb0dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790865987; c=relaxed/simple;
-	bh=y592cWDD7sh9JPJn4KeHW+g6gg94dBAe9nlpopS5a+I=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WXXo5vq13jn1eJiimNsk+jEzSawcv0fcsAATkcd6hUskNm8hTC3i4n5I/b/6OF+kVoEF1tOHiOMp9+MZhcQNHSRbbG7bqDMODsunf2KedCcg15VwFsZpaBCN6LzKgrX1CUDLGEsNt78vpeDZV20Ds+pRc6ln++7iw94O6V28sWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bnu0cgts; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790866085; c=relaxed/simple;
+	bh=rK0uz/KSkFjE1x+MXlOe6fim8a3tw/1d0l+5isYZhlA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pPtJPei5axR4pPyKClx6au5Ux0pMU9YElN/CBMKpOfOK0vfwgzZoufwvbzhgj6EHyOrkrooam9MwRGf3dUQpTBBlojpeHLow/m54JSg6zooGd78hUr6bMGBjkaHUlWwgD/OArTiBkh0KN9jJ/0dnGpRNdfRVJckAi5ulxYUG0/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XQ+iIzdZ; arc=none smtp.client-ip=74.125.230.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bnu0cgts"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790865984;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CuGmcOB5B7OU7vPcQ5Kxs9sP8F6GWHF+e8A0rz6DPVU=;
-	b=bnu0cgtsDC7TTD+g9P2qdakhJ4ghf9AvIsR9zUYcPjpjlwY2dDe0IKvPlsR5FUZhmJ63hv
-	DnN8QkTzQSCNKun2TwM0RzXrbKx+rwLmDAWpM61ah0Ycp5UdIHfHsRZ9UkSOsjVebobEQo
-	2D+cBp6+Ec2871uYcMyi0tfZOeuzeqA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-81-rOnzwxHPPP2BbxsTGgjTrw-1; Thu, 01 Oct 2026 10:46:22 -0400
-X-MC-Unique: rOnzwxHPPP2BbxsTGgjTrw-1
-X-Mimecast-MFC-AGG-ID: rOnzwxHPPP2BbxsTGgjTrw_1790865982
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a020cf06c3so5071705e9.3
-        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 07:46:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQ+iIzdZ"
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a59bc470d6so63376961fa.0
+        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 07:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790866078; x=1791470878; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7FOj1RGK/mRk1UhJU2+5CuBy3GqPCpS4tTpMqltPtOA=;
+        b=XQ+iIzdZxlmzCYfbr3R6EDJi7GenzW83G/8i7Uw0notucEamTv0f2qUdMHjVdIQKeg
+         +TBbFr5pHgnG/hXkmyiOIV35CQ1ZrBr7fCA3ej7Bt6UtDEubbU30IYRttWKPqScut4OZ
+         kIvhpzkX+WBJsQtpUjk7CUIAIpsfUclxOVyUbCd7RG4KoFbGhK+12Ns5xGyPV12AGOVJ
+         PnWBjEy9ftvepUiiFRQKZgTt2XWp2MSVdw8oxU3cEFrg0I4PbRXspvQzBJX7C6rZ8KQD
+         jNhrT4vKGcDYeLKex1+e92Z/p26aLX9oxETxYZPHNE+QA6BrAh2sUcyJJGOzZfoFfGk/
+         ILsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790865982; x=1791470782;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CuGmcOB5B7OU7vPcQ5Kxs9sP8F6GWHF+e8A0rz6DPVU=;
-        b=n1hZ1QvgzRfom9XpHcNGfM0sZRxFviLqxO8w4g075P/mlzfd+9WzoMtdF5GldPSvr5
-         JcSw0Q6wYPufcmauxLbEpQ7Co3vT1BSxbKEJmavZ/5ULsDpyZPsnWa2NJ4hsZBog/pUx
-         nQIC6m8/wow1REFCezuA7npY80xC05GLI2dZyyt2KaI0ed1b9V2TG/pQWQFco6HJJ04g
-         OaRFsS8xbJb3DltqHW6H+JqSCo0Yc02+tnvVaFBnejiajDDS19vjE+xJXdo+k/320+4C
-         mEa0xoUW5VH6eC0s8Op1U03Snt/ia4s5Z/DZUX/nQGSo+b1e3lWqZCYuLjKawv6/yhWT
-         WVUA==
-X-Forwarded-Encrypted: i=1; AKwUvBxvEqtNg66MpJMZMm2HGXgZZFlSP8QwJ4kdNtOUXBpqVhrwvqfiIY9N7wDRQTH7xzXcV6Xb0il+ZKDb0WtI@lists.linux.dev
-X-Gm-Message-State: AFuF++lvJtOWyyyJJ/vBGtww/G3d2s6T+ov01hA9tlnwkGHjyyI8BHkd
-	ZrVmegGJl+a4lWUV/16Fk/FYHzESU2fZGHVWuI+tS1ehAxiWwogInwAhsOhwvLIph9UL9hJZ5mY
-	RR4e35+WOTwJ8EwDtP2n+cjq1skVoe/2eVykoHg1l/DjXOVUIXZaVvrQ4l3nV4op+ww8=
-X-Gm-Gg: AYBFou2VP3anz5chLhScLRewhU/osONC6HELzF3dosf618r14ju29TM2OIg+8h4UWEg
-	Rz893JiBuUTiSMnO0Y1M+Nev/WuEJB366ZxCAns8qcRubqYgdDqzuzHFY5zYZ0QG2QJoAaKn7ez
-	1kf2yB055YmFm+3njOik0OAfy+ZEmKQz4I74h+pwdJrOwcZq83Z9D6mf6zSPaS5knOp0gGrIKls
-	MPop2Kz55oPWw/LHCXuPergtxa6vgtcikp02qvorK90+teD5Sy7Gsxd1IDq9MaxOB8sIicUwfpq
-	m4457yExzm4OwlOScBE3K0+jnXS6Wxnz1cbu77QMc80+D/EeFilo5FXM/3X6xFYFEpTIlaUdCsG
-	7ydtODM1OXusmfCP+HN3x1Q8qjlm8IEnPP565EADwd5H4adFzLbdkBLLKX5Dw6SDaYg==
-X-Received: by 2002:a05:600c:4e41:b0:4a0:c01:1902 with SMTP id 5b1f17b1804b1-4a01ad9e5d2mr78126205e9.2.1790865981668;
-        Thu, 01 Oct 2026 07:46:21 -0700 (PDT)
-X-Received: by 2002:a05:600c:4e41:b0:4a0:c01:1902 with SMTP id 5b1f17b1804b1-4a01ad9e5d2mr78125495e9.2.1790865981098;
-        Thu, 01 Oct 2026 07:46:21 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0226201aasm59955425e9.6.2026.10.01.07.46.20
+        d=1e100.net; s=20260707; t=1790866078; x=1791470878;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7FOj1RGK/mRk1UhJU2+5CuBy3GqPCpS4tTpMqltPtOA=;
+        b=clFYabPtxpl2WV3dwSDNX7kpFHP3z4vxQLT2RKRY/g2861LnGep/YBnWagkoALtSH2
+         sXTdCkZw+Ya3s7ckyUj+h4aJ07wk1nUhF3snEedxET5D3Y8Uv94s8PHdgXmiam69gWnm
+         H9BXkmBuoL/zoOSC3Ae7MLTFYYQEaG7ZpvykcN5+Tz4JxO/jtsyo2gMDiy1s/Pd9yO+n
+         R4zLQb/WT/hdKlB0eSCueHnSYA2cYOO7QSgJR1A+LbB2Tmbnzne1AnXchcqd30QzO/Ec
+         G0VeTsQvV8cRKidvU66X9PuwQ9ZvUcQ3T38LdT8FxC139hSr5Nmf5OqpTIGogx9tYrle
+         hDUQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzRzPBkOv+pm/Oh9NKJEo0M8njWz3+/js/D4kc5jjQTFx9cA20Dony2plN8Dx8/dxlDFPOGj7CTLpfVzWFM@lists.linux.dev
+X-Gm-Message-State: AFq9FYI0NeZQqJX7zgULxyLVV8bwih5mU61bEx6MBRNQRMI8N5/fLk76
+	fulJ1f0iNyinkfk9sg8f4HgFGNlCMIBJWEQm8vhW4WJS2nPZOV43dT8d
+X-Gm-Gg: AYBFou2fIogIvgD7qOcxyP0bSRsJ91BQW83Xqi3FJXwuYIz41tL8gaJU/D2AHIKLx++
+	mZEO9FAO0c1ywvAHLowVJMI3IoMpntm2Z+vmCoqWCw+3SrlhiMBh8DTNyASUMt8N0jVbM/8TqA2
+	pQHP+HVYwHpeTv3RurTaqRvJNybFi9uR8Cpju/dtgQ0yy9A0p1MvgXGVmZDqT6RK50PgFJ50ndi
+	dWaKHYl+yduyG7tVAQMRopZPyd/+1grzQmoWAipbzEA7KP3nfScvfcKd9nLDnvF5gQiAz51VHDZ
+	kMeW4ZgQltToZSEft3UOqQaB342o8FOeRseF4MPCfxgYfChPSY+T7jBYmX60e9cNKz+o0T7X/yX
+	0b56b9dBTyqFJB2gRd67pAnIlUKB0iO/BPRrQo9Y1nKCKsnyGas4MQ0ii8nVAGOnyfSqr5/Q35i
+	GDwd0QSZGV5F0B7fkYy1gewKTLy3p/cGDqZpUfhgXmFlRt4yeG6d6/QzE3PJmGsmqN/PKIH/jPh
+	nNpaFxxpdE=
+X-Received: by 2002:a05:651c:41d5:b0:3a7:72ec:81aa with SMTP id 38308e7fff4ca-3a779207c3dmr16366201fa.28.1790866077663;
+        Thu, 01 Oct 2026 07:47:57 -0700 (PDT)
+Received: from quietus.tail91f8a6.ts.net ([169.40.47.10])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a87cfec0efsm918191fa.17.2026.10.01.07.47.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 07:46:20 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, decui@microsoft.com, longli@microsoft.com,
- ssengar@linux.microsoft.com, andy@kernel.org, gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- sashiko-reviews@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/2] drm/kms-helper: Remove struct
- drm_simple_display_pipe and helpers
-In-Reply-To: <20261001133736.802604-3-tzimmermann@suse.de>
-References: <20261001133736.802604-1-tzimmermann@suse.de>
- <20261001133736.802604-3-tzimmermann@suse.de>
-Date: Thu, 01 Oct 2026 16:46:19 +0200
-Message-ID: <xlv1jyo1fphg.fsf@fmartine-thinkpadx1carbongen12.rmtes.csb>
+        Thu, 01 Oct 2026 07:47:57 -0700 (PDT)
+From: Ruslan Koreev <koreev.r@gmail.com>
+To: Qiling Zhu <kmatzkaczor244@gmail.com>
+Cc: Ruslan Koreev <koreev.r@gmail.com>,
+	sakari.ailus@linux.intel.com,
+	benjamin.mugnier@foss.st.com,
+	sylvain.petinot@foss.st.com,
+	dan.scally@ideasonboard.com,
+	mchehab@kernel.org,
+	hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	pm@petermarshall.ca
+Subject: Re: [PATCH 4/4] media: staging/ipu7: Add monochrome pixel formats
+Date: Thu,  1 Oct 2026 17:47:47 +0300
+Message-ID: <20261001144747.1167917-1-koreev.r@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <aru5-aq_sPUDy8dq@ThinkPad>
+References: <20260924171820.1179823-1-koreev.r@gmail.com> <20260924171820.1179823-5-koreev.r@gmail.com> <arY2CULvwXGyVvH_@kekkonen.localdomain> <20260929092238.1765758-1-koreev.r@gmail.com> <aru5-aq_sPUDy8dq@ThinkPad>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 56evHEO0CLRhhHfN7e6FC94M4L0Uye7aHwWKu_HT3Cc_1790865982
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Hi Qiling,
 
-Hello Thomas,
+On Tue, Sep 29, 2026 at 09:25:39PM +0800, Qiling Zhu wrote:
+> Since you reported successful plain-V4L2 Y10/Y10P streaming on
+> next-20260924, could you share the exact media-ctl/v4l2-ctl commands
+> and any setup performed before STREAMON?
 
-> There are no drivers using struct drm_simple_display_pipe. Remove
-> the data type and all related helpers.
->
-> The idea behind struct drm_simple_display_pipe was to provide an
-> easier way for writing DRM drivers besides regular atomic helpers.
-> It turned out to be more complicated. With all drivers being updated
-> to use atomic helpers, it's time to remove simple-pipe. Also clean
-> up the related TODO items.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  Documentation/gpu/todo.rst              |  17 --
->  drivers/gpu/drm/drm_gem_atomic_helper.c |  92 -------
->  drivers/gpu/drm/drm_simple_kms_helper.c | 328 ------------------------
->  drivers/staging/fbtft/TODO              |   6 +-
->  include/drm/drm_gem_atomic_helper.h     |  28 --
->  include/drm/drm_simple_kms_helper.h     |  56 +---
+I tested on next-20260924 with intel-ipu6 bound to 8086:b05d and v1
+patches 1-3, with the vd55g1 changes reworked for v2. Before the plain
+V4L2 test, I ran the following with libcamera 0.7.2:
 
-There are no more users of struct drm_simple_display_pipe but still some
-drivers include the drm_simple_kms_helper.h header. Latest drm-misc-next: 
+  cam -l
+  timeout 30 cam -c '\_SB_.LNK1' -C5 -s width=804,height=704
 
-git grep "drm_simple_kms_helper.h" -- drivers/gpu/drm/*/ | wc -l
-21
+That captured five frames at 804x704 R8. Afterwards, media-ctl -p
+showed Y8_1X8/804x704 on sensor pad 0 and CSI2 pads 0 and 1. The sensor
+link was enabled and immutable, and this capture link was enabled:
 
-So it seems you need more  preparatory patches. For this patch though:
+  "Intel IPU6 CSI2 2":1 -> "Intel IPU6 ISYS Capture 16":0
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+I did not enable any links manually. I have not repeated this sequence
+from a fresh boot using only media-ctl and v4l2-ctl, so the prior
+libcamera setup is relevant to reproducing my test.
 
--- 
-Best regards,
+For each format, I ran these commands first:
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+  sudo media-ctl -V '"vd55g1 1-0010":0 [fmt:Y10_1X10/804x704]'
+  sudo media-ctl -V '"Intel IPU6 CSI2 2":0 [fmt:Y10_1X10/804x704]'
+  sudo media-ctl -V '"Intel IPU6 CSI2 2":1 [fmt:Y10_1X10/804x704]'
 
+Then, for Y10 (with the trailing space in the FourCC):
+
+  sudo v4l2-ctl -d /dev/video16 --set-fmt-video \
+    'width=804,height=704,pixelformat=Y10 '
+  sudo v4l2-ctl -d /dev/video16 --get-fmt-video
+  sudo timeout 20 v4l2-ctl -d /dev/video16 --stream-mmap=4 \
+    --stream-count=5 --stream-to=/tmp/ir-Y10.raw
+
+I repeated the three media-ctl commands, then used:
+
+  sudo v4l2-ctl -d /dev/video16 --set-fmt-video \
+    'width=804,height=704,pixelformat=Y10P'
+  sudo v4l2-ctl -d /dev/video16 --get-fmt-video
+  sudo timeout 20 v4l2-ctl -d /dev/video16 --stream-mmap=4 \
+    --stream-count=5 --stream-to=/tmp/ir-Y10P.raw
+
+Both Y10 and Y10P captured five frames successfully and the images
+looked correct.
+
+I have not tested next-20260928, so I cannot yet explain the EPIPE.
+Could you capture media-ctl -p immediately before STREAMON and any
+IPU or vd55g1 messages from dmesg after it fails?
+
+Ruslan
