@@ -1,128 +1,126 @@
-Received: from mail-dy2-f6.google.com (mail-dy2-f6.google.com [74.125.229.6])
+Received: from mail-ej2-f31.google.com (mail-ej2-f31.google.com [74.125.228.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E6B30567B
-	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 11:24:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57150376A09
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 11:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790853850; cv=none; b=dm+7lyIf5ejwVknV1B3Ncl+tEBgDEnMEf2MAVSuUolSsuZWqfXIFEiAF4nsFCmvKyklRAuH4wrAAcCi/1BCilOOcwX225ltV8cIBhN2mVmAhUefc3ZUjanqQFEyQPLO0YwgBFhfYTGSLukDBn/WPan0TkgEIbkqHzb59PT29l9Q=
+	t=1790855333; cv=none; b=ZoVQuo6NcOy+OcrnqAg9lb8AqiXXkWkTx/KLOWODvufrKv1TR4GVR5Sd+w1350Sh8IL7YhU2kr97oYjKDP+4pq5KJ+UHsOECal/TaY5nmR59baAOKGiIxSEGa8je/nYKoFjWVf3Sw4z5QoXS+U4jPe3kYGFhQsLTtO3AsAeV4UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790853850; c=relaxed/simple;
-	bh=kqq4iv2tJbpksVSZakY28B9D5QWU3TABTw5r7AJsPBw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=inW3as1KURY6SoDJw4rCx8pT6/TTMbRLccttyz6fwdzLXVT+jsYCYbiSFA7sm4Se4puzEeRFGJi4gIdMLxlCv9HMJXwhoXkka50sSRENnALVCFzqrRnJCjTHkRjBgTQhOZmGAGTrDFu5HNcy8RlFmKvU5iRvmkTHXm7FAdQP1mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WeMtNc6A; arc=none smtp.client-ip=74.125.229.6
+	s=arc-20240116; t=1790855333; c=relaxed/simple;
+	bh=6o5vSm/8pzZoyowGaIOIKg6RgZJZiQbgtGxUIogZD6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UGpJVKa+OdF8xYyZM498CNOTnU/EkRpgma+zZHrlkEJwMiGUmugLxobFNAi9C7g93dNqh3HeeseQ7M+NwaHK8Spf9TfDM7aPjXSHuMkpFfDkzCT8gRwiKRQevUeUO7WgNg/0yXWy9UL1i0Tbp1edV6I1YAGmGEjsjwNN/5QctHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BYSApeny; arc=none smtp.client-ip=74.125.228.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WeMtNc6A"
-Received: by mail-dy2-f6.google.com with SMTP id 5a478bee46e88-34da84f64d8so940217eec.1
-        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 04:24:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BYSApeny"
+Received: by mail-ej2-f31.google.com with SMTP id a640c23a62f3a-c29703cb796so904399066b.2
+        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 04:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790853847; x=1791458647; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9pJKS2CPEX9rrrq+8z8dCJOBpbOCAF4va+FsiogZmcw=;
-        b=WeMtNc6AuCfAV8TmNM7t/9Vvwvdb6neKJ2FFXbVasIx3TNHJkC0ZiLBn8SH4YqyJW4
-         +l0e+EaAWb7I3UFAM97r9hoS27ygp73SAOf33wSdPR8Qs+JTu8ayMPZ0umnpiKJitaiE
-         Ubp13MrFgj/F0f7s1yVp/F0n0DPtr/sKXQY0JcXgdQPSpb634jjxuB+4mQ7qB4mJWUP/
-         lpPXU9MPCx51H9IXt8KCmLgq3KrYVWhk4IlzXl7zQvZzkuwW/XYvJ/4x5nd6kJh2Gox4
-         J0llxEDFpqV0r1j8rQzaObQM5lfEmu3lSb1HTerwelVF8OdUL9f0d29BjIEBs8U4rWU8
-         qDZw==
+        d=gmail.com; s=20251104; t=1790855327; x=1791460127; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=zXoR/6CL8/yByPleCpxlRvTcX6CZ8c+uvh9L4CbDvI4=;
+        b=BYSApenyny+6kp6Zwo6kKVE35pi6wfGRHOS4mA0NsiD8z8fpR1bdjsLDzxl8l/FYtF
+         8G+PGanGt9QML/Spmxna1iOBxSp9f+7E6WwhLqeJAaJti5/mxiAsdJYu32TeQcVIx0o8
+         JU6zpgaKs4kRBu7aeQalXNEfMN/FuzGnWuW57x4nGLTtXRceIQ5AeNDJh+dkSLW+N+/y
+         4Aj5lpDUGO7ZphCcJSsk4IR7IqZWODnZb/YJl17nRByzDrZQHjc/imaox3HQIAmKZPg0
+         rau2p4wcMTFVEZWEgIIO2T0sim0Wcp1oXO8XHuZxW7qJ/1p/sDPPHeb2cIXi8pUireb2
+         rP1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790853847; x=1791458647;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9pJKS2CPEX9rrrq+8z8dCJOBpbOCAF4va+FsiogZmcw=;
-        b=AGDcIsGP4rd2uAD5LmNes2puWw3SFP03WTMVYfkspDGr/3nCMMHCAV4GoCPiY/eq95
-         yvXzP3AxVJYmrDdFgFSB1wwJ9nBC5dncaMh3UXnai5s3XeerSi/46bmbaVoFCCz+yi8F
-         9LFKzh3VYDE/RilFWnWIUM7hvzqXoOeaJUzYK9gGktaMFCDrToHJPgGzlRiDAmjQmyXV
-         K8mGOPm7HvEZ9uBmBx6y+b68bEo9TKBz3GgD22MrFfi4LvXZEHk9dciioOH0QtslwM46
-         vPQlIl0zZxE3CYQ+x72IF5SuazrcuXV1PrGaeRqx8osKcxJlB/Q+P4+aDQV2g6KHCJhH
-         N/8g==
-X-Forwarded-Encrypted: i=1; AKwUvBwYOZMG/2UxgP9uxQ0jrqDCNv0XmoiCkDIH2WCX6HyeCZ2jfQA6TUCL/I7QmvK3T5SLW4B1sj7ZtdsvTvsm@lists.linux.dev
-X-Gm-Message-State: AFq9FYIoElia7vOL3/wlE5mD65kPmUhcFITZMMuejn48IL/Ap0IiF0hD
-	MkUC9M3a0wRP34m0FBBawvcLhDTTwVp3Tg5AJ+GfU6BU1LzJrdG6Mk/7
-X-Gm-Gg: AYBFou1dK6ufRhbM6hk5TsltnA6C4KH9WS2x/MEFPCvz+7jSuTvuyhax5jbtdw054Cs
-	uIdAKuSR0wkTXVZmt5vetO0slsKg8j4yf+fbt4NCTj671jf+WNZJYYGgg0ip0P3BJHR35OAEkvX
-	BQFeW2lgI99NS7wHdWLza9UfhshcN79HIAbLocimXd01SKMGkZ/y43vNl90FNc++bWtG0Yk/pL3
-	FVqAbEAHGwhrlVvwQcgWyqAtkV7r2NZui41Q6DiO/h1zQKUGxs65iuo+FDb8LELDamGb7N+qjxI
-	zJwWLy7TURirycisFCAhh2KgyRxonAmu4nPB4LGRwahzqO8tjeYUpThP8ubtWF0FwX9n4zsTZH4
-	lwurbnwiOCAYpdWziC0AKtQr38dFiEWfUexUGFpJGpvssCyoa57++Z9UyjwpvwzmZtfYggiAJrV
-	w8nGBe8EC6jM9Vo61WjUkRvQhEs8Ajem+/dofNYTPcnpt0aKIZ1nazRJIECcqIw0xdF6euo5Af9
-	ODILrwZ79RHCLQwNyJFORbEqck8DKTvfs6dUQ==
-X-Received: by 2002:a05:7301:4b12:b0:34c:85c:da56 with SMTP id 5a478bee46e88-34cdc1ce152mr4987298eec.17.1790853847277;
-        Thu, 01 Oct 2026 04:24:07 -0700 (PDT)
-Received: from localhost.localdomain ([98.148.34.5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34db3162a00sm7052128eec.10.2026.10.01.04.24.06
+        d=1e100.net; s=20260707; t=1790855327; x=1791460127;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zXoR/6CL8/yByPleCpxlRvTcX6CZ8c+uvh9L4CbDvI4=;
+        b=wYlM8SbjMzKEhwkHbg6gzmc5Qjj/UPFIsZRky/p84f10BcE6VNFMX2WPLj+MEM7D0j
+         xc11bKx7NwqJDipTeamCpqZ8jobv2NZULZ0wOYW3AAcVOGU3yJTQLMUJCMmPB2C8RZEX
+         ObrDuVKXd1AOzi2ycaUydtECQUdAAuJ9Ne7eLgxU1TT7ABYhCfba3c2/zXPjGNvwOUp3
+         o+XKzuM4QQhZ7/hw2yr/i2altxxUePlVOvamUyBhUbN4YMGEVcvKW+5ORh/3u2tXG7dl
+         N5VuWsjMzgtaD5E7o+WFJ6KdZ49xxTUNID+Zce8L8QLYB+GtXF1RXRlibEoCmWqcNQ0P
+         pDkA==
+X-Forwarded-Encrypted: i=1; AKwUvBwWH5QitcBOTgWh5kELWGcvWott6RF9jyf8ltIKPWBfegMD9mDNjJyaIpOnIO3JKmBZ+0wp2ZqV7DCVn3GS@lists.linux.dev
+X-Gm-Message-State: AFuF++k4dycMwAOZPYxEKC9Mguu+QM98fAQQ7ouyHs9FRlUzs2qk9Zhd
+	cEgpZxbiZci1bVA70Wev/FgPbDD00ucRMo83HJWplIi36FHB+/oJg8Ga
+X-Gm-Gg: AYBFou3o9/ccl+ge9vCH2rg9liB+84J1mn4myaea9gyjTxNA31wAo8WodC+rAe8/6Vv
+	EwX+eLekPRYWGAheTUk1nsbHNnDyjjJcO0hR+TKAtUVIUEIsv1b8UPV/WvhKrvm0owRAPcVIyUp
+	pDh00E5fGbndFPEmN9Gunu6o9B/I5hhtJMuA2AW3ufRk6rIBl6e2XzsxPs8g91P9oKDFx6x2c27
+	EjzaAewQUq+aSu7RrJYtmqYbHN1KqApR1It5xhSKt79zl4I9RsUO0hzCdOWJNDHV6X1qlQYUyfc
+	PeErtk05yQl/La2kOplflPxNRaJRPPOSld3dRX1FoV5sP5IKBsn14TYXap+GQGWbNo+beCCI8yQ
+	MWehXvnVKFzhREW58jZ88VzxB769Xewiji67l03tCN/f6DqbD758gO5XzGpHhbiyPI324oyAC2p
+	OCyF9h7NJgMz6TuWyc1PJEjAafYgFK4G5w1CeIEFnCJcmt3xSL6Nhqll8pjQZgrvi3LEU=
+X-Received: by 2002:a17:907:6ea4:b0:c2d:c0d8:6027 with SMTP id a640c23a62f3a-c2e23ca1616mr399206766b.8.1790855326536;
+        Thu, 01 Oct 2026 04:48:46 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2e31d45065sm141341066b.49.2026.10.01.04.48.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 04:24:06 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: error27@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: make rtl8723_dequeue_writeport() return bool
-Date: Thu,  1 Oct 2026 11:23:51 +0000
-Message-ID: <20261001112351.6820-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 01 Oct 2026 04:48:45 -0700 (PDT)
+Date: Thu, 1 Oct 2026 14:48:42 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Thomas Prud'homme <t+linux@prudhomme.li>, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: fix lines over 100 characters in
+ hal_intf.c
+Message-ID: <ar5ImtTs5L-p9rwD@stanley.mountain>
+References: <20260909174152.16934-1-t+linux@prudhomme.li>
+ <2026100148-elixir-depose-a7df@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026100148-elixir-depose-a7df@gregkh>
 
-rtl8723_dequeue_writeport() returns boolean state and its caller uses the
-return value as a boolean.
+On Thu, Oct 01, 2026 at 07:41:13AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Sep 09, 2026 at 07:41:52PM +0200, Thomas Prud'homme wrote:
+> > Wrap the parameter list of rtw_hal_set_odm_var() across two lines,
+> > and move the comment on the rtl8723b_HalDmWatchDog_in_LPS() call
+> > above the call instead of trailing it, so both lines fit within the
+> > checkpatch.pl line length limit. No functional change.
+> > 
+> > Signed-off-by: Thomas Prud'homme <t+linux@prudhomme.li>
+> > ---
+> >  drivers/staging/rtl8723bs/hal/hal_intf.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+> > index 2caade1a8..1096f5441 100644
+> > --- a/drivers/staging/rtl8723bs/hal/hal_intf.c
+> > +++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+> > @@ -89,7 +89,8 @@ u8 rtw_hal_get_def_var(struct adapter *padapter, enum hal_def_variable eVariable
+> >  	return GetHalDefVar8723BSDIO(padapter, eVariable, pValue);
+> >  }
+> >  
+> > -void rtw_hal_set_odm_var(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet)
+> > +void rtw_hal_set_odm_var(struct adapter *padapter,
+> > +			 enum hal_odm_variable eVariable, void *pValue1, bool bSet)
+> >  {
+> >  	SetHalODMVar(padapter, eVariable, pValue1, bSet);
+> >  }
+> > @@ -216,7 +217,8 @@ void rtw_hal_dm_watchdog(struct adapter *padapter)
+> >  void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
+> >  {
+> >  	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode)
+> > -		rtl8723b_HalDmWatchDog_in_LPS(padapter); /* this function caller is in interrupt context */
+> > +		/* this function caller is in interrupt context */
+> > +		rtl8723b_HalDmWatchDog_in_LPS(padapter);
+> 
+> Doesn't this break a different checkpatch issue?
+> 
 
-Change the return type to bool and replace _FAIL with false. Also use bool
-for the caller's queue_empty variable.
+No, it doesn't.  But, of course, yes, multi-line if statements should
+get curly braces.  It's an unwritten rule.
 
-No functional change.
+Also I feel like loop macros should get curly braces as well but that
+might just be me...
 
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
-Changes in v2:
-- Resend as requested; no code changes.
-
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index 0441e84ea87d..482dd1baf3ca 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -33,7 +33,7 @@ static u8 rtw_sdio_wait_enough_TxOQT_space(struct adapter *padapter, u8 agg_num)
- 	return true;
- }
- 
--static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
-+static bool rtl8723_dequeue_writeport(struct adapter *padapter)
- {
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
-@@ -107,7 +107,7 @@ static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
- 	/* pxmitbuf->priv_data = NULL; */
- 	rtw_free_xmitbuf(pxmitpriv, pxmitbuf);
- 
--	return _FAIL;
-+	return false;
- }
- 
- /*
-@@ -121,7 +121,8 @@ static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
- s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
- {
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
--	u8 queue_empty, queue_pending;
-+	bool queue_empty;
-+	u8 queue_pending;
- 	s32 ret;
- 
- 	if (wait_for_completion_interruptible(&pxmitpriv->xmit_comp)) {
--- 
-2.43.0
+regards,
+dan carpenter
 
