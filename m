@@ -1,94 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out-2z4y-a144.jellyfish.systems (out-2z4y-a144.jellyfish.systems [198.54.127.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DB7223DCE
-	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 20:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8507237188B
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 20:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790885172; cv=none; b=tDTyNTA5A0uOuiAi21511yynPYFm1q17AjElrrHSwn1gV9Sa7ko3KaeVloxJFSLtjSRmVCBL9IJ+CLJ6BmzIi2ebiuzoyNXlFB5Y/PFRwiSr8spjA00yxNy6YU83a+YdR+B4H9Pw4Zd1DuY6vEmh12L1WLsjYhLpiz4qyaGk3xI=
+	t=1790885326; cv=none; b=Ra5ft4WvL4R1LxVXE3d/Y6d1SVkDibwKGBmivLHxA+67hCoEIgNMmfDKM05Z1Lo7hPxQrKo8WsVOyTV63gIcb7YnWLL+R90CJiTQlMEBSNb2IsSzeUZWpQYkRsedgDL958G7mvULTf9/kpjH2q3+VVU0SOE0YyZhofkUd53RBH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790885172; c=relaxed/simple;
-	bh=0mQP3oJ5odwBNoeOjz8xTc2FYERScVE7Hi1gTnklx0o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HXWp0ZcnIAbvAiwHzy9lZRkka6zO6aNNXvvRHqTylKt+4ePFWajG05BT52bNH2QjMY6YsH5EkADWpF3HJR1GeNBNDoIDtSMCvY1hivIAUAfZVRCV9wbZJfwxMEo4KTnIV9iDmYXx0C/83MDBgOjoG3liU1CEcXIw/e9VvKBmjyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gYQyqrF1; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1790885326; c=relaxed/simple;
+	bh=zBpn8gyRPKXxW/bsabPRRFfQ5KIl27KvSKBAtyKAGEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F+IvGc0DlbxudPGXZOgGx769JA903J9vur22EyqVmioUbLvgi+eeCpmENyHSfh6E65YYMjRJfAvlMv6ZGrykU61laijkjJaJzJAVs1I3P9Q7GN1Sbe0hBukbyQp61ZjOn4LknjG0dervTru0Ep83vupourIO/ItxSJs1l24Z0VY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=Rivgzosn; arc=none smtp.client-ip=198.54.127.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=firmwaredesign.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gYQyqrF1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790885169; x=1822421169;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0mQP3oJ5odwBNoeOjz8xTc2FYERScVE7Hi1gTnklx0o=;
-  b=gYQyqrF1ErbeKJ0cXpiX7Q2c0Bs41CRxkcc+MQlfLKmd/KrK4ILCvlal
-   0cKxI/66+mMBIXihVBEGVspLa2NP/b6irJUwvdQr6g/hjdtcH0L3wdpUs
-   WlWnmBQJMHvUUcOSTluL6iPIFuHEHuSaLaMGHKmL1V/tWqQWoZs3DJ35E
-   VuYajtzD+tjVleTS2nnBIcIUuz2XlQKQle5l0dYCRALLkh2xaoEaUcWbi
-   zHaQur+tsoe9R/4seQ3BA0rPkT0OS1FfhMINg9SuDDh8Zzw7/Ijmq/nAw
-   EBs8QBkMQYXWzLObcp8IV7jXGtezcFfsr7Zq5r6l6rCoJe09V9+Vw9lN5
-   A==;
-X-CSE-ConnectionGUID: 4sYBB1kpThKOrwFmGK5yqQ==
-X-CSE-MsgGUID: CFuYTrzaTeGYXCu7C8qO/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="95465664"
-X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="95465664"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 13:06:08 -0700
-X-CSE-ConnectionGUID: rO0rSMTPRHWS+ErR+KzkEg==
-X-CSE-MsgGUID: lIbZtm4cQP+Rbwb4OeqQvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="279378810"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.154])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 13:06:07 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A092C11F925;
-	Thu, 01 Oct 2026 23:06:03 +0300 (EEST)
-Date: Thu, 1 Oct 2026 23:06:03 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Maurizio Casciano <mauriziocasciano7@gmail.com>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org, bingbu.cao@amd.com,
-	jacopo.mondi@ideasonboard.com, nicholas@rothemail.net,
-	andy@kernel.org, andriy.shevchenko@intel.com, hansg@kernel.org,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 12/16] media: ov2740: release group hold after gain
- write errors
-Message-ID: <ar69K8mZVNmDqINI@kekkonen.localdomain>
-References: <cover.1788360629.git.mauriziocasciano7@gmail.com>
- <34f5f77ec2ddc7ff7a000603b120380c80bb73d4.1788360629.git.mauriziocasciano7@gmail.com>
+	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="Rivgzosn"
+Received: from mail.privateemail.com (unknown [98.240.242.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.privateemail.com (Postfix) with ESMTPSA id 4hwj9p3qSlz3wYG;
+	Thu, 01 Oct 2026 19:47:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=firmwaredesign.org;
+	s=privateemail; t=1790884047;
+	bh=QAAtwpIcNkjRGp6cAi7qupY31eEBazYUe/Mpb1UZMmQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RivgzosnFxCgFc4x7ISwUUb6oUMYmHPqUX7H9v/OYXNGUglnHRjNfZMFq0V86uAr7
+	 Qkfo5M8OhkjjeKgSYtnEPy5AvY6vElPiBInERgZosn3n+nwUN8WvN8gO96uhH9NcxB
+	 gJMhijs/0FfqJffTRz8H/vat5eLMZbA6AacHK3XLNhT4ufKFTBm2fqd8AEEUjtf8M9
+	 2DCNLHjquGwrYyqqtPlSrL/dZhiew0pJvA0LOKycy45qIraleIMZc/qPCPZxXcLTGP
+	 4vOIiTjPKS9zRfvc5ols0lhzmse5cIU5bzPtxWyAT3n0zMzRPEsYiVyr/6sZSNWZBD
+	 ldLqYAdhMeZgw==
+From: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
+Subject: [PATCH] staging: rtl8723bs: Rename CamelCase NDIS encryption state enums
+Date: Thu,  1 Oct 2026 14:47:10 -0500
+Message-ID: <20261001194710.144114-1-marinela.selseth@firmwaredesign.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <34f5f77ec2ddc7ff7a000603b120380c80bb73d4.1788360629.git.mauriziocasciano7@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Envelope-From: marinela.selseth@firmwaredesign.org
 
-Hi Maurizio,
+The identifiers Ndis802_11WEPDisabled and Ndis802_11EncryptionDisabled
+violate the Linux kernel coding style guideline regarding naming
+conventions. Uppercase snake_case is preferred for enum constants.
 
-On Wed, Sep 02, 2026 at 04:53:41PM +0200, Maurizio Casciano wrote:
-> Digital-gain updates start a register group before writing the red,
-> green and blue gains. The current error paths return immediately when
-> one of those writes fails, leaving the group open and never issuing its
-> end and launch commands. Later control updates can then be accumulated
-> in an unfinished group instead of taking effect.
-> 
-> Once group hold has started, always attempt both commands needed to end
-> and launch the group. Preserve the first gain-write error; report an end
-> or launch error only when all gain writes succeeded.
-> 
-> Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
-> Assisted-by: LLM sparse
+Rename both constants to NDIS_802_11_WEP_DISABLED and
+NDIS_802_11_ENCRYPTION_DISABLED across the driver framework to conform
+to standard kernel conventions.
 
-Can you provide a Fixes: tag for this? It should be cc'd to stable, too.
+Signed-off-by: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c           |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c         |  8 ++++----
+ drivers/staging/rtl8723bs/include/wlan_bssdef.h   |  4 ++--
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 12 ++++++------
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c       |  2 +-
+ 5 files changed, 14 insertions(+), 14 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 4728f62a1557..0fdf06cc7226 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1909,7 +1909,7 @@ void stop_ap_mode(struct adapter *padapter)
+ 	       0,
+ 	       sizeof(struct security_priv));
+ 	padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeOpen;
+-	padapter->securitypriv.ndisencryptstatus = Ndis802_11WEPDisabled;
++	padapter->securitypriv.ndisencryptstatus = NDIS_802_11_WEP_DISABLED;
+ 
+ 	/* for ACL */
+ 	spin_lock_bh(&pacl_node_q->lock);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index d18768a51b19..0860d42b8487 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -605,7 +605,7 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
+ 		u8 *p = NULL;
+ 		uint ie_len = 0;
+ 
+-		if ((desired_encmode == Ndis802_11EncryptionDisabled) && (privacy != 0))
++		if ((desired_encmode == NDIS_802_11_ENCRYPTION_DISABLED) && (privacy != 0))
+ 			bselected = false;
+ 
+ 		if (psecuritypriv->ndisauthtype == Ndis802_11AuthModeWPA2PSK) {
+@@ -621,7 +621,7 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
+ 		}
+ 	}
+ 
+-	if ((desired_encmode != Ndis802_11EncryptionDisabled) && (privacy == 0))
++	if ((desired_encmode != NDIS_802_11_ENCRYPTION_DISABLED) && (privacy == 0))
+ 		bselected = false;
+ 
+ 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
+@@ -1114,7 +1114,7 @@ void rtw_reset_securitypriv(struct adapter *adapter)
+ 		adapter->securitypriv.btkip_countermeasure_time = backupTKIPcountermeasure_time;
+ 
+ 		adapter->securitypriv.ndisauthtype = Ndis802_11AuthModeOpen;
+-		adapter->securitypriv.ndisencryptstatus = Ndis802_11WEPDisabled;
++		adapter->securitypriv.ndisencryptstatus = NDIS_802_11_WEP_DISABLED;
+ 
+ 	} else {
+ 		/* reset values in securitypriv */
+@@ -1130,7 +1130,7 @@ void rtw_reset_securitypriv(struct adapter *adapter)
+ 		psec_priv->dot118021XGrpKeyid = 1;
+ 
+ 		psec_priv->ndisauthtype = Ndis802_11AuthModeOpen;
+-		psec_priv->ndisencryptstatus = Ndis802_11WEPDisabled;
++		psec_priv->ndisencryptstatus = NDIS_802_11_WEP_DISABLED;
+ 		/*  */
+ 	}
+ 	spin_unlock_bh(&adapter->security_key_mutex);
+diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+index f4c1456f1476..86e4bf92f14b 100644
+--- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
++++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+@@ -69,8 +69,8 @@ enum ndis_802_11_authentication_mode {
+ enum {
+ 	Ndis802_11WEPEnabled,
+ 	Ndis802_11Encryption1Enabled = Ndis802_11WEPEnabled,
+-	Ndis802_11WEPDisabled,
+-	Ndis802_11EncryptionDisabled = Ndis802_11WEPDisabled,
++	NDIS_802_11_WEP_DISABLED,
++	NDIS_802_11_ENCRYPTION_DISABLED = NDIS_802_11_WEP_DISABLED,
+ 	Ndis802_11WEPKeyAbsent,
+ 	Ndis802_11Encryption1KeyAbsent = Ndis802_11WEPKeyAbsent,
+ 	Ndis802_11WEPNotSupported,
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 3468d4114f60..90c822a8ee26 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -1338,7 +1338,7 @@ static int rtw_cfg80211_set_auth_type(struct security_priv *psecuritypriv,
+ 
+ static int rtw_cfg80211_set_cipher(struct security_priv *psecuritypriv, u32 cipher, bool ucast)
+ {
+-	u32 ndisencryptstatus = Ndis802_11EncryptionDisabled;
++	u32 ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 
+ 	u32 *profile_cipher = ucast ? &psecuritypriv->dot11_privacy_algrthm :
+ 		&psecuritypriv->dot118021XGrpPrivacy;
+@@ -1352,7 +1352,7 @@ static int rtw_cfg80211_set_cipher(struct security_priv *psecuritypriv, u32 ciph
+ 	switch (cipher) {
+ 	case IW_AUTH_CIPHER_NONE:
+ 		*profile_cipher = _NO_PRIVACY_;
+-		ndisencryptstatus = Ndis802_11EncryptionDisabled;
++		ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 		break;
+ 	case WLAN_CIPHER_SUITE_WEP40:
+ 		*profile_cipher = _WEP40_;
+@@ -1463,7 +1463,7 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
+ 	switch (group_cipher) {
+ 	case WPA_CIPHER_NONE:
+ 		padapter->securitypriv.dot118021XGrpPrivacy = _NO_PRIVACY_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11EncryptionDisabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 		break;
+ 	case WPA_CIPHER_WEP40:
+ 		padapter->securitypriv.dot118021XGrpPrivacy = _WEP40_;
+@@ -1486,7 +1486,7 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
+ 	switch (pairwise_cipher) {
+ 	case WPA_CIPHER_NONE:
+ 		padapter->securitypriv.dot11_privacy_algrthm = _NO_PRIVACY_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11EncryptionDisabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 		break;
+ 	case WPA_CIPHER_WEP40:
+ 		padapter->securitypriv.dot11_privacy_algrthm = _WEP40_;
+@@ -1568,7 +1568,7 @@ static int cfg80211_rtw_join_ibss(struct wiphy *wiphy, struct net_device *ndev,
+ 	ndis_ssid.ssid_length = params->ssid_len;
+ 	memcpy(ndis_ssid.ssid, (u8 *)params->ssid, params->ssid_len);
+ 
+-	psecuritypriv->ndisencryptstatus = Ndis802_11EncryptionDisabled;
++	psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 	psecuritypriv->dot11_privacy_algrthm = _NO_PRIVACY_;
+ 	psecuritypriv->dot118021XGrpPrivacy = _NO_PRIVACY_;
+ 	psecuritypriv->dot11_auth_algrthm = dot11_auth_algrthm_open; /* open system */
+@@ -1664,7 +1664,7 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
+ 	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
+ 		rtw_scan_abort(padapter);
+ 
+-	psecuritypriv->ndisencryptstatus = Ndis802_11EncryptionDisabled;
++	psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 	psecuritypriv->dot11_privacy_algrthm = _NO_PRIVACY_;
+ 	psecuritypriv->dot118021XGrpPrivacy = _NO_PRIVACY_;
+ 	psecuritypriv->dot11_auth_algrthm = dot11_auth_algrthm_open; /* open system */
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index c15056ee207c..e0d043172819 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -540,7 +540,7 @@ static void rtw_init_default_value(struct adapter *padapter)
+ 	psecuritypriv->dot118021XGrpKeyid = 1;
+ 
+ 	psecuritypriv->ndisauthtype = Ndis802_11AuthModeOpen;
+-	psecuritypriv->ndisencryptstatus = Ndis802_11WEPDisabled;
++	psecuritypriv->ndisencryptstatus = NDIS_802_11_WEP_DISABLED;
+ 
+ 	/* registry_priv */
+ 	rtw_init_registrypriv_dev_network(padapter);
 -- 
-Regards,
+2.43.0
 
-Sakari Ailus
