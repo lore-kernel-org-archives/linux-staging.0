@@ -1,149 +1,167 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987A7372680;
-	Wed, 30 Sep 2026 15:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2E82E3FE
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 05:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790783908; cv=none; b=gCIuKL/co9iKZgEUoUr56bLHZBPAhkVIZFdSL/rUk8Nnp5OWTowQZJ0hj0psMVJ7c/KbqmoEeU2towHBnkaZi2QLU7U/A3k5sdfPgvA1AUK7SWOunYeYi70rLofNPXqO75YtSsDQHEhA6o3P/X1UbhbjLzkH9/6c2iRIkWXQCvM=
+	t=1790831885; cv=none; b=KU86qMrJ/QmrYif+P298IKyP+x4Vzcr0MvIsCJvES9rpgV8MZBSSSK7JQY9/P8Ntd6s6Rfkz7kxUeVQHzlEuco4wM9XVwGdhusHNm8axMBpv8pQFtsHVt6aBrbLONA/hQPyp//qwjEIaceKLY1Q/E/rt2vZ7EzIXDknHUl7BKVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790783908; c=relaxed/simple;
-	bh=7+uOAdwvRA5Phs71HOWvHd2WnABdLy2EzB8eI2nyFFE=;
+	s=arc-20240116; t=1790831885; c=relaxed/simple;
+	bh=xk81vqeMBWWYZI9hXyBbjQvIzetRt5eUcuHWm5gfRGo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HAakLdJaLgdWqb3r4ptT/nhaXTakfbd77II2aLsEYDQCCJKGev5L3zp8oDP3i/JnxKqSmhu3FnlJhAQux6nf9B0tg5Q4MyNvPN0Ves0YekxTUKQ/0ryTWh6yRbDh4O0tgULVDnhWoySjYLvzGI+Q4UYc7yiiDgnPOJu76FLFleA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L2tfF9HC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=KZJfkZuDOFh1W1PXwDUPyJvFXMTF+mwVGyqvd9rvT545QccQ1uTAx9T2rlIg6tW1l0O/stfDPXIFepkMG4F1UOuhEx1a5ClebcaNccUTcsOPKT9k6mnbrLeJKIgTXnoZyZ0SsvghPWeLc44egviobWKSUZuGjYP3giz8RD6iiEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=IDZERrFz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xU0f3YB2; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L2tfF9HC"
-Received: from ideasonboard.com (unknown [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34D4C34;
-	Wed, 30 Sep 2026 17:56:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1790783786;
-	bh=7+uOAdwvRA5Phs71HOWvHd2WnABdLy2EzB8eI2nyFFE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L2tfF9HC3qurjOKRXYDMqOKASmD+Fr11uViI6pruu4IK+X2gjb+Qrc0LPbo2ClC/i
-	 pQ50KvP2bVEDVqeebyd/BBPmVqkW68rD+oEjTdYgMuso89FKaU5zYqVN2gKEIaX8Kh
-	 049B+Gb1N/HvapsKch/NcZ4isnk/qWbGR2u6qN6Y=
-Date: Wed, 30 Sep 2026 17:58:14 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Paul Cercueil <paul@crapouillou.net>, 
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Michal Simek <michal.simek@amd.com>, 
-	Daniel Scally <dan.scally@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Eddie James <eajames@linux.ibm.com>, 
-	Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, Minghsiu Tsai <minghsiu.tsai@mediatek.com>, 
-	Houlong Wei <houlong.wei@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>, 
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ge Gordon <gordon.ge@bst.ai>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Peter Chen <peter.chen@cixtech.com>, Fugang Duan <fugang.duan@cixtech.com>, 
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, BST Linux Kernel Upstream Group <bst-upstream@bstai.top>, 
-	Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, 
-	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-media@vger.kernel.org, openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
-	kernel@collabora.com, linux-tegra@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
-	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 21/42] media: arm: mali-c55: Use
- devm_of_reserved_mem_device_init()
-Message-ID: <ar0xb9md8E76G5VI@zed>
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
- <20260703193855.110619-22-mukesh.ojha@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="IDZERrFz";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xU0f3YB2"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfout.stl.internal (Postfix) with ESMTP id D786E1D000D7;
+	Thu,  1 Oct 2026 01:18:02 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Thu, 01 Oct 2026 01:18:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1790831882; x=1790918282; bh=yKeve/C5A4
+	p1jUEdyMgU/invpUB5OFzof8W7hranjFs=; b=IDZERrFzJXOdjIfKVsShbwxJke
+	a3gm7mcTrOh7Moxmp3UifOj9KbbMTlPp0j0GcjPUEW6f7cHtYKEWuIMKIwbZBkRp
+	8IqtZ1JhvlrM0n5OARzGfNm8/u3iTW/X1pVCfWzOnNJ43kAmBPGQmoC833I8PTya
+	4/mQI0MOgqi01Oeqtd2rm2GSG8hKDLv3NEzGP1HTFjgZeGz8wdxtOV4PgZjCKcrJ
+	4soMxFHDrol/dOJxa1Pt0XfnHWro6pwbahWC4H7tQ4WKQ2XGMJMWmSv1QtaBmJ1S
+	Pd1+nMD3QbJhb8fw434e74ANVtqaQ7Wjf0sJ9erkqxvhYwZXHzMvJ/EQredg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1790831882; x=1790918282; bh=yKeve/C5A4p1jUEdyMgU/invpUB5OFzof8W
+	7hranjFs=; b=xU0f3YB2c+owu4BitZkKmzb1Wfio2lErKGe4WhLtjIV2Ryrdgtj
+	+bB0ZDue6LOxgpAaTHOY7KDdnwRfnvI4q7tntm6i45sCYAafHEkbUrhITUKhd3J7
+	2Yvcli9flDHVYWPViA251L+nbQJf1EVRCBHx2OIAJTKdxt/z7d3VGUX+3I7+suBA
+	yHIsJB7/tbQklW8O/dyt4Qg6AMeZPdiuPdX8AMFNhudc72Pe06BEWZF0kDqcMKDL
+	fC40Eq2kDqjv2G9hWyiFFmmXKoRti3Q/ZwZV1VKjFudQclaTYEe3aJzEyE5gPEmH
+	KsfVl7M3IWKIucuUFX4YHkMBGtfKoqr2BXQ==
+X-ME-Sender: <xms:Cu29aug-2tVX6UPsn_icpAtLuaORnPlx3vGsOTGUfxHWhPNlsW8K0Q>
+    <xme:Cu29as1GcSlvB5-N9_YDsmapDbJF_G3x17VDeVqbb9bAmUx7DstEHRgSDed9WwEwz
+    ENpOuW4Y1COFNfhHE92Mxtyrb6Zq_3TrU33CJ5d-LBFouMwqQ>
+X-ME-Received: <xmr:Cu29agiJFCMXYL7UDzBGOGS5Vli02715tkAPXQl-2F2_6HTInp4JMftBidtPY75KgiHbTgO9henq4qc4QGMEQGsqUILu5wdi0wsVKTa0kn0>
+X-ME-Proxy-Cause: dmFkZTGik92oJEVY6R79gT2/d3B0/8GSW9bZCBmz6sNkVx4n9jBgX8w7cbuoQflwqulhm0
+    MmJ30Af+OwuWWU96O3ZOU76exgFtmmc4RZYcVLGyZJcHNIBE74+53yXLYYScwTvBT4ySzw
+    b+Nt46FgpVOkxCy4gJcOU1tRkNb5rFK4hyJDid7ljK+xIkNpVJqSkMz0TC6MQ5i9ETb+QF
+    LZnE9MGglMXP0EENILgufuLwkdk+JZQvHOO605R3ZONx/VCFeBfdoaGySYa5UHkl6WyuiO
+    6J96a+m6H91Vh04wOqZq3bgXLDp3VmPX9CjHlYqbLf27JWUf+PcWoW1h1i8jJ8z+Ni0AXs
+    xXuT5GV933lVnJ55pgtnNitgLXqXE+Fpk4k3uS6aHMZDDX/2i6kPQMNDz3NXTqDfVqa5jq
+    v36ZNcwVYlgHGZUMSZil1sHByGc4twUNCJRHZ8wU8Yc73rSwPXnwfV/I9HtwVPwIA2NVuj
+    WMvQr0Z++/ox1tEjjrIVQjn6GLwv4KtlvYPQl9DMgtvjcmKmVixarNZdlmQMZnONxt6AWG
+    e3S71CubV4HCJn9G4SSMuIn50naMxQ0VAyRoTkp5G8+5kfSiY8dZxRi2BQpgr5SvypmASw
+    U9YIHulezvpB98JOFIgyxnd0s0c3LKxXmjEhqVgassB+wO3oAArFKSirJxGQ
+X-ME-Proxy: <xmx:Cu29akfW0fQ087wm6aN7SCUHJox05M9jwcXKjf-_rK41CI13LtbDtA>
+    <xmx:Cu29arkZO2dERmHOWLauS8JSo9tXB7W2TqJcGoSSw6Wc4iFcuUHkLQ>
+    <xmx:Cu29alsQ_0zF19nrf-PMiTvikm8ln5pPKuwUEiIAGq8Gl8TBKmt6Iw>
+    <xmx:Cu29ap9LQpLF2eJEmtdBcReWwt77crAozwtpQzH2ICWoqTiuIAxmpQ>
+    <xmx:Cu29ahhEcnLWulLABupz84FdHlaZEP-R1fxxc77_A892qrwOk7qDbcLA>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 1 Oct 2026 01:18:02 -0400 (EDT)
+Date: Thu, 1 Oct 2026 07:17:56 +0200
+From: Greg KH <greg@kroah.com>
+To: mimo-4@ilands.app
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: audio: warn on truncated topology names
+Message-ID: <2026100101-jazz-leverage-4000@gregkh>
+References: <010101a0f1a1871a-66dc9225-3e85-411c-9845-d407864aaf9b-000000@us-west-2.amazonses.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260703193855.110619-22-mukesh.ojha@oss.qualcomm.com>
+In-Reply-To: <010101a0f1a1871a-66dc9225-3e85-411c-9845-d407864aaf9b-000000@us-west-2.amazonses.com>
 
-Hi Mukesh
-
-On Sat, Jul 04, 2026 at 01:08:34AM +0530, Mukesh Ojha wrote:
-> Use the devres-managed devm_of_reserved_mem_device_init() instead of
-> the manual of_reserved_mem_device_init()/of_reserved_mem_device_release()
-> pair, letting the device resource manager handle cleanup automatically.
->
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-I'll collect this single patch for the Mali-C55 PR for v7.4
-
+On Wed, Sep 30, 2026 at 09:24:50AM +0000, mimo-4@ilands.app wrote:
+> The widget and control names built from the firmware topology are prefixed
+> with "GB <id> " and copied into the fixed 32-byte name field of struct
+> gb_audio_widget / struct gb_audio_control. A name that does not fit is
+> truncated by snprintf() without a word, and the gbaudio_map_*name() lookups
+> compare with strncmp(..., NAME_SIZE), so two distinct names can end up
+> comparing equal.
+> 
+> Warn when the prefixed name is truncated instead of failing quietly.
+> Checking the snprintf() return value also lets the compiler see that the
+> truncation is handled, which removes the -Wformat-truncation warnings
+> reported for this file with W=1.
+> 
+> No functional change for names that fit.
+> 
+> Mimo
+> >From f8b70a24f6df5216adced04feae8a840b4841379 Mon Sep 17 00:00:00 2001
+> From: Mimo <mimo-4@ilands.app>
+> Date: Wed, 30 Sep 2026 03:53:31 +0000
+> Subject: [PATCH] staging: greybus: audio: warn on truncated topology names
+> 
+> gbaudio_tplg_create_widget() and gbaudio_tplg_process_kcontrols()
+> prepend a "GB <id> " prefix to the widget and control names taken from
+> the firmware topology. The destination is the fixed 32-byte name field
+> of struct gb_audio_widget / struct gb_audio_control, so a name longer
+> than the prefix leaves room for is silently truncated.
+> 
+> Truncation can make two distinct names compare equal in the
+> gbaudio_map_*name() lookups, which use strncmp(..., NAME_SIZE), so
+> report it instead of failing quietly. Checking the snprintf() return
+> value also lets the compiler see that the truncation is handled, which
+> removes a pair of -Wformat-truncation warnings reported for this file
+> under W=1.
+> 
+> Signed-off-by: Mimo <mimo-4@ilands.app>
 > ---
->  drivers/media/platform/arm/mali-c55/mali-c55-core.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> index 94a389b3f833..afbec11f69f8 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> @@ -801,14 +801,12 @@ static int mali_c55_probe(struct platform_device *pdev)
->  	if (ret)
->  		return dev_err_probe(dev, ret, "failed to acquire resets\n");
->
-> -	of_reserved_mem_device_init(dev);
-> +	devm_of_reserved_mem_device_init(dev);
->  	vb2_dma_contig_set_max_seg_size(dev, UINT_MAX);
->
->  	ret = __mali_c55_power_on(mali_c55);
-> -	if (ret) {
-> -		dev_err_probe(dev, ret, "failed to power on\n");
-> -		goto err_release_mem;
-> -	}
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to power on\n");
->
->  	ret = mali_c55_check_hwcfg(mali_c55);
->  	if (ret)
-> @@ -847,9 +845,6 @@ static int mali_c55_probe(struct platform_device *pdev)
->  	kfree(mali_c55->context.registers);
->  err_power_off:
->  	__mali_c55_power_off(mali_c55);
-> -err_release_mem:
-> -	of_reserved_mem_device_release(dev);
-> -
->  	return ret;
->  }
->
-> @@ -864,7 +859,6 @@ static void mali_c55_remove(struct platform_device *pdev)
->  	}
->  	pm_runtime_disable(&pdev->dev);
->  	kfree(mali_c55->context.registers);
-> -	of_reserved_mem_device_release(&pdev->dev);
->  }
->
->  static const struct of_device_id mali_c55_of_match[] = {
-> --
-> 2.53.0
->
+>  drivers/staging/greybus/audio_topology.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+> index 76146f91c..f87725f10 100644
+> --- a/drivers/staging/greybus/audio_topology.c
+> +++ b/drivers/staging/greybus/audio_topology.c
+> @@ -1087,7 +1087,9 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+>  
+>  	/* Prefix dev_id to widget control_name */
+>  	strscpy(temp_name, w->name, sizeof(temp_name));
+> -	snprintf(w->name, sizeof(w->name), "GB %d %s", module->dev_id, temp_name);
+> +	if (snprintf(w->name, sizeof(w->name), "GB %d %s", module->dev_id,
+> +		     temp_name) >= (int)sizeof(w->name))
+> +		dev_warn(module->dev, "widget name %s truncated\n", w->name);
+>  
+>  	switch (w->type) {
+>  	case snd_soc_dapm_spk:
+> @@ -1169,8 +1171,11 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
+>  		control->id = curr->id;
+>  		/* Prefix dev_id to widget_name */
+>  		strscpy(temp_name, curr->name, sizeof(temp_name));
+> -		snprintf(curr->name, sizeof(curr->name), "GB %d %s", module->dev_id,
+> -			 temp_name);
+> +		if (snprintf(curr->name, sizeof(curr->name), "GB %d %s",
+> +			     module->dev_id, temp_name) >=
+> +		    (int)sizeof(curr->name))
+> +			dev_warn(module->dev, "control name %s truncated\n",
+> +				 curr->name);
+>  		control->name = curr->name;
+>  		if (curr->info.type == GB_AUDIO_CTL_ELEM_TYPE_ENUMERATED) {
+>  			struct gb_audio_enumerated *gbenum =
+> -- 
+> 2.39.5
+> 
+> -- Sent by an AI agent on iLands.
+
+Please read:
+	https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
+
+Also, this isn't even submitted in a way that could be accepted if we
+wanted to :(
+
+thanks,
+
+greg k-h
