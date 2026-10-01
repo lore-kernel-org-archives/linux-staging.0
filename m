@@ -1,73 +1,81 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-ej2-f41.google.com (mail-ej2-f41.google.com [74.125.228.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413A43D813C
-	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 10:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1233C3E49D8
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 10:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790851182; cv=none; b=iYBKOnFKLCzP8FNRvliKxAs7DpOCSwAkteW1pssgGLc66TGebwqFUn7dsC3QmF3v1qKxYglpr14+NkHLK9OQ+MgVhTsTX8Vvwu5phgBw31q3RAr4r1Nl9LL3lyCiKpR+I5k2iD0iWxPUWG5o4ffeRnFgMbQQZBMkkye7b1RhGFM=
+	t=1790851368; cv=none; b=HkEa1Tsej1GlpcUyKUDAzXicoxzXJ6ke+vE9jv+20qJE/nfUMHT6hwKYkAI8prdKanxktFeEDwBaa9kLptfwI54GtdWqXLqG+VqavQH51sDrMY+uQAJXeUqfnDoZoNUinzgVrMycWzSFmZatkTx48E8yogxo9IIVCVpmfXBuBkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790851182; c=relaxed/simple;
-	bh=dpiL9TWBEfuyEktkWYv2DyjWYl7Yr/RiJd4Pv8HE/Dg=;
+	s=arc-20240116; t=1790851368; c=relaxed/simple;
+	bh=lEoXV1QFxcBBPNnfpdpaqnedrBNV6euredLXJ07PvbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lhStr6hrHyiF8ql3GtDQ42TpeiEeBcsJtmf33htmPWcQ50Jb0MoLIar2cH+sEVlRm+7sD6AvdGc/bXnCo4KVrEqJ1qqUpJGZv7ZrmuMMXr+auVVqnP2Vo2S2Rz0cSWeQqoZI2IhWF/Hce6gCFmYozeACrBADQ1POu8QvVaRrCJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J3YdqzXl; arc=none smtp.client-ip=74.125.225.140
+	 Content-Type:Content-Disposition:In-Reply-To; b=AnYUbH9Mkknq4MCxhHhiorZjTkOBXHLyBCnQ/3bqAaEAtwVkGW+1LH1Ok4cgI5H2vgUjSM0eFpzMcSbb3Q+6EJ9EJz+WYfspMr3DQQLd7lP13S0gZx/GZLqagQR5dIDJU0wLvTH8QbKxYa5ysXvx9KAHqlx86Z4X4Wjhg1PiFGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sCYBUy93; arc=none smtp.client-ip=74.125.228.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J3YdqzXl"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-4a00713639cso33171165e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 03:39:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sCYBUy93"
+Received: by mail-ej2-f41.google.com with SMTP id a640c23a62f3a-c2e35c3bbdbso93319466b.1
+        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 03:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790851173; x=1791455973; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790851358; x=1791456158; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=WRYLe9rlb6ZBAh72YUbfVfETug0ycBYjwmS9i9Ee2qU=;
-        b=J3YdqzXlfa6aDOSb7wKioY4hK26ExfzclKdRv8XNEk4ijIb2p7n1ooBGjKJKgQMPR5
-         76RRbJW9PP47xup7dx926I3OHvpJIwqpInBCUeEAvGl5nLAYgUc+QTV/udpI9LoqP8Aj
-         80feipKkLyLURbxXrivrS2CqMJRYN/Bn3NczZIKStG8QKMN8c0dUI7WowobjZtheo2hu
-         T//6aQQq9FzC2fEfWunMCStUg6zqwzH0mh2hif2uJzMXF0Qt6J1z+AWUADihrBhk0WJ4
-         DR0hc77CNH1TS7dOTz1hw3uAfw0kmb+qiU48jQnNErMa8zjwiqxD752AVMJ8Pzp/yr3o
-         Zj+A==
+        bh=+64khRp4KbgkO8juqqsE5rAagecy3Xz4KrJ45qjCyjs=;
+        b=sCYBUy93n8NhxGHQmF9HgELFskkyu3LD0W45XfZL13PhhKhPiNWow2f+ipcGk1xcAM
+         rZD9iWAGwGXtIJO9yu1hLFaFQx0KkAazWQ5PVAx0KQd8PLVjNddUrtnTkcnljI2IDBDP
+         Nd4lHMs+EiabhbuVZywgjlhyPAZqYpvxrNeXjCX8KgUG8nVdIEtX2c93tDWHdB68Vyna
+         4769W4PEZFx5aYjkKwObha5vp/KV3nFukF5Px3fg4ouTfZgImJ4pTYqpBc8dBYb4DHb8
+         pGApZDNh14m0rkWZAPRDHOJ+tR3XGGq8uSEkznbaO3C5d5dzxPxRWM7mgVjbpKsJtonq
+         Opvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790851173; x=1791455973;
+        d=1e100.net; s=20260707; t=1790851358; x=1791456158;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WRYLe9rlb6ZBAh72YUbfVfETug0ycBYjwmS9i9Ee2qU=;
-        b=WYODJWp9OOQVwJNa7yrpO6MjnPqDgljX8YBSvAt0j1+IvUzNO6TcB+sgn7V9aAvZ5B
-         6zheim5o4N6et6BEKtZoJ4lkZZraPbzZVghfDBL5aFhACbhCOgliB6conjdIZX7oqiO+
-         27MUVwxFAhzjUy6w1kC4YTT75JxnuW4x50KTLtl32pU5mBgb4L8J4bk2vd8tiGeXAPF6
-         LL1och3l/DuOV8OEyH5TBFEKDoQi/PO0RwrzI42/sTE0ofMBfJsn7/tixX+QPBrJ+/7L
-         X77EIUasVgX4Yp+NmnUNJV0tQZQRSbcQR3LNghPKgMVZWYtt5f2lrrdZtezwykLsG33s
-         Y+9g==
-X-Forwarded-Encrypted: i=1; AKwUvBy+TQs/UmxEttUT6aJ5SlSNU4w7YhfV0tZp0oSgQ2j3zgT3ZEnCGxsDok1x74/swplcp7+qgOShtXAW4nWQ@lists.linux.dev
-X-Gm-Message-State: AFuF++nwa1bP9ZMW00RRGGiDf/E9iQWSGOiJJ2B/xDuB5tyVf5cW5s/Z
-	NcAL3AhlBuPCPbt1Cl2sGzbNM6GtcHGam90wX+LYBa3JnTXzcvr0UxYk
-X-Gm-Gg: AYBFou1zEMHCCMvwXAYMTK5n5usXbgCmWToe/XIo5qkH4C7aq/ENSYHU8GCGbQksPaU
-	QCQFhW7Rj3cr4cekpohjBfiHGtR7aa0EtZuFGcDbXYqH6Tj2oZU/MhEcpU0RutNMQ77BvtbVimq
-	8UcdYf64skx+iOjKKtqs9AsN6u7dRtaV1BsB4BerTOuaa9ixMw9r4rH8Wek7BdVvhuXWftqqne3
-	Q4S1YgA/8wlhyTMLHrg/TMSNN2aaRs8FCgfSnH/Jor5hm+Ce8hftf9uTCfI6mKB8Nonqc5RzBef
-	JA2j0bGmMFXVrM5gCu8xR+ENWEpBq3YoqgbTgjPpy3zC0+cI1ENlNoZ/4R68yhgIVKuWkxAWxKC
-	j494pZ9Z2oM3EM/a0hUkQLQuRMBzezuam3wgey3Dh8PC5bREDled+oCBWxK44j/9n+wcXrJopNH
-	GAUK0LagVDClL2LXdl+qYGxwbNepZWcmfZ+g3HdhelWsDcUpW2N+WVTJtO1N0SiX7sDX0=
-X-Received: by 2002:a05:600c:354e:b0:4a0:a34:6e7d with SMTP id 5b1f17b1804b1-4a01b11bb45mr68566555e9.18.1790851172834;
-        Thu, 01 Oct 2026 03:39:32 -0700 (PDT)
+        bh=+64khRp4KbgkO8juqqsE5rAagecy3Xz4KrJ45qjCyjs=;
+        b=MIVUgUajecdvZnPmX5JdPKrTkPaySZlcACyVAn6Epy2HYwtPUNm+6EkGcbnOGdQp/g
+         T4+gjIR85tWuFF1y3MB5iitrMd1zec7xegq7gWBCaXwFwaTNK/YM75nfvP4kFveiajH0
+         0Jbfz79Hks0FQ54u3jcj5C2wnf0brgH0chXxavGKV04KUHnIkqXBUJKAh3fbrZ3du3J8
+         0eGU8YoxCXax3+4BAKYWQgZT9AzfRTIHjyzZgyyziekDbknee6SwL+spF55Clq0ROtS4
+         +LR+80kTz1Zapeejva8Gof127+C5xdSgTGNkaKc2rbZxJodAjcKnwUwl/aXRzK3TOuEK
+         AXIQ==
+X-Forwarded-Encrypted: i=1; AKwUvByowzjyc778FP7K6NmyFKf2/OVH04FIW6iR+ztNQedxdGZ+qvoVv4UG6zs+EJ5bcmvyV3FPy25h15B1Ytzh@lists.linux.dev
+X-Gm-Message-State: AFuF++lkTIaVR9kk1MUkmy1Zjyy5L6EqASg+jF1xbzmkfeXsU4zIm4wV
+	ZcafknPxUogPQJlJ+RjGV2T0AHOPypfm3bUcUgj6k3Jf7CD3MZdsmUaV
+X-Gm-Gg: AYBFou3McwEh24wPBs1ZHWSPnPiqkGedf8LodWHVQ4Lb1h/cIFQQ/nU64kVcTX8HO+D
+	19+u3c/0+t7zLF4fzZuNggKimhZOAIoceSKnRPKzcmkAwI19I6ctlag0lzVSlwnoDjBzJ8kyUyP
+	NZpwwWn+YpgaF4veMYE97r8XSUd0xVfmp8YNY3hXfUmK92fhZUb5U6XLlx3sM7G1QWkFYSPniBU
+	v8CePa2OiSNtfm0wle0xNd66znAAAM1/Lo3IYwOs0xvtsFuUQynG/RSeIXfFrSkmVhTwMNzx/iB
+	3kkfpcmiBp5bvYEAlqpjrkg3B1XNV9zGsrKTeRmUpUHAxCgJ4cZtCZdNx5qfdjIhcKS6Hx+mk/W
+	gyrMPFk5VyVT6jp5AqMAAgQ/+3/b99fkzX1hHPw5YRZ8g8EHx1U+fKWohYitBRycyyEtvHLU4ks
+	5c8wUMOAOhEm7NmEa4TG5tQ6SGCJ47dq21vqReqQ7o6kKyOjd0WW/lSRHiU9dCOrnhtsg=
+X-Received: by 2002:a17:907:60d0:b0:c2d:ca32:217a with SMTP id a640c23a62f3a-c2e23da3c15mr328686966b.33.1790851357626;
+        Thu, 01 Oct 2026 03:42:37 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01f913ecesm42313625e9.2.2026.10.01.03.39.31
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2e31c93c31sm131768866b.11.2026.10.01.03.42.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 03:39:32 -0700 (PDT)
-Date: Thu, 1 Oct 2026 13:39:28 +0300
+        Thu, 01 Oct 2026 03:42:37 -0700 (PDT)
+Date: Thu, 1 Oct 2026 13:42:33 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: return bool from
- check_pending_xmitbuf
-Message-ID: <ar44YIe8blCkSHCP@stanley.mountain>
-References: <20261001100441.102765-1-matheus.aalmeida@inf.ufrgs.br>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Eric LI (Honggang)" <eric.lee0305@gmail.com>,
+	Hungyu Lin <dennylin0707@gmail.com>,
+	Andrei Khomenkov <khomenkov@mailbox.org>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Ethan Tidmore <ethantidmore06@gmail.com>,
+	Oskar Ray-Frayssinet <rayfraytech@gmail.com>,
+	SeungJu Cheon <suunj1331@gmail.com>,
+	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>,
+	Jennifer Guo <guojy.bj@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: refactor xmit_xmitframe
+Message-ID: <ar45GeQXJ-dIUw91@stanley.mountain>
+References: <20260924151606.333467-1-eric.lee0305@gmail.com>
+ <2026100121-chirpy-stomp-9fbe@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,25 +84,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261001100441.102765-1-matheus.aalmeida@inf.ufrgs.br>
+In-Reply-To: <2026100121-chirpy-stomp-9fbe@gregkh>
 
-On Thu, Oct 01, 2026 at 07:04:41AM -0300, Matheus Alves de Almeida wrote:
-> @@ -2482,7 +2482,7 @@ signed int check_pending_xmitbuf(struct xmit_priv *pxmitpriv)
->  
->  int rtw_xmit_thread(void *context)
->  {
-> -	s32 err;
-> +	bool err;
+On Thu, Oct 01, 2026 at 11:34:30AM +0200, Greg Kroah-Hartman wrote:
+> > +					if (pxmitbuf->len > 0 &&
+> > +					    pxmitbuf->priv_data) {
+> > +						struct xmit_frame *pframe;
+> > +
+> > +						pframe = (struct xmit_frame *)pxmitbuf->priv_data;
+> > +						pframe->agg_num = k;
+> > +						pxmitbuf->agg_num = k;
+> > +						rtl8723b_update_txdesc(pframe, pframe->buf_addr);
+> > +						rtw_free_xmitframe(pxmitpriv, pframe);
+> > +						pxmitbuf->priv_data = NULL;
+> > +						enqueue_pending_xmitbuf(pxmitpriv, pxmitbuf);
+> > +						/* can not yield under lock */
+> > +						/* yield(); */
+> > +					} else
+> > +						rtw_free_xmitbuf(pxmitpriv, pxmitbuf);
+> > +
+> > +					pxmitbuf = NULL;
+> 
+> This jumped out at me, why add this new line?
+> 
 
-err should never be bool in the kernel.  It should be int or ssize_t.
-Same thing for ret ideally.  Pick a better name or people will think
-"ret" is a normal "ret".
-
->  	struct adapter *padapter;
->  
->  	err = _SUCCESS;
-        ^^^^^^^^^^^^^^
+The patch is correct but the new version is as confusing as heck...
+Glad that I'm not the only person who thinks this.  I've been doing
+more and more AI coding these days and they say that AI makes you
+stupid so I was worried about my own brain health.
 
 regards,
 dan carpenter
-
