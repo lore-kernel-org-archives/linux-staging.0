@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AEB436BC9
-	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 05:37:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3229D433E66
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 05:37:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790833062; cv=none; b=aF7I05BfGxpRpAw5wEfeL0/CvTAD7XVfW2FBjkeBtgaqCrqCV+YjjsLq8gaHoeLIXVKbvo1VwhOhAWNQbCh4u3ABwEqr5IyVXvKv3QyxwaO9uWrjeJx+OZS9iXvwtDeYNpu/cezCsCyDjrKaWtYDj+hrXgag7F7emiPwHdjiEo8=
+	t=1790833072; cv=none; b=UMj6+x/ACr1g7cBps7VXvhg22y+nBf2eR0cCM0YNcG6l7LYUaDRlHqBvogt5LxazLaGNn2wu7vjnVNakuFQad2+gt/W1Jbyr4CINibFfAHxL+PKRDWwhSSoRq8JDlBgMCk3bzGwCz++1XsCM2B8etrRisb9nunEM4SwLoyUW6UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790833062; c=relaxed/simple;
-	bh=8vn0HoE2JSL54hO2nxzi4TGXG2Otv/y4HImelgibpwI=;
+	s=arc-20240116; t=1790833072; c=relaxed/simple;
+	bh=X6qaG0zgev9d1YbzBcdiNlrN9j6KKbKxQhqNydrZ/9U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IW3CqPFK/UyOaOj3wQ39XRQdOzs+vukJai7pkxYSbJOFZBd1xFP+wmZQPOPLb0Ulz53Us40QJBXxrD++oiD7cGPa3VcPqnEFjRVnKJpIyhI4dn7OWj4VxfQYhENOzBQpd6aq5U65zrHLKfEJvbIeV1cYdxnLviKy4hWwx5VUidw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eG+Mc0CZ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=DgE01JKn1bvSYCxO+ywubtnYrR3IPv9rgHUICOC5EwYACKUDmZ0ZeobuyYZgc0cWXbDJJQMA10ll206px57uI2y5/tLTXKaV8ifWvuNK4L6G5wjz3cHA48U0RsaSIigV5bU/13brBiEKoSF/ZYX66czewVOffZ+ZnPk44Cn8eVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZmdBkdnn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eG+Mc0CZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3FF41F000FF;
-	Thu,  1 Oct 2026 05:37:40 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZmdBkdnn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 508121F000FF;
+	Thu,  1 Oct 2026 05:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790833061;
-	bh=LO/sUY12T5ZqL/Qeg7u/20cXqh1Mtxi+RQ0q/6/c8GY=;
+	s=korg; t=1790833070;
+	bh=muqRK7mpFxL99EPVP5oVZ8BMNdZh1WC38/A+VWyF1wM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eG+Mc0CZV+0rmqDAlL6DjiqP+Gf7JeBMQNymUiJzdSaUkD34xLTzfW7sVT0/2xm1r
-	 9rsuxcXuE6MwvZXz0YoBLN1xn1fJla7NZ0Iwg9GFyzA7X5TOrWfCBMtRmCs47c5m/d
-	 b60yD++2134LCE14iqS9F6iWhPAHkde4ivmk7RBU=
-Date: Thu, 1 Oct 2026 07:37:35 +0200
+	b=ZmdBkdnnxCKeKhlIXKrvvo3k3aC9ZrzL+yf+tKPFtSHuFbTH7+bWTlLQyxjbF+TdQ
+	 yYTRkaSSpPU/tRG5lXYO5U1NBV+YL4cGiIT6ICVlF6syUAglFLpC97XV0Pn3vFPx/l
+	 UNu1fSNIgI/8ujrItCvOUF6CuPivDJDwK9zJRQvA=
+Date: Thu, 1 Oct 2026 07:37:44 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: =?utf-8?B?WWnEn2l0?= Mehmet <yigitmehmetcintay2@gmail.com>
+To: =?utf-8?B?WWnEn2l0?= <ymailnull@gmail.com>
 Cc: linux-staging@lists.linux.dev
 Subject: Re: [PATCH] staging: rtl8723bs: rtw_cmd.c: convert CamelCase structs
  and callbacks to snake_case
-Message-ID: <2026100158-cobbler-unwanted-0e6a@gregkh>
-References: <CACzRdUFuF+CrcLSJKH5jL9ief_Hwx7q1vveqgbnm2B3N7WNmWQ@mail.gmail.com>
+Message-ID: <2026100137-tumble-unpaid-7fc9@gregkh>
+References: <CADEyfAnW9Up9sJR_tKw8aGUPZL_9KRrZ1MAwZih0Dgm0M25M4A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,9 +40,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACzRdUFuF+CrcLSJKH5jL9ief_Hwx7q1vveqgbnm2B3N7WNmWQ@mail.gmail.com>
+In-Reply-To: <CADEyfAnW9Up9sJR_tKw8aGUPZL_9KRrZ1MAwZih0Dgm0M25M4A@mail.gmail.com>
 
-On Tue, Sep 08, 2026 at 01:00:15PM +0300, Yiğit Mehmet wrote:
+On Tue, Sep 08, 2026 at 01:02:26PM +0300, Yiğit wrote:
 > >From 9b93f99e0d16a43c33369a5f2515925ca265e6dd Mon Sep 17 00:00:00 2001
 > From: =?UTF-8?q?Yi=C4=9Fit?= <ymailnull@gmail.com>
 > Date: Tue, 8 Sep 2026 12:42:56 +0300
@@ -53,79 +53,6 @@ On Tue, Sep 08, 2026 at 01:00:15PM +0300, Yiğit Mehmet wrote:
 > ---
 >  drivers/staging/rtl8723bs/core/rtw_cmd.c | 14 +++++++-------
 >  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index ce3dfa1fe..68e3fc761 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -34,7 +34,7 @@ static struct _cmd_callback rtw_cmd_callback[] = {
->   {SET_AUTH_CMD, NULL},
-> 
->   {SET_KEY_CMD, NULL}, /*20*/
-> - {SET_STA_KEY_CMD, &rtw_setstaKey_cmdrsp_callback},
-> + {SET_STA_KEY_CMD, &rtw_set_sta_key_cmdrsp_callback},
->   {SET_ASSOC_STA_CMD, &rtw_setassocsta_cmdrsp_callback},
->   {DEL_ASSOC_STA_CMD, NULL},
->   {SET_STA_PWR_STATE_CMD, NULL},
-> @@ -131,7 +131,7 @@ static struct cmd_hdl wlancmds[] = {
->   GEN_MLME_EXT_HANDLER(0, NULL)
->   GEN_MLME_EXT_HANDLER(0, NULL)
->   GEN_MLME_EXT_HANDLER(0, NULL)
-> - GEN_MLME_EXT_HANDLER(sizeof(struct addBaReq_parm), add_ba_hdl)
-> + GEN_MLME_EXT_HANDLER(sizeof(struct add_ba_req_parm), add_ba_hdl)
->   GEN_MLME_EXT_HANDLER(sizeof(struct set_ch_parm), set_ch_hdl) /* 46 */
->   GEN_MLME_EXT_HANDLER(0, NULL)
->   GEN_MLME_EXT_HANDLER(0, NULL)
-> @@ -141,15 +141,15 @@ static struct cmd_hdl wlancmds[] = {
->   GEN_MLME_EXT_HANDLER(0, NULL)
->   GEN_MLME_EXT_HANDLER(0, NULL)
->   GEN_MLME_EXT_HANDLER(0, NULL)
-> - GEN_MLME_EXT_HANDLER(sizeof(struct Tx_Beacon_param), tx_beacon_hdl) /*55*/
-> + GEN_MLME_EXT_HANDLER(sizeof(struct tx_beacon_param), tx_beacon_hdl) /*55*/
-> 
->   GEN_MLME_EXT_HANDLER(0, mlme_evt_hdl) /*56*/
->   GEN_MLME_EXT_HANDLER(0, rtw_drvextra_cmd_hdl) /*57*/
-> 
->   GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
-> - GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param), set_chplan_hdl)
-> /*59*/
-> + GEN_MLME_EXT_HANDLER(sizeof(struct set_channel_plan_param),
-> set_chplan_hdl) /*59*/
-> 
-> - GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelSwitch_param), set_csa_hdl)
-> /*60*/
-> + GEN_MLME_EXT_HANDLER(sizeof(struct set_channel_switch_param),
-> set_csa_hdl) /*60*/
->   GEN_MLME_EXT_HANDLER(sizeof(struct TDLSoption_param), tdls_hdl) /*61*/
->   GEN_MLME_EXT_HANDLER(0, chk_bmc_sleepq_hdl) /*62*/
->   GEN_MLME_EXT_HANDLER(sizeof(struct RunInThread_param), run_in_thread_hdl)
-> /*63*/
-> @@ -978,7 +978,7 @@ u8 rtw_addbareq_cmd(struct adapter *padapter, u8 tid,
-> u8 *addr)
->  {
->   struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
->   struct cmd_obj *ph2c;
-> - struct addBaReq_parm *paddbareq_parm;
-> + struct add_ba_req_parm *padd_ba_req_parm;
-> 
->   u8 res = _SUCCESS;
-> 
-> @@ -1896,7 +1896,7 @@ void rtw_createbss_cmd_callback(struct adapter
-> *padapter, struct cmd_obj *pcmd)
->   rtw_free_cmd_obj(pcmd);
->  }
-> 
-> -void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct
-> cmd_obj *pcmd)
-> +void rtw_set_sta_key_cmdrsp_callback(struct adapter *padapter,  struct
-> cmd_obj *pcmd)
->  {
->   struct sta_priv *pstapriv = &padapter->stapriv;
->   struct set_stakey_rsp *psetstakey_rsp = (struct set_stakey_rsp
-> *)(pcmd->rsp);
-> -- 
-> 2.47.3
 
 Hi,
 
