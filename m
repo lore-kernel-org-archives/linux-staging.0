@@ -1,191 +1,134 @@
-Received: from mail-ed2-f6.google.com (mail-ed2-f6.google.com [74.125.228.70])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85588521892
-	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 15:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2B251B198
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 15:29:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790867912; cv=none; b=UcrxoBJ1Rn8hLTQXFTG+go/PJXsE14Cu4frzLj0JB2Jvg9vZMdeqwpp03AhupQdM4Tyl0P+vABur/rAusVOKbl+1IH9PBSx5Mp/ElPifo7wDSuN1zQ9L9/zHbHc/+qPZimBj5CaTQnvMhLEjlCUBIUDVRtL3v+KgFsGGsomJ17w=
+	t=1790868561; cv=none; b=e+qZs4wDb2Z10nI8YBH2w+hLtV1Eu7xT41zby1dcfUrDlq+IQ1STQncy6FanrT0hl+85bgtZ7FNzOcK5skZnx1Y3otv/UVXguynECiZogJsrxJaYu4nKBL6u/Y+ECqftNvwkaVmmsjhjvEdymZHA6IPKthhsdPNaNYZkREY/i/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790867912; c=relaxed/simple;
-	bh=/a5I0o0PXfY6fo//dcOVIvt+RZlHQAF4wYFHD6XTPm8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T6n0MoOYSEyTHFoeld80xL9L8ScjH8Nuab/ElQlxcBOjfVAf0yRCuLrnL8L5VlPn95dj7TPr4yS+M7tcKfcd31jfDpbJqpNJshIZqcoxjMaDXicK0hELgb8mqVHXsJDh5ghtrXPu8LvXNHAHcm9JnxZYrEEsSEqJ9VozmR5lk/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qwNbur0z; arc=none smtp.client-ip=74.125.228.70
+	s=arc-20240116; t=1790868561; c=relaxed/simple;
+	bh=HNcNJn3X5W7lsJlCgei7UshAShBrSRSwp4FU4T+SZoc=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=m5BuwDeed+4EC3LPMWjWQ3dPrHY5ktMMpSGSx+oH/YCbRQDMwnlyPx9zGC8slEBSHHEEC16CzHuM0HQs6LK32Sz09TMgLd6kQCLhsXQCIsujm3h/CPFVA96JuDIW57u2YFHICze+A8CQ6nrnWCZBwYQP75Ivx6K8+OkkVQms4uA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Etc9Cggb; arc=none smtp.client-ip=74.125.227.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qwNbur0z"
-Received: by mail-ed2-f6.google.com with SMTP id 4fb4d7f45d1cf-6aae3e8cf08so4754740a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 08:18:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Etc9Cggb"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a49573b8bdso2506804a91.2
+        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 08:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790867909; x=1791472709; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IVJFHk55f/JB5gxQJXumCKsoBsmFGnW9ftl9dla0NlQ=;
-        b=qwNbur0zGwzYEkckK30UaIutbG45QppFguDY2k9RxX14G47A2BKrA8ThTtjXA8Bwui
-         D1LxYrlAPFOWmiJE0D+qugDKl9hDmldYOXW8vi782gpUTilepuH835VZZWE3C5tW2Nur
-         BZfR4c40J5fyGl+oyWvBP11o4fKq8Z8yeyI/0EtdBgzH9VYl1BqP2FOoBhs59O+IgsNr
-         Mn+N/PlSdAo5AxcbnxvfxJRimmEG0Rzj0LOuGU4n+uWnk20Gmct2wmRf9AZlcyvQsV2e
-         Jwhtzrn0gEFyqPT5sF4YRbVc1koLC/4es6e/5qFaW4qS6vYl03lWZfy2sDClWq4WhTdd
-         vGMg==
+        d=gmail.com; s=20251104; t=1790868559; x=1791473359; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:content-type:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=HNcNJn3X5W7lsJlCgei7UshAShBrSRSwp4FU4T+SZoc=;
+        b=Etc9Cggbt0vERYDJmSf3kpM2MwluNjQtRfQpNYeoovBu+06QFK7qs+2tBeJcRPiKxf
+         nqVnN6WX8BHjHqYFL7G6fKa7FzgyPoBDgv4HadoHOCSEv7LbGhoR75/utrzYPcgjhYMK
+         hBzoA/LSZLK2nIyk+KLUCZuBpnUhSfadeu2DtwYVvcxjIJRNPZfGrCeSoVzdwNkvAJcv
+         bQHiwiCLsfTFJpPYpM4fDD/oCKo9jOtP1Bn4E46Fp9j1tq3Dxt5FeT5K9sH7k3WYJC/V
+         scKJnUpRCf+kwhHJkTxTWR6M6HsMIU9ElXewuOSUMa/epwEjoZ/iZAsDYAOpNLnjlA5h
+         NVKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790867909; x=1791472709;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IVJFHk55f/JB5gxQJXumCKsoBsmFGnW9ftl9dla0NlQ=;
-        b=NgXjLacgtYJcHrh8xamTqwtgSDagLlPhZJd51woZfQ7u2j+sMTgSTOfekk6uUnSPNx
-         8qv19ugOYscZtpjcLbIQKCzd9i/GkcRDx0VetJe5elCnpMSQ9fGz45RuRI+A1P89QBpz
-         jDApxEg2mMKhEj6QO7UAffb9dHaoJTchSn1E1yWfmdeW3AWVoyiGeO470ea8CgqVzuV5
-         nUrpMIjaun+DSuXZY7VGziTodRJHygpYaBnon/0Y6fOZuoUmcO8VIW8nDR0f2cpHDbHQ
-         HhHc9StrtnGvsL3eShFZnCrHf1ePZ1tM/NHDh0yI2Sz1JqJw4DHdUWhHJbvg32CpKKCW
-         pMAA==
-X-Forwarded-Encrypted: i=1; AKwUvBzHP9aJUDDYCqxcuP8gTbd9n6sMhHapamacE04jroPQL5meSLt2Ee0NXbMo5ynphjqmGtkGI/8nRlevcRvd@lists.linux.dev
-X-Gm-Message-State: AFq9FYJ6EUrQKrZLdVp9DA5JB311dNh8ORLI3wIgUEsGATgz1Fbg4v3t
-	NFtCDFJvgIoRoMi/Kroi6O+9iTBuT1VUEXuZ36vc+YoEqhKo5eh4wNeJ
-X-Gm-Gg: AYBFou35E7x/YC2D7UCBJDi/YfpQHvKgifN02HikTPYdhG3233ITuGM00oaxk+EDJJv
-	DX1ys5LfxHYI5ckPDANiHp1H/c71X5kMM6InCktTMnD4q5LyGbDxPb/++81BJIr1hTaNrGn3/n2
-	8yETiqxW0USvni5kimjjwoDSLuJ/v2H52xpBJz/1SSjTVfYvpAFvYuM9DbFprF4+k/kRa3mMWbU
-	bGFbRYtlQYoODF/FkSyBg4XiRp2DTCZu8brTqLiHoyV7zgEzFZsSX5OZU6Dz71zbWkc7UGUe3Lf
-	iSJCOOt9n9Ub/or9xLItmcR9wsLn8nLIyNq1H4TlGJdu8cpduPPlcWZvkmEsizv7nkIL3XHXAyj
-	QfCvsS8bNMSPcCVpdvB8fGSSulMUI4K+D/SrGvaREMDNlpdXWZAIc5v3z2EjT0U+USw1LZHCrj5
-	xTsKqPT+HiuMjsnhWnf+VBUvRFR0bOBXpH49R/UIozZyqMS6PA1pNSqdwExA==
-X-Received: by 2002:a05:6402:a0cc:b0:6ac:d86d:f709 with SMTP id 4fb4d7f45d1cf-6ae199333e7mr3746086a12.25.1790867908358;
-        Thu, 01 Oct 2026 08:18:28 -0700 (PDT)
-Received: from fedora41 ([2a01:e0a:1058:7c30:e315:b955:cb8b:b86b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b0db6a3b7sm3881916f8f.41.2026.10.01.08.18.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 08:18:28 -0700 (PDT)
-From: Timo Joannin <timo.joannin@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: guojy.bj@gmail.com,
-	m.steinmoetzger@gmail.com,
-	atharvmargur@gmail.com,
-	straube.linux@gmail.com,
-	andriy.shevchenko@intel.com,
-	s9430939@naver.com,
-	qstrydom0@gmail.com,
-	dev.lmmrtns@gmail.com,
-	khomenkov@mailbox.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Timo Joannin <timo.joannin@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: rename phy_status_rpt_8192cd_t to rtl8723bs_phy_status_rpt.
-Date: Thu,  1 Oct 2026 17:18:14 +0200
-Message-ID: <20261001151814.157881-1-timo.joannin@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20260707; t=1790868559; x=1791473359;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HNcNJn3X5W7lsJlCgei7UshAShBrSRSwp4FU4T+SZoc=;
+        b=WCM3NhQOfW5j1BRTIi3GGPzSiJLh9hDRch8xY0Ei9nfyMml5toG8aQnN58Bd8MeC03
+         eSTbiKGwriLbmLAb7vURKY+pVvtqm+i5mMvDiEP1vbmGYPrKXH1eYj1fj9R2M+Qh6p7z
+         W9JXfWXn295sYhe10LxiezAdMJvrpWCPc9LKMxz6hHUAN+N8YeIXP5CP9w+ySynrXQzR
+         7GLajEp0HiTKMbEttG90hIO8CBNRMeRbPJUGSRTxrwP6qS3wpF6dWKGzvtSXaLFaEApL
+         Sr6NapcAjnMEc6Wac/T7sr5sfOAcmM8PhE9yewf2Z2KUgx8geERPpdJ4ej7e5fBVWR6s
+         G8zQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx5k1iNf/FqUQ2xfj35ADZWtlhd0T9ZGygdol6fvt2XfXrSGOkJmGMMeGYa0O+99tDKsEb+cx33jAuMq7pd@lists.linux.dev
+X-Gm-Message-State: AFq9FYJewkK8hXiQu+KpZKL3BSjeoHMKu8o3USUEHVxhoAqjBpdUGNxp
+	nsq6LDq/81eMp2ykdRwtDPev217dXUz000nn9P1VnX+y+m5GQqHMBbuz
+X-Gm-Gg: AYBFou09SDf1ROy/zdeN6LUpewLzvoAiqfozH6OWw4pOITf8w6xxiwzBhYUAaavyxRE
+	W3Ck9nDGmZwYMhGjbEUTfTB/3oRAPLXXXdnh2d1jmbjvwZWMk2qxg3bZbMTbYwS6V3tsKaom8zB
+	RCLY/JbEXbNxDPMlJYnGcTEzrE7zsrIJujTY6Zm2XAATSFYniecsvrBJdyAeV//W6GsscrLuCac
+	LqEme8SrwAlD9tNDA+mk50C1yiKZh1frl7RATPz5LlDiL/C6zdhajdDXSNtYjQcwqIm3luNnM2a
+	H9+YzB9Brl805yOzaR42PNCEGZhKwVuhEOkxzUlp7Uq33rcbqwUIn7Pw67c0rNIpU7KpEsXVQhY
+	vUIcAEPiSKowowPqxZ/E5DwIO9UdgxiDdY/nT9r4tRdeQZmyWR/3NENCFN5cqv3Hppr4oToWMfd
+	Fb2QL+r14A58ZDoNjeTAMIKdUSye3X0AqqNGBBRI8HYUc+pGx2tpQg2suSzui+SMLhAYmUs+4Dy
+	OLVdxrVggHdXog=
+X-Received: by 2002:a17:90b:5787:b0:3a5:364:dfd with SMTP id 98e67ed59e1d1-3a50364340fmr1885074a91.31.1790868559126;
+        Thu, 01 Oct 2026 08:29:19 -0700 (PDT)
+Received: from smtpclient.apple ([5.34.220.141])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4f75a7f87sm1694927a91.3.2026.10.01.08.29.12
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 01 Oct 2026 08:29:18 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.1\))
+Subject: Re: [PATCH] staging: rtl8723bs: refactor xmit_xmitframe
+From: Eric Lee <eric.lee0305@gmail.com>
+In-Reply-To: <2026100121-chirpy-stomp-9fbe@gregkh>
+Date: Thu, 1 Oct 2026 23:28:57 +0800
+Cc: Hungyu Lin <dennylin0707@gmail.com>,
+ Andrei Khomenkov <khomenkov@mailbox.org>,
+ Khushal Chitturi <khushalchitturi@gmail.com>,
+ Ethan Tidmore <ethantidmore06@gmail.com>,
+ Oskar Ray-Frayssinet <rayfraytech@gmail.com>,
+ SeungJu Cheon <suunj1331@gmail.com>,
+ Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>,
+ Jennifer Guo <guojy.bj@gmail.com>,
+ linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ "Eric LI (Honggang)" <eric.lee0305@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A4EEF5A3-75CF-4A4B-98CB-2EDEE2223C81@gmail.com>
+References: <20260924151606.333467-1-eric.lee0305@gmail.com>
+ <2026100121-chirpy-stomp-9fbe@gregkh>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3864.700.51.1.1)
 
-The struct identifier references the 8192CD chip while being in a
-rtl8723bs codebase. Additionally, the identifier uses the _t suffix,
-while being generally reserved for typedef identifiers.
+On Oct 1, 2026, at 5:34=E2=80=AFPM, Greg Kroah-Hartman =
+<gregkh@linuxfoundation.org> wrote:
+> Refactor it how?
 
-Rename the struct to rtl8723bs_phy_status_rpt
-across the rtl8723bs codebase to accurately
-reflect the driver and clean up the naming.
+The previous code handled two cases in one branch
+- pxmitbuf is null, or
+- pxmitbuf is not null, but is not enough for current pframe.
 
-Additionally, propagate the real structure type all the way
-through the call chain to remove redundant casts to and from u8 *.
+That causes an additional check of pxmitbuf in that branch.
+In my refactoring, I split them.
 
-Signed-off-by: Timo Joannin <timo.joannin@gmail.com>
----
- drivers/staging/rtl8723bs/hal/odm_HWConfig.c   | 6 +++---
- drivers/staging/rtl8723bs/hal/odm_HWConfig.h   | 5 +++--
- drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c | 7 ++++---
- 3 files changed, 10 insertions(+), 8 deletions(-)
+Firstly, handle the second case. In this case, pxmitbuf is either
+enqueued on pending_xmitbuf_queue, or released. In either way,
+pxmitbuf is not owning that xmitbuf anymore.
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-index 34b0369a7936..c85194c8fe67 100644
---- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-@@ -95,7 +95,7 @@ static s8 odm_cck_rssi(u8 lna_idx, u8 vga_idx)
- 
- static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
- 				      struct odm_phy_info *phy_info,
--				      u8 *phy_status,
-+				      struct rtl8723bs_phy_status_rpt *phy_sta_rpt,
- 				      struct odm_packet_info *pkt_info)
- {
- 	u8 i;
-@@ -105,7 +105,6 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
- 	bool is_cck_rate = false;
- 	u8 rf_rx_num = 0;
- 	u8 lna_idx, vga_idx;
--	struct phy_status_rpt_8192cd_t *phy_sta_rpt = (struct phy_status_rpt_8192cd_t *)phy_status;
- 
- 	is_cck_rate = pkt_info->data_rate <= DESC_RATE11M;
- 	phy_info->rx_mimo_signal_quality[RF_PATH_A] = -1;
-@@ -383,7 +382,8 @@ static void odm_Process_RSSIForDM(
- 
- /*  Endianness before calling this API */
- void odm_phy_status_query(struct dm_odm_t *dm_odm, struct odm_phy_info *phy_info,
--			  u8 *phy_status, struct odm_packet_info *pkt_info)
-+			  struct rtl8723bs_phy_status_rpt *phy_status,
-+			  struct odm_packet_info *pkt_info)
- {
- 
- 	odm_rx_phy_status_parsing(dm_odm, phy_info, phy_status, pkt_info);
-diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.h b/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-index ca3380328a72..21182a880da3 100644
---- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-@@ -18,7 +18,7 @@ struct phy_rx_agc_info_t {
- 	#endif
- };
- 
--struct phy_status_rpt_8192cd_t {
-+struct rtl8723bs_phy_status_rpt {
- 	struct phy_rx_agc_info_t path_agc[2];
- 	u8 ch_corr[2];
- 	u8 cck_sig_qual_ofdm_pwdb_all;
-@@ -57,7 +57,8 @@ struct phy_status_rpt_8192cd_t {
- };
- 
- void odm_phy_status_query(struct dm_odm_t *dm_odm, struct odm_phy_info *phy_info,
--			  u8 *phy_status, struct odm_packet_info *pkt_info);
-+			  struct rtl8723bs_phy_status_rpt *phy_status,
-+			  struct odm_packet_info *pkt_info);
- 
- enum hal_status ODM_ConfigRFWithTxPwrTrackHeaderFile(struct dm_odm_t *pDM_Odm);
- 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-index 304fda3a3b5c..a62b845c69f9 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-@@ -73,7 +73,7 @@ static void update_recvframe_attrib(struct adapter *padapter,
-  *precvframe->u.hdr.rx_data should be ready!
-  */
- static void update_recvframe_phyinfo(union recv_frame *precvframe,
--				     struct phy_stat *pphy_status)
-+				     struct rtl8723bs_phy_status_rpt *pphy_status)
- {
- 	struct adapter *padapter = precvframe->u.hdr.adapter;
- 	struct rx_pkt_attrib *pattrib = &precvframe->u.hdr.attrib;
-@@ -125,7 +125,7 @@ static void update_recvframe_phyinfo(union recv_frame *precvframe,
- 	pkt_info.data_rate = pattrib->data_rate;
- 
- 	odm_phy_status_query(&p_hal_data->odmpriv, p_phy_info,
--			   (u8 *)pphy_status, &(pkt_info));
-+			   pphy_status, &(pkt_info));
- 	if (psta)
- 		psta->rssi = pattrib->phy_info.RecvSignalPower;
- 	precvframe->u.hdr.psta = NULL;
-@@ -317,7 +317,8 @@ static void rtl8723bs_recv_tasklet(struct tasklet_struct *t)
- 
- 				if (pattrib->pkt_rpt_type == NORMAL_RX) { /* Normal rx packet */
- 					if (pattrib->physt)
--						update_recvframe_phyinfo(precvframe, (struct phy_stat *)ptr);
-+						update_recvframe_phyinfo(precvframe,
-+							(struct rtl8723bs_phy_status_rpt *)ptr);
- 
- 					rtw_recv_entry(precvframe);
- 				} else if (pattrib->pkt_rpt_type == C2H_PACKET) {
--- 
-2.55.0
+Next, handle the first case. In this case, a new xmitbuf is
+allocated for the current pframe.
 
+Setting pxmitbuf to NULL in the second case in order to make sure
+allocating a new xmitbuf for the pframe.
+
+
+On Oct 1, 2026, at 5:34=E2=80=AFPM, Greg Kroah-Hartman =
+<gregkh@linuxfoundation.org> wrote:
+> And is the output the same before/after?
+
+The logic is not changed so the output are same.
+
+
+On Oct 1, 2026, at 5:34=E2=80=AFPM, Greg Kroah-Hartman =
+<gregkh@linuxfoundation.org> wrote:
+> > + pxmitbuf =3D NULL;
+
+> This jumped out at me, why add this new line?
+
+Two reasons to add this line:
+1. pxmitbuf is not owning that xmitbuf anymore as it is either enqueued
+on pending_xmitbuf_queue, or released.
+2. a new xmitbuf is expected to be allocated for the current pframe.
+
+So, it is safe to set pxmitbuf to NULL here, and it ensures
+a new xmitbuf is allocated for the pframe.=
