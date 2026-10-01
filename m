@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317D137D11A;
-	Thu,  1 Oct 2026 09:25:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67794A7C9B;
+	Thu,  1 Oct 2026 09:28:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790846732; cv=none; b=iqZreqrd3UMwXZm0RrPzNC0lT/kKamqZ19in3pX/gMa3esteyNPFANJW/QTWjaV+Tw7Y3mCRdLZwIOrLiT7fTJI+llDNjBlhMnbYZhBuX/N3KJfk2PCsv//aMGJMrJnKx/sXwKolU57VkayRfBIXRaErbKenbPb4S1mvDlr6B4U=
+	t=1790846899; cv=none; b=QtM8rW0+WCtoBtWxHHIH7gWL2WPk3bniI+s0pu/lH0bxdoHmkQyJm6S0hKdOTNp6V5SOy2Fv7xnegw1Ki/vitdT5esVov5sx+zPdGnpWknMcEain7KLyDu/jR9t5nCzQ1jVIvtaZoCDAvC8XHp9NJlfEbUIRP60S7GdZHfuKqWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790846732; c=relaxed/simple;
-	bh=Fg8OpMA7JBByml0BEGqkCgfi8QTrfUWjBu4lkitH+IM=;
+	s=arc-20240116; t=1790846899; c=relaxed/simple;
+	bh=AnURxHfhsJVzQNUxgO/7dXS3RztEqGpRqrT07miIn+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pFGlFpGiLg73xJZhLTY8C/MK+KxhPK6ypvQ91MpQn6mS8+xMvJG3id4iR9HAksMyl7+ELaAXfMar16ZQFtZeM6qaoGRYp7k/hHP8FjWYNa90PWJH8iIvUgShdwcz2g6UupVci1u19rxI+zGyN7GCr4+UrdvTk3fIqdeZfq7nwDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=afPTLdfN; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=XppxC1eKjumJaEcpvjhXDaxtSacBI5+gwAAK5w7hMdvZbiXe9O6NeZpGSUnzBoMkkhkyKbo5G8WhdqZdCcasdyZfX+Exns4U2SSs/Ai7RQ6apfiEWy1WhKP2JPDOzSJjF4xHkX2AlBfIj+HUjM4eA5OlTu200GYiamNouSj8WyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0NzAUWiL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="afPTLdfN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A24F1F000FF;
-	Thu,  1 Oct 2026 09:25:30 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0NzAUWiL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02AD51F000FF;
+	Thu,  1 Oct 2026 09:28:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790846730;
-	bh=SvKzRfH+1i3yDLy5G6gZmoxfGnVJDQ9JG+2fsvzDMgw=;
+	s=korg; t=1790846887;
+	bh=M1+gxPnqihf3sYvjqc9uWAg2uM4ocva618sTuonTi14=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=afPTLdfNK0ryW7okB3yQYSgAcQ+J+5XLXYKG9NcKLRHBUlZDdyRtE2rJThVdRCEeR
-	 pK+P0G/i1kHuz9NoZ/RuP2u8iRcnENyn16D2KOMIrcZpRweS5wpm0Dd8vwXs6x+IoR
-	 RLl2HFjPL71sHd7ckqgXCl7CBpw6Knv7X3oOXrgY=
-Date: Thu, 1 Oct 2026 11:25:24 +0200
+	b=0NzAUWiLeK+ldX+a8inqWM5x4XaOWHOx6mTHiZNvl98ZOciikLTLDVomc1JTFPGgR
+	 HxGo2I90gBhkLjFbmphohjfHkN8KJysLtXS4RgfpMI/tN5TDOmD2iU1ZTiGI7L0E+M
+	 aulgoMhfgcX/RUqUNjED3ueLbq6C1yGUnj8hOnKA=
+Date: Thu, 1 Oct 2026 11:28:01 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: George Karagounis <taterraster@gmail.com>
+To: Hungyu Lin <dennylin0707@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	mail@taterr.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove unused variable 'phal'
-Message-ID: <2026100158-timing-valiant-6d16@gregkh>
-References: <20260924185350.42180-1-mail@taterr.org>
+	Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: make rtl8723_dequeue_writeport()
+ return bool
+Message-ID: <2026100145-unbitten-playmaker-8ac5@gregkh>
+References: <20260926105827.3760-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,44 +40,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260924185350.42180-1-mail@taterr.org>
+In-Reply-To: <20260926105827.3760-1-dennylin0707@gmail.com>
 
-On Thu, Sep 24, 2026 at 09:53:49PM +0300, George Karagounis wrote:
-> In rtl8723bs_init_xmit_priv() the variable 'phal' is assigned via
-> GET_HAL_DATA() but never actually read.
+On Sat, Sep 26, 2026 at 10:58:27AM +0000, Hungyu Lin wrote:
+> rtl8723_dequeue_writeport() returns boolean state and its caller uses the
+> return value as a boolean.
 > 
-> This triggers a -Wunused-but-set-variable compiler warning when
-> building the driver with W=1. I removed the unused variable and its
-> assignment to clean up the code and silence the warning.
+> Change the return type to bool and replace _FAIL with false. Also use bool
+> for the caller's queue_empty variable.
 > 
-> Signed-off-by: George Karagounis <mail@taterr.org>
+> No functional change.
+> 
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 3 ---
->  1 file changed, 3 deletions(-)
+>  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> index 7f55448d544e..0441e84ea87d 100644
+> index 0441e84ea87d..482dd1baf3ca 100644
 > --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
 > +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> @@ -525,9 +525,6 @@ s32	rtl8723bs_hal_xmitframe_enqueue(
->  s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
->  {
->  	struct xmit_priv *xmitpriv = &padapter->xmitpriv;
-> -	struct hal_com_data *phal;
-> -
-> -	phal = GET_HAL_DATA(padapter);
+> @@ -33,7 +33,7 @@ static u8 rtw_sdio_wait_enough_TxOQT_space(struct adapter *padapter, u8 agg_num)
+>  	return true;
+>  }
 >  
->  	init_completion(&xmitpriv->SdioXmitStart);
->  	init_completion(&xmitpriv->SdioXmitTerminate);
-> -- 
-> 2.55.0
-> 
+> -static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
+> +static bool rtl8723_dequeue_writeport(struct adapter *padapter)
 
-Does not apply to the tree as it's been sent many times in the past and
-already applied.
-
-Did everyone just go through some tutorial and decide to send the same
-change?
+Please change the variable that is assigned to the output of this
+function as well.
 
 thanks,
 
