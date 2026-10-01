@@ -1,41 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0704F473A
-	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 09:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D5437E5EE;
+	Thu,  1 Oct 2026 09:25:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790846392; cv=none; b=iSLDe4faO7OgldIodLfB3TTRmH5MGJPFo8u1DpgPFrTthYey53UbREvgBhzlR688vxBl/wWWVRL1Ps4RsMex020nFx5ZI5oO/hJYjQBOqCLvR95rEPLZXoAgTG9IU5dtuLaxhfXKasG8Ox+op0GhJEq6talMfA544TNGhzdUMIQ=
+	t=1790846703; cv=none; b=WPgMx+muqMzqaMJiG6yfkuuh7TBrpBSpD+7jJbVEBTKMEN/j4+R+H9RCSX2FyHBxUe5jXwkZIToXAI65sx0aecYryb+/TpZOcAq8WNAOABmRlIoxeCxrdSClYNkz0KXx5a5jUYJ9qOY4pfQWyJ9PZcC/83gE6zAO72S0xgpZfVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790846392; c=relaxed/simple;
-	bh=am6KVHeUXu27/oaA8MiPFu1mTY1R0QjGIi5ebQdj/WM=;
+	s=arc-20240116; t=1790846703; c=relaxed/simple;
+	bh=yx6CJyXybz6rJnD/TJliBiXn60KFxLz4G8mFhbq9Okg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bLw0RjJASP7x0NOqddhBQDzcQkXVa11ke+miGVEtZEWP0wlHDfkB38+fV/rJHq111GyIJsvCEQ0wRzHYmTYg7jjDOF/dJ3HgqPqJi8LtWSB+h0lVwdjz16dz9bQeYQN7faypfLgARVAO/lV7pAOA+SYDX22hSaqNqXEqypOQ45I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xxhwpJFO; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=FlRK5dlqk9oQAf/mhCCnJyO3l7G3h0qDk7M5OoyrSBQaPb0JviJvJnFY6KgRRxyjlBFEAqj8w5b8+JtbMl6hA2neLf5RCyOjdW2XJsxomvRducKDDI5Fi7tn8HTLnqjFbxbb1Sw2wy5FcKQmwI4vHDPVEdd8jdcrogLlEELqvso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Wjfht9x2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xxhwpJFO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2906D1F000FF;
-	Thu,  1 Oct 2026 09:19:49 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Wjfht9x2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 675201F000FF;
+	Thu,  1 Oct 2026 09:25:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790846390;
-	bh=t/u4ezamwsp6AskizgcClkPG6spQruG1cfmxIff3zLI=;
+	s=korg; t=1790846701;
+	bh=A3mQyACB5gX4FUyQfI61OqCZ1jmjSyUK0CivRzxVPBU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=xxhwpJFOAgBN9zP41so5a76lJH2a92Yz27h8kv29NHK+e1JaXXtGLfgO65IhYNjMz
-	 o9PQvTmRtWovnJR/pvCW1hUvcBUs5wsuZgBtXv3xejDF5hsNxOSXRk9Eohczt0zyY0
-	 YIzYe9cxXo/0fw/4G2LKdA3I/29yetWqZCtTeFzI=
-Date: Thu, 1 Oct 2026 11:19:44 +0200
+	b=Wjfht9x26yJl4qjWskKyfTEZGXTsEKMLICxVCoKtmquk4GWw/iVXJxDzZKiLH2FU9
+	 XrM49WTyaHi8BxTM7pQy1uMkHkctlvvzg0mHYXAXsS2M5w7XjZ4oEAWe602k62RqEI
+	 ID8KLrRuFpqpbZZBVom38ZxUf6Nkh/Wb3QtPTYd4=
+Date: Thu, 1 Oct 2026 11:24:55 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>,
-	Hisam Mehboob <hisamshar@gmail.com>,
-	Martin =?utf-8?Q?Kepplinger-Novakovi=C4=87?= <martink@posteo.de>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	Agatha Isabelle Moreira <code@agatha.dev>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>
-Subject: Re: [PATCH v2] staging: greybus: remove driver depending on
- nonexistent config option
-Message-ID: <2026100125-puppy-pacific-52c6@gregkh>
-References: <20260915020308.83636-1-enelsonmoore@gmail.com>
+To: Eduard Zateev <hackerowskiy@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: remove unused variable 'phal'
+Message-ID: <2026100151-winking-boss-9194@gregkh>
+References: <20260923010423.6352-1-hackerowskiy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,37 +38,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260915020308.83636-1-enelsonmoore@gmail.com>
+In-Reply-To: <20260923010423.6352-1-hackerowskiy@gmail.com>
 
-On Mon, Sep 14, 2026 at 07:02:59PM -0700, Ethan Nelson-Moore wrote:
-> The Greybus Arche Platform driver depends on the config options
-> USB_HSIC_USB3613 or COMPILE_TEST. USB_HSIC_USB3613 has never existed in
-> mainline Linux, and COMPILE_TEST is intended to enable the compilation
-> of drivers on platforms that can't support them to improve code
-> coverage and ease testing of trivial or tree-wide changes. Therefore,
-> it is impossible for anyone to be using this driver with unmodified
-> mainline kernels. Remove it and move the former maintainer to the
-> CREDITS file.
+On Wed, Sep 23, 2026 at 03:04:23AM +0200, Eduard Zateev wrote:
+> phal is assigned but never used in rtl8723bs_init_xmit_priv(),
+> which triggers a -Wunused-but-set-variable warning with W=1.
+> Remove the unused variable and its assignment.
 > 
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> Signed-off-by: Eduard Zateev <hackerowskiy@gmail.com>
 > ---
-> Changes in v2: Clarify commit message - mention COMPILE_TEST
+>  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
->  CREDITS                                  |   4 +
->  MAINTAINERS                              |   7 -
->  drivers/staging/greybus/Kconfig          |   9 -
->  drivers/staging/greybus/Makefile         |   6 -
->  drivers/staging/greybus/arche-apb-ctrl.c | 490 -----------------
->  drivers/staging/greybus/arche-platform.c | 653 -----------------------
->  drivers/staging/greybus/arche_platform.h |  28 -
->  7 files changed, 4 insertions(+), 1193 deletions(-)
->  delete mode 100644 drivers/staging/greybus/arche-apb-ctrl.c
->  delete mode 100644 drivers/staging/greybus/arche-platform.c
->  delete mode 100644 drivers/staging/greybus/arche_platform.h
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> index 7f55448d544e..0441e84ea87d 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> @@ -525,9 +525,6 @@ s32	rtl8723bs_hal_xmitframe_enqueue(
+>  s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
+>  {
+>  	struct xmit_priv *xmitpriv = &padapter->xmitpriv;
+> -	struct hal_com_data *phal;
+> -
+> -	phal = GET_HAL_DATA(padapter);
+>  
+>  	init_completion(&xmitpriv->SdioXmitStart);
+>  	init_completion(&xmitpriv->SdioXmitTerminate);
+> -- 
+> 2.55.0
+> 
+> 
 
-Yeah, it's time to finally drop this.  If it's needed in the future, it
-can come back with a simple revert.
-
-thanks,
-
-greg k-h
+Does not apply to the tree :(
