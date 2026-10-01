@@ -1,35 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC863815D8;
-	Thu,  1 Oct 2026 05:40:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D89143D510
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 05:41:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790833245; cv=none; b=so/Qn7mtcAmWMbQCJKpIhrFMxwtxHV1FNpRVgXoq6ujMf7IIwDSjOeWAnIJqpUIl2NoN1EHmW4Un3fHcr9NDmorK1wHTf5GYzwrGZDXCn9dQncIxFaLN+TM0S8qyP2Jca0ocmc1ljtcdTsc21CP+VH1tJPpWQvFtnUeGrCL1Hi4=
+	t=1790833281; cv=none; b=srApzUIL4K9N81n23e0pEpvgxVHLTbBX1J/dH/VFU+TDDBBXtHRjPZ+toeLATWFXYHlT2R97uY+VRINNKaUjlvbDN4R8XnlZdZ1WL5vcZnWzMn9bY1w6JAkhklceNiijWMTb8nPf7rVFGOmbP968urtFUk3rT7DGWSH0qKhp78U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790833245; c=relaxed/simple;
-	bh=cMqjic0HTYQ+SfZ/m48QD/qRO2cGz0QhOHCH/yY36CU=;
+	s=arc-20240116; t=1790833281; c=relaxed/simple;
+	bh=Lgjiqy2oZnMbKu8juk+qyVsLdRdxPsItyvu/avZalbs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EkHirgxJviJdSu3wcZKUC/Xm+6QHOKqcPZUYfI25Nckg47qwUaIQSXtF/Y4GQqeoPZRkHiWiSzCDT6EexjoXMO652cMVFagJEF8009/yDc7PRg+qxkpUPPpKThKdIy7KsYmul2NTB/NMOJGq3g0i4JWcNdCkP0ri8iJ5+juAqmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jtth7A4P; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=jqD8OLn+llWX4TMyO7ATXNr47qj1/55JmmKbHlmZuV4DbibzJ7SQ742Cr7/R1/L/1gDgLqBit788mQo8GMdI2hFgt/5qXqkacwcYZQAAVKTuGjybT6PTafWAHdh6pDu+XHZQBNmRYOolDXkNQGHPjgkNWdFUEyyBNuLa19AkXMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FYKaaGMp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jtth7A4P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DD3D1F000FF;
-	Thu,  1 Oct 2026 05:40:42 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FYKaaGMp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 520341F000FF;
+	Thu,  1 Oct 2026 05:41:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790833243;
-	bh=oANg63MCLXtQmSggCM5zwp8nA4SlNd79Tob4EPX2/Cw=;
+	s=korg; t=1790833279;
+	bh=qmPO0kTRGOmhtP6kXkn/xlIbyxmvBBua5WlYnkbNs8g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jtth7A4PU6x6jrOjTDTKHxGFXIEbh8VRAJ7Kvs91dbXICpuGUqMT5aeEtW/vpd2D/
-	 QEPccPx6c+pZYtxpehnODnrAwBUA4WaLldSypFRs7aMvmieoIudN63nnDFi24rlYDy
-	 yyEyBRP2JM8y8WxB9LWJk6lAaqBUa5fLbaMZcw+E=
-Date: Thu, 1 Oct 2026 07:40:37 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Balazs Moro <balazs.moro@proton.me>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove unused NDIS definitions
-Message-ID: <2026100129-mulch-autograph-b148@gregkh>
-References: <20260909195344.353880-1-balazs.moro@proton.me>
+	b=FYKaaGMpsKoOfor+9TKGvYYjlfgX3MM5kwoCpZiUWIXy6FAYPoLuFDbDCGo418wMu
+	 bf5BGn2EvTDsEVB5Mn0u3t8tq86QJGhtZgPwmIMPB0QSXNjAdQast4uPdlyNRvmVAh
+	 keaQLrxRtVn6+XjtGiP4tCSNR7kvEJeFPRuDIPk8=
+Date: Thu, 1 Oct 2026 07:41:13 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Thomas Prud'homme <t+linux@prudhomme.li>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: fix lines over 100 characters in
+ hal_intf.c
+Message-ID: <2026100148-elixir-depose-a7df@gregkh>
+References: <20260909174152.16934-1-t+linux@prudhomme.li>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,54 +39,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909195344.353880-1-balazs.moro@proton.me>
+In-Reply-To: <20260909174152.16934-1-t+linux@prudhomme.li>
 
-On Wed, Sep 09, 2026 at 07:54:13PM +0000, Balazs Moro wrote:
-> NDIS_802_11_RATES has had no users since the driver was added.
-> NDIS_802_11_PMKID_VALUE became unused when struct BSSIDInfo was
-> removed.
+On Wed, Sep 09, 2026 at 07:41:52PM +0200, Thomas Prud'homme wrote:
+> Wrap the parameter list of rtw_hal_set_odm_var() across two lines,
+> and move the comment on the rtl8723b_HalDmWatchDog_in_LPS() call
+> above the call instead of trailing it, so both lines fit within the
+> checkpatch.pl line length limit. No functional change.
 > 
-> Remove the unused typedefs and NDIS_802_11_LENGTH_RATES, which was
-> only used by NDIS_802_11_RATES.
-> 
-> Signed-off-by: Balazs Moro <balazs.moro@proton.me>
+> Signed-off-by: Thomas Prud'homme <t+linux@prudhomme.li>
 > ---
->  drivers/staging/rtl8723bs/include/rtw_ioctl_set.h | 2 --
->  drivers/staging/rtl8723bs/include/wlan_bssdef.h   | 2 --
->  2 files changed, 4 deletions(-)
+>  drivers/staging/rtl8723bs/hal/hal_intf.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h b/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
-> index 768e4868ecfd..020b143f36be 100644
-> --- a/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
-> +++ b/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
-> @@ -7,8 +7,6 @@
->  #ifndef __RTW_IOCTL_SET_H_
->  #define __RTW_IOCTL_SET_H_
+> diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+> index 2caade1a8..1096f5441 100644
+> --- a/drivers/staging/rtl8723bs/hal/hal_intf.c
+> +++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+> @@ -89,7 +89,8 @@ u8 rtw_hal_get_def_var(struct adapter *padapter, enum hal_def_variable eVariable
+>  	return GetHalDefVar8723BSDIO(padapter, eVariable, pValue);
+>  }
 >  
-> -typedef u8 NDIS_802_11_PMKID_VALUE[16];
-> -
->  u8 rtw_set_802_11_authentication_mode(struct adapter *pdapter, enum ndis_802_11_authentication_mode authmode);
->  u8 rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep);
->  u8 rtw_set_802_11_disassociate(struct adapter *padapter);
-> diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-> index f4c1456f1476..ff2cee2f3b99 100644
-> --- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-> +++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-> @@ -12,10 +12,8 @@
->  
->  
->  #define NDIS_802_11_LENGTH_SSID         32
-> -#define NDIS_802_11_LENGTH_RATES        8
->  #define NDIS_802_11_LENGTH_RATES_EX     16
->  
-> -typedef unsigned char   NDIS_802_11_RATES[NDIS_802_11_LENGTH_RATES];        /*  Set of 8 data rates */
->  typedef unsigned char   NDIS_802_11_RATES_EX[NDIS_802_11_LENGTH_RATES_EX];  /*  Set of 16 data rates */
->  
->  struct ndis_802_11_ssid {
-> -- 
-> 2.47.3
-> 
-> 
-> 
+> -void rtw_hal_set_odm_var(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet)
+> +void rtw_hal_set_odm_var(struct adapter *padapter,
+> +			 enum hal_odm_variable eVariable, void *pValue1, bool bSet)
+>  {
+>  	SetHalODMVar(padapter, eVariable, pValue1, bSet);
+>  }
+> @@ -216,7 +217,8 @@ void rtw_hal_dm_watchdog(struct adapter *padapter)
+>  void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
+>  {
+>  	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode)
+> -		rtl8723b_HalDmWatchDog_in_LPS(padapter); /* this function caller is in interrupt context */
+> +		/* this function caller is in interrupt context */
+> +		rtl8723b_HalDmWatchDog_in_LPS(padapter);
 
-Does not apply to the staging-testing tree :(
+Doesn't this break a different checkpatch issue?
+
+Be careful of multi-line statements like this...
+
+thanks,
+
+greg k-h
