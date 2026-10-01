@@ -1,86 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9AC63BBFBF;
-	Thu,  1 Oct 2026 05:28:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E5B2165EA;
+	Thu,  1 Oct 2026 05:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790832494; cv=none; b=cgE+VR4o+a8uNa7yTss7MTEYbpie8ESuWaYwkZlsUehVRNJ5u4OwRA72nm0XeCfmQMG6rGGPouMDW5lTspIRrvO2h5yZr1wGzycCF5N10GANC+aF57XuX0LzOGZPDNO23SYZ6pJkhfosfoXadhp9MX9TBIo9u9RITH/wzEB8h/g=
+	t=1790832748; cv=none; b=MjBpb6oSe5SRume0xtSxXt6hYzn8IfYUcJWuiPRLrmCB4fpJRZnQTB/13NQ3yz+DsnerIqC1Q81WlBs4kHehOjiejTkhLx9Cgvm3tKAK/ziYTw9F6ZiHnCAqeU5DglQjcoBdbVhTj2BPmy/JNq5qFLwVYTssVXUq74GABbjYsqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790832494; c=relaxed/simple;
-	bh=O1+u9QAgZo8fEMqCocTGHtkSqeimzrmGKQIJo9hj8Zk=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=tlK6LshtK5qkUaUd1/behY+0pFwCJEfEXF7JTARVIbG3oG43imIROzyOM8bN9diqcwkpj7tHZgbVhKI41BELtDlJ8OABsAKzXjKYNubba08OnL6JKAM9/wSMSa8xvMxYJSAJjc2Vz2dIjE8rkRMzErsw3J1y90Zh1Q+OLJxsBLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yHZ1O2Pq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790832748; c=relaxed/simple;
+	bh=i0xJqkI15ZYPJ/Ndx5kdcWF/iV5bU3r00HoIodJCxng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a+/LfZ6sAt4QOPBV+2kGOKM9EWQJlAYVDdgxuo8FSfQusCHPKLro5/F8DtyIF/iN7raHq8Que/4/jIjNP/snuBXhz0rPUa/CwBQJLoSCwMTo5r+LNsE+YYQl7OvZcnGpZlku7lMJUGqxngT+s8YCDHLghksZ88vA2tw/k63rx+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OqbQfh4h; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yHZ1O2Pq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6B701F000FF;
-	Thu,  1 Oct 2026 05:28:11 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OqbQfh4h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66B3F1F00898;
+	Thu,  1 Oct 2026 05:32:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790832492;
-	bh=wbLJ1yL45DbHK8Qr6+DZt0YumZva2sjDLQpTyD5/0pg=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=yHZ1O2Pql4fxPwTMLj1x6WTnzWpxV35zbS8n9SFRTKlOKS9FUKy4ogRugM0bTFbZa
-	 Zo2h37Sbn8beNrk2jQXMoesU87Rc9ONqWEN0+ZDTMQBEi2pLFFNNY9IgVKsTKQiQ1L
-	 6GLVKxgNiLNmxpNvjcA0qY9e7Lcn6tAaygYu0nAk=
+	s=korg; t=1790832746;
+	bh=7RnO2tto6gzGmnwdjn29tV6/jpks6S6zWwGZDI70hqQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=OqbQfh4haj69ohQXAJwWm9EEfPJeCxCKeThuKgl/AGIDog8L4mg6OSEKJ+kD9xRPp
+	 ielN53yOFfrVkxF0BIVWAD4fhQuzeM2+AoDSmE26E4/+VlqyZ3P1EKlMikhytm/yDK
+	 TpCYYIxoSBv0MSWWvsh4L4SenadnRbzUth43jfpk=
+Date: Thu, 1 Oct 2026 07:32:20 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: AJ39210 <predescuciprian99@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: cleanup and style fixes
+Message-ID: <2026100157-gaming-earflap-3f7d@gregkh>
+References: <20260908191033.13798-1-predescuciprian99@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2] staging: rtl8723bs: return bool from
- check_pending_xmitbuf
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260919210645.25796-1-matheus.aalmeida@inf.ufrgs.br>
-References: <20260919210645.25796-1-matheus.aalmeida@inf.ufrgs.br>
-Date: Thu, 01 Oct 2026 07:27:56 +0200
-Message-Id: <179083247614.1820101.3792083967746706444.b4-review@b4>
-X-Mailer: b4 0.17-dev-e5168
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1231;
- i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=O1+u9QAgZo8fEMqCocTGHtkSqeimzrmGKQIJo9hj8Zk=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDFl738dF23otcn046Ub2100yt/fMXXtEZfl0nXdNZ72Pe
- fx0do2Q6IhlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJeFkyzC9rK//BuTZb7XZk
- XJrTNIUom2fH/RgWNPmbf+pgnjfvd+cxVrv3hgHd3JeiAA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260908191033.13798-1-predescuciprian99@gmail.com>
 
-> check_pending_xmitbuf() returns only true or false. Use bool as its
-> return type to accurately describe the function's behavior.
-> 
-> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-> Link: https://patch.msgid.link/20260919210645.25796-1-matheus.aalmeida@inf.ufrgs.br
+On Tue, Sep 08, 2026 at 10:10:31PM +0300, AJ39210 wrote:
 > ---
-> Changes in v2:
-> - Add missing "staging: " prefix to commit message
+>  drivers/staging/rtl8723bs/TODO                | 27 ++++++++++-----
+>  .../staging/rtl8723bs/core/rtw_ieee80211.c    |  4 +--
+>  .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 16 ++++-----
+>  drivers/staging/rtl8723bs/hal/odm_HWConfig.c  |  2 +-
+>  drivers/staging/rtl8723bs/hal/odm_HWConfig.h  |  2 +-
+>  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 34 +++++++------------
+>  drivers/staging/rtl8723bs/include/hal_phy.h   |  5 ---
+>  drivers/staging/rtl8723bs/include/ieee80211.h |  2 +-
+>  .../staging/rtl8723bs/include/rtl8192c_recv.h | 33 ------------------
+>  .../staging/rtl8723bs/include/rtl8723b_recv.h | 16 ++++++++-
+>  drivers/staging/rtl8723bs/include/rtw_ht.h    |  1 -
+>  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 19 +++++++----
+>  12 files changed, 70 insertions(+), 91 deletions(-)
+>  delete mode 100644 drivers/staging/rtl8723bs/include/rtl8192c_recv.h
 > 
->  drivers/staging/rtl8723bs/core/rtw_xmit.c    | 4 ++--
->  drivers/staging/rtl8723bs/include/rtw_xmit.h | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> index 95350fd6a94f..634320e53aab 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> @@ -2469,10 +2469,10 @@ struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpri
->  	return pxmitbuf;
->  }
->  
-> -signed int check_pending_xmitbuf(struct xmit_priv *pxmitpriv)
-> +bool check_pending_xmitbuf(struct xmit_priv *pxmitpriv)
 
-Shouldn't you also change the place where this is called to take a bool
-as well?
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch does not have a Signed-off-by: line.  Please read the
+  kernel file, Documentation/process/submitting-patches.rst and resend
+  it after adding that line.  Note, the line needs to be in the body of
+  the email, before the patch, not at the bottom of the patch or in the
+  email signature.
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
+
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
-
--- 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+greg k-h's patch email bot
