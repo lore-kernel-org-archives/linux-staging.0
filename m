@@ -1,36 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D89143D510
-	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 05:41:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CEF937FF48;
+	Thu,  1 Oct 2026 05:42:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790833281; cv=none; b=srApzUIL4K9N81n23e0pEpvgxVHLTbBX1J/dH/VFU+TDDBBXtHRjPZ+toeLATWFXYHlT2R97uY+VRINNKaUjlvbDN4R8XnlZdZ1WL5vcZnWzMn9bY1w6JAkhklceNiijWMTb8nPf7rVFGOmbP968urtFUk3rT7DGWSH0qKhp78U=
+	t=1790833341; cv=none; b=mHt0/JHgwCKQp0US734Sr+Zk8pfg/VnpXvuq/wMFT7uBzLxwIyToQuKRDVRbskTWnOOk0cpPqH/4uAKUNmairu8u/sJ/+sNLZOpgYegCsmvYJoiMb/j+bSgz8WO1QCqv/Ypy1X7V8RisMWe1Qqo2lkmHKG9DnMk0C/KnQkDzlY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790833281; c=relaxed/simple;
-	bh=Lgjiqy2oZnMbKu8juk+qyVsLdRdxPsItyvu/avZalbs=;
+	s=arc-20240116; t=1790833341; c=relaxed/simple;
+	bh=qM2+IlXgxzCvRL1V0xvEgDu1jH9GrS8PIF5q4v/tma0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jqD8OLn+llWX4TMyO7ATXNr47qj1/55JmmKbHlmZuV4DbibzJ7SQ742Cr7/R1/L/1gDgLqBit788mQo8GMdI2hFgt/5qXqkacwcYZQAAVKTuGjybT6PTafWAHdh6pDu+XHZQBNmRYOolDXkNQGHPjgkNWdFUEyyBNuLa19AkXMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FYKaaGMp; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=k3suLFSqnqegDSYLwMBrDEC1jG9rIJH7w8JSHSf2Kk7LWlLsJ7tgCU1Nz7g/GTyo4nlVDZ8WW2FSQQQ9unUhndSu7y+iEGRcs0Rw/99/M36MTJ2oSADeKAQCwAHWfmmh3/+wsW1IsqM2nwRKsGd9DU3J3v9yqMCaCq8b56A7iSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UJ5M7Hwd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FYKaaGMp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 520341F000FF;
-	Thu,  1 Oct 2026 05:41:19 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UJ5M7Hwd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61AF51F000FF;
+	Thu,  1 Oct 2026 05:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790833279;
-	bh=qmPO0kTRGOmhtP6kXkn/xlIbyxmvBBua5WlYnkbNs8g=;
+	s=korg; t=1790833339;
+	bh=YFqHc2IPL4HsStJHwRBHONtEGCcmeJb8M30ksqgsN7g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FYKaaGMpsKoOfor+9TKGvYYjlfgX3MM5kwoCpZiUWIXy6FAYPoLuFDbDCGo418wMu
-	 bf5BGn2EvTDsEVB5Mn0u3t8tq86QJGhtZgPwmIMPB0QSXNjAdQast4uPdlyNRvmVAh
-	 keaQLrxRtVn6+XjtGiP4tCSNR7kvEJeFPRuDIPk8=
-Date: Thu, 1 Oct 2026 07:41:13 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Thomas Prud'homme <t+linux@prudhomme.li>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: fix lines over 100 characters in
- hal_intf.c
-Message-ID: <2026100148-elixir-depose-a7df@gregkh>
-References: <20260909174152.16934-1-t+linux@prudhomme.li>
+	b=UJ5M7HwdQysgOsMzcvmfRvOuoQiFiDzJ9tWq7R2b1MDnauodGaG+ZLp2NXSvVNRFY
+	 K2tdeT+6dESwEPybreehixdN7+4ltEGmuuivuvANW4XdPwM4aJOUOmwkFYPniG9uV9
+	 OhFJP2ZXXOg/X/8EffSSTh8ngSj6MIlNdVvIAq8I=
+Date: Thu, 1 Oct 2026 07:42:13 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Enzo Frese <freseenzo@gmail.com>
+Cc: Jennifer Guo <guojy.bj@gmail.com>,
+	Andrei Khomenkov <khomenkov@mailbox.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>,
+	Michael Straube <straube.linux@gmail.com>,
+	Michael =?iso-8859-1?Q?Steinm=F6tzger?= <m.steinmoetzger@gmail.com>,
+	Navaneeth K <knavaneeth786@gmail.com>,
+	Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: avoid CamelCase in
+ odm_DynamicBBPowerSaving.c
+Message-ID: <2026100147-sixties-dramatize-8bee@gregkh>
+References: <20260910143857.154320-1-freseenzo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,45 +48,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909174152.16934-1-t+linux@prudhomme.li>
+In-Reply-To: <20260910143857.154320-1-freseenzo@gmail.com>
 
-On Wed, Sep 09, 2026 at 07:41:52PM +0200, Thomas Prud'homme wrote:
-> Wrap the parameter list of rtw_hal_set_odm_var() across two lines,
-> and move the comment on the rtl8723b_HalDmWatchDog_in_LPS() call
-> above the call instead of trailing it, so both lines fit within the
-> checkpatch.pl line length limit. No functional change.
+On Thu, Sep 10, 2026 at 11:38:47AM -0300, Enzo Frese wrote:
+> Rename odm_DynamicBBPowerSavingInit to odm_dynamic_bb_power_saving_init,
+> and rename local variables and struct ps_t fields (PreCCAState,
+> CurCCAState, PreRFState, CurRFState, Rssi_val_min, Reg874, RegC70,
+> Reg85C, RegA74, bForceInNormal, Rssi_Up_bound, Rssi_Low_bound) to
+> avoid CamelCase, which is not accepted by checkpatch.pl.
 > 
-> Signed-off-by: Thomas Prud'homme <t+linux@prudhomme.li>
+> Signed-off-by: Enzo Frese <freseenzo@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/hal/hal_intf.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  drivers/staging/rtl8723bs/hal/odm.c           |  2 +-
+>  .../rtl8723bs/hal/odm_DynamicBBPowerSaving.c  | 72 +++++++++----------
+>  .../rtl8723bs/hal/odm_DynamicBBPowerSaving.h  | 16 ++---
+>  3 files changed, 45 insertions(+), 45 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-> index 2caade1a8..1096f5441 100644
-> --- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-> +++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-> @@ -89,7 +89,8 @@ u8 rtw_hal_get_def_var(struct adapter *padapter, enum hal_def_variable eVariable
->  	return GetHalDefVar8723BSDIO(padapter, eVariable, pValue);
->  }
->  
-> -void rtw_hal_set_odm_var(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet)
-> +void rtw_hal_set_odm_var(struct adapter *padapter,
-> +			 enum hal_odm_variable eVariable, void *pValue1, bool bSet)
->  {
->  	SetHalODMVar(padapter, eVariable, pValue1, bSet);
->  }
-> @@ -216,7 +217,8 @@ void rtw_hal_dm_watchdog(struct adapter *padapter)
->  void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
->  {
->  	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode)
-> -		rtl8723b_HalDmWatchDog_in_LPS(padapter); /* this function caller is in interrupt context */
-> +		/* this function caller is in interrupt context */
-> +		rtl8723b_HalDmWatchDog_in_LPS(padapter);
 
-Doesn't this break a different checkpatch issue?
+Hi,
 
-Be careful of multi-line statements like this...
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
