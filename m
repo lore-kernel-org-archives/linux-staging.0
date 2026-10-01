@@ -1,124 +1,159 @@
-Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
+Received: from mail-dl2-f41.google.com (mail-dl2-f41.google.com [74.125.229.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8AE14883F
-	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 20:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F305335A4
+	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 21:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790887454; cv=none; b=r4XVB3oOjIULbeDR/0MDRKXkFYRMkdHIobVfbONVNgx2N73HTAjVWd6eeb3XqE5fXzVfkpceNX1moCZPTXIrlE44q+RawUmEnaGsoDIzNl4z7XkjwBulw3YMfDxadSftq8yZXb4GMiFEhhP+9/GkzjoDMKKyiFGfPqnCOd6Ank8=
+	t=1790889304; cv=none; b=kVYf8t1OILtFVrfMC5r5mdCFFCTlpA1i+pqWXTTvaUeQSRfKPOym14Euy3IChiX7vgmIWKenbpZi6cQKu09yXikAhpgg5J5sGPtlGiz9PEl9yyArVbhLDmVr8uM1O5Xy0d2tufuaDr2PZtRL7Y9KbrGcb8LMyjxlDftO7/+Pg04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790887454; c=relaxed/simple;
-	bh=7VodwCwOLPapJRAeccbG9gnvKLac2aE+AGctWb2rf0Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M2qdohlTWOCR9nZ1gz43Ubi7Qmucp+ZG8jT6+8VlEsXsGFCS1LolKK5CgF7mH6rs5d5farcerNgkXBIjdhb4QUvIcSY+Rz2w3vqjoo9d3FdI2vviv9SH0BPbAE0sKaL/OhOrdS3BHlUxVHZ5qB6AbjUeqKL0sjJAffzYyBQalVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=YVxgf8om; arc=none smtp.client-ip=74.125.231.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	s=arc-20240116; t=1790889304; c=relaxed/simple;
+	bh=BlM4I36z6bhiXInG6xUzWTewHXmRYA9d2vHYlqTqc2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gwpcMpJrv7pNG4ifiJM46e9zjKGK3c0ZpzSMCyPUv7TpbryP4vkZY581fZ4eyRwe6UR/r2gVKszO3fXJlTOXM3Isbm5ShWpyE/GB15/xgnZkbsInXwR3kRgfX8NmV7GswiKsRWpiltq623UdxwTZn3+t0VGKiBB6Y2436zSDM/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XA/jxNTm; arc=none smtp.client-ip=74.125.229.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="YVxgf8om"
-Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-46ac6e5d8f7so3372054fac.1
-        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 13:44:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XA/jxNTm"
+Received: by mail-dl2-f41.google.com with SMTP id a92af1059eb24-149d5ec8e96so1794176c88.3
+        for <linux-staging@lists.linux.dev>; Thu, 01 Oct 2026 14:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1790887452; x=1791492252; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1790889302; x=1791494102; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=R8pPNZNUEJfVTYpFqmE11hp89qRxIiQ3XUfTUDe434A=;
-        b=YVxgf8omQayT9trwFdYf8ExWv0U3tIe9GcPrwivG3n2SaLVan2f09NlD6GQqEsNoXq
-         U/Vxkmdf2QSRGQXhazTDTxalSENXkNa4CX35l0+RmH3MqYVdzRp4WEAP1OO7/ZmMxMTZ
-         lH0b4JYdFoMtfRURJJnKH3DudTST/L7+kp+Xs=
+        bh=ZksoCsYbeBUOZimGQEpylXwSQkeR+dlL9oiy1lwzdCA=;
+        b=XA/jxNTm9KJEl2pouNeDjTZXDxQlhT5t28Wx/qUS4wpa9sDb+e4Zo97Mflavx74X6b
+         fBigcVFJ1FgCsc8KFQsDFetuRyHAS9sgLtIJk7Gg5+usXNgqmaKPKKDxEjvDJ7SfmzjB
+         MML/3Gtj1/FxJLd7F1WsYlLyUZIER0jx3KjUuSyVwbqwCs/X8rp7J80UxaSIJBT5mehx
+         +GQGV8x7/L/6cQp6zJsNLCj4h2hNfGlLQM5KiGQKZ9TbF3S8qwyIRBowgwSKpXiEEGmM
+         vAlwTKgFEzYFjZVYw0qEnQS2tKAbwk67CoqoDstVC1FdtB7WSijG5a+18ibroFaHjPHv
+         bW+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790887452; x=1791492252;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1790889302; x=1791494102;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=R8pPNZNUEJfVTYpFqmE11hp89qRxIiQ3XUfTUDe434A=;
-        b=NtRr1/8tFjtpNnT9WNjnOp4iOZzNijcfmpLt8YLQo5F9fbaX5OOCrKcIGdGxsvVLr8
-         lhq7hYF88q1K9onOfcoVtHr4JfNs7CkH72NuHFrn2JIdlxjxhmlDO5J1A0mA3y5hNSki
-         4AtbhQIPZBwvNLVbnHdchmmvjb3oNUvrKIn3nhRFLyOgiH+bqwrwdUkHzGFTSytsYKDH
-         GVde29QREbdiikmL7EpygtuNsmKBJeTEvCl52Wfok3j4M23x1fbf/0G8fEJ/ta2B+w96
-         FUUi68heVLbVY6ielPDCap4bF4YI2t8Q+KTgNjsgPzeC3ZQukw9KPtgdePL4OqFTAo73
-         ZmGw==
-X-Forwarded-Encrypted: i=1; AKwUvBz3yzrgJ/DZMKqjx2T0tyMdt8QbwTLFpkE301+fxLpWDxHbTj1um5YFPVkHlB97A0dNTWZ8dF5gO0pztjsL@lists.linux.dev
-X-Gm-Message-State: AFuF++m3otw6S4zp01HrHgidkKVsl77X9qXF1jbKfkpDGJ0gz7T5Ewlk
-	BTBXnM5wV56FaB+amMyOFpFNC/V6h8VhX7ku+Lyw1XoW6zW0O13iuJrSjodUo1AK5Q==
-X-Gm-Gg: AYBFou3U9dkHjr3e+zSpWdoCoC9Y1gxMhj9+W1h5D/yTYPFy/G1qRjps+MGGCEt2oza
-	A2zCk7NOjUSfpvMOVm2s3A/TvLFJRxuT7no4y7TvD3Izslc23x+gCfmRD1/IKkjSxICW928k+9n
-	4LiLlHYaBDn67Geqns3PmFjCJQveC4DQ515luU2CcTq9otpygtnYzAmcqjzELvu5OW+g1PR0VvG
-	kUKv8Z1XbYRjjZb+hll4ZZFuNr/HlchHZjVApMzKMvQKQSseRZ8IgnJ7Onkdto057h3PhuBARa7
-	ENyZ0uoeyBugDgiYMVhYF3cRNKElpGMxXlCL4yf8ZeV9cHE1YXA356hdWPGD5h+iXlUSpAevtUz
-	rw4WFoySG8VXkRfgAFg0DN9SyDGh5GDz4jvFmKrP6EA2x7oBqJBrG8MhT0WuixSWjgm27bYxcXy
-	nsjc9GvnWChikwnbQ+7+amF+kswFQBkD6k9JCc3jG2ZmqeN2Z7J6/xfwxSNBdCutSYVw==
-X-Received: by 2002:a05:6808:67c2:b0:4d6:90f3:74b1 with SMTP id 5614622812f47-4f52ab8edb4mr278058b6e.49.1790887451759;
-        Thu, 01 Oct 2026 13:44:11 -0700 (PDT)
-Received: from [172.22.22.28] ([73.62.185.64])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4f52195af2bsm367492b6e.1.2026.10.01.13.44.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Oct 2026 13:44:10 -0700 (PDT)
-Message-ID: <13a8af5c-5047-428a-9a69-07b98ccd65b5@ieee.org>
-Date: Thu, 1 Oct 2026 15:44:09 -0500
+        bh=ZksoCsYbeBUOZimGQEpylXwSQkeR+dlL9oiy1lwzdCA=;
+        b=qM0R/HegSci4fmwcSsUibFe6u43GtO+HnkCokNMF6iBBEGJ4sxn1Ix6TvE1jru0vRz
+         SX1VodqZSULuwdVO5sBsJ/YI6ClMVt1jrnHaNT5dOoIu3FNNpWGwbXOXKOj9HQ9FjQ1Y
+         mBtecIjaLrTX6oCsJxhM1KUFdpqsKfY9TD86v4wa/UY31luhIat2/fKSEW5KvN31XdWO
+         77F7gSRh5EKf+vWMH5KwYW/YCB52tWZ1hHyYPt2CSOkrXSrd8rVUn6Rq6Y3D4q0K9FX3
+         rDl4GTEzniLBdxYNwvexJy+foToXGplXWI6wcjSOiCuaDgMmVXVJhsvE4/9zJuD3DOxt
+         E5pA==
+X-Forwarded-Encrypted: i=1; AKwUvBwmQI0k9cNIRkOwiF5fzzSXDO3iO2bx9xkv9jn5NQXVUokETi1W17rVD94l7OF15Zcl2SVOeeTL3ja3+Qf9@lists.linux.dev
+X-Gm-Message-State: AFuF++nYlk+qhGV3yVjiOVMhRnKVG8xaRST2jHALdet/CoR5ODC7h5dq
+	BfvZ+WXo4Ttl8cVj5Gm0HoXdc5nyBAcVjZpDda3B2Bi4lAmU4CT9G9enejRjQL5jWnMC8MDr
+X-Gm-Gg: AYBFou0qI3i0h5w3+yKaqVjD79ZTt834BbTeOwBBZ+LvgEa8nhWChwy58ojEZBX6R+w
+	NGhJmv+7fuUT6ryMW3UMHsiYAFtdRIlREaAKQQGTFWt8hEdHdjI8yiV6brzNOr8Usbk7J8G40Mx
+	QtDNjN4ClVdTeLArGPYoEuAHuX5ZG99h7fcUUdqiQhlc677qiUuov0nP2Rpkwrw3TQavCQRQHV5
+	xgGvJLtma8d33j67Rad9i7sxvZYn5cyGATJK2bSt3GLqpZneJ9r0DEa8u2nALZcy1YhfKC8zA5Y
+	ayZfoXxw2SZ80VuSMyhCiu+/mdeZ6K1BlCCaSqQbvS4s0B2LxBsMtP+9rmmWaBeIvedtq4uHaP3
+	srgi6sA2cUeZAqD+HqJKRZFj01pOz1scPh30QceIE3Ef6Pu8z0dXr2vlnX+OTq7ctz6JiQvsS9K
+	MTGGU7OazVnVwBsT48Gcc+c0wRfcMELWKpFQOI3bxEwhlNYV6TLTU=
+X-Received: by 2002:a05:701b:420c:20b0:143:5266:48ee with SMTP id a92af1059eb24-14f5d1b790bmr474903c88.42.1790889300697;
+        Thu, 01 Oct 2026 14:15:00 -0700 (PDT)
+Received: from arlo ([72.235.71.10])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34f067301b5sm925268eec.1.2026.10.01.14.14.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 14:15:00 -0700 (PDT)
+Date: Thu, 1 Oct 2026 11:14:58 -1000
+From: Raiden Horner <raidenhornerdev@gmail.com>
+To: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: greybus: audio: Fix no terminating newline in sysfs
+ emit
+Message-ID: <ar7NUjfCOwtHRTuv@arlo>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: greybus: remove driver depending on
- nonexistent config option
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>,
- Hisam Mehboob <hisamshar@gmail.com>,
- =?UTF-8?Q?Martin_Kepplinger-Novakovi=C4=87?= <martink@posteo.de>,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- Agatha Isabelle Moreira <code@agatha.dev>, Johan Hovold <johan@kernel.org>,
- Alex Elder <elder@kernel.org>
-References: <20260915020308.83636-1-enelsonmoore@gmail.com>
- <2026100125-puppy-pacific-52c6@gregkh>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <2026100125-puppy-pacific-52c6@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/1/26 4:19 AM, Greg Kroah-Hartman wrote:
-> On Mon, Sep 14, 2026 at 07:02:59PM -0700, Ethan Nelson-Moore wrote:
->> The Greybus Arche Platform driver depends on the config options
->> USB_HSIC_USB3613 or COMPILE_TEST. USB_HSIC_USB3613 has never existed in
->> mainline Linux, and COMPILE_TEST is intended to enable the compilation
->> of drivers on platforms that can't support them to improve code
->> coverage and ease testing of trivial or tree-wide changes. Therefore,
->> it is impossible for anyone to be using this driver with unmodified
->> mainline kernels. Remove it and move the former maintainer to the
->> CREDITS file.
->>
->> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
->> ---
->> Changes in v2: Clarify commit message - mention COMPILE_TEST
->>
->>   CREDITS                                  |   4 +
->>   MAINTAINERS                              |   7 -
->>   drivers/staging/greybus/Kconfig          |   9 -
->>   drivers/staging/greybus/Makefile         |   6 -
->>   drivers/staging/greybus/arche-apb-ctrl.c | 490 -----------------
->>   drivers/staging/greybus/arche-platform.c | 653 -----------------------
->>   drivers/staging/greybus/arche_platform.h |  28 -
->>   7 files changed, 4 insertions(+), 1193 deletions(-)
->>   delete mode 100644 drivers/staging/greybus/arche-apb-ctrl.c
->>   delete mode 100644 drivers/staging/greybus/arche-platform.c
->>   delete mode 100644 drivers/staging/greybus/arche_platform.h
-> 
-> Yeah, it's time to finally drop this.  If it's needed in the future, it
-> can come back with a simple revert.
+Terminating newlines added to adhere kernel coding standards
+and reduce noise when debugging with checkpatch.
 
-Sounds good.
+Reported by checkpatch:
 
-Acked-by: Alex Elder <elder@riscstar.com>
-> 
-> thanks,
-> 
-> greg k-h
+WARNING: SYSFS_EMIT: return sysfs_emit(...) formats should include a terminating newline
+
+Signed-off-by: Raiden Horner <raidenhornerdev@gmail.com>
+---
+ drivers/staging/greybus/audio_manager_module.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index dc90cc2d2308..98b12b77aa9f 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
+ static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
+ 					 struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%s", module->desc.name);
++	return sysfs_emit(buf, "%s\n", module->desc.name);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+ static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.vid);
++	return sysfs_emit(buf, "%d\n", module->desc.vid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+ static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.pid);
++	return sysfs_emit(buf, "%d\n", module->desc.pid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
+ 					    struct gb_audio_manager_module_attribute *attr,
+ 					    char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.intf_id);
++	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -158,7 +158,7 @@ static void send_add_uevent(struct gb_audio_manager_module *module)
+ 	char ip_devices_string[64];
+ 	char op_devices_string[64];
+ 
+-	char *envp[] = {
++	char * const envp[] = {
+ 		name_string,
+ 		vid_string,
+ 		pid_string,
+-- 
+2.47.3
 
