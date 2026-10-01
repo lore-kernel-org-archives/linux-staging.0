@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67794A7C9B;
-	Thu,  1 Oct 2026 09:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FF64D4882;
+	Thu,  1 Oct 2026 09:29:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790846899; cv=none; b=QtM8rW0+WCtoBtWxHHIH7gWL2WPk3bniI+s0pu/lH0bxdoHmkQyJm6S0hKdOTNp6V5SOy2Fv7xnegw1Ki/vitdT5esVov5sx+zPdGnpWknMcEain7KLyDu/jR9t5nCzQ1jVIvtaZoCDAvC8XHp9NJlfEbUIRP60S7GdZHfuKqWI=
+	t=1790846988; cv=none; b=CYrYgrepHrJG8N2WQ2/Bnyusvg8c599ttsxLfNObwOlCFaBq0M8BMEMJcm6CluHuljtB8IGWR713OFSXVQ0hIUuOhfp3XzBFQjotkILtsqYRSxCAQiY80pVA+sc0EarHY9PrNUXq+8zSo4Lpt0krHG7d9hXn8ugXFjxoE9Dj45g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790846899; c=relaxed/simple;
-	bh=AnURxHfhsJVzQNUxgO/7dXS3RztEqGpRqrT07miIn+8=;
+	s=arc-20240116; t=1790846988; c=relaxed/simple;
+	bh=t/FRGhrqgQAOhkutZ2HIcjirUgjtyqV8JphA/SoHTgQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XppxC1eKjumJaEcpvjhXDaxtSacBI5+gwAAK5w7hMdvZbiXe9O6NeZpGSUnzBoMkkhkyKbo5G8WhdqZdCcasdyZfX+Exns4U2SSs/Ai7RQ6apfiEWy1WhKP2JPDOzSJjF4xHkX2AlBfIj+HUjM4eA5OlTu200GYiamNouSj8WyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0NzAUWiL; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=C44ydA6yq7vWsDQmp1zbrTLkziclWMia9nYnbBb9QIx8l/MS+WWO++UoMjthjxJdkUm/7iIm2N3lSM/HHskIpvxxywAnKQZj2DhZGwDp6nChmgINjIQvqrlxAfxFd1kCCXCEuTadsECz5kYsMf3eHPCoCyx8SQBcSIN06VgGyQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BPDvimf5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0NzAUWiL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02AD51F000FF;
-	Thu,  1 Oct 2026 09:28:06 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BPDvimf5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93ADD1F000FF;
+	Thu,  1 Oct 2026 09:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790846887;
-	bh=M1+gxPnqihf3sYvjqc9uWAg2uM4ocva618sTuonTi14=;
+	s=korg; t=1790846986;
+	bh=IHdCB7UXS+RjN6aYKAYsbpA0C9+cu8S0I234OeLJvaM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=0NzAUWiLeK+ldX+a8inqWM5x4XaOWHOx6mTHiZNvl98ZOciikLTLDVomc1JTFPGgR
-	 HxGo2I90gBhkLjFbmphohjfHkN8KJysLtXS4RgfpMI/tN5TDOmD2iU1ZTiGI7L0E+M
-	 aulgoMhfgcX/RUqUNjED3ueLbq6C1yGUnj8hOnKA=
-Date: Thu, 1 Oct 2026 11:28:01 +0200
+	b=BPDvimf5e1+t9uXhg0qpt22uzk5cSA0w836eEpPdkePA2vHndtFRSA7tXfcT1qwOc
+	 jVrmOQSjlptmgWgwvm6DtIXLtAc4lZ0N2o9Sl8I+2Eeh/mIE7PJn+LrzD7ZVM1N5nc
+	 Vv14TXGY25dCyRBNfw+HcQa/Ad1TAwvt0QDzH6DI=
+Date: Thu, 1 Oct 2026 11:29:39 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Hungyu Lin <dennylin0707@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: make rtl8723_dequeue_writeport()
- return bool
-Message-ID: <2026100145-unbitten-playmaker-8ac5@gregkh>
-References: <20260926105827.3760-1-dennylin0707@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: make rtw_register_tx_alive() return
+ bool
+Message-ID: <2026100113-donation-filling-5562@gregkh>
+References: <20260926111125.5036-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,35 +40,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260926105827.3760-1-dennylin0707@gmail.com>
+In-Reply-To: <20260926111125.5036-1-dennylin0707@gmail.com>
 
-On Sat, Sep 26, 2026 at 10:58:27AM +0000, Hungyu Lin wrote:
-> rtl8723_dequeue_writeport() returns boolean state and its caller uses the
-> return value as a boolean.
+On Sat, Sep 26, 2026 at 11:11:25AM +0000, Hungyu Lin wrote:
+> rtw_register_tx_alive() only reports whether the transmit path can
+> continue, and its only caller treats the return value as a boolean.
 > 
-> Change the return type to bool and replace _FAIL with false. Also use bool
-> for the caller's queue_empty variable.
+> Change the return type to bool and replace _SUCCESS and _FAIL with true
+> and false. Update the caller accordingly.
 > 
 > No functional change.
 > 
 > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c    | 12 ++++++------
+>  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c  |  4 +---
+>  drivers/staging/rtl8723bs/include/rtw_pwrctrl.h |  2 +-
+>  3 files changed, 8 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> index 0441e84ea87d..482dd1baf3ca 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> @@ -33,7 +33,7 @@ static u8 rtw_sdio_wait_enough_TxOQT_space(struct adapter *padapter, u8 agg_num)
->  	return true;
->  }
->  
-> -static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
-> +static bool rtl8723_dequeue_writeport(struct adapter *padapter)
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> index 448611ad8237..007ead477a51 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> @@ -771,13 +771,13 @@ void rtw_unregister_task_alive(struct adapter *padapter, u32 task)
+>   * _SUCCESS	rtw_xmit_thread can write fifo/txcmd afterwards.
+>   * _FAIL		rtw_xmit_thread can not do anything.
+>   */
+> -s32 rtw_register_tx_alive(struct adapter *padapter)
+> +bool rtw_register_tx_alive(struct adapter *padapter)
 
-Please change the variable that is assigned to the output of this
-function as well.
+This is kind of the wrong way to do this as the caller of this function:
+
+> -	ret = rtw_register_tx_alive(padapter);
+> -	if (ret != _SUCCESS) {
+> +	if (!rtw_register_tx_alive(padapter))
+>  		return _SUCCESS;
+
+Is now in the "opposite" format for kernel functions, right?
+
+Why not fall back to the normal 0 and -ERROR instead?
 
 thanks,
 
