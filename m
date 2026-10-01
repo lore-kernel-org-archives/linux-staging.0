@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AAB4E7804
-	for <linux-staging@lists.linux.dev>; Thu,  1 Oct 2026 09:18:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B3F4DDB38;
+	Thu,  1 Oct 2026 09:19:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790846315; cv=none; b=IOk5+cJESHZ9NGvAZ1jMrIpPCWfTuHIUCV4FSU9WaQ8HHx1A/LWoaNnleGleSD9g4SYyV/T+7c3M8FBUk4a1OdRlJQPk7WKv1uUnxhtmIG70bxt7mjAvFKMy485u4YxBnps+1eYO9lxneK7E/sRsTl/2bVBmtu7KEEZePosUkt8=
+	t=1790846361; cv=none; b=WOfz6qSym1A5dmbuzmPprPxcQ1FVh+R3E+5PA4sa3ALgjdyD1QnRU90oXWNesRDyeFV8Mia5u82OdyYjgn8eNS94l/GAcQG9INE58OaL5U5iJCn3No2uY8a4CyXGRH0J0tNP6OiXZTLrbCJBUAmiHWx93qvUqbHPsEDxHq/pMko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790846315; c=relaxed/simple;
-	bh=Jbl2mqkJrg6JBkDIRJIwJCpyaG22Ahw8aik4mz/BCLU=;
+	s=arc-20240116; t=1790846361; c=relaxed/simple;
+	bh=1f3ayNH92AQGA+d6NX/xxygpywxEN7rSWbZQ+o8yCBE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V+PfYmnfRD9UYPptL3xA/iswTOsKK4lVabk+2k4mhDmH7G66jr12ETZqiStvcC3yUkMJxSRPHa+k4GRR3he/6DEeZ8uTB08Bild5j1py6Nbdo+6MgBWrt6r9ZcDxs7l9mdjTv+JwUkyBnVQnE+bTiVVdA7HLFSZH9NzpRhiG/AM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fYONhUZP; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=cISzY9JRm1Lv54hA69E130k15J7JWJVATk707VPhFRKkjFuJHP6swNLykhHW+obi5rVouQ9Q++TNcq5cYq+NRyHNr7Dt+wLnQn9zYUiWvAnha+DYmmha9dPsnBAL9FdjNhoz0beyyuukwCoInr2Rcsnd9YtjGb+S/1drI/UMysg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Fr16Gz5l; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fYONhUZP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 752371F000FF;
-	Thu,  1 Oct 2026 09:18:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Fr16Gz5l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D8481F000FF;
+	Thu,  1 Oct 2026 09:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790846314;
-	bh=cIhXOAtIAcTkair9aK/+R9lxntklI7LKJFATXHgpYkk=;
+	s=korg; t=1790846359;
+	bh=rkBCGv8X8EgsQbqyaFsSMbFPbzcaxb2OzoA7RbNiWdo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fYONhUZPF1JFJWdw5dvGh7RiJ0pMwztWUnjeaLuAcaAkihvahp4ZY0I0pqqQc4rMj
-	 Nn5KfsFisaCsHMmfQZtlLbR21L1IiTivrunCMkJmolYtYikxlxDG/Gps87etdFZaBP
-	 20Sg+z122VP7vQSToh4rseaooxV2MhPUXA62Y1rw=
-Date: Thu, 1 Oct 2026 11:18:27 +0200
+	b=Fr16Gz5lTOZlHnbl+NqdkswFG6oCnbUyLgm42UIIeuFwPWoNDb7W94rn5ltW+3IuA
+	 ig1a5MtC1dJ+zncgeRD9BqS7VY1SnHioIGZvfkRs9iQFRTuXW7C6LSxeQUlaIYRBO1
+	 mJgb1CO5shddH5na52O/F7R8EZp5Ii61Je+mN2Gk=
+Date: Thu, 1 Oct 2026 11:19:13 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Alex Elder <elder@ieee.org>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+To: Ashutosh Yadav <yadavxashutosh@gmail.com>
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
 	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>
-Subject: Re: [PATCH] staging: greybus: remove camera driver marked as broken
- since 2016
-Message-ID: <2026100102-drop-down-washcloth-ce5d@gregkh>
-References: <20260918011437.108678-1-enelsonmoore@gmail.com>
- <3f152ed6-e572-4c96-8762-2fb7cdc77695@ieee.org>
- <aq0x6IGnKd2IYXoU@stanley.mountain>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: add missing newlines in sysfs_emit
+ formats
+Message-ID: <2026100159-hacked-encourage-fe18@gregkh>
+References: <20260925205328.59183-1-yadavxashutosh@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,40 +43,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aq0x6IGnKd2IYXoU@stanley.mountain>
+In-Reply-To: <20260925205328.59183-1-yadavxashutosh@gmail.com>
 
-On Fri, Sep 18, 2026 at 03:43:20PM +0300, Dan Carpenter wrote:
-> On Fri, Sep 18, 2026 at 07:18:54AM -0500, Alex Elder wrote:
-> > On 9/17/26 8:14 PM, Ethan Nelson-Moore wrote:
-> > > The Greybus camera driver has been marked as BROKEN since
-> > > commit d4f56b47a8fa ("staging: greybus: Add drivers/staging/greybus to
-> > > the build"). It has not been able to compile since at least
-> > > commit ec0ad868173d ("staging: greybus: move core include files to
-> > > include/linux/greybus/") because it includes greybus_protocols.h from
-> > > its own directory. These two facts make it very clear there is no
-> > > demand for this driver. Remove it from the kernel.
-> > 
-> > Hmmm.  Do you know why it is BROKEN?  Do you know what it
-> > would take to make it work?  I understand the point of
-> > removing it, but in part the Greybus code has historically
-> > served as sample code for people to work on.  It might be
-> > nicer to have fixing it be a pet project.
-> > 
+On Sat, Sep 26, 2026 at 02:23:28AM +0530, Ashutosh Yadav wrote:
+> According to Documentation/filesystems/sysfs.rst, sysfs attribute show
+> functions should output a single value and terminate with a newline.
 > 
-> The compile breaks because of:
+> Currently, gb_audio_module_name_show(), gb_audio_module_vid_show(),
+> gb_audio_module_pid_show(), gb_audio_module_intf_id_show(),
+> gb_audio_module_ip_devices_show(), and gb_audio_module_op_devices_show()
+> call sysfs_emit() without a trailing newline in their format strings.
 > 
-> commit aa1b4da6af67d5c6a4e933c2d30890c6f282f505
-> Author: Boris Brezillon <bbrezillon@kernel.org>
-> Date:   Mon Nov 10 14:28:35 2014 -0300
+> Add the missing newline character to each sysfs_emit() format string to
+> comply with the sysfs documentation and silence checkpatch warnings.
 > 
->     [media] v4l: Forbid usage of V4L2_MBUS_FMT definitions inside the kernel
->     
->     Place v4l2_mbus_pixelcode in a #ifndef __KERNEL__ section so that kernel
->     users don't have access to these definitions.
+> Signed-off-by: Ashutosh Yadav <yadavxashutosh@gmail.com>
+> ---
+>  drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
 
-Good point, no one has picked this up since then so let's drop the
-driver and if it ever is needed in the future it can be reverted and
-brought back.
+Please read the archives for why this patch keeps getting rejected :)
 
 thanks,
 
