@@ -1,217 +1,197 @@
-Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E8C4EE87C
-	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 15:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.54.11.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B1B4CEE45;
+	Fri,  2 Oct 2026 16:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790955935; cv=none; b=CAAht2NKSS8IY2iw404mzFyO7aUVoYwuXZ/azIjR8XDpUHc+D2qA9GDTRU4LI7L++I+GGxZBFgyLOnlrxaLsJzvR5xsgZ+rIZVeeZC8XKiDzX8CHmPBdP7ERGsHLki5Jce2Y//FjfaGJjiAMa86/nohl8Ea36APOa7IT/QboYKM=
+	t=1790958505; cv=none; b=du8KvlbShBMNJ7Y/FHcbyZZqXqoem7elwHljtpkBCJJ7OW0COwmgLQ+3yn2mrAPwkT/f2ZjqzX5wogvwDEULFXb+YCuHS+mFjqHsK2tVjP9/DAoMRmIrF6GAcwKXAPMFRs6QnSwqEEX5e/dpKovvsuO1I2ION+owgnyB7Hn82sE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790955935; c=relaxed/simple;
-	bh=JDitukbJGHFn93LLNvIES8E0vg7uyi62NzSdy2zA+q4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p2MptZ5WEMJAexkTt7zm+fT3i+B2sbD290NrW+ZVKkE8OincBxGECW+TdAuC+y/BkTHwwFvxMDWmvwlXelGgjXwRpNorHrPKThQvpA5An1MSals42WMET/YdmuzDq7Aw+Nln0UnLpA8wtICYyEisS8ajFvZ1so/dSkikUlUvwjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br; spf=pass smtp.mailfrom=inf.ufrgs.br; dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b=gMyQCY77; arc=none smtp.client-ip=143.54.11.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
+	s=arc-20240116; t=1790958505; c=relaxed/simple;
+	bh=7BmkuLFZ5pN7GP0XreCEjI9N/iJqsFycBXAUvhcqTJo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=NOViHkya/nMv87+BK2izLjvQ3RLtqeMJZs8yXIFjd3gLqAdiXakv9pe4G9PmaX6oS2INsDqBD9SYtveK1KdWlv8DoiQzm0jELadW+HFqd+BDtTyydE1j8fZvusHB6r0afVGfRUHAeSx17u9Ua0xOtVM0lXiorY27VBacgt9GRVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LoyA6D7O; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b="gMyQCY77"
-Received: from LAPTOP-R01LEAQM.localdomain (unknown [186.210.89.241])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id B339A1210F5;
-	Fri,  2 Oct 2026 12:45:20 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
-	s=dkim2026; t=1790955921;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=4POLpI7xh1Z/RDP/EUuFH7XSIXGsB/pWdF+/Kq5mRQw=;
-	b=gMyQCY77qm3HuMsdLtoG5EQrwSW0eI4CLxn5MJCj1m1sKpBxoZAp/fWNX4Zj/7cEN2xR65
-	tmcllIOjPNbHcnadoItBWTm8OjYmn6AwHbJVL2/iNOAEgqmAEI8aqIG3XQt2BRIaXddKS/
-	4HQF/obBxUvCXcbaXPVq/4ILvQeiiXLuw1sjM3w8wIIm+OhLX13jTeI1ykzVMBJMVsvWun
-	RDkZDuqTNHihggygi+7VOADvVl5jhYV2+4+I0jt7rNATZmvdhLDxfLDnQk9zfKZOOpxAL4
-	ocgB7Ys0PjE6YT/mXJVFXGbXRDRVBRNxpWRoK4URNU3a5zF5d9WBN4H2JeYvKw==
-From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <error27@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Subject: [PATCH v5] staging: rtl8723bs: return bool from check_pending_xmitbuf
-Date: Fri,  2 Oct 2026 12:43:50 -0300
-Message-ID: <20261002154350.120639-1-matheus.aalmeida@inf.ufrgs.br>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LoyA6D7O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA1131F000FF;
+	Fri,  2 Oct 2026 16:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790958503;
+	bh=mvElZZI+CeG4IxR+qpAqQMv0MhCUAS7GHtlXGfa/VvA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=LoyA6D7OdQ8C6lV81NVZS0Jv3tm+IliOpCGg3Sgcq6yzI7KbOD0jZFBi3+tPFlMkW
+	 ai9VFPcPAwsHj1ofV8liuvPNt8j9+wXEiypBdEYiAELaEgvMzCxKvEnxGfc38ln2oM
+	 3fz74075MNhAOfl+rQ3/UfDeSNbFR1CiuntRDC6zRnuocCyCXPYWxDHNc6vSWwH5P9
+	 2RocJpQHh3FW51feBum3TbJnk9QV+hl+SVUrPwhBldki0PBq/w2Zxr3PUbUrYeVqAt
+	 mmDtrL/PHN7r4u6zvk3wl3V7mISSjaOE953p7FApbyWzGotN568r9S6JmZPLWZ8Qz3
+	 A3pSfvisT37ww==
+Date: Fri, 2 Oct 2026 11:28:22 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-pci@vger.kernel.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/1] media: Consolidate AtomISP v2 PCI IDs in the
+ pci_ids.h
+Message-ID: <20261002162822.GA103095@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261002094813.856439-1-andriy.shevchenko@linux.intel.com>
 
-check_pending_xmitbuf() returns only true or false. To accurately
-describe the function's behavior, rename it to has_pending_xmitbuf()
-and change the return type to bool. Propagate the return type through
-one of the call chains.
+On Fri, Oct 02, 2026 at 11:43:43AM +0200, Andy Shevchenko wrote:
+> We have a few drivers using same pair of the PCI IDs across the kernel and
+> there seems more to go, consolidate AtomISP v2 PCI IDs in pci_ids.h database.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
----
-v2: Add missing "staging: " prefix to commit message.
-v3: Change one of the call chains to also return bool.
-v4:
-    - rtw_transmit_thread(): rename err -> xmit_status.
-    - check_pending_xmitbuf(): rename ret -> xmitbuf_pending.
-    - check_pending_xmitbuf(): remove unnescessary if statement.
-    - rtl8723bs_xmit_buf_handler(): remove queue_pending and directly
-      check the value returned by check_pending_xmitbuf() instead.
-v5:
-    - Rename check_pending_xmitbuf() -> has_pending_xmitbuf().
-    - Rebase against latest staging-testing tree.
+Acked-by: Bjorn Helgaas <bhelgaas@google.com> # pci_ids.h
 
- drivers/staging/rtl8723bs/core/rtw_xmit.c        | 16 +++++++---------
- drivers/staging/rtl8723bs/hal/hal_intf.c         |  2 +-
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c   |  9 +++------
- drivers/staging/rtl8723bs/include/hal_intf.h     |  2 +-
- .../staging/rtl8723bs/include/rtl8723b_xmit.h    |  2 +-
- drivers/staging/rtl8723bs/include/rtw_xmit.h     |  2 +-
- 6 files changed, 14 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 57b3690bc48af..00a3c031e12eb 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -2463,37 +2463,35 @@ struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpri
- 	return pxmitbuf;
- }
- 
--signed int check_pending_xmitbuf(struct xmit_priv *pxmitpriv)
-+bool has_pending_xmitbuf(struct xmit_priv *pxmitpriv)
- {
- 	struct __queue *pqueue;
--	signed int	ret = false;
-+	bool xmitbuf_pending;
- 
- 	pqueue = &pxmitpriv->pending_xmitbuf_queue;
- 
- 	spin_lock_bh(&pqueue->lock);
- 
--	if (!list_empty(&pqueue->queue))
--		ret = true;
-+	xmitbuf_pending = !list_empty(&pqueue->queue);
- 
- 	spin_unlock_bh(&pqueue->lock);
- 
--	return ret;
-+	return xmitbuf_pending;
- }
- 
- int rtw_xmit_thread(void *context)
- {
--	s32 err;
-+	bool xmit_status;
- 	struct adapter *padapter;
- 
--	err = _SUCCESS;
- 	padapter = context;
- 
- 	allow_signal(SIGTERM);
- 
- 	do {
--		err = rtw_hal_xmit_thread_handler(padapter);
-+		xmit_status  = rtw_hal_xmit_thread_handler(padapter);
- 		flush_signals_thread();
--	} while (err == _SUCCESS);
-+	} while (xmit_status == _SUCCESS);
- 
- 	complete(&padapter->xmitpriv.terminate_xmitthread_comp);
- 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 1443875d13694..9653ab3ad893d 100644
---- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -229,7 +229,7 @@ void beacon_timing_control(struct adapter *padapter)
- 	rtl8723b_SetBeaconRelatedRegisters(padapter);
- }
- 
--s32 rtw_hal_xmit_thread_handler(struct adapter *padapter)
-+bool rtw_hal_xmit_thread_handler(struct adapter *padapter)
- {
- 	return rtl8723bs_xmit_buf_handler(padapter);
- }
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index 6624d2aac4bcc..de99998616b99 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -115,11 +115,10 @@ static bool rtl8723_dequeue_writeport(struct adapter *padapter)
-  *_SUCCESS	ok
-  *_FAIL		something error
-  */
--s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
-+bool rtl8723bs_xmit_buf_handler(struct adapter *padapter)
- {
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	bool queue_empty;
--	u8 queue_pending;
- 	s32 ret;
- 
- 	if (wait_for_completion_interruptible(&pxmitpriv->xmit_comp)) {
-@@ -132,9 +131,7 @@ s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
- 	if (ret)
- 		return _FAIL;
- 
--	queue_pending = check_pending_xmitbuf(pxmitpriv);
--
--	if (!queue_pending)
-+	if (!has_pending_xmitbuf(pxmitpriv))
- 		return _SUCCESS;
- 
- 	ret = rtw_register_tx_alive(padapter);
-@@ -199,7 +196,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
- 		phwxmit = hwxmits + inx[idx];
- 
- 		if (
--			(check_pending_xmitbuf(pxmitpriv)) &&
-+			(has_pending_xmitbuf(pxmitpriv)) &&
- 			(padapter->mlmepriv.link_detect_info.higher_busy_tx_traffic)
- 		) {
- 			if ((phwxmit->accnt > 0) && (phwxmit->accnt < 5)) {
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index 7b63116525cab..763ff6f3cb535 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -222,7 +222,7 @@ void rtw_hal_set_chnl_bw(struct adapter *padapter, u8 channel, enum channel_widt
- void rtw_hal_dm_watchdog(struct adapter *padapter);
- void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter);
- 
--s32 rtw_hal_xmit_thread_handler(struct adapter *padapter);
-+bool rtw_hal_xmit_thread_handler(struct adapter *padapter);
- 
- void rtw_hal_notch_filter(struct adapter *adapter, bool enable);
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
-index d02ead67777a0..acf0ac9e5a755 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
-@@ -406,7 +406,7 @@ void rtl8723bs_free_xmit_priv(struct adapter *padapter);
- s32 rtl8723bs_hal_xmit(struct adapter *padapter, struct xmit_frame *pxmitframe);
- s32 rtl8723bs_mgnt_xmit(struct adapter *padapter, struct xmit_frame *pmgntframe);
- s32	rtl8723bs_hal_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitframe);
--s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter);
-+bool rtl8723bs_xmit_buf_handler(struct adapter *padapter);
- int rtl8723bs_xmit_thread(void *context);
- 
- u8 BWMapping_8723B(struct adapter *Adapter, struct pkt_attrib *pattrib);
-diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-index c5cb814789d86..14ceae47918b2 100644
---- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-@@ -432,7 +432,7 @@ void enqueue_pending_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmit
- void enqueue_pending_xmitbuf_to_head(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
- struct xmit_buf *dequeue_pending_xmitbuf(struct xmit_priv *pxmitpriv);
- struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpriv);
--signed int	check_pending_xmitbuf(struct xmit_priv *pxmitpriv);
-+bool has_pending_xmitbuf(struct xmit_priv *pxmitpriv);
- int	rtw_xmit_thread(void *context);
- 
- u32 rtw_get_ff_hwaddr(struct xmit_frame	*pxmitframe);
--- 
-2.43.0
-
+> ---
+> 
+> Assuming that media subsystem is the main beneficiary I think it is the best
+> to route it via that tree. For others (i915, PCI, PDx86), please Ack if you
+> are agree.
+> 
+>  drivers/gpu/drm/i915/display/intel_display_power.c   |  6 +++---
+>  drivers/platform/x86/intel/atomisp2/pm.c             |  6 +++---
+>  drivers/staging/media/atomisp/pci/atomisp_internal.h |  2 --
+>  drivers/staging/media/atomisp/pci/atomisp_v4l2.c     | 10 +++++-----
+>  include/linux/pci_ids.h                              |  2 ++
+>  5 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
+> index 2e534ddb7347..ee2c59b72b4a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_power.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_power.c
+> @@ -2086,9 +2086,9 @@ static void assert_ved_power_gated(struct intel_display *display)
+>  static void assert_isp_power_gated(struct intel_display *display)
+>  {
+>  	static const struct pci_device_id isp_ids[] = {
+> -		{PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x0f38)},
+> -		{PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x22b8)},
+> -		{}
+> +		{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BYT) },
+> +		{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BSW) },
+> +		{ }
+>  	};
+>  
+>  	drm_WARN(display->drm, !pci_dev_present(isp_ids) &&
+> diff --git a/drivers/platform/x86/intel/atomisp2/pm.c b/drivers/platform/x86/intel/atomisp2/pm.c
+> index ad1f99140962..f3dee0e58f62 100644
+> --- a/drivers/platform/x86/intel/atomisp2/pm.c
+> +++ b/drivers/platform/x86/intel/atomisp2/pm.c
+> @@ -121,9 +121,9 @@ static UNIVERSAL_DEV_PM_OPS(isp_pm_ops, isp_pci_suspend,
+>  			    isp_pci_resume, NULL);
+>  
+>  static const struct pci_device_id isp_id_table[] = {
+> -	{ PCI_VDEVICE(INTEL, 0x0f38), },
+> -	{ PCI_VDEVICE(INTEL, 0x22b8), },
+> -	{ 0, }
+> +	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BYT) },
+> +	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BSW) },
+> +	{ }
+>  };
+>  MODULE_DEVICE_TABLE(pci, isp_id_table);
+>  
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+> index 5a69580b8251..1a05fc331557 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+> @@ -37,7 +37,6 @@
+>  	(((isp)->media_dev.hw_revision & ATOMISP_HW_REVISION_MASK) == \
+>  	 ((rev) << ATOMISP_HW_REVISION_SHIFT))
+>  
+> -#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
+>  /* MRFLD with 0x1178: ISP freq can burst to 457MHz */
+>  #define ATOMISP_PCI_DEVICE_SOC_MRFLD	0x1178
+>  /* MRFLD with 0x1179: max ISP freq limited to 400MHz */
+> @@ -45,7 +44,6 @@
+>  /* MRFLD with 0x117a: max ISP freq is 400MHz and max freq at Vmin is 200MHz */
+>  #define ATOMISP_PCI_DEVICE_SOC_MRFLD_117A	0x117a
+>  #define ATOMISP_PCI_DEVICE_SOC_ANN	0x1478
+> -#define ATOMISP_PCI_DEVICE_SOC_CHT	0x22b8
+>  
+>  #define ATOMISP_PCI_REV_MRFLD_A0_MAX	0
+>  #define ATOMISP_PCI_REV_BYT_A0_MAX	4
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> index 476fe143a591..ab8727a806bf 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> @@ -1239,7 +1239,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+>  		}
+>  		isp->hpll_freq = HPLL_FREQ_1600MHZ;
+>  		break;
+> -	case ATOMISP_PCI_DEVICE_SOC_BYT:
+> +	case PCI_DEVICE_ID_INTEL_ISP_BYT:
+>  		isp->media_dev.hw_revision =
+>  		    (ATOMISP_HW_REVISION_ISP2400
+>  		     << ATOMISP_HW_REVISION_SHIFT) |
+> @@ -1284,7 +1284,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+>  		isp->dfs = &dfs_config_merr;
+>  		isp->hpll_freq = HPLL_FREQ_1600MHZ;
+>  		break;
+> -	case ATOMISP_PCI_DEVICE_SOC_CHT:
+> +	case PCI_DEVICE_ID_INTEL_ISP_BSW:
+>  		isp->media_dev.hw_revision = (ATOMISP_HW_REVISION_ISP2401
+>  						 << ATOMISP_HW_REVISION_SHIFT);
+>  		isp->media_dev.hw_revision |= pdev->revision < 2 ?
+> @@ -1487,12 +1487,12 @@ static const struct pci_device_id atomisp_pci_tbl[] = {
+>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_MRFLD_1179)},
+>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_MRFLD_117A)},
+>  	/* Baytrail */
+> -	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_BYT)},
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ISP_BYT) },
+>  	/* Anniedale (Merrifield+ / Moorefield) */
+>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_ANN)},
+>  	/* Cherrytrail */
+> -	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_CHT)},
+> -	{0,}
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ISP_BSW) },
+> +	{ }
+>  };
+>  MODULE_DEVICE_TABLE(pci, atomisp_pci_tbl);
+>  
+> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> index 63774ae2bf71..0693e4532a68 100644
+> --- a/include/linux/pci_ids.h
+> +++ b/include/linux/pci_ids.h
+> @@ -2732,6 +2732,7 @@
+>  #define PCI_DEVICE_ID_INTEL_HDA_HSW_3	0x0d0c
+>  #define PCI_DEVICE_ID_INTEL_HDA_BYT	0x0f04
+>  #define PCI_DEVICE_ID_INTEL_SST_BYT	0x0f28
+> +#define PCI_DEVICE_ID_INTEL_ISP_BYT	0x0f38
+>  #define PCI_DEVICE_ID_INTEL_8257X_SOL	0x1062
+>  #define PCI_DEVICE_ID_INTEL_82573E_SOL	0x1085
+>  #define PCI_DEVICE_ID_INTEL_82573L_SOL	0x108f
+> @@ -2787,6 +2788,7 @@
+>  #define PCI_DEVICE_ID_INTEL_VMD_201D	0x201d
+>  #define PCI_DEVICE_ID_INTEL_HDA_BSW	0x2284
+>  #define PCI_DEVICE_ID_INTEL_SST_BSW	0x22a8
+> +#define PCI_DEVICE_ID_INTEL_ISP_BSW	0x22b8
+>  #define PCI_DEVICE_ID_INTEL_DH89XXCC_LPC_MIN	0x2310
+>  #define PCI_DEVICE_ID_INTEL_DH89XXCC_LPC_MAX	0x231f
+>  #define PCI_DEVICE_ID_INTEL_82801AA_0	0x2410
+> -- 
+> 2.50.1
+> 
