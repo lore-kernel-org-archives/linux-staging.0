@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E431146D56A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E825E46D579;
 	Fri,  2 Oct 2026 08:57:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790931473; cv=none; b=FozXrPryKbfSdWJCgByi1AKwGBUFY51RojEwIOtWchgAjUadfO4swJO78Oqzx93ohEYmxg3TAY7mQjoSxbZ/0dj20a3AvIRSs6xsOQI+CVENt6Taho8h4lhTRtmtnC9yXzuPdttxP59YT89SeItjPx8QzcQhZHaq847j2zm4lss=
+	t=1790931473; cv=none; b=dcyW+h/qYAD0DmjKqqAgtbJTVBLBNOscDZ9+QJw26ZFiGh58RodPdDx7PEtTS3aBLkWd3GVlYTytuFZxbgT9p3rWQjTP01IY5Lzzz4ZqRt1fCZxLRo/4/W5b+ETA5AIHPk+JGSOILOpdZ5tRdpHcPtAEWjGdUM9wHFtyZrL0whY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790931473; c=relaxed/simple;
-	bh=ZjR29jip7K6XTZNGVySEd6OhgLUsW16k/qHd8MCcIj4=;
+	bh=bEfCYrTX/DVFUDK3Lz0RVwjQU4yQEwIERu8MZwjJ0WQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SPNq1iW/GRg0tANaFoVExFf9Cwn1PATZvEwTMMqFoBdu42RwZ3lFvZOyk3AhGZlXYNObD4fsQgbJxHXRZzLE2IjHLcoN6tqFDTu5L3tOSQeIAuPkjOoSKlka8jPZ87YwTrXyUKDupLErfkRwfA8pR3+duXABqhXppKFOI9Qfncw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XwwhMiIa; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=GvoNenhlXowi4DjYpcptWkT+LrOViVlir6+8JbmpwUSRgH3u+X8dHDcYb2HBcrI3cE379zsFptYrwOryjAjI4Q4s1G4nGfpdaTYxj+gC3+ny84XpLr43UdPmiSbvVEBH/NZLObMuSZl8reid6OV0hHYUCeQ/DethN7OXykuZGvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u2pZESxk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XwwhMiIa"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8CBF6C4AF19;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u2pZESxk"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BDF90C4AF15;
 	Fri,  2 Oct 2026 08:57:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790931472;
-	bh=ZjR29jip7K6XTZNGVySEd6OhgLUsW16k/qHd8MCcIj4=;
+	bh=bEfCYrTX/DVFUDK3Lz0RVwjQU4yQEwIERu8MZwjJ0WQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=XwwhMiIaSdyefjDkXNXCmmmvpi7n+hN9Apw4ySK9XASM0R4mkfj1+felNqDl5H+a2
-	 Nzx0SHIQoWZPeN2c0cDneoptnbdTfNvgBcPwlx0huSLyQ9R2R2fHf4RCnbn20eyzL0
-	 t//R8ZPnmdCCWYVldAafwrhs0ISG5y+MQ2LEP04ovJ9pstzQ7lswexz7uVgpWx07al
-	 vwNhw44yQPRp5ETi4vFOoL6RklpPuTJq0TK2rwAFWBXIntT/wcf0MGYuNwM3FEXHcl
-	 RmwHFXWvN0IPAoE/fTl0pw1nVQmkqRUD2yIDhvpBmJd4dOUBUbN69r0F6U3fN7q0If
-	 36p8htWJtp2sQ==
+	b=u2pZESxk/nz9aQyRq2JEEQ0lmCZhHuo1kZxhYDE+ZqS/mHGhuMhurpN7vIkHy7DuA
+	 nDMak0SzJ5iAH2qFtP/VVdnQifNtvrlX4cFMhC8RifIh0geLL/xlQYp7nxpxVFLRim
+	 18ciqDsJYJWmv4vnj2dBsY6bN0GoxEYWrj8gfrOMGvuQQklapLH3+PYDsTxjhs8okp
+	 BiVQH4GdC42TWSWIh1mODAZ/8vW7He6Oi8FhgkLOpRb5XcqZWaPadJCLoyQco6wzij
+	 FAQ91ZBub6PtaAr/3X419lk07nCTPPRBI/P54R5BdyJEz+PLhvPlVzkzNwLkKpdbmZ
+	 Q+00dIu8yWBhA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79DEECA5FE3;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADA8DCA5FE2;
 	Fri,  2 Oct 2026 08:57:52 +0000 (UTC)
 From: Maurizio Casciano via B4 Relay <devnull+mauriziocasciano7.gmail.com@kernel.org>
-Date: Fri, 02 Oct 2026 10:57:43 +0200
-Subject: [PATCH v10 05/15] media: ov8858: Add INT3477 ACPI ID
+Date: Fri, 02 Oct 2026 10:57:46 +0200
+Subject: [PATCH v10 08/15] media: ov2740: support 288 MHz link frequency
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261002-submission-media-yogabook-v10-b4-final-v10-5-817ec765b257@gmail.com>
+Message-Id: <20261002-submission-media-yogabook-v10-b4-final-v10-8-817ec765b257@gmail.com>
 References: <20261002-submission-media-yogabook-v10-b4-final-v10-0-817ec765b257@gmail.com>
 In-Reply-To: <20261002-submission-media-yogabook-v10-b4-final-v10-0-817ec765b257@gmail.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -54,12 +54,12 @@ Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-staging@lists.linux.dev
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790931470; l=1283;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790931470; l=3610;
  i=mauriziocasciano7@gmail.com; s=yogabook-kernel-20261002;
  h=from:subject:message-id;
- bh=aq3WiOBs98DkaK4kipcYlO1293LPLqN1Y/NrxwLvPkE=;
- b=icCGPMe+3hT58wdzQ54y9z0YQBa6FMVW9imFeo5GDd98U+3LEpqMQGMkBLFt7807iThUCb4gq
- UPL1dWS7vFLBScSEqNQP3+v0Bv7Hom9ocsY6o9Xq3+LlZ1zk93zEUsa
+ bh=affEzCaYZ5tjoVQ6IHKYfRnJHEy3zOIEmoBfpH3RYiE=;
+ b=199RqxB0J/RoCqPnmgfpLE7z9Xo0eEwh83OSgWEy56XDSRt9CZ8Dx7WVCH4DkNo3HTeFnJLDa
+ 30k4fpBjxFvBhG4upiPBbXRP8QbCXjqcJJtNQv0G76eCpt5u44YNfU2
 X-Developer-Key: i=mauriziocasciano7@gmail.com; a=ed25519;
  pk=ODC2oSPBqt7ukC3AEDZNS7LIE21D8ke8TEHoNlxniNM=
 X-Endpoint-Received: by B4 Relay for
@@ -69,47 +69,121 @@ Reply-To: mauriziocasciano7@gmail.com
 
 From: Maurizio Casciano <mauriziocasciano7@gmail.com>
 
-Firmware may use INT3477 as the ACPI hardware ID for an OV8858 image
-sensor. Add an ACPI match table for that ID.
+The Lenovo Yoga Book YB1-X91 front camera uses two CSI-2 lanes at a
+288 MHz link frequency. Add the matching PLL configuration and mode
+timing.
+
+Reuse the existing 1932x1092 crop and mode register list so the Bayer
+order remains SGRBG across link frequencies. Cropping the CSI-2
+receiver output to a smaller processed frame is a userspace pipeline
+decision.
 
 Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
+Assisted-by: LLM sparse
 ---
- drivers/media/i2c/ov8858.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/i2c/ov2740.c | 43 +++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 41 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
-index 64532237e8b5..c747ecd9e908 100644
---- a/drivers/media/i2c/ov8858.c
-+++ b/drivers/media/i2c/ov8858.c
-@@ -6,6 +6,7 @@
-  * Copyright (c) 2017 Intel Corporation.
-  */
+diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+index 830f5857d73f..ca33ef30267d 100644
+--- a/drivers/media/i2c/ov2740.c
++++ b/drivers/media/i2c/ov2740.c
+@@ -12,12 +12,14 @@
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/unaligned.h>
++#include <linux/units.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-fwnode.h>
  
-+#include <linux/acpi.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/device.h>
-@@ -2093,6 +2094,12 @@ static void ov8858_remove(struct i2c_client *client)
- 	pm_runtime_set_suspended(&client->dev);
- }
+-#define OV2740_LINK_FREQ_360MHZ		360000000ULL
+-#define OV2740_LINK_FREQ_180MHZ		180000000ULL
++#define OV2740_LINK_FREQ_360MHZ		(360 * HZ_PER_MHZ)
++#define OV2740_LINK_FREQ_288MHZ		(288 * HZ_PER_MHZ)
++#define OV2740_LINK_FREQ_180MHZ		(180 * HZ_PER_MHZ)
+ #define OV2740_SCLK			72000000LL
+ #define OV2740_MCLK			19200000
+ #define OV2740_DATA_LANES		2
+@@ -91,6 +93,7 @@ struct nvm_data {
  
-+static const struct acpi_device_id ov8858_acpi_match[] = {
-+	{ .id = "INT3477" },
-+	{ }
+ enum {
+ 	OV2740_LINK_FREQ_360MHZ_INDEX,
++	OV2740_LINK_FREQ_288MHZ_INDEX,
+ 	OV2740_LINK_FREQ_180MHZ_INDEX,
+ };
+ 
+@@ -142,6 +145,14 @@ static const struct ov2740_reg mipi_data_rate_720mbps[] = {
+ 	{0x0312, 0x11},
+ };
+ 
++static const struct ov2740_reg mipi_data_rate_576mbps[] = {
++	{0x0302, 0x1e},
++	{0x0303, 0x00},
++	{0x030d, 0x1e},
++	{0x030e, 0x02},
++	{0x0312, 0x01},
 +};
-+MODULE_DEVICE_TABLE(acpi, ov8858_acpi_match);
 +
- static const struct of_device_id ov8858_of_match[] = {
- 	{ .compatible = "ovti,ov8858" },
- 	{ /* sentinel */ },
-@@ -2103,6 +2110,7 @@ static struct i2c_driver ov8858_i2c_driver = {
- 	.driver = {
- 		.name = "ov8858",
- 		.pm = &ov8858_pm_ops,
-+		.acpi_match_table = ACPI_PTR(ov8858_acpi_match),
- 		.of_match_table = ov8858_of_match,
+ static const struct ov2740_reg mipi_data_rate_360mbps[] = {
+ 	{0x0302, 0x4b},
+ 	{0x0303, 0x01},
+@@ -468,6 +479,7 @@ static const char * const ov2740_test_pattern_menu[] = {
+ 
+ static const s64 link_freq_menu_items[] = {
+ 	OV2740_LINK_FREQ_360MHZ,
++	OV2740_LINK_FREQ_288MHZ,
+ 	OV2740_LINK_FREQ_180MHZ,
+ };
+ 
+@@ -478,6 +490,12 @@ static const struct ov2740_link_freq_config link_freq_configs[] = {
+ 			.regs = mipi_data_rate_720mbps,
+ 		}
  	},
- 	.probe		= ov8858_probe,
++	[OV2740_LINK_FREQ_288MHZ_INDEX] = {
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mipi_data_rate_576mbps),
++			.regs = mipi_data_rate_576mbps,
++		}
++	},
+ 	[OV2740_LINK_FREQ_180MHZ_INDEX] = {
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mipi_data_rate_360mbps),
+@@ -502,6 +520,22 @@ static const struct ov2740_mode supported_modes_360mhz[] = {
+ 	},
+ };
+ 
++static const struct ov2740_mode supported_modes_288mhz[] = {
++	{
++		.width = 1932,
++		.height = 1092,
++		.hts = 2160,
++		.vts_min = 1776,
++		.vts_def = 1776,
++		.vts_max = 32767,
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mode_1932x1092_regs_360mhz),
++			.regs = mode_1932x1092_regs_360mhz,
++		},
++		.link_freq_index = OV2740_LINK_FREQ_288MHZ_INDEX,
++	},
++};
++
+ static const struct ov2740_mode supported_modes_180mhz[] = {
+ 	{
+ 		.width = 1932,
+@@ -1179,6 +1213,11 @@ static int ov2740_check_hwcfg(struct ov2740 *ov2740)
+ 			ov2740->supported_modes_count =
+ 				ARRAY_SIZE(supported_modes_360mhz);
+ 			break;
++		case OV2740_LINK_FREQ_288MHZ_INDEX:
++			ov2740->supported_modes = supported_modes_288mhz;
++			ov2740->supported_modes_count =
++				ARRAY_SIZE(supported_modes_288mhz);
++			break;
+ 		case OV2740_LINK_FREQ_180MHZ_INDEX:
+ 			ov2740->supported_modes = supported_modes_180mhz;
+ 			ov2740->supported_modes_count =
 
 -- 
 2.53.0
