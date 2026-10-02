@@ -1,85 +1,85 @@
-Received: from mail-oo2-f41.google.com (mail-oo2-f41.google.com [74.125.231.169])
+Received: from mail-oo2-f38.google.com (mail-oo2-f38.google.com [74.125.231.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9BB3CCFAC
-	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 08:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541A63C4551
+	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 08:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.166
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790929099; cv=pass; b=aevvSvNmJUYvj4aTFy3DEblt7QHV07RtFJz5GhEPfbQ6VO3yJOtJFkUTN/G+pOZPiA8jpqQ4gOF/3hZurTRP/23KlQrA7x1wjOB0jWR+VZl8M/o36PhhI/3uBQ+f49iW5SiEFaCvC1Istdv3kVvRW+yLyZLKSSeKQGrqYX7X+UM=
+	t=1790929109; cv=pass; b=SlZyu65nP+zXPOikD/3InP0Fk+8nmSFhyWVJOBspBfNbcLPnLgAAIyAqbYBO2eKFDhPO+9Pvl38ZK0YSJrgb1vnIGBhq27R8p7x0cF2E/KaPCXVCSzzDohnXJdzOpOn4Ut/fkQYH3Fjnb1Xcu/W4+0FrWeUAmv3YXakBb+4IA+A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790929099; c=relaxed/simple;
-	bh=7EVMDuKzBqZVcNCXlQnBFINw7P1UnyWCrmfNr9JGnz8=;
+	s=arc-20240116; t=1790929109; c=relaxed/simple;
+	bh=cGjU7/FhsAzIZkR5AqbDl7sNf/YZPkCSUa+7leu9fzo=;
 	h=MIME-Version:From:In-Reply-To:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G8ZkyRdEXNcWgi4iZJBgwVsNbvOcUKJJSYJXVCi549O129dGFMYQOE4YV44YZafI63yUJ8cT+Z0GXVuUfeZRUUENSt/ViBY+pvCyv0M9DoZZ/EUx1xpbdqQiFy/Lobpz03E49/hQPb/qBrMJFYah7zpopWUQXQl1eoMkSvTCGL4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kN9V0DtY; arc=pass smtp.client-ip=74.125.231.169
+	 To:Cc:Content-Type; b=BfzlSgCj2UeD6ow5DLIcVBpqGwqksEp5Y5moEaOf8QqV7u1zMn7UY+/HmxAXnCcFtGYYMJBNEX9wpt0J4Z5IGzYh/jy6nDyqp+8tEZO7tm7KKaanpupd/AYj8lDV3MzdmpbopaGf+z5vc+ggK5wYEGWOd2CE50bOuV9CRNX7ChI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PqOwbto8; arc=pass smtp.client-ip=74.125.231.166
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kN9V0DtY"
-Received: by mail-oo2-f41.google.com with SMTP id 006d021491bc7-6d33d80855eso4974591eaf.1
-        for <linux-staging@lists.linux.dev>; Fri, 02 Oct 2026 01:18:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790929097; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PqOwbto8"
+Received: by mail-oo2-f38.google.com with SMTP id 46e09a7af769-81f707db14cso3695778a34.2
+        for <linux-staging@lists.linux.dev>; Fri, 02 Oct 2026 01:18:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790929106; cv=none;
         d=google.com; s=arc-20260327;
-        b=jWW07I5tW+iecEjb1wnsBBa7lHMGOfRyobDVyDtE3oaZ1STqp4kGzXuTmL1XTlt+Wt
-         i4g7wNOfeC63snqGzzfI50hMEyzvUrL2bTyYk+LKJzS/PO9kTQ7n8NY0xSPlJap+xBFT
-         D5VNHQVwDmIPt22LVEN9RtoE17aj/jjIIcP1okU2jr5rn1hoAbPSakMdoIC9TW9uiy+7
-         zRhx5cs+koBEA/A0J7NyhBartlylADXvrIMA7kfIyU3zt+mz2VlnLuYzPiGVMSbkpKxu
-         kP3i3+tSW0LNOpZy/1siUZhHeIWxmGpisxRNIakh3NjTPPlj+nmuv8+pyZNOTcWhQdsU
-         JmkQ==
+        b=J2dxfehg1FxCr4pM8CQmun5aXTTmN+G+BUzmrgtPYZswS0LgGoG6pZZL84uQKaT5oB
+         fhvG9CdERq8STzpb0drGHLZIzhMPG9RwBgimXm7QupFaYMlptYtxix3lm+14BCGQceIv
+         38o6mQ/NyVjl85l3aOZ+H9FswweHr/qbDMMfLH4jANGN8qK2w+TVC+lSb0fOyOvouwN2
+         6iD5Mc0bPVgdJOojuPDZDVh4pCo31KVEReMxF8oODYJQ3pCGHMI+Iur1yUInNEZvyplm
+         7D+ubLi894MmVl47Fnals/b0oT2WWNaKLKoPZBfyf7HxbCTuiCU4Qb8eTAW4OyPOhuKl
+         HCTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:references:in-reply-to:from
          :mime-version:dkim-signature;
-        bh=A4IQ1/kTTHFgKJOYmQmnoUv9o1yUv01ASaulT28gTBs=;
-        fh=rw1DGOzoEb/a+zUWt7vx7a31aR/Xj1WhvXy0klIAuoQ=;
-        b=JtAWpI9RKeyFa7mJZTKVaVlkMVxvIfRhT8+r6c0/kwynnUOrMf6K9Me/3zunhyNPO4
-         Ir63A4d8b3XPuF3z1AgS+XmTiMR05WyqKHRjVaMXypMJNUO7cNYppF60aNHaDE5ZvqLy
-         yFZpHQzek2o0DAmguYzrJ6NIciuR57L5K2Ogp7OjTvaOKEyhzbxvmO6hLvRhoiF2v5RP
-         xoIxJZvfjy5Xyg+OihUc1OV8yvbI+z5KL3V2NrrtOd5nc3S4kJzsN2MSEPxjnu1BOels
-         QAwdSzzpwCTY4yyBxwRBGHHN5G1zYPQBMNfXJkg/Gkw2lIbKi7YiOoUcywHsTg33/x6q
-         w1Dg==;
+        bh=H+2eVhcyFYQvB6WR8E2rcLotxSCxNoAdRJ7uo5dqC0k=;
+        fh=MMKexpnuMe+zQH7EFQvqIsrYvDzCSu7fuGlSiBVsNjw=;
+        b=VT+W3ejBuqGNv0RnS+qb6fNk6VhXcwJrIXsTjaJEkr08s7c1oIsnrluhPYxAPMW27W
+         cvnPOoE9HO1DO6vZARN5XKdl/YJer+fSOGn7VWEDLXHk1YB9AZD2VE4Ifg9ejPdyAaO0
+         qEi6wMn4rjOzaazmhzisXw3Y0SS9wQap7WmvT8pkmwyg5Nar37hCtf/4wTXcnLztxREL
+         qYQqX7aeTVk14gUqrhKsPssAoHYOE6fmQlNGFCEmVu+jYGu/U/9lQ1QOhtyj39rgU6Rj
+         k+C8hAHPsXpZAOp7HCe03vRp/huIx8XhraEWaHP0YOXR43A5qyG8N6G7CMJSeBMyxfFV
+         xTyw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790929097; x=1791533897; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790929106; x=1791533906; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:references:in-reply-to
          :from:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=A4IQ1/kTTHFgKJOYmQmnoUv9o1yUv01ASaulT28gTBs=;
-        b=kN9V0DtYKHklgO+lwxg4IvRDcnL4SeQIajvLtvp57KtfGptZKKC1h1TTdxNb+HjkcO
-         U9lNWfcs185wiDtfHjkpSkIvL+tsTalFDSE7xGguMtO4bLZbWnP2065djZWEMxWZvEIj
-         0QKnn8SdUNNtJTiaz/5DuAIkkJBY1E/oPV2/wNtvR7lG3iHxxbEKNPkzmT3vYFJcn5wx
-         s/1OUEp7kzTCuiIJbxkeMKrqYohsWnhbDevnn2ByTo+PPSuKSGf1o8UXKCD4XvaboXaf
-         4qnbMAgoz8BDV+8Y0lZzfPZ3YsFoUyRmCGzAblVAVYgHf2dl2+/V7gbfyZrQW8p7cEvd
-         +qPQ==
+        bh=H+2eVhcyFYQvB6WR8E2rcLotxSCxNoAdRJ7uo5dqC0k=;
+        b=PqOwbto8QO6ceMNBdfGx9qTvAdv+BSz+vPjObsRlvZfvUhA6vfvZTrZLEn3DfK/pJQ
+         HBJFTiHPQVfCudwOf7F6IF2GIXjIfIxx713hkN1T1b9pMvnZ98pWjjB8JvBTW+HuLyUd
+         imSHrqRtVgkeGG0jeTKukgWl3rqMr8sXPOM4O903QQ1JTts+77HeHjHXBTirZdsNa3vW
+         WFVwRe9CyiWF2ENtc8i/3YBuI4nHXJS4TUzUpQWEeXEZjASDZmEYijc8zTtvaoj8gXTw
+         Ua+z1f7+HkJND1I6kx4tXhn6CXE6U7L9q/0YoO5Pi45GVrigXSX7JgZaHjZsZkGlfWT8
+         K3dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790929097; x=1791533897;
+        d=1e100.net; s=20260707; t=1790929106; x=1791533906;
         h=content-type:cc:to:subject:message-id:date:references:in-reply-to
          :from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=A4IQ1/kTTHFgKJOYmQmnoUv9o1yUv01ASaulT28gTBs=;
-        b=o4DaseojfifnZoOhPA9ErZIeGXr471+QdBE1VT4qRDhf48VtviuZv2PQcXln6jqcbV
-         OJIXpzkSjEsEO4WE+AEFkwzU3MlMbOZlzPXUUM97vSJHKk4WeSGeTX74DBLw8ptg1rAy
-         pQSxCbKEjUJue9Njs+V0SrZi0dBEA9jImqz7ejLVeSkXuuKrk+MD2z+m5I6m4n60Oz7T
-         CVA/et2QdxzBwyR3U47lhKLB1G8tkhQ+wJpeGAR4AQq/Ax0gubYRNQK75uAXVfc+mK5R
-         R/7g+jvxLdcHJYGqN5d7by1Smu/NeVd20+zIYSin9eIn4dCy0fXlgEmCbBqM3LxZIuo4
-         PNSw==
-X-Forwarded-Encrypted: i=1; AKwUvBy27iBMyCAk05gOcEhRoH2hHD5OOxk1nODar+d1MFt3Pa/XIYLn/YzMkREfiPwikRqKFRzfhi+twSk5nzXi@lists.linux.dev
-X-Gm-Message-State: AFuF++kvlHFvBcUkFT7KqIc+tGv0M9MfTvNpGMkq0kNKxQBvZaKfdVrM
-	G3eS0J0CtuE7P+Vox5Qgw6VMyPZWKdHp7i9z1HgGZ4E1VwXYU38JZ5E7LvR2U6HiMjq0ttIfXGR
-	81T34E7pCYF2jF4ORsC5fy6ZpD9nAlHM=
-X-Gm-Gg: AYBFou1Kst+LgFmx1sCnRdoAMeO/Sjo+Qxb/kVdk4wXXltg77jkzUA2H0Ic0zz1sC+1
-	iygBFaTcMJzA34C1dSKIwG/J1veukcwgELq9AeqAv1zKPOrgUoCGZbobhZGTUyMbkEoSC+kZGgP
-	s/WR5eYkHm9aBxF8cBI4xDjtw9duOAaPn8eZu8A147jnyOnEsGWBvk7p4YwjIrKNpJUyBGrfgR6
-	7vmA0VmvpE7xyMBERVdEJgsjTC+YeDadPZ3OZ9Z4t2JkQkNQ6XOcm+Hk8Tcz0YdgHkhai+oh9XA
-	zB3J6sE1QetzaRKH/z8MJMVyeesfG1vw2RCDFkpikSbbVtDug7nD2As/zzG82qUbfGGrmsBrz+L
-	2nIPgzdGv1UpQezX8qWjrHlwnxGUGZ/RA
-X-Received: by 2002:a05:6820:5719:10b0:6d7:97cf:dba5 with SMTP id
- 006d021491bc7-6df3428cfa0mr1169209eaf.37.1790929096883; Fri, 02 Oct 2026
- 01:18:16 -0700 (PDT)
+        bh=H+2eVhcyFYQvB6WR8E2rcLotxSCxNoAdRJ7uo5dqC0k=;
+        b=lwl5WxSbnQ+qrp7JhsorZHKGGklKqEguxcAw7EQ40PXVoJzGfkfGldKFvFN8/hsvA3
+         3BKPHiT/34xuzgrnFRDQQLhCm6q+6MMRToirdWzq0ValgoDPywM75rd4nJAckgC1CYVI
+         ilrkNvChZMNz/TTCFVMBuCquaeIkbrYzadi9BWCg5/3N2JXq5o2gnR/b2bp1HQvlAoeh
+         q/km872CoJgO28OjT9LKzZwX4eiYcpmL8AyLaLR2zUCmaVl8LtOxAFOaSWdB3ZN04cIx
+         VaHsuSneVgpcZEVhUz9pEUmTpQ0MpMqNlBznSQf6adLYkO8gYVpiy9k/0mgw0KCXk/GV
+         Repw==
+X-Forwarded-Encrypted: i=1; AKwUvBxDMHWNLTJJaIFY0l35/EkrvuRt5rRSFsFApb5y21SUPoL0igQqgA9y/aAQ4bm7u11kIpIm67WRssnVSUsh@lists.linux.dev
+X-Gm-Message-State: AFuF++krE4qdj9WECUYsLq+c8qEptZ471QOxo5h8a9Fl0IRB5J+OMFo6
+	BLnfemDsOd47cfvhIScxwkFER5VojzyxpbzgZ/m5Oo/mdpxbb3LWmQFS3mWePcpwFnK0DRxjovX
+	JHh7tbn5lQUWDrgdSjj3mddlSBwPH96U=
+X-Gm-Gg: AYBFou1lzFROhebCXmazJNmeIlb/El8iGPS1fYzCXwHbQv5omj59TTXXPuEKIzzjDft
+	wMIueqyvpY+Hz/GEdePTxVIJCV/8unOR7NWcLuXpexUMmxYq9UYHRNMlLO/MnA6BIEj1GMjPpRd
+	SHdXH97S8ikIg8lbKscN9YqScBEN0pyBgya6XM3960PzpRIRfWW6+lpQy+pg1GLf8MrnRJvAwrt
+	FO5HKt6XhhUkOmiTenV5v1bu9cDkICbB9tBQlgdJYIW87FDsmAHz8lkMVQGxYUplfrQr+8bTXyv
+	EZ/qDPSE7dB/5wchqWiOVhzp0PbDT/A++AR7/MExx9nkRZFbe/nzCUbMu/L2dgjhFhxmjiBIqYN
+	bbfA9GOjvQou87mehntyOvlsUSXg84IKVnTTbO1Gag7M=
+X-Received: by 2002:a05:6820:c0cf:20b0:6de:1457:fe27 with SMTP id
+ 006d021491bc7-6df35751835mr1165830eaf.57.1790929106071; Fri, 02 Oct 2026
+ 01:18:26 -0700 (PDT)
 Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 2 Oct 2026 01:18:16 -0700
+ Fri, 2 Oct 2026 01:18:25 -0700
 Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 2 Oct 2026 01:18:16 -0700
+ Fri, 2 Oct 2026 01:18:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -89,10 +89,10 @@ MIME-Version: 1.0
 From: mauriziocasciano7@gmail.com
 In-Reply-To: <CAO7O_xi61=0kUtYkYFKonaSEJRC_KiXKvgMLSwRbnDTVfmQsPg@mail.gmail.com>
 References: <CAO7O_xi61=0kUtYkYFKonaSEJRC_KiXKvgMLSwRbnDTVfmQsPg@mail.gmail.com>
-Date: Fri, 2 Oct 2026 01:18:16 -0700
-X-Gm-Features: AclHuK84cUtRH4JRxtuSY_ddwBbCFvBy-HgK4ZJTbtS9qQzzgWUbme_DYYS7jnE
-Message-ID: <CAO7O_xgRZryqJjnGGj9xv4Bd6-cLPTs0W_yyt5ZHNufeQLv_GA@mail.gmail.com>
-Subject: [PATCH v8 10/15] media: atomisp: derive CSI-2 timing from sensor link frequency
+Date: Fri, 2 Oct 2026 01:18:25 -0700
+X-Gm-Features: AclHuK-Hi1IDcNwpre_Y6ZHzm2EeLKmSxo_YJvDRvJiQHnzoK8AHz4gyKppJrj4
+Message-ID: <CAO7O_xhSjWWn0RfikT5dWxz9s-iuA-quqwpJj=Q=74W0mKAb8w@mail.gmail.com>
+Subject: [PATCH v8 11/15] media: ov2740: release group hold after gain write errors
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@amd.com>, 
@@ -103,83 +103,71 @@ Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-The ISP2401 CSI-2 receiver timing depends on the sensor link frequency.
-Query it through v4l2_get_link_freq() instead of reading a 32-bit
-control value directly.
+Digital-gain updates start a register group before writing the red, green
+and blue gains. The current error paths return immediately when one of
+those writes fails, leaving the group open and never issuing its end and
+launch commands. Later control updates can then be accumulated in an
+unfinished group instead of taking effect.
 
-Keep the frequency as s64 throughout the calculation so valid link
-frequencies do not require an arbitrary S32_MAX limit. Fall back to the
-existing default timings when the frequency query fails.
+Once group hold has started, always attempt both commands needed to end
+and launch the group. Preserve the first gain-write error; report an end
+or launch error only when all gain writes succeeded.
 
+Fixes: 84363509c725 ("media: ov2740: use group write for digital gain")
+Cc: stable@vger.kernel.org
 Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Assisted-by: LLM sparse
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 ---
- .../staging/media/atomisp/pci/atomisp_csi2.c  | 20 ++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ drivers/media/i2c/ov2740.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
-b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
-index 71df4ef629c2..cbdeac32f6f3 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
-@@ -5,6 +5,7 @@
-  * Copyright (c) 2010 Intel Corporation. All Rights Reserved.
-  */
+diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+index ca33ef30267d..4479666f17f7 100644
+--- a/drivers/media/i2c/ov2740.c
++++ b/drivers/media/i2c/ov2740.c
+@@ -696,7 +696,7 @@ static int ov2740_identify_module(struct ov2740 *ov2740)
 
-+#include <media/v4l2-common.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-mediabus.h>
- #include "atomisp_cmd.h"
-@@ -210,7 +211,7 @@ int atomisp_mipi_csi2_register_entities(struct
-atomisp_mipi_csi2_device *csi2,
- static const int LIMIT_SHIFT = 6;	/* Limit numeric range into 31 bits */
-
- static int
--atomisp_csi2_configure_calc(const short int coeffs[2], int mipi_freq, int def)
-+atomisp_csi2_configure_calc(const short int coeffs[2], s64 mipi_freq, int def)
+ static int ov2740_update_digital_gain(struct ov2740 *ov2740, u32 d_gain)
  {
- 	/* Delay counter accuracy, 1/0.0625 for ANN/CHT, 1/0.125 for BXT */
- 	static const int accinv = 16;		/* 1 / COUNT_ACC */
-@@ -289,18 +290,18 @@ static void
-atomisp_csi2_configure_isp2401(struct atomisp_sub_device *asd)
- 	int dat_termen;
- 	int dat_settle;
+-	int ret;
++	int end_ret, launch_ret, ret;
 
--	struct v4l2_control ctrl;
- 	struct atomisp_device *isp = asd->isp;
--	int mipi_freq = 0;
- 	enum atomisp_camera_port port;
-+	struct v4l2_subdev *sensor;
-+	s64 mipi_freq;
- 	int n;
+ 	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
+ 			       OV2740_GROUP_HOLD_START);
+@@ -705,24 +705,21 @@ static int ov2740_update_digital_gain(struct
+ov2740 *ov2740, u32 d_gain)
 
- 	port = isp->inputs[asd->input_curr].port;
+ 	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_R_GAIN, 2, d_gain);
+ 	if (ret)
+-		return ret;
++		goto release_group;
 
--	ctrl.id = V4L2_CID_LINK_FREQ;
--	if (v4l2_g_ctrl
--	    (isp->inputs[asd->input_curr].sensor->ctrl_handler, &ctrl) == 0)
--		mipi_freq = ctrl.value;
-+	sensor = isp->inputs[asd->input_curr].sensor;
-+	mipi_freq = v4l2_get_link_freq(&sensor->entity.pads[0], 0, 0);
-+	if (mipi_freq < 0)
-+		mipi_freq = 0;
+ 	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_G_GAIN, 2, d_gain);
+ 	if (ret)
+-		return ret;
++		goto release_group;
 
- 	clk_termen = atomisp_csi2_configure_calc(coeff_clk_termen, mipi_freq,
- 						 TERMEN_DEFAULT);
-@@ -311,6 +312,11 @@ static void atomisp_csi2_configure_isp2401(struct
-atomisp_sub_device *asd)
- 	dat_settle = atomisp_csi2_configure_calc(coeff_dat_settle, mipi_freq,
- 						 SETTLE_DEFAULT);
+ 	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_B_GAIN, 2, d_gain);
+-	if (ret)
+-		return ret;
 
-+	dev_dbg(isp->dev,
-+		"CSI port %u link frequency %lld Hz, clk timing %d/%d, data timing %d/%d\n",
-+		port, mipi_freq, clk_termen, clk_settle,
-+		dat_termen, dat_settle);
-+
- 	for (n = 0; n < csi2_port_lanes[port] + 1; n++) {
- 		hrt_address base = csi2_port_base[port] + csi2_lane_base[n];
+-	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
+-			       OV2740_GROUP_HOLD_END);
+-	if (ret)
+-		return ret;
++release_group:
++	end_ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
++				   OV2740_GROUP_HOLD_END);
++	launch_ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
++				      OV2740_GROUP_HOLD_LAUNCH);
 
+-	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
+-			       OV2740_GROUP_HOLD_LAUNCH);
+-	return ret;
++	return ret ?: end_ret ?: launch_ret;
+ }
+
+ static int ov2740_test_pattern(struct ov2740 *ov2740, u32 pattern)
 -- 
 2.53.0
 
