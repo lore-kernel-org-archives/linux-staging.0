@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43BF46D572;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E431146D56A;
 	Fri,  2 Oct 2026 08:57:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790931473; cv=none; b=UJaxz57OUdWLq1L2AIOR/o8bjYqTKaJ3zGJelzHY2Lviazayx87ZJi4O7UzqqfYIeLHJne3wWrUDGRcs7pmpGtlVGEK/d6EDHUQkKbkYlkko+9/w5bBNR7m3+XCQzIS3o08yKrxTEuUURowIUgCzoIKvBzzcT7LsXOPBIVkn1vc=
+	t=1790931473; cv=none; b=FozXrPryKbfSdWJCgByi1AKwGBUFY51RojEwIOtWchgAjUadfO4swJO78Oqzx93ohEYmxg3TAY7mQjoSxbZ/0dj20a3AvIRSs6xsOQI+CVENt6Taho8h4lhTRtmtnC9yXzuPdttxP59YT89SeItjPx8QzcQhZHaq847j2zm4lss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790931473; c=relaxed/simple;
-	bh=ycSUTwuirKIsvs47aDVxeg14X65qYP1C8VDw4LPG8KY=;
+	bh=ZjR29jip7K6XTZNGVySEd6OhgLUsW16k/qHd8MCcIj4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gXDDA4N7VVCBuCWgQCfle4Mrr+UeGYqDLGtqVNoJcdqp5qf8AJ7hcuecoNaNsHRWAi/N/oaxmewhUvTBJWKGx7BgCKZ0XutIzF7XX3Zt9h24Xoo8wKrFuVtZXfXKZd7GurXy+wsWUHdVUpNdrLYibk4jX3kh+fK4w7mGN18t7SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KoiDtRLw; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=SPNq1iW/GRg0tANaFoVExFf9Cwn1PATZvEwTMMqFoBdu42RwZ3lFvZOyk3AhGZlXYNObD4fsQgbJxHXRZzLE2IjHLcoN6tqFDTu5L3tOSQeIAuPkjOoSKlka8jPZ87YwTrXyUKDupLErfkRwfA8pR3+duXABqhXppKFOI9Qfncw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XwwhMiIa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KoiDtRLw"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B056BC4AF49;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XwwhMiIa"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8CBF6C4AF19;
 	Fri,  2 Oct 2026 08:57:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790931472;
-	bh=ycSUTwuirKIsvs47aDVxeg14X65qYP1C8VDw4LPG8KY=;
+	bh=ZjR29jip7K6XTZNGVySEd6OhgLUsW16k/qHd8MCcIj4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=KoiDtRLw9AOcBND8xWpCWaSJUf556mRTGNG/cPvZQ873R19LMyutrNU8J1hQO2jLf
-	 hutuoXS6KtX8bQ8Jhz3tm4xRoJtfN2vlhi6TfMM5N6/xtfOhR3NZl9dlJEyKFddo7+
-	 knqG7RqhVNlv62oXR1YJdI830wqFH4tKvDgTZv/xv/HrYKFwdD06Ua4ifLVG4Ey9Cu
-	 MlyIbINwsaAUAI+75bCMlhDy+BWH5fFkceZci/Zd3TXAP4rrNTUlYHpPsbrdaYz0gN
-	 rXXCb2qZ0MQ4juig9n7besH3QiGslgjyw1i0l4j5JtrUed5nW5WnrSpGhtdQCoc/3r
-	 lDMTyDyLNggVw==
+	b=XwwhMiIaSdyefjDkXNXCmmmvpi7n+hN9Apw4ySK9XASM0R4mkfj1+felNqDl5H+a2
+	 Nzx0SHIQoWZPeN2c0cDneoptnbdTfNvgBcPwlx0huSLyQ9R2R2fHf4RCnbn20eyzL0
+	 t//R8ZPnmdCCWYVldAafwrhs0ISG5y+MQ2LEP04ovJ9pstzQ7lswexz7uVgpWx07al
+	 vwNhw44yQPRp5ETi4vFOoL6RklpPuTJq0TK2rwAFWBXIntT/wcf0MGYuNwM3FEXHcl
+	 RmwHFXWvN0IPAoE/fTl0pw1nVQmkqRUD2yIDhvpBmJd4dOUBUbN69r0F6U3fN7q0If
+	 36p8htWJtp2sQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E6BDCA5FC4;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79DEECA5FE3;
 	Fri,  2 Oct 2026 08:57:52 +0000 (UTC)
 From: Maurizio Casciano via B4 Relay <devnull+mauriziocasciano7.gmail.com@kernel.org>
-Date: Fri, 02 Oct 2026 10:57:45 +0200
-Subject: [PATCH v10 07/15] media: atomisp: Add Yoga Book camera
- configuration
+Date: Fri, 02 Oct 2026 10:57:43 +0200
+Subject: [PATCH v10 05/15] media: ov8858: Add INT3477 ACPI ID
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261002-submission-media-yogabook-v10-b4-final-v10-7-817ec765b257@gmail.com>
+Message-Id: <20261002-submission-media-yogabook-v10-b4-final-v10-5-817ec765b257@gmail.com>
 References: <20261002-submission-media-yogabook-v10-b4-final-v10-0-817ec765b257@gmail.com>
 In-Reply-To: <20261002-submission-media-yogabook-v10-b4-final-v10-0-817ec765b257@gmail.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -55,12 +54,12 @@ Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-staging@lists.linux.dev
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790931470; l=2276;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790931470; l=1283;
  i=mauriziocasciano7@gmail.com; s=yogabook-kernel-20261002;
  h=from:subject:message-id;
- bh=3ytSnmNB371Bdz2k0yi9bNH43qj0eCmry9oqUJT+wEI=;
- b=gcIA6BzQU6pPveaVq3mTKRuKk6Mgk4QlcK1qef4VvMbX3Iwz+m/oE/XZfxrC+oeqXhPrkB2+l
- 7ZGj7mNJWJ2CiDKQXN7dnMUuxBXieVYtbFbRQ0uj5tQkUSKXtUbP2kL
+ bh=aq3WiOBs98DkaK4kipcYlO1293LPLqN1Y/NrxwLvPkE=;
+ b=icCGPMe+3hT58wdzQ54y9z0YQBa6FMVW9imFeo5GDd98U+3LEpqMQGMkBLFt7807iThUCb4gq
+ UPL1dWS7vFLBScSEqNQP3+v0Bv7Hom9ocsY6o9Xq3+LlZ1zk93zEUsa
 X-Developer-Key: i=mauriziocasciano7@gmail.com; a=ed25519;
  pk=ODC2oSPBqt7ukC3AEDZNS7LIE21D8ke8TEHoNlxniNM=
 X-Endpoint-Received: by B4 Relay for
@@ -70,66 +69,47 @@ Reply-To: mauriziocasciano7@gmail.com
 
 From: Maurizio Casciano <mauriziocasciano7@gmail.com>
 
-The Yoga Book YB1-X91 firmware lacks usable AtomISP configuration for
-both cameras. Rear INT3477 OV8858 uses four CSI-2 lanes and a WV517S
-actuator, while the front OVTI2740 firmware reports the wrong lane
-count.
-
-Add the rear sensor configuration and a DMI-scoped two-lane override
-for OVTI2740:00. Add the front sensor configuration separately once
-its link frequency can be supplied at the same time.
+Firmware may use INT3477 as the ACPI hardware ID for an OV8858 image
+sensor. Add an ACPI match table for that ID.
 
 Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
-Assisted-by: LLM sparse
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 ---
- .../staging/media/atomisp/pci/atomisp_csi2_bridge.c   | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ov8858.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-index cca91c6d71a5..56da454f0d9e 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-@@ -74,6 +74,12 @@ static struct gmin_cfg_var lenovo_ideapad_miix_310_vars[] = {
- 	{}
- };
+diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
+index 64532237e8b5..c747ecd9e908 100644
+--- a/drivers/media/i2c/ov8858.c
++++ b/drivers/media/i2c/ov8858.c
+@@ -6,6 +6,7 @@
+  * Copyright (c) 2017 Intel Corporation.
+  */
  
-+static struct gmin_cfg_var lenovo_yogabook_x91_vars[] = {
-+	/* The vendor driver and sensor modes use two CSI data lanes. */
-+	{ "OVTI2740:00", "CsiLanes", "2" },
-+	{}
++#include <linux/acpi.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -2093,6 +2094,12 @@ static void ov8858_remove(struct i2c_client *client)
+ 	pm_runtime_set_suspended(&client->dev);
+ }
+ 
++static const struct acpi_device_id ov8858_acpi_match[] = {
++	{ .id = "INT3477" },
++	{ }
 +};
++MODULE_DEVICE_TABLE(acpi, ov8858_acpi_match);
 +
- static struct gmin_cfg_var xiaomi_mipad2_vars[] = {
- 	/* _DSM contains the wrong CsiPort for the front facing OV5693 sensor */
- 	{ "INT33BE:00", "CsiPort", "0" },
-@@ -83,6 +89,14 @@ static struct gmin_cfg_var xiaomi_mipad2_vars[] = {
- };
- 
- static const struct dmi_system_id gmin_cfg_dmi_overrides[] = {
-+	{
-+		/* Lenovo Yoga Book X91L */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X91L"),
-+		},
-+		.driver_data = lenovo_yogabook_x91_vars,
-+	},
- 	{
- 		/* Lenovo Ideapad Miix 310 */
- 		.matches = {
-@@ -359,7 +373,10 @@ static const struct acpi_device_id atomisp_sensor_configs[] = {
- 	 * the sensor fails to start streaming when instantiating
- 	 * an i2c-client for the VCM, so it is disabled for now.
- 	 */
--	ATOMISP_SENSOR_CONFIG("INT33BE", 2, false),	/* OV5693 */
-+	/* OV5693 */
-+	ATOMISP_SENSOR_CONFIG("INT33BE", 2, false),
-+	/* OV8858 */
-+	ATOMISP_SENSOR_CONFIG("INT3477", 4, true),
- 	{}
- };
- 
+ static const struct of_device_id ov8858_of_match[] = {
+ 	{ .compatible = "ovti,ov8858" },
+ 	{ /* sentinel */ },
+@@ -2103,6 +2110,7 @@ static struct i2c_driver ov8858_i2c_driver = {
+ 	.driver = {
+ 		.name = "ov8858",
+ 		.pm = &ov8858_pm_ops,
++		.acpi_match_table = ACPI_PTR(ov8858_acpi_match),
+ 		.of_match_table = ov8858_of_match,
+ 	},
+ 	.probe		= ov8858_probe,
 
 -- 
 2.53.0
