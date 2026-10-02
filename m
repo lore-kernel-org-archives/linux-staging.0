@@ -1,85 +1,85 @@
-Received: from mail-oo2-f40.google.com (mail-oo2-f40.google.com [74.125.231.168])
+Received: from mail-oo2-f41.google.com (mail-oo2-f41.google.com [74.125.231.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6AD3559D6
-	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 08:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9BB3CCFAC
+	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 08:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790929091; cv=pass; b=MxKWAHxcy85A6iVIrO9BBRtPPIdFIBlVKCf+9NWtXEqUBaRk2HRJgthpSCZRB1TQK2cPd6MShF0vPWv3NJVygd9cbJUXg59zP3C5eS6rgOmAPwNmsscoZQ6CPxRjFljKxPEWgP1JqQ3zzW2J7hWvOeRLtUhqTh8pS/UWuh1/zuk=
+	t=1790929099; cv=pass; b=aevvSvNmJUYvj4aTFy3DEblt7QHV07RtFJz5GhEPfbQ6VO3yJOtJFkUTN/G+pOZPiA8jpqQ4gOF/3hZurTRP/23KlQrA7x1wjOB0jWR+VZl8M/o36PhhI/3uBQ+f49iW5SiEFaCvC1Istdv3kVvRW+yLyZLKSSeKQGrqYX7X+UM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790929091; c=relaxed/simple;
-	bh=LJKFHSTiUvLAjJ/VIXM6YPJb+Zc8LgEWzbj49x57W1E=;
+	s=arc-20240116; t=1790929099; c=relaxed/simple;
+	bh=7EVMDuKzBqZVcNCXlQnBFINw7P1UnyWCrmfNr9JGnz8=;
 	h=MIME-Version:From:In-Reply-To:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iFxxXqEjxcgjOGft3uzGRm6ClWASSoFb0rNRxd/ronUGOiqkKNzqRc0s4rR5NmG6MkO66WH7mI34rfbJS74Fjj5oe3qWepFK+fB01aNw5tf6pm0dN04J2fttl57rad5CbbNXzFF4zso7C5bAhRfT+FGxGan/Bxu+5UZnCfdMNvE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rPwO+jax; arc=pass smtp.client-ip=74.125.231.168
+	 To:Cc:Content-Type; b=G8ZkyRdEXNcWgi4iZJBgwVsNbvOcUKJJSYJXVCi549O129dGFMYQOE4YV44YZafI63yUJ8cT+Z0GXVuUfeZRUUENSt/ViBY+pvCyv0M9DoZZ/EUx1xpbdqQiFy/Lobpz03E49/hQPb/qBrMJFYah7zpopWUQXQl1eoMkSvTCGL4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kN9V0DtY; arc=pass smtp.client-ip=74.125.231.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rPwO+jax"
-Received: by mail-oo2-f40.google.com with SMTP id 006d021491bc7-6df4f4174feso114293eaf.0
-        for <linux-staging@lists.linux.dev>; Fri, 02 Oct 2026 01:18:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790929087; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kN9V0DtY"
+Received: by mail-oo2-f41.google.com with SMTP id 006d021491bc7-6d33d80855eso4974591eaf.1
+        for <linux-staging@lists.linux.dev>; Fri, 02 Oct 2026 01:18:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790929097; cv=none;
         d=google.com; s=arc-20260327;
-        b=NPttPzymY0Wan0p+8ahDartuvTmSjzK1+7HBSMAeuQ2vwCL0ghhYAgl2Yxntc2KVBi
-         6xdkMLEBryQN0gZrDN8NwiLM+yIqGc1KB9MzQ9gU8sio2b/GLd9WLrpiVd7kot6OfbCm
-         NABXZAHEFCbFNHzx3YYjXDfBVM5EECgRWi9Xj0cH3mpKsdFgJdAWu4+dey7e5/gSokL6
-         ZpGBNd9FiR8Ob2J1WEcm7pmmBbtoHBBTpqVfKqlOlZb0agna/z+w6bZ1QBD0BeWb1yRX
-         2RNjsxyXBN+9BAeqaq0ZQ+Svme7qEtCpSyT04IUFLZ8anP5H1Izf1+wcxDho4O2YB850
-         wS0w==
+        b=jWW07I5tW+iecEjb1wnsBBa7lHMGOfRyobDVyDtE3oaZ1STqp4kGzXuTmL1XTlt+Wt
+         i4g7wNOfeC63snqGzzfI50hMEyzvUrL2bTyYk+LKJzS/PO9kTQ7n8NY0xSPlJap+xBFT
+         D5VNHQVwDmIPt22LVEN9RtoE17aj/jjIIcP1okU2jr5rn1hoAbPSakMdoIC9TW9uiy+7
+         zRhx5cs+koBEA/A0J7NyhBartlylADXvrIMA7kfIyU3zt+mz2VlnLuYzPiGVMSbkpKxu
+         kP3i3+tSW0LNOpZy/1siUZhHeIWxmGpisxRNIakh3NjTPPlj+nmuv8+pyZNOTcWhQdsU
+         JmkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:references:in-reply-to:from
          :mime-version:dkim-signature;
-        bh=v0dU3KDoaUwlcRWe6yD69OiYZX3sEVsHkRy8Aa+hH+U=;
-        fh=i2oezqnsPNStgqy3Rqf6OZJZUMNcYUYUlf+LYzmUMmE=;
-        b=LYI4HNqDEPuWa6gB31r6DxYGojS12YnXvthAiSK4qJiM8IGoiMYnJFQ8SCkxhS7Kjh
-         onzsIb/A96duVJVLzGWnDiVPlDXUeB9N3SCDppTLsg5U0o0JMDGtJkM36SmI7mKUbNMy
-         G1VYaVY89eCpXOZTrQwRrC7TNdqKgEqOPyDeBHUgLmqdYdOi/A2xGD7F72i43gVGeca5
-         gIh0NUOUuhP0L1PVI90+TgHZvGYnzQpME/SQXh4hnDYX40VCn1qafkRvX2ivtEhjTGoC
-         1pEhbesYrq6VZ121TYvrxA/GGO6OtCAa0iURMs6Im2Kb0kkgAuugbG7f7wOmmqFUOEkq
-         /pDQ==;
+        bh=A4IQ1/kTTHFgKJOYmQmnoUv9o1yUv01ASaulT28gTBs=;
+        fh=rw1DGOzoEb/a+zUWt7vx7a31aR/Xj1WhvXy0klIAuoQ=;
+        b=JtAWpI9RKeyFa7mJZTKVaVlkMVxvIfRhT8+r6c0/kwynnUOrMf6K9Me/3zunhyNPO4
+         Ir63A4d8b3XPuF3z1AgS+XmTiMR05WyqKHRjVaMXypMJNUO7cNYppF60aNHaDE5ZvqLy
+         yFZpHQzek2o0DAmguYzrJ6NIciuR57L5K2Ogp7OjTvaOKEyhzbxvmO6hLvRhoiF2v5RP
+         xoIxJZvfjy5Xyg+OihUc1OV8yvbI+z5KL3V2NrrtOd5nc3S4kJzsN2MSEPxjnu1BOels
+         QAwdSzzpwCTY4yyBxwRBGHHN5G1zYPQBMNfXJkg/Gkw2lIbKi7YiOoUcywHsTg33/x6q
+         w1Dg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790929087; x=1791533887; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790929097; x=1791533897; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:references:in-reply-to
          :from:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=v0dU3KDoaUwlcRWe6yD69OiYZX3sEVsHkRy8Aa+hH+U=;
-        b=rPwO+jax7dE3aEkBBzJNXJKx6stbbZQJW+bpHFod79bmzPujk4WuHnshhagOTJL8b2
-         8Huuz1Inunsc3fo0Un3y91xnjQ7hE2gWuJ4LVmw57Om6HJjKzsv9KkJ804cdxVZs2xqs
-         9UAtWtZ+/A9bXfGZcgC9x2PNHrLYJyusOhu0G3voYwVnYCUQKF/0X6oXNyml+YDLjnj8
-         1i/QreWyMvsLrcJlAExTgZ9CnAjFtY2bdMMBCYkI2tN8c1jr11TzSdeJ51yPace5AYoO
-         Dk8nnh/NyRs5CIij4HmQXRxMqHOlSNnTdZL5ndtv5k+e+jZ1cVzi1ecckeh0jSSssClX
-         woYg==
+        bh=A4IQ1/kTTHFgKJOYmQmnoUv9o1yUv01ASaulT28gTBs=;
+        b=kN9V0DtYKHklgO+lwxg4IvRDcnL4SeQIajvLtvp57KtfGptZKKC1h1TTdxNb+HjkcO
+         U9lNWfcs185wiDtfHjkpSkIvL+tsTalFDSE7xGguMtO4bLZbWnP2065djZWEMxWZvEIj
+         0QKnn8SdUNNtJTiaz/5DuAIkkJBY1E/oPV2/wNtvR7lG3iHxxbEKNPkzmT3vYFJcn5wx
+         s/1OUEp7kzTCuiIJbxkeMKrqYohsWnhbDevnn2ByTo+PPSuKSGf1o8UXKCD4XvaboXaf
+         4qnbMAgoz8BDV+8Y0lZzfPZ3YsFoUyRmCGzAblVAVYgHf2dl2+/V7gbfyZrQW8p7cEvd
+         +qPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790929087; x=1791533887;
+        d=1e100.net; s=20260707; t=1790929097; x=1791533897;
         h=content-type:cc:to:subject:message-id:date:references:in-reply-to
          :from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=v0dU3KDoaUwlcRWe6yD69OiYZX3sEVsHkRy8Aa+hH+U=;
-        b=Zi1IIXXANUpojsazEv1z7Oq0hbG/45EiOguPr5NXgj/xD67tDjtd2DIz50vgG6ObMU
-         UUF3Hdraoh3RtYbsyVeK85Dw8V0TUDKtHBNBIzXFTX6EDhVrkf1KzgsoIdzqt+pBeOXD
-         6d8Mk9KjRFuQT16DUMGM1zAvwwEIx9I+vL0OOeS0AK9ZzVSJXsiubepHvizCmBzX6eId
-         rE8kwiJiHGwudKI/Qtx54q++nRQkNtE9kRNpKx4BKWhGYPTZ5IPmXydEt0yJKnWhJT35
-         uUYB2P/YKg5RST234ye10sAkdyECPX24h91RoiOlNlR09UqdfYbrzxRbdi/5aWSgrn3X
-         WHhA==
-X-Forwarded-Encrypted: i=1; AKwUvBwbqvtfLl/Q3cZs2YONOFR0F8jPMTO+5w05McSCH7sEVPDWHeqLKcwgfv18qvM+GiuOBJrR7gPHbdEVaY6H@lists.linux.dev
-X-Gm-Message-State: AFuF++naiyH9fg0FOrSLnNlmCJKCWijGg0X2tMPuOzpocO3BeZ2lSdaF
-	Flf8bJF+IsR4YvBnI6oNuFHFHuy2AkOnBdIdJ3OqVPbMhyAvRytL7zQsLRtrHjUcdh18YAiGdUb
-	YXVEkFcqdp9kcQF8fPfVX4IVx5RVKQxE=
-X-Gm-Gg: AYBFou3SrLQiCnuuUJgqjZqOvYcY1mbydc2e1jxgjZJkNEUazBIUvEH3+78s/VgbaIX
-	B4ACYT5qb/ywj19A78AeowVXYQ7yc/ZvWCWb6NsIyDzZZb2ZwdpSbfsDXl/HAwRw6rxevb9J8RV
-	ypsgVmKsykxiz3btC/OTKW1VhnztWCj2AknA/mHvYZDNaaGkRoMm/gwLYESVgfNNcdQ1wapqE93
-	UY2Xqd0/b/VyUYCFD6g3KJRG6j2SddjXKA/Ds8k86UNDSrRcB7Svtwz7T/cwCnnN48K1g8swyGv
-	MuUsAFLG+BBvqqY87TM0s/PRF6viNJnO3PB62Y4oZ5YAvXYcFddVsywmhEPH8+KQJHRA2qFyK9o
-	FxN+lHw8dc+mTE4bolhJGJTnsszJPl1Ttpw==
-X-Received: by 2002:a05:6820:4b82:b0:6de:66e3:a1da with SMTP id
- 006d021491bc7-6df34e6e7b8mr1524663eaf.50.1790929086699; Fri, 02 Oct 2026
- 01:18:06 -0700 (PDT)
+        bh=A4IQ1/kTTHFgKJOYmQmnoUv9o1yUv01ASaulT28gTBs=;
+        b=o4DaseojfifnZoOhPA9ErZIeGXr471+QdBE1VT4qRDhf48VtviuZv2PQcXln6jqcbV
+         OJIXpzkSjEsEO4WE+AEFkwzU3MlMbOZlzPXUUM97vSJHKk4WeSGeTX74DBLw8ptg1rAy
+         pQSxCbKEjUJue9Njs+V0SrZi0dBEA9jImqz7ejLVeSkXuuKrk+MD2z+m5I6m4n60Oz7T
+         CVA/et2QdxzBwyR3U47lhKLB1G8tkhQ+wJpeGAR4AQq/Ax0gubYRNQK75uAXVfc+mK5R
+         R/7g+jvxLdcHJYGqN5d7by1Smu/NeVd20+zIYSin9eIn4dCy0fXlgEmCbBqM3LxZIuo4
+         PNSw==
+X-Forwarded-Encrypted: i=1; AKwUvBy27iBMyCAk05gOcEhRoH2hHD5OOxk1nODar+d1MFt3Pa/XIYLn/YzMkREfiPwikRqKFRzfhi+twSk5nzXi@lists.linux.dev
+X-Gm-Message-State: AFuF++kvlHFvBcUkFT7KqIc+tGv0M9MfTvNpGMkq0kNKxQBvZaKfdVrM
+	G3eS0J0CtuE7P+Vox5Qgw6VMyPZWKdHp7i9z1HgGZ4E1VwXYU38JZ5E7LvR2U6HiMjq0ttIfXGR
+	81T34E7pCYF2jF4ORsC5fy6ZpD9nAlHM=
+X-Gm-Gg: AYBFou1Kst+LgFmx1sCnRdoAMeO/Sjo+Qxb/kVdk4wXXltg77jkzUA2H0Ic0zz1sC+1
+	iygBFaTcMJzA34C1dSKIwG/J1veukcwgELq9AeqAv1zKPOrgUoCGZbobhZGTUyMbkEoSC+kZGgP
+	s/WR5eYkHm9aBxF8cBI4xDjtw9duOAaPn8eZu8A147jnyOnEsGWBvk7p4YwjIrKNpJUyBGrfgR6
+	7vmA0VmvpE7xyMBERVdEJgsjTC+YeDadPZ3OZ9Z4t2JkQkNQ6XOcm+Hk8Tcz0YdgHkhai+oh9XA
+	zB3J6sE1QetzaRKH/z8MJMVyeesfG1vw2RCDFkpikSbbVtDug7nD2As/zzG82qUbfGGrmsBrz+L
+	2nIPgzdGv1UpQezX8qWjrHlwnxGUGZ/RA
+X-Received: by 2002:a05:6820:5719:10b0:6d7:97cf:dba5 with SMTP id
+ 006d021491bc7-6df3428cfa0mr1169209eaf.37.1790929096883; Fri, 02 Oct 2026
+ 01:18:16 -0700 (PDT)
 Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 2 Oct 2026 01:18:06 -0700
+ Fri, 2 Oct 2026 01:18:16 -0700
 Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 2 Oct 2026 01:18:05 -0700
+ Fri, 2 Oct 2026 01:18:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -89,11 +89,10 @@ MIME-Version: 1.0
 From: mauriziocasciano7@gmail.com
 In-Reply-To: <CAO7O_xi61=0kUtYkYFKonaSEJRC_KiXKvgMLSwRbnDTVfmQsPg@mail.gmail.com>
 References: <CAO7O_xi61=0kUtYkYFKonaSEJRC_KiXKvgMLSwRbnDTVfmQsPg@mail.gmail.com>
-Date: Fri, 2 Oct 2026 01:18:05 -0700
-X-Gm-Features: AclHuK88D0NKLwKndTFmgE2vFrp8ERoNDOCao5xUibVGg-27A_K-DelGF2nwZkU
-Message-ID: <CAO7O_xgAyCn=PeaEzoYqbe1F45C-hFsXKG2QbVWV5DUZMyv_DA@mail.gmail.com>
-Subject: [PATCH v8 09/15] media: intel: ipu-bridge: select OV2740 frequency by
- IPU ID
+Date: Fri, 2 Oct 2026 01:18:16 -0700
+X-Gm-Features: AclHuK84cUtRH4JRxtuSY_ddwBbCFvBy-HgK4ZJTbtS9qQzzgWUbme_DYYS7jnE
+Message-ID: <CAO7O_xgRZryqJjnGGj9xv4Bd6-cLPTs0W_yyt5ZHNufeQLv_GA@mail.gmail.com>
+Subject: [PATCH v8 10/15] media: atomisp: derive CSI-2 timing from sensor link frequency
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@amd.com>, 
@@ -104,57 +103,83 @@ Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-The OV2740 connected to the Cherry Trail AtomISP uses a 288 MHz link,
-while the generic OVTI2740 configuration uses 360 MHz.
+The ISP2401 CSI-2 receiver timing depends on the sensor link frequency.
+Query it through v4l2_get_link_freq() instead of reading a 32-bit
+control value directly.
 
-Use the bridge's existing PCI-device matching mechanism to add a
-Cherry Trail-specific OVTI2740 entry before the generic fallback. This
-keeps the platform distinction in the bridge and avoids adding a second
-per-sensor link-frequency override path.
+Keep the frequency as s64 throughout the calculation so valid link
+frequencies do not require an arbitrary S32_MAX limit. Fall back to the
+existing default timings when the frequency query fails.
 
-Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
-Assisted-by: LLM
+Assisted-by: LLM sparse
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 ---
- drivers/media/pci/intel/ipu-bridge.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../staging/media/atomisp/pci/atomisp_csi2.c  | 20 ++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu-bridge.c
-b/drivers/media/pci/intel/ipu-bridge.c
-index 62852fe1a406..1a133194cbc0 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -21,6 +21,8 @@
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+index 71df4ef629c2..cbdeac32f6f3 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+@@ -5,6 +5,7 @@
+  * Copyright (c) 2010 Intel Corporation. All Rights Reserved.
+  */
 
- #define ADEV_DEV(adev) ACPI_PTR(&((adev)->dev))
++#include <media/v4l2-common.h>
+ #include <media/v4l2-event.h>
+ #include <media/v4l2-mediabus.h>
+ #include "atomisp_cmd.h"
+@@ -210,7 +211,7 @@ int atomisp_mipi_csi2_register_entities(struct
+atomisp_mipi_csi2_device *csi2,
+ static const int LIMIT_SHIFT = 6;	/* Limit numeric range into 31 bits */
 
-+#define PCI_DEVICE_ID_INTEL_ATOMISP_CHT	0x22b8
+ static int
+-atomisp_csi2_configure_calc(const short int coeffs[2], int mipi_freq, int def)
++atomisp_csi2_configure_calc(const short int coeffs[2], s64 mipi_freq, int def)
+ {
+ 	/* Delay counter accuracy, 1/0.0625 for ANN/CHT, 1/0.125 for BXT */
+ 	static const int accinv = 16;		/* 1 / COUNT_ACC */
+@@ -289,18 +290,18 @@ static void
+atomisp_csi2_configure_isp2401(struct atomisp_sub_device *asd)
+ 	int dat_termen;
+ 	int dat_settle;
+
+-	struct v4l2_control ctrl;
+ 	struct atomisp_device *isp = asd->isp;
+-	int mipi_freq = 0;
+ 	enum atomisp_camera_port port;
++	struct v4l2_subdev *sensor;
++	s64 mipi_freq;
+ 	int n;
+
+ 	port = isp->inputs[asd->input_curr].port;
+
+-	ctrl.id = V4L2_CID_LINK_FREQ;
+-	if (v4l2_g_ctrl
+-	    (isp->inputs[asd->input_curr].sensor->ctrl_handler, &ctrl) == 0)
+-		mipi_freq = ctrl.value;
++	sensor = isp->inputs[asd->input_curr].sensor;
++	mipi_freq = v4l2_get_link_freq(&sensor->entity.pads[0], 0, 0);
++	if (mipi_freq < 0)
++		mipi_freq = 0;
+
+ 	clk_termen = atomisp_csi2_configure_calc(coeff_clk_termen, mipi_freq,
+ 						 TERMEN_DEFAULT);
+@@ -311,6 +312,11 @@ static void atomisp_csi2_configure_isp2401(struct
+atomisp_sub_device *asd)
+ 	dat_settle = atomisp_csi2_configure_calc(coeff_dat_settle, mipi_freq,
+ 						 SETTLE_DEFAULT);
+
++	dev_dbg(isp->dev,
++		"CSI port %u link frequency %lld Hz, clk timing %d/%d, data timing %d/%d\n",
++		port, mipi_freq, clk_termen, clk_settle,
++		dat_termen, dat_settle);
 +
- /*
-  * 92335fcf-3203-4472-af93-7b4453ac29da
-  *
-@@ -58,6 +60,11 @@ static const u16 ipu6_ov5693_ncont_clk[] = {
- 	0
- };
+ 	for (n = 0; n < csi2_port_lanes[port] + 1; n++) {
+ 		hrt_address base = csi2_port_base[port] + csi2_lane_base[n];
 
-+static const u16 atomisp_cht_pci_ids[] = {
-+	PCI_DEVICE_ID_INTEL_ATOMISP_CHT,
-+	0
-+};
-+
- static const struct ipu_sensor_config ipu_supported_sensors[] = {
- 	/* Himax HM1092 */
- 	IPU_SENSOR_CONFIG("HIMX1092", 2, 180000000, 180480000),
-@@ -112,6 +119,8 @@ static const struct ipu_sensor_config
-ipu_supported_sensors[] = {
- 	/* Omnivision OV2680 */
- 	IPU_SENSOR_CONFIG("OVTI2680", 1, 331200000),
- 	/* Omnivision OV2740 */
-+	IPU_SENSOR_CONFIG_MATCH_FL("OVTI2740", atomisp_cht_pci_ids, 0,
-+				   1, 288000000),
- 	IPU_SENSOR_CONFIG("OVTI2740", 1, 360000000),
- 	/* Omnivision OV5675 */
- 	IPU_SENSOR_CONFIG("OVTI5675", 1, 450000000),
 -- 
 2.53.0
 
