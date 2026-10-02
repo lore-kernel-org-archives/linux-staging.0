@@ -1,76 +1,73 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-vs2-f38.google.com (mail-vs2-f38.google.com [74.125.227.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FE341A502
-	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 07:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8CC41D63F
+	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 07:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790925915; cv=none; b=df3xK2qVT+B2iVX5nUhVcFS+fHWoD3BoGj5U4Cvk5Rct48WUZBLwVOxCMN2LGaWw0VHsExeiKVQViJ18wr120cytwoVaWqXjC9hrQEANJJK5hM8pzUfa7y/oeZ+d5xrw6WORukoelMw/r96VIxDGGGLYxZFzPsxdJnzu13xc7OI=
+	t=1790926236; cv=none; b=XyQtwixHhKtFhIdnFDPFiokH3Wg7CVjWztWji24ZFaWwN+YBkcKKprqErtxTCWRbHEaIfdt2kco18HqiUODWz1v86NE2R1m+09obRj3HDpaRBAkq+rF6jnLDln4FKC2S++J/9+DzdvCnPdzpnVkWVydx4WFsslL2HU9uk63tZ00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790925915; c=relaxed/simple;
-	bh=HiaU+q5Z5tDTpbFQyiafkFs3u8yzq8OT/DxIh5N6uLA=;
+	s=arc-20240116; t=1790926236; c=relaxed/simple;
+	bh=5GAmtYJRjyXO7QNDSg0XRLjnCIHj2W2dwtcdfFCVFRM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L9vPhd2uJ53dU6FC5KZYyqEjitvJAh/SqGwiU4g4SuASPK8Mpj7NDsx70y2ZsIAhzBsF34sA+ID77aWux6DMJwEn3q7M3eew6rz+GX6567jveoTCWJqx3AjXIS/q8F2GEZV2c2+6jH2ZewGwkIumbFiVnQ/Ed7b2UtZGYqFI2/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VQ9d6UJ4; arc=none smtp.client-ip=74.125.225.76
+	 Content-Type:Content-Disposition:In-Reply-To; b=aiwqwUg1fXIlLPky/z/vMFUWZDbijlyh/+UiYNZeM3oaDqBslVhgIGkri/stlGcec94d5+P1mmPLrgb94aPqKUjs/QWMJbi+lbphPG7T7JQF+9/e3giwRxHNy69peUwnBOqojJX7DMQtXIVphNBAClPytrSO1eLSBr0Qvods5Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iQdOhxRg; arc=none smtp.client-ip=74.125.227.38
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VQ9d6UJ4"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4834977ae75so4539739f8f.3
-        for <linux-staging@lists.linux.dev>; Fri, 02 Oct 2026 00:25:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iQdOhxRg"
+Received: by mail-vs2-f38.google.com with SMTP id 71dfb90a1353d-5d9004047fcso999989e0c.2
+        for <linux-staging@lists.linux.dev>; Fri, 02 Oct 2026 00:30:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790925910; x=1791530710; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790926234; x=1791531034; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=bB4mviFaTg52lMAlQb9mClXh9oAds6IAu1vT5YPotyg=;
-        b=VQ9d6UJ4WcO8Q2j5UkeRZe2BEeI/FVCeZqXV2c7N/BMYYkd62qAu+o931f7zVUiVUy
-         Dh1UiM3zYWAk/mCpytxrOZiqis1Dv5vtlWKgICPVoTIzU5HEX2rvH5GFBoKwJjoJmN/3
-         B69UGYChxKAYvGlLmPfN9V0zaK4ixqYMYcx8PNbRGKFjoo2GtXcbzd2jeUSOGB9gWOev
-         5BIlrqxxQ5zsBLEZPYRTyv/rRp2pwwow/Cu+VYi+zca2yaXaODhe1n4JNx7hpnHt6PLJ
-         fDNc5f7THKJ4qKc5PJv/DtTnIBSozpqVGZT9hybFZl2cakp+nJyGwaV7Giuu5fVvGqXc
-         vdAw==
+        bh=3DhBRZUBEMxswOFupavtILwkZxnofD7tHbJ4YNRXjDY=;
+        b=iQdOhxRguWPgv/b/60RjiOJMysoAU+QqDDNABNigvHXEFvyvP++YzRjepq9Oy8cZn1
+         91HhbJpx5HFe3TeeNnVaE/vDC8fa8hLpWtiRRvGno8xAoaNkZUIz2P9Bp8UiHTZ1cTEU
+         rHNutp4PuHAAcMjq7QWVvyJnppqDSo4+xApKd0aynU4S/4tARu11TxexHqgw6trzUQqB
+         saWgik+lFgcDBzYab+0DQtoygr8sqpg92FUlFTu4ahXWhIdiRZgM0I6qD/JIiF1VMAej
+         kMMk6tdpyTKPiuKOE2/0mzSDKV1hbu/FAPIr3hvGcUKXtiSoi4/drAP+y1HM4xTerGIp
+         L+/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790925910; x=1791530710;
+        d=1e100.net; s=20260707; t=1790926234; x=1791531034;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=bB4mviFaTg52lMAlQb9mClXh9oAds6IAu1vT5YPotyg=;
-        b=WI8JMkWCWb97p43m7qLaO97k5fUrWx4vifnx/diE6lmdLJt3bJCLaWf9BpyfXLbcKY
-         dnNqSMbkUQI/iV0r2rh9Rp4y8SFb/MUFeWrM7SQRIytC2wCITvvlNW9otDGWanrDBgat
-         O91Bmhli3IyTsEcAFBF5XDhJkqHLHFgnyarNdWGtyO0mKZln0+2lzLTrRfOtczniGrDZ
-         0kySBIcfSHPX45cKmKGyGWf4rNGY5vJ/vEppD9lpwg8U8l2tv/TtPytRN0otXixAHpH5
-         5KH50nt6tLVF0z79IIK+X2SSdKwMWX7CqT6iytuqZVJT1mG4EUoV38VsoZqeSo25nogD
-         pd4Q==
-X-Forwarded-Encrypted: i=1; AKwUvBx5fZ0vUeoLj8IcibzubGWYLFPso8/WQpVZSGcx/vb5yMn8IOHAtEualJJSX38YGkPfwTkzK5QqwUHLQyDz@lists.linux.dev
-X-Gm-Message-State: AFuF++mmJs2pWWQCSdXQ6eSmz8pPLEFx/IVKTPPd+z/Lb+HglWoCiFoG
-	7kbj+nFlWk8UeCF3pS2E6eazGf4M05r0aBmhldlct44UgqYOAdPnj2aT
-X-Gm-Gg: AYBFou1WkmTrNoUhukpf1a0omNF5pgG76czn6I7Jp5FCKVeWlJiynI2Fo5gbWw/7eRU
-	iLXIGty8qzhfX8YPU5oMrt1nIPmVm4NGMMIPRJLleDC2FbGosCkmXXaaXPvUQA4H28m7gnKGyda
-	74NKf8UcxOPqRGyHC5Hx7RuyEy0Pc+ztXAJwKqVJdsmn5DQm6x8jT1amcrTEsrIOyz7whpb8229
-	LwICW/fO7jZ3TlWrizSZ3cvnMcYdzlnfi+FUYddHrVkhC2AHbnhmRHtR9IDtTDlJokJ6CcBpE/b
-	ULlfB+N2SSX27RO3m+5LtNqHAszSdt65X1EDi5rRCqO6s3xRE5ELSqZIQSyqWepiME8W0mPRytF
-	5Qx5CCJJyDUAe67osPD14BCbfe2pS3RJm0CdRywWSpxDsw/FYmw6iGwXkD0v/Fe9mHxEG8gi4BO
-	jw+7bWlgN2QNtoKc4AkQSfbgu7f5CqgVSqxuZ3/vkfIF6JYV+FR5FrN8b4A2uyfGiC5pA=
-X-Received: by 2002:a05:600c:154b:b0:4a0:1559:bafd with SMTP id 5b1f17b1804b1-4a027573e97mr33311035e9.8.1790925909801;
-        Fri, 02 Oct 2026 00:25:09 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b380f07cdsm3713815f8f.10.2026.10.02.00.25.08
+        bh=3DhBRZUBEMxswOFupavtILwkZxnofD7tHbJ4YNRXjDY=;
+        b=V7rIfkLR1LuOBD+jeKiAMWPlwQrao34gydAQhquZ8pVrOdL72lAfrJi0731l9rXWMi
+         xtRjUcDU8Ezd17vXpCYFsPfH876rswqAGdERFwOenPd2vFoihjrfyKzEvk5m+utClIpd
+         uxzXnUruPKemsA7O5nNr+HHdO+W7fNXblSZDmgPbsAekPvaeIM3DZt0FQEMLoJilsb26
+         pGdvwKeSqJYbuhxOCafMnt6jOyaTPHxGFxFOUptMIBOVWGYj3cCXe+pOa0NUzWcrArcB
+         WRLsIvBVQsgxDxMQN62uwLEmys90CopbeaO5cx9abPPJWK7GYMsYUTMm51hmsPtOgH3T
+         vzlA==
+X-Gm-Message-State: AFq9FYLkfM0xCL0NDGxenK0fFht40SbmDM8iPwR63t8DmSox71sZ6Yjl
+	HLNnHOD6naNvl9xKjfCtGWC7R0QGSYFd1CkGMJY1LSIWkjgbo+cOeeus
+X-Gm-Gg: AYBFou1h8m5f2WiaXSNyaBDTBUfU6PO6owmgDCy0eZCmWcACETVagVs4cqKSpNnGnIq
+	DBQcr5c/d83Escp+4qcYE0sLG6LlTTwglRCyi8CGeBkY/UiMU2tFrehAKNhCJTEGREru8LhZTSs
+	dfftkcaei0UXSDXXhGRemo+9XOMeAJ4YbpysrFYGxYceJkw9i8ysdV8fINt5h0+tm7kei4CXOTe
+	cwzxaEiQM5/2Rtdy55e2Epd5VSbcI9W35B+vI0oHpxZNnsk6PfMhBcIsSsTh02/u47zP7L7TbqP
+	vRVh0fEad+aMjSHrm54Pych8eDPVoUGfA1FP/svDTUsBIev5U70ui+tEXuwAa6kEdWyMcFyJr89
+	ea/uv4Vs0W+La0x116icx2UL71DcHGeao5mQ/5q3IEeZaC2+cAMol3LyAVhm9ESP5qagAfpjq72
+	1n3J7IC6V1yMlABvU3G1o+2XDDAWwUd2TXP+Xd9hh/wOegX1krzxxwBPvBtunJgC4=
+X-Received: by 2002:a05:6122:6b93:20b0:5c9:a60b:e5a3 with SMTP id 71dfb90a1353d-5dab1a52819mr421807e0c.14.1790926233732;
+        Fri, 02 Oct 2026 00:30:33 -0700 (PDT)
+Received: from debian ([2804:14d:9ea1:8718:c77c:8:a40d:84f2])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5da62d10534sm2647081e0c.13.2026.10.02.00.30.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 00:25:08 -0700 (PDT)
-Date: Fri, 2 Oct 2026 10:25:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Adi Prasan <itsadi2409@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix ie_length bound check in
- rtw_cfg80211_inform_bss
-Message-ID: <ar9cUQd-NEJozKxg@stanley.mountain>
-References: <20260920142849.294162-1-itsadi2409@gmail.com>
- <20260921165527.1379-1-itsadi2409@gmail.com>
- <arJXA7q5a40jcASB@stanley.mountain>
- <CAAd6oEjAMrJjx6PLDE7jj5OsgbwFWU9Uoy=_UyO8w-5AyZCxqw@mail.gmail.com>
+        Fri, 02 Oct 2026 00:30:32 -0700 (PDT)
+Date: Fri, 2 Oct 2026 04:30:27 -0300
+From: Leonardo Martins Martins <dev.lmmrtns@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] staging: rtl8723bs: rename local vars in
+ phy_tx_power_limit_to_index()
+Message-ID: <ar9dk-Ja8tqS7ufC@debian>
+References: <20261002-rtl8723bs-tx-pwr-limit-v2-0-48b180fb6f7f@gmail.com>
+ <20261002-rtl8723bs-tx-pwr-limit-v2-1-48b180fb6f7f@gmail.com>
+ <2026100258-probing-reactive-1191@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,22 +76,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAd6oEjAMrJjx6PLDE7jj5OsgbwFWU9Uoy=_UyO8w-5AyZCxqw@mail.gmail.com>
+In-Reply-To: <2026100258-probing-reactive-1191@gregkh>
 
-On Thu, Oct 01, 2026 at 10:51:00PM +0530, Adi Prasan wrote:
-> Sorry for the late reply.
-> On where ie_length gets set - there's three places: collect_bss_info() in
-> rtw_mlme_ext.c, and the two H2C_PARAMETERS_ERROR checks further down in the
-> same file. All three cap it to MAX_IE_SZ before it's ever assigned, so it
-> can't actually go out of bounds.
+On Fri, Oct 02, 2026 at 08:09:28AM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Oct 02, 2026 at 01:07:35AM -0300, Leonardo Martins Martins wrote:
+> > In phy_tx_power_limit_to_index(), there are many mixed-case local
+> > variables, rename them to adhere to the linux kernel coding style.
+> > 
+> > Signed-off-by: Leonardo Martins Martins <dev.lmmrtns@gmail.com>
+> > ---
+> > Renamed Variables:
+> > 	pHalData -> hal_data
+> > 	Adapter -> adapter
+> > 	BW40PwrBasedBm2_4G -> pwr_base
 > 
-> On a more sensible limit instead of MAX_BSSINFO_LEN.what do you have in
-> mind?
+> "power_base"?
 
-Please don't top post.
+Yeah power_base does seem better.
 
-Why not use MAX_IE_SZ as the limit?
+> 
+> > 	rateSection -> rs
+> 
+> What's wrong with "rate_selection"?  We have lots of characters you can
+> use :)
 
-regards,
-dan carpenter
+Here I used rs instead of rate_section because I saw it being used
+like that in rtw88, and I also saw the "Naming" section of
+Documentation/process/coding-style.rst where it says local variable
+names should be short and to the point.
 
+Regardless, I don't have any strong opinions on these variable names,
+rate_section is also fine, so I'll just use that in v3.
+
+> 
+> > 	tempValue -> tmp
+> > 	tempPwrLmt -> tmp_pwr_lmt
+> > 	rfPath -> path
+> 
+> Why isn't this in the changelog text?
+
+Oh it really should be, my bad.
+
+Best Regards,
+Leonardo Martins
