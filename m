@@ -1,92 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DBD2DB79F;
-	Fri,  2 Oct 2026 14:34:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22862D0C92;
+	Fri,  2 Oct 2026 14:53:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790951644; cv=none; b=nOS9SwmqBYoTwEMOhHbIUDmViY988WRuv10rUpD6zDdVl9cqGu8Do1NEJHThVeK9I7JJepS76rBtn2RYZAkWsjrJe1znvRhr7P+tLN1zEELkUO5PdHZe3pVlAY0TDKBSaeIYTzBjKDpLJ8exUI2RkI5OhEPmjhcST3MVMoydu0s=
+	t=1790952788; cv=none; b=FkuYtUF1WDpeIy08NNUBuY2R9XxNQ8OAGsngPiCRh8vNF4LBpSpBJRyisCkJv1HIduxTgBlwMxYFLR8XRs9nmsHKYW9snZVhNU5WLDvuJ97U/yfCarbvZ+z7WMgjbBBG6R2QZX5X7gIWarv6mJNPsRGfNxsOY6H43uOyNrbwjBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790951644; c=relaxed/simple;
-	bh=1jK2YHK2WSx82UF/frParOUH55P/f85eeb9pKT/u1IA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nAXQT7D19+ydKq9UgOjh+pi0yrNapRxv1I5c/fogTGLjCBIIdvxP+u0QNJzh5A95Lc5WrNEuevpGjJAKxzFQsH+T5hWURihghP1KoUp9KlQ7lox4YGSUlTPI19c5MPAEkh5e/hkODd3Dsh3wt9fAk78/8XS0M5R817z72KkYRQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J1QzSLcp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790952788; c=relaxed/simple;
+	bh=GZxRYK1w4snKNC2Ijd053YYTdJJ312g/wKMewJKo/ek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bErwNGGyg8PuNIZimV4GiW/445Ldcu8RVbwGiN7GWlj6mqHCRA84WbhxlsQ2bM4rvOtafBwAH/jHgfZaxCYAFM3hfmf4OLu8kuN7xX4gzz/luxdrveKu3vzftBxiI94kAMReX5RpAPH/pA+gNQcoZ3S0UppukYJyyFAv8v9+F1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=X8QQqt24; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J1QzSLcp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 407BD1F000FF;
-	Fri,  2 Oct 2026 14:33:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790951643;
-	bh=UWFt/auOpOsMrP7EpBMqStCL4hrQWzQBPhqFcgSREmQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=J1QzSLcp1U1ErWHL32Sd4uGAeqWd/YYc4L6UiyBsiCSt8cSqVFhbwcwnl+CGt8Akf
-	 N45YG0fAl8KwiLvfjSSwEcgetgdzg8WNClnau5EEUwllls3BgQayYyyOw0rHtGXdEz
-	 4Tqa0P+BBleam8KY1b+V5VY7FgdDoxn7zOSeUTA6B1iUWHA4n9w3OP/QUGmv9aHWJO
-	 a4j1ZBd1SPDMlKoV8PZWhVx5ghxncF6Jzor0dVNfvSQJElV2m4TL73yLPt0kp4E1zJ
-	 WNBoQc2MsIdClt77xa7VLbpv6cISF3351jVo99VCIh1n2/2jNg7eWe+b6dcxLL6ql5
-	 X/wGyoIgma6mg==
-Date: Fri, 2 Oct 2026 15:33:02 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Cc: gregkh@linuxfoundation.org, nuno.sa@analog.com,
- Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org,
- linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, joshua.crofts1@gmail.com, error27@gmail.com,
- narcisaanamaria12@gmail.com
-Subject: Re: [PATCH 0/3] staging: iio: accel: adis16203: fix axis mapping
- and cleanups
-Message-ID: <20261002153302.5c64819d@jic23-hlaptop>
-In-Reply-To: <20260929184900.39515-1-abdelnasserhussein11@gmail.com>
-References: <20260929184900.39515-1-abdelnasserhussein11@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X8QQqt24"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1BCD1F000FF;
+	Fri,  2 Oct 2026 14:53:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790952786;
+	bh=/P3LRF5JXFyBnEM5H7R7UPRrjiyCLLXP7y3LOSoBZ3Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=X8QQqt24tfxSc01J8QrXafL/qhMHuz4v4dNU4ZH6QivQZ0pfn8UVD0Ayi3BHU5gTj
+	 acbBdl5SwLoyInD8PDtvEIubVowu7K9nCEOQTFkiF5eXyBYdrKSr8bVJxpojg5fben
+	 ucO0QVKSJVRJQb+o6p9cloaAQST/NbUrLt+fm+xs=
+Date: Fri, 2 Oct 2026 16:52:59 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Adi Prasan <itsadi2409@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	error27@gmail.com
+Subject: Re: [PATCH v3] staging: rtl8723bs: fix ie_length bound check in
+ rtw_cfg80211_inform_bss
+Message-ID: <2026100246-underpaid-hardener-cfab@gregkh>
+References: <20260920142849.294162-1-itsadi2409@gmail.com>
+ <20261002140450.3209-1-itsadi2409@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261002140450.3209-1-itsadi2409@gmail.com>
 
-On Tue, 29 Sep 2026 21:48:57 +0300
-Abdelnasser Hussein <abdelnasserhussein11@gmail.com> wrote:
+On Fri, Oct 02, 2026 at 02:04:50PM +0000, Adi Prasan wrote:
+> The buffer bound check in rtw_cfg80211_inform_bss() checked bssinf_len
+> (ie_length + header size) against MAX_BSSINFO_LEN (1000 bytes), but
+> network.ies[] is only MAX_IE_SZ (768) bytes. This allowed ie_length
+> values up to ~976 bytes to pass the check while a subsequent memcpy()
+> from network.ies still only has 768 valid bytes, and other paths that
+> write to network.ies consistently cap ie_length to MAX_IE_SZ.
+> 
+> Check ie_length against MAX_IE_SZ directly, which is the actual size
+> of network.ies, and drop the now-unused bssinf_len/MAX_BSSINFO_LEN
+> comparison.
+> 
+> Signed-off-by: Adi Prasan <itsadi2409@gmail.com>
+> Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
+> ---
+>  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> index 27e7b8442d7b..7e964b15ae6d 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> @@ -210,7 +210,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+>  	u64 notify_timestamp;
+>  	s32 notify_signal;
+>  	u8 *buf = NULL, *pbuf;
+> -	size_t len, bssinf_len = 0;
+> +	size_t len;
+>  	struct ieee80211_hdr *pwlanhdr;
+>  	__le16 *fctrl;
+>  
+> @@ -218,8 +218,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+>  	struct wiphy *wiphy = wdev->wiphy;
+>  	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+>  
+> -	bssinf_len = pnetwork->network.ie_length + sizeof(struct ieee80211_hdr_3addr);
+> -	if (bssinf_len > MAX_BSSINFO_LEN || pnetwork->network.ie_length > MAX_IE_SZ)
+> +	if (pnetwork->network.ie_length > MAX_IE_SZ)
+>  		goto exit;
+>  
+>  	{
+> -- 
+> 2.43.0
+> 
 
-> Hi all,
-> 
-> This patch series addresses a fundamental hardware mapping error in the
-> ADIS16203 driver and performs a few necessary cleanups.
-Hi Abdelnasser.
+Hi,
 
-Unfortunately, this is the most extreme example I've seen recently of submitters
-not checking the mailing list archives or indeed linux-next before posting.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-The driver no longer exists!  Support for the part was added to the
-adis16201 driver and the staging driver dropped.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Jonathan
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
-> 
-> The ADIS16203 is a single-axis inclinometer. The current driver mistakenly
-> exposes two separate axes (X and Y), leaving a FIXME comment on the Y-axis.
-> According to the datasheet, these are actually just two different output
-> formats for the same axis (0 to 360 degrees, and +/- 180 degrees).
-> 
-> This series removes the unsupported Y-axis, fixes the inclination naming,
-> adds a missing SPI device ID table to ensure proper module autoloading,
-> and cleans up the register macros to align with kernel coding style.
-> 
-> Best regards,
-> Abdelnasser Hussein
-> 
-> Abdelnasser Hussein (3):
->   staging: iio: accel: adis16203: fix inclination naming and remove
->     unsupported Y-axis
->   staging: iio: accel: adis16203: add missing spi_device_id table
->   staging: iio: accel: adis16203: clean up register definitions and drop
->     redundant comments
-> 
->  drivers/staging/iio/accel/adis16203.c | 108 ++++++--------------------
->  1 file changed, 24 insertions(+), 84 deletions(-)
-> 
+- You have marked a patch with a "Fixes:" tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
 
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
