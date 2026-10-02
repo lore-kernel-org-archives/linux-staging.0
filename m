@@ -1,85 +1,77 @@
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBA547F760
-	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 09:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70CE40F72F
+	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 09:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790932718; cv=none; b=LzmLgr1g2sNGUtAkONhKtnlJTj2DSeDq0Y8uSWG1Rd/Znip9Pp4m5KOBefHvdG/X1RYahcydSRQwoZDzyUbPUnYsH6/RMrzbRU+5EWpG7addg7ci1rBAgyXEkESzBVK5iS4vigZTsMH3QqUAlo4+GDMeWR1mDmd5en53HqtytG0=
+	t=1790934503; cv=none; b=aGJjuy6w8YGDrDLRWtp7S9X98cwnt8antJWk4feIxnja7BOfR7qkVdVgfuVtkT4SnmP5Jxl4p1ylZMFLubdUUMfvsh+p1QEt9eJnby649B0VnyGLFHG07c2v5d1HOYMlgLBF4YVNiT7cOIY2CWrWN1fVZ0P4xUrp6M0ncpZrcDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790932718; c=relaxed/simple;
-	bh=CNsKoYuKrrSYLzKvtVyS7tgc5mI2xbQRWIdL6BhWXcs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P43LIYhdbbEkDA0V+cUh/YR9sjwlBhmJzushehVYj6X2AmgLdzeSH60WB+zhlVnBfOAOwb/knnbI9Sy53xGCM9uHIZ6N8zzBgh3ChSIgWWE3lIsdQ3REei7uipJNdU++5Yh7EyiLX/QgcrBHUqBDe/QyMpOpecwJ8HKA7VP7MDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hsItoE6d; arc=none smtp.client-ip=74.125.225.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790934503; c=relaxed/simple;
+	bh=RbcWBmCUPxJ+y+RKr8MXYk/AIpKv9AVVXztnaBm7aIk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cKRpOKg2PiSxEZfQ09FM0aes5Mae76IL7PhgGS1QnzQ8/wG1y5NlVLLoqjsyFfNuXvYg/F8qCKGRjKHk8ijXI7kB2IFNHDQRbvogvMvg9dteI0TTt3FvCufuruAcGgFf0jVa/uAHiZZC7/wN29pTzDnVOLx8GdgvdGDiFWN5M5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gKaU8UYy; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hsItoE6d"
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-48b08452cafso1367020f8f.3
-        for <linux-staging@lists.linux.dev>; Fri, 02 Oct 2026 02:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790932715; x=1791537515; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FOOIVnS9Id+XkrrN4+pJgTtAUkmfSHTNwg21WiGg0zc=;
-        b=hsItoE6dyN4X+myyA54rjDBPDs4pUCl72LsXIJj1JA1Bgb3Thfb/Kp9Y65nvn3u78U
-         z0ife8Fu2a3zUhYcTLBi0i+nR4wkP/IxI+5HkHkH2UR9e+ZmaJmY2+wTHiGLZP+KGEk4
-         d96ctVzoy3Sf/bINWmFdUcdxmn+2vBTMmOUt7tdqgolrRZBXZf6gsUWN+wlBz80BSGhq
-         sAZ2J5teOMm2IL74lZ2nYVholLS3Txo6vFow5M+3jWkvn8NDWEJUcPq3tP28lPpeBCNv
-         UiC0/B8oau0yq8fFLkOJfREKXtmSJmvEXebZaL4c9YGr3JYmFKRBagdtXmnOdFEd9YEX
-         YXmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790932715; x=1791537515;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FOOIVnS9Id+XkrrN4+pJgTtAUkmfSHTNwg21WiGg0zc=;
-        b=ufF/0F8Ws9JrXouLISi1DKXkcDlUHqU0YfSjyY1REw/1aiNO67thHPqsp/ojtMh1N9
-         8WD43xU81j/DAn841tiC4s+0126hb4jMLZe0wEb3arJDmwviCAXRU5FszRkOiKI6xhQK
-         AWsJcr4NcYbJaR5khANOU0CEUC5L8DLfvUBGhJQT/1cigsgtljbqNyO/nc9/QsR9mQUm
-         UsFzRHs3/xJ9KEr1nT+RgDKGI4le4CC9b2gcZvx5Qe9lNCsohkP5BUD2rBv/hFh+XULp
-         O3Hdqy7JCr19jzbhDmXdIa7QmBxYrZ/9eLGXQ81Av58izY6gew4CduC9GRMeHfAaX5ss
-         n9NA==
-X-Forwarded-Encrypted: i=1; AKwUvBzR3tMmhOFsF3/QyonLj6yXq+pzhu6CVeXxldRJB5wwgT9ZhmQHUS+3wKJOgnhJhAj2XNV/553o4cn+HBdT@lists.linux.dev
-X-Gm-Message-State: AFq9FYIXSfunhnIQ8OVSM38BKeblDgxQJMoPEenFMaZCNH0YNp9tJGhz
-	N8qsXAnNZgJ5hxh+6vpGaBwsE4JmSgcfP28j80OKSilVVAyPyAY/NX7h
-X-Gm-Gg: AYBFou0QJA/ImSqmQKZHkSMLL8xlszPdBKVnIDjQ4GgKUNeSVEm549wO3VWocR5E109
-	mosljtDf37gSdHZc0+MLEs/2XSR96nNgo5mJJ2oEzrcLOGeBD+8WL4uDd5Rk1FZG1RgoLulwDFV
-	l+46Bt5AOnJovbqH7nv6EAzRMayz5yWnrC06dikCfqGVMUtreg886qNQjBwPIpVn9AkoczHI8hX
-	HrKAas7VQVN4Z8KIFkPLG39X3pepg0X2kJBCwL9+LVJUdYU+BOLRNGjLBnbLnOYy3Fezwv0TlUT
-	bBf8SOUECgtCBPI7nXCODuxXbWG68/8XMQ+CUVYUimH68fV/a02656F510mk7CAtvXQ5UaFmvw9
-	Zh6tt3nxy+sVCFEnCTs/IRP+IFGpuFkwd0r4HE+5fLev8jlV5JhLuUo/5LadHEghaA42ci/92up
-	A6Aa1lgRKpWs6MG6PsNheLTn0RDXugJ5gYCIjt3ZSqPYvjT6Wu0K4sUHtM/DrzgWojYL3OZP2JJ
-	HGELeL3uWr6ZTumaLbsnFFmnXqDsywrKz++QtUvXgSBs5pU7H5RkB7GAG4=
-X-Received: by 2002:a05:6000:29c3:b0:48a:f486:2f4b with SMTP id ffacd0b85a97d-48b1270b14cmr2501451f8f.19.1790932715363;
-        Fri, 02 Oct 2026 02:18:35 -0700 (PDT)
-Received: from 1Z10 ([2a02:b123:8010:a99a:44ac:6cdb:a419:601e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b380f07a9sm4984917f8f.12.2026.10.02.02.18.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 02:18:34 -0700 (PDT)
-From: Maurizio Casciano <mauriziocasciano7@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gKaU8UYy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790934502; x=1822470502;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RbcWBmCUPxJ+y+RKr8MXYk/AIpKv9AVVXztnaBm7aIk=;
+  b=gKaU8UYyaYW27ZvD7xoGGCZnoyTKr7dqlf5c4cHtjw6zJqYFIMETOu6p
+   e4diwwleMPm2OTeVAr31xOsaMtAVzrKksMsqsInfTfhdlVgw5dj7QJXRg
+   agX+4jJ+vXyLlsLGbK+IiRCtFISTjXczbzVytDHRIEAbRLH8lIbYx9jjJ
+   zdVMI3ajGggnbf9dHg+RfdnAtaVX8K9zre4+1q9W3Hv13bn0h75yMtGl2
+   uaJXegg2Nxllxstz1k8Bv/mld4EQhbZbNcpb4tg7J+XUtNSkPCL0VhW6z
+   DKbsQi+9kS1BA3WZdlz9Al25OPIHh7kzNQdHwEkBbp/rDN+jm5WQTfupR
+   A==;
+X-CSE-ConnectionGUID: HXPEndAHTyakwVuSNbNVeA==
+X-CSE-MsgGUID: auBe9I/qR6SIIMJjjEqALw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="95514133"
+X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
+   d="scan'208";a="95514133"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 02:48:21 -0700
+X-CSE-ConnectionGUID: p0x8X6ozTo2s8vpYu1Y3mQ==
+X-CSE-MsgGUID: 9fXOdM5bTF2RRK4GAMke+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
+   d="scan'208";a="280959261"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa004.fm.intel.com with ESMTP; 02 Oct 2026 02:48:16 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 6CEE299; Fri, 02 Oct 2026 11:48:15 +0200 (CEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@amd.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 02/15] media: ov8858: support 19.2 MHz clock and manual white balance
-Date: Fri,  2 Oct 2026 11:18:32 +0200
-Message-ID: <20261002-media-v8-p02-andy-reply-1-mauriziocasciano7@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <CAHp75VdeXCDBpvsom2YokbS2QbbCzrGGf_NXYdLFTq3cLeam_g@mail.gmail.com>
-References: <CAO7O_xi61=0kUtYkYFKonaSEJRC_KiXKvgMLSwRbnDTVfmQsPg@mail.gmail.com> <CAO7O_xjcw60io6maT2J_dPOxMcAe5k_=u6UCuo59nsd_0W+4xw@mail.gmail.com> <CAHp75VdeXCDBpvsom2YokbS2QbbCzrGGf_NXYdLFTq3cLeam_g@mail.gmail.com>
+	linux-pci@vger.kernel.org
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v1 1/1] media: Consolidate AtomISP v2 PCI IDs in the pci_ids.h
+Date: Fri,  2 Oct 2026 11:43:43 +0200
+Message-ID: <20261002094813.856439-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -88,16 +80,135 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixed in v10 patch 2.
+We have a few drivers using same pair of the PCI IDs across the kernel and
+there seems more to go, consolidate AtomISP v2 PCI IDs in pci_ids.h database.
 
-The 24 MHz constant is now:
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
 
-  #define OV8858_XVCLK_FREQ_24MHZ (24000 * HZ_PER_KHZ)
+Assuming that media subsystem is the main beneficiary I think it is the best
+to route it via that tree. For others (i915, PCI, PDx86), please Ack if you
+are agree.
 
-I also removed the trailing comma from all four newly added register-table
-terminator entries. The final patch passed the focused W=1 and sparse builds,
-and its reflected B4 message has the same stable Git patch ID as the prepared
-message.
+ drivers/gpu/drm/i915/display/intel_display_power.c   |  6 +++---
+ drivers/platform/x86/intel/atomisp2/pm.c             |  6 +++---
+ drivers/staging/media/atomisp/pci/atomisp_internal.h |  2 --
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c     | 10 +++++-----
+ include/linux/pci_ids.h                              |  2 ++
+ 5 files changed, 13 insertions(+), 13 deletions(-)
 
-With Best Regards,
-Maurizio Casciano
+diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
+index 2e534ddb7347..ee2c59b72b4a 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_power.c
++++ b/drivers/gpu/drm/i915/display/intel_display_power.c
+@@ -2086,9 +2086,9 @@ static void assert_ved_power_gated(struct intel_display *display)
+ static void assert_isp_power_gated(struct intel_display *display)
+ {
+ 	static const struct pci_device_id isp_ids[] = {
+-		{PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x0f38)},
+-		{PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x22b8)},
+-		{}
++		{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BYT) },
++		{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BSW) },
++		{ }
+ 	};
+ 
+ 	drm_WARN(display->drm, !pci_dev_present(isp_ids) &&
+diff --git a/drivers/platform/x86/intel/atomisp2/pm.c b/drivers/platform/x86/intel/atomisp2/pm.c
+index ad1f99140962..f3dee0e58f62 100644
+--- a/drivers/platform/x86/intel/atomisp2/pm.c
++++ b/drivers/platform/x86/intel/atomisp2/pm.c
+@@ -121,9 +121,9 @@ static UNIVERSAL_DEV_PM_OPS(isp_pm_ops, isp_pci_suspend,
+ 			    isp_pci_resume, NULL);
+ 
+ static const struct pci_device_id isp_id_table[] = {
+-	{ PCI_VDEVICE(INTEL, 0x0f38), },
+-	{ PCI_VDEVICE(INTEL, 0x22b8), },
+-	{ 0, }
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BYT) },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BSW) },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(pci, isp_id_table);
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index 5a69580b8251..1a05fc331557 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -37,7 +37,6 @@
+ 	(((isp)->media_dev.hw_revision & ATOMISP_HW_REVISION_MASK) == \
+ 	 ((rev) << ATOMISP_HW_REVISION_SHIFT))
+ 
+-#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
+ /* MRFLD with 0x1178: ISP freq can burst to 457MHz */
+ #define ATOMISP_PCI_DEVICE_SOC_MRFLD	0x1178
+ /* MRFLD with 0x1179: max ISP freq limited to 400MHz */
+@@ -45,7 +44,6 @@
+ /* MRFLD with 0x117a: max ISP freq is 400MHz and max freq at Vmin is 200MHz */
+ #define ATOMISP_PCI_DEVICE_SOC_MRFLD_117A	0x117a
+ #define ATOMISP_PCI_DEVICE_SOC_ANN	0x1478
+-#define ATOMISP_PCI_DEVICE_SOC_CHT	0x22b8
+ 
+ #define ATOMISP_PCI_REV_MRFLD_A0_MAX	0
+ #define ATOMISP_PCI_REV_BYT_A0_MAX	4
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 476fe143a591..ab8727a806bf 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -1239,7 +1239,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 		}
+ 		isp->hpll_freq = HPLL_FREQ_1600MHZ;
+ 		break;
+-	case ATOMISP_PCI_DEVICE_SOC_BYT:
++	case PCI_DEVICE_ID_INTEL_ISP_BYT:
+ 		isp->media_dev.hw_revision =
+ 		    (ATOMISP_HW_REVISION_ISP2400
+ 		     << ATOMISP_HW_REVISION_SHIFT) |
+@@ -1284,7 +1284,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 		isp->dfs = &dfs_config_merr;
+ 		isp->hpll_freq = HPLL_FREQ_1600MHZ;
+ 		break;
+-	case ATOMISP_PCI_DEVICE_SOC_CHT:
++	case PCI_DEVICE_ID_INTEL_ISP_BSW:
+ 		isp->media_dev.hw_revision = (ATOMISP_HW_REVISION_ISP2401
+ 						 << ATOMISP_HW_REVISION_SHIFT);
+ 		isp->media_dev.hw_revision |= pdev->revision < 2 ?
+@@ -1487,12 +1487,12 @@ static const struct pci_device_id atomisp_pci_tbl[] = {
+ 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_MRFLD_1179)},
+ 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_MRFLD_117A)},
+ 	/* Baytrail */
+-	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_BYT)},
++	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ISP_BYT) },
+ 	/* Anniedale (Merrifield+ / Moorefield) */
+ 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_ANN)},
+ 	/* Cherrytrail */
+-	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_CHT)},
+-	{0,}
++	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ISP_BSW) },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(pci, atomisp_pci_tbl);
+ 
+diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+index 63774ae2bf71..0693e4532a68 100644
+--- a/include/linux/pci_ids.h
++++ b/include/linux/pci_ids.h
+@@ -2732,6 +2732,7 @@
+ #define PCI_DEVICE_ID_INTEL_HDA_HSW_3	0x0d0c
+ #define PCI_DEVICE_ID_INTEL_HDA_BYT	0x0f04
+ #define PCI_DEVICE_ID_INTEL_SST_BYT	0x0f28
++#define PCI_DEVICE_ID_INTEL_ISP_BYT	0x0f38
+ #define PCI_DEVICE_ID_INTEL_8257X_SOL	0x1062
+ #define PCI_DEVICE_ID_INTEL_82573E_SOL	0x1085
+ #define PCI_DEVICE_ID_INTEL_82573L_SOL	0x108f
+@@ -2787,6 +2788,7 @@
+ #define PCI_DEVICE_ID_INTEL_VMD_201D	0x201d
+ #define PCI_DEVICE_ID_INTEL_HDA_BSW	0x2284
+ #define PCI_DEVICE_ID_INTEL_SST_BSW	0x22a8
++#define PCI_DEVICE_ID_INTEL_ISP_BSW	0x22b8
+ #define PCI_DEVICE_ID_INTEL_DH89XXCC_LPC_MIN	0x2310
+ #define PCI_DEVICE_ID_INTEL_DH89XXCC_LPC_MAX	0x231f
+ #define PCI_DEVICE_ID_INTEL_82801AA_0	0x2410
+-- 
+2.50.1
+
