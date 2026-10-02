@@ -1,85 +1,85 @@
-Received: from mail-oo2-f43.google.com (mail-oo2-f43.google.com [74.125.231.171])
+Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE3F3559D6
-	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 08:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B24352020
+	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 08:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.76
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790929011; cv=pass; b=pzzy3Jku5pfnT9V75SF8VYayfZXHJLLQPJ6V4f2ENn6VYp1LtC1STVGiEkXW7FJSnF0byWqHCPwJZGgc2RQpNDk4VkmHx3Y+PtzBMgqYmSHoRl9OycL139wgP9alUHSc+pZyCoBuyTaEJdjxpjOBTsbv5dPKhQtyMHCJllLU09E=
+	t=1790929023; cv=pass; b=QwO8CQsT1K2WvdX/Wa/rujvYckY/xcrNrn+5fZAmz9MGYpw08D7fVQoPWtup2HxuLzFs7eQoD2SUVdKqZNEKgvI4RCwQIXa1o3eDuZsREgRPsSOctOe8cPir+v8eWQkhTz/UFfXjC4fJpA3KvEY03gThFBOkALdGBKEHlXeR1Po=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790929011; c=relaxed/simple;
-	bh=f6cYfPCRep1du6Y7pFv+a9XS5Ucy9+4wwnEfJsZZv9w=;
+	s=arc-20240116; t=1790929023; c=relaxed/simple;
+	bh=E1S30aaLSNXLugfqYC6RxUGcQKtNXQMBj0FvVDBUXrs=;
 	h=MIME-Version:From:In-Reply-To:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sPMDyOt2wo+Vk+SoBYsHtZxTAqhM68zpaQRGiwXUAQnHZV1kpWwGiOLm1UNXtWFGQHOv+kWgUcrciiwpBU2vdpk3ZhiAgrpS8oZ8BRgrPv2sg8x5+Psxt8Otg4KB4QBvBQsNX0SsvIS0lLla8nqMhQUJFT3SIhkKdtqR/WWQ22c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ojn2e84y; arc=pass smtp.client-ip=74.125.231.171
+	 To:Cc:Content-Type; b=U6UW0UHtQXVYsxWZB+ib+tHL/zmYvCq8SKQVgkQcIPTzfQAGlSJhxhr5gAYQ8V+DjyuPX3jPNguKNQOH7LhNTeM2KO1Xk/uW5wZBst6EJyc/pphp+dmGT18QGeoj8RDD+At2O7Exx2OCVrXQtTR1bkVPZWLHsbti767oYTK/nkk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pX8B2oEl; arc=pass smtp.client-ip=74.125.231.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ojn2e84y"
-Received: by mail-oo2-f43.google.com with SMTP id 006d021491bc7-6def0527340so553277eaf.0
-        for <linux-staging@lists.linux.dev>; Fri, 02 Oct 2026 01:16:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790929008; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pX8B2oEl"
+Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-466ccde2a99so4077985fac.3
+        for <linux-staging@lists.linux.dev>; Fri, 02 Oct 2026 01:17:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790929019; cv=none;
         d=google.com; s=arc-20260327;
-        b=Djv5g1BjkOJ2MglOCG0XZTIvAOieTMSvkq4QrnGz1zSBulhrdOSvyjcuaP3y+SrV77
-         0f2FY4AiEAsQn2nG5t1KIcJV6L5PiCTqo8aDu7d42GQgPVlg+LvOMjvrDR/808Jc1z7i
-         SztOH2mESgUDEdlxthsZDj/SSsVPmCsfXb2UAG+L8ogfFeNPunTXdT9WTY4tIUewuVNl
-         t6AZI/CuW0Mh5TJOZu2n+27T+ScMZsJKXkm741GF0PSZi+DjGN339L8M2M3lMDGqsJaG
-         nBV+0xuUu7mydGivgmof6fMiF+/EZXp4F0coBmsHgF1E6NK0FPYSeI1KfoIXx8N/rVWp
-         f5Mw==
+        b=WqvqZN4MUxzB/g8bY7vQY1yMT3OrRU30aejJYIdCUBiMYE6Q0YOssd++qc3WqOF9bt
+         IlviffaJatcfv30pA/xCCc5TDLgO14h86KFODRTY9hTONneq6Iglwu373Ry7ia/05M11
+         bjmniL5pLGZoXWc8CZFnJRaG/KJo6qfJ1fV2lQ+jfGBSsvsYWBUFHQFov8Vxdc5nDqNK
+         /gIrTsKfS8jT5q0QxdQjeNlR0g/EokHHilxfVPI7lwiidjoVx49m7/lqE3N+6ipEKmvl
+         /jJxOFrhHKeaEWdlt2JTNJivYuV4Z5qzdCVDol6pk1hUZhNRMOp0WhNradfHLTkYx/EK
+         s8WA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:references:in-reply-to:from
          :mime-version:dkim-signature;
-        bh=dP4tQpKjU4ldQHSlZlOQOb7IiLXIJWGfv7/HtFzzsaI=;
-        fh=96ZLNWJq/WieAZOsD0oL0+1e34m6inLLge6SC9Fi81A=;
-        b=TK20jJriQ5ufiSxbHKMK1om24mEWJ72bI3RSo0tg9Hk0lMf9I4TNjcEcvSA8nc02Vk
-         GlUC+Opf27KIn02g1oERTlzC820iitXtFe4cNFagmI4vC5wFaOno10LA3xr2yCgBXuHa
-         T7w6k4xiBgGcLAjncRkZtaH1uzhtMF2NVNaRoNybIIpsMHf9w8Wnxh+2qVFtK3qSFSsH
-         /ybakJbmr3lacJlEVa73XMGPd7E8B3eqe+CDGqlkWPT/ORI3sGhDVpHyO3r4VZpQX8ac
-         VCf+XSBFbijOxGPAN5OOasbelO9/tmd/agbQd2zmkq3esoYJl8gzQqOX5pYaBS8+2D/3
-         R13A==;
+        bh=V9OXUuoQXD8kYCGb04VV1Wc29KkzzfWJvz+REELFI+E=;
+        fh=N+QUSuFdkM2mMPkS73bkqwMZdITttuh6EWDQMbBZ0BM=;
+        b=a00jf5zxSh+/Zrheb0XkqGfEOuT+8VSSmOId8Ssgq4LzC7cYdmYWBFUPMJ/4ngx4yd
+         /95vEpSclZeGZBgYqmjebhHq4Z12aKPI6KiLmwcG0g0EjS1YphH9bB47Nf747FyoW5w3
+         ksnvcuVwAB0SuEd2dLDi+PqAbzbPP2OYDTobbaXpZBQJ5W+BBm6s+3IOXZy9iO3P0XmS
+         vvrun+VfTWDfNq8r9k72wcevP5KxGa8kaNxwP8Uqf6nn1zFlg1n7WRy69G5tJH6IOBtu
+         c5gRd7T+X0tSGkOHny2ttGvNoSzQSeJMUy9oSh6yMupRVDnsy3J4s5B33/Izgf2R5vHL
+         dITA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790929008; x=1791533808; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790929019; x=1791533819; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:references:in-reply-to
          :from:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dP4tQpKjU4ldQHSlZlOQOb7IiLXIJWGfv7/HtFzzsaI=;
-        b=Ojn2e84yAbYOMIl6rhXBI6QzH7VA55TLzCTno9sw9wfXm4AYHu0st48oKd2jjvEAqo
-         6oqH2cFEFaFF+06Qr5W+7AC9M/vUddW+lsB0E1I62+Ty0ufvKoY66m5OLEbV09Kf1E0s
-         Q/oXpS4NYOBwUbbRlV7rD0munc8qWKWCYIDOMJ8Qc+kcdFgQGRQdNQbyPtAUgQOUv2EQ
-         ebHmIxmt7Bigyi8xiNYtijjqbFYjNFVyGZkEjMnAX8NKXlq1lrLorva1dhLsp/L1+eyO
-         ZpAZ7A7nT6oEN1p9V9IbO0AOhNc+06lj2juVf/jzHQ4Pb+SHAqTHdMvvSAoGfGraSGjC
-         ufVA==
+        bh=V9OXUuoQXD8kYCGb04VV1Wc29KkzzfWJvz+REELFI+E=;
+        b=pX8B2oEl2H4KD+Zi2zki+pNgz0idfM7ubMoV/bztT5EBjeiIr6M1nfD8cgSwamQj0c
+         Rp/ehLgpy129VY5dEbyOVXsoOKkb5NEdrTDIWA0CEzvCHwPeVC5lx/rcyaFq4CBblRSl
+         ZnAHs8kY5QnQqWc3kqONn6R8cOW4/jYmaqxENeSfuKVTTZRHnVFxbkcYJSbftO9K+kS3
+         TeC6yqZkG8wFVI4YO4wBt+Qr+2VhSXh4jviQvVaClHqnQI+K5TsoHzQ4geHx+noz5zfJ
+         C/PFQbIMuM3LatSrNyXNxOFfaYzCbrad6eQi9J2eZ2+EwzBdwL9otgpGyixJXAfGru8k
+         6Wog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790929008; x=1791533808;
+        d=1e100.net; s=20260707; t=1790929019; x=1791533819;
         h=content-type:cc:to:subject:message-id:date:references:in-reply-to
          :from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=dP4tQpKjU4ldQHSlZlOQOb7IiLXIJWGfv7/HtFzzsaI=;
-        b=bQjDKKZ8I+JTnUAlH2ED3U74hYIMDhvJGly2OB2/bMq/xzdVffrsMPiByccZL8y/13
-         1vqE0FovMh1e+PohEubm86qiI5+V7EbmDGMKvtrMhEEYnSgoXBIaF+GAndx6fC9r6Mch
-         NtYM14F4lwMtHfSth6W0Wz+2tJORdpqu4pbLijFVPy/TfJLxDXxgvhPO4ndreTQO+r5x
-         ykZZC44aKjIdWxhd4nf3nTCmvq/qgWWoNQxgXQkF9rhcW4Lzy8gvPcgl8HPBAKUFEQEp
-         7VmW8xY5AdMlHfFaGJJ6SBA0N3ABWEZPhRmH37YbzHk3idpZL467mgJeA9dJ+TqX4FS2
-         vVgg==
-X-Forwarded-Encrypted: i=1; AKwUvBzdv962r1wEeizZ+3sOK6365UWFaEHaFegKqUpHkl0D9nDasntJ/T6NBawG1KipZ4lSskTUsM0NONxyabkj@lists.linux.dev
-X-Gm-Message-State: AFuF++mOxAd6OwzRgxIhLJXtEm97U2bzOux55QvZkAWCylBEo9Fn7P7G
-	MWKaAG4NedxtWQSqagJRm2vNhCd8K1C9Q1tzpLOpBxHJOPYqpJcw+WwoQ13Ifz7XDNq+Vi5YZGz
-	SosQEBjuUS5b/3Zw+GMeYBnf1iayt5+Y=
-X-Gm-Gg: AYBFou1TnLieRKDzbVVBaMeoyHAN9X0dnHz4y7jiifTXsww/LtCkJKlUk4oCpPjoexP
-	AxdYVTUpMF72M5qoDPsOwEXzz+epMhgQKXgjLXmjj/y8tPdfKVYBQXZM6zmTuy+nT68N4tD0vdj
-	+8a9DdFv3B8q4/OZgN+yH4Oa9MJcGPpoaRRrI5slZnQj8mCVOTtA+ADSXPWH839x7JIcfadA+BW
-	V+Jj1FVaxHBLuvRcaSlJmeo9XSQGVqMJhJDeYFqdpqpAZtWEVJsLgKjI1ZeAmW0MlSyXE6gvlfO
-	EiYlCPJkrA87AsQKBuCQ5cIbnnNux2Ga1bJ3JbQ+XFWs06Zg/BxzsrTNM9okcVduYmc9C0ihDKj
-	FwVbElNbHGw2Ob02sRaVGFydl/D3sF1jI
-X-Received: by 2002:a05:6820:4de1:b0:6b7:8415:d790 with SMTP id
- 006d021491bc7-6df34a7728cmr1561204eaf.59.1790929008268; Fri, 02 Oct 2026
- 01:16:48 -0700 (PDT)
+        bh=V9OXUuoQXD8kYCGb04VV1Wc29KkzzfWJvz+REELFI+E=;
+        b=2B3nF2bDrB/7HxOqroi8omRNFSflIL4uQm0Hu5lx0gVNzDt5xO2y0NjodAY/WDD23W
+         UlPeMXuD2qYB2R46dNuQd6LhkEAyg6LQKY+kQi+PHIVdrw/lEeYx1gYxPUmvDVR2IbuH
+         mGfCdKJRE1eXbbdR49EA5JklkDT1cWH5qLkonu8ukkUXn1UN79xiGGZYuAMI7mLYK/8I
+         ifJmbqG2zpwrZIkEVj92AsjkiDU3Yo56D1rROYDWZ8q1HE6J5TfmC4zHASNOmM/Pza7a
+         OBXH3Cz4iVZgIR/6dPukgCi5CCL/Uo09vdhri6PzM8P98IsBknmkKzCW8vBEJKchHx9y
+         OvZw==
+X-Forwarded-Encrypted: i=1; AKwUvBxIouj5biXmd4by6Wx8Vbz5NN2XIsajmNFbM3o8cAQkBKTvq5jj74siuzYgB6xquAsn0+T/tgHBAvmJGYfO@lists.linux.dev
+X-Gm-Message-State: AFuF++mIrr9mJiPxRCACjS/0Pb7BoRpZ27ikDuCDU3iKaiHVBRmA7HIJ
+	vQg3EYZNlEV7tnekMmKp8oXJSz17eHBqNyexjqmVt/yjcUMvQWR8+0EzDf9tY81shGBNWY1Ui6h
+	LMAteWCKyujbltYAda92D+0VnMjK9Kec=
+X-Gm-Gg: AYBFou1zDcpsfzAWvXOgv5lbNjT3Aa+8U/QlsFPqKXQ1cB7ZtK9s9xQsnHlizEuH8Ky
+	9TTQ4eAnlX2Fp1h48vwggNVv4l/LTEJcf2CmI4fhZ75dX2WU05uw6CBIpuIIBtoOCKpmJ7+iFwF
+	GNtNydR4lztsVFpUXID85evUXYq7vpKxN2WnOpflNqRVbQ8tE0KHSJyTCXdl0UxbkXfWNURqcU8
+	NEEwdpEuxA39VHdIDBk6g/kJGswXYCKdvfnPJjaIAorTztRqZHwsg8M2rhvMDgVUyRA29nfJ+JR
+	mG4kHuBzfE2SH37STcG4JcM85+ypbeiN1ZZCXUoXJdHJum+wJDhhjA1vn0tf1uTHnQ23fV/lZYG
+	xEUBZ155hcISMxhJ3CJza7Dx4zmV3phff
+X-Received: by 2002:a05:6870:c115:b0:48f:e107:318a with SMTP id
+ 586e51a60fabf-49e15df5cffmr1938836fac.42.1790929019520; Fri, 02 Oct 2026
+ 01:16:59 -0700 (PDT)
 Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 2 Oct 2026 01:16:47 -0700
+ Fri, 2 Oct 2026 01:16:58 -0700
 Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 2 Oct 2026 01:16:47 -0700
+ Fri, 2 Oct 2026 01:16:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -89,10 +89,11 @@ MIME-Version: 1.0
 From: mauriziocasciano7@gmail.com
 In-Reply-To: <CAO7O_xi61=0kUtYkYFKonaSEJRC_KiXKvgMLSwRbnDTVfmQsPg@mail.gmail.com>
 References: <CAO7O_xi61=0kUtYkYFKonaSEJRC_KiXKvgMLSwRbnDTVfmQsPg@mail.gmail.com>
-Date: Fri, 2 Oct 2026 01:16:47 -0700
-X-Gm-Features: AclHuK_NqDOzbPOslj65sTO9YuhX1s324JFAip5gV8V6KxpkPGtkM12CzEuoVqU
-Message-ID: <CAO7O_xgGOrKZuuDWsbPD1kd+P4JHsX0T9bEVg1X=SX71OXBVOg@mail.gmail.com>
-Subject: [PATCH v8 01/15] media: ov8858: Extract digital gain programming
+Date: Fri, 2 Oct 2026 01:16:58 -0700
+X-Gm-Features: AclHuK8xM8Ty084p9Guc4fe-EcEuHPwVW1vlQGBrD4Mk-TOlaRu3l6FMoMbN5nA
+Message-ID: <CAO7O_xjcw60io6maT2J_dPOxMcAe5k_=u6UCuo59nsd_0W+4xw@mail.gmail.com>
+Subject: [PATCH v8 02/15] media: ov8858: support 19.2 MHz clock and manual
+ white balance
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@amd.com>, 
@@ -103,74 +104,386 @@ Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Move the existing packed digital-gain register programming into a
-helper so clock-specific gain handling can be added separately.
+Support both 19.2 MHz and 24 MHz input clocks. Move the PLL and
+global-timing registers out of the common mode tables and select register
+settings for the detected revision, lane count, input clock and 360 MHz
+link frequency when starting the stream. Use the actual input-clock rate
+when calculating the reset delay.
 
-This is a pure refactoring: preserve both the register packing and the
-explanatory comment without changing the bytes written to the sensor.
+Add standard red and blue balance controls for the sensor's manual white
+balance registers. V4L2 defines red and blue balance relative to green but
+does not define a standard green-balance control, so keep green at unity.
+Accumulate errors while programming all three channels.
 
-Assisted-by: LLM sparse
+The manual white-balance register definitions and programming follow
+Intel's GPL-2.0 OV5670 driver, so retain its 2017 Intel copyright notice.
+
 Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
+Assisted-by: LLM sparse
 ---
- drivers/media/i2c/ov8858.c | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
+ drivers/media/i2c/ov8858.c | 183 +++++++++++++++++++++++++++++--------
+ 1 file changed, 147 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
-index 0bfc4350a8c9..2a0e2b08b9aa 100644
+index 2a0e2b08b9aa..97bcadda3fd8 100644
 --- a/drivers/media/i2c/ov8858.c
 +++ b/drivers/media/i2c/ov8858.c
-@@ -1524,6 +1524,23 @@ static int ov8858_enable_test_pattern(struct
-ov8858 *ov8858, u32 pattern)
- 	return ov8858_write(ov8858, OV8858_REG_TEST_PATTERN, val, NULL);
+@@ -3,10 +3,9 @@
+  * Copyright (C) 2023 Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+  * Copyright (C) 2022 Nicholas Roth <nicholas@rothemail.net>
+  * Copyright (C) 2017 Fuzhou Rockchip Electronics Co., Ltd.
++ * Copyright (c) 2017 Intel Corporation.
+  */
+
+-#include <linux/unaligned.h>
+-
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -18,6 +17,8 @@
+ #include <linux/property.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
++#include <linux/unaligned.h>
++#include <linux/units.h>
+
+ #include <media/media-entity.h>
+ #include <media/v4l2-async.h>
+@@ -28,8 +29,9 @@
+ #include <media/v4l2-mediabus.h>
+ #include <media/v4l2-subdev.h>
+
+-#define OV8858_LINK_FREQ		360000000U
+-#define OV8858_XVCLK_FREQ		24000000
++#define OV8858_LINK_FREQ		(360 * HZ_PER_MHZ)
++#define OV8858_XVCLK_FREQ_24MHZ		(24 * HZ_PER_MHZ)
++#define OV8858_XVCLK_FREQ_19_2MHZ	(19200 * HZ_PER_KHZ)
+
+ #define OV8858_REG_SIZE_SHIFT		16
+ #define OV8858_REG_ADDR_MASK		0xffff
+@@ -59,6 +61,14 @@
+ #define OV8858_LONG_GAIN_STEP		1
+ #define OV8858_LONG_GAIN_DEFAULT	0x80
+
++#define OV8858_REG_MWB_RED_GAIN		OV8858_REG_16BIT(0x5032)
++#define OV8858_REG_MWB_GREEN_GAIN	OV8858_REG_16BIT(0x5034)
++#define OV8858_REG_MWB_BLUE_GAIN	OV8858_REG_16BIT(0x5036)
++#define OV8858_MWB_GAIN_MIN		0x400
++#define OV8858_MWB_GAIN_MAX		0xfff
++#define OV8858_MWB_GAIN_STEP		1
++#define OV8858_MWB_GAIN_DEFAULT		0x400
++
+ #define OV8858_REG_LONG_DIGIGAIN	OV8858_REG_16BIT(0x350a)
+ #define OV8858_LONG_DIGIGAIN_H_MASK	0x3fc0
+ #define OV8858_LONG_DIGIGAIN_L_MASK	0x3f
+@@ -104,6 +114,7 @@ struct ov8858_mode {
+
+ struct ov8858 {
+ 	struct clk		*xvclk;
++	unsigned long		xvclk_rate;
+ 	struct gpio_desc	*reset_gpio;
+ 	struct gpio_desc	*pwdn_gpio;
+ 	struct regulator_bulk_data supplies[ARRAY_SIZE(ov8858_supply_names)];
+@@ -115,12 +126,86 @@ struct ov8858 {
+ 	struct v4l2_ctrl	*exposure;
+ 	struct v4l2_ctrl	*hblank;
+ 	struct v4l2_ctrl	*vblank;
++	struct v4l2_ctrl	*red_balance;
++	struct v4l2_ctrl	*blue_balance;
+
+ 	const struct regval	*global_regs;
++	const struct regval	*xvclk_regs;
+
+ 	unsigned int		num_lanes;
+ };
+
++/* Keep input-clock programming separate from the common sensor setup. */
++static const struct regval ov8858_24mhz_360mhz_r1a_2lane[] = {
++	{0x0302, 0x1e},
++	{0x0303, 0x00},
++	{0x0304, 0x03},
++	{0x030e, 0x00},
++	{0x030f, 0x09},
++	{0x0312, 0x01},
++	{0x031e, 0x0c},
++	{0x4837, 0x16},
++	{REG_NULL, 0x00},
++};
++
++static const struct regval ov8858_24mhz_360mhz_r2a_2lane[] = {
++	{0x0302, 0x1e},
++	{0x0303, 0x00},
++	{0x0304, 0x03},
++	{0x030e, 0x02},
++	{0x030f, 0x04},
++	{0x0312, 0x03},
++	{0x031e, 0x0c},
++	{0x4837, 0x16},
++	{REG_NULL, 0x00},
++};
++
++static const struct regval ov8858_24mhz_360mhz_r2a_4lane[] = {
++	{0x0302, 0x1e},
++	{0x0303, 0x00},
++	{0x0304, 0x03},
++	{0x030e, 0x00},
++	{0x030f, 0x04},
++	{0x0312, 0x01},
++	{0x031e, 0x0c},
++	{0x4837, 0x16},
++	{REG_NULL, 0x00},
++};
++
++/*
++ * Register settings for a 19.2 MHz input and 360 MHz CSI-2 link.
++ *
++ * Besides the corrected sensor/MIPI PLL divisors, keep the final common
++ * black-level settings here. The per-mode tables retain their resolution
++ * dependent black-column anchors and window sizes.
++ */
++static const struct regval ov8858_19_2mhz_360mhz[] = {
++	{0x0300, 0x00},
++	{0x0302, 0x27},
++	{0x0303, 0x00},
++	{0x0304, 0x03},
++	{0x030b, 0x00},
++	{0x030d, 0x27},
++	{0x030e, 0x00},
++	{0x030f, 0x04},
++	{0x0312, 0x01},
++	{0x031e, 0x0c},
++	{0x3f08, 0x08},
++	{0x400a, 0x01},
++	{0x400d, 0x10},
++	{0x4011, 0x20},
++	{0x403e, 0x08},
++	{0x4040, 0x07},
++	{0x4041, 0xc6},
++	{0x4202, 0x00},
++	{0x4500, 0x58},
++	{0x470b, 0x28},
++	{0x4837, 0x15},
++	{0x58f4, 0x32},
++	{0x58f8, 0x3d},
++	{REG_NULL, 0x00},
++};
++
+ static inline struct ov8858 *sd_to_ov8858(struct v4l2_subdev *sd)
+ {
+ 	return container_of(sd, struct ov8858, subdev);
+@@ -131,13 +216,6 @@ static const struct regval ov8858_global_regs_r1a[] = {
+ 	{0x0100, 0x00},
+ 	{0x0100, 0x00},
+ 	{0x0100, 0x00},
+-	{0x0302, 0x1e},
+-	{0x0303, 0x00},
+-	{0x0304, 0x03},
+-	{0x030e, 0x00},
+-	{0x030f, 0x09},
+-	{0x0312, 0x01},
+-	{0x031e, 0x0c},
+ 	{0x3600, 0x00},
+ 	{0x3601, 0x00},
+ 	{0x3602, 0x00},
+@@ -370,7 +448,6 @@ static const struct regval ov8858_global_regs_r1a[] = {
+ 	{0x4600, 0x00},
+ 	{0x4601, 0xcb},
+ 	{0x481f, 0x32},
+-	{0x4837, 0x16},
+ 	{0x4850, 0x10},
+ 	{0x4851, 0x32},
+ 	{0x4b00, 0x2a},
+@@ -405,13 +482,6 @@ static const struct regval
+ov8858_global_regs_r2a_2lane[] = {
+ 	 */
+ 	{0x0103, 0x01}, /* software reset */
+ 	{0x0100, 0x00}, /* software standby */
+-	{0x0302, 0x1e}, /* pll1_multi */
+-	{0x0303, 0x00}, /* pll1_divm */
+-	{0x0304, 0x03}, /* pll1_div_mipi */
+-	{0x030e, 0x02}, /* pll2_rdiv */
+-	{0x030f, 0x04}, /* pll2_divsp */
+-	{0x0312, 0x03}, /* pll2_pre_div0, pll2_r_divdac */
+-	{0x031e, 0x0c}, /* pll1_no_lat */
+ 	{0x3600, 0x00},
+ 	{0x3601, 0x00},
+ 	{0x3602, 0x00},
+@@ -648,7 +718,6 @@ static const struct regval
+ov8858_global_regs_r2a_2lane[] = {
+ 	{0x4600, 0x00},
+ 	{0x4601, 0xcb},
+ 	{0x481f, 0x32}, /* clk prepare min */
+-	{0x4837, 0x16}, /* global timing */
+ 	{0x4850, 0x10}, /* lane 1 = 1, lane 0 = 0 */
+ 	{0x4851, 0x32}, /* lane 3 = 3, lane 2 = 2 */
+ 	{0x4b00, 0x2a},
+@@ -810,13 +879,6 @@ static const struct regval
+ov8858_global_regs_r2a_4lane[] = {
+ 	{0x0103, 0x01}, /* software reset for OVTATool only */
+ 	{0x0103, 0x01}, /* software reset */
+ 	{0x0100, 0x00}, /* software standby */
+-	{0x0302, 0x1e}, /* pll1_multi */
+-	{0x0303, 0x00}, /* pll1_divm */
+-	{0x0304, 0x03}, /* pll1_div_mipi */
+-	{0x030e, 0x00}, /* pll2_rdiv */
+-	{0x030f, 0x04}, /* pll2_divsp */
+-	{0x0312, 0x01}, /* pll2_pre_div0, pll2_r_divdac */
+-	{0x031e, 0x0c}, /* pll1_no_lat */
+ 	{0x3600, 0x00},
+ 	{0x3601, 0x00},
+ 	{0x3602, 0x00},
+@@ -1053,7 +1115,6 @@ static const struct regval
+ov8858_global_regs_r2a_4lane[] = {
+ 	{0x4600, 0x00},
+ 	{0x4601, 0xcb},
+ 	{0x481f, 0x32}, /* clk prepare min */
+-	{0x4837, 0x16}, /* global timing */
+ 	{0x4850, 0x10}, /* lane 1 = 1, lane 0 = 0 */
+ 	{0x4851, 0x32}, /* lane 3 = 3, lane 2 = 2 */
+ 	{0x4b00, 0x2a},
+@@ -1345,6 +1406,10 @@ static int ov8858_start_stream(struct ov8858 *ov8858,
+ 	if (ret)
+ 		return ret;
+
++	ret = ov8858_write_array(ov8858, ov8858->xvclk_regs);
++	if (ret)
++		return ret;
++
+ 	/* 200 usec max to let PLL stabilize. */
+ 	fsleep(200);
+
+@@ -1541,6 +1606,23 @@ static int ov8858_set_long_digital_gain(struct
+ov8858 *ov8858, u32 gain)
+ 	return ov8858_write(ov8858, OV8858_REG_LONG_DIGIGAIN, long_gain, NULL);
  }
 
-+static int ov8858_set_long_digital_gain(struct ov8858 *ov8858, u32 gain)
++static int ov8858_set_mwb_gains(struct ov8858 *ov8858)
 +{
-+	u16 long_gain;
++	int ret = 0;
 +
++	ov8858_write(ov8858, OV8858_REG_MWB_RED_GAIN,
++		     ov8858->red_balance->val, &ret);
 +	/*
-+	 * Digital gain is assembled as:
-+	 * 0x350a[7:0] = dgain[13:6]
-+	 * 0x350b[5:0] = dgain[5:0]
-+	 * Reassemble the control value to write it in one go.
++	 * Green is the unity reference for the red and blue balance controls.
 +	 */
-+	long_gain = (gain & OV8858_LONG_DIGIGAIN_L_MASK) |
-+		    ((gain & OV8858_LONG_DIGIGAIN_H_MASK) <<
-+		     OV8858_LONG_DIGIGAIN_H_SHIFT);
++	ov8858_write(ov8858, OV8858_REG_MWB_GREEN_GAIN,
++		     OV8858_MWB_GAIN_DEFAULT, &ret);
++	ov8858_write(ov8858, OV8858_REG_MWB_BLUE_GAIN,
++		     ov8858->blue_balance->val, &ret);
 +
-+	return ov8858_write(ov8858, OV8858_REG_LONG_DIGIGAIN, long_gain, NULL);
++	return ret;
 +}
 +
  static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
  {
  	struct ov8858 *ov8858 = container_of(ctrl->handler,
-@@ -1532,7 +1549,6 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
- 	struct i2c_client *client = v4l2_get_subdevdata(&ov8858->subdev);
- 	struct v4l2_mbus_framefmt *format;
- 	struct v4l2_subdev_state *state;
--	u16 digi_gain;
- 	s64 max_exp;
- 	int ret;
-
-@@ -1571,17 +1587,7 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
- 				   ctrl->val, NULL);
- 		break;
+@@ -1589,6 +1671,10 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
  	case V4L2_CID_DIGITAL_GAIN:
--		/*
--		 * Digital gain is assembled as:
--		 * 0x350a[7:0] = dgain[13:6]
--		 * 0x350b[5:0] = dgain[5:0]
--		 * Reassemble the control value to write it in one go.
--		 */
--		digi_gain = (ctrl->val & OV8858_LONG_DIGIGAIN_L_MASK)
--			  | ((ctrl->val & OV8858_LONG_DIGIGAIN_H_MASK) <<
--			      OV8858_LONG_DIGIGAIN_H_SHIFT);
--		ret = ov8858_write(ov8858, OV8858_REG_LONG_DIGIGAIN,
--				   digi_gain, NULL);
-+		ret = ov8858_set_long_digital_gain(ov8858, ctrl->val);
+ 		ret = ov8858_set_long_digital_gain(ov8858, ctrl->val);
  		break;
++	case V4L2_CID_RED_BALANCE:
++	case V4L2_CID_BLUE_BALANCE:
++		ret = ov8858_set_mwb_gains(ov8858);
++		break;
  	case V4L2_CID_VBLANK:
  		ret = ov8858_write(ov8858, OV8858_REG_VTS,
+ 				   ctrl->val + format->height, NULL);
+@@ -1623,9 +1709,6 @@ static int ov8858_power_on(struct ov8858 *ov8858)
+ 	unsigned long delay_us;
+ 	int ret;
+
+-	if (clk_get_rate(ov8858->xvclk) != OV8858_XVCLK_FREQ)
+-		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
+-
+ 	ret = clk_prepare_enable(ov8858->xvclk);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Failed to enable xvclk\n");
+@@ -1644,7 +1727,7 @@ static int ov8858_power_on(struct ov8858 *ov8858)
+ 	 * transaction, but a double sleep between the release of gpios
+ 	 * helps with sporadic failures observed at probe time.
+ 	 */
+-	delay_us = DIV_ROUND_UP(8192, OV8858_XVCLK_FREQ / 1000 / 1000);
++	delay_us = DIV_ROUND_UP(8192, ov8858->xvclk_rate / HZ_PER_MHZ);
+
+ 	gpiod_set_value_cansleep(ov8858->reset_gpio, 0);
+ 	fsleep(delay_us);
+@@ -1710,7 +1793,7 @@ static int ov8858_init_ctrls(struct ov8858 *ov8858)
+ 	u32 h_blank;
+ 	int ret;
+
+-	ret = v4l2_ctrl_handler_init(handler, 10);
++	ret = v4l2_ctrl_handler_init(handler, 12);
+ 	if (ret)
+ 		return ret;
+
+@@ -1752,6 +1835,19 @@ static int ov8858_init_ctrls(struct ov8858 *ov8858)
+ 			  OV8858_LONG_DIGIGAIN_STEP,
+ 			  OV8858_LONG_DIGIGAIN_DEFAULT);
+
++	ov8858->red_balance =
++		v4l2_ctrl_new_std(handler, &ov8858_ctrl_ops,
++				  V4L2_CID_RED_BALANCE,
++				  OV8858_MWB_GAIN_MIN, OV8858_MWB_GAIN_MAX,
++				  OV8858_MWB_GAIN_STEP,
++				  OV8858_MWB_GAIN_DEFAULT);
++	ov8858->blue_balance =
++		v4l2_ctrl_new_std(handler, &ov8858_ctrl_ops,
++				  V4L2_CID_BLUE_BALANCE,
++				  OV8858_MWB_GAIN_MIN, OV8858_MWB_GAIN_MAX,
++				  OV8858_MWB_GAIN_STEP,
++				  OV8858_MWB_GAIN_DEFAULT);
++
+ 	v4l2_ctrl_new_std_menu_items(handler, &ov8858_ctrl_ops,
+ 				     V4L2_CID_TEST_PATTERN,
+ 				     ARRAY_SIZE(ov8858_test_pattern_menu) - 1,
+@@ -1805,15 +1901,20 @@ static int ov8858_check_sensor_id(struct ov8858 *ov8858)
+
+ 	if (id == OV8858_R2A) {
+ 		/* R2A supports 2 and 4 lanes modes. */
+-		ov8858->global_regs = ov8858->num_lanes == 4
+-				    ? ov8858_global_regs_r2a_4lane
+-				    : ov8858_global_regs_r2a_2lane;
++		if (ov8858->num_lanes == 4) {
++			ov8858->global_regs = ov8858_global_regs_r2a_4lane;
++			ov8858->xvclk_regs = ov8858_24mhz_360mhz_r2a_4lane;
++		} else {
++			ov8858->global_regs = ov8858_global_regs_r2a_2lane;
++			ov8858->xvclk_regs = ov8858_24mhz_360mhz_r2a_2lane;
++		}
+ 	} else if (ov8858->num_lanes == 2) {
+ 		/*
+ 		 * R1A only supports 2 lanes mode and it's only partially
+ 		 * supported.
+ 		 */
+ 		ov8858->global_regs = ov8858_global_regs_r1a;
++		ov8858->xvclk_regs = ov8858_24mhz_360mhz_r1a_2lane;
+ 		dev_warn(&client->dev, "R1A may not work well!\n");
+ 	} else {
+ 		dev_err(&client->dev,
+@@ -1821,6 +1922,9 @@ static int ov8858_check_sensor_id(struct ov8858 *ov8858)
+ 		return -EINVAL;
+ 	}
+
++	if (ov8858->xvclk_rate == OV8858_XVCLK_FREQ_19_2MHZ)
++		ov8858->xvclk_regs = ov8858_19_2mhz_360mhz;
++
+ 	return 0;
+ }
+
+@@ -1888,6 +1992,13 @@ static int ov8858_probe(struct i2c_client *client)
+ 		return dev_err_probe(dev, PTR_ERR(ov8858->xvclk),
+ 				     "Failed to get xvclk\n");
+
++	ov8858->xvclk_rate = clk_get_rate(ov8858->xvclk);
++	if (ov8858->xvclk_rate != OV8858_XVCLK_FREQ_19_2MHZ &&
++	    ov8858->xvclk_rate != OV8858_XVCLK_FREQ_24MHZ)
++		return dev_err_probe(dev, -EINVAL,
++				     "Unsupported xvclk rate %lu Hz\n",
++				     ov8858->xvclk_rate);
++
+ 	ov8858->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+ 						     GPIOD_OUT_HIGH);
+ 	if (IS_ERR(ov8858->reset_gpio))
 -- 
 2.53.0
 
