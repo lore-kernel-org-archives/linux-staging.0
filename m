@@ -1,60 +1,35 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B471390CA3;
-	Fri,  2 Oct 2026 13:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0882538DC50;
+	Fri,  2 Oct 2026 14:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790947569; cv=none; b=EgaEesYOJPbgLzCbpgvEbqz9/s69ZF498gv39A9cS91egPjpLpR3nanCYYpwxH3wZgy/oTXTyeNFbl17iM369NwVY+gK4BgLlvPFcNY10fVoJwiUxQ3VfUg+L8qFt1DEDX+vyHSZSjY/4CV3iWIbVekHxQ3OI0P2lLitAs29maM=
+	t=1790949638; cv=none; b=NbyalV812qXhgL9/kkVcLIIUKikfAGodff0POibXaNjrcpnlwy34kn6lyZowcQYPL07mjDTYdjpHBndxrgxf3hOMubfw3fl9JGoaanVdvFdzh0yj9VN1E+L9Zb9vQ+uUKhQvhHpsgpmnkwkjqt06aCwL8gg0KPYxdw1g8WGdwQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790947569; c=relaxed/simple;
-	bh=CWPptF2POV/5KDvdcCNlvnaNBA/ndWYIWDLd9SWVH2g=;
+	s=arc-20240116; t=1790949638; c=relaxed/simple;
+	bh=AWQb3mL4lGZsmN5hIB4Zd9ECCoNpZKm9RCNbkgVp38E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kx21HU2igUPRem6CFJtx1m50F7y6k9olizsYdtoxqZPgvpQJDQ35Q23sYF4Hc4CUGU0vOMBS6m1R7jnJxtVkXK0saQpN6Y01C+LAMFqKVnPHv3s23hHj1zMLjlS6DnD17bJBpT5i9r13HfLI8X/oNXS6qHVg9dIwYqSm+3l1XMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IfLVJ32v; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XulL8eC6HLWwrsmIT0QlouKGz+MsSKyZH14zxj02Tef70Lekqu9Hzb4TkoYTRx3EnrxwKhs0mP2uLnBhargZaO8PvT0rG6DJqmlfBvad9t14uzfJmQOQ51NvHkMtgas2uZZ36ENGMofgJ886HlnBCxPt2HubzuKDA05ZthtvL8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OFm2xiKT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IfLVJ32v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790947568; x=1822483568;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CWPptF2POV/5KDvdcCNlvnaNBA/ndWYIWDLd9SWVH2g=;
-  b=IfLVJ32vgXv+4pAUxSPQvFwH9ZGi6LcW2hODaEgaSCNxW1bHfR7suGts
-   k2zV5pAdf23wHd4F8qeoDAhrcaqno9fLcDX18Mrmz21jRJfUJiDvLqQIk
-   sKxUCgFo+IJ4ofaNzE/e1TdcViLBGlMoWNHoPlfF9vPFFKPzNpDWXavUt
-   Ep+9sOtTnfk2AtKB25w8NdnlvhEy1BSZVnjLQ8zpzChx2ZN2gdBwEWCJP
-   QmtoX+Z84tBJTro704fC9CMYYs+WXlAjzFIRRSWXmMeDrYV0W49unHNAW
-   IIgSymQquWcpos99AYhHTPd8Jd6ixg8ke2mdDabEgNnYvQEtOfOpFMf1A
-   A==;
-X-CSE-ConnectionGUID: Hl47GioKS367I9pPKJWr/A==
-X-CSE-MsgGUID: G2S2HPdcRLWI8uPBmob75A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="90768479"
-X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="90768479"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 06:26:08 -0700
-X-CSE-ConnectionGUID: AszzBaCqSZ+UMEBZg/kajw==
-X-CSE-MsgGUID: 8TCjU4HQR1SGXLQUZWjSPQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="272653951"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.188])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 06:26:03 -0700
-Date: Fri, 2 Oct 2026 16:26:00 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	airlied@gmail.com, simona@ffwll.ch, decui@microsoft.com,
-	ssengar@linux.microsoft.com, andy@kernel.org,
-	gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, sashiko-reviews@lists.linux.dev
-Subject: Re: [PATCH v2 0/7] drm: Remove simple-display pipe
-Message-ID: <ar-w6GUQqROQkdec@ashevche-desk.local>
-References: <20261002124456.741011-1-tzimmermann@suse.de>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OFm2xiKT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B54F81F000FF;
+	Fri,  2 Oct 2026 14:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790949636;
+	bh=TlY1Z0MXdoEVpJou1Oz74dV2UHrM9J5gEcECMqEkGhI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=OFm2xiKTKOkTNNdWro/Y9SJ8imoxwMFE/OA8U3i/+0NzNUIbf9GHm6lluiWOMHZTZ
+	 Xq8mqwiRxI2vF738iJ/dAF0noufSDfWVrfylM/V6aY/cdPVjS2mpD/K2DAsEXPvbmu
+	 kBlGk4DqIZbVT4d7HsJ2KReo2MbOKUeLcRff9w1Q=
+Date: Fri, 2 Oct 2026 16:00:29 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Tianbo Fu <3064575448@qq.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: octeon: remove unnecessary parentheses
+Message-ID: <2026100257-circular-trustable-595c@gregkh>
+References: <tencent_41FEF4B2AA27128459C679783AD4D039F207@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,24 +38,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261002124456.741011-1-tzimmermann@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <tencent_41FEF4B2AA27128459C679783AD4D039F207@qq.com>
 
-On Fri, Oct 02, 2026 at 02:41:50PM +0200, Thomas Zimmermann wrote:
-> There are no drivers using struct drm_simple_display_pipe left. Remove
-> the related helpers from DRM and clear any TODO items. Hyperv-drm needs
-> a minor fix to include some additional headers.
+On Sat, Oct 03, 2026 at 04:51:29AM +0800, Tianbo Fu wrote:
+> checkpatch.pl reports multiple CHECKs for unnecessary parentheses
+> around single conditions. Remove them to improve readability.
 > 
-> Since we're at it, also remove include statements for the simple-kms
-> header that are no longer needed. Most of them are likely left over from
-> earlier usage of the simple-display pipe.
+> No functional change.
+> 
+> Signed-off-by: Tianbo Fu <3064575448@qq.com>
+> ---
+> Hi Greg,
+> 
+> I removed some unnecessary parentheses and compiled this on my
+> x86_64 computer successfully. Please let me know if anything
+> needs fixing.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-for the patches 3-7.
+Take a look at where I have rejected previous such patches in the past
+in the archives (like just yesterday...)
 
--- 
-With Best Regards,
-Andy Shevchenko
+https://lore.kernel.org/linux-staging/2026100127-fifty-wrought-2d30@gregkh
 
+thanks,
 
+greg k-h
