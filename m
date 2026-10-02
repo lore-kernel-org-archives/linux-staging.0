@@ -1,125 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22862D0C92;
-	Fri,  2 Oct 2026 14:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E8C4EE87C
+	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 15:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.54.11.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790952788; cv=none; b=FkuYtUF1WDpeIy08NNUBuY2R9XxNQ8OAGsngPiCRh8vNF4LBpSpBJRyisCkJv1HIduxTgBlwMxYFLR8XRs9nmsHKYW9snZVhNU5WLDvuJ97U/yfCarbvZ+z7WMgjbBBG6R2QZX5X7gIWarv6mJNPsRGfNxsOY6H43uOyNrbwjBE=
+	t=1790955935; cv=none; b=CAAht2NKSS8IY2iw404mzFyO7aUVoYwuXZ/azIjR8XDpUHc+D2qA9GDTRU4LI7L++I+GGxZBFgyLOnlrxaLsJzvR5xsgZ+rIZVeeZC8XKiDzX8CHmPBdP7ERGsHLki5Jce2Y//FjfaGJjiAMa86/nohl8Ea36APOa7IT/QboYKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790952788; c=relaxed/simple;
-	bh=GZxRYK1w4snKNC2Ijd053YYTdJJ312g/wKMewJKo/ek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bErwNGGyg8PuNIZimV4GiW/445Ldcu8RVbwGiN7GWlj6mqHCRA84WbhxlsQ2bM4rvOtafBwAH/jHgfZaxCYAFM3hfmf4OLu8kuN7xX4gzz/luxdrveKu3vzftBxiI94kAMReX5RpAPH/pA+gNQcoZ3S0UppukYJyyFAv8v9+F1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=X8QQqt24; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790955935; c=relaxed/simple;
+	bh=JDitukbJGHFn93LLNvIES8E0vg7uyi62NzSdy2zA+q4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p2MptZ5WEMJAexkTt7zm+fT3i+B2sbD290NrW+ZVKkE8OincBxGECW+TdAuC+y/BkTHwwFvxMDWmvwlXelGgjXwRpNorHrPKThQvpA5An1MSals42WMET/YdmuzDq7Aw+Nln0UnLpA8wtICYyEisS8ajFvZ1so/dSkikUlUvwjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br; spf=pass smtp.mailfrom=inf.ufrgs.br; dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b=gMyQCY77; arc=none smtp.client-ip=143.54.11.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X8QQqt24"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1BCD1F000FF;
-	Fri,  2 Oct 2026 14:53:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790952786;
-	bh=/P3LRF5JXFyBnEM5H7R7UPRrjiyCLLXP7y3LOSoBZ3Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=X8QQqt24tfxSc01J8QrXafL/qhMHuz4v4dNU4ZH6QivQZ0pfn8UVD0Ayi3BHU5gTj
-	 acbBdl5SwLoyInD8PDtvEIubVowu7K9nCEOQTFkiF5eXyBYdrKSr8bVJxpojg5fben
-	 ucO0QVKSJVRJQb+o6p9cloaAQST/NbUrLt+fm+xs=
-Date: Fri, 2 Oct 2026 16:52:59 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Adi Prasan <itsadi2409@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	error27@gmail.com
-Subject: Re: [PATCH v3] staging: rtl8723bs: fix ie_length bound check in
- rtw_cfg80211_inform_bss
-Message-ID: <2026100246-underpaid-hardener-cfab@gregkh>
-References: <20260920142849.294162-1-itsadi2409@gmail.com>
- <20261002140450.3209-1-itsadi2409@gmail.com>
+	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b="gMyQCY77"
+Received: from LAPTOP-R01LEAQM.localdomain (unknown [186.210.89.241])
+	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id B339A1210F5;
+	Fri,  2 Oct 2026 12:45:20 -0300 (-03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
+	s=dkim2026; t=1790955921;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4POLpI7xh1Z/RDP/EUuFH7XSIXGsB/pWdF+/Kq5mRQw=;
+	b=gMyQCY77qm3HuMsdLtoG5EQrwSW0eI4CLxn5MJCj1m1sKpBxoZAp/fWNX4Zj/7cEN2xR65
+	tmcllIOjPNbHcnadoItBWTm8OjYmn6AwHbJVL2/iNOAEgqmAEI8aqIG3XQt2BRIaXddKS/
+	4HQF/obBxUvCXcbaXPVq/4ILvQeiiXLuw1sjM3w8wIIm+OhLX13jTeI1ykzVMBJMVsvWun
+	RDkZDuqTNHihggygi+7VOADvVl5jhYV2+4+I0jt7rNATZmvdhLDxfLDnQk9zfKZOOpxAL4
+	ocgB7Ys0PjE6YT/mXJVFXGbXRDRVBRNxpWRoK4URNU3a5zF5d9WBN4H2JeYvKw==
+From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <error27@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Subject: [PATCH v5] staging: rtl8723bs: return bool from check_pending_xmitbuf
+Date: Fri,  2 Oct 2026 12:43:50 -0300
+Message-ID: <20261002154350.120639-1-matheus.aalmeida@inf.ufrgs.br>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261002140450.3209-1-itsadi2409@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 02, 2026 at 02:04:50PM +0000, Adi Prasan wrote:
-> The buffer bound check in rtw_cfg80211_inform_bss() checked bssinf_len
-> (ie_length + header size) against MAX_BSSINFO_LEN (1000 bytes), but
-> network.ies[] is only MAX_IE_SZ (768) bytes. This allowed ie_length
-> values up to ~976 bytes to pass the check while a subsequent memcpy()
-> from network.ies still only has 768 valid bytes, and other paths that
-> write to network.ies consistently cap ie_length to MAX_IE_SZ.
-> 
-> Check ie_length against MAX_IE_SZ directly, which is the actual size
-> of network.ies, and drop the now-unused bssinf_len/MAX_BSSINFO_LEN
-> comparison.
-> 
-> Signed-off-by: Adi Prasan <itsadi2409@gmail.com>
-> Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
-> ---
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 27e7b8442d7b..7e964b15ae6d 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -210,7 +210,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
->  	u64 notify_timestamp;
->  	s32 notify_signal;
->  	u8 *buf = NULL, *pbuf;
-> -	size_t len, bssinf_len = 0;
-> +	size_t len;
->  	struct ieee80211_hdr *pwlanhdr;
->  	__le16 *fctrl;
->  
-> @@ -218,8 +218,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
->  	struct wiphy *wiphy = wdev->wiphy;
->  	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
->  
-> -	bssinf_len = pnetwork->network.ie_length + sizeof(struct ieee80211_hdr_3addr);
-> -	if (bssinf_len > MAX_BSSINFO_LEN || pnetwork->network.ie_length > MAX_IE_SZ)
-> +	if (pnetwork->network.ie_length > MAX_IE_SZ)
->  		goto exit;
->  
->  	{
-> -- 
-> 2.43.0
-> 
+check_pending_xmitbuf() returns only true or false. To accurately
+describe the function's behavior, rename it to has_pending_xmitbuf()
+and change the return type to bool. Propagate the return type through
+one of the call chains.
 
-Hi,
+Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+---
+v2: Add missing "staging: " prefix to commit message.
+v3: Change one of the call chains to also return bool.
+v4:
+    - rtw_transmit_thread(): rename err -> xmit_status.
+    - check_pending_xmitbuf(): rename ret -> xmitbuf_pending.
+    - check_pending_xmitbuf(): remove unnescessary if statement.
+    - rtl8723bs_xmit_buf_handler(): remove queue_pending and directly
+      check the value returned by check_pending_xmitbuf() instead.
+v5:
+    - Rename check_pending_xmitbuf() -> has_pending_xmitbuf().
+    - Rebase against latest staging-testing tree.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+ drivers/staging/rtl8723bs/core/rtw_xmit.c        | 16 +++++++---------
+ drivers/staging/rtl8723bs/hal/hal_intf.c         |  2 +-
+ drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c   |  9 +++------
+ drivers/staging/rtl8723bs/include/hal_intf.h     |  2 +-
+ .../staging/rtl8723bs/include/rtl8723b_xmit.h    |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_xmit.h     |  2 +-
+ 6 files changed, 14 insertions(+), 19 deletions(-)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 57b3690bc48af..00a3c031e12eb 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -2463,37 +2463,35 @@ struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpri
+ 	return pxmitbuf;
+ }
+ 
+-signed int check_pending_xmitbuf(struct xmit_priv *pxmitpriv)
++bool has_pending_xmitbuf(struct xmit_priv *pxmitpriv)
+ {
+ 	struct __queue *pqueue;
+-	signed int	ret = false;
++	bool xmitbuf_pending;
+ 
+ 	pqueue = &pxmitpriv->pending_xmitbuf_queue;
+ 
+ 	spin_lock_bh(&pqueue->lock);
+ 
+-	if (!list_empty(&pqueue->queue))
+-		ret = true;
++	xmitbuf_pending = !list_empty(&pqueue->queue);
+ 
+ 	spin_unlock_bh(&pqueue->lock);
+ 
+-	return ret;
++	return xmitbuf_pending;
+ }
+ 
+ int rtw_xmit_thread(void *context)
+ {
+-	s32 err;
++	bool xmit_status;
+ 	struct adapter *padapter;
+ 
+-	err = _SUCCESS;
+ 	padapter = context;
+ 
+ 	allow_signal(SIGTERM);
+ 
+ 	do {
+-		err = rtw_hal_xmit_thread_handler(padapter);
++		xmit_status  = rtw_hal_xmit_thread_handler(padapter);
+ 		flush_signals_thread();
+-	} while (err == _SUCCESS);
++	} while (xmit_status == _SUCCESS);
+ 
+ 	complete(&padapter->xmitpriv.terminate_xmitthread_comp);
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index 1443875d13694..9653ab3ad893d 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -229,7 +229,7 @@ void beacon_timing_control(struct adapter *padapter)
+ 	rtl8723b_SetBeaconRelatedRegisters(padapter);
+ }
+ 
+-s32 rtw_hal_xmit_thread_handler(struct adapter *padapter)
++bool rtw_hal_xmit_thread_handler(struct adapter *padapter)
+ {
+ 	return rtl8723bs_xmit_buf_handler(padapter);
+ }
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+index 6624d2aac4bcc..de99998616b99 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -115,11 +115,10 @@ static bool rtl8723_dequeue_writeport(struct adapter *padapter)
+  *_SUCCESS	ok
+  *_FAIL		something error
+  */
+-s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
++bool rtl8723bs_xmit_buf_handler(struct adapter *padapter)
+ {
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 	bool queue_empty;
+-	u8 queue_pending;
+ 	s32 ret;
+ 
+ 	if (wait_for_completion_interruptible(&pxmitpriv->xmit_comp)) {
+@@ -132,9 +131,7 @@ s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
+ 	if (ret)
+ 		return _FAIL;
+ 
+-	queue_pending = check_pending_xmitbuf(pxmitpriv);
+-
+-	if (!queue_pending)
++	if (!has_pending_xmitbuf(pxmitpriv))
+ 		return _SUCCESS;
+ 
+ 	ret = rtw_register_tx_alive(padapter);
+@@ -199,7 +196,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+ 		phwxmit = hwxmits + inx[idx];
+ 
+ 		if (
+-			(check_pending_xmitbuf(pxmitpriv)) &&
++			(has_pending_xmitbuf(pxmitpriv)) &&
+ 			(padapter->mlmepriv.link_detect_info.higher_busy_tx_traffic)
+ 		) {
+ 			if ((phwxmit->accnt > 0) && (phwxmit->accnt < 5)) {
+diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
+index 7b63116525cab..763ff6f3cb535 100644
+--- a/drivers/staging/rtl8723bs/include/hal_intf.h
++++ b/drivers/staging/rtl8723bs/include/hal_intf.h
+@@ -222,7 +222,7 @@ void rtw_hal_set_chnl_bw(struct adapter *padapter, u8 channel, enum channel_widt
+ void rtw_hal_dm_watchdog(struct adapter *padapter);
+ void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter);
+ 
+-s32 rtw_hal_xmit_thread_handler(struct adapter *padapter);
++bool rtw_hal_xmit_thread_handler(struct adapter *padapter);
+ 
+ void rtw_hal_notch_filter(struct adapter *adapter, bool enable);
+ 
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
+index d02ead67777a0..acf0ac9e5a755 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
+@@ -406,7 +406,7 @@ void rtl8723bs_free_xmit_priv(struct adapter *padapter);
+ s32 rtl8723bs_hal_xmit(struct adapter *padapter, struct xmit_frame *pxmitframe);
+ s32 rtl8723bs_mgnt_xmit(struct adapter *padapter, struct xmit_frame *pmgntframe);
+ s32	rtl8723bs_hal_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitframe);
+-s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter);
++bool rtl8723bs_xmit_buf_handler(struct adapter *padapter);
+ int rtl8723bs_xmit_thread(void *context);
+ 
+ u8 BWMapping_8723B(struct adapter *Adapter, struct pkt_attrib *pattrib);
+diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+index c5cb814789d86..14ceae47918b2 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
++++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+@@ -432,7 +432,7 @@ void enqueue_pending_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmit
+ void enqueue_pending_xmitbuf_to_head(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
+ struct xmit_buf *dequeue_pending_xmitbuf(struct xmit_priv *pxmitpriv);
+ struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpriv);
+-signed int	check_pending_xmitbuf(struct xmit_priv *pxmitpriv);
++bool has_pending_xmitbuf(struct xmit_priv *pxmitpriv);
+ int	rtw_xmit_thread(void *context);
+ 
+ u32 rtw_get_ff_hwaddr(struct xmit_frame	*pxmitframe);
+-- 
+2.43.0
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documentation/process/stable-kernel-rules.rst file for how to resolve
-  this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
