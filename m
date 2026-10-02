@@ -1,88 +1,92 @@
-Received: from mail-dl2-f43.google.com (mail-dl2-f43.google.com [74.125.229.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF5A38DC5A
-	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 14:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DBD2DB79F;
+	Fri,  2 Oct 2026 14:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790950020; cv=none; b=mTZf/3N5cixaJddul7vQ9Mcu4x/qAdVJ99lSHH8v0rCJb8OWOB0flEWUkNctuAhuCPZ2uKLAdH2leCvPJ3WAIaa2OQNDeTdobjGen9W9+Cbx/qmKfYbrQF5Drrur0cLJjsZVo0N9DyAoU3HNlWg9TaaKEI/auVbDu94TVZU7XRg=
+	t=1790951644; cv=none; b=nOS9SwmqBYoTwEMOhHbIUDmViY988WRuv10rUpD6zDdVl9cqGu8Do1NEJHThVeK9I7JJepS76rBtn2RYZAkWsjrJe1znvRhr7P+tLN1zEELkUO5PdHZe3pVlAY0TDKBSaeIYTzBjKDpLJ8exUI2RkI5OhEPmjhcST3MVMoydu0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790950020; c=relaxed/simple;
-	bh=VGQSpi5t+n8Mt4QhsO/UraLILbcQvvyxj8bAoHzLclA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uO0YodF5a4D8KM28lRoTdGnBbUsnfk5HvgCeudjYVQYFKc4t51SZ+GqZEEh9kq9wKiZmnqgrtyHupNQ7g3QaS5Fdf3ecQScvvUJkUem9Iz4t5CpTn9vxE1LIJbhNoGP1fnTjZ4Vpw4BDzgt37eTNj4VEYy9DgrCtN0x2qoqD9+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QlKvwo2s; arc=none smtp.client-ip=74.125.229.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790951644; c=relaxed/simple;
+	bh=1jK2YHK2WSx82UF/frParOUH55P/f85eeb9pKT/u1IA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nAXQT7D19+ydKq9UgOjh+pi0yrNapRxv1I5c/fogTGLjCBIIdvxP+u0QNJzh5A95Lc5WrNEuevpGjJAKxzFQsH+T5hWURihghP1KoUp9KlQ7lox4YGSUlTPI19c5MPAEkh5e/hkODd3Dsh3wt9fAk78/8XS0M5R817z72KkYRQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J1QzSLcp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QlKvwo2s"
-Received: by mail-dl2-f43.google.com with SMTP id a92af1059eb24-142dd04f7f2so6026047c88.0
-        for <linux-staging@lists.linux.dev>; Fri, 02 Oct 2026 07:06:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790950018; x=1791554818; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VGQSpi5t+n8Mt4QhsO/UraLILbcQvvyxj8bAoHzLclA=;
-        b=QlKvwo2shwCrC2gbUdXVxINFM5vuX7aPFtYwx1ag+0L2v0COjmVtVbhj4Tl63ADvRC
-         v5C0Ba1QhcDGqCfTT8oPGbFYO4zitcd/gu1LaLFQLPd73JugOWgkhkemboc2hUzF/GbN
-         fgc7IZKJXN5xH5qcoCIyjM0pNYTpqt1JdYyPBGgTHZWVwcIzZPI/63NbZDoLl8Eyq1h2
-         hbuLZRuhaSfvnN+5/DMzFyuwbkAWedGoJQODUW9/+e7j+z1GCPfomdm7+Pq22BVD0KST
-         MOILIo7PhRzWdCV00MG7Q3jap8MnH/3MygdU6GlZylXV79kDgjJ4+nSecaJ6vD2H+Q7j
-         Mw5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790950018; x=1791554818;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VGQSpi5t+n8Mt4QhsO/UraLILbcQvvyxj8bAoHzLclA=;
-        b=x2/RntEoC2MrDEGRHVpl5oiW9kozJbdYT1+G+A6WNwNkq+PGdw8c/9vD9Fm08IB+Ey
-         qFF3cLHEJfzhUY08IvkiF8HjZD/TeH2eEbBobgMa4rYnAqCCoZ5twpL4+sZgAYVxZOPJ
-         noLdNvhwPUv7UM7pNX7EI6oLA21M2OHvoKGm2qZAyYaRh1SneJtJwEqd2uLJONiQTFRr
-         78hIs1cvHeFY/UkC9f+hEYkCyaFQZkH+ddV4NPvTLTihtmKCcjBepS+3JegJO+kil67J
-         wXmcHMeiNGd9SeyPd2GETnxVX1nK5z2oUszWFPttx0sBrAlVZQ0WPIa2LryRcAi0ZZAR
-         nXXg==
-X-Forwarded-Encrypted: i=1; AKwUvBwRpndZBklN6djYvjirYbICiArpe5jeDfxgN5KSCbzv4iq8GWV1EcC2+17b3ggQq+3yELErGdN59X6bzaFK@lists.linux.dev
-X-Gm-Message-State: AFuF++mc+hyldzsdhfLXivwZBUMujPHTdKNmaYcBpNXTQf1hBcCg8kkN
-	G74OZP/gD1Ea2I1vLwaV+OTrOmXXZjsIfGo8oadzGV9+jJCVOg9orMCL
-X-Gm-Gg: AYBFou1GWP273lNW76Mr/5GMo/vqJZbSP/odZaSfWGPmgb8VoFQTPQJ9bfoUG8erf7j
-	fXdujqlUSQJBTJ97sv9nyMUXLMMZ7o+NpDSAlhJXojT6gHfhCCbZNsvLetlh0ZVu+wfgmkc5YGD
-	pYlL2+MJBN1RCLJMEBTjRjwquctPr/bA2arhmr6Ua+kbSkGixQgWLFf2iiH6qsDZVbbkJDiI83d
-	tPa7trmIPU9Yq72fXZ4cIvWYcDTCBxRQY4wtvdSoCj6tY70mTC5A39lTXREcunDjvKkqPAwbu8a
-	50NiQ5Rzzzou7CuhacrLLdYx9eRugvIFejeH2qGnIuoVP1NtbXkzCbOnV+eBEKsyDbHrTppTgB4
-	GQ0dpn5rFY+MTZksFWQEwqBlMkQr2dWw7XOkWybclbsxGiAylodkSp3fJBhnlCo1g/qbf+pOriZ
-	8c5gUX8D2+GhuNgjsYn1yeHDvFQ471MDMpj5qJhPEUAIrshp6nLwWeZVwSekdWf733Iy0tTwQ=
-X-Received: by 2002:a05:701b:465f:20b0:14f:505d:804 with SMTP id a92af1059eb24-14f58fd349dmr2820198c88.2.1790950017614;
-        Fri, 02 Oct 2026 07:06:57 -0700 (PDT)
-Received: from adi.. ([122.171.22.57])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14f410725e2sm5951901c88.0.2026.10.02.07.06.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 07:06:57 -0700 (PDT)
-From: Adi Prasan <itsadi2409@gmail.com>
-To: error27@gmail.com
-Cc: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix ie_length bound check in rtw_cfg80211_inform_bss
-Date: Fri,  2 Oct 2026 14:06:52 +0000
-Message-ID: <20261002140652.3229-1-itsadi2409@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <ar9cUQd-NEJozKxg@stanley.mountain>
-References: <ar9cUQd-NEJozKxg@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J1QzSLcp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 407BD1F000FF;
+	Fri,  2 Oct 2026 14:33:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790951643;
+	bh=UWFt/auOpOsMrP7EpBMqStCL4hrQWzQBPhqFcgSREmQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=J1QzSLcp1U1ErWHL32Sd4uGAeqWd/YYc4L6UiyBsiCSt8cSqVFhbwcwnl+CGt8Akf
+	 N45YG0fAl8KwiLvfjSSwEcgetgdzg8WNClnau5EEUwllls3BgQayYyyOw0rHtGXdEz
+	 4Tqa0P+BBleam8KY1b+V5VY7FgdDoxn7zOSeUTA6B1iUWHA4n9w3OP/QUGmv9aHWJO
+	 a4j1ZBd1SPDMlKoV8PZWhVx5ghxncF6Jzor0dVNfvSQJElV2m4TL73yLPt0kp4E1zJ
+	 WNBoQc2MsIdClt77xa7VLbpv6cISF3351jVo99VCIh1n2/2jNg7eWe+b6dcxLL6ql5
+	 X/wGyoIgma6mg==
+Date: Fri, 2 Oct 2026 15:33:02 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Cc: gregkh@linuxfoundation.org, nuno.sa@analog.com,
+ Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org,
+ linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, joshua.crofts1@gmail.com, error27@gmail.com,
+ narcisaanamaria12@gmail.com
+Subject: Re: [PATCH 0/3] staging: iio: accel: adis16203: fix axis mapping
+ and cleanups
+Message-ID: <20261002153302.5c64819d@jic23-hlaptop>
+In-Reply-To: <20260929184900.39515-1-abdelnasserhussein11@gmail.com>
+References: <20260929184900.39515-1-abdelnasserhussein11@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 02, 2026, Dan Carpenter wrote:
-> Why not use MAX_IE_SZ as the limit?
+On Tue, 29 Sep 2026 21:48:57 +0300
+Abdelnasser Hussein <abdelnasserhussein11@gmail.com> wrote:
 
-Makes sense, done in v3 - dropped the bssinf_len/MAX_BSSINFO_LEN
-check entirely and check ie_length against MAX_IE_SZ directly, which
-is the actual size of network.ies. Removed bssinf_len too since
-nothing else used it.
+> Hi all,
+> 
+> This patch series addresses a fundamental hardware mapping error in the
+> ADIS16203 driver and performs a few necessary cleanups.
+Hi Abdelnasser.
 
-Adi
+Unfortunately, this is the most extreme example I've seen recently of submitters
+not checking the mailing list archives or indeed linux-next before posting.
+
+The driver no longer exists!  Support for the part was added to the
+adis16201 driver and the staging driver dropped.
+
+Jonathan
+
+> 
+> The ADIS16203 is a single-axis inclinometer. The current driver mistakenly
+> exposes two separate axes (X and Y), leaving a FIXME comment on the Y-axis.
+> According to the datasheet, these are actually just two different output
+> formats for the same axis (0 to 360 degrees, and +/- 180 degrees).
+> 
+> This series removes the unsupported Y-axis, fixes the inclination naming,
+> adds a missing SPI device ID table to ensure proper module autoloading,
+> and cleans up the register macros to align with kernel coding style.
+> 
+> Best regards,
+> Abdelnasser Hussein
+> 
+> Abdelnasser Hussein (3):
+>   staging: iio: accel: adis16203: fix inclination naming and remove
+>     unsupported Y-axis
+>   staging: iio: accel: adis16203: add missing spi_device_id table
+>   staging: iio: accel: adis16203: clean up register definitions and drop
+>     redundant comments
+> 
+>  drivers/staging/iio/accel/adis16203.c | 108 ++++++--------------------
+>  1 file changed, 24 insertions(+), 84 deletions(-)
+> 
+
