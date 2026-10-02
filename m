@@ -1,214 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E4643DEBC
-	for <linux-staging@lists.linux.dev>; Fri,  2 Oct 2026 09:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE8C471403;
+	Fri,  2 Oct 2026 12:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790934974; cv=none; b=ampI9BRYHRMaT6HfmpGZhnzSBmOSn6RcTbl45jCJHpIkYmtOMmO4rgMcpSLbFP1KRwR/EXIslYruswVMtGY5LiOd7cYZ04bsj0B6AVpsp35DZdFZDix8VHmUsNAGlS0MnG6imEeIZUetcTwiZQyAN5ETwewCv1cFosr+TmgEGQg=
+	t=1790945113; cv=none; b=a/b7Eqf4gfHazMJ4ddsup2SZtAA3mN69Y4B2GZj8Rr3KL8flqKJh849pWz3RRWR9gChFVJnRYY8PvNN686jutC3sqi5ASoFrWDQU9VmAxNr+dl1niRWUJio1AMoRyGBBBnuyMxQVPRfVu5PvVELchdxPp3IHEM3nPZF2HBm+rx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790934974; c=relaxed/simple;
-	bh=5oDWEXAErWcWClaMLl4Wym2DzqbWIFMZZzTEgbzozfM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Gtss+RTL+L4nDvFux5xV+3/mNlUBVmssXXY+ujsth4CxDedQjnJTtHWjB3/iy3aR3u1jmzp9bkSHf2haFAzpK9+8iJ5kPJzhskbTPzdxc5nMnZ1sH2/mBr59RPW8vDa9YejwO7oITfpzoO0wr+tUtmqrhtKqepUc9+g/iCSi9lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJSHMtEL; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790945113; c=relaxed/simple;
+	bh=YAvlDIH6ftSHWKAJ561EKmstiTQUB0grJz8gmwjP0AY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z/omAL0KpPO60TFvKVDlHqF9e1aGTjldDYuS+Yw6lnYHtdoKaPGCakikocMj0VQjO2cbWPD+0ZisIvn/I/4Belni/aO0RmBHw7YsJV7dfD+oET/DK49aB+TIOpGJhPOzcOQwZLqN09zADxeeEcdUUl6lrbmcFbpm5ZV1FSZ0Tso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VmXLNfPC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=D+UDt5kQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GdS+Lnhg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cx3nW2AF; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJSHMtEL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790934971; x=1822470971;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=5oDWEXAErWcWClaMLl4Wym2DzqbWIFMZZzTEgbzozfM=;
-  b=jJSHMtELmb9Hp6otNXIc3b1AzLSPzoyypbeY9aNsVaWwrCFEx4p5cBjC
-   zcgZfX4Oz+iinQafn720HjzSqhFDzGGVXaJB2YAKj8RYc0uNbX5FBb+lo
-   WVeab3opArCa6vETxocs3IERv7eGQCM1vixG7id+Jo7fdqOczI1h65AfH
-   BDfA6l+9bK78eZY8fBb0dUu9ZRgsaM1cJ8h/zkrecAZB5hBqsiaPMyUg0
-   lbRoRcngtencq1pbAKqFXeyK5DVs+hnamDyZbg1Wl6SjJIFJvgXMtn9G3
-   1AUa1XSh64tE9EtMQh//GJTTZmNy77X5BLOnwmgtAp9wvu8m6fw8MV1UN
-   w==;
-X-CSE-ConnectionGUID: 8xyeyOB8TDKM479HVfHqOg==
-X-CSE-MsgGUID: CuNQ8mEdS2WROZdwk6FIbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="113484360"
-X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="113484360"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 02:56:11 -0700
-X-CSE-ConnectionGUID: B1w6CqLHRvC1bBz/2EYLcw==
-X-CSE-MsgGUID: PsXB79ADTye+LFGg4kMy8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="279958960"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.196])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 02:56:06 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-pci@vger.kernel.org
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Hans de
- Goede <hansg@kernel.org>, Ilpo =?utf-8?Q?J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>,
- Andy
- Shevchenko <andy@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/1] media: Consolidate AtomISP v2 PCI IDs in the
- pci_ids.h
-In-Reply-To: <20261002094813.856439-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20261002094813.856439-1-andriy.shevchenko@linux.intel.com>
-Date: Fri, 02 Oct 2026 12:56:03 +0300
-Message-ID: <991d1bbaed89d36dfc2f311f4efe6f6b26f86ad3@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VmXLNfPC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="D+UDt5kQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GdS+Lnhg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cx3nW2AF"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 517E921A1C;
+	Fri,  2 Oct 2026 12:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790945105; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sLsOdwi1hUceimsVUFcOl/fguiWv2isWvjC4TvjZLVk=;
+	b=VmXLNfPCxP77vO/nlyNXfoYG4SDZWYv+1M/U1DAnZ4vLKhXgenge8Xnj0L3nz+K5L9eBIu
+	HnnFecqx2rFcypEO3m32uREZfj9SdIXG15rDl6b3VKE9IvaEPr/y7eFCJOdkgGF14btu2h
+	cJ96iljm79UV7Ipo5GEhQAfqedHdo+Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790945105;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sLsOdwi1hUceimsVUFcOl/fguiWv2isWvjC4TvjZLVk=;
+	b=D+UDt5kQYcoV+Bcq0bt+eyLj7UeLxMsSPyBZxmb8NRZBt2Mro9LizbWEXFvLFyeSqqviU2
+	VHVks2qKRtuQbdCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GdS+Lnhg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cx3nW2AF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790945101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sLsOdwi1hUceimsVUFcOl/fguiWv2isWvjC4TvjZLVk=;
+	b=GdS+Lnhg96MlzI60D2n3vKFzCVBb3CSdXpdTsuPtYdcTtsCUGf0us1GPLBFza9j1ahFJRe
+	ah0UYRQUG2lQsP/DRAYlTjD85D8CfLUjzjQb/iaLa9ZQ6f76KWwkbz/Ze4KlXAcnwDf65C
+	CGQTcG6eRFsNcinzdUiIMWqVs9pbtY8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790945101;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sLsOdwi1hUceimsVUFcOl/fguiWv2isWvjC4TvjZLVk=;
+	b=cx3nW2AF0y2nm5OZSYyMvG6loYQCJxdmRBP+bkXw8Pngrzy0nPM+PQzaCbhrOJxX3mQEIG
+	v8apTFO9FvoBFbDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C252D13C73;
+	Fri,  2 Oct 2026 12:45:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id V/hJI0ynv2rNTwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 02 Oct 2026 12:45:00 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	decui@microsoft.com,
+	ssengar@linux.microsoft.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	sashiko-reviews@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/7] drm: Remove simple-display pipe
+Date: Fri,  2 Oct 2026 14:41:50 +0200
+Message-ID: <20261002124456.741011-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,microsoft.com,linux.microsoft.com,linuxfoundation.org];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	R_RATELIMIT(0.00)[to_ip_from(RLqtkr6cif1ebgurukgmwdm7xc)];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 517E921A1C
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Fri, 02 Oct 2026, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> We have a few drivers using same pair of the PCI IDs across the kernel and
-> there seems more to go, consolidate AtomISP v2 PCI IDs in pci_ids.h database.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->
-> Assuming that media subsystem is the main beneficiary I think it is the best
-> to route it via that tree. For others (i915, PCI, PDx86), please Ack if you
-> are agree.
+There are no drivers using struct drm_simple_display_pipe left. Remove
+the related helpers from DRM and clear any TODO items. Hyperv-drm needs
+a minor fix to include some additional headers.
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+Since we're at it, also remove include statements for the simple-kms
+header that are no longer needed. Most of them are likely left over from
+earlier usage of the simple-display pipe.
+
+Thomas Zimmermann (7):
+  drm/hyperv: Add missing include statements
+  drm/kms-helper: Remove struct drm_simple_display_pipe and helpers
+  drm/bridge: Do not include <drm/drm_simple_kms_helper.h>
+  drm/hisilicon/hibmc: Do not include <drm/drm_simple_kms_helper.h>
+  drm/tegra: Do not include <drm/drm_simple_kms_helper.h>
+  drm/verisilicon: Do not include <drm/drm_simple_kms_helper.h>
+  drm/vc4: Do not include <drm/drm_simple_kms_helper.h>
+
+ Documentation/gpu/todo.rst                    |  17 -
+ drivers/gpu/drm/bridge/inno-hdmi.c            |   1 -
+ drivers/gpu/drm/bridge/microchip-lvds.c       |   1 -
+ drivers/gpu/drm/bridge/synopsys/dw-dp.c       |   1 -
+ drivers/gpu/drm/bridge/tda998x_drv.c          |   1 -
+ drivers/gpu/drm/drm_gem_atomic_helper.c       |  92 -----
+ drivers/gpu/drm/drm_simple_kms_helper.c       | 328 ------------------
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    |   1 -
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |   1 -
+ drivers/gpu/drm/hyperv/hyperv_drm.h           |   5 +
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c       |   1 -
+ drivers/gpu/drm/hyperv/hyperv_drm_proto.c     |   1 -
+ drivers/gpu/drm/tegra/output.c                |   1 -
+ drivers/gpu/drm/vc4/vc4_dpi.c                 |   1 -
+ drivers/gpu/drm/vc4/vc4_dsi.c                 |   1 -
+ drivers/gpu/drm/vc4/vc4_hdmi.c                |   1 -
+ drivers/gpu/drm/vc4/vc4_vec.c                 |   1 -
+ drivers/gpu/drm/verisilicon/vs_bridge.c       |   1 -
+ drivers/staging/fbtft/TODO                    |   4 +-
+ include/drm/drm_gem_atomic_helper.h           |  28 --
+ include/drm/drm_simple_kms_helper.h           |  56 +--
+ 21 files changed, 9 insertions(+), 535 deletions(-)
 
 
->
->  drivers/gpu/drm/i915/display/intel_display_power.c   |  6 +++---
->  drivers/platform/x86/intel/atomisp2/pm.c             |  6 +++---
->  drivers/staging/media/atomisp/pci/atomisp_internal.h |  2 --
->  drivers/staging/media/atomisp/pci/atomisp_v4l2.c     | 10 +++++-----
->  include/linux/pci_ids.h                              |  2 ++
->  5 files changed, 13 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
-> index 2e534ddb7347..ee2c59b72b4a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_power.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display_power.c
-> @@ -2086,9 +2086,9 @@ static void assert_ved_power_gated(struct intel_display *display)
->  static void assert_isp_power_gated(struct intel_display *display)
->  {
->  	static const struct pci_device_id isp_ids[] = {
-> -		{PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x0f38)},
-> -		{PCI_DEVICE(PCI_VENDOR_ID_INTEL, 0x22b8)},
-> -		{}
-> +		{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BYT) },
-> +		{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BSW) },
-> +		{ }
->  	};
->  
->  	drm_WARN(display->drm, !pci_dev_present(isp_ids) &&
-> diff --git a/drivers/platform/x86/intel/atomisp2/pm.c b/drivers/platform/x86/intel/atomisp2/pm.c
-> index ad1f99140962..f3dee0e58f62 100644
-> --- a/drivers/platform/x86/intel/atomisp2/pm.c
-> +++ b/drivers/platform/x86/intel/atomisp2/pm.c
-> @@ -121,9 +121,9 @@ static UNIVERSAL_DEV_PM_OPS(isp_pm_ops, isp_pci_suspend,
->  			    isp_pci_resume, NULL);
->  
->  static const struct pci_device_id isp_id_table[] = {
-> -	{ PCI_VDEVICE(INTEL, 0x0f38), },
-> -	{ PCI_VDEVICE(INTEL, 0x22b8), },
-> -	{ 0, }
-> +	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BYT) },
-> +	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ISP_BSW) },
-> +	{ }
->  };
->  MODULE_DEVICE_TABLE(pci, isp_id_table);
->  
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-> index 5a69580b8251..1a05fc331557 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-> @@ -37,7 +37,6 @@
->  	(((isp)->media_dev.hw_revision & ATOMISP_HW_REVISION_MASK) == \
->  	 ((rev) << ATOMISP_HW_REVISION_SHIFT))
->  
-> -#define ATOMISP_PCI_DEVICE_SOC_BYT	0x0f38
->  /* MRFLD with 0x1178: ISP freq can burst to 457MHz */
->  #define ATOMISP_PCI_DEVICE_SOC_MRFLD	0x1178
->  /* MRFLD with 0x1179: max ISP freq limited to 400MHz */
-> @@ -45,7 +44,6 @@
->  /* MRFLD with 0x117a: max ISP freq is 400MHz and max freq at Vmin is 200MHz */
->  #define ATOMISP_PCI_DEVICE_SOC_MRFLD_117A	0x117a
->  #define ATOMISP_PCI_DEVICE_SOC_ANN	0x1478
-> -#define ATOMISP_PCI_DEVICE_SOC_CHT	0x22b8
->  
->  #define ATOMISP_PCI_REV_MRFLD_A0_MAX	0
->  #define ATOMISP_PCI_REV_BYT_A0_MAX	4
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> index 476fe143a591..ab8727a806bf 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> @@ -1239,7 +1239,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
->  		}
->  		isp->hpll_freq = HPLL_FREQ_1600MHZ;
->  		break;
-> -	case ATOMISP_PCI_DEVICE_SOC_BYT:
-> +	case PCI_DEVICE_ID_INTEL_ISP_BYT:
->  		isp->media_dev.hw_revision =
->  		    (ATOMISP_HW_REVISION_ISP2400
->  		     << ATOMISP_HW_REVISION_SHIFT) |
-> @@ -1284,7 +1284,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
->  		isp->dfs = &dfs_config_merr;
->  		isp->hpll_freq = HPLL_FREQ_1600MHZ;
->  		break;
-> -	case ATOMISP_PCI_DEVICE_SOC_CHT:
-> +	case PCI_DEVICE_ID_INTEL_ISP_BSW:
->  		isp->media_dev.hw_revision = (ATOMISP_HW_REVISION_ISP2401
->  						 << ATOMISP_HW_REVISION_SHIFT);
->  		isp->media_dev.hw_revision |= pdev->revision < 2 ?
-> @@ -1487,12 +1487,12 @@ static const struct pci_device_id atomisp_pci_tbl[] = {
->  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_MRFLD_1179)},
->  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_MRFLD_117A)},
->  	/* Baytrail */
-> -	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_BYT)},
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ISP_BYT) },
->  	/* Anniedale (Merrifield+ / Moorefield) */
->  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_ANN)},
->  	/* Cherrytrail */
-> -	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ATOMISP_PCI_DEVICE_SOC_CHT)},
-> -	{0,}
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_ISP_BSW) },
-> +	{ }
->  };
->  MODULE_DEVICE_TABLE(pci, atomisp_pci_tbl);
->  
-> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-> index 63774ae2bf71..0693e4532a68 100644
-> --- a/include/linux/pci_ids.h
-> +++ b/include/linux/pci_ids.h
-> @@ -2732,6 +2732,7 @@
->  #define PCI_DEVICE_ID_INTEL_HDA_HSW_3	0x0d0c
->  #define PCI_DEVICE_ID_INTEL_HDA_BYT	0x0f04
->  #define PCI_DEVICE_ID_INTEL_SST_BYT	0x0f28
-> +#define PCI_DEVICE_ID_INTEL_ISP_BYT	0x0f38
->  #define PCI_DEVICE_ID_INTEL_8257X_SOL	0x1062
->  #define PCI_DEVICE_ID_INTEL_82573E_SOL	0x1085
->  #define PCI_DEVICE_ID_INTEL_82573L_SOL	0x108f
-> @@ -2787,6 +2788,7 @@
->  #define PCI_DEVICE_ID_INTEL_VMD_201D	0x201d
->  #define PCI_DEVICE_ID_INTEL_HDA_BSW	0x2284
->  #define PCI_DEVICE_ID_INTEL_SST_BSW	0x22a8
-> +#define PCI_DEVICE_ID_INTEL_ISP_BSW	0x22b8
->  #define PCI_DEVICE_ID_INTEL_DH89XXCC_LPC_MIN	0x2310
->  #define PCI_DEVICE_ID_INTEL_DH89XXCC_LPC_MAX	0x231f
->  #define PCI_DEVICE_ID_INTEL_82801AA_0	0x2410
-
+base-commit: 9ecc25f4cc83ac280099d6c39e044d911774018d
 -- 
-Jani Nikula, Intel
+2.55.0
+
