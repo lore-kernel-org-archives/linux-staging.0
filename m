@@ -1,103 +1,362 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out-zbxj-a67.jellyfish.systems (out-zbxj-a67.jellyfish.systems [198.54.127.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8884334750B;
-	Sat,  3 Oct 2026 06:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076E4F9C0
+	for <linux-staging@lists.linux.dev>; Sat,  3 Oct 2026 07:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791009905; cv=none; b=Ldts2/ig4e1V7gEIzuHI52R9UZ3k1sEAmeXbgs2e79QmLlEOP4h/9A44Ze/G6b/SLMSoFkq6aqpfooqGqTiFYjeewZwII8eIaYbCaf39Xk8duITxHuB1KEj0itd5ad4fK5mtV4ULsJNWFqVFgcOhYJwgCdz7MEappjI8JHAP/qQ=
+	t=1791013807; cv=none; b=rjqg4p3LbiOp2iKL2NmtY7VbkxTiBeMqLWbfbK7URBP6cVBDywLRgQoFQzsp4TAK/WuCGoDYjLVrxVZ0iY8ZR6juIzm0mTaE0NEDzuYNv6YeD1rhJYD0WDCpQCUnsOo7yn1ymzY++ZDDYjBNA8pg/B0FioOUqr6v+aKxQmsoPJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791009905; c=relaxed/simple;
-	bh=Er1EbmNcqJ2vl55rBFE4wBW3GRPVnX1NIn4YwL68seA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iYK0qYd0W+Al7E/6T4XXXuDrF7lZZUsek3hmwzeiFHjwGRm7fs4vonPMzxQ3sv6M+KbwJEJ0xKsAAOpwKGU23ihqAN0D8dKME2o1ULeeYocDk8s4NjrT3x8PHlFl+vuGY5C5jyMFSV4BKA3s5moSacOkY1V/w6MiGF5+WiGvrK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bxJbXSVh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791013807; c=relaxed/simple;
+	bh=lYSDWGhFCoZk4uOgMOTrw3s4WlZTLL9avEexyepjoR0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qNigzaRYp9U24aShkRWkoLcpeV9bgZCVld+7Vnpy1UhQD9zYmZLeUhbRJW0ErbzKjEyytgyU+35LFZwTSNNr7k7cetc2HYets9vtDQPVLV0AusYciA1jNWU7JEzCBwAlCi3mGjR4DDA/HIBQMuuSlAOlnKsRcVhOL9xeMrkH778=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=Bvng+BQg; arc=none smtp.client-ip=198.54.127.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=firmwaredesign.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bxJbXSVh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EF841F0089B;
-	Sat,  3 Oct 2026 06:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791009902;
-	bh=/OOfjkKWnrnWe006CFmU9mSuOdaA/1ieMkxkgIOKeGI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bxJbXSVhTkoWoTKwnsrWN0Hm6yvJGq/4Gg6wKzWoavbKVLMBGv6eRcdC1HhZVivGD
-	 y0tLnx19RyBtiLC2sO14oWIEpFrxFx5jupcAlPmzStHr1MbdJDDTnZRDt/2hOCHBWx
-	 9aNk4LvvDv5X1vk/FTpkIRy9s/xrqi5m2DvU8sbc=
-Date: Sat, 3 Oct 2026 08:44:59 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove dead antenna diversity
- infrastructure (FAT/SWAT)
-Message-ID: <2026100304-entomb-collector-9004@gregkh>
-References: <20261003003341.238789-1-marinela.selseth@firmwaredesign.org>
+	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="Bvng+BQg"
+Received: from mail.privateemail.com (unknown [98.240.242.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.privateemail.com (Postfix) with ESMTPSA id 4hxd903mmqz2x9H;
+	Sat, 03 Oct 2026 07:49:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=firmwaredesign.org;
+	s=privateemail; t=1791013797;
+	bh=fAyw+yX7r3G8bWDJpEnTjmPqSPTX8OY/fs2KvfdAHQ0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Bvng+BQghMV0+D8bXp9ETR5o1TBH0jFj2bs47CHTd+d5fBficSth3teLd9EMIwHOM
+	 YCvvEhbKlWh0NJaJTr2moyfTyI6bZXWWL+icH0Jy/hQ2auD5L9LvX8yiUe5GW3wjvY
+	 Yfmt7LNFFetXTVLrQ7shoiAvjntTrIJytajKFvLjySKW5j2to/mBi4ePTKJNWo0Ez/
+	 2pf1jYk1Bs1615kGmgvJngeqDM1JsHwhVx94qJ5VM15sHySmMtXEK8DEcagH3Ss2Dt
+	 c+e/W0rhykeCRMUALmxkcEAgQSZxEs75QnXq23RQ0v/U1BuhzuTHOB7FfXTOW7qRrt
+	 G3d8Thuh/bUgw==
+From: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
+Subject: [PATCH] staging: rtl8723bs: condense NDIS encryption status enum
+Date: Sat,  3 Oct 2026 02:49:43 -0500
+Message-ID: <20261003074943.267819-1-marinela.selseth@firmwaredesign.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261003003341.238789-1-marinela.selseth@firmwaredesign.org>
+Content-Transfer-Encoding: 8bit
+X-Envelope-From: marinela.selseth@firmwaredesign.org
 
-On Fri, Oct 02, 2026 at 07:33:41PM -0500, Marinela Tatiana Selseth wrote:
-> Deep analysis reveals that the driver contains major vestigial out-of-tree
-> architectural frameworks for Fast Antenna Training (FAT) and Software
-> Antenna Switching (SWAS) that are completely uninitialized, unread, or
-> write-only.
+Address maintainer feedback regarding loose anonymous enum constants
+and redundant naming aliases. The legacy driver framework contained
+multiple duplicate definitions (such as mapping both WEPDisabled and
+EncryptionDisabled to identical tracking states) alongside several
+completely unreferenced, dead tracking properties.
 
-what tool did this "deep analysis"?
+Clean up this subsystem by defining an explicit, named enumeration
+layout 'enum ndis_802_11_encryption_status' inside wlan_bssdef.h.
+Consolidate redundant aliases down to singular, uniform variables,
+purge all unused legacy elements (KeyAbsent, NotSupported, and
+EncrypteionWAPI blocks), and convert all remaining active states
+over to standard uppercase snake_case conventions.
 
-> 
-> Remove the 'struct fat_t' definition from hal/odm.h and refactor the
-> fallback path in hal/rtl8723b_phycfg.c. Because the unassigned structural
-> member 'RxIdleAnt' naturally defaults to 0, the conditional path check
-> statically resolves to false, permanently routing RFPath to RF_PATH_B
-> whenever antenna diversity is active. Hardcode this layout behavior to
-> match factual reality and remove the now unused macro 'MAIN_ANT'.
-> 
-> Additionally, purge the write-only 'struct swat_t' infrastructure from
-> hal/odm.h and include/hal_data.h. Inside hal/odm.c, eliminate the dead
-> variable tracking assignments while explicitly preserving the hardware
-> register read to rDPDT_control as a dummy read to ensure initialization
-> sequencing and hardware timing remain completely unaltered.
-> 
-> Lastly, clean up legacy comment baggage across hal/odm.c and
-> hal/odm_DIG.c. Remove arbitrary spreadsheet digits and references to
-> unsupported legacy chipsets (92E, 8723A, 8821, 8812) to ensure inline
-> notes are highly focused on the active RTL8723B Bluetooth coexistence
-> parameters.
-> 
-> Signed-off-by: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
-> ---
->  drivers/staging/rtl8723bs/hal/odm.c           |  12 +--
->  drivers/staging/rtl8723bs/hal/odm.h           | 100 ------------------
->  drivers/staging/rtl8723bs/hal/odm_DIG.c       |   5 +-
->  .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  11 +-
->  drivers/staging/rtl8723bs/include/hal_data.h  |   1 -
->  5 files changed, 11 insertions(+), 118 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-> index f3989fa33d9f..00b938071dee 100644
-> --- a/drivers/staging/rtl8723bs/hal/odm.c
-> +++ b/drivers/staging/rtl8723bs/hal/odm.c
-> @@ -461,12 +461,8 @@ static void odm_RSSIMonitorCheck(struct dm_odm_t *pDM_Odm)
->  /* 3 ============================================================ */
->  static void odm_SwAntDetectInit(struct dm_odm_t *pDM_Odm)
->  {
-> -	struct swat_t *pDM_SWAT_Table = &pDM_Odm->DM_SWAT_Table;
-> -
-> -	pDM_SWAT_Table->SWAS_NoLink_BK_Reg92c = rtw_read32(pDM_Odm->Adapter, rDPDT_control);
-> -	pDM_SWAT_Table->PreAntenna = MAIN_ANT;
-> -	pDM_SWAT_Table->CurAntenna = MAIN_ANT;
-> -	pDM_SWAT_Table->SWAS_NoLink_State = 0;
-> +	/* Dummy read rDPDT_control to preserve initialization hardware sequencing */
-> +	rtw_read32(pDM_Odm->Adapter, rDPDT_control);
+Update all internal software state assignments and state evaluation
+loops across the entire driver operational baseline to conform to the
+updated definitions, ensuring code tracking clarity while leaving
+hardware execution behaviors completely unaltered. Fix associated
+line length violations and remove redundant braces for single-statement
+conditions introduced by long macro names.
 
-While it's nice to preserve this, how about testing on real hardware to
-see if it too can be dropped?
+Signed-off-by: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c       |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  8 +--
+ .../staging/rtl8723bs/include/wlan_bssdef.h   | 19 ++----
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 58 ++++++++++---------
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  2 +-
+ 5 files changed, 41 insertions(+), 48 deletions(-)
 
-thanks,
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index f98360b59737..00981f1c5870 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1907,7 +1907,7 @@ void stop_ap_mode(struct adapter *padapter)
+ 	       0,
+ 	       sizeof(struct security_priv));
+ 	padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeOpen;
+-	padapter->securitypriv.ndisencryptstatus = Ndis802_11WEPDisabled;
++	padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 
+ 	/* for ACL */
+ 	spin_lock_bh(&pacl_node_q->lock);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 0d0602eb4808..f85ed051b626 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -607,7 +607,7 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
+ 		u8 *p = NULL;
+ 		uint ie_len = 0;
+ 
+-		if ((desired_encmode == Ndis802_11EncryptionDisabled) && (privacy != 0))
++		if ((desired_encmode == NDIS_802_11_ENCRYPTION_DISABLED) && (privacy != 0))
+ 			bselected = false;
+ 
+ 		if (psecuritypriv->ndisauthtype == Ndis802_11AuthModeWPA2PSK) {
+@@ -623,7 +623,7 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
+ 		}
+ 	}
+ 
+-	if ((desired_encmode != Ndis802_11EncryptionDisabled) && (privacy == 0))
++	if ((desired_encmode != NDIS_802_11_ENCRYPTION_DISABLED) && (privacy == 0))
+ 		bselected = false;
+ 
+ 	if (check_fwstate(mlme_priv, WIFI_ADHOC_STATE)) {
+@@ -1115,7 +1115,7 @@ void rtw_reset_securitypriv(struct adapter *adapter)
+ 		adapter->securitypriv.btkip_countermeasure_time = backup_tkip_countermeasure_time;
+ 
+ 		adapter->securitypriv.ndisauthtype = Ndis802_11AuthModeOpen;
+-		adapter->securitypriv.ndisencryptstatus = Ndis802_11WEPDisabled;
++		adapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 
+ 	} else {
+ 		/* reset values in securitypriv */
+@@ -1130,7 +1130,7 @@ void rtw_reset_securitypriv(struct adapter *adapter)
+ 		psec_priv->dot118021XGrpKeyid = 1;
+ 
+ 		psec_priv->ndisauthtype = Ndis802_11AuthModeOpen;
+-		psec_priv->ndisencryptstatus = Ndis802_11WEPDisabled;
++		psec_priv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 	}
+ 	spin_unlock_bh(&adapter->security_key_mutex);
+ }
+diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+index d318c80c3be3..ac8e1f286571 100644
+--- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
++++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+@@ -62,20 +62,11 @@ enum ndis_802_11_authentication_mode {
+ 	Ndis802_11AuthModeMax   /*  Not a real mode, defined as upper bound */
+ };
+ 
+-enum {
+-	Ndis802_11WEPEnabled,
+-	Ndis802_11Encryption1Enabled = Ndis802_11WEPEnabled,
+-	Ndis802_11WEPDisabled,
+-	Ndis802_11EncryptionDisabled = Ndis802_11WEPDisabled,
+-	Ndis802_11WEPKeyAbsent,
+-	Ndis802_11Encryption1KeyAbsent = Ndis802_11WEPKeyAbsent,
+-	Ndis802_11WEPNotSupported,
+-	Ndis802_11EncryptionNotSupported = Ndis802_11WEPNotSupported,
+-	Ndis802_11Encryption2Enabled,
+-	Ndis802_11Encryption2KeyAbsent,
+-	Ndis802_11Encryption3Enabled,
+-	Ndis802_11Encryption3KeyAbsent,
+-	Ndis802_11_EncrypteionWAPI
++enum ndis_802_11_encryption_status {
++	NDIS_802_11_ENCRYPTION_1_ENABLED,
++	NDIS_802_11_ENCRYPTION_DISABLED,
++	NDIS_802_11_ENCRYPTION_2_ENABLED,
++	NDIS_802_11_ENCRYPTION_3_ENABLED,
+ };
+ 
+ /*  Key mapping keys require a BSSID */
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index a715ac6aa6b9..ae6a0d556166 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -535,7 +535,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 			/* wep default key has not been set, so use this key index as default key. */
+ 
+ 			psecuritypriv->dot11_auth_algrthm = dot11_auth_algrthm_auto;
+-			psecuritypriv->ndisencryptstatus = Ndis802_11Encryption1Enabled;
++			psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_1_ENABLED;
+ 			psecuritypriv->dot11_privacy_algrthm = _WEP40_;
+ 			psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
+ 
+@@ -731,7 +731,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 
+ 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
+ 
+-			psecuritypriv->ndisencryptstatus = Ndis802_11Encryption1Enabled;
++			psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_1_ENABLED;
+ 			psecuritypriv->dot11_privacy_algrthm = _WEP40_;
+ 			psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
+ 
+@@ -763,10 +763,11 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 				if (strcmp(param->u.crypt.alg, "none") != 0)
+ 					psta->ieee8021x_blocked = false;
+ 
+-				if ((padapter->securitypriv.ndisencryptstatus == Ndis802_11Encryption2Enabled) ||
+-				    (padapter->securitypriv.ndisencryptstatus ==  Ndis802_11Encryption3Enabled)) {
++				if (padapter->securitypriv.ndisencryptstatus ==
++					NDIS_802_11_ENCRYPTION_2_ENABLED ||
++					padapter->securitypriv.ndisencryptstatus ==
++					NDIS_802_11_ENCRYPTION_3_ENABLED)
+ 					psta->dot118021_x_privacy = padapter->securitypriv.dot11_privacy_algrthm;
+-				}
+ 
+ 				if (param->u.crypt.set_tx == 1) { /* pairwise key */
+ 
+@@ -804,10 +805,11 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 				if (strcmp(param->u.crypt.alg, "none") != 0)
+ 					pbcmc_sta->ieee8021x_blocked = false;
+ 
+-				if ((padapter->securitypriv.ndisencryptstatus == Ndis802_11Encryption2Enabled) ||
+-				    (padapter->securitypriv.ndisencryptstatus ==  Ndis802_11Encryption3Enabled)) {
++				if (padapter->securitypriv.ndisencryptstatus ==
++					NDIS_802_11_ENCRYPTION_2_ENABLED ||
++					padapter->securitypriv.ndisencryptstatus ==
++					NDIS_802_11_ENCRYPTION_3_ENABLED)
+ 					pbcmc_sta->dot118021_x_privacy = padapter->securitypriv.dot11_privacy_algrthm;
+-				}
+ 			}
+ 		} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) { /* adhoc mode */
+ 		}
+@@ -928,7 +930,7 @@ static int cfg80211_rtw_set_default_key(struct wiphy *wiphy,
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 
+ 	if ((key_index < WEP_KEYS) && ((psecuritypriv->dot11_privacy_algrthm == _WEP40_) || (psecuritypriv->dot11_privacy_algrthm == _WEP104_))) { /* set wep default key */
+-		psecuritypriv->ndisencryptstatus = Ndis802_11Encryption1Enabled;
++		psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_1_ENABLED;
+ 
+ 		psecuritypriv->dot11PrivacyKeyIndex = key_index;
+ 
+@@ -1316,7 +1318,7 @@ static int rtw_cfg80211_set_auth_type(struct security_priv *psecuritypriv,
+ 
+ 		psecuritypriv->dot11_auth_algrthm = dot11_auth_algrthm_shared;
+ 
+-		psecuritypriv->ndisencryptstatus = Ndis802_11Encryption1Enabled;
++		psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_1_ENABLED;
+ 
+ 		break;
+ 	default:
+@@ -1328,7 +1330,7 @@ static int rtw_cfg80211_set_auth_type(struct security_priv *psecuritypriv,
+ 
+ static int rtw_cfg80211_set_cipher(struct security_priv *psecuritypriv, u32 cipher, bool ucast)
+ {
+-	u32 ndisencryptstatus = Ndis802_11EncryptionDisabled;
++	u32 ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 
+ 	u32 *profile_cipher = ucast ? &psecuritypriv->dot11_privacy_algrthm :
+ 		&psecuritypriv->dot118021XGrpPrivacy;
+@@ -1342,23 +1344,23 @@ static int rtw_cfg80211_set_cipher(struct security_priv *psecuritypriv, u32 ciph
+ 	switch (cipher) {
+ 	case IW_AUTH_CIPHER_NONE:
+ 		*profile_cipher = _NO_PRIVACY_;
+-		ndisencryptstatus = Ndis802_11EncryptionDisabled;
++		ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 		break;
+ 	case WLAN_CIPHER_SUITE_WEP40:
+ 		*profile_cipher = _WEP40_;
+-		ndisencryptstatus = Ndis802_11Encryption1Enabled;
++		ndisencryptstatus = NDIS_802_11_ENCRYPTION_1_ENABLED;
+ 		break;
+ 	case WLAN_CIPHER_SUITE_WEP104:
+ 		*profile_cipher = _WEP104_;
+-		ndisencryptstatus = Ndis802_11Encryption1Enabled;
++		ndisencryptstatus = NDIS_802_11_ENCRYPTION_1_ENABLED;
+ 		break;
+ 	case WLAN_CIPHER_SUITE_TKIP:
+ 		*profile_cipher = _TKIP_;
+-		ndisencryptstatus = Ndis802_11Encryption2Enabled;
++		ndisencryptstatus = NDIS_802_11_ENCRYPTION_2_ENABLED;
+ 		break;
+ 	case WLAN_CIPHER_SUITE_CCMP:
+ 		*profile_cipher = _AES_;
+-		ndisencryptstatus = Ndis802_11Encryption3Enabled;
++		ndisencryptstatus = NDIS_802_11_ENCRYPTION_3_ENABLED;
+ 		break;
+ 	default:
+ 		return -ENOTSUPP;
+@@ -1449,46 +1451,46 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
+ 	switch (group_cipher) {
+ 	case WPA_CIPHER_NONE:
+ 		padapter->securitypriv.dot118021XGrpPrivacy = _NO_PRIVACY_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11EncryptionDisabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 		break;
+ 	case WPA_CIPHER_WEP40:
+ 		padapter->securitypriv.dot118021XGrpPrivacy = _WEP40_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_1_ENABLED;
+ 		break;
+ 	case WPA_CIPHER_TKIP:
+ 		padapter->securitypriv.dot118021XGrpPrivacy = _TKIP_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption2Enabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_2_ENABLED;
+ 		break;
+ 	case WPA_CIPHER_CCMP:
+ 		padapter->securitypriv.dot118021XGrpPrivacy = _AES_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption3Enabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_3_ENABLED;
+ 		break;
+ 	case WPA_CIPHER_WEP104:
+ 		padapter->securitypriv.dot118021XGrpPrivacy = _WEP104_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_1_ENABLED;
+ 		break;
+ 	}
+ 
+ 	switch (pairwise_cipher) {
+ 	case WPA_CIPHER_NONE:
+ 		padapter->securitypriv.dot11_privacy_algrthm = _NO_PRIVACY_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11EncryptionDisabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 		break;
+ 	case WPA_CIPHER_WEP40:
+ 		padapter->securitypriv.dot11_privacy_algrthm = _WEP40_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_1_ENABLED;
+ 		break;
+ 	case WPA_CIPHER_TKIP:
+ 		padapter->securitypriv.dot11_privacy_algrthm = _TKIP_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption2Enabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_2_ENABLED;
+ 		break;
+ 	case WPA_CIPHER_CCMP:
+ 		padapter->securitypriv.dot11_privacy_algrthm = _AES_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption3Enabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_3_ENABLED;
+ 		break;
+ 	case WPA_CIPHER_WEP104:
+ 		padapter->securitypriv.dot11_privacy_algrthm = _WEP104_;
+-		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
++		padapter->securitypriv.ndisencryptstatus = NDIS_802_11_ENCRYPTION_1_ENABLED;
+ 		break;
+ 	}
+ 
+@@ -1554,7 +1556,7 @@ static int cfg80211_rtw_join_ibss(struct wiphy *wiphy, struct net_device *ndev,
+ 	ndis_ssid.ssid_length = params->ssid_len;
+ 	memcpy(ndis_ssid.ssid, (u8 *)params->ssid, params->ssid_len);
+ 
+-	psecuritypriv->ndisencryptstatus = Ndis802_11EncryptionDisabled;
++	psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 	psecuritypriv->dot11_privacy_algrthm = _NO_PRIVACY_;
+ 	psecuritypriv->dot118021XGrpPrivacy = _NO_PRIVACY_;
+ 	psecuritypriv->dot11_auth_algrthm = dot11_auth_algrthm_open; /* open system */
+@@ -1650,7 +1652,7 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
+ 	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
+ 		rtw_scan_abort(padapter);
+ 
+-	psecuritypriv->ndisencryptstatus = Ndis802_11EncryptionDisabled;
++	psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 	psecuritypriv->dot11_privacy_algrthm = _NO_PRIVACY_;
+ 	psecuritypriv->dot118021XGrpPrivacy = _NO_PRIVACY_;
+ 	psecuritypriv->dot11_auth_algrthm = dot11_auth_algrthm_open; /* open system */
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index d220df325fa9..a4bc4ff58c56 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -507,7 +507,7 @@ static void rtw_init_default_value(struct adapter *padapter)
+ 	psecuritypriv->dot118021XGrpKeyid = 1;
+ 
+ 	psecuritypriv->ndisauthtype = Ndis802_11AuthModeOpen;
+-	psecuritypriv->ndisencryptstatus = Ndis802_11WEPDisabled;
++	psecuritypriv->ndisencryptstatus = NDIS_802_11_ENCRYPTION_DISABLED;
+ 
+ 	/* registry_priv */
+ 	rtw_init_registrypriv_dev_network(padapter);
+-- 
+2.43.0
 
-greg k-h
