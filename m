@@ -1,119 +1,97 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4805132B104
-	for <linux-staging@lists.linux.dev>; Sat,  3 Oct 2026 13:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1099A368291
+	for <linux-staging@lists.linux.dev>; Sat,  3 Oct 2026 14:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791034718; cv=none; b=kSn9Deb4XMxEQbs/u/ftodmGFNucd4m92vOQ47Rf78dP3jDatrvqvMsLp5tHnvr+AjXuGgsHVb1v0ba7roX8n5akFvf9Whsq2lZGvxymW330VPdspuKC38cE5UizvMn10bFf3of5u+cpofrq3R0Si+uUeVQ6NY8Yo9JsD5rQQXc=
+	t=1791038527; cv=none; b=dYymYz30/NrXu/Mzf4M2L1OelunU6DKxGHJ7ajxIGhnECiFPsX+sIGUvJuGrsfvggDDal4WYSlJHAtPZ1zCZQkbjVeEGOzBCmS/JYRlEradsqyBlLbhk1WDRKq1vSzjuicjfRK1MEgg5WZVKQ5LBCUk/g86x8VYDKAJRnPvLgeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791034718; c=relaxed/simple;
-	bh=6t8szqv+cgOR2LepzEjwhKfqvCQH6+03QGldEt6Fqro=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EkcV4YinlBwz1kxrGip1lPBoQPiHvKyW4rn/rakchVE/hfPedA6+Kmt/n9ThekayHL+R0RGAXYFE6LWxEVLqI4L1iC3vekGF0qxMmZE0r8n4Ika8xUuv6IViXSsSwfcT8+AN04hFvCrZXxUM7SBxjcxJa6DIbrWq0aVnZzNlYlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gOwePInX; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791038527; c=relaxed/simple;
+	bh=yOKUfqD8fMzM5vmvmgfp/dsTNsjzChCwnQ6PwErTygs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hNEM4DKt+ffx2909l1jiqfYm6EO77fKhFiE3IvQRpjk/fuwgk0GLmH82xk3QqvCoQnCOBGOqbuk0D1dhkvwYchqPDpsTqAqS6kC7NLF13S79/aCxPknpYBNO8gkfWe7pEWKKVWJBuNb6Yhcik6RHITvGrYUi7vqx0iSekAyMVy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DQt8fC8E; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gOwePInX"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48bbb06e746so158789f8f.3
-        for <linux-staging@lists.linux.dev>; Sat, 03 Oct 2026 06:38:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791034715; x=1791639515; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=htPw245OkpLIxTp5M5AuLv4RbZXenRfNZx+me5i+YVI=;
-        b=gOwePInXGJUxWstOxFRjfUl8Kn2X+vsu1/ZGH4Yn7JPRnASMmsSqRLrwTaJZBhOq4I
-         3KsE8PxzaunrqB/th7SwsZFwqEJdpWAk6jt0XgwkSEGr8fkt0rrwcX6flLCWbM2g/uG1
-         o2tiAXSJwk7TxySrBGGSUtCAhtMijKAPzXVql3pKSPMM4/anBN/YJMC9aqoHdGRhYHDG
-         2OWFjEUWelU+MUhp8UqHo/62/zo+saVtIlSVWVa5CRoQ5eTUaKlBgut9Y4vyw18+JY1w
-         LtXIyGkaTBcsZ8ZwJ4gb5HFXmhiDVJidz0XXT5jEivwMGtSP89EjYNPDpHq91U1329LQ
-         8rKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791034715; x=1791639515;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=htPw245OkpLIxTp5M5AuLv4RbZXenRfNZx+me5i+YVI=;
-        b=b0bqDKHuNVszzsT78lFQCqh+IAbNN3zpNKaSw4hD36dGnPxpV7h41TPC0JnoYVond7
-         s3Uy/FdKNtjbTs8bAQNbRYUZss6MSdHt+efvhxMkbf2Em7a2mZD2kWFmhXmyfEQHaKub
-         BpZct5/OFcJqUguEoL2BtWqZa85KHQjsjhmQsm1XXT4mYMH4YIO24UvWKI9OCHtCY43E
-         dkaBTKkwcrMWAuZA1NTo1JQVMNFqpNguZQQwyyZDaEcK3x5MJXLmKaoEW9OT57MkKXcR
-         vGBaUzozXZQxI05Z6q9YXbT31pfuEbAej2ovs6IP46R8lE8tVsYc9NFI68jlfq0up+jy
-         PFCQ==
-X-Gm-Message-State: AFuF++nLGed9vNyk0hTrhlg24YKUMFUWzdIpwFh+tofGHzYWmwseYFK6
-	ljY6skQcNqOU5RgpZ2ulnpMMSYdny8KHvnBuNR/6xrB9eclr6jIAJaDM
-X-Gm-Gg: AYBFou1qlq0AutiLBsNtUYpy6W5mqN8gkQTpLjkrrWvlp0gHH2/SkwdSARV9gS2yHeO
-	EsJvE3L+tF6ZtZfMAjvzVVSVDzpaw9ag5B9llQyV6uUFbdmtqH9v5Fdu00Cw3xVrd9AtiI6wRON
-	dAp1lT+pJol25wikn9iifc4HZtvhDYwUGIY6OQPXtlOCRQTfr5AIKS8ga4zozWoNYqGt6rE0mp6
-	rwCnS37otG74qpmQl54p/ZV/EO2usAdp9nN3LJCqvyYowogu/FK8RoWa8U6OEtk7FiWX8bVZv58
-	nskeFBGnWyLUONv0ev3dHXYYM77pwb9JamAqbRLFBfC4vpGYHCMbqivRbbYAvbt3T0e7fWqD/Kk
-	JYik+oWFHBtp/PwafanAb5da+ZZzd9VrdNhcHNpsmAkoQHm3fFsqHNNojvdVWAXsCZt/jJbkIbT
-	XpWQIYZ1tz9gxjO3fNO217o4G3KkxMi70PR13DmZ8NGHzBrzMglh6TaQrs3WscwHd5ABorDRr0/
-	2SHtXdbEh5HuFEslJ5YBD1VCJMuIpPALCIqWxO43G4=
-X-Received: by 2002:a05:600d:82e6:b0:4a1:6c48:c789 with SMTP id 5b1f17b1804b1-4a16c48c849mr15339205e9.2.1791034715346;
-        Sat, 03 Oct 2026 06:38:35 -0700 (PDT)
-Received: from fedora.netbird.cloud ([2a06:5904:28f:7600:961a:ef3c:e30a:fb0b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a02770e8f2sm151914015e9.6.2026.10.03.06.38.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 06:38:34 -0700 (PDT)
-From: Luca Hernandez <lucay202@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	Luca Hernandez <lucay202@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: remove unused driver_stopped pointer from HAL
-Date: Sat,  3 Oct 2026 14:38:07 +0100
-Message-ID: <20261003133807.27676-1-lucay202@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DQt8fC8E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791038520; x=1822574520;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yOKUfqD8fMzM5vmvmgfp/dsTNsjzChCwnQ6PwErTygs=;
+  b=DQt8fC8EakOOTYmpDpU7PZkF7Cfpze1DzwreynvUYNWZmPaSyfVsOUue
+   lB4uEu2TrKkkByVKdTRSfAG4lfR4n546nllqZuo1PJPJ4K1HydjrWvSER
+   jbqD9CF4Pz2P6xN+QVyj+E0nm5z4e+2yJWwe587dJkrEhBLv46da7FlJj
+   l2VR/3thC5Uyf1Tfz3lw/3hOkyQTFcH5Msugk3CESjhCUqyxChhRNFWOB
+   kLGnptE6E05S5rixokQ0WzV1XKNusI4mHEfQxYtmFB5jgELt+0GvcCZtU
+   3FQ6tpEGLYYrx6yRUJCnSHIYOzKJzR3jSr7skJF9cX0rtBfRiDjTIePiR
+   Q==;
+X-CSE-ConnectionGUID: KTZchE9yRM2CcLxBM9K2jw==
+X-CSE-MsgGUID: P07LO1D1R1WB6AuliMLtnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="109264891"
+X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
+   d="scan'208";a="109264891"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 07:41:52 -0700
+X-CSE-ConnectionGUID: aZXXqkZ4T964Eaj6owk8pQ==
+X-CSE-MsgGUID: PC0TJEtGTS2vaZwoM4C8DQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
+   d="scan'208";a="279708153"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.78])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 07:41:49 -0700
+Date: Sat, 3 Oct 2026 17:41:47 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: mauriziocasciano7@gmail.com
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Bingbu Cao <bingbu.cao@amd.com>,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v10 09/15] media: intel: ipu-bridge: select OV2740
+ frequency by IPU ID
+Message-ID: <asEUKzHkGq_NsucC@ashevche-desk.local>
+References: <20261002-submission-media-yogabook-v10-b4-final-v10-0-817ec765b257@gmail.com>
+ <20261002-submission-media-yogabook-v10-b4-final-v10-9-817ec765b257@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261002-submission-media-yogabook-v10-b4-final-v10-9-817ec765b257@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Remove the unused driver_stopped pointer field from struct dm_odm_t and
-clear out its dead assignment loop block inside ODM_CmnInfoHook(). This
-eliminates completely dead weight from the driver's HAL layer codebase.
+On Fri, Oct 02, 2026 at 10:57:47AM +0200, Maurizio Casciano via B4 Relay wrote:
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Luca Hernandez <lucay202@gmail.com>
+> The OV2740 connected to the Cherry Trail AtomISP uses a 288 MHz link,
+> while the generic OVTI2740 configuration uses 360 MHz.
+> 
+> Use the bridge's existing PCI-device matching mechanism to add a
+> Cherry Trail-specific OVTI2740 entry before the generic fallback. This
+> keeps the platform distinction in the bridge and avoids adding a second
+> per-sensor link-frequency override path.
 
----
-v2: Completely remove the dead field and case block instead of simply
-    fixing the CamelCase naming layout, as suggested by Greg.
----
- drivers/staging/rtl8723bs/hal/odm.c | 4 ----
- drivers/staging/rtl8723bs/hal/odm.h | 1 -
- 2 files changed, 5 deletions(-)
+...
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-index f3989fa33d9f..7f9e8ad4a752 100644
---- a/drivers/staging/rtl8723bs/hal/odm.c
-+++ b/drivers/staging/rtl8723bs/hal/odm.c
-@@ -772,10 +772,6 @@ void ODM_CmnInfoHook(struct dm_odm_t *pDM_Odm, enum odm_cmninfo_e CmnInfo, void
- 		pDM_Odm->pOnePathCCA = pValue;
- 		break;
- 
--	case ODM_CMNINFO_DRV_STOP:
--		pDM_Odm->pbDriverStopped =  pValue;
--		break;
--
- 	case ODM_CMNINFO_PNP_IN:
- 		pDM_Odm->pbDriverIsGoingToPnpSetPowerSleep =  pValue;
- 		break;
-diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-index 3532f0d79363..e8563ad6ada8 100644
---- a/drivers/staging/rtl8723bs/hal/odm.h
-+++ b/drivers/staging/rtl8723bs/hal/odm.h
-@@ -848,7 +848,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
- 
- 	/* common */
- 
--	bool *pbDriverStopped;
- 	bool *pbDriverIsGoingToPnpSetPowerSleep;
- 	bool *pinit_adpt_in_progress;
- 
+> +#define PCI_DEVICE_ID_INTEL_ATOMISP_CHT	0x22b8
+
+I hope my 20261002094813.856439-1-andriy.shevchenko@linux.intel.com
+will land in media tree before yours.
+
 -- 
-2.55.0
+With Best Regards,
+Andy Shevchenko
+
 
