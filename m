@@ -1,75 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6843469EE
-	for <linux-staging@lists.linux.dev>; Sat,  3 Oct 2026 21:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A3547124E
+	for <linux-staging@lists.linux.dev>; Sat,  3 Oct 2026 21:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791061601; cv=none; b=of547hQqEfN8UbogFbzlQN1e6wkeE7kmLVGCdbNi+aainzEqcH+KQE7vreN/vM+g3XKPbIsLubJhT/Rtn+SO0YNdydBeq5rMem6ab5lOn94IR8dYBEmnftz8dm7bzFyxISnEnukBJB/7y1mIW24wf/6TQDOIaFKWs/HhQofRyKc=
+	t=1791062881; cv=none; b=MUDkho/t3kuwa2E+HPFYuAzTPfWdmDgesDCf10LylZrp5omcxk/okYESMJERG+glN9B2sgGSWqwp3bmlhLt1c/W/WrhsFZAlzFuC0oxQvrboJ3qOzZbEoX9P2a6bPEENFGQfGiJ6C7OrGoa2UACsU9EV/Jym4QlTFAxd32v8kVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791061601; c=relaxed/simple;
-	bh=6YmSDdxKEVQ0IENYScjeZQmJ83BkyUs0pR5KIXOTRHU=;
+	s=arc-20240116; t=1791062881; c=relaxed/simple;
+	bh=7pxUXrV13pVTWSp7ELkpGjm3pHeEUYqQsjz8o7cYB8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bVsmc763H031RMaYteGyQAoi8CwJ3nI248kPQI7uHj2iXzrHBpgmlrrZtkzhlli9idT/CUF3xaftEO8/gEp3nEkIdG7YdOrhwW5XQhcZcJRHHQ7WpaRFO/mch+i0X378SYNFH/AcC2ta7asDvD3/tPpUu/4VP+IISoLYcQiyBt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EXPudDZ6; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rQD7A23HVIIkyCc+cQMxRJGnqhmNgtpdAdLjAwJHw36o6atIa6hyVbEpVlCUZug6RbGhx3f+iu+jR6gZUXImW8QP6UyGQbq0eESvEZGEQcJ62PpmJKG4y5BeC692zwhzDBizLBsDzHWAtu0O66bLow2tpQ6VtXE/r3E/ly3+a2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nh09lXb5; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXPudDZ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nh09lXb5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791061599; x=1822597599;
+  t=1791062879; x=1822598879;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6YmSDdxKEVQ0IENYScjeZQmJ83BkyUs0pR5KIXOTRHU=;
-  b=EXPudDZ62kiS8j7tRxY7M3l2zA193tr54V82HSogfQYk5FDqgohCQHmJ
-   6blOYv3xdrk/e1WHwOkTEg0PP/rH1bvfpoaSrURrBqioZDAJnqaGCT3pd
-   5nN0Wmup7HJIqFVP8QiWf24akhDZpdBepshNty2LmoZk5V5fa2bbyVF3X
-   iQDdgFWAgFOzXl8D/Es9LwGWmjT7CAZwFPynm6cdDdeqSsxGI3YehvqAY
-   NeV+vQShQdynBFfB2y0NccK8x4kv1yOiw6KSzTcWCBu/Pg/xZXhr3icqX
-   pW946qZ+ITLHTJlCKtA/MoBIfQmOyu5Vnm6eVLUR9vkQPO/AM1r5YoxiY
-   w==;
-X-CSE-ConnectionGUID: nRa2FwpcS4KUmvrI1U/5Bg==
-X-CSE-MsgGUID: o9OdotaBQ9e2uBLugeoBVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="90920237"
+  bh=7pxUXrV13pVTWSp7ELkpGjm3pHeEUYqQsjz8o7cYB8c=;
+  b=Nh09lXb5IS1tAmhbxLKxJ1aaYWJpVkbIOzJOC7jSfpMURIQ5bKL9RwuK
+   7RDI0Aq107PBKcqC9DekINocdCV8kkMkYrzjqJ+Rd7U/BRf5rhv7lPbRH
+   jUs6R2m53f7xLkfx+Fjfjz3XL1JIEiOpeDlmDqwJM275qR3w1E2nNIbaC
+   NlRLGLoQDW9KlE1BucMr/apxkHW8b9RlU1dMMGp8cs/II5VIbogjX95XN
+   SVFB56T5wsV4M+tG+K8Z314h3VwwsJRYXAEUSbDceu4BhhHDypGinpB9R
+   m6QoULnUA3zAELsEsUywhSq6LQ65Iqr95nm84zezXJ3lipbFAvRAgTv88
+   A==;
+X-CSE-ConnectionGUID: 3EupMf42ROSbikwRFxcXdA==
+X-CSE-MsgGUID: HozyJ5vNQQ2e/4pwea8QRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="101950506"
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="90920237"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 14:06:38 -0700
-X-CSE-ConnectionGUID: xzKpLxD0Q7WmjJcYGWMcHA==
-X-CSE-MsgGUID: mTNviLB7RZSKfuuXuz3wGg==
+   d="scan'208";a="101950506"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 14:27:59 -0700
+X-CSE-ConnectionGUID: 0eKlAJ80QiawfaZBdnpjrg==
+X-CSE-MsgGUID: LcRPL8hHSFC+b6fG/D+aog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="588311"
+   d="scan'208";a="304462937"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.88])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 14:06:34 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 14:27:56 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id DA1B611FA5B;
-	Sun, 04 Oct 2026 00:06:32 +0300 (EEST)
-Date: Sun, 4 Oct 2026 00:06:32 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 3903F11FA5B;
+	Sun, 04 Oct 2026 00:27:55 +0300 (EEST)
+Date: Sun, 4 Oct 2026 00:27:55 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-pci@vger.kernel.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
+To: Prajval Chaudhary <prajvalchaudhari733@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/1] media: Consolidate AtomISP v2 PCI IDs in the
- pci_ids.h
-Message-ID: <asFuWAQUPxETWqDL@kekkonen.localdomain>
-References: <20261002094813.856439-1-andriy.shevchenko@linux.intel.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v4 1/2] staging: media: atomisp: Remove pad_w and pad_h
+ module parameters
+Message-ID: <asFzWx6BOBbs5meb@kekkonen.localdomain>
+References: <20260721163533.15888-1-prajvalchaudhari733@gmail.com>
+ <20260721163533.15888-2-prajvalchaudhari733@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,24 +68,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261002094813.856439-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20260721163533.15888-2-prajvalchaudhari733@gmail.com>
 
-Hi Andy,
+Hi Prajval,
 
-On Fri, Oct 02, 2026 at 11:43:43AM +0200, Andy Shevchenko wrote:
-> We have a few drivers using same pair of the PCI IDs across the kernel and
-> there seems more to go, consolidate AtomISP v2 PCI IDs in pci_ids.h database.
+On Tue, Jul 21, 2026 at 10:05:31PM +0530, Prajval Chaudhary wrote:
+> Remove the 'pad_w' and 'pad_h' module parameters to prevent userspace
+> from overriding internal ISP hardware padding boundaries. Convert them
+> into internal driver constants instead.
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Prajval Chaudhary <prajvalchaudhari733@gmail.com>
 > ---
+>  drivers/staging/media/atomisp/pci/atomisp_common.h | 4 ++--
+>  drivers/staging/media/atomisp/pci/atomisp_v4l2.c   | 8 ++------
+>  2 files changed, 4 insertions(+), 8 deletions(-)
 > 
-> Assuming that media subsystem is the main beneficiary I think it is the best
-> to route it via that tree. For others (i915, PCI, PDx86), please Ack if you
-> are agree.
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_common.h b/drivers/staging/media/atomisp/pci/atomisp_common.h
+> index a2462fc306fb..7c6c0124ff72 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_common.h
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_common.h
+> @@ -22,8 +22,8 @@
+>  
+>  extern int dbg_level;
+>  extern int dbg_func;
+> -extern int pad_w;
+> -extern int pad_h;
+> +extern const int pad_w;
+> +extern const int pad_h;
 
-I missed this earlier... I'll take this via the media tree.
+Please switch to macros while at it, with an appropriate prefix, e.g.
+ATOMISP_PAD_[WH].
 
-Thanks!
+>  
+>  /* Minimum padding requirements for ISP2400 (BYT) */
+>  #define ISP2400_MIN_PAD_W		12
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> index 812230397409..d117fea2860c 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> @@ -64,13 +64,9 @@ MODULE_PARM_DESC(dbg_func,
+>   * output res, and isp output res. however since we do not have this yet,
+>   * the chosen solution is the next best thing.
+>   */
+> -int pad_w = 16;
+> -module_param(pad_w, int, 0644);
+> -MODULE_PARM_DESC(pad_w, "extra data for ISP processing");
+> +const int pad_w = 16;
+>  
+> -int pad_h = 16;
+> -module_param(pad_h, int, 0644);
+> -MODULE_PARM_DESC(pad_h, "extra data for ISP processing");
+> +const int pad_h = 16;
+>  
+>  /*
+>   * FIXME: this is a hack to make easier to support ISP2401 variant.
 
 -- 
+Regards,
+
 Sakari Ailus
