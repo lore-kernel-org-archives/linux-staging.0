@@ -1,71 +1,69 @@
-Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B21441D127
-	for <linux-staging@lists.linux.dev>; Sat,  3 Oct 2026 11:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32EBF306B3D
+	for <linux-staging@lists.linux.dev>; Sat,  3 Oct 2026 11:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791028087; cv=none; b=DAxTyi5BOe3loS7Ic7HKwYbjEwnO0ovRcy6fbK3iMz4MTRyJZcGpUc/YSXvm7uZLpr2JwM1eAJJ0YOKhC7k24rY4+UDXx8VDJLHYMvnnQBQOEQ2R6CjAAhljStBL+Iod5XZnCdtlPnBgIKWMdWdiwFIhlcakOuEP8y37icf2pD0=
+	t=1791028738; cv=none; b=KbhjToxHjO19dSnrrBoQrfeQeInLdkvx4MrI+DIQeU7F/VIBKQZ1XuqkQa98l6yRG9l/aso830YChM2VjI5/cv+AO/TQK048E1WmZ7ClCW4YZzAUVJ1zdkxaSpTC4OGdxWNDEd/qLzSemUqA8peP7fXBOojhsmEtOSnRlMLvKJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791028087; c=relaxed/simple;
-	bh=IHTDjO5WIqUK7V7fitFO28OjUL+8J51v2bNHeHUdOhI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OXVDU6UI8ZNdX4Jt5OsuIKdccOp+05Ebez4s4Xeioo9B6h/4znXmKGdFEUfhPNk4jAhmEsuA9/3m2xYSk93vOvzug13Ii7uZlsNb5sl5vEZou6eXmWaqMRkMqlGdQtPo/HeHD1ikJ5QgFR7ZHkxic7AIFSd8oBsXEDyB4AYView=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sdi0sXUx; arc=none smtp.client-ip=74.125.229.205
+	s=arc-20240116; t=1791028738; c=relaxed/simple;
+	bh=9rVKBQBHGdpfq7/KgP3XdBCZD2rk4vWzXnkmJAb+Qx4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L7u3FLCP9bsT+8MRGEUK1OItihIx5wS737heStVbkD1ytdGuU7pAFK1La4l7qdiXxIDz0V8T13IHyTengEbnkHlu442/4cB+/soWCbN51JMpqoPEuAmyTfcw1m87wsLiQt11hL2SQQQs/9m5Cyc2nxt/VWLtCy1tp8vqREF7I4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fdwz9wps; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sdi0sXUx"
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5ba3fc22439so146213e87.1
-        for <linux-staging@lists.linux.dev>; Sat, 03 Oct 2026 04:48:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdwz9wps"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a16629a040so6817855e9.1
+        for <linux-staging@lists.linux.dev>; Sat, 03 Oct 2026 04:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791028081; x=1791632881; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791028735; x=1791633535; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lWokyEz4Bt3D9UY753kLyTpGkMOXSDWvaQDmsEwpG6k=;
-        b=Sdi0sXUxdhjejSO9c3Yo88D1Vcvk//iveLnMezA8duy1OnwLokJw6lX/osFR5PjfPD
-         1QfdsUMIeicmDtRcKwMx0xcTr2ipaWOsqEqP7WvVtTRyFWtyM1oxvefKjwFnV5EsDiI0
-         E+TImmh/ESK+eyCsa5jz3qXwfpmeOZCMJdsemNivFfw2rHyNpjWtzX4P3Y8qTTeiWyR6
-         pwtnOfsMIHuGYmG4fY2pMqqRQdteGeEZBSiTFyL1zXgZkWZ04PCqpwPoigXLdfb6hL6u
-         tz9iAUZ7C0KIhoy9vDfOWDJUO3uYtaWzS6aVUgPV7wv6/sJY4MQnnqgCOA+3iCGvKaO1
-         ZSKQ==
+        bh=wuaQxNO2bsG5Cwu+Ywp9sCD70bxKNcLjKLKw/G0APqQ=;
+        b=fdwz9wpsYkZftARp+PZxmFwvNWDjidHDJyffevn9JryJib9yZf68VtE/B1h7rcDC01
+         FkuiIv/hRB96cjz4YjrfnqLopq1QTCjH8lBgJocHtP9s/Mqbacz22AO+ah+DVgkLzLUg
+         9i3+2wDX8aTiI3noZ0RZ46Reey3OQ0X6iojhb3SvuJwZmsUou294TpIeZ/w5q99Fgak4
+         hunq6VTDDwgl6LLGvGLp/3UQyFUPSoR/9r2JMkDHYSkO5fVePVfOJyw/d01re1m84fBp
+         SWJyj1Etr3Hpqk1t7eHy2gGZ/mf8ihKMlkw48GLPKdmMdMJTkgMgPXhRKpcBqjhGY0zN
+         cMYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791028081; x=1791632881;
+        d=1e100.net; s=20260707; t=1791028735; x=1791633535;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=lWokyEz4Bt3D9UY753kLyTpGkMOXSDWvaQDmsEwpG6k=;
-        b=mn2KGwE0wL831UlqbxhE9eGOcokL01y8Sb0Fgy9jt8sDZB3iz8Xk/1rl3BbP5/NVCW
-         3Z7N6uCg6G4JS8hI5iQtnZaZDGaTqQAXujNK0AC+nW+GDrtTz7LXaBvCTqYg9JYO8ZQ6
-         irkMedH2jvIVlXAh+5cjjxEt1T4wZPdZq9cMhFkKXCFVdrlnpH3HM5/d2fEpvcTkZGXK
-         AyDmzYDtjaGS0d/ubRoUJwy7oFPbTAB1datvr7UJspdCjP1YLhAkpzzj9LPeRNYi+uDV
-         sV/e0vXhR2qbLlRYB7N8+lm+oE0qq/3k1qykf57qba5Qzwnyl98g8+up3NQsQDd2WCEU
-         vbWA==
-X-Gm-Message-State: AFuF++kxGuvCYouOHNBERQvgmAxHkRejI3t56TyzBREC5s+9T9NAC7/Q
-	9r1b9frkgzwOQx0/nRrafSc8ecBjf+BFrr1nyHF7JI+lfYNpK7I5Ngdk
-X-Gm-Gg: AYBFou3Xxp8pN29kgNyHvhGcfTQV/V7idPng+FftXgvG6wnR4ZGw9CY3I2hGCDPqLlo
-	+PWJGpoK3VSKSN9faDKSJa5VZ5w5I+fnW7ihFmyqbk9qaBdmMz75/sF/vIQB98xyrwxWzDu8y7e
-	zzEgVcrm4L9NfkQKKt1BS4pId6jnETkSZQg6GjrdaWdAJk1wCvyCbMZNxcIpT7UcyBOI6bfW7Vj
-	tRu3yu09D3meC58Y6oMdsdCzs5Bni2wWWVcf3Mt4eQJVReMUZ9PRqZLYi0tL50pZEVcJUgwUKp3
-	Z36Jy6kW+V3Ub9I9RNuzJT7YChc5gtnhPmYVrZguM9VLSLajmf3xhzw8HTta1BbD4fp87q99LTQ
-	yZFbNjg1VXMymzljcdw0J+r5wS1EkGSlBYrdtoSv1UlcIb29od/rR3xQ71JdWogqDnO4+c4Tpiy
-	rMchYoSqNejxiNkF/rcVimFEO5YPDlE34rkUuL22zQ9DQQjWElarxpspx8z3TVPPYa++IUfWUe1
-	APwtQKJ9GfuOblnvU8HKCKqBA==
-X-Received: by 2002:a05:6512:838e:b0:5ba:37c1:645c with SMTP id 2adb3069b0e04-5bb9bc36e12mr1578982e87.40.1791028080716;
-        Sat, 03 Oct 2026 04:48:00 -0700 (PDT)
-Received: from TimPc ([31.40.208.35])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bb7c79f212sm1493296e87.56.2026.10.03.04.48.00
+        bh=wuaQxNO2bsG5Cwu+Ywp9sCD70bxKNcLjKLKw/G0APqQ=;
+        b=Z7BNqcIq8Qzwj7HtJjfxYDC/mfagM+xxM292Ft3GYklEyPQqxTiD5HSZYPqhigzxGS
+         2uLPPKp/L5zK/FFGGBDcsltOuT1BR86yBXsnDSK6HcVSZN73MGhQwfZaNQRkIi2wFFiL
+         D9fqJPWGmjkZD4cHcV1iGtBzDdxn0LetM6yuhq4yGGO1iGcr3G28yZ0UaiKJZtAIajqd
+         7nxgXUbNNue1E1tYpIU5XrNjBssf1BYrxzkj2rrVoPzgqdlPTXJ5iYMqbz0CgBozw6IG
+         a6Eq835VRPQx6lOArzyEhYXORPcKfjHSF8CC1TL3Uc3GpwtWgU4Ibl89zm5TZ2WjTKPZ
+         HgBQ==
+X-Gm-Message-State: AFuF++kn2Trx+ELq2T86pZR/aF+PyrK/P7R11tQ/60Feo5bA9oWdSVHG
+	K/eocMHnZwZ3R2mgiqrFgTDRodLUGrdaNDSy5M8iGFg4pEvuYAvxaigp
+X-Gm-Gg: AYBFou2x3GVW8jzU5+qc6/2DZ5/Ezl9GZd61FbAIHWsui71QB2sybH2xju+aFfUSG+2
+	hyr3NgDYLemJnl+4/4g2AcPU7le2zz8CZIENvg1gZQuZ05HwgeVvf7GL19caekaTjOm7uzn4zW/
+	INOVRb19lwRlDFyzNYnLl/MaKWS2IgNp5uiCFCKxtvXGBjxQeaCx+iA199KvcSXgYe4C2V33YU2
+	zJ06KQec3jpLV0t7dSFp1ydy+Mz2c9ZRstbgQe8tuf00uQz6dQwpS/TZRZuENUsWCoGtXsyDpTh
+	7Sv5e3dcFUBxX4bfcI5t/RQNwtaIDWEa8qsuMSMEuG/AnNzCYf5HTtCV31CsXWNM1vWDuYhuMdn
+	YtLWoCOk5OHKzMDA1zyN6l7VFWaMfG6OkeQ8uhFUKK1GGXVx5gVmydU6cES9e4tiFkjkUZEApuZ
+	Q4S6T0UaBFGP6WAJ+hmy7wlOAT0sMG7nuBE0FsaxWw8l1aJyotGZ10qmUq5rKk9y8yApdlVzKrf
+	dIZLbQP8YV7tCYDbawFeB2wlTO9Hx7hV3rVPVfRWBw=
+X-Received: by 2002:a05:600c:6098:b0:49c:fed6:cd3f with SMTP id 5b1f17b1804b1-4a1680ed16emr32103395e9.23.1791028735351;
+        Sat, 03 Oct 2026 04:58:55 -0700 (PDT)
+Received: from fedora.netbird.cloud ([2a06:5904:28f:7600:961a:ef3c:e30a:fb0b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027698f13sm161877315e9.1.2026.10.03.04.58.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 04:48:00 -0700 (PDT)
-From: Tymofiy Zakharchuk <timgooffical@gmail.com>
-X-Google-Original-From: Tymofiy Zakharchuk <timofey.zakharchuk.research@gmail.com>
+        Sat, 03 Oct 2026 04:58:54 -0700 (PDT)
+From: Luca Hernandez <lucay202@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tymofiy Zakharchuk <timofey.zakharchuk.research@gmail.com>
-Subject: [PATCH] staging: sm750fb: fix resource leaks on probe error
-Date: Sat,  3 Oct 2026 14:47:58 +0300
-Message-ID: <20261003114758.1427-1-timofey.zakharchuk.research@gmail.com>
-X-Mailer: git-send-email 2.53.0.windows.1
+	Luca Hernandez <lucay202@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove CamelCase variable pbDriverStopped
+Date: Sat,  3 Oct 2026 12:58:19 +0100
+Message-ID: <20261003115819.23641-1-lucay202@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,33 +72,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If sm750fb_framebuffer_alloc() fails during lynxfb_pci_probe(), only
-the framebuffer structures are released. The write-combining MTRR,
-the MMIO and VRAM mappings, and PCI region 1 remain allocated.
+Rename the pointer variable pbDriverStopped to driver_stopped to eliminate
+the use of CamelCase and Hungarian notation prefixes. This aligns the
+driver's HAL code with standard Linux kernel coding style guidelines and
+resolves checkpatch.pl audit warnings.
 
-Call arch_phys_wc_del(), iounmap(), and pci_release_region() on the
-release_fb error exit path to prevent leaking resources.
-
-Signed-off-by: Tymofiy Zakharchuk <timofey.zakharchuk.research@gmail.com>
+Signed-off-by: Luca Hernandez <lucay202@gmail.com>
 ---
- drivers/staging/sm750fb/sm750.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/staging/rtl8723bs/hal/odm.c | 2 +-
+ drivers/staging/rtl8723bs/hal/odm.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 8b93bfeb2..456b3da86 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -1023,6 +1023,10 @@ static int lynxfb_pci_probe(struct pci_dev *pdev,
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index f3989fa33d9f..505c21bd1847 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -773,7 +773,7 @@ void ODM_CmnInfoHook(struct dm_odm_t *pDM_Odm, enum odm_cmninfo_e CmnInfo, void
+ 		break;
  
- release_fb:
- 	sm750fb_framebuffer_release(sm750_dev);
-+	arch_phys_wc_del(sm750_dev->mtrr.vram);
-+	iounmap(sm750_dev->vmem);
-+	iounmap(sm750_dev->mmio);
-+	pci_release_region(pdev, 1);
- 	return err;
- }
+ 	case ODM_CMNINFO_DRV_STOP:
+-		pDM_Odm->pbDriverStopped =  pValue;
++		pDM_Odm->driver_stopped =  pValue;
+ 		break;
+ 
+ 	case ODM_CMNINFO_PNP_IN:
+diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
+index 3532f0d79363..47034ca1af26 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.h
++++ b/drivers/staging/rtl8723bs/hal/odm.h
+@@ -848,7 +848,7 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+ 
+ 	/* common */
+ 
+-	bool *pbDriverStopped;
++	bool *driver_stopped;
+ 	bool *pbDriverIsGoingToPnpSetPowerSleep;
+ 	bool *pinit_adpt_in_progress;
  
 -- 
-2.53.0.windows.1
+2.55.0
 
