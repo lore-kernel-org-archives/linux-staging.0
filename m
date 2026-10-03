@@ -1,218 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EEE495049
-	for <linux-staging@lists.linux.dev>; Sat,  3 Oct 2026 21:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D463B0583;
+	Sat,  3 Oct 2026 22:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791063011; cv=none; b=MFYh4I/zX1MxFDPSkyrGWc6p/R7JBg4bxMFBYu5IUyIUeEfVcoQzigEL44xYOrYFP46/gwKrDipfh/P5SetJVWJmP9ssGw2U0sm6FiiyPEfjBoLZWhfVF6EVWR3gr0H4kk6+38X64wI2u/uJKM/BkgxqA6+R/JFi3N8XXwfz8U8=
+	t=1791067172; cv=none; b=D6yt2XSdq1hs3vtipMWaZ07d8sDi7c0ghEV8BTrrdHl8ZCdJTQKtLjd/IjBhrjG4I3P240ZL+VmxhI/WAznZJ/5kG8bC/RBmujq/Da9YYoc9NTbeECmuaaHtMkw6hgrpnAq7rgZoLWltnuR14E2CrsjmUtCSHVQUpEfa+0Sr7nA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791063011; c=relaxed/simple;
-	bh=D8x8axyFP8hKFCMfmt2XmWeJmTJTn183MyVucMGFPXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bg3Zuj5ActJisl9HtIGRgYmE5yqc01iwJewC9JsTTLHJuhtjXRPGr5B4nGUYQLDCDzp75geTnPRRJCZR19BjRTsb9/278B/pXwetgpQap1RgLsHvhfqxHA8OR6/sSGs7aDWnjvrpzS7TcuHy32/9/e1iyy5LRbK6aK6Kpv46bSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FXm96tWC; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1791067172; c=relaxed/simple;
+	bh=HuVUuCJmc4v8sN+vlGE+8WMUaiSX19YVimwbKUk9Zlk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=N9DCpjFMNceSnfLhNqCHyhpoYlXKPBXvLKtPgvyOs92E0qSpD2JqPXcGx1FXeDJ/mPpw6D1TpiAQ2P1SPmJzBF0DVQzqKaknSi/ljWW+EKiDUfQHtIBW+ivgKsxA8QNSekTAYGAnsWCWXuWGuVYe8sY7a0ZtnKRocjHxups3/OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKj1Yg8+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FXm96tWC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791063009; x=1822599009;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D8x8axyFP8hKFCMfmt2XmWeJmTJTn183MyVucMGFPXc=;
-  b=FXm96tWCPW3zHcOm8NDnvgdF2XSltjJwaC/38mQQt7FjDQQ53XlmmNc8
-   I4+57XQVt9hLXNo1uNFgNqwKK7aDHdsB+T6aoeaf7sYlzCs/11OGzCA2e
-   O6aa+wqwdIr8LC9OAtXDYcL5tVt6u46tBlD2T/ZoMVlZWNYyopNY4wI7A
-   5mwROAvSeCoFlQiZNdnAN3fF33TmkPIteq4fBpFirR0NA3CvitzWVRLLo
-   dHTwkzI+Gri/fU2uEKpdvpxGZGPy7mIecjYNhBALn3mMUc/gKFS0anV4S
-   Ew6LQ9IU7ToyyF725tfrajT7QF1iGDpcHkjqCOPcznV0tBo82KELrnwZM
-   w==;
-X-CSE-ConnectionGUID: joiAcP+mSqGoexD5Vc3r7A==
-X-CSE-MsgGUID: glSbNRInRHu1nKFQ2lNSOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="90818177"
-X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="90818177"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 14:30:09 -0700
-X-CSE-ConnectionGUID: 884xvonTRIqeU9tyOSMARA==
-X-CSE-MsgGUID: 1sNEDaDcRQqRF48yLzmY7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="279754011"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.88])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 14:30:06 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 49AD711FA5B;
-	Sun, 04 Oct 2026 00:30:05 +0300 (EEST)
-Date: Sun, 4 Oct 2026 00:30:05 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Prajval Chaudhary <prajvalchaudhari733@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKj1Yg8+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4235B1F0089C;
+	Sat,  3 Oct 2026 22:39:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791067170;
+	bh=a5E7aBxjkua2vJ6YK/zdeFq43OGLBivFfp7BcqdLzWw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=AKj1Yg8+c+iwjBp1N9MOweUVm2LOvzKEHkHYCgEDo9U5amASCATbmUbJG+OFBy24E
+	 3UuT6RDClopk38EnlGpd5HyePoQ5hKzVVO6Bl9V2UvDmLSCt1kqTyqWZV6t9ZH9Q85
+	 9cT2qFjfdXj2Z+5z3oEYkSMO+aN7PKiACqZcg56hC9PVEyTrdpsylONYPjOGDla4vx
+	 pUzLwQJNwjMvL+h65NjdgprTkun4WeLsbe/8bkVzFimSUt36qIj3LTnsa5ZIo1MBRV
+	 op+XbkvFTpPIum+39+hZKKmtaZoYxJXL1675gZe8hkY3Xn56DYOtWgFRVog9jf1A1h
+	 lJBQ5GFGOwa4Q==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+	Artem Dinaburg <artem@trailofbits.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4 2/2] staging: media: atomisp: Remove dbg_level and
- dbg_func module parameters
-Message-ID: <asFz3bcfdOOYG953@kekkonen.localdomain>
-References: <20260721163533.15888-1-prajvalchaudhari733@gmail.com>
- <20260721163533.15888-3-prajvalchaudhari733@gmail.com>
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6.1.y] media: av7110: fix a spectre vulnerability
+Date: Sat,  3 Oct 2026 18:33:05 -0400
+Message-ID: <2026-10-03-1-daily-reply-0024-re-av7110-spectre-6-1@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261002195016.21386-1-artem@trailofbits.com>
+References: <20261002195016.21386-1-artem@trailofbits.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260721163533.15888-3-prajvalchaudhari733@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Prajval,
+> [ Upstream commit 458ea1c0be991573ec436aa0afa23baacfae101a ]
 
-On Tue, Jul 21, 2026 at 10:05:32PM +0530, Prajval Chaudhary wrote:
-> Remove the 'dbg_level' and 'dbg_func' module parameters to align the
-> driver's debug facility with standard Linux kernel APIs (printk/vprintk).
-> 
-> The internal logic relying on custom debug parameters has been updated
-> so that message logging and function tracing no longer depend on exposed
-> userspace module parameters.
-> 
-> Signed-off-by: Prajval Chaudhary <prajvalchaudhari733@gmail.com>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_common.h   |  2 --
->  .../staging/media/atomisp/pci/atomisp_compat_css20.c | 12 +++---------
->  drivers/staging/media/atomisp/pci/atomisp_v4l2.c     |  7 -------
->  .../pci/runtime/debug/interface/ia_css_debug.h       |  7 +++----
->  .../atomisp/pci/runtime/debug/src/ia_css_debug.c     |  4 ++--
->  5 files changed, 8 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_common.h b/drivers/staging/media/atomisp/pci/atomisp_common.h
-> index 7c6c0124ff72..aa230c3708dd 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_common.h
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_common.h
-> @@ -20,8 +20,6 @@
->  
->  #include "ia_css.h"
->  
-> -extern int dbg_level;
-> -extern int dbg_func;
->  extern const int pad_w;
->  extern const int pad_h;
->  
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-> index ea49ebe2da5c..647f6e7e2455 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-> @@ -784,7 +784,7 @@ int atomisp_css_load_firmware(struct atomisp_device *isp)
->  	isp->css_env.isp_css_env.hw_access_env.load = atomisp_css2_hw_load;
->  	isp->css_env.isp_css_env.hw_access_env.store = atomisp_css2_hw_store;
->  
-> -	__set_css_print_env(isp, dbg_func);
-> +	__set_css_print_env(isp, 1);
->  
->  	isp->css_env.isp_css_env.print_env.error_print = atomisp_vprintk;
->  
-> @@ -3372,18 +3372,12 @@ void atomisp_css_set_isp_config_applied_frame(struct atomisp_sub_device *asd,
->  
->  int atomisp_get_css_dbgfunc(void)
->  {
-> -	return dbg_func;
-> +	return 1;
-
-Maybe you could switch to similar v4l2 macros?
-
->  }
->  
->  int atomisp_set_css_dbgfunc(struct atomisp_device *isp, int opt)
->  {
-> -	int ret;
-> -
-> -	ret = __set_css_print_env(isp, opt);
-> -	if (ret == 0)
-> -		dbg_func = opt;
-> -
-> -	return ret;
-> +	return __set_css_print_env(isp, opt);
->  }
->  
->  void atomisp_en_dz_capt_pipe(struct atomisp_sub_device *asd, bool enable)
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> index d117fea2860c..55b3d4d3d6ad 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> @@ -45,15 +45,8 @@
->  #define CSTATE_EXIT_LATENCY_C1  1
->  
->  /* cross component debug message flag */
-> -int dbg_level;
-> -module_param(dbg_level, int, 0644);
-> -MODULE_PARM_DESC(dbg_level, "debug message level (default:0)");
->  
->  /* log function switch */
-> -int dbg_func = 1;
-> -module_param(dbg_func, int, 0644);
-> -MODULE_PARM_DESC(dbg_func,
-> -		 "log function switch non/printk (default:printk)");
->  
->  /*
->   * Set to 16x16 since this is the amount of lines and pixels the sensor
-> diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h b/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-> index 2d0e906530af..029adbdca945 100644
-> --- a/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-> +++ b/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-> @@ -8,7 +8,7 @@
->  #define _IA_CSS_DEBUG_H_
->  
->  /*! \file */
-> -
-> +#include <linux/printk.h>
->  #include <type_support.h>
->  #include <linux/stdarg.h>
->  #include <linux/bits.h>
-> @@ -39,7 +39,6 @@
->  #define IA_CSS_DEBUG_INFO    9
->  
->  /* Global variable which controls the verbosity levels of the debug tracing */
-> -extern int dbg_level;
->  
->  /*! @brief Enum defining the different isp parameters to dump.
->   *  Values can be combined to dump a combination of sets.
-> @@ -125,8 +124,8 @@ static inline void __printf(2, 0) ia_css_debug_vdtrace(unsigned int level,
->  						       const char *fmt,
->  						       va_list args)
->  {
-> -	if (dbg_level >= level)
-> -		sh_css_vprint(fmt, args);
-> +	if (level <= IA_CSS_DEBUG_WARNING)
-> +		vprintk(fmt, args);
->  }
->  
->  __printf(2, 3) void ia_css_debug_dtrace(unsigned int level,
-> diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> index 5113aa5973f3..86b2cca2f441 100644
-> --- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> +++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-> @@ -135,13 +135,13 @@ void ia_css_debug_dtrace(unsigned int level, const char *fmt, ...)
->  
->  void ia_css_debug_set_dtrace_level(const unsigned int trace_level)
->  {
-> -	dbg_level = trace_level;
-> +	/* Trace level is now controlled dynamically via Linux kernel dynamic debug facility */
->  	return;
->  }
->  
->  unsigned int ia_css_debug_get_dtrace_level(void)
->  {
-> -	return dbg_level;
-> +	return 0;
->  }
->  
->  static const char *debug_stream_format2str(const enum atomisp_input_format
+Queued for 6.1, thanks.
 
 -- 
-Regards,
-
-Sakari Ailus
+Thanks,
+Sasha
