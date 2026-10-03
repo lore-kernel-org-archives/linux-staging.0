@@ -1,72 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from forward501d.mail.yandex.net (forward501d.mail.yandex.net [31.44.14.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB79541A919
-	for <linux-staging@lists.linux.dev>; Sat,  3 Oct 2026 12:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC0B20FA81
+	for <linux-staging@lists.linux.dev>; Sat,  3 Oct 2026 13:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.44.14.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791030943; cv=none; b=VCx3hU2RgLSU8ACYTBcOP3Jgs2yoj3BlyEpNoHikbp6qE1ijUnm2X/SiWCO1T/Uv+aTGAlVMDnLhetWEdaFqZVx0i0MUZfFFBVZPSZHNeXbsvo3teE0wgPp0nlz5xzRWA8yeSOAElVIm732dPPIP9g/PVwBmdB/ufwuMuR6fAtU=
+	t=1791032498; cv=none; b=CK8flq0887qDMiccTummfbhegJ9DUwZqgS4fTZlTr8YHJReREeEroh/l3pl2I2L+8fZllF+sKHlYISxgw0ODt53H3FN8OSsKxcSUaa6kEu6cjDMAtXJYh4MGNrFFJT3YFRwXmXKYWlYWQvaDxwfBIhJV2lbl5MERK0pbuPpPF30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791030943; c=relaxed/simple;
-	bh=NgFahYtdFjel8ig+ecctGl3RiWAO4QUYnOU3lrySZio=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WpsQxYsE0H4+GpOOCQLG3t3qs1KQPFKDzbbvMeqJ+HrfXoUSWdzBxQNXrxbK4J4Y+O6BFcWQI9YEBzu2eXlNRiD4d9ZMUYwoQHOcuFNd0ozdppRgUqZdlA/yCSZcQaBLPkvyOIT+4SjfqX3QaByOtWnJxp4p7oaIYg6PnQFA1TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tHNfBi2l; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791032498; c=relaxed/simple;
+	bh=acfIME/WCQaBJcWezp2A8qiC4GR39pmIcxnqiqaZkDM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rNzeL0yajpNR7ldN4GM7oA+Yc5kqEWqAc++pegw6AE56CpLQNk6T8nrh1q6UAWn4CoroQXz9LpmzDkWaGZ5KyOpZTxwmEuxRgLLNcyCsP0VksBEHNwNYcLQJgNT78cjB5rDMRumiK7MocQ+lFsEPHekEruyAE9JNYmqXoGljXH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=fail (0-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=I1QRgEGC reason="key not found in DNS"; arc=none smtp.client-ip=31.44.14.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tHNfBi2l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBA641F0089B;
-	Sat,  3 Oct 2026 12:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791030942;
-	bh=3SrSbPCb2GeM0j07+BzgK3kHiEfYT4CySYFxDZ1TXnc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=tHNfBi2lXeb9lHI426Xo/FY45hllc6/Vb6T3oGnYvvuMj/cH20GJPDthu4mUhQ06x
-	 mLANTaXggjvFNV6r5nRoRB3cdkO7ILqXhCt5AkjnYMkqpM4Y8E+K6/HQNONJMy6Wyb
-	 /GeM0mFbyuROpAZJDQ1XKB3xKw1OLpamVYZrtNjY=
-Date: Sat, 3 Oct 2026 14:35:39 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Luca Hernandez <lucay202@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: remove CamelCase variable
- pbDriverStopped
-Message-ID: <2026100306-bluff-eggbeater-2c89@gregkh>
-References: <20261003115819.23641-1-lucay202@gmail.com>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="I1QRgEGC"
+Received: from mail-nwsmtp-smtp-production-main-95.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-95.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:d44d:0:640:ae2:0])
+	by forward501d.mail.yandex.net (postfix) with ESMTPS id 8C7FD8604B;
+	Sat, 03 Oct 2026 15:53:31 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-95.klg.yp-c.yandex.net (smtp) with ESMTPSA id TrlcYBkdveA0-LVn8RURK;
+	Sat, 03 Oct 2026 15:53:31 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1791032011;
+	bh=RrhwjfnZiNbJAUR8+oIfhLcJXc907syXWsR3aOUDD4M=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=I1QRgEGCx581Nq4nuZT0TCS4FBe76fNGBDeohGJqWZs9OKXyH9XljeLY3NdFiqnpJ
+	 5+5MZIAN49FF8XwS+AYtd1FBD2DqfKynoyYQDu1XqsUX8nmWQAHhMSHzLjWG26Huje
+	 Mjh8gkfeNo59pmJmvqqcENP9iLlO2Qn/pIipDo+Y=
+Authentication-Results: mail-nwsmtp-smtp-production-main-95.klg.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <0dc4e390-5632-4033-9f83-1b428549d119@sezginduran.net>
+Date: Sat, 3 Oct 2026 15:53:28 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261003115819.23641-1-lucay202@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: sm750fb: fix resource leaks on probe error
+To: Tymofiy Zakharchuk <timgooffical@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Tymofiy Zakharchuk <timofey.zakharchuk.research@gmail.com>
+References: <20261003114758.1427-1-timofey.zakharchuk.research@gmail.com>
+Content-Language: tr
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <20261003114758.1427-1-timofey.zakharchuk.research@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Oct 03, 2026 at 12:58:19PM +0100, Luca Hernandez wrote:
-> Rename the pointer variable pbDriverStopped to driver_stopped to eliminate
-> the use of CamelCase and Hungarian notation prefixes. This aligns the
-> driver's HAL code with standard Linux kernel coding style guidelines and
-> resolves checkpatch.pl audit warnings.
+On 10/3/26 2:47 PM, Tymofiy Zakharchuk wrote:
+> If sm750fb_framebuffer_alloc() fails during lynxfb_pci_probe(), only
+> the framebuffer structures are released. The write-combining MTRR,
+> the MMIO and VRAM mappings, and PCI region 1 remain allocated.
 > 
-> Signed-off-by: Luca Hernandez <lucay202@gmail.com>
+> Call arch_phys_wc_del(), iounmap(), and pci_release_region() on the
+> release_fb error exit path to prevent leaking resources.
+> 
+> Signed-off-by: Tymofiy Zakharchuk <timofey.zakharchuk.research@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/hal/odm.c | 2 +-
->  drivers/staging/rtl8723bs/hal/odm.h | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>   drivers/staging/sm750fb/sm750.c | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-> index f3989fa33d9f..505c21bd1847 100644
-> --- a/drivers/staging/rtl8723bs/hal/odm.c
-> +++ b/drivers/staging/rtl8723bs/hal/odm.c
-> @@ -773,7 +773,7 @@ void ODM_CmnInfoHook(struct dm_odm_t *pDM_Odm, enum odm_cmninfo_e CmnInfo, void
->  		break;
->  
->  	case ODM_CMNINFO_DRV_STOP:
-> -		pDM_Odm->pbDriverStopped =  pValue;
-> +		pDM_Odm->driver_stopped =  pValue;
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 8b93bfeb2..456b3da86 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -1023,6 +1023,10 @@ static int lynxfb_pci_probe(struct pci_dev *pdev,
+>   
+>   release_fb:
+>   	sm750fb_framebuffer_release(sm750_dev);
+> +	arch_phys_wc_del(sm750_dev->mtrr.vram);
+> +	iounmap(sm750_dev->vmem);
+> +	iounmap(sm750_dev->mmio);
+> +	pci_release_region(pdev, 1);
+>   	return err;
+>   }
+>   
+Any reason for From/Signed-off-by email mismatch? checkpatch generates a 
+warning about that.
 
-So this is only set but never done anything with at all?  Why is this
-needed?  Why not just remove this field entirely?
-
-thanks,
-
-greg k-h
+Regards,
+Ahmet Sezgin Duran
