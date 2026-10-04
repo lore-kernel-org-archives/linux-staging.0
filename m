@@ -1,45 +1,44 @@
-Received: from out-2z4y-a153.jellyfish.systems (out-2z4y-a153.jellyfish.systems [198.54.127.153])
+Received: from out-93wp-a33.jellyfish.systems (out-93wp-a33.jellyfish.systems [104.207.68.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E25346E59
-	for <linux-staging@lists.linux.dev>; Sun,  4 Oct 2026 18:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BF33F5BD7
+	for <linux-staging@lists.linux.dev>; Sun,  4 Oct 2026 20:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.207.68.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791139350; cv=none; b=RHc1HlEEBbc3vtMAXQ0Sgj2M6eF72dg+OLdkFlfUJ4Nmi0ykCnPxSa1AhjfuMQn6VcS/sJv52s60H+OEVojbdY16swDG/U+pO9FnVMSx/LrC4r2RihhMp6OaET5lJvOv6Ab1kscVnH4oVxP8dKk0Q6oYcCakC0FnidA4xkYy7Jk=
+	t=1791144531; cv=none; b=DgE2BqOMEYiRQmREvBoN+FmoobDaHGUOBn5otkdPMNMATrdEkk+3X8sfZkvkPYePMvCr87oPUNn9Dm1AUJxJrqvWASEt3xjJNrnYbONMs4lqx6pNN01+zpOnCnD7tSyVWwAXoan2acvR4heRsQokRT6kDYDQVEMyZ5XBWZ5wDtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791139350; c=relaxed/simple;
-	bh=zmvRtpYupgtIz1iyXUBvUCZMLEywZ0WIC/uUSieuTWo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SEk/D2I7SVAo0Qk5102Ji1CQSTD1RlOwyIIr58cTfq2OyJSmxPSX4MgxHOEp0OPCD3zE6cZdDyRUcqeioWeDFKiv/raWaQHnvumoXcvedn/lUJs5p7NjvY+CdavXLZYSpvb497ZjvJ5QAyG5sQkVeOx/73k1xgDJ/7bz7nhcrdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=h5QK0QmC; arc=none smtp.client-ip=198.54.127.153
+	s=arc-20240116; t=1791144531; c=relaxed/simple;
+	bh=WD8aHAHEQNa7U5c7k2VkpEaPSWHvhqQhL6q+JEslIco=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VeaqTirdod7BidwOPIkXCFpAC7VVRvHBrF1ygR0x36wX/kpaZC7bJdJSNsZ4eNvVsyN1SrQKP1ivRyYjeEyhU5GN0ofxCIrK/7Ebn4iDH+5/w4/Pe4KSrYzF7n+s7GGONQbHxnUxTegLh3YeHdBGqvQSH+zLuC4Dwsb4pmD/Tdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=f6x6tB6g; arc=none smtp.client-ip=104.207.68.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=firmwaredesign.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="h5QK0QmC"
+	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="f6x6tB6g"
 Received: from mail.privateemail.com (unknown [98.240.242.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.privateemail.com (Postfix) with ESMTPSA id 4hyWbC2Rjyz2x9B;
-	Sun, 04 Oct 2026 18:42:15 +0000 (UTC)
+	by mail.privateemail.com (Postfix) with ESMTPSA id 4hyYD857Dxz8sWS;
+	Sun, 04 Oct 2026 19:55:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=firmwaredesign.org;
-	s=privateemail; t=1791139335;
-	bh=YgJsAF9MJxpyf95SW+f1ia1SDpStJSEkjWzYJaWF7nY=;
+	s=privateemail; t=1791143753;
+	bh=mBnNh2ELcFI3lM+eMKnkm7pTIdB32IjAtjdo78AtTRU=;
 	h=From:To:Cc:Subject:Date:From;
-	b=h5QK0QmCScNCZtbniXJb6UfENWEkUVfK3eMQg9FDLsbIXJPOal+WffBKiuLxk33WL
-	 CtgrbecbwC3PW5KVLqAbuQpz/ZFbZMbvX2lCmZPI8nTjuCOIai1fuOmQSICVv1J9Rj
-	 Tr8pZRTGWCG/kmS4VW8tMlqr2CB2daR7IOszxePdknQCbPWCUehWNyZnTSmVdYZjeF
-	 yyleYx28fpL19G67MLoGWji9UNIUzGj1gASFvs49ZWedpSEL0SgipH3bLuM+bvBUIG
-	 +NeW00S0aNOOSzCNhrPwjN/HjDkpv4s8hxl/iDLEV5Uufwl+OHxIYghoEtR8Oe727u
-	 r2pEcrE7CRXZA==
+	b=f6x6tB6gmpH0Fsy6QOPVSXvyIUQ7U1Yj0GjEkbSo4+ZYBhviaHnR0Y8kmuO5WK69q
+	 Oamqk7NF520+JIatkSlj0PyfjbGacSAOMRVORSzs24jCYiJjdbW0Wfi6UAd7/xiQkf
+	 jBhOT+8RwbnhMEZ9SViZwDFDLgg+9D8iP+hWt2bIh9Cl6FahViHW/AK5Zh7oS0FtPt
+	 uDsTnLxQF6wF2ak7bIrPLEQafhBYiKmZYSUOQ28i0RhZofhhJofzPaQrj2IUEZ6wYC
+	 G3TSd9AB8wn3UHm0y81XxYq/KJhZ7LAAd08ptcI2mksGNozWM53SEbkKmwR1j9XCkI
+	 QSUpSqGxMfIRQ==
 From: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>,
-	Gemini <google-gemini@google.com>
-Subject: [PATCH v4] staging: rtl8723bs: condense NDIS encryption status enum
-Date: Sun,  4 Oct 2026 13:42:02 -0500
-Message-ID: <20261004184202.281794-1-marinela.selseth@firmwaredesign.org>
+	Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
+Subject: [PATCH v5] staging: rtl8723bs: condense NDIS encryption status enum
+Date: Sun,  4 Oct 2026 14:55:38 -0500
+Message-ID: <20261004195539.305487-1-marinela.selseth@firmwaredesign.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -70,9 +69,12 @@ hardware execution behaviors completely unaltered. Fix associated
 line length violations and remove redundant braces for single-statement
 conditions introduced by long macro names.
 
-Assisted-by: Gemini <google-gemini@google.com>
+Assisted-by: Gemini
 Signed-off-by: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
 ---
+Changes in v5:
+  - Remove fake email from Assisted-by tag to prevent outbound SMTP delivery blocks.
+
 Changes in v4:
   - Increment version tag prefix to v4 following automated patch-bot tracking rules.
   - Correctly isolate version changelog notes below the triple-dash marker rail.
