@@ -1,48 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D463B0583;
-	Sat,  3 Oct 2026 22:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B0F3E168F
+	for <linux-staging@lists.linux.dev>; Sun,  4 Oct 2026 03:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791067172; cv=none; b=D6yt2XSdq1hs3vtipMWaZ07d8sDi7c0ghEV8BTrrdHl8ZCdJTQKtLjd/IjBhrjG4I3P240ZL+VmxhI/WAznZJ/5kG8bC/RBmujq/Da9YYoc9NTbeECmuaaHtMkw6hgrpnAq7rgZoLWltnuR14E2CrsjmUtCSHVQUpEfa+0Sr7nA=
+	t=1791083769; cv=none; b=thqzDvi5IBEXo1B/G+omxLt5cy2kXtLR5lEk4N9g1Uc5gKfKKmlyKmdMRhX6bjAFmOUYzlZzxujosCPEzMvHHX9ZKwQeWZplaNLGG2IK6gFQv320J5MrZainsfnqJCI8Z6prCdHgGlO3/DKnB2JFXLl0Hea3l4t/OtXMQJw8HIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791067172; c=relaxed/simple;
-	bh=HuVUuCJmc4v8sN+vlGE+8WMUaiSX19YVimwbKUk9Zlk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N9DCpjFMNceSnfLhNqCHyhpoYlXKPBXvLKtPgvyOs92E0qSpD2JqPXcGx1FXeDJ/mPpw6D1TpiAQ2P1SPmJzBF0DVQzqKaknSi/ljWW+EKiDUfQHtIBW+ivgKsxA8QNSekTAYGAnsWCWXuWGuVYe8sY7a0ZtnKRocjHxups3/OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKj1Yg8+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791083769; c=relaxed/simple;
+	bh=BMTxjU/NHo8XmVRbTj0Ek9ma4oMp1HmfP+KfsbCXQQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N4IzZoJZH5tnwNzv0BvbLJyOb3e35uzDVNduMVPIGNypPJULXLiLCoLX12Xwoz2MzH4SYV8z7w+BCsau4PoZ2j4wmG2iyU56211yjs1bkrSZAH6TkSVVrhHj9TBE/yWyJ98v0FjEuVVmCpdTrvfkQk+Js+trl4WYtQkebjf8GqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ia9/6v3p; arc=none smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKj1Yg8+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4235B1F0089C;
-	Sat,  3 Oct 2026 22:39:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791067170;
-	bh=a5E7aBxjkua2vJ6YK/zdeFq43OGLBivFfp7BcqdLzWw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=AKj1Yg8+c+iwjBp1N9MOweUVm2LOvzKEHkHYCgEDo9U5amASCATbmUbJG+OFBy24E
-	 3UuT6RDClopk38EnlGpd5HyePoQ5hKzVVO6Bl9V2UvDmLSCt1kqTyqWZV6t9ZH9Q85
-	 9cT2qFjfdXj2Z+5z3oEYkSMO+aN7PKiACqZcg56hC9PVEyTrdpsylONYPjOGDla4vx
-	 pUzLwQJNwjMvL+h65NjdgprTkun4WeLsbe/8bkVzFimSUt36qIj3LTnsa5ZIo1MBRV
-	 op+XbkvFTpPIum+39+hZKKmtaZoYxJXL1675gZe8hkY3Xn56DYOtWgFRVog9jf1A1h
-	 lJBQ5GFGOwa4Q==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org
-Cc: Sasha Levin <sashal@kernel.org>,
-	Artem Dinaburg <artem@trailofbits.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6.1.y] media: av7110: fix a spectre vulnerability
-Date: Sat,  3 Oct 2026 18:33:05 -0400
-Message-ID: <2026-10-03-1-daily-reply-0024-re-av7110-spectre-6-1@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261002195016.21386-1-artem@trailofbits.com>
-References: <20261002195016.21386-1-artem@trailofbits.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ia9/6v3p"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-154e9d2d979so136200c88.1
+        for <linux-staging@lists.linux.dev>; Sat, 03 Oct 2026 20:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791083766; x=1791688566; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=M9e1Z7o6EibuAFuj2iS/zWCWtXjJ8iqS1M/KsPh2Xls=;
+        b=Ia9/6v3pEX+2cQ79UfBmvy0TUn/UwBe2WecdvFgRmFbTTYlWZMZA1hjUvzTMjkrNEo
+         4P6BTbctSWcl5T7DHb0wWFn5ZyK/ADsOpF4Vs3ePEYASdTSNTYUqeOsjmV6NbtaLQuGO
+         92nvBoVfn4Y7S9u3FoilRJyIIeStvGlbs+DDqMmKi85EMSxS+t40oT+/bxQO5mzoaDh5
+         s4zow0G82Nwb+j5MOg4pA4MzD4oLJPKlOxZaSWpBQNrmSmB75iCpCPCjAgOukp07T3Uu
+         rol7zjkfR4tFTD5r+093zNHzq4j6CHDaaHwkF2F6ZLuhdvV7dIWaCIrG1n5hEVKsC88Z
+         egFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791083766; x=1791688566;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=M9e1Z7o6EibuAFuj2iS/zWCWtXjJ8iqS1M/KsPh2Xls=;
+        b=1muZ/R6zJWECM7RHp3eeHSIfta76uOtpeLbikCQAJb3lFBp/R7L3xFmBnuMZLrfvP/
+         iIbS23CQ1skK4oqP6SZ9Qn/DRYA1iYQGKBDUk5RQ3H47RHy+Tx2Q3JsoXIaUL7SLXb+z
+         G5PXgRKT1v2qs/KJR//FeRDMsmAv1zjbd0v0l8x6r2Mi0m7Lev1DNxzHnmbRNFU53uZ0
+         yv7b8Ez2CrU7jUS3BLJO3moHPJ97uqvQxAf62HCzy3k+L8jQBXF79TA4DUp4yZQQj7Lj
+         cCRHoavTlozVLEPb66nBjIGREqFQf2GlzpdMbltsEa15mZKwaV7QPgwqvwWgl+3g1vGt
+         SrBg==
+X-Gm-Message-State: AFuF++meT05lfXiNg3aFu4TrhI985HeG7huKWMYys/a/LnCPTLV84unM
+	esUsA1uvbh3CcbWfQz3J5qp5B45orQymNDdfKDvCUP55yzCRWsVPaMnr
+X-Gm-Gg: AYBFou1sGWPNvF39P9Tka0XyXzYlOHEVpmOTYyWT/PXcopNogXQvQ6uczfIQ+ukSkHk
+	Ya29ri2aHC9MbaSeucHo1ddIAV4AM2sJq4D5U4NqkwGsBJQItcrfkahBrdmOdKvX+ENnE8d5Tk1
+	ZK8hFUO4iuZGv0sOfhCrkxqoc7DBm+2M9RJ0uB5kb/Tk3X8uBewncvehGMIgshJH7VNqydAZe+N
+	/umgSacXk7AvdZQVfZQXRvpW0/yIEPkAo+0UQPy1Dewyegdpo+4wQuIr1XywYWACdNSIB+q6sn7
+	osH04bU9fJQ6VinbzbrZNQYWoCgIuD4tjF2Tk2rkjDKNFZYuXSpFevQ+tqe6beUO0cHvVbQT9FX
+	QsnO4kgOKkrrvmhWqBaors0en4knDFU2qSmv82X5RVyG6lawPEFMvMS31XHgbWI2yP/WOWRCdZ7
+	9JuQG0MAD0kUWyhTj6IPw2SPiz8o9ASXhVz5+0S6oIq3Mc59sfnK7Qa+J+aEaIHk4IyQ==
+X-Received: by 2002:a05:7022:1219:b0:14a:51c8:e9fb with SMTP id a92af1059eb24-14dd0ebf8acmr11951976c88.13.1791083766234;
+        Sat, 03 Oct 2026 20:16:06 -0700 (PDT)
+Received: from spidy ([2401:4900:55a7:b1f9:c64:d410:43fb:982c])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-151fa751693sm23197881c88.2.2026.10.03.20.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Oct 2026 20:16:05 -0700 (PDT)
+From: Gowtham S Bhushan <gowtham398gs@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Gowtham S Bhushan <gowtham398gs@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: rename dot118021x_UncstKey to dot118021x_uncst_key
+Date: Sun,  4 Oct 2026 08:44:57 +0530
+Message-ID: <20261004031457.23174-1-gowtham398gs@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,10 +72,196 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> [ Upstream commit 458ea1c0be991573ec436aa0afa23baacfae101a ]
+checkpatch.pl warns about CamelCase in the struct member
+dot118021x_UncstKey. Rename it to dot118021x_uncst_key to follow
+the kernel coding style.
+Also wrap lines that exceed 100 columns because of the longer name
 
-Queued for 6.1, thanks.
+Signed-off-by: Gowtham S Bhushan <gowtham398gs@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c           |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_cmd.c          |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c         |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_security.c     |  8 ++++----
+ drivers/staging/rtl8723bs/core/rtw_xmit.c         |  7 ++++---
+ drivers/staging/rtl8723bs/include/rtw_xmit.h      |  2 +-
+ drivers/staging/rtl8723bs/include/sta_info.h      |  2 +-
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 11 ++++++++---
+ 8 files changed, 21 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index f98360b59737..c76a2ed910e1 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1167,7 +1167,7 @@ u8 rtw_ap_set_pairwise_key(struct adapter *padapter, struct sta_info *psta)
+ 
+ 	memcpy(psetstakey_para->addr, psta->hwaddr, ETH_ALEN);
+ 
+-	memcpy(psetstakey_para->key, &psta->dot118021x_UncstKey, 16);
++	memcpy(psetstakey_para->key, &psta->dot118021x_uncst_key, 16);
+ 
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 1b95ef6996c6..c59b29a02298 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -880,7 +880,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 		GET_ENCRY_ALGO(psecuritypriv, sta, psetstakey_para->algorithm, false);
+ 
+ 	if (unicast_key)
+-		memcpy(&psetstakey_para->key, &sta->dot118021x_UncstKey, 16);
++		memcpy(&psetstakey_para->key, &sta->dot118021x_uncst_key, 16);
+ 	else
+ 		memcpy(&psetstakey_para->key, &psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey, 16);
+ 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 0d0602eb4808..7fa64c33a2b3 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -984,7 +984,7 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *adapter, stru
+ 			psta->ieee8021x_blocked = true;
+ 			psta->dot118021_x_privacy = adapter->securitypriv.dot11_privacy_algrthm;
+ 
+-			memset((u8 *)&psta->dot118021x_UncstKey, 0, sizeof(union Keytype));
++			memset((u8 *)&psta->dot118021x_uncst_key, 0, sizeof(union Keytype));
+ 
+ 			memset((u8 *)&psta->dot11tkiprxmickey, 0, sizeof(union Keytype));
+ 			memset((u8 *)&psta->dot11tkiptxmickey, 0, sizeof(union Keytype));
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 72af46391e23..c6a23ddc419f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -458,7 +458,7 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 	if (is_multicast_ether_addr(pattrib->ra))
+ 		prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
+ 	else
+-		prwskey = pattrib->dot118021x_UncstKey.skey;
++		prwskey = pattrib->dot118021x_uncst_key.skey;
+ 
+ 	for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
+ 		iv = pframe + pattrib->hdrlen;
+@@ -573,7 +573,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 
+ 		prwskey = psecuritypriv->dot118021XGrpKey[prxattrib->key_index].skey;
+ 	} else {
+-		prwskey = &stainfo->dot118021x_UncstKey.skey[0];
++		prwskey = &stainfo->dot118021x_uncst_key.skey[0];
+ 	}
+ 
+ 	iv = pframe + prxattrib->hdrlen;
+@@ -960,7 +960,7 @@ u32 rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 	if (is_multicast_ether_addr(pattrib->ra))
+ 		prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
+ 	else
+-		prwskey = pattrib->dot118021x_UncstKey.skey;
++		prwskey = pattrib->dot118021x_uncst_key.skey;
+ 
+ 	for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
+ 		if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
+@@ -1248,7 +1248,7 @@ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
+ 			goto exit;
+ 		}
+ 	} else {
+-		prwskey = &stainfo->dot118021x_UncstKey.skey[0];
++		prwskey = &stainfo->dot118021x_uncst_key.skey[0];
+ 	}
+ 
+ 	length = ((union recv_frame *)precvframe)->u.hdr.len -
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 57b3690bc48a..4e2f96fc33e3 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -512,7 +512,7 @@ static int update_attrib_sec_info(struct adapter *padapter, struct pkt_attrib *p
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	signed int bmcast = is_multicast_ether_addr(pattrib->ra);
+ 
+-	memset(pattrib->dot118021x_UncstKey.skey,  0, 16);
++	memset(pattrib->dot118021x_uncst_key.skey,  0, 16);
+ 	memset(pattrib->dot11tkiptxmickey.skey,  0, 16);
+ 	pattrib->mac_id = psta->mac_id;
+ 
+@@ -589,7 +589,7 @@ static int update_attrib_sec_info(struct adapter *padapter, struct pkt_attrib *p
+ 	}
+ 
+ 	if (pattrib->encrypt > 0)
+-		memcpy(pattrib->dot118021x_UncstKey.skey, psta->dot118021x_UncstKey.skey, 16);
++		memcpy(pattrib->dot118021x_uncst_key.skey, psta->dot118021x_uncst_key.skey, 16);
+ 
+ 	if (pattrib->encrypt &&
+ 		((padapter->securitypriv.sw_encrypt) || (!psecuritypriv->hw_decrypted)))
+@@ -1289,7 +1289,8 @@ int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 				goto xmitframe_coalesce_fail;
+ 			/* before encrypt dump the management packet content */
+ 			if (pattrib->encrypt > 0)
+-				memcpy(pattrib->dot118021x_UncstKey.skey, psta->dot118021x_UncstKey.skey, 16);
++				memcpy(pattrib->dot118021x_uncst_key.skey,
++				       psta->dot118021x_uncst_key.skey, 16);
+ 			/* bakeup original management packet */
+ 			memcpy(tmp_buf, pframe, pattrib->pktlen);
+ 			/* move to data portion */
+diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+index c5cb814789d8..d6970f244ed0 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
++++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+@@ -162,7 +162,7 @@ struct pkt_attrib {
+ 	u8 rtsen;
+ 	u8 cts2self;
+ 	union Keytype	dot11tkiptxmickey;
+-	union Keytype	dot118021x_UncstKey;
++	union Keytype	dot118021x_uncst_key;
+ 
+ 	u8 icmp_pkt;
+ 
+diff --git a/drivers/staging/rtl8723bs/include/sta_info.h b/drivers/staging/rtl8723bs/include/sta_info.h
+index 21a4ca841e6e..59f17b67335e 100644
+--- a/drivers/staging/rtl8723bs/include/sta_info.h
++++ b/drivers/staging/rtl8723bs/include/sta_info.h
+@@ -90,7 +90,7 @@ struct sta_info {
+ 	uint dot118021_x_privacy; /* aes, tkip... */
+ 	union Keytype dot11tkiptxmickey;
+ 	union Keytype dot11tkiprxmickey;
+-	union Keytype dot118021x_UncstKey;
++	union Keytype dot118021x_uncst_key;
+ 	union pn48 dot11txpn;			/*  PN48 used for Unicast xmit */
+ 	union pn48 dot11wtxpn;			/*  PN48 used for Unicast mgmt xmit. */
+ 	union pn48 dot11rxpn;			/*  PN48 used for Unicast recv. */
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index a715ac6aa6b9..7144b058b601 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -607,7 +607,8 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 	if (psecuritypriv->dot11_auth_algrthm == dot11_auth_algrthm_8021x && psta) {/* psk/802_1x */
+ 		if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
+ 			if (param->u.crypt.set_tx == 1) { /* pairwise key */
+-				memcpy(psta->dot118021x_UncstKey.skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
++				memcpy(psta->dot118021x_uncst_key.skey, param->u.crypt.key,
++				       (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+ 
+ 				if (strcmp(param->u.crypt.alg, "WEP") == 0) {
+ 					psta->dot118021_x_privacy = _WEP40_;
+@@ -636,7 +637,9 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 
+ 			} else { /* group key??? */
+ 				if (strcmp(param->u.crypt.alg, "WEP") == 0) {
+-					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
++					memcpy(grpkey, param->u.crypt.key,
++					       (param->u.crypt.key_len > 16 ? 16 :
++						param->u.crypt.key_len));
+ 
+ 					psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
+ 					if (param->u.crypt.key_len == 13)
+@@ -770,7 +773,9 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 
+ 				if (param->u.crypt.set_tx == 1) { /* pairwise key */
+ 
+-					memcpy(psta->dot118021x_UncstKey.skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
++					memcpy(psta->dot118021x_uncst_key.skey, param->u.crypt.key,
++					       (param->u.crypt.key_len > 16 ? 16 :
++						param->u.crypt.key_len));
+ 
+ 					if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
+ 						memcpy(psta->dot11tkiptxmickey.skey, &param->u.crypt.key[16], 8);
 -- 
-Thanks,
-Sasha
+2.55.0
+
