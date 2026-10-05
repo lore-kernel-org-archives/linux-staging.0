@@ -1,36 +1,36 @@
 Received: from out-2z4y-a144.jellyfish.systems (out-2z4y-a144.jellyfish.systems [198.54.127.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E55F153BE9
-	for <linux-staging@lists.linux.dev>; Mon,  5 Oct 2026 06:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28540357D02
+	for <linux-staging@lists.linux.dev>; Mon,  5 Oct 2026 06:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791180112; cv=none; b=j+IeWd3dzAeUK/gqk2jzFRhiAw293ftbmpInXob8lD+2/rdDfjyZ0qGstRJ6jBGLSuouTZLMuqqauPZSOYYLrzahOBkorbESwQV6LYJILD5qSst7+SYcwiTdetsSpMvStyHHVpULvHrBWa5l+ESp9qlidhAp/Yk1QCcrrFAieRU=
+	t=1791182136; cv=none; b=sTVmgvfSpiQzYoHt8R3H9Y26ctWzdO3uuyVY3FpA9aBJjDPFkPMIqvQ9iqRU1V7YedR2FTuBRG17Cbi/EZVx4+Knt8kgJbTIG7HjYGrrjoCRpf7gq8Rat0cLpHyIb5mtsofbhZMubmDlL3quJ82Vykn7jJWAlp122D/flNtX2+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791180112; c=relaxed/simple;
-	bh=7jY9A41SlMt+zz5Lg8UB7nGuOgaMq2235miUuh8pC24=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CY4JYFcGgPqP856w/QCsUIfVDiQzB9lduuVBH9hSDj5MgQMN+Nna/MCUIvssX2mCG7jXPVFamHLvd8189CcWzCTwNfPJIomzqKlxO/2bpGPgIPE5i314g7WLt1e6nXlISzmsys3u4YPiYySUeYevFpsUtO+ED9UhPbPAdNQq6xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=pZs7Rztq; arc=none smtp.client-ip=198.54.127.144
+	s=arc-20240116; t=1791182136; c=relaxed/simple;
+	bh=PTGmCC+ctpZ97bVZ6YQzHtRjaWdcVXGe8ToSu8hMtbY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vEf/H/aSdopSa1EAPvZMKyJ8u3N4YU9DQMKoM8WvKDe0TPFvhUBYmzDTlvVUqEILTO42rXKhBGRQExpoMYYBlhk4zQ/u9BLywJpUfoFqNDRmsUiyh+8UgNKA/1TqN7Qre5MGL439P3Bj8+lLihkTVnHDNB7BFHKz/5PPYTxLpbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=lTefF8Ij; arc=none smtp.client-ip=198.54.127.144
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=firmwaredesign.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="pZs7Rztq"
+	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="lTefF8Ij"
 Received: from mail.privateemail.com (unknown [98.240.242.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.privateemail.com (Postfix) with ESMTPSA id 4hypg7174Jz8sWQ;
-	Mon, 05 Oct 2026 06:01:39 +0000 (UTC)
+	by mail.privateemail.com (Postfix) with ESMTPSA id 4hyqPr5qy1zyN8;
+	Mon, 05 Oct 2026 06:35:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=firmwaredesign.org;
-	s=privateemail; t=1791180100;
-	bh=3bseDGG7gqJHvtnhTK5jGTwFBoFgdBRmb/bKEa5O35k=;
+	s=privateemail; t=1791182113;
+	bh=nL4DI4IWdUkdgB4IvlHz3lx6yiOYEXyRIDxV95zcaYw=;
 	h=From:To:Cc:Subject:Date:From;
-	b=pZs7RztqOL4hO0tWg0RvGxJzMcJdTsBx00Qe+XEs5o0VTHkH7M+2EZgMANAq6+vVF
-	 HyWf4nGPVlVAf2BsrdOK9KbfwuOWR+W90L2iMsNbg/AdQd9b+Caxagt30EV4NbCB4P
-	 faTuMIDarQuwO2IYOWeOI5LVxCmypjmMW1qMU4bc2XKo9qzP7FCDVkrrNpxfzeuNYJ
-	 yJavm7Pqi/wBOlSm3faJPwMeuYZk7uMk/189uJ4Pjy5JsRtCgVIWRkpOjYdi/Dj8Er
-	 gkTen9V0OutB6vDhhdZUH/W0ZuXYKKk+Hes+KCDP4xFXokeaXVBPRQ+wyaOgnmU0Aj
-	 HPBEUpWLx82Ew==
+	b=lTefF8IjJ8vVeRD6sQ+eAmDk4uspLBBcldAr4OmIzpNNP0jmmcf4Xo4Go9QH9XZF/
+	 slloVCEDjI4OACNTQqlI5W1rBL8d7qQ7tmVdpGFMAZJ5dCCLM35iZSFyHpE4XCG82g
+	 Ej7TjPQjsTcbrmPI9+iW9E5TCTBn4/lzE34z24vdTZhfy7MCHy+9ciw8m0/G4ReEyg
+	 wOn8LexF7uCuUIeuqBq7OlBWrYW5A+glTQ3CIEDIYgIgneYk5MX4CJbmYyma3gtRSB
+	 gObaNBuUz/oMaKEO8brwuGfJO3HRQeEFZzZgd/dKW27j7z5R7Dx7FK+VS08LJoDzuV
+	 5vTf9M/w6l53A==
 From: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
 To: vaibhav.sr@gmail.com,
 	mgreer@animalcreek.com,
@@ -41,9 +41,9 @@ Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
-Subject: [PATCH] staging: greybus: audio: fix use-after-free in gbcodec_hw_params
-Date: Mon,  5 Oct 2026 01:01:26 -0500
-Message-ID: <20261005060126.93732-1-marinela.selseth@firmwaredesign.org>
+Subject: [PATCH] staging: greybus: bootrom: fix null pointer dereference in get_firmware
+Date: Mon,  5 Oct 2026 01:34:54 -0500
+Message-ID: <20261005063454.95647-1-marinela.selseth@firmwaredesign.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,61 +54,50 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Envelope-From: marinela.selseth@firmwaredesign.org
 
-Automated semantic analysis via Coccinelle uncovered a use-after-free
-vulnerability in gbcodec_hw_params() caused by accessing a list
-iterator variable outside the loop boundary.
+Automated static analysis via Coccinelle uncovered a potential null
+pointer dereference and uninitialized stack pointer vulnerability
+inside gb_bootrom_get_firmware().
 
-The routine walks through the codec module list using
-'list_for_each_entry' to locate a matching data connection.
-After the loop exits, the iterator pointer 'module' becomes
-out-of-bounds. Attempting to pass this unmapped reference into
-'to_gb_bundle()' down the line triggers a critical kernel panic.
+The routine evaluates whether a firmware transmission sequence is
+complete at its trailing 'queue_work:' label by checking if the
+transfer bounds match 'fw->size'.
+When this label is reached the 'fw' can be uninitialized or NULL.
+Both scenarios expose the kernel to critical memory faults or null
+pointer panics.
 
-Fix this flaw by introducing a dedicated copy 'allocated_module'.
-Cache the matched pointer inside the loop block only when
-'find_data()' returns a valid reference, and route the subsequent
-power management execution steps safely through this verified object
-tracking reference.
+Fix these dual vulnerability paths by initializing the 'fw' pointer
+to NULL at its top-level definition block and introducing an
+explicit short-circuit guard condition to safely gate the
+trailing size evaluation.
 
 Assisted-by: Gemini
 Signed-off-by: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
 ---
- drivers/staging/greybus/audio_codec.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/staging/greybus/bootrom.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
-index 6daa4e706792..a0645bf83097 100644
---- a/drivers/staging/greybus/audio_codec.c
-+++ b/drivers/staging/greybus/audio_codec.c
-@@ -396,6 +396,7 @@ static int gbcodec_hw_params(struct snd_pcm_substream *substream,
- 	u8 sig_bits, channels;
- 	u32 format, rate;
- 	struct gbaudio_module_info *module;
-+	struct gbaudio_module_info *allocated_module = NULL;
- 	struct gbaudio_data_connection *data;
- 	struct gb_bundle *bundle;
- 	struct gbaudio_codec_info *codec = dev_get_drvdata(dai->dev);
-@@ -439,8 +440,10 @@ static int gbcodec_hw_params(struct snd_pcm_substream *substream,
- 	/* find the data connection */
- 	list_for_each_entry(module, &codec->module_list, list) {
- 		data = find_data(module, dai->id);
--		if (data)
-+		if (data) {
-+			allocated_module = module;
- 			break;
-+		}
- 	}
+diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
+index 83921d90c322..cead4b505f6c 100644
+--- a/drivers/staging/greybus/bootrom.c
++++ b/drivers/staging/greybus/bootrom.c
+@@ -241,7 +241,7 @@ static int gb_bootrom_firmware_size_request(struct gb_operation *op)
+ static int gb_bootrom_get_firmware(struct gb_operation *op)
+ {
+ 	struct gb_bootrom *bootrom = gb_connection_get_data(op->connection);
+-	const struct firmware *fw;
++	const struct firmware *fw = NULL;
+ 	struct gb_bootrom_get_firmware_request *firmware_request;
+ 	struct device *dev = &op->connection->bundle->dev;
+ 	unsigned int offset, size;
+@@ -298,7 +298,7 @@ static int gb_bootrom_get_firmware(struct gb_operation *op)
  
- 	if (!data) {
-@@ -456,7 +459,7 @@ static int gbcodec_hw_params(struct snd_pcm_substream *substream,
- 		return -EINVAL;
- 	}
- 
--	bundle = to_gb_bundle(module->dev);
-+	bundle = to_gb_bundle(allocated_module->dev);
- 	ret = gb_pm_runtime_get_sync(bundle);
- 	if (ret) {
- 		mutex_unlock(&codec->lock);
+ queue_work:
+ 	/* Refresh timeout */
+-	if (!ret && (offset + size == fw->size))
++	if (fw && !ret && (offset + size == fw->size))
+ 		next_request = NEXT_REQ_READY_TO_BOOT;
+ 	else
+ 		next_request = NEXT_REQ_GET_FIRMWARE;
 -- 
 2.43.0
 
