@@ -1,44 +1,49 @@
-Received: from out-93wp-a17.jellyfish.systems (out-93wp-a17.jellyfish.systems [104.207.68.17])
+Received: from out-2z4y-a144.jellyfish.systems (out-2z4y-a144.jellyfish.systems [198.54.127.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C321E2E7394
-	for <linux-staging@lists.linux.dev>; Mon,  5 Oct 2026 04:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.207.68.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E55F153BE9
+	for <linux-staging@lists.linux.dev>; Mon,  5 Oct 2026 06:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791174588; cv=none; b=hMkdSwYp2PC12PFx4IlulS+BoVhByoJkbISIBrK/EHEZX+7LsbXUsVkI6avRfuXZZvqFAJxsxhUsytQWqDYUcQF6nEUoMAMz1wHHjojuUCyYBtlAbK6lp7oqiY/AelAYFkYkzhoAN74fTTdqzhHHibuBLk5wKHqnK3uggsMHdUY=
+	t=1791180112; cv=none; b=j+IeWd3dzAeUK/gqk2jzFRhiAw293ftbmpInXob8lD+2/rdDfjyZ0qGstRJ6jBGLSuouTZLMuqqauPZSOYYLrzahOBkorbESwQV6LYJILD5qSst7+SYcwiTdetsSpMvStyHHVpULvHrBWa5l+ESp9qlidhAp/Yk1QCcrrFAieRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791174588; c=relaxed/simple;
-	bh=8YI2FJFNtwcbRik4bllybK3nDGi2VpD6uJ/8GFvWFaU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cfPI8BnJNephrvAyfJfzeOpv/a1cSXmUD5WDvtt8hE/8mjLVz3G4pKV19KGF72yImfsw5zS0DCz7LWjffeZ3qeIFpHVy2kdy31vwJURJbwEKdP9r7y9mmclktsxU5s6nIplheIDlsBwmhJ8GBikcIiK8vH957CKzsbAMGnw8Xq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=qgfJn3p8; arc=none smtp.client-ip=104.207.68.17
+	s=arc-20240116; t=1791180112; c=relaxed/simple;
+	bh=7jY9A41SlMt+zz5Lg8UB7nGuOgaMq2235miUuh8pC24=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CY4JYFcGgPqP856w/QCsUIfVDiQzB9lduuVBH9hSDj5MgQMN+Nna/MCUIvssX2mCG7jXPVFamHLvd8189CcWzCTwNfPJIomzqKlxO/2bpGPgIPE5i314g7WLt1e6nXlISzmsys3u4YPiYySUeYevFpsUtO+ED9UhPbPAdNQq6xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=pZs7Rztq; arc=none smtp.client-ip=198.54.127.144
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=firmwaredesign.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="qgfJn3p8"
+	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="pZs7Rztq"
 Received: from mail.privateemail.com (unknown [98.240.242.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.privateemail.com (Postfix) with ESMTPSA id 4hymcj0b8mz2x9B;
-	Mon, 05 Oct 2026 04:29:24 +0000 (UTC)
+	by mail.privateemail.com (Postfix) with ESMTPSA id 4hypg7174Jz8sWQ;
+	Mon, 05 Oct 2026 06:01:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=firmwaredesign.org;
-	s=privateemail; t=1791174565;
-	bh=xAOFedc7WXMh96NVjyctLQdxLbrd4fJkRzu2avHa5xg=;
+	s=privateemail; t=1791180100;
+	bh=3bseDGG7gqJHvtnhTK5jGTwFBoFgdBRmb/bKEa5O35k=;
 	h=From:To:Cc:Subject:Date:From;
-	b=qgfJn3p8xrtXCQ5D7jYu1Kox05EYXxEc2j7BKO/4oA7ZeH+4tnOv1FjqgDx8F0YtF
-	 iGZ1yoxtg6YMv5NWBXllwB/bwKaffzR30c1bEJzo9fA1dmDZtRwW6TeNo5Vws+a8bg
-	 a4z1xVisLwhYeFC9Q3phMVIyJ9Xn6f6huuuvy6mOD1NBJmkGF4JIs8cAlXRjBAlX/o
-	 IxEiXyPHimdH8Xz7/z0/Ad22t6On/KZK5zJfod/jyCrjYsITTjsbvDw1dKH1lmerVP
-	 /CbmDAmiuHBRtShzJX8vAVeztocuMr32C8Yd9vK6plpI76X5IrokPpThP3DO4XM26n
-	 vpHHVsyuaPFsg==
+	b=pZs7RztqOL4hO0tWg0RvGxJzMcJdTsBx00Qe+XEs5o0VTHkH7M+2EZgMANAq6+vVF
+	 HyWf4nGPVlVAf2BsrdOK9KbfwuOWR+W90L2iMsNbg/AdQd9b+Caxagt30EV4NbCB4P
+	 faTuMIDarQuwO2IYOWeOI5LVxCmypjmMW1qMU4bc2XKo9qzP7FCDVkrrNpxfzeuNYJ
+	 yJavm7Pqi/wBOlSm3faJPwMeuYZk7uMk/189uJ4Pjy5JsRtCgVIWRkpOjYdi/Dj8Er
+	 gkTen9V0OutB6vDhhdZUH/W0ZuXYKKk+Hes+KCDP4xFXokeaXVBPRQ+wyaOgnmU0Aj
+	 HPBEUpWLx82Ew==
 From: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
+To: vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
-Subject: [PATCH] staging: vme_user: fix list iterator tracking and prune dead validations
-Date: Sun,  4 Oct 2026 23:29:11 -0500
-Message-ID: <20261005042911.64922-1-marinela.selseth@firmwaredesign.org>
+Subject: [PATCH] staging: greybus: audio: fix use-after-free in gbcodec_hw_params
+Date: Mon,  5 Oct 2026 01:01:26 -0500
+Message-ID: <20261005060126.93732-1-marinela.selseth@firmwaredesign.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -49,179 +54,61 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Envelope-From: marinela.selseth@firmwaredesign.org
 
-Automated static analysis runs using 'make coccicheck' uncovered
-multiple critical logic and validation flaws inside the VME subsystem.
-The file drivers/staging/vme_user/vme.c contained repetitive
-unreachable checks testing list iterator pointers for NULL (such as if
-(!dma_ctrlr) and if (!lm)) immediately following 'list_for_each_entry'
-loop boundaries.
-Because of internal pointer arithmetic designs, these loop variables
-are mathematically guaranteed to never evaluate to NULL during loop
-processing.
+Automated semantic analysis via Coccinelle uncovered a use-after-free
+vulnerability in gbcodec_hw_params() caused by accessing a list
+iterator variable outside the loop boundary.
 
-Worse, if memory allocations failed for the corresponding structure
-images, the error cleanup paths ('err_alloc:') attempted to acquire
-spinlocks or mutex blocks using those same loop iterators. Since the
-traversal was already complete, these pointers held out-of-bounds,
-scrambled memory offsets, exposing the kernel to critical Null Pointer
-Dereference panics.
+The routine walks through the codec module list using
+'list_for_each_entry' to locate a matching data connection.
+After the loop exits, the iterator pointer 'module' becomes
+out-of-bounds. Attempting to pass this unmapped reference into
+'to_gb_bundle()' down the line triggers a critical kernel panic.
 
-Clean up this driver architecture by removing the unreachable loop
-checks entirely, dropping stale, misleading warning statements, and
-routing the post-loop lock cleanups cleanly through verified
-allocation tracking pointer references.
+Fix this flaw by introducing a dedicated copy 'allocated_module'.
+Cache the matched pointer inside the loop block only when
+'find_data()' returns a valid reference, and route the subsequent
+power management execution steps safely through this verified object
+tracking reference.
 
 Assisted-by: Gemini
 Signed-off-by: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
 ---
- drivers/staging/vme_user/vme.c | 69 +++++++++++-----------------------
- 1 file changed, 21 insertions(+), 48 deletions(-)
+ drivers/staging/greybus/audio_codec.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index b5c66b66ce32..fb9f6acbbe62 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -264,17 +264,11 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
+diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
+index 6daa4e706792..a0645bf83097 100644
+--- a/drivers/staging/greybus/audio_codec.c
++++ b/drivers/staging/greybus/audio_codec.c
+@@ -396,6 +396,7 @@ static int gbcodec_hw_params(struct snd_pcm_substream *substream,
+ 	u8 sig_bits, channels;
+ 	u32 format, rate;
+ 	struct gbaudio_module_info *module;
++	struct gbaudio_module_info *allocated_module = NULL;
+ 	struct gbaudio_data_connection *data;
+ 	struct gb_bundle *bundle;
+ 	struct gbaudio_codec_info *codec = dev_get_drvdata(dai->dev);
+@@ -439,8 +440,10 @@ static int gbcodec_hw_params(struct snd_pcm_substream *substream,
+ 	/* find the data connection */
+ 	list_for_each_entry(module, &codec->module_list, list) {
+ 		data = find_data(module, dai->id);
+-		if (data)
++		if (data) {
++			allocated_module = module;
+ 			break;
++		}
+ 	}
  
- 	/* Loop through slave resources */
- 	list_for_each_entry(slave_image, &bridge->slave_resources, list) {
--		if (!slave_image) {
--			dev_err(bridge->parent,
--				"Registered NULL Slave resource\n");
--			continue;
--		}
--
- 		/* Find an unlocked and compatible image */
- 		mutex_lock(&slave_image->mtx);
- 		if (((slave_image->address_attr & address) == address) &&
--		    ((slave_image->cycle_attr & cycle) == cycle) &&
--		    !slave_image->locked) {
-+			((slave_image->cycle_attr & cycle) == cycle) &&
-+			!slave_image->locked) {
- 			slave_image->locked = 1;
- 			mutex_unlock(&slave_image->mtx);
- 			allocated_image = slave_image;
-@@ -298,9 +292,9 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
+ 	if (!data) {
+@@ -456,7 +459,7 @@ static int gbcodec_hw_params(struct snd_pcm_substream *substream,
+ 		return -EINVAL;
+ 	}
  
- err_alloc:
- 	/* Unlock image */
--	mutex_lock(&slave_image->mtx);
--	slave_image->locked = 0;
--	mutex_unlock(&slave_image->mtx);
-+	mutex_lock(&allocated_image->mtx);
-+	allocated_image->locked = 0;
-+	mutex_unlock(&allocated_image->mtx);
- err_image:
- err_bus:
- 	return NULL;
-@@ -458,18 +452,12 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
- 
- 	/* Loop through master resources */
- 	list_for_each_entry(master_image, &bridge->master_resources, list) {
--		if (!master_image) {
--			dev_warn(bridge->parent,
--				 "Registered NULL master resource\n");
--			continue;
--		}
--
- 		/* Find an unlocked and compatible image */
- 		spin_lock(&master_image->lock);
- 		if (((master_image->address_attr & address) == address) &&
--		    ((master_image->cycle_attr & cycle) == cycle) &&
--		    ((master_image->width_attr & dwidth) == dwidth) &&
--		    !master_image->locked) {
-+			((master_image->cycle_attr & cycle) == cycle) &&
-+			((master_image->width_attr & dwidth) == dwidth) &&
-+			!master_image->locked) {
- 			master_image->locked = 1;
- 			spin_unlock(&master_image->lock);
- 			allocated_image = master_image;
-@@ -494,10 +482,10 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
- 	return resource;
- 
- err_alloc:
--	/* Unlock image */
--	spin_lock(&master_image->lock);
--	master_image->locked = 0;
--	spin_unlock(&master_image->lock);
-+	/* Unlock image using the valid tracking pointer reference */
-+	spin_lock(&allocated_image->lock);
-+	allocated_image->locked = 0;
-+	spin_unlock(&allocated_image->lock);
- err_image:
- err_bus:
- 	return NULL;
-@@ -821,9 +809,6 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
- 	struct vme_dma_resource *dma_ctrlr;
- 	struct vme_resource *resource = NULL;
- 
--	/* XXX Not checking resource attributes */
--	dev_err(&vdev->dev, "No VME resource Attribute tests done\n");
--
- 	bridge = vdev->bridge;
- 	if (!bridge) {
- 		dev_err(&vdev->dev, "Can't find VME bus\n");
-@@ -832,16 +817,10 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
- 
- 	/* Loop through DMA resources */
- 	list_for_each_entry(dma_ctrlr, &bridge->dma_resources, list) {
--		if (!dma_ctrlr) {
--			dev_err(bridge->parent,
--				"Registered NULL DMA resource\n");
--			continue;
--		}
--
- 		/* Find an unlocked and compatible controller */
- 		mutex_lock(&dma_ctrlr->mtx);
- 		if (((dma_ctrlr->route_attr & route) == route) &&
--		    !dma_ctrlr->locked) {
-+			!dma_ctrlr->locked) {
- 			dma_ctrlr->locked = 1;
- 			mutex_unlock(&dma_ctrlr->mtx);
- 			allocated_ctrlr = dma_ctrlr;
-@@ -864,10 +843,10 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
- 	return resource;
- 
- err_alloc:
--	/* Unlock image */
--	mutex_lock(&dma_ctrlr->mtx);
--	dma_ctrlr->locked = 0;
--	mutex_unlock(&dma_ctrlr->mtx);
-+	/* Unlock image using the valid allocated pointer tracking reference */
-+	mutex_lock(&allocated_ctrlr->mtx);
-+	allocated_ctrlr->locked = 0;
-+	mutex_unlock(&allocated_ctrlr->mtx);
- err_ctrlr:
- err_bus:
- 	return NULL;
-@@ -1437,12 +1416,6 @@ struct vme_resource *vme_lm_request(struct vme_dev *vdev)
- 
- 	/* Loop through LM resources */
- 	list_for_each_entry(lm, &bridge->lm_resources, list) {
--		if (!lm) {
--			dev_err(bridge->parent,
--				"Registered NULL Location Monitor resource\n");
--			continue;
--		}
--
- 		/* Find an unlocked controller */
- 		mutex_lock(&lm->mtx);
- 		if (!lm->locked) {
-@@ -1468,10 +1441,10 @@ struct vme_resource *vme_lm_request(struct vme_dev *vdev)
- 	return resource;
- 
- err_alloc:
--	/* Unlock image */
--	mutex_lock(&lm->mtx);
--	lm->locked = 0;
--	mutex_unlock(&lm->mtx);
-+	/* Unlock image using the valid tracking pointer */
-+	mutex_lock(&allocated_lm->mtx);
-+	allocated_lm->locked = 0;
-+	mutex_unlock(&allocated_lm->mtx);
- err_lm:
- err_bus:
- 	return NULL;
+-	bundle = to_gb_bundle(module->dev);
++	bundle = to_gb_bundle(allocated_module->dev);
+ 	ret = gb_pm_runtime_get_sync(bundle);
+ 	if (ret) {
+ 		mutex_unlock(&codec->lock);
 -- 
 2.43.0
 
