@@ -1,48 +1,45 @@
-Received: from out-zbxj-a82.jellyfish.systems (out-zbxj-a82.jellyfish.systems [198.54.127.82])
+Received: from out-93wp-a17.jellyfish.systems (out-93wp-a17.jellyfish.systems [104.207.68.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13ED42E975E
-	for <linux-staging@lists.linux.dev>; Sun,  4 Oct 2026 22:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C321E2E7394
+	for <linux-staging@lists.linux.dev>; Mon,  5 Oct 2026 04:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.207.68.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791152926; cv=none; b=KfdIyz6Yp8dY9MM5muRyuoSepJsUwaGukplOQYc7zF4G6nXInF1LHUzdduy1v4sfUrntCwBME12izPP0vxgAZymEzoTjGmlKq7W/44yg2+yddXXX9RgSquHn1hGmF40r4XUivWY9K0Pkh5P11con+rDl6x7tkKY2ZE0soD3Wmls=
+	t=1791174588; cv=none; b=hMkdSwYp2PC12PFx4IlulS+BoVhByoJkbISIBrK/EHEZX+7LsbXUsVkI6avRfuXZZvqFAJxsxhUsytQWqDYUcQF6nEUoMAMz1wHHjojuUCyYBtlAbK6lp7oqiY/AelAYFkYkzhoAN74fTTdqzhHHibuBLk5wKHqnK3uggsMHdUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791152926; c=relaxed/simple;
-	bh=GX8I0TtFsIn43uI1bSsCrzztER/HUidBqH1LEAt++gE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q7gO0pfNkHysyxfnde7Gt+RzDnCoTTezbWvO5ZBvi1lmBm83zwu8B02K0IvsP3ZQGQu9aIRyns6omNHDSPs1MKG3Tr7TPVY5PWxkF5/ZRLgQQhBmgSzEfyPo7QEtqOZ/H6odv6In9CPOji+pk+2vWv6IZ2YWh+nPtC0WKrf5BhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=BA2pjqlK; arc=none smtp.client-ip=198.54.127.82
+	s=arc-20240116; t=1791174588; c=relaxed/simple;
+	bh=8YI2FJFNtwcbRik4bllybK3nDGi2VpD6uJ/8GFvWFaU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cfPI8BnJNephrvAyfJfzeOpv/a1cSXmUD5WDvtt8hE/8mjLVz3G4pKV19KGF72yImfsw5zS0DCz7LWjffeZ3qeIFpHVy2kdy31vwJURJbwEKdP9r7y9mmclktsxU5s6nIplheIDlsBwmhJ8GBikcIiK8vH957CKzsbAMGnw8Xq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=qgfJn3p8; arc=none smtp.client-ip=104.207.68.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=firmwaredesign.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="BA2pjqlK"
+	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="qgfJn3p8"
 Received: from mail.privateemail.com (unknown [98.240.242.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.privateemail.com (Postfix) with ESMTPSA id 4hyccJ2v71z2x9B;
-	Sun, 04 Oct 2026 22:28:32 +0000 (UTC)
+	by mail.privateemail.com (Postfix) with ESMTPSA id 4hymcj0b8mz2x9B;
+	Mon, 05 Oct 2026 04:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=firmwaredesign.org;
-	s=privateemail; t=1791152912;
-	bh=EDAigJfhrFTp+/ctGv1sW/fHwuRk0CQfk9FLtZ4nGxo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BA2pjqlKQ63h1Nk9/wZTURz7pHNJtyyy4op0qFkJCOuk/+7ZmA3sljhcHR1Yu+uhz
-	 ge1PTjGZOf7rQ4xUTj9jtycQ+34WmxPZR0sSSOMOiP4JrwdUOFmEQRv48bvyEYEIYN
-	 Vp5n++dmkwME8ooWrtlRbK7ZjXJEtyOfaNjfvE3RKQXAQpVo8/lh2Gvo0cWiOzY00I
-	 HK46d0N4N0k1QGyktLFP/P8Q0ewMjRlSvs/9CDnIgOVP2js1FdvpgsPWUpuvYusmRt
-	 puG5qXExTkWhonIT+C+xCJv5h+auAqYpvD1F1LUZQ9AnG5yqFzcmdDvmNf6aGuFZaK
-	 Q3D4okk9eeC9A==
+	s=privateemail; t=1791174565;
+	bh=xAOFedc7WXMh96NVjyctLQdxLbrd4fJkRzu2avHa5xg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qgfJn3p8xrtXCQ5D7jYu1Kox05EYXxEc2j7BKO/4oA7ZeH+4tnOv1FjqgDx8F0YtF
+	 iGZ1yoxtg6YMv5NWBXllwB/bwKaffzR30c1bEJzo9fA1dmDZtRwW6TeNo5Vws+a8bg
+	 a4z1xVisLwhYeFC9Q3phMVIyJ9Xn6f6huuuvy6mOD1NBJmkGF4JIs8cAlXRjBAlX/o
+	 IxEiXyPHimdH8Xz7/z0/Ad22t6On/KZK5zJfod/jyCrjYsITTjsbvDw1dKH1lmerVP
+	 /CbmDAmiuHBRtShzJX8vAVeztocuMr32C8Yd9vK6plpI76X5IrokPpThP3DO4XM26n
+	 vpHHVsyuaPFsg==
 From: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
 To: gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	marinela.selseth@firmwaredesign.org
-Subject: [PATCH v2] staging: rtl8723bs: remove dead antenna diversity infrastructure (FAT/SWAT)
-Date: Sun,  4 Oct 2026 17:28:21 -0500
-Message-ID: <20261004222821.6524-1-marinela.selseth@firmwaredesign.org>
+	Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
+Subject: [PATCH] staging: vme_user: fix list iterator tracking and prune dead validations
+Date: Sun,  4 Oct 2026 23:29:11 -0500
+Message-ID: <20261005042911.64922-1-marinela.selseth@firmwaredesign.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2026100304-entomb-collector-9004@gregkh>
-References: <2026100304-entomb-collector-9004@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,273 +49,179 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Envelope-From: marinela.selseth@firmwaredesign.org
 
-Manual code tracking via grep reveals that the driver contains code
-for Fast Antenna Training (FAT) and Software Antenna Switching (SWAS)
-that are completely uninitialized, unread, or write-only.
+Automated static analysis runs using 'make coccicheck' uncovered
+multiple critical logic and validation flaws inside the VME subsystem.
+The file drivers/staging/vme_user/vme.c contained repetitive
+unreachable checks testing list iterator pointers for NULL (such as if
+(!dma_ctrlr) and if (!lm)) immediately following 'list_for_each_entry'
+loop boundaries.
+Because of internal pointer arithmetic designs, these loop variables
+are mathematically guaranteed to never evaluate to NULL during loop
+processing.
 
-Remove the 'struct fat_t' definition from hal/odm.h and refactor the
-fallback path in hal/rtl8723b_phycfg.c. Because the unassigned
-structural member 'RxIdleAnt' naturally defaults to 0, the conditional
-path check statically resolves to false, permanently routing RFPath to
-RF_PATH_B whenever antenna diversity is active. Hardcode this layout
-behavior to match factual reality and remove the now unused macro
-'MAIN_ANT'.
+Worse, if memory allocations failed for the corresponding structure
+images, the error cleanup paths ('err_alloc:') attempted to acquire
+spinlocks or mutex blocks using those same loop iterators. Since the
+traversal was already complete, these pointers held out-of-bounds,
+scrambled memory offsets, exposing the kernel to critical Null Pointer
+Dereference panics.
 
-Additionally, purge the write-only 'struct swat_t' infrastructure from
-hal/odm.h and include/hal_data.h. Inside hal/odm.c, eliminate the dead
-variable tracking assignments while explicitly preserving the hardware
-register read to rDPDT_control as a dummy read to ensure initialization
-sequencing and hardware timing remain completely unaltered.
-
-Lastly, clean up legacy comment baggage across hal/odm.c and
-hal/odm_DIG.c. Remove arbitrary spreadsheet digits and references to
-unsupported legacy chipsets (92E, 8723A, 8821, 8812) to ensure inline
-notes are highly focused on the active RTL8723B Bluetooth coexistence
-parameters.
+Clean up this driver architecture by removing the unreachable loop
+checks entirely, dropping stale, misleading warning statements, and
+routing the post-loop lock cleanups cleanly through verified
+allocation tracking pointer references.
 
 Assisted-by: Gemini
 Signed-off-by: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
 ---
-Changes in v2:
-  - Simplify the commit log phrasing to explicitly note manual grep tracking.
-  - Add standard plain-text Assisted-by attribution tag.
+ drivers/staging/vme_user/vme.c | 69 +++++++++++-----------------------
+ 1 file changed, 21 insertions(+), 48 deletions(-)
 
- drivers/staging/rtl8723bs/hal/odm.c           |  12 +--
- drivers/staging/rtl8723bs/hal/odm.h           | 100 ------------------
- drivers/staging/rtl8723bs/hal/odm_DIG.c       |   5 +-
- .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  11 +-
- drivers/staging/rtl8723bs/include/hal_data.h  |   1 -
- 5 files changed, 11 insertions(+), 118 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-index f3989fa33d9f..00b938071dee 100644
---- a/drivers/staging/rtl8723bs/hal/odm.c
-+++ b/drivers/staging/rtl8723bs/hal/odm.c
-@@ -461,12 +461,8 @@ static void odm_RSSIMonitorCheck(struct dm_odm_t *pDM_Odm)
- /* 3 ============================================================ */
- static void odm_SwAntDetectInit(struct dm_odm_t *pDM_Odm)
- {
--	struct swat_t *pDM_SWAT_Table = &pDM_Odm->DM_SWAT_Table;
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index b5c66b66ce32..fb9f6acbbe62 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -264,17 +264,11 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
+ 
+ 	/* Loop through slave resources */
+ 	list_for_each_entry(slave_image, &bridge->slave_resources, list) {
+-		if (!slave_image) {
+-			dev_err(bridge->parent,
+-				"Registered NULL Slave resource\n");
+-			continue;
+-		}
 -
--	pDM_SWAT_Table->SWAS_NoLink_BK_Reg92c = rtw_read32(pDM_Odm->Adapter, rDPDT_control);
--	pDM_SWAT_Table->PreAntenna = MAIN_ANT;
--	pDM_SWAT_Table->CurAntenna = MAIN_ANT;
--	pDM_SWAT_Table->SWAS_NoLink_State = 0;
-+	/* Dummy read rDPDT_control to preserve initialization hardware sequencing */
-+	rtw_read32(pDM_Odm->Adapter, rDPDT_control);
- }
+ 		/* Find an unlocked and compatible image */
+ 		mutex_lock(&slave_image->mtx);
+ 		if (((slave_image->address_attr & address) == address) &&
+-		    ((slave_image->cycle_attr & cycle) == cycle) &&
+-		    !slave_image->locked) {
++			((slave_image->cycle_attr & cycle) == cycle) &&
++			!slave_image->locked) {
+ 			slave_image->locked = 1;
+ 			mutex_unlock(&slave_image->mtx);
+ 			allocated_image = slave_image;
+@@ -298,9 +292,9 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
  
- /* 3 ============================================================ */
-@@ -589,9 +585,7 @@ void ODM_DMWatchdog(struct dm_odm_t *pDM_Odm)
+ err_alloc:
+ 	/* Unlock image */
+-	mutex_lock(&slave_image->mtx);
+-	slave_image->locked = 0;
+-	mutex_unlock(&slave_image->mtx);
++	mutex_lock(&allocated_image->mtx);
++	allocated_image->locked = 0;
++	mutex_unlock(&allocated_image->mtx);
+ err_image:
+ err_bus:
+ 	return NULL;
+@@ -458,18 +452,12 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
  
- 	odm_RSSIMonitorCheck(pDM_Odm);
- 
--	/* For CE Platform(SPRD or Tablet) */
--	/* 8723A or 8189ES platform */
--	/* NeilChen--2012--08--24-- */
-+	/* For CE Platform (Spreadtrum or Tablet) */
- 	/* Fix Leave LPS issue */
- 	if (adapter_to_pwrctl(pDM_Odm->Adapter)->pwr_mode != PS_MODE_ACTIVE) {
- 		/* in LPS mode */
-diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-index 3532f0d79363..88f4b6f0c410 100644
---- a/drivers/staging/rtl8723bs/hal/odm.h
-+++ b/drivers/staging/rtl8723bs/hal/odm.h
-@@ -50,12 +50,6 @@
- #define	PSD_RESCAN		4
- #define	PSD_SCAN_INTERVAL	700 /* ms */
- 
--/* 8723A High Power IGI Setting */
--#define		DM_DIG_HIGH_PWR_IGI_LOWER_BOUND	0x22
--#define			DM_DIG_Gmode_HIGH_PWR_IGI_LOWER_BOUND 0x28
--#define		DM_DIG_HIGH_PWR_THRESHOLD	0x3a
--#define		DM_DIG_LOW_PWR_THRESHOLD	0x14
+ 	/* Loop through master resources */
+ 	list_for_each_entry(master_image, &bridge->master_resources, list) {
+-		if (!master_image) {
+-			dev_warn(bridge->parent,
+-				 "Registered NULL master resource\n");
+-			continue;
+-		}
 -
- /* ANT Test */
- #define			ANTTESTALL		0x00		/* Ant A or B will be Testing */
- #define		ANTTESTA		0x01		/* Ant A will be Testing */
-@@ -63,11 +57,6 @@
+ 		/* Find an unlocked and compatible image */
+ 		spin_lock(&master_image->lock);
+ 		if (((master_image->address_attr & address) == address) &&
+-		    ((master_image->cycle_attr & cycle) == cycle) &&
+-		    ((master_image->width_attr & dwidth) == dwidth) &&
+-		    !master_image->locked) {
++			((master_image->cycle_attr & cycle) == cycle) &&
++			((master_image->width_attr & dwidth) == dwidth) &&
++			!master_image->locked) {
+ 			master_image->locked = 1;
+ 			spin_unlock(&master_image->lock);
+ 			allocated_image = master_image;
+@@ -494,10 +482,10 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
+ 	return resource;
  
- #define	PS_MODE_ACTIVE 0x01
+ err_alloc:
+-	/* Unlock image */
+-	spin_lock(&master_image->lock);
+-	master_image->locked = 0;
+-	spin_unlock(&master_image->lock);
++	/* Unlock image using the valid tracking pointer reference */
++	spin_lock(&allocated_image->lock);
++	allocated_image->locked = 0;
++	spin_unlock(&allocated_image->lock);
+ err_image:
+ err_bus:
+ 	return NULL;
+@@ -821,9 +809,6 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
+ 	struct vme_dma_resource *dma_ctrlr;
+ 	struct vme_resource *resource = NULL;
  
--/* for 8723A Ant Definition--2012--06--07 due to different IC may be different ANT define */
--#define		MAIN_ANT		1		/* Ant A or Ant Main */
--#define		AUX_ANT		2		/* AntB or Ant Aux */
--#define		MAX_ANT		3		/*  3 for AP using */
+-	/* XXX Not checking resource attributes */
+-	dev_err(&vdev->dev, "No VME resource Attribute tests done\n");
 -
- /* Antenna Diversity Type */
- #define	SW_ANTDIV	0
- #define	HW_ANTDIV	1
-@@ -123,54 +112,6 @@ struct rxhp_t {
- #define	TRAFFIC_HIGH	1
- #define	TRAFFIC_UltraLOW	2
+ 	bridge = vdev->bridge;
+ 	if (!bridge) {
+ 		dev_err(&vdev->dev, "Can't find VME bus\n");
+@@ -832,16 +817,10 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
  
--struct swat_t { /* _SW_Antenna_Switch_ */
--	u8 Double_chk_flag;
--	u8 try_flag;
--	s32 PreRSSI;
--	u8 CurAntenna;
--	u8 PreAntenna;
--	u8 RSSI_Trying;
--	u8 TestMode;
--	u8 bTriggerAntennaSwitch;
--	u8 SelectAntennaMap;
--	u8 RSSI_target;
--	u8 reset_idx;
--	u16 Single_Ant_Counter;
--	u16 Dual_Ant_Counter;
--	u16 Aux_FailDetec_Counter;
--	u16 Retry_Counter;
+ 	/* Loop through DMA resources */
+ 	list_for_each_entry(dma_ctrlr, &bridge->dma_resources, list) {
+-		if (!dma_ctrlr) {
+-			dev_err(bridge->parent,
+-				"Registered NULL DMA resource\n");
+-			continue;
+-		}
 -
--	/*  Before link Antenna Switch check */
--	u8 SWAS_NoLink_State;
--	u32 SWAS_NoLink_BK_Reg860;
--	u32 SWAS_NoLink_BK_Reg92c;
--	u32 SWAS_NoLink_BK_Reg948;
--	bool ANTA_ON;	/* To indicate Ant A is or not */
--	bool ANTB_ON;	/* To indicate Ant B is on or not */
--	bool Pre_Aux_FailDetec;
--	bool RSSI_AntDect_bResult;
--	u8 Ant2G;
+ 		/* Find an unlocked and compatible controller */
+ 		mutex_lock(&dma_ctrlr->mtx);
+ 		if (((dma_ctrlr->route_attr & route) == route) &&
+-		    !dma_ctrlr->locked) {
++			!dma_ctrlr->locked) {
+ 			dma_ctrlr->locked = 1;
+ 			mutex_unlock(&dma_ctrlr->mtx);
+ 			allocated_ctrlr = dma_ctrlr;
+@@ -864,10 +843,10 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
+ 	return resource;
+ 
+ err_alloc:
+-	/* Unlock image */
+-	mutex_lock(&dma_ctrlr->mtx);
+-	dma_ctrlr->locked = 0;
+-	mutex_unlock(&dma_ctrlr->mtx);
++	/* Unlock image using the valid allocated pointer tracking reference */
++	mutex_lock(&allocated_ctrlr->mtx);
++	allocated_ctrlr->locked = 0;
++	mutex_unlock(&allocated_ctrlr->mtx);
+ err_ctrlr:
+ err_bus:
+ 	return NULL;
+@@ -1437,12 +1416,6 @@ struct vme_resource *vme_lm_request(struct vme_dev *vdev)
+ 
+ 	/* Loop through LM resources */
+ 	list_for_each_entry(lm, &bridge->lm_resources, list) {
+-		if (!lm) {
+-			dev_err(bridge->parent,
+-				"Registered NULL Location Monitor resource\n");
+-			continue;
+-		}
 -
--	s32 RSSI_sum_A;
--	s32 RSSI_sum_B;
--	s32 RSSI_cnt_A;
--	s32 RSSI_cnt_B;
--
--	u64 lastTxOkCnt;
--	u64 lastRxOkCnt;
--	u64 TXByteCnt_A;
--	u64 TXByteCnt_B;
--	u64 RXByteCnt_A;
--	u64 RXByteCnt_B;
--	u8 TrafficLoad;
--	u8 Train_time;
--	u8 Train_time_flag;
--	struct timer_list SwAntennaSwitchTimer;
--	struct timer_list SwAntennaSwitchTimer_8723B;
--	u32 PktCnt_SWAntDivByCtrlFrame;
--	bool bSWAntDivByCtrlFrame;
--};
--
- /* Remove Edca by YuChen */
+ 		/* Find an unlocked controller */
+ 		mutex_lock(&lm->mtx);
+ 		if (!lm->locked) {
+@@ -1468,10 +1441,10 @@ struct vme_resource *vme_lm_request(struct vme_dev *vdev)
+ 	return resource;
  
- struct odm_rate_adaptive {
-@@ -557,45 +498,6 @@ struct odm_rf_cal_t { /* ODM_RF_Calibration_Structure */
- 
- };
- 
--/*  ODM Dynamic common info value definition */
--struct fat_t { /* _FAST_ANTENNA_TRAINNING_ */
--	u8 Bssid[6];
--	u8 antsel_rx_keep_0;
--	u8 antsel_rx_keep_1;
--	u8 antsel_rx_keep_2;
--	u8 antsel_rx_keep_3;
--	u32 antSumRSSI[7];
--	u32 antRSSIcnt[7];
--	u32 antAveRSSI[7];
--	u8 FAT_State;
--	u32 TrainIdx;
--	u8 antsel_a[ODM_ASSOCIATE_ENTRY_NUM];
--	u8 antsel_b[ODM_ASSOCIATE_ENTRY_NUM];
--	u8 antsel_c[ODM_ASSOCIATE_ENTRY_NUM];
--	u32 MainAnt_Sum[ODM_ASSOCIATE_ENTRY_NUM];
--	u32 AuxAnt_Sum[ODM_ASSOCIATE_ENTRY_NUM];
--	u32 MainAnt_Cnt[ODM_ASSOCIATE_ENTRY_NUM];
--	u32 AuxAnt_Cnt[ODM_ASSOCIATE_ENTRY_NUM];
--	u8 RxIdleAnt;
--	bool	bBecomeLinked;
--	u32 MinMaxRSSI;
--	u8 idx_AntDiv_counter_2G;
--	u32 CCK_counter_main;
--	u32 CCK_counter_aux;
--	u32 OFDM_counter_main;
--	u32 OFDM_counter_aux;
--
--	u32 CCK_CtrlFrame_Cnt_main;
--	u32 CCK_CtrlFrame_Cnt_aux;
--	u32 OFDM_CtrlFrame_Cnt_main;
--	u32 OFDM_CtrlFrame_Cnt_aux;
--	u32 MainAnt_CtrlFrame_Sum;
--	u32 AuxAnt_CtrlFrame_Sum;
--	u32 MainAnt_CtrlFrame_Cnt;
--	u32 AuxAnt_CtrlFrame_Cnt;
--
--};
--
- enum {
- 	NO_ANTDIV			= 0xFF,
- 	CG_TRX_HW_ANTDIV		= 0x01,
-@@ -828,7 +730,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
- 	struct odm_mac_status_info *pMacInfo;
- 
- 	/* ODM Structure */
--	struct fat_t DM_FatTable;
- 	struct dig_t DM_DigTable;
- 	struct ps_t DM_PSTable;
- 	struct dynamic_primary_CCA DM_PriCCA;
-@@ -836,7 +737,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
- 	struct ra_t DM_RA_Table;
- 	struct false_ALARM_STATISTICS FalseAlmCnt;
- 	struct false_ALARM_STATISTICS FlaseAlmCntBuddyAdapter;
--	struct swat_t DM_SWAT_Table;
- 	bool RSSI_test;
- 	struct cfo_tracking DM_CfoTrack;
- 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-index c862c86b7695..44932b2c9f9f 100644
---- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-@@ -395,10 +395,9 @@ void odm_DIG(void *pDM_VOID)
- 	dm_dig_min = DM_DIG_MIN_NIC;
- 	DIG_MaxOfMin = DM_DIG_MAX_AP;
- 
--	/* 1 Adjust boundary by RSSI */
-+	/* Adjust boundary by RSSI */
- 	if (pDM_Odm->bLinked && bPerformance) {
--		/* 2 Modify DIG upper bound */
--		/* 4 Modify DIG upper bound for 92E, 8723A\B, 8821 & 8812 BT */
-+		/* Modify DIG upper bound for 8723B BT */
- 		if (pDM_Odm->bBtLimitedDig == 1)
- 			offset = 10;
- 		else
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-index 3c99621311e5..18fb3fe4ecfd 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-@@ -527,13 +527,14 @@ u8 PHY_GetTxPowerIndex(
- void PHY_SetTxPowerLevel8723B(struct adapter *Adapter, u8 Channel)
- {
- 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
--	struct dm_odm_t *pDM_Odm = &pHalData->odmpriv;
--	struct fat_t *pDM_FatTable = &pDM_Odm->DM_FatTable;
- 	u8 RFPath = RF_PATH_A;
- 
--	if (pHalData->AntDivCfg) {/*  antenna diversity Enable */
--		RFPath = ((pDM_FatTable->RxIdleAnt == MAIN_ANT) ? RF_PATH_A : RF_PATH_B);
--	} else { /*  antenna diversity disable */
-+	if (pHalData->AntDivCfg) {/* antenna diversity enable */
-+		/* Antenna diversity forces path B because Fast Antenna Training
-+		 * (FAT) logic is unhandled in this staging driver baseline.
-+		 */
-+		RFPath = RF_PATH_B;
-+	} else { /* antenna diversity disable */
- 		RFPath = pHalData->ant_path;
- 	}
- 
-diff --git a/drivers/staging/rtl8723bs/include/hal_data.h b/drivers/staging/rtl8723bs/include/hal_data.h
-index c345b632bf53..0f346e2a3b17 100644
---- a/drivers/staging/rtl8723bs/include/hal_data.h
-+++ b/drivers/staging/rtl8723bs/include/hal_data.h
-@@ -209,7 +209,6 @@ struct hal_com_data {
- 	u8 RegReg542;
- 	u16 RegRRSR;
- 
--	u8 CurAntenna;
- 	u8 AntDivCfg;
- 	u8 AntDetection;
- 	u8 ant_path; /* for 8723B s0/s1 selection */
+ err_alloc:
+-	/* Unlock image */
+-	mutex_lock(&lm->mtx);
+-	lm->locked = 0;
+-	mutex_unlock(&lm->mtx);
++	/* Unlock image using the valid tracking pointer */
++	mutex_lock(&allocated_lm->mtx);
++	allocated_lm->locked = 0;
++	mutex_unlock(&allocated_lm->mtx);
+ err_lm:
+ err_bus:
+ 	return NULL;
 -- 
 2.43.0
 
