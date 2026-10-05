@@ -1,103 +1,79 @@
-Received: from out-2z4y-a144.jellyfish.systems (out-2z4y-a144.jellyfish.systems [198.54.127.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28540357D02
-	for <linux-staging@lists.linux.dev>; Mon,  5 Oct 2026 06:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A21D2D0C94;
+	Mon,  5 Oct 2026 08:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791182136; cv=none; b=sTVmgvfSpiQzYoHt8R3H9Y26ctWzdO3uuyVY3FpA9aBJjDPFkPMIqvQ9iqRU1V7YedR2FTuBRG17Cbi/EZVx4+Knt8kgJbTIG7HjYGrrjoCRpf7gq8Rat0cLpHyIb5mtsofbhZMubmDlL3quJ82Vykn7jJWAlp122D/flNtX2+8=
+	t=1791188575; cv=none; b=n6bLfYw140XeX0ZeusLkns/AWQSNe5V15vP1LQ/9J1coh3gm3fQsrVN1BUv01uOtP+cWr4jYK1wiFpWi0GOLm9fN4cP9UNmLFzchB8G9prULJzqNzUoAPuZheIV20XjCawz9MjZQwW0tOJATaPnIyQ4bHlOW5NDIrQGp1zuiojA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791182136; c=relaxed/simple;
-	bh=PTGmCC+ctpZ97bVZ6YQzHtRjaWdcVXGe8ToSu8hMtbY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vEf/H/aSdopSa1EAPvZMKyJ8u3N4YU9DQMKoM8WvKDe0TPFvhUBYmzDTlvVUqEILTO42rXKhBGRQExpoMYYBlhk4zQ/u9BLywJpUfoFqNDRmsUiyh+8UgNKA/1TqN7Qre5MGL439P3Bj8+lLihkTVnHDNB7BFHKz/5PPYTxLpbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org; spf=pass smtp.mailfrom=firmwaredesign.org; dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b=lTefF8Ij; arc=none smtp.client-ip=198.54.127.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=firmwaredesign.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=firmwaredesign.org
+	s=arc-20240116; t=1791188575; c=relaxed/simple;
+	bh=iSWMLmzis+gg7eW6GwI6QsXay/sibkn0TNurfJ8ZHnc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aQV/pyzAWB7hHbKGksSIKN+U0WcPUUlVmG7A/D1QxpniVWd98m1sSrpcBqSTzKkuqJV5hhx4ueNIEw9FJJh5fY6iPJsAmDBKv4PV5G2+tF62GmQwD0UD2qd6mxEyHRtoXzqLq5Biew3h26UbRIH+1jj87MqTDKOdW+n28yzl/ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mipkfKK3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=firmwaredesign.org header.i=@firmwaredesign.org header.b="lTefF8Ij"
-Received: from mail.privateemail.com (unknown [98.240.242.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.privateemail.com (Postfix) with ESMTPSA id 4hyqPr5qy1zyN8;
-	Mon, 05 Oct 2026 06:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=firmwaredesign.org;
-	s=privateemail; t=1791182113;
-	bh=nL4DI4IWdUkdgB4IvlHz3lx6yiOYEXyRIDxV95zcaYw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=lTefF8IjJ8vVeRD6sQ+eAmDk4uspLBBcldAr4OmIzpNNP0jmmcf4Xo4Go9QH9XZF/
-	 slloVCEDjI4OACNTQqlI5W1rBL8d7qQ7tmVdpGFMAZJ5dCCLM35iZSFyHpE4XCG82g
-	 Ej7TjPQjsTcbrmPI9+iW9E5TCTBn4/lzE34z24vdTZhfy7MCHy+9ciw8m0/G4ReEyg
-	 wOn8LexF7uCuUIeuqBq7OlBWrYW5A+glTQ3CIEDIYgIgneYk5MX4CJbmYyma3gtRSB
-	 gObaNBuUz/oMaKEO8brwuGfJO3HRQeEFZzZgd/dKW27j7z5R7Dx7FK+VS08LJoDzuV
-	 5vTf9M/w6l53A==
-From: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
-To: vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
-Subject: [PATCH] staging: greybus: bootrom: fix null pointer dereference in get_firmware
-Date: Mon,  5 Oct 2026 01:34:54 -0500
-Message-ID: <20261005063454.95647-1-marinela.selseth@firmwaredesign.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mipkfKK3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8F21F000FF;
+	Mon,  5 Oct 2026 08:22:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791188574;
+	bh=varnBVf4YSFlcyO76Nh9Qb9fXNtTiLJu+7g5rVS2sL4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mipkfKK3hPLMq5xB0NKE8DSLIHMb8OZohLo0fcjepQ/IAFkbkj4VwVaG4H19MNfLu
+	 /jxFkY7w4UH5rG/36GWGU2rpTDmn0sYv+9C3po1r5pQ01KMzRKuKuVz+MksXvTMTeF
+	 dsDZ3A1xfYgqVKn93wfxt8i9oS1p8ldhpjSIjjsf6N9PoUqoBz9BCgevCMzlNqS6nS
+	 Rso1fTx3RYHKikK8y4zg+VjIU3Gw69kCdEB4y7eA5oCxwULsrGKU62wQur/YSXzFa+
+	 /nPcOVbcU2aTIJx8Tdq8rrv1PnLoLIm+qJW68vwcY/zL9tB6MryUNL8U/ZMOwn9L+4
+	 70UqjNsXwjKAg==
+Received: from johan by theta with local (Exim 4.100.1)
+	(envelope-from <johan@kernel.org>)
+	id 1xDdy6-000000000oc-1ygf;
+	Mon, 05 Oct 2026 10:22:42 +0200
+Date: Mon, 5 Oct 2026 10:22:42 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
+Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, elder@kernel.org,
+	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: bootrom: fix null pointer dereference
+ in get_firmware
+Message-ID: <asNeUn4qLLLMrjYX@hovoldconsulting.com>
+References: <20261005063454.95647-1-marinela.selseth@firmwaredesign.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Envelope-From: marinela.selseth@firmwaredesign.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261005063454.95647-1-marinela.selseth@firmwaredesign.org>
 
-Automated static analysis via Coccinelle uncovered a potential null
-pointer dereference and uninitialized stack pointer vulnerability
-inside gb_bootrom_get_firmware().
+On Mon, Oct 05, 2026 at 01:34:54AM -0500, Marinela Tatiana Selseth wrote:
+> Automated static analysis via Coccinelle uncovered a potential null
+> pointer dereference and uninitialized stack pointer vulnerability
+> inside gb_bootrom_get_firmware().
 
-The routine evaluates whether a firmware transmission sequence is
-complete at its trailing 'queue_work:' label by checking if the
-transfer bounds match 'fw->size'.
-When this label is reached the 'fw' can be uninitialized or NULL.
-Both scenarios expose the kernel to critical memory faults or null
-pointer panics.
+Please check the archives to see why coccinelle is wrong.
 
-Fix these dual vulnerability paths by initializing the 'fw' pointer
-to NULL at its top-level definition block and introducing an
-explicit short-circuit guard condition to safely gate the
-trailing size evaluation.
+> The routine evaluates whether a firmware transmission sequence is
+> complete at its trailing 'queue_work:' label by checking if the
+> transfer bounds match 'fw->size'.
+> When this label is reached the 'fw' can be uninitialized or NULL.
+> Both scenarios expose the kernel to critical memory faults or null
+> pointer panics.
+> 
+> Fix these dual vulnerability paths by initializing the 'fw' pointer
+> to NULL at its top-level definition block and introducing an
+> explicit short-circuit guard condition to safely gate the
+> trailing size evaluation.
+> 
+> Assisted-by: Gemini
 
-Assisted-by: Gemini
-Signed-off-by: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
----
- drivers/staging/greybus/bootrom.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Also, LLM assisted patches are rejected for staging (again, see the
+archives).
 
-diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
-index 83921d90c322..cead4b505f6c 100644
---- a/drivers/staging/greybus/bootrom.c
-+++ b/drivers/staging/greybus/bootrom.c
-@@ -241,7 +241,7 @@ static int gb_bootrom_firmware_size_request(struct gb_operation *op)
- static int gb_bootrom_get_firmware(struct gb_operation *op)
- {
- 	struct gb_bootrom *bootrom = gb_connection_get_data(op->connection);
--	const struct firmware *fw;
-+	const struct firmware *fw = NULL;
- 	struct gb_bootrom_get_firmware_request *firmware_request;
- 	struct device *dev = &op->connection->bundle->dev;
- 	unsigned int offset, size;
-@@ -298,7 +298,7 @@ static int gb_bootrom_get_firmware(struct gb_operation *op)
- 
- queue_work:
- 	/* Refresh timeout */
--	if (!ret && (offset + size == fw->size))
-+	if (fw && !ret && (offset + size == fw->size))
- 		next_request = NEXT_REQ_READY_TO_BOOT;
- 	else
- 		next_request = NEXT_REQ_GET_FIRMWARE;
--- 
-2.43.0
+> Signed-off-by: Marinela Tatiana Selseth <marinela.selseth@firmwaredesign.org>
 
+Johan
