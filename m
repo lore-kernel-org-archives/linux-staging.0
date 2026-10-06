@@ -1,125 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D58F49A3A9;
-	Tue,  6 Oct 2026 15:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9015D3BB10E
+	for <linux-staging@lists.linux.dev>; Tue,  6 Oct 2026 15:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791299265; cv=none; b=I/ryrRRJL9ubRChk1VSN70pYC66Nx1YzIkFmtW0hSf3TF43iSkvE2lb7wJCsUFoMRvXB3kpnnjozp+SyjQsRdIRZVIDf8LMmPl2uuQ4Zzr+GPmgaJyGkzNzRy8iI1rg518purdoCA2UKyYWPmjSNJWbuuZVeLQZviWUBvzr/fBA=
+	t=1791299449; cv=none; b=hE+kiOV8KJEfZ80dXnVkeFiFiW3Frf+Wf9UcQhjkRVh/v9lmvtOcvGTmEDcZVaVRbsPivNYMu2bW0tcbOnInIZVRFDSJE3VUlE98EOWdw0kiMF58cR1yDe2yiONNMr37Yvk0dIRPL0KwvTUIY3gB9x37AJdZeeX3AVCiLvE+kBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791299265; c=relaxed/simple;
-	bh=Mu0l+SUlsRUVlSKFEMWbDB8rqATQHy+rTSDBCFcHIbw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=deEtac9BQ+Goj0qu6MUOw4UMz54Zn7nafvZt8cj+t0VoLVl96a0M3d3wjzvwSC+z843WM7AeoPWwcsO+20zoWWb4QSc5A98WeXYBlXe8KRdCumhKhN062Pbpm881CrlA7WTPmuuIZH4A1dKzs4phr0TGJkLPlFv17nx5ofM6DBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V7aCCt9S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791299449; c=relaxed/simple;
+	bh=CZzQYMQ0CaouLEUN3WcNvt6IGP+hlIKiFum7Ja+K3MM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DLzm0mfK3jx4EYjZrz1Ey2Hwv08axjfbRHM96wsAyjxCRGwR4DVvDZORfDkmvPtKM1I+7yZMEvJtldUGFH+PaefanT8/TkSA0KREOTgdV+1aY5eZr4OlolJhRHgsD6/y9SJdrbcpZgSZv7mBsPKLuNtu4Qo4rIpY3T5Fapm75k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mRYasXsc; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V7aCCt9S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC851F0089B;
-	Tue,  6 Oct 2026 15:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791299263;
-	bh=3t5fyjcu9jt8udNnpaVavo8D/lr6s+BSeBi73L5XHOE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=V7aCCt9SE6o2AWpQb99cC+NOeSsXlWmw4Zrri1RcMNuMURBoMdNe+R/hXUa+Q5gTd
-	 CDRdh8cZM8y7QBnmjyRFJTgtDyquTT5erY4x9OuNN82WEjvN4wWBRTBpatxPCTcuUa
-	 DmN7sLd50UIECqDAxGVxHjsDqDST24mirojq5QK7FM/WoO+mdehze+8UytDHkwBkL+
-	 mbKUc0urfHs928bPrO4hG07IBgL6yXvta10Jykbif7s3xvMnMMOwxEYHcjRhnE6N6Q
-	 Fb2bbktmQlb6dtEWxLq6wgLrvokl33ho9JjMrLk14LSHu4JZ2VJOoy6+v+5yA1mxki
-	 RbQAQgTsqHPsA==
-Message-ID: <340729c9-1cef-4060-874e-43b6d3bdeb04@kernel.org>
-Date: Tue, 6 Oct 2026 17:07:37 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mRYasXsc"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a16c399641so8944415e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 06 Oct 2026 08:10:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791299446; x=1791904246; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nmOy8UDU42FfjcKIpdai+HCHqrBu8cVwJxEwsCYIUb8=;
+        b=mRYasXsc/JdGK2wyAvX0x+kEXFJBhHEe9HZz3YGKe1cxocGU0d+UfFu+Pcm4DX97ZD
+         WKkhFpL0/BjAES6Xf5npJanBEPeTnoY5q9J5BYCw9OW/qsG3lTcXtZk8L8lznErAA6aO
+         n8Cs5FXRn3I0t6nRA6h6bP8xXhOiqnMStHYCbf8PJdvegFlDVp2eqjBtcvi63NsqvA0a
+         cPB2dkyUYvXyogRRkqnVrjzsbB161F9JawAzztz2FWNLMjaiSRDsP7TQPl7BoMJ+een/
+         101gz7hjoNi2b76wU5IUpG8RJL9+BflhAvXJIAJ++vqqoyMcUqUh281AH8YLV8b2Xiau
+         c3ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791299446; x=1791904246;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nmOy8UDU42FfjcKIpdai+HCHqrBu8cVwJxEwsCYIUb8=;
+        b=HrHC/gebgkhypSRDsX080YN9InyRuEpo3xVVz4F6oijGjO8NpU5FTYwFrKCEdfN/kh
+         t+4oYokuc4wIKFlpPXmF4G7k6g66RPX+/H9Dr/TTpbK6NWOR/GDKlYx39gq2gghnT+ox
+         MryWWLU5lC09DGZOljubu7wuYC9pSHk1z2Qd9XiyBKP4NifPJMzNJmfYCpqqd1kcNsMo
+         pT7OzHwotRioVlkjEnmsSD6dClJbiNXFCNYc7JN3ZeMxJhShJTfoM123K4zsZZ51jRcp
+         s+1CPjhUfe5x2Gcb7CgV3cEx99Q5ECXhgnVZ1smuRT2heQWCUst/pE3thd/BkoQUIesN
+         vm1w==
+X-Forwarded-Encrypted: i=1; AKwUvBz3XmIBQwlYf2r1bmIpt2EKEYKxEV6HgExhyxMld6rpRg/FXAenMtwTYyphqZVoui/Ao3M4x2kLc10RVGx8@lists.linux.dev
+X-Gm-Message-State: AFuF++lsihJ+PEZt53El9sggMMov/OxRopCDiBKh/K0059CVfoIKX3Wj
+	13dxqV+acbOvbilyE5/RYo5/tHpSSfqWn4PHOi7jiNcgspkxEpp+Mk0t
+X-Gm-Gg: AYBFou1Sk/yCOZ5G1lNyiOPpwfvuJUYoWVzqGOlQ/GWAHiXmD3ByKKsEMTdNWKX88kx
+	WdlkYhG6mGYYcyxNqZJ/NU0QQS/uRo90HX/3ZwT2r4lgLTrJfp7dC9fp7mfBrdiKV50jWZjxHsb
+	SGtxZy2q6zGbejkOZJ+LfW9w8GrYT1qRSlpjWf6YNHGCkyOWsdz+4+5sadkdeZB22TgzeJlEcvw
+	BxJ4s+iicJBzMJtfizmTXCkMOCGdLWSM4u6tIcbr+ZpBpfZWoQmubQH3BmmetKE0RYCkzlluvfT
+	7oTQHSLx5H6xbq9HMsJH4pSt7KY5j5Cj2LGaSiMsHl5Y7/Tmrq7/P8YS1VjhDqKU/TZ6E5vQubc
+	FDfuuidPMW+GKNdvRh92r33s3VTwu1Hy+Isp3PhGNBNcOftvCedFZ0SK6tgxBGWOeS4W2J1OL6/
+	qMSTQMuXr0twfqgMlG6INOwIIqdY4RyUtoX1aBP9t2YbDqtqGL7Uh0u2te4qRTb/eswuvzb5NJd
+	5NaRtCivKXCR+JUpS0OEukwBGK74P4pJKtrv/QVoVHxqkWOWv2GfEkmPtn1G25+N4ermtZU94+k
+	0xx6KAYHQE6qDjA99Z946jDmDCiuaLF9khxkBc0HJSSWu69V8nfU0KEfW/92vJofvvFj1eVTk8a
+	bdk3bZINyNGDTOFERY9KWQWj2KqZB4KHqm8aFBY1pJnLtCVJ3iwv374EwETrpeQqqY4oPGCStpw
+	vhJ8JJwVXGwNGWmxI=
+X-Received: by 2002:a05:600c:4e11:b0:49f:bd3c:bc24 with SMTP id 5b1f17b1804b1-4a17b554d8dmr27260815e9.31.1791299445565;
+        Tue, 06 Oct 2026 08:10:45 -0700 (PDT)
+Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a17a0fc2e4sm73243025e9.3.2026.10.06.08.10.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2026 08:10:40 -0700 (PDT)
+Date: Tue, 6 Oct 2026 17:10:35 +0200
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Cc: Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, David Lechner
+ <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
+ linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: adt7316: use kstrtobool() for sysfs
+ boolean parsing
+Message-ID: <20261006171035.00001ce2@gmail.com>
+In-Reply-To: <20261006103350.32853-1-abdelnasserhussein11@gmail.com>
+References: <20261006103350.32853-1-abdelnasserhussein11@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 11/23] dt-bindings: media: i2c: max96714: add support
- for MAX96714R
-To: dumitru.ceclan@analog.com,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Martin Hecht <Martin.Hecht@avnet.eu>, Andrian Suciu
- <Adrian.Suciu@analog.com>, Cosmin Tanislav <demonsingur@gmail.com>,
- Martin Hecht <mhecht73@gmail.com>
-References: <20260930-gmsl2-3_serdes-v18-0-43117818f499@analog.com>
- <20260930-gmsl2-3_serdes-v18-11-43117818f499@analog.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260930-gmsl2-3_serdes-v18-11-43117818f499@analog.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 30/09/2026 00:41, Dumitru Ceclan via B4 Relay wrote:
-> From: Cosmin Tanislav <demonsingur@gmail.com>
+On Tue,  6 Oct 2026 13:33:50 +0300
+Abdelnasser Hussein <abdelnasserhussein11@gmail.com> wrote:
+
+> Replace manual and unsafe character checks (e.g., buf[0] == '1') with the
+> standard kstrtobool() API in sysfs store functions. This ensures proper
+> handling of standard boolean inputs, fixes potential safety issues, and
+> adheres to the Linux kernel coding style.
 > 
-> MAX96714R is a lower capability variant of the MAX96714 which only
-> supports a fixed rate of 3Gbps in the forward direction.
+> Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+> ---
+>  drivers/staging/iio/addac/adt7316.c | 94 +++++++++++++++++++++++------
+>  1 file changed, 77 insertions(+), 17 deletions(-)
 > 
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> Tested-by: Martin Hecht <mhecht73@gmail.com>
+> diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
+> index 20f6052cc7fb..21a1b811a142 100644
+> --- a/drivers/staging/iio/addac/adt7316.c
+> +++ b/drivers/staging/iio/addac/adt7316.c
+> @@ -246,12 +246,12 @@ static ssize_t adt7316_store_enabled(struct device *dev,
+>  {
 
-This is a fake test, you cannot test bindings how we understand Linux
-kernel testing. Please drop such blanket-fake test tags from all patches
-where this is not relevant.
+Please also include linux/kstrtox.h.
 
-In the future, please do not apply blindly blanket tags, but actually
-verify what they mean.
+>  	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+>  	struct adt7316_chip_info *chip = iio_priv(dev_info);
+> -	int enable;
+> +	bool enable;
+> +	int ret;
+>  
+> -	if (buf[0] == '1')
+> -		enable = 1;
+> -	else
+> -		enable = 0;
+> +	ret = kstrtobool(buf, &enable);
+> +	if (ret)
+> +		return ret;
+>  
+>  	if (_adt7316_store_enabled(chip, enable) < 0)
+>  		return -EIO;
+> @@ -285,13 +285,18 @@ static ssize_t adt7316_store_select_ex_temp(struct device *dev,
+>  	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+>  	struct adt7316_chip_info *chip = iio_priv(dev_info);
+>  	u8 config1;
+> +	bool req;
 
-Best regards,
-Krzysztof
+Hmmm, req is a pretty vague name in my opinion. Ideally you shouldn't
+use super short variable names unless they are self explanatory/common
+(like ret or inx). What does req mean? Could be request or required...
+
+(Perhaps I'm just nitpicking).
+
+Otherwise LGTM.
+
+-- 
+Kind regards,
+Joshua Crofts
