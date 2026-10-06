@@ -1,79 +1,63 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C803A63EF
-	for <linux-staging@lists.linux.dev>; Tue,  6 Oct 2026 10:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366A02ED84A
+	for <linux-staging@lists.linux.dev>; Tue,  6 Oct 2026 11:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791283142; cv=none; b=iDndbDkx0vcYm0I0j3LuY7xV6+lFen7fPFp7LQ9YL7V80oPKm6cRwTCWog+Z8HkGmbvqqbZuF8ksJsWNBNnsPfL8+k+3ZymyPMk24gRvNSJJt/h85YAALbbhi9a/3wcfhfw5gXhCta360Oe85Q5iwZSjsLVFAwyY0e7DeLxE7qM=
+	t=1791286229; cv=none; b=imsOZNLpW4EGIKTPRDGxHzhNDoz2eCBKnqV5nQgfcHcSBo5tvBR9OKNvozfV1LHn8WUfbwDZpejO+p7Sw6mQhJ6JAO4BaXhR0Z9GCU/EvMhDZWJQw9UY35oZCf/Oo/v0Q3YXXXyQpX9FU+BaH+urFfRSs6tfwdyJCcicu1OoyFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791283142; c=relaxed/simple;
-	bh=5SBDIrzGAQEBhEnuVBvjyWjW+cvgWc+5Dhaw9jOzesI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AlhRfiw9TQnJ8rV7ARA3h4B0XewGdN1Wp9yQGGUHG2G4Ytz83iRJLt2eTFehcSQR+5hVyKzxNsVberf/yaoJdeG5kcw9eSDpHYk8NMIq7MeXFk8hWf9Gg9mJUtNwvUr4QR3tq5psL68ckbqrdg/8y7THZU4YL5wHo85HT3Tc/b8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aAAeuQ8U; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791286229; c=relaxed/simple;
+	bh=gsk756PD5iiFHjv6OgXjw/zZXrZkYYMAKYON480JaU8=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=Cn3lGyjrz056ZNLNsbUd5kR6U6SkpJ+DRkf+ZOf4fWHsHL288t0U8Z/LjoyOyMs3RXXCXbzH3wiE6HC2/Qm6+oxq/KibQdGmuK3X4SKMd8hvUZDR5XiHjLuenJRV6VruW2xfT1PahnzaZBQhyvgLy5DSeXF5xtN/c5caUKmYWCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=cA6NFb0o; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aAAeuQ8U"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48c45111bebso353201f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 06 Oct 2026 03:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791283139; x=1791887939; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0PKrnSSgSMY6ZmA5twi9Nx86W77c8h087WtIxcCKmQ0=;
-        b=aAAeuQ8UeR+ARdOJRVRf9q0AxCiNiw5+ag+fhstHFW559JcTes8VXWC9gT9EiAx5eH
-         1OJUn+KWGKPnjBdREjSW2W1XK+jQWjtLe8Sh43dLgN5LfIPgaqHWISi3iK3I7L7wiNrb
-         lz+dywi0jhXOtusZNiC5IdPZRT35WUfnIyWjgCx85Fv0n7bAMndptAM1VuQ8UncRAPhS
-         kmDCvc433Q6YKG9HCXlxDUvDDvWEQXQigTdufCSl82QB2vUyHKcEQd6AMkumz0mdHaiS
-         WncRrVxKYoZF0Gm6OyTb6xstWCp9O3jUAXtW56Z8H4+QzVwXz7zev6e+VkhX5fiTMUP4
-         UJ+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791283139; x=1791887939;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0PKrnSSgSMY6ZmA5twi9Nx86W77c8h087WtIxcCKmQ0=;
-        b=q7uGUbnSBVNICVff/CYKQKcx55aWVH93cVbg7faxkO864chujVj8d8/kuCZXdCJUDg
-         jypJiHYcerklgkt12fLkbkiPNjy+ug9S+i/oX0c/mlZAHbjAICTWD8f9HZtIVisOiXXm
-         R/fH1cTbOUGK7ZdDM7YqOq7/ABBjdhNFx3Rprl8JMAUYTxVHImBb6+e+DeNuis+uCpGE
-         +1gANuhK79aCFBBCr9/D8sHVnCLhoYyHKhWNIDcTEaYTyGbHGgRQyEteIe06Ha0FpkPA
-         TQBJYS0brsXOYUQ2dKHS44HnHHCTK3Zbc14fvelSYZNSHOm0vGh/BwcjGLLcUnD43Ckt
-         vF+A==
-X-Forwarded-Encrypted: i=1; AKwUvBw23l95ogn9VBRmHZLnQhvlN4Poa16rlDMXFfLJg/fUUF1HdV0FK/FdD/bQEFd2KhOHfBv4BJVhGiylKCUT@lists.linux.dev
-X-Gm-Message-State: AFq9FYLkrtEupbwgnUHtimJuK25oYwYfTU9TS1Sdn0woGCUWErGdzhYM
-	CelHyBNiavG6urtDrfpUBxUhVvPzBj46xXTQMgJ2Rsup/ntvKjcvMCGS
-X-Gm-Gg: AYBFou0NtiFFT/qJx2dKPyA4uJ8zLCH2371jaKD++nfAswLALc/CP1GB1BHqq6aUMoC
-	fYo5q5qZnhX+wM1uC4kW7c7Ae7MpoICoqJoyOoBH2ZZ65drohkh3SVFXGsAwHnIg8wsYvkYIApP
-	jgxu1fzQPPUTsMRGdtgS/7qrJ4OvXz6W3VwI6hTDatJgTroO5JmVIJ9Uf9CLbvzGfrtRpiSrV0x
-	uuLviDBSRlyiYu63UPrHbeN4DqHJtT2y1Tu7DO6nCC3qWLDixxGik5e5FmDw9FiSQPd6NKO3HEt
-	iq0glX9GVO+ewcfCd11Xlb/tqL/yRnhKfJHVZuTCYvzRDveB4kfgC+FQCjOSKmvNqzeF9oZENPf
-	jQAr157wXy3ma9FLUMKgEh4UtKNTpUPEuXWJ+yc/GGReYMRv9Sru+oaV7yrfBGyly6vX9s6fU4Y
-	nI+EGTHnOCcwJsCDXEYBnclBQvMTCHf7On3qlVmW9K1WjNp3sRbR84kCfx2Qjsed67M+rEwDb4W
-	wzTlpXJ1qx4jlgH9xM=
-X-Received: by 2002:a05:6000:298e:20b0:485:8a47:5b91 with SMTP id ffacd0b85a97d-48c6d1ee143mr1211829f8f.46.1791283138652;
-        Tue, 06 Oct 2026 03:38:58 -0700 (PDT)
-Received: from fedora ([154.183.153.81])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c6cd717f8sm2526963f8f.48.2026.10.06.03.38.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 03:38:58 -0700 (PDT)
-From: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-To: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Joshua Crofts <joshua.crofts1@gmail.com>,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="cA6NFb0o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1791286215; bh=Kz5rBo4U6MoZRl3APwJ61VsjEfXQCYma3Aw/pcfN+Io=;
+	h=From:To:Cc:Subject:Date;
+	b=cA6NFb0owje5Fl4Vc5Qld9s3PxB8B+SZg3R9SljrPK8BunKc5iHfZQCwCHBuEaNLk
+	 2/CaPfGb5AEwrYP1RGEbL0UAVkUn0cyoVH7VgsHk7yAjKTuFDon34b+KUe3t69hhf1
+	 etDsPNo+VLke2jJ6ZQt6wwYnZOjbM9Rea5V5sVyA=
+Received: from Amphoreus ([219.130.186.218])
+	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
+	id 788B9EBB; Tue, 06 Oct 2026 19:30:08 +0800
+X-QQ-mid: xmsmtpt1791286208tkrdig0d6
+Message-ID: <tencent_517661DA7DB5CFD22DE073FD269BED407507@qq.com>
+X-QQ-XMAILINFO: OTDiW3m6JtSJqOFJCQNegP9oyU6tW+KpbNt7Dlep0Th0j3FylZ8G4925G2LVGF
+	 SxGtEElc0AtPAoiguaDpRDtgKCnbrE2cuVqZTy6O4glMIvcGEWPw4ebD1Hw82Q6d83Egi8w/6+Wj
+	 RJ9e/BvWOxVHCOEwnTZbphQICc5GY8BLQ99KAZtdJDGjy945u2Hly8gPKxZszr4iN5TmyaL/a7sm
+	 O6g8P4YSgSwqNHbiWJqH4LWd1ZUdblV4+IDACJu3VXiUR9cwSZD6L0hfOeJZb2doURlkbe63xZwd
+	 tvGzILHqq74u++kg0ATjFFG2d34nJeYM+zIl/LwPG65Dn/z0seAh5da0g8R+oNdgQL9vnrtBoUMI
+	 +8rkGv8eJcDD5jU0LzwPGnZYMla+OZQ+QtkgVNaNlrCM+nSiMLCQKO9c4QzRs2qqEQal3radluf1
+	 g8Di+S/w/oUHBKyvv+8qg2SMOGlVk6lIJF8RDt/4lbj2M27PsYIu1u5bKrH2wR7gvacC/tI0yGRP
+	 MuMMOXkTFu5RGVF9OZArPLynVYKa9bRplQRMs7kkRzAZohY8oOOevKSJN+2KjzQi2LiwaZ25L1Eb
+	 RhZq9qzignevCDDKddLF8gu2WDVDTuLRgasx4w+4MYJMZKlg4pbLd00B8Jg1qG6aul2jGi3iov8N
+	 rLH/g+y5Mrrb2GHXDAg8ttfF7B6RBflTk8wHFtyJscHPi2aw+r/vtp1WQvq59gpgmX2eOose8q5q
+	 6X0Tv3c5jeNb5Lzb/Il5To18zWNK+xwWMYhPNuClPP7imrlxYrrKe6I45oHmkvaPZio3MTRzQZFs
+	 5O/6NnbwiVg+kv5+08WbhvUh+HzUwuTnk0h+i89f+qnLoojlv7tGMM74bgh7n28mqUsabYBLH1VV
+	 nAvOjxir5lFpIf/60rBxjLyHW9g2k70VJvV5Uj0BkhkgeTLnXmsDj01UJ2r4C5ZHcdJb1/rikWMB
+	 YsrlnfiyGZ9DCuW+rtaC30ww6trIIzDSXZZTp1nyOxGes/eqbIbDsy2fonMxz1r6H1sZvBMk+cIR
+	 N5d3OnAjOoH4Ic4I1LxDiFiVUSqJ7ol3tU2LLTWo2BMs2466ZhQTdEzp98b0pne03JmpOe5YsN4f
+	 kdw8MV
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: Raiden Lumine <2557597107@qq.com>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Subject: [PATCH] staging: iio: adt7316: use kstrtobool() for sysfs boolean parsing
-Date: Tue,  6 Oct 2026 13:33:50 +0300
-Message-ID: <20261006103350.32853-1-abdelnasserhussein11@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	linux-staging@lists.linux.dev,
+	ovidiu.panait.oss@gmail.com,
+	jacobsfeder@gmail.com,
+	Raiden Lumine <2557597107@qq.com>
+Subject: [PATCH 1/2] dt-bindings: misc: add binding for Xilinx AXI-Stream FIFO
+Date: Tue,  6 Oct 2026 19:29:54 +0800
+X-OQ-MSGID: <20261006112955.208744-1-2557597107@qq.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,250 +66,214 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace manual and unsafe character checks (e.g., buf[0] == '1') with the
-standard kstrtobool() API in sysfs store functions. This ensures proper
-handling of standard boolean inputs, fixes potential safety issues, and
-adheres to the Linux kernel coding style.
+The axis-fifo driver's compatible strings were undocumented, flagged
+by checkpatch.pl as UNDOCUMENTED_DT_STRING. Add a devicetree binding
+document for drivers/staging/axis-fifo, derived from the properties
+the driver reads via of_property_read_u32() in axis_fifo_parse_dt().
 
-Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Signed-off-by: Raiden Lumine <2557597107@qq.com>
 ---
- drivers/staging/iio/addac/adt7316.c | 94 +++++++++++++++++++++++------
- 1 file changed, 77 insertions(+), 17 deletions(-)
+ .../bindings/misc/xlnx,axi-fifo-mm-s.yaml     | 191 ++++++++++++++++++
+ 1 file changed, 191 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
 
-diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-index 20f6052cc7fb..21a1b811a142 100644
---- a/drivers/staging/iio/addac/adt7316.c
-+++ b/drivers/staging/iio/addac/adt7316.c
-@@ -246,12 +246,12 @@ static ssize_t adt7316_store_enabled(struct device *dev,
- {
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
--	int enable;
-+	bool enable;
-+	int ret;
- 
--	if (buf[0] == '1')
--		enable = 1;
--	else
--		enable = 0;
-+	ret = kstrtobool(buf, &enable);
-+	if (ret)
-+		return ret;
- 
- 	if (_adt7316_store_enabled(chip, enable) < 0)
- 		return -EIO;
-@@ -285,13 +285,18 @@ static ssize_t adt7316_store_select_ex_temp(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 config1;
-+	bool req;
- 	int ret;
- 
- 	if ((chip->id & ID_FAMILY_MASK) != ID_ADT75XX)
- 		return -EPERM;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
+diff --git a/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
+new file mode 100644
+index 000000000000..219a7de223cc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
+@@ -0,0 +1,191 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/misc/xlnx,axi-fifo-mm-s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	config1 = chip->config1 & (~ADT7516_SEL_EX_TEMP);
--	if (buf[0] == '1')
-+	if (req)
- 		config1 |= ADT7516_SEL_EX_TEMP;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_CONFIG1, config1);
-@@ -482,10 +487,15 @@ static ssize_t adt7316_store_disable_averaging(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 config2;
-+	bool req;
- 	int ret;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++$defs:
++  xlnx-uint32-zero:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0
++    description: Must be 0, this feature isn't supported.
 +
- 	config2 = chip->config2 & (~ADT7316_DISABLE_AVERAGING);
--	if (buf[0] == '1')
-+	if (req)
- 		config2 |= ADT7316_DISABLE_AVERAGING;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_CONFIG2, config2);
-@@ -521,10 +531,15 @@ static ssize_t adt7316_store_enable_smbus_timeout(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 config2;
-+	bool req;
- 	int ret;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++title: Xilinx AXI-Stream FIFO v4.1 IP core
 +
- 	config2 = chip->config2 & (~ADT7316_EN_SMBUS_TIMEOUT);
--	if (buf[0] == '1')
-+	if (req)
- 		config2 |= ADT7316_EN_SMBUS_TIMEOUT;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_CONFIG2, config2);
-@@ -559,10 +574,15 @@ static ssize_t adt7316_store_powerdown(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 config1;
-+	bool req;
- 	int ret;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++maintainers:
++  - Jacob Feder <jacobsfeder@gmail.com>
 +
- 	config1 = chip->config1 & (~ADT7316_PD);
--	if (buf[0] == '1')
-+	if (req)
- 		config1 |= ADT7316_PD;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_CONFIG1, config1);
-@@ -597,10 +617,15 @@ static ssize_t adt7316_store_fast_ad_clock(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 config3;
-+	bool req;
- 	int ret;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++description: |
++  This IP core has read and write AXI-Stream FIFOs, the contents of which can
++  be accessed from the AXI4 memory-mapped interface. This is useful for
++  transferring data from a processor into the FPGA fabric. The driver creates
++  a character device that can be read/written to with standard
++  open/read/write/close.
 +
- 	config3 = chip->config3 & (~ADT7316_ADCLK_22_5);
--	if (buf[0] == '1')
-+	if (req)
- 		config3 |= ADT7316_ADCLK_22_5;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_CONFIG3, config3);
-@@ -640,13 +665,18 @@ static ssize_t adt7316_store_da_high_resolution(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 config3;
-+	bool req;
- 	int ret;
- 
- 	if (chip->id == ID_ADT7318 || chip->id == ID_ADT7519)
- 		return -EPERM;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++  See Xilinx PG080 document for IP details.
 +
- 	config3 = chip->config3 & (~ADT7316_DA_HIGH_RESOLUTION);
--	if (buf[0] == '1')
-+	if (req)
- 		config3 |= ADT7316_DA_HIGH_RESOLUTION;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_CONFIG3, config3);
-@@ -685,12 +715,17 @@ static ssize_t adt7316_store_AIN_internal_Vref(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 config3;
-+	bool req;
- 	int ret;
- 
- 	if ((chip->id & ID_FAMILY_MASK) != ID_ADT75XX)
- 		return -EPERM;
- 
--	if (buf[0] != '1')
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++  Currently supports only store-forward mode with a 32-bit
++  AXI4-Lite interface. DOES NOT support:
++    - cut-through mode
++    - AXI4 (non-lite)
 +
-+	if (!req)
- 		config3 = chip->config3 & (~ADT7516_AIN_IN_VREF);
- 	else
- 		config3 = chip->config3 | ADT7516_AIN_IN_VREF;
-@@ -728,10 +763,15 @@ static ssize_t adt7316_store_enable_prop_DACA(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 config3;
-+	bool req;
- 	int ret;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++properties:
++  compatible:
++    enum:
++      - xlnx,axi-fifo-mm-s-4.1
++      - xlnx,axi-fifo-mm-s-4.2
++      - xlnx,axi-fifo-mm-s-4.3
 +
- 	config3 = chip->config3 & (~ADT7316_EN_IN_TEMP_PROP_DACA);
--	if (buf[0] == '1')
-+	if (req)
- 		config3 |= ADT7316_EN_IN_TEMP_PROP_DACA;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_CONFIG3, config3);
-@@ -767,10 +807,15 @@ static ssize_t adt7316_store_enable_prop_DACB(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 config3;
-+	bool req;
- 	int ret;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++  reg:
++    maxItems: 1
 +
- 	config3 = chip->config3 & (~ADT7316_EN_EX_TEMP_PROP_DACB);
--	if (buf[0] == '1')
-+	if (req)
- 		config3 |= ADT7316_EN_EX_TEMP_PROP_DACB;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_CONFIG3, config3);
-@@ -967,10 +1012,15 @@ static ssize_t adt7316_store_DA_AB_Vref_bypass(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 dac_config;
-+	bool req;
- 	int ret;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++  interrupts:
++    maxItems: 1
 +
- 	dac_config = chip->dac_config & (~ADT7316_VREF_BYPASS_DAC_AB);
--	if (buf[0] == '1')
-+	if (req)
- 		dac_config |= ADT7316_VREF_BYPASS_DAC_AB;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_DAC_CONFIG, dac_config);
-@@ -1006,10 +1056,15 @@ static ssize_t adt7316_store_DA_CD_Vref_bypass(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 dac_config;
-+	bool req;
- 	int ret;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++  interrupt-names:
++    const: interrupt
 +
- 	dac_config = chip->dac_config & (~ADT7316_VREF_BYPASS_DAC_CD);
--	if (buf[0] == '1')
-+	if (req)
- 		dac_config |= ADT7316_VREF_BYPASS_DAC_CD;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_DAC_CONFIG, dac_config);
-@@ -1969,10 +2024,15 @@ static ssize_t adt7316_set_int_enabled(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 	u8 config1;
-+	bool req;
- 	int ret;
- 
-+	ret = kstrtobool(buf, &req);
-+	if (ret)
-+		return ret;
++  xlnx,axi-str-rxd-tdata-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 32
++    description: AXI-Stream RX data width, must be 32.
 +
- 	config1 = chip->config1 & (~ADT7316_INT_EN);
--	if (buf[0] == '1')
-+	if (req)
- 		config1 |= ADT7316_INT_EN;
- 
- 	ret = chip->bus.write(chip->bus.client, ADT7316_CONFIG1, config1);
++  xlnx,axi-str-txd-tdata-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 32
++    description: AXI-Stream TX data width, must be 32.
++
++  xlnx,rx-fifo-depth:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Depth of RX FIFO in words.
++
++  xlnx,tx-fifo-depth:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Depth of TX FIFO in words.
++
++  xlnx,use-rx-data:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [0, 1]
++    description: Set to 1 if RX FIFO is enabled, 0 otherwise.
++
++  xlnx,use-tx-data:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [0, 1]
++    description: Set to 1 if TX FIFO is enabled, 0 otherwise.
++
++  xlnx,axi-str-rxd-protocol:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: Ignored by the driver.
++
++  xlnx,axi-str-txc-protocol:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: Ignored by the driver.
++
++  xlnx,axi-str-txd-protocol:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: Ignored by the driver.
++
++  xlnx,axi-str-txc-tdata-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,axis-tdest-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,axis-tid-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,axis-tuser-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,data-interface-type:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,has-axis-tdest:
++    $ref: '#/$defs/xlnx-uint32-zero'
++
++  xlnx,has-axis-tid:
++    $ref: '#/$defs/xlnx-uint32-zero'
++
++  xlnx,has-axis-tkeep:
++    $ref: '#/$defs/xlnx-uint32-zero'
++
++  xlnx,has-axis-tstrb:
++    $ref: '#/$defs/xlnx-uint32-zero'
++
++  xlnx,has-axis-tuser:
++    $ref: '#/$defs/xlnx-uint32-zero'
++
++  xlnx,rx-fifo-pe-threshold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,rx-fifo-pf-threshold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,s-axi-id-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,s-axi4-data-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,select-xpm:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,tx-fifo-pe-threshold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,tx-fifo-pf-threshold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Ignored by the driver.
++
++  xlnx,use-rx-cut-through:
++    $ref: '#/$defs/xlnx-uint32-zero'
++
++  xlnx,use-tx-ctrl:
++    $ref: '#/$defs/xlnx-uint32-zero'
++
++  xlnx,use-tx-cut-through:
++    $ref: '#/$defs/xlnx-uint32-zero'
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - xlnx,axi-str-rxd-tdata-width
++  - xlnx,axi-str-txd-tdata-width
++  - xlnx,rx-fifo-depth
++  - xlnx,tx-fifo-depth
++  - xlnx,use-rx-data
++  - xlnx,use-tx-data
++
++additionalProperties: false
++
++examples:
++  - |
++    axi_fifo_mm_s_0: axi-fifo-mm-s@43c00000 {
++        compatible = "xlnx,axi-fifo-mm-s-4.1";
++        interrupt-parent = <&intc>;
++        interrupts = <0 29 4>;
++        reg = <0x43c00000 0x10000>;
++        xlnx,axi-str-rxd-protocol = "XIL_AXI_STREAM_ETH_DATA";
++        xlnx,axi-str-rxd-tdata-width = <0x20>;
++        xlnx,axi-str-txc-protocol = "XIL_AXI_STREAM_ETH_CTRL";
++        xlnx,axi-str-txc-tdata-width = <0x20>;
++        xlnx,axi-str-txd-protocol = "XIL_AXI_STREAM_ETH_DATA";
++        xlnx,axi-str-txd-tdata-width = <0x20>;
++        xlnx,rx-fifo-depth = <0x200>;
++        xlnx,tx-fifo-depth = <0x8000>;
++        xlnx,use-rx-data = <0x0>;
++        xlnx,use-tx-data = <0x1>;
++    };
++...
 -- 
-2.54.0
+2.55.0
 
