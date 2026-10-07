@@ -1,71 +1,71 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A969480959
-	for <linux-staging@lists.linux.dev>; Wed,  7 Oct 2026 11:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7DF45041C
+	for <linux-staging@lists.linux.dev>; Wed,  7 Oct 2026 11:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791374070; cv=none; b=JCsnta3hwIGVNKROioG3fXOObdpEIc2I8T5FGSe0lpFuFnL2xId93ix6EcwS7+ByGzKFKcNR+KO5FpN9RHmFPe3Ro1FtwM03tzmJlZ9gFAWuuWefBGygjP4gLEu2lEM5fFYQFIIBKzIjnhQ7dwWyTiUyc3uerIXqW32/G7XCuHI=
+	t=1791374074; cv=none; b=Ivgn4EtOmTWRQ2Qenpg6yui4LfDA1+POtaa+nzIZKMtk25rnKlSYI6MNkHokvUCGDrvqq79BHTu3IClGFpazZk/PYX6c6g55Rl15H5qKBXEDM7jR/Z+HoZmqcjys7sDDgtsdmDTlOd072nD5T+t698QEB5+tyaIHOTRoiN904EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791374070; c=relaxed/simple;
-	bh=c8CVE9cs8rShzXPsmQd3KD5PoRXwWzAmTDMbQYb64ds=;
+	s=arc-20240116; t=1791374074; c=relaxed/simple;
+	bh=xVxx9Xk+y+oMpzOya4bJLUnJqWc36DmAOrtCu4VXflU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JYdAAWmgm8uibrPlkk+B7hBPdZ8TTHnTgBB9RwiO/I2JBSwAotMyoQCNq4CwMJajhZ6qfs+djSxr3aknlmTmP9Y+gbOC1aZ/lu8xO4sYEvuX92xrC97NWl5u2EoB8mghMEvKzA52IXbtXIAyQh3TmHQXuYCvXAR1UW48GsGTdtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2hIPd0l; arc=none smtp.client-ip=209.85.216.47
+	 MIME-Version; b=LwYTZfM3aqsUQpRaXTe752g5peETx5mGwy3KOJepci0TNUiKwdn5Cdku/aWwyzaA71pAHTVAeoTHzjZp9wBxG+AVYYllEoNMg6aSkzExTOOLXPu2ym5BkaMOpvb+qnjdT84kMRSEx4VjzSZIjmIsmJ3VBWGyHX0qs0ewMAwKPjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XlFykslA; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2hIPd0l"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-398a4dcf289so1272891a91.2
-        for <linux-staging@lists.linux.dev>; Wed, 07 Oct 2026 04:54:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XlFykslA"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cc1bc88a20eso2698258a12.3
+        for <linux-staging@lists.linux.dev>; Wed, 07 Oct 2026 04:54:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791374057; x=1791978857; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791374062; x=1791978862; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IRRCr34XAhK+FCF6lqb8gz+RLw8aUuaoR2HPbDjY2CY=;
-        b=m2hIPd0ldcaaLABEKCqzkNYVVynzDZZUQGBBZCq4qfTqpHESFtRr9BkD720IF5C0ca
-         qz0ZP3LGLNcvgO+o+3vyH6spcI3fl4ZWaHn6pUh2u3UcCULiDfmLpj8vGj0ZK9rmDcyr
-         9qsZvC3swvz0VCMNRjbyo42pqop9r4UcXCiwmLPEu3jO3b09uZCRJIWLe/22gV5GyAxH
-         0RdmUkalKjU8TI7ICSpo3tY3UJohFzFie8Mhtidijhx9dFSul2G0GsOTJ5KAJ03xp5iZ
-         5/GJrUPEzleqBlGAEm4aVGQFtZdpCFfjRGyB4MQkJpbRDysxhv1GuVSR+Gq9mu120efn
-         fWcw==
+        bh=zpP9AbQSKQfCffKNT0Jus7Dcr8U9NfIAHEnMBeTFpJ4=;
+        b=XlFykslAmSfxhheeNuMRbIu1mEAK5IDA/sdvaJDbC21WYwlhfZ/kyEfF2agr2pjlm2
+         n4+wobnIF9z4/ckaNhNc8pf4xNzkXYBjp1Vzcil7tKbTVZtwSq9oCokKmrmul2nX61uP
+         JPm3PqO4AlfOU605vi/2TYEVeqi062DrSOEGSFKP1rdODCr/by8h3Kgq9JLahZOB6/wR
+         dJ0MDYEYiWsCIAo6YMsYVtdFNBWqQ7tdMbAvI4kJ7dRydV21bSuDNan5nTF++Jgx+rSb
+         gphV42S9JA5Nqs/4GGBMmPAHDMgzp9gM10vRbhUr3WWsujslO6zDHbvQt9RBvYfyZreT
+         CEiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791374057; x=1791978857;
+        d=1e100.net; s=20260707; t=1791374062; x=1791978862;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IRRCr34XAhK+FCF6lqb8gz+RLw8aUuaoR2HPbDjY2CY=;
-        b=Zoquhyf7w+GwSk4Z28c7fh2ybKYjJz3xgzR+R+xKAPW/g1JrkHmfxlA3Ex7fVAVmwD
-         +XBZT76bztYUJXjDqSe/Wvhi1uNLCE8QNYLDlIfwDLGSXenb3GUVKJCVeYkJtyWvGCMf
-         BmiWGy84pgZeMJ6LnG3PN764nHG4SI5UFFJMQJw8b3FsrIs4bolrFw+kyG5GNgL/i8Th
-         vkYpeK3bpcV6TQC0SsyDcxUGRygpgixeluChvyeTXM0UEewxpRO7LFwtocMC5fmehQMV
-         LBTbFUdNTRLEHu6fLRZpLi6KQlUEqDQ510LZH8OdICYZymYKqP1Ikq8rBNoCDsGoE1Oq
-         ilXA==
-X-Gm-Message-State: AFq9FYIRQQebRRbCDCCRQXCyD10tUw//X//fxwORsvXcSl0juWyjpc/V
-	MGt/wgxXOzPSF2Y3647HJ9xWLEBl4uiZ2NP1hOS7PFWmBc+ftqHZP2Ey
-X-Gm-Gg: AYBFou1at4+NvAQ6InJ2SH0SO3Ov+0Wpb7mOKqk6rVs241roNapGoxCC1Pn7XFpUyVE
-	jsfPEoGhx2oMp1amLzgk2qQQR/gypK98mfYv59CVuQY7eJOmy2+KrIqmI3twSBUJnpFIMicT5pg
-	IaKtRW8je8t40C2giTgZ9gXD4PDK4jJehhtEG18dajCEWHxtFhLW3ro727EpuAoYTyNi4tJ7c05
-	W4zkQBtJkrsojOpC7FQyJ/CYi7qwOKb/M1DSoY9Sq1XhUlrVsIt/O7nl1PJXsbgHGJHt0YHJsGe
-	MJjYO5TKQwH9UlS7l6Jap9jWEwDjC/LOFl4HgHQ1+e/0C7WAasOAMYaIbbsnIbnel1sTdbCaNrV
-	vcl49O5K5EydjaITIxyluMeo7sJP1tavAfiJWzkesFnIizlh2s+OHLG5ug9Surra/ROv9cvU5LY
-	r3alJpZlt3Yp9E5l2uz1lXsqIR6XU7RKKQ9uFf1zt1WI7k5q0l9LHnmNXvq4P4SsigQ/KETtxW3
-	w==
-X-Received: by 2002:a17:90b:1812:b0:3a8:6b84:234d with SMTP id 98e67ed59e1d1-3a89f693aedmr1421277a91.6.1791374057601;
-        Wed, 07 Oct 2026 04:54:17 -0700 (PDT)
+        bh=zpP9AbQSKQfCffKNT0Jus7Dcr8U9NfIAHEnMBeTFpJ4=;
+        b=JjqoCiWWvr7LO+ZL+0CUjLNyF9vdYTmw5mJkqOtwVcy+CrzlnglRhR1+EgEc3uPFNY
+         NJ2uXWqk8OAPyMPGZ2fjb92C3PAYezg3VEf8cQXMYyEy5Zpbwhl11dzMon0DbW24jQYP
+         YeEiJYGNYi0bkWyPb4Gm+RvGjLuYlDe7CxfHnsL5TaYZ6MxCmTWCwwdTVJ0VjhPoNOl4
+         jrTgyjs1yOU0tSL6/DYBbtBMblqYcSWtK56evJn+KKjpA0rtxi6/+6fkihoQH0w7OaI+
+         aYIFA1JZdiZDIPWkVgAADl255/uwI24cWB9AQdcVdFTgmnGj0ANoOefT2yjScIjM/qED
+         LSew==
+X-Gm-Message-State: AFq9FYI3HM6lxxqnsZjJd3zej7O1KXw2e75wQ0DWazrxfKl3M2JFAQaN
+	rEM//DvCoTIkkJHynxnly38jb/OrETPtzzbV93YgOMzljDCB0DXDsN/+
+X-Gm-Gg: AYBFou2J1MZdkW1KN3jddOJ4U+7ic9CXlpb9w2l3lhMjrUkRFUG9iq3HIxpnsjZd78a
+	RRHZmGDEkFOLLpUNg7RM9KOwYVbKaKJWKW254SxqobIt2Gh3FrK6hYruj38KY6T4Sf/Kj+JWsMB
+	rX21Qf8CU366g0LlsW3P0mH/b9uqlKrkdj+AWdGCDgHhhg4BUkScqddsxhWbcjouRRPEo5z6ecY
+	nup3HF5A6aoFeouOXG4IRMev/C+rhtcTrICyEH0XwORL+haSGJvOhgfL+y6sX+BbqHR0Gvo5AR9
+	8whvHL+f01ST7GKYt1+am5RUutcwnMbA+LobrVppUR2s0Eln4Ven9Qh3G9vxkgTcCAR6AfOQqT8
+	BGzJd/ilch6OySl8oZUUfmtoWcJGJyfNHJojkEbu/635Ke2+oH36MSsv8lH0NQK0gKelkKxqhF/
+	8Y9vFQoDPwZWGDClyISbUs06WZT+BpzGUczBRcg4hpWcuk4WHRlGzDNvqKyGgfLSHTrrAN/8hxl
+	g==
+X-Received: by 2002:a17:90b:3a47:b0:3a4:7d7c:1866 with SMTP id 98e67ed59e1d1-3a8a1be2736mr1737890a91.61.1791374062000;
+        Wed, 07 Oct 2026 04:54:22 -0700 (PDT)
 Received: from host ([103.103.208.70])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a89b625d01sm4160128a91.14.2026.10.07.04.54.15
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a89b625d01sm4160128a91.14.2026.10.07.04.54.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 04:54:17 -0700 (PDT)
+        Wed, 07 Oct 2026 04:54:21 -0700 (PDT)
 From: Pranav Desai <contact.pranavdesai@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Pranav Desai <contact.pranavdesai@gmail.com>
-Subject: [PATCH v3 3/6] staging: rtl8723bs: use u8 for frame types in rtw_security.c
-Date: Wed,  7 Oct 2026 17:23:39 +0530
-Message-ID: <20261007115342.1121742-4-contact.pranavdesai@gmail.com>
+Subject: [PATCH v3 4/6] staging: rtl8723bs: use explicit types for math variables and iterators
+Date: Wed,  7 Oct 2026 17:23:40 +0530
+Message-ID: <20261007115342.1121742-5-contact.pranavdesai@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261007115342.1121742-1-contact.pranavdesai@gmail.com>
 References: <20261007115342.1121742-1-contact.pranavdesai@gmail.com>
@@ -77,73 +77,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace 'uint' with 'u8' for the 'frtype' and 'frsubtype' variables
-in rtw_security.c.
+Replace 'uint' with explicit types for variables used in math operations
+and loops inside the aes_cipher() and aes_decipher() functions:
 
-These variables are populated by the GetFrameType() and GetFrameSubType()
-macros, which read a 16-bit value but apply a bitwise mask (bits 2-3 for
-type, bits 2-7 for subtype). Because the highest possible value after
-masking is 252, these variables are guaranteed to fit within an 8-bit
-unsigned integer.
+- Change 'payload_remainder' to u8 because it is calculated as (plen % 16),
+which guarantees a range of 0-15.
+- Change 'payload_index' to u32 because it indexes into the payload, which
+is bounded by plen (u32).
+- Change 'num_blocks' to u32 since it is derived from 'plen' (u32).
+- Change loop iterators (i, j) to standard 'unsigned int'.
 
 Signed-off-by: Pranav Desai <contact.pranavdesai@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_security.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 34e35c0eccbc..676587fabfe4 100644
+index 676587fabfe4..ff8af1a29b22 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_security.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -633,7 +633,7 @@ static void construct_mic_iv(u8 *mic_iv,
- 			     u8 *mpdu,
- 			     uint payload_length,
- 			     u8 *pn_vector,
--			     uint frtype)
-+			     u8 frtype)
+@@ -784,8 +784,10 @@ static signed int aes_cipher(u8 *key, u16 hdrlen,
+ 			     u8 *pframe, u32 plen)
  {
- 		signed int i;
+ 	bool qc_exists, a4_exists;
+-	uint	i, j, payload_remainder,
+-		num_blocks, payload_index;
++	u8 payload_remainder;
++	u32 payload_index;
++	u32 num_blocks;
++	unsigned int i, j;
  
-@@ -669,7 +669,7 @@ static void construct_mic_iv(u8 *mic_iv,
- static void construct_mic_header1(u8 *mic_header1,
- 				  signed int header_length,
- 				  u8 *mpdu,
--				  uint frtype)
-+				  u8 frtype)
+ 	u8 pn_vector[6];
+ 	u8 mic_iv[16] = {};
+@@ -986,8 +988,10 @@ static signed int aes_decipher(u8 *key, u8 hdrlen,
  {
- 		mic_header1[0] = (u8)((header_length - 2) / 256);
- 		mic_header1[1] = (u8)((header_length - 2) % 256);
-@@ -752,7 +752,7 @@ static void construct_ctr_preload(u8 *ctr_preload,
- 				  u8 *mpdu,
- 				  u8 *pn_vector,
- 				  signed int c,
--				  uint frtype)
-+				  u8 frtype)
- {
- 	signed int i = 0;
- 
-@@ -798,8 +798,8 @@ static signed int aes_cipher(u8 *key, u16 hdrlen,
- 	u8 aes_out[16] = {};
- 	u8 padded_buffer[16] = {};
- 	u8 mic[8];
--	uint	frtype  = GetFrameType(pframe);
--	uint	frsubtype  = GetFrameSubType(pframe);
-+	u8 frtype  = GetFrameType(pframe);
-+	u8 frsubtype  = GetFrameSubType(pframe);
- 
- 	frsubtype = frsubtype >> 4;
- 
-@@ -1001,8 +1001,8 @@ static signed int aes_decipher(u8 *key, u8 hdrlen,
- 	u8 padded_buffer[16] = {};
- 	u8 mic[8];
- 
--	uint frtype  = GetFrameType(pframe);
--	uint frsubtype  = GetFrameSubType(pframe);
-+	u8 frtype  = GetFrameType(pframe);
-+	u8 frsubtype  = GetFrameSubType(pframe);
- 
- 	frsubtype = frsubtype >> 4;
- 
+ 	static u8 message[MAX_MSG_SIZE];
+ 	bool qc_exists, a4_exists;
+-	uint i, j, payload_remainder,
+-			num_blocks, payload_index;
++	u8 payload_remainder;
++	u32 payload_index;
++	u32 num_blocks;
++	unsigned int i, j;
+ 	signed int res = _SUCCESS;
+ 	u8 pn_vector[6];
+ 	u8 mic_iv[16] = {};
 -- 
 2.55.0
 
