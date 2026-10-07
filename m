@@ -1,37 +1,69 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D99A455600
-	for <linux-staging@lists.linux.dev>; Wed,  7 Oct 2026 10:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207653CF1E7
+	for <linux-staging@lists.linux.dev>; Wed,  7 Oct 2026 11:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791370066; cv=none; b=W08BdJCygfEL03cbyBAtUqBfTDou3ktCbX0SgTLjUA8+ciTynWptgy4+INk3m6zVSNqXVXDniiyk8Ohtai+esht/qBtz7YBs4UcUdAN6c6w0rCSNLTfGaA/yO+PxtcvtjxfHo6mJGg+Xj7ROoHmjU83gTPoWJDjmFEfeRwoRRcQ=
+	t=1791374049; cv=none; b=YuJ101p668YGlMQ98YUVWwcz0Vunos9wcPUVqFhTXZ9qfsporS03UVOOl86TzXQ+ioi2AumWI7V5f4H3KElLYQUS4Lti5z8y9rs4vXHFWgO7PqeAjU2lgMdcCYCTeCPFKlaC68ciCeYLtk4M1Y63bcLABXS0SEfyTuIVGE+lBBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791370066; c=relaxed/simple;
-	bh=fIRTbOJjzLVb8VmSUM2YYo6qnXiE/YSAzfPltpNDme8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rhM6tSUn3676VxPieyLHD0saX90Ctnm3njG6bKgQI5QKBg12tKs/Vn/ijT20Yv26xn0Q+Lu7hqNMxDsNZTGH63PQCwAsG18FC7TjVz4TiocSonTCr9nvCcHDOUK0upe+P7vybE/yvl2Y4d6IFr/z3r+kYufnD2pVMV4MuSw2KDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=U3X9seQs; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1791374049; c=relaxed/simple;
+	bh=L730BvsnUN7X2H9iAeghApsz2LI/6U4Th3EHl8jAshY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g2DBm6FSSQ+qwpoGLHSSoDEp+VTLDFIb2v/qrzROY4zy1AdRb1aeFTnOLhb3DHz6bxcpzWtFkZtaN1xVrcyozIk+XhMJ0xtnuR+MBA+gjTo5OfT172pAodp6VZZSrcEHVF3AbR15MwHGyibf2ng0AKGFv7q5QaR4SIw73ETPI4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m4xdhYxm; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="U3X9seQs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=I8
-	GKVOowL7+8oIspUgJDiaCYRKI6Q1gNEUcd9Nke8Nw=; b=U3X9seQsiPXGDyqaZ4
-	Ua7Cf4Rj3tB/crXnUImz431Gfq0A9plfbN62L06NehGwzndf4aULx1y2iSKVg6h1
-	znXIte75yiKSnif50MJKBom7mZyNNxRmi8AiOe/nJ5fnrgC8NtRDMlNiesyjCnjU
-	UVhRLw9cxsf6ZTzxo2v+1MnMc=
-Received: from localhost (unknown [])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wA3XvQHI8ZqdVePCw--.57407S2;
-	Wed, 07 Oct 2026 18:46:31 +0800 (CST)
-From: Feiyu Wang <wangfeiyu_mc_code@163.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m4xdhYxm"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38d489b6b71so847374a91.0
+        for <linux-staging@lists.linux.dev>; Wed, 07 Oct 2026 04:53:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791374039; x=1791978839; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yJbpfBkccqJoniFuHsFOxhzsQjjxrm9zX2bl47R+6yY=;
+        b=m4xdhYxmlRl2S9jB0iH5aDp5PE1bDPurlo+k+5Qe6MFL4MtMQQb2rVgHhyQA855tOA
+         899qRzsai+qS2slSlZ5nqfWOaJfJIIZJlE8AgqMXpTJnqWA5wB/4G4P1hqsGjznmPORQ
+         rIhycpL9zl5hDLG5ej2mla6qysb0cQ7Uq5N+iPdBjN/PPswo+K1keP4gTpHU3v0el3aK
+         9hu/5QuCRjUsNQ7lfZBP7gYOFvEqfwfhzsM8aS/qPLgWEXrQG9TMJf7OKDWr/Wu6KlhG
+         YkJ+yXVUd7Zx0EOOaNdwunUUhHKy0w4A/Qr8z/pm/w3fjUsZSzzmACacneAU8X2Msw7H
+         wXJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791374039; x=1791978839;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yJbpfBkccqJoniFuHsFOxhzsQjjxrm9zX2bl47R+6yY=;
+        b=EHBvvrq7Ycw9LbHVtkVVXQ8BXucfNfZTvGhUYCqLoTV4dYwOBmjZn8rHrb4Uinjlqw
+         iloxph8p/FZ/7bgSe4h6fvsfXdgbGbMqVCAomop51vLJYNANvOvqE0hNuJPVl8YmQ995
+         WqGOoMXl33OZeuMw0aohDcoUh8bMJAxKx4GHCUf2Ru9zF4lfp8xS+XAXdxv7Nr6nDVan
+         65TwKidE2Yhzhqr9UbV2g5cFhqCB0Qn0j70/2HIsfiAUWkirTof+zlNU4dcBFSL2z4Lt
+         Xfs66VVvaM9lXC2VSTAubsCGx34hSA0M0eLJ7TI0hYYx1m80eYGykbUZPuZDR+sUOC6s
+         Yhog==
+X-Gm-Message-State: AFq9FYL7RgbpWhRnZDsVVcklM4hyN8lgvjc3iaXzAX3a6s1CGTUWgen8
+	CajpTt78P0SAGG5Z9xCMrR4WamLrFoeV/+9fbWmPxQK9umPLAyYF7Sqllid9NQ==
+X-Gm-Gg: AYBFou1ZOAnxfAWG/bxlFlx7JVEDSfFBeAxiwaiuxOAe0eaXM019utPVkdrrP70O3Sd
+	h7bvEirq7sWffGSs0F0dg6KDE2qSyRZi9cU8jbgzAsQZZcvwl9ACwCCvU/ad2rqy3UPiuARS+Or
+	yfSXpuaW+SOLIaPwZoR/3iS8d5YTGJp7ncwPUsTY+gyLUTTeYZj25IxD2/3nZTJQUoPE7aePsKS
+	ATaKzPasmrB4Wu21x/9+G8RDvKUZC0UJ9k2zA0qUj6iVHbZDX/1LgxtvmY+vdG/w52wwvpDzi/I
+	82QsfV7NgHaMkMcZBZt4NPOx4RZ+faWAL6uDszy53Ag13iSd7x1B1tW15YJ0mPWLAcLL4Qj4uIG
+	N+JudjaRjtXy7erB32eBKlY++u5aD6YAotQb9DGktAO/cd+57qvI8QxFm3bzgsZwYvyoJkEgtWt
+	1GtATg/Xc++mOWNp4oQGipogarWO6sTpkAv9VGyNBxSDm22IiBCAixNWThoY9ZqYSdw9nJ9JOmk
+	A==
+X-Received: by 2002:a17:90a:d646:b0:3a7:9afb:78c5 with SMTP id 98e67ed59e1d1-3a8a0ba243amr1222490a91.30.1791374039155;
+        Wed, 07 Oct 2026 04:53:59 -0700 (PDT)
+Received: from host ([103.103.208.70])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a89b625d01sm4160128a91.14.2026.10.07.04.53.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2026 04:53:58 -0700 (PDT)
+From: Pranav Desai <contact.pranavdesai@gmail.com>
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Feiyu Wang <wangfeiyu_mc_code@163.com>
-Subject: [PATCH] staging: rtl8723bs: remove multiple blank lines
-Date: Wed,  7 Oct 2026 18:46:10 +0800
-Message-ID: <20261007104610.128178-1-wangfeiyu_mc_code@163.com>
+	Pranav Desai <contact.pranavdesai@gmail.com>
+Subject: [PATCH v3 0/6] staging: rtl8723bs: explicitly type variables in rtw_security.c
+Date: Wed,  7 Oct 2026 17:23:36 +0530
+Message-ID: <20261007115342.1121742-1-contact.pranavdesai@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -40,48 +72,39 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wA3XvQHI8ZqdVePCw--.57407S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrur45Zr47JF47Ww1ruryDZFb_yoWkuFX_W3
-	ySqrn5JryDCFn8GF4DKa1fJFZ2gr4kXrs7ZFn3trZ7ZF12ya15G3sFyrnxZ3y8W3yxtF9x
-	A398KrZ5KF48GjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUjdb13UUUUU==
-X-CM-SenderInfo: pzdqww5hl13s5pfbu0lgh6il2tof0z/xtbC7AcWVWrGIweFKAAA3N
 
-Remove redundant blank lines as reported by checkpatch.pl.
+This v3 series focuses exclusively on explicitly typing the non-standard
+'uint' variables in rtw_security.c.
 
-Signed-off-by: Feiyu Wang <wangfeiyu_mc_code@163.com>
----
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 3 ---
- 1 file changed, 3 deletions(-)
+Per Greg's feedback on v2, I have split the explicit sizing of variables
+into 6 granular, logical commits to ensure rigorous bisectability and
+ease of review:
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 6ef3a7198533..e18cb7fc93da 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -48,7 +48,6 @@ static void sd_sync_int_hdl(struct sdio_func *func)
- {
- 	struct dvobj_priv *psdpriv;
- 
--
- 	psdpriv = sdio_get_drvdata(func);
- 
- 	if (!psdpriv->if1)
-@@ -216,7 +215,6 @@ static void sd_intf_stop(struct adapter *padapter)
- 	rtw_sdio_disable_interrupt(padapter);
- }
- 
--
- static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj)
- {
- 	int status = _FAIL;
-@@ -250,7 +248,6 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj)
- 	/* 4 3.1 set hardware operation functions */
- 	rtw_set_hal_ops(padapter);
- 
--
- 	/* 3 5. initialize Chip version */
- 	padapter->intf_start = &sd_intf_start;
- 	padapter->intf_stop = &sd_intf_stop;
+- Patch 1: Matches packet lengths to struct definitions.
+- Patch 2: Converts integer flags to standard booleans and updates 1/0 assignments.
+- Patch 3: Explicitly sizes frame types to u8 based on bitmasks.
+- Patches 4-6: Explicitly types computed variables, iterators, and helper
+  lengths to safely handle math operations.
+
+Changes in v3:
+- Split rtw_security.c changes into 6 logical patches (one concept per patch).
+- Replaced 1/0 assignments with true/false for boolean flags.
+- Dropped hal_intf.c from this series entirely (will address separately).
+
+Link: https://lore.kernel.org/linux-staging/20261006200751.819332-1-contact.pranavdesai@gmail.com/ 
+
+Pranav Desai (6):
+  staging: rtl8723bs: use explicit types for lengths in rtw_security.c
+  staging: rtl8723bs: use bool for flags in rtw_security.c
+  staging: rtl8723bs: use u8 for frame types in rtw_security.c
+  staging: rtl8723bs: use explicit types for math variables and
+    iterators
+  staging: rtl8723bs: use u32 for payload_length in rtw_security.c
+  staging: rtl8723bs: use u32 for length variables in rtw_BIP_verify()
+
+ drivers/staging/rtl8723bs/core/rtw_security.c | 68 ++++++++++---------
+ 1 file changed, 37 insertions(+), 31 deletions(-)
+
 -- 
 2.55.0
 
