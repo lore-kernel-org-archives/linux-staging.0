@@ -1,71 +1,71 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9216E3BD22E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Oct 2026 11:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A969480959
+	for <linux-staging@lists.linux.dev>; Wed,  7 Oct 2026 11:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791374064; cv=none; b=I8okoAofhQHP/Su3+57FJ/7Ink3ZifUpWeBqAFY1Ka/rDnap6Ctg8eX4ZAUHp6vQklePvMIHRGu/oLicZhJgAnC9Ycygkf9MOQgQgON3POrk8g+6yN84fwPHo0NN1TOBHIYSWbr9fm9WWUZ4rY4qDumXoQ42q8vDIU3uImbp57E=
+	t=1791374070; cv=none; b=JCsnta3hwIGVNKROioG3fXOObdpEIc2I8T5FGSe0lpFuFnL2xId93ix6EcwS7+ByGzKFKcNR+KO5FpN9RHmFPe3Ro1FtwM03tzmJlZ9gFAWuuWefBGygjP4gLEu2lEM5fFYQFIIBKzIjnhQ7dwWyTiUyc3uerIXqW32/G7XCuHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791374064; c=relaxed/simple;
-	bh=qPsAUzybV6gCxXnbHSXY/WPpDyCPwUWq98p0EGI0M/k=;
+	s=arc-20240116; t=1791374070; c=relaxed/simple;
+	bh=c8CVE9cs8rShzXPsmQd3KD5PoRXwWzAmTDMbQYb64ds=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NDXbjvSLvIsSDOleN20fCC8BLKz5NKzR/XlfO04EuDB1eZo85yd1pagCKvedZ52eqTTzR3sjP5M5Wwo7VzTZHo676Y6yl+lgnLXLnUwo/GTcrYushT690ZUGf4LUIetjhaBk6Yr8K43jdLHagtxG9gf3k6Gi6B/jB9aonvJPMbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R7C0cYq2; arc=none smtp.client-ip=209.85.215.179
+	 MIME-Version; b=JYdAAWmgm8uibrPlkk+B7hBPdZ8TTHnTgBB9RwiO/I2JBSwAotMyoQCNq4CwMJajhZ6qfs+djSxr3aknlmTmP9Y+gbOC1aZ/lu8xO4sYEvuX92xrC97NWl5u2EoB8mghMEvKzA52IXbtXIAyQh3TmHQXuYCvXAR1UW48GsGTdtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2hIPd0l; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R7C0cYq2"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cc4ca696de6so1025917a12.2
-        for <linux-staging@lists.linux.dev>; Wed, 07 Oct 2026 04:54:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2hIPd0l"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-398a4dcf289so1272891a91.2
+        for <linux-staging@lists.linux.dev>; Wed, 07 Oct 2026 04:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791374054; x=1791978854; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791374057; x=1791978857; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TxLF9WC9h0ud76U4Gv3cyGgWW9mMfTpz+8WgjYplMkQ=;
-        b=R7C0cYq2dnUWJt9J9WLnwblDtypkMJn273sakhlAKfhjuxOBcpFDFWXHA/9/OH6TT0
-         XqwiUuARMwxqX4VtiLfGBzBcHvQinm7SJV+OLezS/hsPUb3NVbxljhsmpbCl7REEC6Sl
-         UQy5JUDeo75vLdN6RgHpKiWHYWlXzVA4Y/+aj29AN9jHqbsfFwbKOAArmw8IGThbFRMu
-         VyhfxidY/6AqX1u8mSETDeVETqHmAxxlSGhANdCpTB2Felj7LPFnkIddWk+4iQ17Ck5f
-         hSSRJOK/MNI/Qe3l1OCC0F7z0pUjl3gjS3wBh2qieGFMdceezwuyTvKAFacqvt0jw6CF
-         xcTA==
+        bh=IRRCr34XAhK+FCF6lqb8gz+RLw8aUuaoR2HPbDjY2CY=;
+        b=m2hIPd0ldcaaLABEKCqzkNYVVynzDZZUQGBBZCq4qfTqpHESFtRr9BkD720IF5C0ca
+         qz0ZP3LGLNcvgO+o+3vyH6spcI3fl4ZWaHn6pUh2u3UcCULiDfmLpj8vGj0ZK9rmDcyr
+         9qsZvC3swvz0VCMNRjbyo42pqop9r4UcXCiwmLPEu3jO3b09uZCRJIWLe/22gV5GyAxH
+         0RdmUkalKjU8TI7ICSpo3tY3UJohFzFie8Mhtidijhx9dFSul2G0GsOTJ5KAJ03xp5iZ
+         5/GJrUPEzleqBlGAEm4aVGQFtZdpCFfjRGyB4MQkJpbRDysxhv1GuVSR+Gq9mu120efn
+         fWcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791374054; x=1791978854;
+        d=1e100.net; s=20260707; t=1791374057; x=1791978857;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TxLF9WC9h0ud76U4Gv3cyGgWW9mMfTpz+8WgjYplMkQ=;
-        b=F88xEds1D0FoLbDLL3h/2PZpWcGDVrucZ/5ohO9Dw9Z7MkVHgmiyYvaFg/juO03Clh
-         6D3KDLxrlT3oBhj8WKoR4uiLrkjgFzwJ/Ge3U4MFxPV1+HTgCbyOkMKYjcL6Ybls6vYs
-         9GoaiUGPbB93tyJ+Bvy11U04RuC8IdsWgY3f9NZptKKLFXf5brUfOVhmK43tniSPhTM8
-         92rQ/JRzDUajtNna6CC+5wkNkSpOSC17Yvgpa7AI8vIjPD6zgDk4hvl0oxESA4qx2tgX
-         RoK4RU2BUOU47mbaawIBQzY05reNYJtLbs8tNSZMu4TiufI/mlEbXkaMuXLkLDanSyJR
-         1O0g==
-X-Gm-Message-State: AFq9FYJPF0l28+7rfkhrO/5uY4hSXuPNnbT+9H0hRuKayrL94sLQMr+4
-	CPmzMDf7/Aw1a/iHL3oc00v2Y4hX0djP8c1ArLNMkGyy6pTmMiloD3Xd
-X-Gm-Gg: AYBFou2u5EreaPymC1BgiINxUf0FGIi2KF4m8nelMbIoEOSa2rmqjITRUAY9piOJNR6
-	kevDKq4OxlNEYJlUYcap9d0mZVqyL7TY4ZBhIde+vmKCXs6sHdrbWNo49+WyilMIBRKRML5fGeq
-	vmHxO0RWg/+UUzgtMOjx867xAELGqzn6JMkSwpHrF0VngfPajsaWb8YCbKy+UPgMb6hFRle5SX3
-	ryN5PwCqEdCF50HgpUr4mWKZCW/QwzFhL59Euf9IINbWJsWamVas2IBIzkr7V24nG1ikqQjyXEd
-	GvldLsfhnfIAitTjJOOjAquKvbzPR0jnZtjhl5hGGmZ7godvoDuLORjiE+IpXj3+r9hPwUTf9xT
-	P0EZoBSc0OwH0IYf8TSrgSbzakHHI4X4XTFl45Q0d7z4ENUFvtNPWtQ7DLBtpeFLGGgWrdKXlGh
-	f9woJ9BtpTuOrVBlGN+2FWYKS8Ur9ewhghcLcGk51O3X9VYA05dcV8TWMZFzfFiR4fZTYcpjh0f
-	Kc=
-X-Received: by 2002:a17:90b:258b:b0:39e:6a7f:1dcd with SMTP id 98e67ed59e1d1-3a8a117382cmr1766075a91.41.1791374053580;
-        Wed, 07 Oct 2026 04:54:13 -0700 (PDT)
+        bh=IRRCr34XAhK+FCF6lqb8gz+RLw8aUuaoR2HPbDjY2CY=;
+        b=Zoquhyf7w+GwSk4Z28c7fh2ybKYjJz3xgzR+R+xKAPW/g1JrkHmfxlA3Ex7fVAVmwD
+         +XBZT76bztYUJXjDqSe/Wvhi1uNLCE8QNYLDlIfwDLGSXenb3GUVKJCVeYkJtyWvGCMf
+         BmiWGy84pgZeMJ6LnG3PN764nHG4SI5UFFJMQJw8b3FsrIs4bolrFw+kyG5GNgL/i8Th
+         vkYpeK3bpcV6TQC0SsyDcxUGRygpgixeluChvyeTXM0UEewxpRO7LFwtocMC5fmehQMV
+         LBTbFUdNTRLEHu6fLRZpLi6KQlUEqDQ510LZH8OdICYZymYKqP1Ikq8rBNoCDsGoE1Oq
+         ilXA==
+X-Gm-Message-State: AFq9FYIRQQebRRbCDCCRQXCyD10tUw//X//fxwORsvXcSl0juWyjpc/V
+	MGt/wgxXOzPSF2Y3647HJ9xWLEBl4uiZ2NP1hOS7PFWmBc+ftqHZP2Ey
+X-Gm-Gg: AYBFou1at4+NvAQ6InJ2SH0SO3Ov+0Wpb7mOKqk6rVs241roNapGoxCC1Pn7XFpUyVE
+	jsfPEoGhx2oMp1amLzgk2qQQR/gypK98mfYv59CVuQY7eJOmy2+KrIqmI3twSBUJnpFIMicT5pg
+	IaKtRW8je8t40C2giTgZ9gXD4PDK4jJehhtEG18dajCEWHxtFhLW3ro727EpuAoYTyNi4tJ7c05
+	W4zkQBtJkrsojOpC7FQyJ/CYi7qwOKb/M1DSoY9Sq1XhUlrVsIt/O7nl1PJXsbgHGJHt0YHJsGe
+	MJjYO5TKQwH9UlS7l6Jap9jWEwDjC/LOFl4HgHQ1+e/0C7WAasOAMYaIbbsnIbnel1sTdbCaNrV
+	vcl49O5K5EydjaITIxyluMeo7sJP1tavAfiJWzkesFnIizlh2s+OHLG5ug9Surra/ROv9cvU5LY
+	r3alJpZlt3Yp9E5l2uz1lXsqIR6XU7RKKQ9uFf1zt1WI7k5q0l9LHnmNXvq4P4SsigQ/KETtxW3
+	w==
+X-Received: by 2002:a17:90b:1812:b0:3a8:6b84:234d with SMTP id 98e67ed59e1d1-3a89f693aedmr1421277a91.6.1791374057601;
+        Wed, 07 Oct 2026 04:54:17 -0700 (PDT)
 Received: from host ([103.103.208.70])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a89b625d01sm4160128a91.14.2026.10.07.04.54.11
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a89b625d01sm4160128a91.14.2026.10.07.04.54.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 04:54:13 -0700 (PDT)
+        Wed, 07 Oct 2026 04:54:17 -0700 (PDT)
 From: Pranav Desai <contact.pranavdesai@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Pranav Desai <contact.pranavdesai@gmail.com>
-Subject: [PATCH v3 2/6] staging: rtl8723bs: use bool for flags in rtw_security.c
-Date: Wed,  7 Oct 2026 17:23:38 +0530
-Message-ID: <20261007115342.1121742-3-contact.pranavdesai@gmail.com>
+Subject: [PATCH v3 3/6] staging: rtl8723bs: use u8 for frame types in rtw_security.c
+Date: Wed,  7 Oct 2026 17:23:39 +0530
+Message-ID: <20261007115342.1121742-4-contact.pranavdesai@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261007115342.1121742-1-contact.pranavdesai@gmail.com>
 References: <20261007115342.1121742-1-contact.pranavdesai@gmail.com>
@@ -77,123 +77,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace 'uint' with 'bool' for the 'qc_exists' and 'a4_exists' variables
-since they are only used to track true/false state.
+Replace 'uint' with 'u8' for the 'frtype' and 'frsubtype' variables
+in rtw_security.c.
 
-Update their assignments from 1/0 to true/false to match the standard
-boolean type.
+These variables are populated by the GetFrameType() and GetFrameSubType()
+macros, which read a 16-bit value but apply a bitwise mask (bits 2-3 for
+type, bits 2-7 for subtype). Because the highest possible value after
+masking is 252, these variables are guaranteed to fit within an 8-bit
+unsigned integer.
 
 Signed-off-by: Pranav Desai <contact.pranavdesai@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 34 ++++++++++---------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_security.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index af461971c827..34e35c0eccbc 100644
+index 34e35c0eccbc..676587fabfe4 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_security.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -628,8 +628,8 @@ static void aes128k128d(u8 *key, u8 *data, u8 *ciphertext)
- /* nonce                                        */
- /************************************************/
- static void construct_mic_iv(u8 *mic_iv,
--			     signed int qc_exists,
--			     signed int a4_exists,
-+			     bool qc_exists,
-+			     bool a4_exists,
+@@ -633,7 +633,7 @@ static void construct_mic_iv(u8 *mic_iv,
  			     u8 *mpdu,
  			     uint payload_length,
  			     u8 *pn_vector,
-@@ -702,8 +702,8 @@ static void construct_mic_header1(u8 *mic_header1,
- /************************************************/
- static void construct_mic_header2(u8 *mic_header2,
- 				  u8 *mpdu,
--				  signed int a4_exists,
--				  signed int qc_exists)
-+				  bool a4_exists,
-+				  bool qc_exists)
+-			     uint frtype)
++			     u8 frtype)
  {
  		signed int i;
  
-@@ -783,7 +783,8 @@ static void construct_ctr_preload(u8 *ctr_preload,
- static signed int aes_cipher(u8 *key, u16 hdrlen,
- 			     u8 *pframe, u32 plen)
+@@ -669,7 +669,7 @@ static void construct_mic_iv(u8 *mic_iv,
+ static void construct_mic_header1(u8 *mic_header1,
+ 				  signed int header_length,
+ 				  u8 *mpdu,
+-				  uint frtype)
++				  u8 frtype)
  {
--	uint	qc_exists, a4_exists, i, j, payload_remainder,
-+	bool qc_exists, a4_exists;
-+	uint	i, j, payload_remainder,
- 		num_blocks, payload_index;
+ 		mic_header1[0] = (u8)((header_length - 2) / 256);
+ 		mic_header1[1] = (u8)((header_length - 2) % 256);
+@@ -752,7 +752,7 @@ static void construct_ctr_preload(u8 *ctr_preload,
+ 				  u8 *mpdu,
+ 				  u8 *pn_vector,
+ 				  signed int c,
+-				  uint frtype)
++				  u8 frtype)
+ {
+ 	signed int i = 0;
  
- 	u8 pn_vector[6];
-@@ -803,14 +804,14 @@ static signed int aes_cipher(u8 *key, u16 hdrlen,
+@@ -798,8 +798,8 @@ static signed int aes_cipher(u8 *key, u16 hdrlen,
+ 	u8 aes_out[16] = {};
+ 	u8 padded_buffer[16] = {};
+ 	u8 mic[8];
+-	uint	frtype  = GetFrameType(pframe);
+-	uint	frsubtype  = GetFrameSubType(pframe);
++	u8 frtype  = GetFrameType(pframe);
++	u8 frsubtype  = GetFrameSubType(pframe);
+ 
  	frsubtype = frsubtype >> 4;
  
- 	if ((hdrlen == WLAN_HDR_A3_LEN) || (hdrlen ==  WLAN_HDR_A3_QOS_LEN))
--		a4_exists = 0;
-+		a4_exists = false;
- 	else
--		a4_exists = 1;
-+		a4_exists = true;
+@@ -1001,8 +1001,8 @@ static signed int aes_decipher(u8 *key, u8 hdrlen,
+ 	u8 padded_buffer[16] = {};
+ 	u8 mic[8];
  
- 	if (((frtype | frsubtype) == WIFI_DATA_CFACK) ||
- 	    ((frtype | frsubtype) == WIFI_DATA_CFPOLL) ||
- 	    ((frtype | frsubtype) == WIFI_DATA_CFACKPOLL)) {
--		qc_exists = 1;
-+		qc_exists = true;
- 		if (hdrlen !=  WLAN_HDR_A3_QOS_LEN)
- 			hdrlen += 2;
+-	uint frtype  = GetFrameType(pframe);
+-	uint frsubtype  = GetFrameSubType(pframe);
++	u8 frtype  = GetFrameType(pframe);
++	u8 frsubtype  = GetFrameSubType(pframe);
  
-@@ -822,9 +823,9 @@ static signed int aes_cipher(u8 *key, u16 hdrlen,
- 		if (hdrlen !=  WLAN_HDR_A3_QOS_LEN)
- 			hdrlen += 2;
+ 	frsubtype = frsubtype >> 4;
  
--		qc_exists = 1;
-+		qc_exists = true;
- 	} else {
--		qc_exists = 0;
-+		qc_exists = false;
- 	}
- 
- 	pn_vector[0] = pframe[hdrlen];
-@@ -984,7 +985,8 @@ static signed int aes_decipher(u8 *key, u8 hdrlen,
- 			       u8 *pframe, u32 plen)
- {
- 	static u8 message[MAX_MSG_SIZE];
--	uint qc_exists, a4_exists, i, j, payload_remainder,
-+	bool qc_exists, a4_exists;
-+	uint i, j, payload_remainder,
- 			num_blocks, payload_index;
- 	signed int res = _SUCCESS;
- 	u8 pn_vector[6];
-@@ -1018,14 +1020,14 @@ static signed int aes_decipher(u8 *key, u8 hdrlen,
- 	pn_vector[5]  = pframe[hdrlen + 7];
- 
- 	if ((hdrlen == WLAN_HDR_A3_LEN) || (hdrlen ==  WLAN_HDR_A3_QOS_LEN))
--		a4_exists = 0;
-+		a4_exists = false;
- 	else
--		a4_exists = 1;
-+		a4_exists = true;
- 
- 	if (((frtype | frsubtype) == WIFI_DATA_CFACK) ||
- 	    ((frtype | frsubtype) == WIFI_DATA_CFPOLL) ||
- 	    ((frtype | frsubtype) == WIFI_DATA_CFACKPOLL)) {
--		qc_exists = 1;
-+		qc_exists = true;
- 		if (hdrlen !=  WLAN_HDR_A3_QOS_LEN)
- 			hdrlen += 2;
- 
-@@ -1037,9 +1039,9 @@ static signed int aes_decipher(u8 *key, u8 hdrlen,
- 		if (hdrlen !=  WLAN_HDR_A3_QOS_LEN)
- 			hdrlen += 2;
- 
--		qc_exists = 1;
-+		qc_exists = true;
- 	} else {
--		qc_exists = 0;
-+		qc_exists = false;
- 	}
- 
- 	/*  now, decrypt pframe with hdrlen offset and plen long */
 -- 
 2.55.0
 
