@@ -1,71 +1,71 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7DF45041C
-	for <linux-staging@lists.linux.dev>; Wed,  7 Oct 2026 11:54:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5186F3F44EB
+	for <linux-staging@lists.linux.dev>; Wed,  7 Oct 2026 11:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791374074; cv=none; b=Ivgn4EtOmTWRQ2Qenpg6yui4LfDA1+POtaa+nzIZKMtk25rnKlSYI6MNkHokvUCGDrvqq79BHTu3IClGFpazZk/PYX6c6g55Rl15H5qKBXEDM7jR/Z+HoZmqcjys7sDDgtsdmDTlOd072nD5T+t698QEB5+tyaIHOTRoiN904EY=
+	t=1791374081; cv=none; b=hVpT4xgopluTPDgkxV+506IMYNbVOoYgnAnEwHQtE7haGz5JKHiLxjr7OevRX66G//+D0Hc/nCGUvKfNHeN9ugtWNOehzY+OK7abz+eykwT6s3ruAwJXGM0O56PoQaMUY/qPJjtEU9gAc71rfUvklgFB77LCXHrOvYou5+NXQlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791374074; c=relaxed/simple;
-	bh=xVxx9Xk+y+oMpzOya4bJLUnJqWc36DmAOrtCu4VXflU=;
+	s=arc-20240116; t=1791374081; c=relaxed/simple;
+	bh=yl9oglKIS6N4vQb8skzgFPlLHgV+tuWg/BoitUlDKRg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LwYTZfM3aqsUQpRaXTe752g5peETx5mGwy3KOJepci0TNUiKwdn5Cdku/aWwyzaA71pAHTVAeoTHzjZp9wBxG+AVYYllEoNMg6aSkzExTOOLXPu2ym5BkaMOpvb+qnjdT84kMRSEx4VjzSZIjmIsmJ3VBWGyHX0qs0ewMAwKPjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XlFykslA; arc=none smtp.client-ip=209.85.215.180
+	 MIME-Version; b=iqMz96yBrQzaEL9keWtHhJFGOVqfXdyxPiNqZEBQde7oppoS7QrqhDn1LfTLPAz7cdwQLCgIpqoxSfssjLv0VGiW0Qud0Ct4lSErRYYWfSC7nu7AZIg7OdqUmKYHJcAC7nTy1gYZ5PWfNEY9sdo9Q5VC8i/nyjCX9zaB7GhEBZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=irXnnvPv; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XlFykslA"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cc1bc88a20eso2698258a12.3
-        for <linux-staging@lists.linux.dev>; Wed, 07 Oct 2026 04:54:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="irXnnvPv"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-383b4a3755fso2786950a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 07 Oct 2026 04:54:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791374062; x=1791978862; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791374066; x=1791978866; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zpP9AbQSKQfCffKNT0Jus7Dcr8U9NfIAHEnMBeTFpJ4=;
-        b=XlFykslAmSfxhheeNuMRbIu1mEAK5IDA/sdvaJDbC21WYwlhfZ/kyEfF2agr2pjlm2
-         n4+wobnIF9z4/ckaNhNc8pf4xNzkXYBjp1Vzcil7tKbTVZtwSq9oCokKmrmul2nX61uP
-         JPm3PqO4AlfOU605vi/2TYEVeqi062DrSOEGSFKP1rdODCr/by8h3Kgq9JLahZOB6/wR
-         dJ0MDYEYiWsCIAo6YMsYVtdFNBWqQ7tdMbAvI4kJ7dRydV21bSuDNan5nTF++Jgx+rSb
-         gphV42S9JA5Nqs/4GGBMmPAHDMgzp9gM10vRbhUr3WWsujslO6zDHbvQt9RBvYfyZreT
-         CEiQ==
+        bh=H6N/y0p0S9p3UrlhI/DdMbp7UhhJ4fOflMevrjORLv4=;
+        b=irXnnvPvr7J3jQIFZt5PxxAuaJ3GJAozemn7s1FLbiMoPXJUyhzgMCo0vowlPB6zDk
+         C4ufHuiCD8Dl83zX1O+qG+ZSN+Y9A9yH2eHBQBcp4sapwxjLodm1+pGjsheNWlbJ+wNf
+         yx4qEg2yAz9qsh58PJPheebl+Z8BRRLbDBZQHXEIwqxv5sISBshVTbAMD1qCNutb5G0k
+         VYqL97bK64r6qBRu3/Ot+n70zNitNxdrrJDFqW9vbaI+VQgYpJ3EOyR4cPY/dUmZrt0x
+         9Sh885Nww0qC8Jyf1/7bMgHKntlUQ+MnozOZMTV8KiT8a1VJL+49bD3eT2/NYOgYQAoI
+         79wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791374062; x=1791978862;
+        d=1e100.net; s=20260707; t=1791374066; x=1791978866;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zpP9AbQSKQfCffKNT0Jus7Dcr8U9NfIAHEnMBeTFpJ4=;
-        b=JjqoCiWWvr7LO+ZL+0CUjLNyF9vdYTmw5mJkqOtwVcy+CrzlnglRhR1+EgEc3uPFNY
-         NJ2uXWqk8OAPyMPGZ2fjb92C3PAYezg3VEf8cQXMYyEy5Zpbwhl11dzMon0DbW24jQYP
-         YeEiJYGNYi0bkWyPb4Gm+RvGjLuYlDe7CxfHnsL5TaYZ6MxCmTWCwwdTVJ0VjhPoNOl4
-         jrTgyjs1yOU0tSL6/DYBbtBMblqYcSWtK56evJn+KKjpA0rtxi6/+6fkihoQH0w7OaI+
-         aYIFA1JZdiZDIPWkVgAADl255/uwI24cWB9AQdcVdFTgmnGj0ANoOefT2yjScIjM/qED
-         LSew==
-X-Gm-Message-State: AFq9FYI3HM6lxxqnsZjJd3zej7O1KXw2e75wQ0DWazrxfKl3M2JFAQaN
-	rEM//DvCoTIkkJHynxnly38jb/OrETPtzzbV93YgOMzljDCB0DXDsN/+
-X-Gm-Gg: AYBFou2J1MZdkW1KN3jddOJ4U+7ic9CXlpb9w2l3lhMjrUkRFUG9iq3HIxpnsjZd78a
-	RRHZmGDEkFOLLpUNg7RM9KOwYVbKaKJWKW254SxqobIt2Gh3FrK6hYruj38KY6T4Sf/Kj+JWsMB
-	rX21Qf8CU366g0LlsW3P0mH/b9uqlKrkdj+AWdGCDgHhhg4BUkScqddsxhWbcjouRRPEo5z6ecY
-	nup3HF5A6aoFeouOXG4IRMev/C+rhtcTrICyEH0XwORL+haSGJvOhgfL+y6sX+BbqHR0Gvo5AR9
-	8whvHL+f01ST7GKYt1+am5RUutcwnMbA+LobrVppUR2s0Eln4Ven9Qh3G9vxkgTcCAR6AfOQqT8
-	BGzJd/ilch6OySl8oZUUfmtoWcJGJyfNHJojkEbu/635Ke2+oH36MSsv8lH0NQK0gKelkKxqhF/
-	8Y9vFQoDPwZWGDClyISbUs06WZT+BpzGUczBRcg4hpWcuk4WHRlGzDNvqKyGgfLSHTrrAN/8hxl
+        bh=H6N/y0p0S9p3UrlhI/DdMbp7UhhJ4fOflMevrjORLv4=;
+        b=nXlo0QB764IMe/RVplrc1IxVQ3csaN3BPpKHaIWFA2fvKJZMQ+XdPJ41vYjaf5eJmc
+         vnNWp2MVh29jfnLxzP5GpxxyOs8mNi3m4+VBwW86nrlOJCImEHFxbw3gfINLUCv0hQCQ
+         fkxtm1b11Vdl5zdP4sn8mpislAypS42zB7qXCdLOwgnsMLjq263OUTYCYp4jJxtfznEu
+         QUUw6eenH1C915oHRWSL06149du2vHP15Wmh2Dvk+mQ5aJ57fzNeIByB8NBy8AoVHZn5
+         D5h3p+kMj5EYZ3rT8mo72gwriJLPDg8ubRaBAwvaJvHLc58cbO0XfqgfpnkXO88gK2VR
+         12bw==
+X-Gm-Message-State: AFq9FYLHOZEcbqWZFDvo4YZRkF9DIGCjdMJQaPeFytrK4OElCn39IoZD
+	SDm5BuFSLVXmn64zgqylj5Tb1Rcgb8hzCHjYTLKrUgPHTC8LUlo03Su+
+X-Gm-Gg: AYBFou1LVieeeNUJylk3LYXw4Ydh7WYp+o+Vnu182K2u73Yb+wZSVAoXCDHDNrBfrxc
+	9E8AvvyjT2FvuMnaV6RxivCMLljtsO8dBKp5FYOrL56rpWDOKDKsD0EZR66Hlkj8fpMF9ElxKRm
+	9smq8ZA/C9nFAZUGYgC+TU7lIxxNG1/qCoGxys7TpsoOpQSz/2ux+WoCcdUWbl5K7MemW2XFru4
+	PvyVuIxfvtSYaCWmDHaZGYD98t0O8ejOOwfoqaa7T+IJdjpk7iC62mQYYKOONzwAsuSs9bL129k
+	itPr0ZtZ8RQfizh9ot4j6fyIsaRyZt+agkB9kOcEur1toz9u/r4vSDViTf5i1g4X58mU2cLBd+K
+	Yxx4Exk1mSZpuwZlYH48xE46RwQcUzdPaQXC3AFhZxFkHrinT/fO8sDq9D8kWGs1xDwbcPCJ31I
+	waTK+YKYf7YHKLC0L8n/M/M9PdI45pnCEOZbTdM04lrx9XL09vbs+aOplsSSMbMSRX3Wo7V3mKb
 	g==
-X-Received: by 2002:a17:90b:3a47:b0:3a4:7d7c:1866 with SMTP id 98e67ed59e1d1-3a8a1be2736mr1737890a91.61.1791374062000;
-        Wed, 07 Oct 2026 04:54:22 -0700 (PDT)
+X-Received: by 2002:a17:90b:5608:b0:3a7:bf13:5ff9 with SMTP id 98e67ed59e1d1-3a8a17f8533mr1715155a91.13.1791374066463;
+        Wed, 07 Oct 2026 04:54:26 -0700 (PDT)
 Received: from host ([103.103.208.70])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a89b625d01sm4160128a91.14.2026.10.07.04.54.19
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a89b625d01sm4160128a91.14.2026.10.07.04.54.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 04:54:21 -0700 (PDT)
+        Wed, 07 Oct 2026 04:54:26 -0700 (PDT)
 From: Pranav Desai <contact.pranavdesai@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Pranav Desai <contact.pranavdesai@gmail.com>
-Subject: [PATCH v3 4/6] staging: rtl8723bs: use explicit types for math variables and iterators
-Date: Wed,  7 Oct 2026 17:23:40 +0530
-Message-ID: <20261007115342.1121742-5-contact.pranavdesai@gmail.com>
+Subject: [PATCH v3 5/6] staging: rtl8723bs: use u32 for payload_length in rtw_security.c
+Date: Wed,  7 Oct 2026 17:23:41 +0530
+Message-ID: <20261007115342.1121742-6-contact.pranavdesai@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261007115342.1121742-1-contact.pranavdesai@gmail.com>
 References: <20261007115342.1121742-1-contact.pranavdesai@gmail.com>
@@ -77,51 +77,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace 'uint' with explicit types for variables used in math operations
-and loops inside the aes_cipher() and aes_decipher() functions:
+Replace 'uint' with 'u32' for the 'payload_length' parameter in the
+construct_mic_iv() helper function.
 
-- Change 'payload_remainder' to u8 because it is calculated as (plen % 16),
-which guarantees a range of 0-15.
-- Change 'payload_index' to u32 because it indexes into the payload, which
-is bounded by plen (u32).
-- Change 'num_blocks' to u32 since it is derived from 'plen' (u32).
-- Change loop iterators (i, j) to standard 'unsigned int'.
+This parameter is passed directly from the 'plen' variable in the caller
+functions, which has been explicitly typed as u32.
 
 Signed-off-by: Pranav Desai <contact.pranavdesai@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_security.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 676587fabfe4..ff8af1a29b22 100644
+index ff8af1a29b22..8b67985f6e06 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_security.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -784,8 +784,10 @@ static signed int aes_cipher(u8 *key, u16 hdrlen,
- 			     u8 *pframe, u32 plen)
+@@ -631,7 +631,7 @@ static void construct_mic_iv(u8 *mic_iv,
+ 			     bool qc_exists,
+ 			     bool a4_exists,
+ 			     u8 *mpdu,
+-			     uint payload_length,
++			     u32 payload_length,
+ 			     u8 *pn_vector,
+ 			     u8 frtype)
  {
- 	bool qc_exists, a4_exists;
--	uint	i, j, payload_remainder,
--		num_blocks, payload_index;
-+	u8 payload_remainder;
-+	u32 payload_index;
-+	u32 num_blocks;
-+	unsigned int i, j;
- 
- 	u8 pn_vector[6];
- 	u8 mic_iv[16] = {};
-@@ -986,8 +988,10 @@ static signed int aes_decipher(u8 *key, u8 hdrlen,
- {
- 	static u8 message[MAX_MSG_SIZE];
- 	bool qc_exists, a4_exists;
--	uint i, j, payload_remainder,
--			num_blocks, payload_index;
-+	u8 payload_remainder;
-+	u32 payload_index;
-+	u32 num_blocks;
-+	unsigned int i, j;
- 	signed int res = _SUCCESS;
- 	u8 pn_vector[6];
- 	u8 mic_iv[16] = {};
 -- 
 2.55.0
 
