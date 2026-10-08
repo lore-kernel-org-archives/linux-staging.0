@@ -1,76 +1,78 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mta0.migadu.com (out-205.mta0.migadu.com [91.218.175.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5BB355F5F;
-	Thu,  8 Oct 2026 04:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEBB496D2F
+	for <linux-staging@lists.linux.dev>; Thu,  8 Oct 2026 10:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791434104; cv=none; b=mrP54xJ/LcHaDXFXwDOEaJBj+oahu9XBYuQv4xEYWon6eY2Zgo5JIdwOZnn+gNj+fcBGb19qXmCsTO/BvXx7TFHW1cCA81lTYpJ0ZSJgPAD+ykWcltNd3LLSBft5ihdvuEicnXzwBkd2XYM/LTHzXcrAilipWKj9ycN/bYc6myc=
+	t=1791455190; cv=none; b=O74RwRqsGNAhq7gFgeZTc/0XtjKg9TecGE/ZMfxy78kWVTa7IdPKEfg1YgxuuyMfAzVVIM/LU4QJHZF3Y0pPqphR9kA4h+BubleHW7Q+gg+M5WDYe5g5gd+/ig60C81U2LflLwadPmZhxa8yuhdMuSWUbQHx9+L0wu2+yelY4iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791434104; c=relaxed/simple;
-	bh=42gXeZg5DDyZlcKy0d0F3QLbzvEzFn0qBS8hOLI2xsE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=RDZnyNi0/KgmBeL7+WpgFYGp2TAVJPdmNtvJM/4MSMMTOHUUhjGF1gQOlTRIn4fw+nEDfpWpkhHvqPa/ssi9Qy2sCRCYiGcHnvpzLFfWcP9RoJSWMhF6KkufibLnQKQQbvu0wzCw1+q/CLVIzc4GeewcF7vgy/WAD70MLgb6kZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=bY6LM+rD; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1791455190; c=relaxed/simple;
+	bh=i+F/YS0Tvvz3wSTNke6zXmK24kXIkaoLB4AiCmseFSE=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:
+	 In-Reply-To:References; b=oq1dG5SqtX+nl8ISYz4VEkTRVDo0UOCpgFOSNXCyZJD3yp5qPJ0EVzvikX3FymU3Dar9+6u51/sSuzeUrqTw10yZiQG49GlH/pJKAZXKCF8ZSlnxNqHKhLyYJmsdoMchJsLb6KwQvtjOYzS1YF95UuyedhpXd2ZzP/BtXHKAKc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rrgiX09q; arc=none smtp.client-ip=91.218.175.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="bY6LM+rD"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6984YntY6183222, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1791434089; bh=42gXeZg5DDyZlcKy0d0F3QLbzvEzFn0qBS8hOLI2xsE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=bY6LM+rDcocKDonsHAvxLzqbI0Cb13ASdXnr/3+1LppzHkbRDZM7Hpr9rAWCpVUs0
-	 b2eMPlueoCXIfu6xKiILgyKjGHZYxn34wjvwCSq2EvnOwYVZrVrz3231HSPQQSeWG1
-	 OVO/6DV/8QIVqVPiJM5FQxIZeF5a8b7OCaMo3we2Y8CsZ8/M4NEQ73zBTJZX/sKys/
-	 5t8oH9f4eEVWa33nTQnztxIYdWTSG7rtRUkf3VA9kxwf6dlAwkGTjOjntW6iw+dxx3
-	 mvLiidfkj6C1VQ3zL4SvW6vYPOoRIUxVgrktDPlgCLULYYFoOUbDwZxzx5Kdj3n9mP
-	 izJuFOIijdvvA==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6984YntY6183222
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 8 Oct 2026 12:34:49 +0800
-Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 8 Oct 2026 12:34:50 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 8 Oct 2026 12:34:50 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::b3cc:c263:b82d:e87c%10]) with mapi id
- 15.02.2562.049; Thu, 8 Oct 2026 12:34:50 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: Luka Gejak <luka.gejak@linux.dev>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: RE: [PATCH] staging: rtl8723bs: remove the obsolete driver
-Thread-Topic: [PATCH] staging: rtl8723bs: remove the obsolete driver
-Thread-Index: AQHdVkalu7rVOKHvFUSCtbyjdv6EJ7bzCdeg
-Date: Thu, 8 Oct 2026 04:34:49 +0000
-Message-ID: <7e53bd59b7b146caabebeca4347674c7@realtek.com>
-References: <20261007102819.19904-1-luka.gejak@linux.dev>
-In-Reply-To: <20261007102819.19904-1-luka.gejak@linux.dev>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rrgiX09q"
+X-Envelope-To: linux-staging@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=i+F/YS0Tvvz3wSTNke6zXmK24kXIkaoLB4AiCmseFSE=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1791455186; v=1; x=1792059986;
+ b=rrgiX09qQHdhE4n1XVD9oAOnWZfnIuH/WkW8fiX3rUICOYYe4VpEI1TsBpFYphit5r9paN+U
+ 3/Mem8Y6glApuJiDLaN0WF6gvSRDXwf1LB/aZAbwQe9HjytMgyRLeSlnOEEu1u+uD7O2n0hYvHA
+ 16HvmF0Q6JM6SjATKJcwulPg=
+X-Envelope-To: linux-staging@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id b4bfddaf66fa9f35;
+	Thu, 08 Oct 2026 10:26:26 +0000
+X-Mizu-Trace-ID: b4bfddaf66fa9f35
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Date: Thu, 08 Oct 2026 10:26:26 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+From: "Luka Gejak" <luka.gejak@linux.dev>
+Message-ID: <5a62749f42ea136f701eb99655ed6218a11920cc@linux.dev>
+TLS-Required: No
+Subject: Re: 2MB patch keeps resending
+To: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org
+In-Reply-To: <a7ed4fb9e80efbb7f7bfe005a48569f75a3ac0c5@linux.dev>
+References: <a7ed4fb9e80efbb7f7bfe005a48569f75a3ac0c5@linux.dev>
 
-THVrYSBHZWphayA8bHVrYS5nZWpha0BsaW51eC5kZXY+IHdyb3RlOg0KPiBSVFc4OCBub3cgc3Vw
-cG9ydHMgUlRMODcyM0IgZmFtaWx5LCB2aWEgcnR3ODcyM2IgZHJpdmVyIHdoaWNoIGhhbmRsZXMN
-Cj4gUlRMODcyM0JTLCBzbyB0aGUgc3RhZ2luZyBkcml2ZXIgaXMgb2Jzb2xldGUuIFJlbW92ZSBp
-dCB0b2dldGhlcg0KPiB3aXRoIGl0cyBLY29uZmlnIGFuZCBNYWtlZmlsZSB3aXJpbmcuDQo+IA0K
-PiBTaWduZWQtb2ZmLWJ5OiBMdWthIEdlamFrIDxsdWthLmdlamFrQGxpbnV4LmRldj4NCg0KMSBw
-YXRjaChlcykgYXBwbGllZCB0byBydHctbmV4dCBicmFuY2ggb2YgcnR3LmdpdCwgdGhhbmtzLg0K
-DQpjNTIwZjNhZjdkZjQgKCJzdGFnaW5nOiBydGw4NzIzYnM6IHJlbW92ZSB0aGUgb2Jzb2xldGUg
-ZHJpdmVyIikNCg0KLS0tDQpodHRwczovL2dpdGh1Yi5jb20vcGtzaGloL3J0dy5naXQNCg0K
+October 7, 2026 at 18:51, "Luka Gejak" <luka.gejak@linux.dev mailto:luka.=
+gejak@linux.dev?to=3D%22Luka%20Gejak%22%20%3Cluka.gejak%40linux.dev%3E > =
+wrote:
+
+
+>=20
+>=20Hi everyone,
+>=20
+>=20As many of you, who are subscribed to certain mailing lists, have
+> seen, you keep receiving same 2MB patch over and over again.
+>=20
+>=20This is a server side issue not influenced by me and has been
+> elevated to helpdesk and migadu support.
+>=20
+>=20Sorry for the inconvenience and hopefully it will be resolved in the
+> nearest future.
+>=20
+>=20Best regards,
+> Luka Gejak
+>
+
+The issue has been resolved by migadu support, and they claim it
+shouldn't happen again.
+
+Feel free to delete excessive emails and again, sorry for the
+inconvenience.
+
+Best regards,
+Luka Gejak
