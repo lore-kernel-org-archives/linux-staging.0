@@ -1,138 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FADA41A794
-	for <linux-staging@lists.linux.dev>; Wed,  7 Oct 2026 20:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5BB355F5F;
+	Thu,  8 Oct 2026 04:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791406794; cv=none; b=fTBJqTL5J0Wg3UAT3Ali6mcDS2apkJIMN/5fKSluLAeidRCODdlic30xnOuZTUcnCJrDDukm8e+RetzUrCWNAYR6JgYCVPHShdYY8NYw7xxiBBD5OlSefg9Tz6iE8cEwRadPfKTOZ+8fDzoOzNpT2vzHKt2XR9gTkLcnhBFvswI=
+	t=1791434104; cv=none; b=mrP54xJ/LcHaDXFXwDOEaJBj+oahu9XBYuQv4xEYWon6eY2Zgo5JIdwOZnn+gNj+fcBGb19qXmCsTO/BvXx7TFHW1cCA81lTYpJ0ZSJgPAD+ykWcltNd3LLSBft5ihdvuEicnXzwBkd2XYM/LTHzXcrAilipWKj9ycN/bYc6myc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791406794; c=relaxed/simple;
-	bh=tU67LunbAVxcJF/HZHBTpn4xW7i4imG6asrV5eXa508=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U3ANk37m0JBWBy3VDHf12YVh8oRkfutTwoJA3Dtbokveop3UztF3EeBLDRnIiHxA67kJ8IvZdF9RctJRPtj8YeX0x2zQpO+RRtPMMHjKQfOv01MNUkNS0bLM/M35ootx4Z2TnOkGugxQpcaYxC2dKmjgy9FJYQiRfjAdsE4eKDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4IiJccD; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1791434104; c=relaxed/simple;
+	bh=42gXeZg5DDyZlcKy0d0F3QLbzvEzFn0qBS8hOLI2xsE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=RDZnyNi0/KgmBeL7+WpgFYGp2TAVJPdmNtvJM/4MSMMTOHUUhjGF1gQOlTRIn4fw+nEDfpWpkhHvqPa/ssi9Qy2sCRCYiGcHnvpzLFfWcP9RoJSWMhF6KkufibLnQKQQbvu0wzCw1+q/CLVIzc4GeewcF7vgy/WAD70MLgb6kZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=bY6LM+rD; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4IiJccD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791406789; x=1822942789;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tU67LunbAVxcJF/HZHBTpn4xW7i4imG6asrV5eXa508=;
-  b=m4IiJccDOkFPPfJD74v6tLJ4WQJ57KNBJHFyJxaMen6JQpEtJ+x7xCDJ
-   B5djbk4Jvn6N4JmkOT+eG7iIUULuVlH42zyXxJ9N/DY8T4+zEc/sWTyVL
-   3pJNk/CsAeN8l4RnAFupiMcy7WoHz3HR3E8TfvZbewTskoNbvxyJhZ6M7
-   0op/bbj34hpbXaDZvLFTBcUAaTfoBq/SR+8PRqXIfKVDIF1jeJaMQqpld
-   POnb6YM6kZqnl1s0Yx0P4X0rsly6JXMjOgIPQUgTUxrx+GFuwH85QFYzz
-   FwLiwt5Z6S22t3I0UYe0H+Ya34App1vZb00K9aSlJS9E3qUR0GByVkRQ/
-   g==;
-X-CSE-ConnectionGUID: HMMyrvmZRE2IAB4i0w4/yg==
-X-CSE-MsgGUID: 4kP2LgaETCS9Mmc/FLX8eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="67338"
-X-IronPort-AV: E=Sophos;i="6.27,145,1787036400"; 
-   d="scan'208";a="67338"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 13:59:49 -0700
-X-CSE-ConnectionGUID: UOzN6fUMQHigZZqPLAyH7w==
-X-CSE-MsgGUID: jMvqQRr1SGm4aidLiDQX4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,145,1787036400"; 
-   d="scan'208";a="163093"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.61])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 13:59:44 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0C0D7121BA5;
-	Wed, 07 Oct 2026 23:59:45 +0300 (EEST)
-Date: Wed, 7 Oct 2026 23:59:45 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Sergey Lebedev <lsa.uz@pm.me>
-Cc: Bingbu Cao <bingbu.cao@amd.com>,
-	Antti Laakso <antti.laakso@linux.intel.com>,
-	German Pablo Lindo <germanpapulindez@gmail.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Divyamani Tripathi <divyamani.tripathi@intel.com>,
-	Manik Bajpai <manik.bajpai@intel.com>
-Subject: Re: [PATCH] media: staging/ipu7: snoop ISYS writes to capture buffers
-Message-ID: <asaywQrMq-GSrI2r@kekkonen.localdomain>
-References: <20261007183311.24637-1-lsa.uz@pm.me>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="bY6LM+rD"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6984YntY6183222, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1791434089; bh=42gXeZg5DDyZlcKy0d0F3QLbzvEzFn0qBS8hOLI2xsE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=bY6LM+rDcocKDonsHAvxLzqbI0Cb13ASdXnr/3+1LppzHkbRDZM7Hpr9rAWCpVUs0
+	 b2eMPlueoCXIfu6xKiILgyKjGHZYxn34wjvwCSq2EvnOwYVZrVrz3231HSPQQSeWG1
+	 OVO/6DV/8QIVqVPiJM5FQxIZeF5a8b7OCaMo3we2Y8CsZ8/M4NEQ73zBTJZX/sKys/
+	 5t8oH9f4eEVWa33nTQnztxIYdWTSG7rtRUkf3VA9kxwf6dlAwkGTjOjntW6iw+dxx3
+	 mvLiidfkj6C1VQ3zL4SvW6vYPOoRIUxVgrktDPlgCLULYYFoOUbDwZxzx5Kdj3n9mP
+	 izJuFOIijdvvA==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6984YntY6183222
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 8 Oct 2026 12:34:49 +0800
+Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 8 Oct 2026 12:34:50 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 8 Oct 2026 12:34:50 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::b3cc:c263:b82d:e87c%10]) with mapi id
+ 15.02.2562.049; Thu, 8 Oct 2026 12:34:50 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: Luka Gejak <luka.gejak@linux.dev>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: RE: [PATCH] staging: rtl8723bs: remove the obsolete driver
+Thread-Topic: [PATCH] staging: rtl8723bs: remove the obsolete driver
+Thread-Index: AQHdVkalu7rVOKHvFUSCtbyjdv6EJ7bzCdeg
+Date: Thu, 8 Oct 2026 04:34:49 +0000
+Message-ID: <7e53bd59b7b146caabebeca4347674c7@realtek.com>
+References: <20261007102819.19904-1-luka.gejak@linux.dev>
+In-Reply-To: <20261007102819.19904-1-luka.gejak@linux.dev>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261007183311.24637-1-lsa.uz@pm.me>
 
-Cc Manik and Divyamani.
-
-On Wed, Oct 07, 2026 at 06:33:34PM +0000, Sergey Lebedev wrote:
-> The driver sets is_snoop = 0 on the ISYS output pin, so the ISYS writes
-> capture buffers without snooping the CPU caches. vb2 syncs each buffer
-> for the CPU, but on x86 the DMA API takes the device to be coherent and
-> that sync does nothing. A CPU that read a buffer before then reads cache
-> lines of that buffer's earlier frame, which show as horizontal streaks
-> wherever the scene moves.
-> 
-> Set is_snoop on the capture pin, not only for metadata as the TODO had
-> it: the CPU reads pixel data too. IPU6 sets snoopable on its pins.
-> 
-> Tested on a Surface Pro 11 (Lunar Lake IPU7), reading every frame with
-> the CPU. With a VD55G0 at 644x604 and 320x240 in 8-bit mono, frames
-> holding rows of the buffer's previous fill went from 301 of 698 and 684
-> of 697 to none. With an OV13858 in raw at 4224x3136, about 790 MB/s, 300
-> frames came at 29.95 fps without a gap either way.
-> 
-> Fixes: a516d36bdc3d ("media: staging/ipu7: add IPU7 input system device driver")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Sergey Lebedev <lsa.uz@pm.me>
-> ---
-> Tested with the bit as a module parameter, both values in one boot, on
-> this driver plus Ruslan Koreev's monochrome formats [1], which the
-> VD55G0 needs. No row ever equalled the same row of the frame before it.
-> A clflush of each buffer before reading, later than any buf_finish could
-> run, still left 61 and 24 such rows of 101352 and 46389 (another boot);
-> with is_snoop set, none. At 4224x3136 no row was stale even without
-> snoop: four 26 MB buffers do not stay in the cache. Not tested on IPU 7.5.
-> 
-> The ipu6 driver's IPU7 path, drivers/media/pci/intel/ipu6/ipu7-fw-isys.c,
-> also used for IPU8, memsets the pin and leaves is_snoop at 0 too.
-> Released kernels drive IPU7 only with this driver, hence the stable tag.
-> I can send the same change for the ipu6 path, untested here.
-> 
-> [1] https://lore.kernel.org/linux-media/20260924171820.1179823-5-koreev.r@gmail.com/
-> 
->  drivers/staging/media/ipu7/ipu7-isys-video.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu7/ipu7-isys-video.c b/drivers/staging/media/ipu7/ipu7-isys-video.c
-> index 8c6730833f2..13968caf64d 100644
-> --- a/drivers/staging/media/ipu7/ipu7-isys-video.c
-> +++ b/drivers/staging/media/ipu7/ipu7-isys-video.c
-> @@ -407,8 +407,7 @@ static int ipu7_isys_fw_pin_cfg(struct ipu7_isys_video *av,
->  	output_pin->link.pbk_slot_id = IPU_MSG_LINK_PBK_SLOT_ID_DONT_CARE;
->  	output_pin->link.dest = IPU_INSYS_OUTPUT_LINK_DEST_MEM;
->  	output_pin->link.use_sw_managed = 1;
-> -	/* TODO: set the snoop bit for metadata capture */
-> -	output_pin->link.is_snoop = 0;
-> +	output_pin->link.is_snoop = 1;
->  
->  	/* output pin crop */
->  	output_pin->crop.line_top = 0;
-> -- 
-> 2.54.0
-> 
-> 
-
--- 
-Sakari Ailus
+THVrYSBHZWphayA8bHVrYS5nZWpha0BsaW51eC5kZXY+IHdyb3RlOg0KPiBSVFc4OCBub3cgc3Vw
+cG9ydHMgUlRMODcyM0IgZmFtaWx5LCB2aWEgcnR3ODcyM2IgZHJpdmVyIHdoaWNoIGhhbmRsZXMN
+Cj4gUlRMODcyM0JTLCBzbyB0aGUgc3RhZ2luZyBkcml2ZXIgaXMgb2Jzb2xldGUuIFJlbW92ZSBp
+dCB0b2dldGhlcg0KPiB3aXRoIGl0cyBLY29uZmlnIGFuZCBNYWtlZmlsZSB3aXJpbmcuDQo+IA0K
+PiBTaWduZWQtb2ZmLWJ5OiBMdWthIEdlamFrIDxsdWthLmdlamFrQGxpbnV4LmRldj4NCg0KMSBw
+YXRjaChlcykgYXBwbGllZCB0byBydHctbmV4dCBicmFuY2ggb2YgcnR3LmdpdCwgdGhhbmtzLg0K
+DQpjNTIwZjNhZjdkZjQgKCJzdGFnaW5nOiBydGw4NzIzYnM6IHJlbW92ZSB0aGUgb2Jzb2xldGUg
+ZHJpdmVyIikNCg0KLS0tDQpodHRwczovL2dpdGh1Yi5jb20vcGtzaGloL3J0dy5naXQNCg0K
