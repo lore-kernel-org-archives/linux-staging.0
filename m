@@ -1,38 +1,41 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98A654E8E0D
-	for <linux-staging@lists.linux.dev>; Fri,  9 Oct 2026 15:27:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F10A7361DDA
+	for <linux-staging@lists.linux.dev>; Fri,  9 Oct 2026 15:45:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791559686; cv=none; b=BGEANASbecwJ9IgL25/qA5C7AjNimqnLodSkwugl49l+gGjky1enCgH1n7uK+flyp4MKjxO357H4a6jkWL7WD+dNnjaVnBOatfylGlTVqLt+/33t4pdaQjr0PmxqJoE5rcZu3YW/dPRG64afjKnBlauuLKYjyQnffMOCFDrqJRs=
+	t=1791560743; cv=none; b=B6wDu/xDNFtCIryXjDi/qW9tMe5t6QkapaJD9ru8B+2q6bXfSaolUZj+UdRnwOCMIGdkmgiaS/rOmSZuVl27jz9DJDnkmcelk7o07F4BuvT4TdsvrHoyLGcEeD2rq9nnT00fch7NHpJBw3xTiJe5fSIYCzHBAobea8rLAyG++0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791559686; c=relaxed/simple;
-	bh=2EX4hirlw9GDe7zMXtF/QaKw+JHHU2TnANrsVXhvyms=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kX3eeDnPXIuvoUwUZoirbvsYyrG5iSrr13s2JvaPtkPbTSnCEzQWxyiHuyQNFiAW9kI79btP4EOJGL8jQmdg8dbvPv+vbiq7fRxvC/9URi149lcmCBsXWkDU5lSpqELAG1w5q0fYCXigmFzpb3OaPkVu6gzXG8eBBJpitxag9AI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Ld2dt5dC; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1791560743; c=relaxed/simple;
+	bh=0hmzs9h5qZTAmchh3MT2c4yANJLrZTwAQckHMWIERCo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t9nasMznLFymAwUPB5c7GsWnLYSid52w0v4y67bmeSyjK2Qcp7wphXauVI2/1UF2saLB0M55lCYz55vxV4Rr9eNp6sgT+2CL75HE5SVFL4FTNEgUmWYjy1tw69BY0KXL0L6JueJ9FyQodvCdR05ko7Eg3scPgh67xNAjJEEHhwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=VU/Cfc5U; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Ld2dt5dC"
-Received: from localhost.localdomain (unknown [4.194.122.136])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E280120B7168;
-	Fri,  9 Oct 2026 08:27:54 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E280120B7168
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VU/Cfc5U"
+Received: from localhost.localdomain (unknown [4.194.122.162])
+	by linux.microsoft.com (Postfix) with ESMTPSA id D587520B7168;
+	Fri,  9 Oct 2026 08:45:35 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D587520B7168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1791559677;
-	bh=Or2R5FsKHtILV0vQgW34Mr2KBe8FFbF5QhFvotfglJ0=;
+	s=default; t=1791560740;
+	bh=OPNpKz6OHklbJCYVRtqhmrTLvTXsKAqbS+7QlmXkvaI=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Ld2dt5dCkAcbrXAsZ7+FvuboI0ctRB+ej+IjneTajFaKBqV/JNYVZ23sT8s6wPkXM
-	 BaZThYi3MytPLsFxby5si7lb+HLKTDiW6loLQXItOFj8WgG/sN7hA8G8stSDIwjXKE
-	 q4Wa/0MJIhu7IcXxWBY4eXqWFtoVviV/ymwV9W8Q=
+	b=VU/Cfc5UHkvAXTpc0qzynMKbbdWrmHeuiwj7u5CtcZeQPAZBCIaoxaWUQEj4lpnbH
+	 DBtbWkCFrIzuBS/pm+uOTba8GagA64Ib83AYYRdG/GCIFYXtx505DQr5wcnWR6ZfYI
+	 cyVn6H7UEGVkaeDHjdI1gwyZoFggp3CLsrza1Nro=
 From: "Cen Zhang (Microsoft)" <cenzhang@linux.microsoft.com>
-To: Greg KH <gregkh@linuxfoundation.org>
+To: Andy Shevchenko <andy@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>
 Cc: Cen Zhang <cenzhang@linux.microsoft.com>,
-	Ayush Mukkanwar <ayushmukkanwar@gmail.com>,
+	Hungyu Lin <dennylin0707@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: octeon: fix misuse of kernel-doc comment
-Date: Fri,  9 Oct 2026 11:27:43 -0400
-Message-ID: <20261009152743.39401-1-cenzhang@linux.microsoft.com>
+Subject: [PATCH] staging: fbtft: update outdated struct fbtft_ops comment
+Date: Fri,  9 Oct 2026 11:45:26 -0400
+Message-ID: <20261009154526.43528-1-cenzhang@linux.microsoft.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -42,30 +45,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The comment above struct octeon_ethernet starts with /** but its
-current content does not follow kernel-doc syntax.
-
-Use /* instead of /** to keep the existing description as a regular
-block comment.
+Correct struct fbtft_ops outdated kernel-doc comment: 1) update
+field write_reg to write_register; 2) remove non-existing field
+free_gpios.
 
 Signed-off-by: Cen Zhang (Microsoft) <cenzhang@linux.microsoft.com>
 ---
- drivers/staging/octeon/octeon-ethernet.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/fbtft/fbtft.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/octeon/octeon-ethernet.h b/drivers/staging/octeon/octeon-ethernet.h
-index 0ac430db1e6e..de27fae47931 100644
---- a/drivers/staging/octeon/octeon-ethernet.h
-+++ b/drivers/staging/octeon/octeon-ethernet.h
-@@ -43,7 +43,7 @@
- 
- #endif
- 
--/**
-+/*
-  * This is the definition of the Ethernet driver's private
-  * driver state stored in netdev_priv(dev).
-  */
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index c7afb0fd3943..40a7567df1eb 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -37,7 +37,7 @@ struct fbtft_par;
+  * @write: Writes to interface bus
+  * @read: Reads from interface bus
+  * @write_vmem: Writes video memory to display
+- * @write_reg: Writes to controller register
++ * @write_register: Writes to controller register
+  * @set_addr_win: Set the GRAM update window
+  * @reset: Reset the LCD controller
+  * @mkdirty: Marks display lines for update
+@@ -46,7 +46,6 @@ struct fbtft_par;
+  * @blank: Blank the display (optional)
+  * @request_gpios_match: Do pinname to gpio matching
+  * @request_gpios: Request gpios from the kernel
+- * @free_gpios: Free previously requested gpios
+  * @verify_gpios: Verify that necessary gpios is present (optional)
+  * @register_backlight: Used to register backlight device (optional)
+  * @unregister_backlight: Unregister backlight device (optional)
 -- 
 2.55.0
 
