@@ -1,84 +1,38 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE875435EEA
-	for <linux-staging@lists.linux.dev>; Sat, 10 Oct 2026 09:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5508E2BF3F3
+	for <linux-staging@lists.linux.dev>; Sun, 11 Oct 2026 06:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791623730; cv=none; b=J/YSUpHIkIb42TFLaXnFUYfIdeWyhUnNAm7q2rE+GKvBWsQXoAknjGw09cpNnnCBQGLVy2l3pB/bqaFodc7Qs3ErZrzWSXmi3/ZG68G8SbrOjy8m6mRljFhm8ZNjHYbCq/nfLdaAqJwyAs0L6W4LjaEBUREWwO4CxDNMzS6wCbo=
+	t=1791701802; cv=none; b=FByHklqrVDZnUGE1IP6gLDzLU18EQtFCqx2smVwwC6eFNE6Hvu3pyRpPfr1PwfmdbIbMmVt9SpmT4Pfq/Gis/XXb0OT5HAHIHtTg9MfVRxRqKzuiJ6mO+Zx2QXzoADyXo1ZehSOM7kdyKY8XglQFlr4Uy4ujzIrPL//Q/5D/WFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791623730; c=relaxed/simple;
-	bh=pMBstT9/Xhd7MIwl1B19jAdAsHKIbsnScIIiwKmVBc8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=egY4ye4VYUtg9NJ64yWezBjrCEZki99MTUh6T9VGDt1/j3q+mUNZMrzCIkoC6u7DMnifAmuLvuU0bOUagw6lg8qbUbvuhBv4sIm5HRBwnxo37UjZoesrKuhZDLdLFI5AiLr57HviOEePgAtL+xhpzqYAUFK9yf1wn6B/1Fxa9kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I3Uo9+hH; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791701802; c=relaxed/simple;
+	bh=SqxyUP2+5lzjd11DSWnDLemNMB+Vlmye/xIFvhxSIYk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kEiibN/JqcEofcX08eZ0iYF/DBdNVgd0tc6kcwjPC3675D/w81bV8zPV4Aaa3yoxGhWk3RK4CV1z0Vx9gyCGhB1c6Wa3j8zQTs2JD20/BS1l1pXVkJ43lzCZGg0dd2QaogRkEawZCcRpOauUWYIZxKEcMJpUEWF5LKVpWOlDlBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=A9muKvqe; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I3Uo9+hH"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so3971805e9.2
-        for <linux-staging@lists.linux.dev>; Sat, 10 Oct 2026 02:15:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791623727; x=1792228527; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ORCsaPkxBXAIwv8e2nVnJgx67e0gWCZdbaFEBMdQuEI=;
-        b=I3Uo9+hH7767w2HvnfJgY+wGcYECCJRYbM4XFrc/AFlJcY58n1xhO6VaZEBE49MgSZ
-         3K30DE/FtChow4ZCfy4FkEkCgFFFDI1vMBL8E9hv25D9QSiMoeEmYUBOR9bZYioA218G
-         Ho7thGT71CFKmIRDBLVz3L0gWnZGpgK36sV2aSjA2/0DyH67/po13ASlwaKe0mCHOepb
-         Jp/WwP8sctZLlAL8QkVtGUvQn8PCwoSYLe3IJnM8jqkNEzI5fiSVjBiCeoNugO9fXA87
-         w9Jvq1kuex7fkpbLAbYk0K6J21vAIYli1tHztM0soC86QU449IWyWv1ArMgOUk8nrsJu
-         LPfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791623727; x=1792228527;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ORCsaPkxBXAIwv8e2nVnJgx67e0gWCZdbaFEBMdQuEI=;
-        b=DeB2vP9rxR2uxccjWDnR+lk7zxgjY1VOWk0pR+OjK+BwzhIg0e+tkKcv/Fyhf4ujHH
-         ivzg00Op36JFdqe4MiBULB+0oi4CwjPqafANTYVtvNNQDMyAkiJF+4/oPtvsVQpEQ4Vc
-         NAYZA8B2h9eMjYcCyk8cdozFOyORwLJA72EzDJekeKuDcJRBZdwRLwJESFaXb8TU+Hof
-         JA3DIXYJW90tYtyGQ4YeRAu6YUb9ZQIFynmOtKAIL8YOPm5x+i5YmO99bPDBgf5zKpAU
-         zNg0CJmLtx5UTyRdrPNgw8If5ycCVi8RCtOq/u77XlohflIZm8RsAXtN6AwSFsFU8ikt
-         T8Rw==
-X-Forwarded-Encrypted: i=1; AKwUvBxUCHayYRXSEAA5MbvJGb4f4Gfbsgw9ur/SohYPsZihQABW4n1rXBmTATYAJZ6QOEjL9gQDavKA/1is+eP9@lists.linux.dev
-X-Gm-Message-State: AFq9FYJ6mW+USDuGuhP/2pv8YPL8hP95NlcTRXmh62reH2ZqLx3w8Mjs
-	Do07qvzPthA7gw2WChrVUwHAxht/xGBEsj3xdvAnuGIKybN+3huDMoYZAwHxhYe/
-X-Gm-Gg: AYBFou3hWP/EwXln0mnxQxtCHfoGuqmKwDEyIUoTiGStUPCgJ+LFgFlG0oRqzFe4Eve
-	Uj++2xM2Br8gXuOmoPfjC/9TQNoJx8XYL0EKX/i+k9bCt0M3r1CDpumUGg9BSTeWbMjurBWQ12G
-	8gPzIofLl6cqBqbrZziQ+ffBs41e73uEc6O4iK+CM75WI9Q5wUIh+VOIBlgN8P7IFWMO2SpS881
-	XIfhdgkGmKNGt4zDXnYoBTK+PTn+6a3K5TnvS36UYpwkciflf7C07vDqxHvjuYFwhOuNs2mr46I
-	PIhb4vS3JsZpy9jy526Hco/pLjeT+MfQKvnUHeGZvAUDgtBIhSQ+cIQoptowqbNXsooDrz4IJ12
-	pWNSdSrDLaHGQa/iJwTX+C12fMvFWzyAg8YrByy/YBUBZA1KEgxZf5Pan3hYWRsgETN7TsnxM01
-	5ulf3WP5MZZijGwewLvzkFK+KvKlxvlDt6+A1NWl9lZLNNDB+PAXxGaij7ZXAooxWscsYZRCcVe
-	HwlvHubxBvyEyL6bR+XNt+Wzrs=
-X-Received: by 2002:a05:600c:4747:b0:4a1:80d8:aed0 with SMTP id 5b1f17b1804b1-4a18e4a9862mr85422695e9.15.1791623726602;
-        Sat, 10 Oct 2026 02:15:26 -0700 (PDT)
-Received: from ekulyk (78-80-42-240.customers.tmcz.cz. [78.80.42.240])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18c198134sm118773235e9.15.2026.10.10.02.15.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Oct 2026 02:15:26 -0700 (PDT)
-From: Eduard Kulyk <kulikeduard89@gmail.com>
-To: j@metarealtyinc.ca
-Cc: Ramshouriesh R <rshouriesh@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Bryan O'Donoghue <bod@kernel.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: i2c: hm1092: Add ACPI enumeration and the 19.2 MHz configuration
-Date: Sat, 10 Oct 2026 11:15:24 +0200
-Message-ID: <20261010091524.1390879-1-kulikeduard89@gmail.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="A9muKvqe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Fd
+	EN2A4ng7BdJrB0oH7VAJFfVqjDUzZ2rL9KJG8Y+Oo=; b=A9muKvqeuEHQK1lxrj
+	J7xQwP/mW2E9RSYs29NoZqo9+X4T3Nw4Dyq5CzVkymTU0b+uro298PMBOMHjFHxa
+	J4lyfdan82w6I9hQT9ux+XCSMp413sB+a50IEpqVhrM70R731gXY6lqzcmmG/3xE
+	8AJB0NVSZi0EXHeLa9KgOa7pY=
+Received: from localhost (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wB3f4kdM8tqsbd3Dw--.44141S2;
+	Sun, 11 Oct 2026 14:56:29 +0800 (CST)
+From: Feiyu Wang <wangfeiyu_mc_code@163.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Feiyu Wang <wangfeiyu_mc_code@163.com>
+Subject: [PATCH] staging: rtl8723bs: rename CamelCase variable wRxSeqInitialValue
+Date: Sun, 11 Oct 2026 14:56:24 +0800
+Message-ID: <20261011065624.23494-1-wangfeiyu_mc_code@163.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <b0d32a3b82eca233652f878b7ca91e4dc2d8e863.1791608336.git.j@metarealtyinc.ca>
-References: <cover.1791608336.git.j@metarealtyinc.ca> <b0d32a3b82eca233652f878b7ca91e4dc2d8e863.1791608336.git.j@metarealtyinc.ca>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -86,44 +40,45 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wB3f4kdM8tqsbd3Dw--.44141S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ar1UWF17ArW5GrWkury7trb_yoW8Gr13pF
+	WrZ343ury8JF10k3y7tw4I9r95Kas7KFyDGasavw1F9ryfA3sFqFn8JF17Ar47AF1kJa13
+	KF18AwnxWw4UGaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Ue6wZUUUUU=
+X-CM-SenderInfo: pzdqww5hl13s5pfbu0lgh6il2tof0z/xtbCxB1hoGrLMx3RzQAA3L
 
-Hi Jake,
+Rename wRxSeqInitialValue to rx_seq_initial_value to comply with
+kernel coding style.
 
-Tested v6 plus this patch on a Dell Latitude 7350 (Meteor Lake, IPU6),
-kernel 7.2.3, with an out-of-tree ipu-bridge that has the HIMX1092
-entry. Patch 2 is not needed there, IPU6 already has Y10.
+Found by checkpatch.pl strict.
 
-The sensor binds as hm1092 i2c-HIMX1092:00 and streams Y10 648x368
-(1344 bytes per line) through IPU6 CSI2 4 at link frequency 180480000.
+Signed-off-by: Feiyu Wang <wangfeiyu_mc_code@163.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-- v4l2-compliance 1.32.0 on the subdev: 46 tests, 0 failures,
-  0 warnings
-- 300 frames at 30.11 fps, 20 start/stop cycles without errors
-- runtime PM: suspended when idle, active while streaming
-- streams again after s2idle suspend/resume
-- exposure and analogue gain behave as expected (analogue gain
-  0/32/64/128/255 gives mean levels 16/31/45/73/113)
-- IR flood LED (INT3472) off/on/off at exposure 700: mean levels
-  9/117/9, clean IR image with the LED on
-- the crop rectangle reads (0,0)/1294x734 against bounds
-  (8,8)/1280x720, as you described
+diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+index 11351aa4f4d0..ba7e53140bdd 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
++++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+@@ -176,7 +176,7 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
+ 	struct __queue *pfree_sta_queue;
+ 	struct recv_reorder_ctrl *preorder_ctrl;
+ 	int i = 0;
+-	u16  wRxSeqInitialValue = 0xffff;
++	u16  rx_seq_initial_value = 0xffff;
+ 
+ 	pfree_sta_queue = &pstapriv->free_sta_queue;
+ 
+@@ -214,7 +214,7 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
+ 	/*  So, we initialize the tid_rxseq variable as the 0xffff. */
+ 
+ 	for (i = 0; i < 16; i++)
+-		memcpy(&psta->sta_recvpriv.rxcache.tid_rxseq[i], &wRxSeqInitialValue, 2);
++		memcpy(&psta->sta_recvpriv.rxcache.tid_rxseq[i], &rx_seq_initial_value, 2);
+ 
+ 	timer_setup(&psta->addba_retry_timer, addba_timer_hdl, 0);
+ 
+-- 
+2.55.0
 
-One issue, which I think comes from v6 rather than this patch:
-digital_gain is advertised as 256..4095, but only the low 10 bits
-seem to take effect. At exposure 100:
-
-  256  -> 15     1024 -> 8 (black frame)
-  512  -> 22     1280 -> 15
-  768  -> 29     2048 -> 8 (black frame)
-  1023 -> 36     4095 -> 35
-
-So 1024 behaves like 0 and 1280 like 256. Perhaps the maximum should
-be 0x3ff, but I don't have the datasheet to confirm.
-
-Thanks a lot for your work on this. If you need anything else tested on
-this machine, feel free to contact me.
-
-Tested-by: Eduard Kulyk <kulikeduard89@gmail.com> # Dell Latitude 7350 (IPU6)
-
-Regards,
-Eduard
