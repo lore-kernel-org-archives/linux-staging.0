@@ -1,142 +1,158 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA65D468C17
-	for <linux-staging@lists.linux.dev>; Sun, 11 Oct 2026 23:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AE33914FF
+	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 03:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791760201; cv=none; b=R4kiXqXfbhQVCuYg+EFQh2WDMncjh63LpzXWxC6uyKYOLBujboquANaAzE0zlP0Om0p467HOAic/PuzwJF/2LVwKN+v4Ejzl/+1mdsDpF2tcnyaDqDtkxx7qT2ISzl/DZKVNjGDcN7I1ZnEWvgLOHlFlA+YMQ/jkPCynGuMtWSY=
+	t=1791776434; cv=none; b=dMtjhM1Q+81i5YnIv/nYtyOcNIkibrTtfsLXYXRqX1Fc1FcuXzu65LKT0SoKf+oc1k2h3sHJXB0EgixnPDpIX6qhhXhDP0bs/qtTpmjjALralS3AUe8+WI+PNzEB2q2ihdmWiVTlyLU2uYKjSCH9KGUfmPJP9CdJeAPLIldWe64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791760201; c=relaxed/simple;
-	bh=+16QtwDq1//lvFyG9fKKvK26/1o3S9Jzkd2YP1TMJmM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZxIEkh2r3MhIobD7+PVtjRlI5asu61h6sYYoOD/sEzHQaC1mFyxNZFT3TEZeLth6U3W0QupXpwfU+NnEplk89u0Irx/XThgPHeAdmVvZAdoM9FQ0cXZIPsAezlHs7NFvQLso6ynngRnMzWeDIhJN+1cOwekCmb5nuAwv8fncbgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=NI9C7moZ; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1791776434; c=relaxed/simple;
+	bh=YzZg1+gUIs5Df6KMIHtH6J4c2+lVLSU0eCXJOmn+lAU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cqCC/Sfbb6iGosWCcjCi9h3LjSeDFupill9DAY7Hslkg7N/cYGIkpWRzU/EI1nr6pPwOGZruvi04AYf0+xPLdd+dwBi+e14fne+DmB1mIRVYz1bu36VoUqXL5TJEoi7JPI1vFq+EShlGJMhNoMKectaY9tvEdDbfAbqDnzBRThE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EFmlDC07; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="NI9C7moZ"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-486e70f2457so527537f8f.2
-        for <linux-staging@lists.linux.dev>; Sun, 11 Oct 2026 16:09:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFmlDC07"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-919abb3335fso20558756d6.0
+        for <linux-staging@lists.linux.dev>; Sun, 11 Oct 2026 20:40:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1791760198; x=1792364998; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GcUFAmvYC3+zqJMiUlGkPj1hBaQn7R6Mw/mFH4fX6fE=;
-        b=NI9C7moZSc7ArQq6EqCMrp5RWwh4AVDAtF8kA3FfbVBvo2EJK5OKZJxNbGqS8i2t/q
-         xhDtzbx9UywPPwgBVENOt/nL0eubQisvSQVJFTmNBUtklTs3Pq0VUcclwBSC1ipWcE2i
-         ZgMClTEN++zk0gGFB5O7oRQb/LipVFZ+bJXngyJoZqmrQeaeg61O2TKHg4ZF1Iugmlf2
-         ICKQPG6uuowXCQmFutK1G/0Xdo5n1LtwhLdpt49NmPkJJVxR6w09VxOkHu7LPBFoSUku
-         cV4uZnEAIWPo086pMeiOfCNAcQ6SzNjkTkFCW6cSUd5UWKOzSE66+NNfeEfrKtYXuhMn
-         3uzg==
+        d=gmail.com; s=20251104; t=1791776431; x=1792381231; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xTa4f6Jpo9bbyJgbZsVx5DPWhH7RO4U0C8aC28e9B8o=;
+        b=EFmlDC07MO5+SvDnVsl/LRl+oSSmdDmOXNaTUyKKZXj4CRG4w9ugYOfnvVhBGX/Y1N
+         ryKiI/FRjeSD0nuCPuojYwkPXHw5rI2dnaWO71EtHHNElEtsLJip6Ugbq+jR9yRuIgCu
+         4DS76OhPjUzBb5v9hOMHdYNr/cjdeQds7QhUiS566M641ZtyEVIYfDIz68jJS9T1ddNx
+         8sU0oO38atzEqfANi6xyiGiN6FlWIJL5Y2LSZsgUEtJu66B5vz8PUOHBVi2snOUFOr4L
+         bjgyddp4j6eeRSzgdNUOYNf2wcL+hcPQUY29D6IF+WZnMQNbTz81O5b1bvthNUnSnS0F
+         V53g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791760198; x=1792364998;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GcUFAmvYC3+zqJMiUlGkPj1hBaQn7R6Mw/mFH4fX6fE=;
-        b=wNBfiH1i0cmRciW7TFC2iCmfs0P7P2X3vkHnA6KNd+16j2sOoGu+VfLZq6bLlXKyAB
-         SL/k7tmKvE+lgflEVVStSx8zasbHLm/0mFuRaKvAoTz9l2HSMCHajpM5QVTfU7cbN7qn
-         cuoviCslYeToD0BRhCfZwQbXmyop5wCSy3zjj/ARThmP//0hTNVjXyPJ3N5WJ7qc7ZaM
-         mrv3niQi1uEuLxrYMg8wm4dkLKdp5nwLo3Pcy/L2aRYJugJ4JmVaOhf1eBws5Jx+BVQM
-         SSGRip2vUIZrUDkMiACNAIBlR1NGbq7oQBH/hNXg7thtRAsfq7enqsd/ZUfniFWI16mt
-         kKhA==
-X-Forwarded-Encrypted: i=1; AKwUvBy3u1/izELV8jlA6owiHc/d2N5q8qF6rd/ybY4+eOuVbaYNiJYn0SEW2iiFLBGm1Pu0jLWbVfMjRbHahldI@lists.linux.dev
-X-Gm-Message-State: AFq9FYKTvZvFR27Z1z9gimcxXv6NwkwGCL7O8lKALXtnoyeQjENgr1td
-	UDZEilhKMiO451FD3GLlieUQc/1yNwW4YMwIw+Wk1xshJ2aBstr/1fWhgENhPL/CxvI=
-X-Gm-Gg: AYBFou18EzDm4f1vwYL7GN0T0TTH/ftstdUmEsrsuGfuDUplKZa6fcG4nIdhzm4QgeC
-	3kMbYDXkRSMwtiEhpgHma4G1+eMBfiMO6i/OvuElKxJdL282AQK3DvW6sSk0ZhapxYmIGZ6PPrf
-	X2j6CLuJu3hJYkUeJthQkXqiDRWo6j/QQrKbhsObP20J2YGpMazof2H8qASAi6PC6YKlF/f/M55
-	e9uZpZwuYVSYUExPtshA/BH+KZRcsaLhBInXhdGw9oRPGGCzrLsi6LqZwBmUKzBCZsTCRyPNsPj
-	oxRFcIj7drYw0n2PqXUChPAa3BUa40eLp5EU4GfebcfiCdlwcmhqARnQ7pE8fdJ4mGv6VV3QCOd
-	5x9ghaVckqelE0HAV/YRgaD0xQOCrghxKAJA91jkdOonQSUtsf8Z+V4y8ssuyAi3CqAsgMaABSb
-	htmfNQNa5sBVz9/fjD03ASFubkcRAFC7fzjlxjqcCIs5BMF2YbnR2xDaEHN+nryMY4fgsW1+e4F
-	Ejg
-X-Received: by 2002:a05:6000:491c:b0:488:8751:e78e with SMTP id ffacd0b85a97d-48dba9bdd09mr15386734f8f.16.1791760198010;
-        Sun, 11 Oct 2026 16:09:58 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-48db97ce3aasm16619964f8f.21.2026.10.11.16.09.55
+        d=1e100.net; s=20260707; t=1791776431; x=1792381231;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xTa4f6Jpo9bbyJgbZsVx5DPWhH7RO4U0C8aC28e9B8o=;
+        b=ufgc+3434PHOE8QDpIrX/E1aIfxfjtt+U7Rt1uhO3sjhWH7aOQXORk0EjtRz8pM8B3
+         Tj8awwTr8k8Qh8FzvD4+D3P1bSKR7vEY+LFf01VGRcZSbn+IDe+p00VI7ymqRGLTGK2K
+         Hah0edoQSR9Z9l1brvcIqqyF4azJaa6enkcf7+1Y30QP3z738VdRyQmQMbKtDL1Q2eBi
+         FZxXoSHrENPfcsnE+rUKsaqj7JQR25ETI/Do7HY/1Tc4drHZsg7FBH8f51S7Ed8ssfUL
+         J+3nXIIdQYqRAuyfiUMqx5c9fsYFY9WamNa4Y/EUBq6hrwy8vdPFy/hDh7W4FJ41NMch
+         Zk5g==
+X-Forwarded-Encrypted: i=1; AKwUvBxbRq6GvnboIrw+yIE3wb6kqSS2OdlLLBgFqyoOrzd+OcdmylPqgaeFRA0zesrfB62SX6NBrxjPH4HOdQLL@lists.linux.dev
+X-Gm-Message-State: AFq9FYJ9Eq+9jVi+g4DcnqtI8S1WPlYBTYsTG3W/tuvKOz+hHnm84mue
+	tGmUfjkZlgTJo7MrMUJmNIpDBuReBykcw5QsO5XJwaChrH+x/1d4UvLz
+X-Gm-Gg: AYBFou3wfiohGabeVhyAk4XEQLjzDCWqZw3T+GBUknqAUVYx2wBEs1ET8z7m6sWKa1C
+	4Hi882KTce/OkJ08adxFPD4Qny5Pwc78+rs7xHi9qnzC1NGTIbYcbZBj3qngCdqakstW9kzjrHb
+	MoSqCDA9EwBj6gUTp5ReF7B8R79jZLBbRNIdqv0dEwEXyvWuiubGrJ5Obw2Bt+AaYv2V2/maVEy
+	SfyYo99bxZ/Wox/obw+kTbVv6TsUKVCSu5RBfTJZL2dnSJfya0CXdwIcn9pwWJwroX6dHWN18oF
+	eLLw3q+DBO+RLD2DN7C4xtMsi9c7EFQYqmCWvGiRyd6GA5zLnLzEhfB/49JCPN6jEHu2OeVJ5z8
+	LowIVCcjgp77dDPOYMCtW6peMXpcEt6oEVoDz75txf5d8A6DwhI8RRAQshPVJuffiIRBo/t2oU0
+	stD0ar4t7TtFo6U4Kjks/hQZIXC/hI/uhvZ1qdLn42ublpQ8PcMeRjHiVYKkaYmEM1UvctyyBGM
+	Kf3UwBbjCMGTqPJlvwV+91ZyfOd/6UabYwl2FL65KMQb9wt9bAZqKkFQyTBgK5Ja64tVhCQ7uo0
+	iLmA2zPtICxExPXbSSB+nUR+sn9b0F0okJOLpkAeratomHRLgslviI1LNGJ1bard3jfAu8oqRdh
+	jcm3vdKZ4MYzptY/tct1UHvpZZ1Ip5alfsQAAv5UeUCAikU30
+X-Received: by 2002:a05:620a:271a:b0:93e:48fc:aa85 with SMTP id af79cd13be357-93ebd2598c1mr1409753185a.43.1791776430907;
+        Sun, 11 Oct 2026 20:40:30 -0700 (PDT)
+Received: from localhost.localdomain (wnpgmb0311w-ds01-161-139-200.dynamic.bellmts.net. [142.161.139.200])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93eb984845csm763316085a.14.2026.10.11.20.40.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 16:09:55 -0700 (PDT)
-Date: Mon, 12 Oct 2026 01:09:55 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Cc: jic23@kernel.org, gregkh@linuxfoundation.org, nuno.sa@analog.com, 
-	Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org, linux@analog.com, 
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	joshua.crofts1@gmail.com, error27@gmail.com, narcisaanamaria12@gmail.com
-Subject: Re: [PATCH 2/3] staging: iio: accel: adis16203: add missing
- spi_device_id table
-Message-ID: <aswW2bAapx3318Zd@monoceros>
-References: <20260929184900.39515-1-abdelnasserhussein11@gmail.com>
- <20260929184900.39515-3-abdelnasserhussein11@gmail.com>
+        Sun, 11 Oct 2026 20:40:30 -0700 (PDT)
+From: Riccardo Oliva <oliva.scorza@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	oliva.scorza@gmail.com
+Subject: [PATCH] staging: vme_user: avoid iterator variable access outside list loop
+Date: Sun, 11 Oct 2026 22:40:20 -0500
+Message-ID: <20261012034020.100737-1-oliva.scorza@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="prqxuytw7zq4oius"
-Content-Disposition: inline
-In-Reply-To: <20260929184900.39515-3-abdelnasserhussein11@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+In vme_slave_request(), vme_master_request(), vme_dma_request(), and
+vme_lm_request(), the list iterators (slave_image, master_image,
+dma_ctrlr, and lm) are accessed in the err_alloc error paths after
+exiting the list_for_each_entry() loops.
 
---prqxuytw7zq4oius
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/3] staging: iio: accel: adis16203: add missing
- spi_device_id table
-MIME-Version: 1.0
+While the iterator variable retains its pointer value upon hitting a
+break, accessing list iterators outside the loop body violates modern
+kernel coding standards.
 
-On Tue, Sep 29, 2026 at 09:48:59PM +0300, Abdelnasser Hussein wrote:
-> The driver currently relies on OF/DT matching but lacks an SPI device
-> ID table. This prevents module auto-loading on systems without device
-> tree support.
->=20
-> Add the spi_device_id table to resolve this and ensure the driver loads
-> properly across all supported platforms.
->=20
-> Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-> ---
->  drivers/staging/iio/accel/adis16203.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->=20
-> diff --git a/drivers/staging/iio/accel/adis16203.c b/drivers/staging/iio/=
-accel/adis16203.c
-> index eddb786d4747..905485fd556f 100644
-> --- a/drivers/staging/iio/accel/adis16203.c
-> +++ b/drivers/staging/iio/accel/adis16203.c
-> @@ -11,6 +11,7 @@
->  #include <linux/iio/imu/adis.h>
-> =20
->  #include <linux/kernel.h>
-> +#include <linux/mod_devicetable.h>
+Fix this by referencing the dedicated allocated resource pointers
+(allocated_image, allocated_ctrlr, allocated_lm) in the error cleanup
+blocks instead.
 
-Nope, please don't add new users of <linux/mod_devicetable.h>.
+Signed-off-by: Riccardo Oliva <oliva.scorza@gmail.com>
+---
+Hi! This is my first patch to the kernel. I am learning the submission 
+workflow. Any feedback is very much appreciated. Thanks!
 
-You can rely on struct spi_device_id being provided by
-<linux/spi/spi.h>, alternatively use <linux/device-id/spi.h>.
+ drivers/staging/vme_user/vme.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-Best regards
-Uwe
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index b5c66b66c..d38c792eb 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -298,9 +298,9 @@ struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address,
+ 
+ err_alloc:
+ 	/* Unlock image */
+-	mutex_lock(&slave_image->mtx);
+-	slave_image->locked = 0;
+-	mutex_unlock(&slave_image->mtx);
++	mutex_lock(&allocated_image->mtx);
++	allocated_image->locked = 0;
++	mutex_unlock(&allocated_image->mtx);
+ err_image:
+ err_bus:
+ 	return NULL;
+@@ -495,9 +495,9 @@ struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address,
+ 
+ err_alloc:
+ 	/* Unlock image */
+-	spin_lock(&master_image->lock);
+-	master_image->locked = 0;
+-	spin_unlock(&master_image->lock);
++	spin_lock(&allocated_image->lock);
++	allocated_image->locked = 0;
++	spin_unlock(&allocated_image->lock);
+ err_image:
+ err_bus:
+ 	return NULL;
+@@ -865,9 +865,9 @@ struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route)
+ 
+ err_alloc:
+ 	/* Unlock image */
+-	mutex_lock(&dma_ctrlr->mtx);
+-	dma_ctrlr->locked = 0;
+-	mutex_unlock(&dma_ctrlr->mtx);
++	mutex_lock(&allocated_ctrlr->mtx);
++	allocated_ctrlr->locked = 0;
++	mutex_unlock(&allocated_ctrlr->mtx);
+ err_ctrlr:
+ err_bus:
+ 	return NULL;
+@@ -1469,9 +1469,9 @@ struct vme_resource *vme_lm_request(struct vme_dev *vdev)
+ 
+ err_alloc:
+ 	/* Unlock image */
+-	mutex_lock(&lm->mtx);
+-	lm->locked = 0;
+-	mutex_unlock(&lm->mtx);
++	mutex_lock(&allocated_lm->mtx);
++	allocated_lm->locked = 0;
++	mutex_unlock(&allocated_lm->mtx);
+ err_lm:
+ err_bus:
+ 	return NULL;
+-- 
+2.43.0
 
---prqxuytw7zq4oius
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrMFz8ACgkQj4D7WH0S
-/k6kywf9EjX7GsElJJsb0VH6miyI4XnlA671jxyreWl8IzCOm+VoTZxx4dp8ulcN
-IZJM+szmAKlVq77vFMB9/ZNczuPCtQAf2GDlu70aXCrTKpgg3d4zRKYTjdKNg4x5
-y2Z+7nphR4rgx2zv9rHu1h3ErB7O3AI5Idxm/DnSQLHQ1ORNeGN93ZcvErD6dJxX
-s4dcRXvOHbNpA+sN2h+2+pYX7gxj7wFoVFKX9IgHTISLs9g4/0KiU0o1xIi9Yn7U
-oHCFngN6yZuI+20/ccHX4RhZ9EyrChTTkQL4ru8H+TU/v9L2Dl6B3aeJQAafr1KB
-lQH0fT0VphJojd3seU53jPC80txX/A==
-=MAFV
------END PGP SIGNATURE-----
-
---prqxuytw7zq4oius--
