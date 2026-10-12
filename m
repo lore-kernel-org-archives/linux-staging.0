@@ -1,131 +1,93 @@
-Received: from mail-gw01.astralinux.ru (mail-gw01.astralinux.ru [37.230.196.243])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA6F4AA418
-	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 15:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.230.196.243
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A8949B5C0
+	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 16:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791820117; cv=none; b=cInOAPg6aOM2oCPGhudTo2moKtmWdsNafWly1bxbuv9JLII8nVZ/v3OF60ndwxWXiCQEaZHYuW2xtKXt3c8yaTsZjcpIIUPaIP73xzm80ZPTKtgY2kbz69ameeIfLuHuZVxCdkUafcxkvjNR8+bE7zBNweHvur1jW4t0fOwTQ54=
+	t=1791821608; cv=none; b=fBuHDXiyPWAfKUWta8lO8a/Q0UeKwhObNr1SU913V+kFnXgfR5t3UevyfWXGjKEosectlk55LtDGtmh9oarZiqZxTX9vBTG5hq2YnDbOSdZN+FCDV37mtcsRInnrinoTLBLt2v8IxF+S6LYDKNgWqdfovbpitxFEZY0m4191IB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791820117; c=relaxed/simple;
-	bh=cxVLDvQgMQwu4Os1vRGM44MZqtkcuWvleffo1cDkrE4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZR4e00pF4Zeb5f9IfaG8srzlOo+nVPxhkMl5b33s3SU9HKde+wDJBVgJbw36hlLOzW91M0BBXDH1eXuqtNH10dXplKeacmRRZmhRyu3fxVp5eIE01KuaqesKJAXM2n251bExNlyVtk636so/YctUvxjC2WDqWZE2x0MblUKk4UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=nso6GGq8; arc=none smtp.client-ip=37.230.196.243
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
+	s=arc-20240116; t=1791821608; c=relaxed/simple;
+	bh=hBFpiBsh1OJ7/0dcpT+PVUfIoV8PmYIo/FqAcvIJ30o=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=fo3/ePPW1nVT/H3R44ZeYGPXpWO/yiocIKpogXeranNf5BIKlGRaU0Cwezctq97NBXvyUYOQ9Fv8Kw9aKoOYCXIIGwoHt+SkmFyPDxxVTN2UCATP4NzivoNojN6kw652qavN7Ay/Vho6gujcJDpNY2PTWLAE4iQH31vPGDWn85A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--johnsingleton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QdRCVqDW; arc=none smtp.client-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--johnsingleton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="nso6GGq8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
-	s=mail; t=1791820108;
-	bh=cxVLDvQgMQwu4Os1vRGM44MZqtkcuWvleffo1cDkrE4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nso6GGq87KeuU1FB+v4JNhRwRYkfboYwmvbLrpMM/+SeZK0Up3LxnLWIErOhqgAuW
-	 RsMRmwdY8vxWe04ttEc+gcSiJURhuqsWpsmvsVHeD+A4hEJEGQPRfSC6xu31v5ayKw
-	 3VOo5iJgCrBwb4JW5jUq30/TmCgcJY9jka7tWI3xtPzzyemoMA1zZvaOLoxql+hZ+y
-	 6kJ2FmC6PidBUYbbJcTqVxPyPAeF3yqBB93dXLfmcy4wUxxhPzaiNYIpGLSK8GgdH/
-	 gj5FiHxy5xwhMeHpJq4y+CVA+chakK5SbyTreztEOCieZCxvc8RAz9ngbENnccrRyu
-	 Yo+UDAsv6QBgA==
-Received: from gca-sc-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
-	by mail-gw01.astralinux.ru (Postfix) with ESMTP id 37A5924BB4;
-	Mon, 12 Oct 2026 18:48:28 +0300 (MSK)
-Received: from new-mail.astralinux.ru (unknown [10.205.207.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail-gw01.astralinux.ru (Postfix) with ESMTPS;
-	Mon, 12 Oct 2026 18:48:27 +0300 (MSK)
-Received: from DESKTOP-D46TNHI (unknown [10.198.48.43])
-	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4j3MLz0Zw6z20X4;
-	Mon, 12 Oct 2026 18:48:27 +0300 (MSK)
-From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
-	Sasha Levin <sashal@kernel.org>,
-	Alexandru Hossu <hossu.alexandru@gmail.com>,
-	Luka Gejak <luka.gejak@linux.dev>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Muhammad Bilal <meatuni001@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	stable <stable@kernel.org>
-Subject: [PATCH 5.10] staging: rtl8723bs: fix OOB write in HT_caps_handler()
-Date: Mon, 12 Oct 2026 18:47:10 +0300
-Message-ID: <20261012154712.338-1-mdmitrichenko@astralinux.ru>
-X-Mailer: git-send-email 2.54.0.windows.1
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QdRCVqDW"
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4dc57e2a3f2so3556029b6e.0
+        for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 09:13:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791821605; x=1792426405; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LBXNI3mtAkG5Ua6Q4/3lD9SCGWUQMAEPkEoP8hTTCsE=;
+        b=QdRCVqDW+c7Qw7KzkTQR8uF3mNa7XSWCLSGTM031xBk42HtOnmF9nyK6SbwDav+V/Y
+         ujQTqEh+F+mO0lz1LmNvA5fGSW+LtfG5JoWNW6tPS/9binJKi07Vk2D+aS7K+nxaOE+n
+         FrEaLC1t4JY2S+9GE6E8X/hjLfnTkFtmQQdhAsjfJJhhrL6z4k6lj+eniQJUT1vjzm70
+         JVDFmcvG2U+hPXGAI2YovmGIp7UDK7nY6PogXHjjStWuQmV1eg1aOupc0c35DkcB7/mt
+         iUhXwe73kJ50AdOAQ8avhf+F8CotMaP2Jb4XL7NU/+e73xEiJnNQ97oPl4IalHBvlXJY
+         4G0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791821605; x=1792426405;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LBXNI3mtAkG5Ua6Q4/3lD9SCGWUQMAEPkEoP8hTTCsE=;
+        b=l5q0/4rK5727ywiholEuWQNhKF5BDrgtoXLIrT+aOEYgBYC4eHZoRmHizExF4f17xf
+         KG54Byl66OUw+OwEP9KD3YcBOGP4nlFvrBTOxCRNOlPacrwSH52YfnbyeJGnavquhE0Q
+         ErUC35fGvB4wu8P8QuYX0GNfE1SsQDn55nEVOpxjuMWsBfn0ix/y4JWiTiS8R8P7i4yV
+         cp7Dr/MT3Xc9QAhaG01ho32PTXMtCEFow6l0910lsKNu3N+8DWCe8GAjSo/jasqMxZaK
+         9C/2VFMHbvqkSBVXPY/dQTBo4yZY2tMhryC/W6aA1Oii+jsQfn/SfE1iaTkproxJU422
+         vAzg==
+X-Forwarded-Encrypted: i=1; AKwUvBwl6Q9taGnTPFrRI9LDWGRqCxMfHfR970zp2Y8q540eykt8PjjKvEYahknOXURW4tEsMZhm/Al7kZdVuZ7v@lists.linux.dev
+X-Gm-Message-State: AFq9FYJKIp+MBbvyB9g6fMCuaqYbcG/d0GTOBNsqG67BLUv/Z8L4kMEp
+	3cHl00APk3y1DFHNYziCZlXATUl8fhilzvrH9QJaNG1jO4WN59ujecE8aF5GAARR4nXs+ugRX/z
+	G+WVTqfUUOx7zU5tYqMbnL+8B13y24MIbQg==
+X-Received: from iljf6.prod.google.com ([2002:a05:6e02:c66:b0:50f:bbf:6e5a])
+ (user=johnsingleton job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6808:1983:b0:4f9:595:b80c with SMTP id 5614622812f47-50c56bf8a1bmr10785057b6e.41.1791821604817;
+ Mon, 12 Oct 2026 09:13:24 -0700 (PDT)
+Date: Mon, 12 Oct 2026 16:13:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-KSMG-AntiPhishing: NotDetected, bases: 2026/10/12 15:14:00
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
-X-KSMG-AntiSpam-Info: LuaCore: 127 0.3.127 0884f7b061fa529b810563f359267cd65d2ec05c, {Tracking_one_susp_tld}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;new-mail.astralinux.ru:7.1.1;astralinux.ru:7.1.1;patch.msgid.link:7.1.1, FromAlignment: s
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 206608 [Oct 12 2026]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.27
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/10/12 14:59:00 #28677641
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected, bases: 2026/10/12 15:14:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 1
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
+Message-ID: <20261012161322.930099-1-johnsingleton@google.com>
+Subject: [PATCH 1/3] staging: media: atomisp: Make pmic_name array const
+From: John Singleton <johnsingleton@google.com>
+To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andy@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, John Singleton <johnsingleton@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
+Add const to pmic_name[] as advised by checkpatch to ensure the
+pointer itself remains unmodified. The array is read and never
+modified, so this change safe.
 
-commit f8001e1a516ba3b495728c65b61f799cbfad6bd0 upstream.
-
-HT_caps_handler() iterates pIE->length bytes and writes into
-HT_caps.u.HT_cap[], which is a fixed 26-byte array (sizeof struct
-HT_caps_element). Because pIE->length is a raw u8 from an over-the-air
-802.11 AssocResponse frame and is never validated, a malicious AP can
-set it up to 255, causing up to 229 bytes of out-of-bounds writes into
-adjacent fields of struct mlme_ext_info.
-
-Truncate the iteration count to the size of HT_caps.u.HT_cap using
-umin() so that data from a longer-than-expected IE is silently ignored
-rather than written out of bounds, preserving interoperability with APs
-that pad the element. An early return on oversized IEs was considered
-but rejected: it would bypass the pmlmeinfo->HT_caps_enable = 1
-assignment that precedes the loop, silently disabling HT mode for APs
-that append extra bytes to the HT Capabilities IE.
-
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable <stable@kernel.org>
-Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
-Link: https://patch.msgid.link/20260522004531.1038924-5-hossu.alexandru@gmail.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-[ mdmitrichenko: adapt to 5.10: struct ndis_80211_var_ie still has the
-  CamelCase Length field here, so use pIE->Length instead of pIE->length. ]
-Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+Signed-off-by: John Singleton <johnsingleton@google.com>
 ---
-Backport fix for CVE-2026-64440
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 4881adf930ab..62aafe7e885b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1029,7 +1029,8 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index a1d3a16921ea..d628fe4dca6d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -109,7 +109,7 @@ static enum {
+ 	PMIC_CRYSTALCOVE
+ } pmic_id;
  
- 	pmlmeinfo->HT_caps_enable = 1;
- 
--	for (i = 0; i < (pIE->Length); i++) {
-+	for (i = 0; i < umin(pIE->Length,
-+			     sizeof(pmlmeinfo->HT_caps.u.HT_cap)); i++) {
- 		if (i != 2) {
- 			/* 	Commented by Albert 2010/07/12 */
- 			/* 	Got the endian issue here. */
+-static const char *pmic_name[] = {
++static const char * const pmic_name[] = {
+ 	[PMIC_UNSET]		= "ACPI device PM",
+ 	[PMIC_REGULATOR]	= "regulator driver",
+ 	[PMIC_AXP]		= "XPower AXP288 PMIC",
 -- 
-2.43.0
+2.56.0.385.gd3acb90ef8-goog
 
