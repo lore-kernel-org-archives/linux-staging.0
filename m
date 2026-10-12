@@ -1,110 +1,84 @@
-Received: from mta0.migadu.com (out-231.mta0.migadu.com [91.218.175.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [31.44.14.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C9B48C8BB
-	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 14:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9361B3EBF16
+	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 14:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.44.14.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791814750; cv=none; b=BU9Il1GJwAGmmXk8dggqMBT0JiZiyodRjLehlejEPOpYevglZP5ekiY8fz1cKTRWwooAkN0CscVWFEdIRWxxh3sATCVuJzN1jrdxyPSiIXqrVOasWIKkZ/QmaixL5EkugoQql2xa9dmUb1ewlhPAKWIlr8ONos92WgqZCykZOSY=
+	t=1791814913; cv=none; b=IDw8sYWO4AE2fw9ISODXgdyXlno6PnxqpjX811PbeIsnpRfJTqhOpysj//GXyxIN/inb8fIvJCimB8ZZzCu3wxXdsfWzCxhUMXZHWrrXHZW8cCxcuLHyjYag0GNpsO2bcPeDoRRw29hfPUj1I4B6SB4EFKJZQJJ+2I49Z8Gyj80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791814750; c=relaxed/simple;
-	bh=a9Lxp9FaV4JFLzr9Ab9brfnJxgFlHFGfCx6e2RO4akA=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=CNiKWzc64FOj1g4qeuhgU0wtSjNZCLBoFVP5zk9nwYLE1HcftVbRm1EejG20Gkw1Tl1VdVFHlYAFEHCKIerwyBiR8lNjYDwHph0ThmhleEJz3AWHl2QI0piONc5Mfxi7SWtbQholrwr7xjF4bg6/qZWbFi8aC9+5zUMefuhM8Nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MaqrMAqH; arc=none smtp.client-ip=91.218.175.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1791814913; c=relaxed/simple;
+	bh=gG0sMpiewdn5TyCDGUTWY4JtwMhc54c70AKMDkDa078=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oSCo/U5462wXCkFOR7stt0bkNz3IaacZ/fm4+J+7NFXzkrG3A/Tsl0EZt+xRaLOjk3X5DAg6+xUFrME/vsF5WZpT9oSlgNTYJH2hVLu/TBRtvxPdcydq5/3LMz51fq9mDJMUK+uwLr3lMuXyAfLnhRzeOER3kuoDRxNJdD8+iZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=fail (0-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=NWMw7TMC reason="key not found in DNS"; arc=none smtp.client-ip=31.44.14.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MaqrMAqH"
-X-Envelope-To: linux-staging@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=a9Lxp9FaV4JFLzr9Ab9brfnJxgFlHFGfCx6e2RO4akA=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791814745; v=1; x=1792419545;
- b=MaqrMAqHAkIF4/OQN0UoYPKOjMvj70UGzF7OImSdGxmpo4LJP91lWLsRptbYxdJjmrLEEaCU
- wqsNHAhQ45/L08Zt0jo4yzCpcOM15kMJFpFpwbc1ibPZIF/DyzKce67kFL/JeQ0firmPi1yiCyA
- ugz0iWZZvc/Rp9tL2aTZAyKg=
-X-Envelope-To: linux-staging@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id ad3dbfd57bfdc824;
-	Mon, 12 Oct 2026 14:19:05 +0000
-X-Mizu-Trace-ID: ad3dbfd57bfdc824
-X-Migadu-Flow: FLOW_OUT
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="NWMw7TMC"
+Received: from forward503d.mail.yandex.net (forward503d.mail.yandex.net [IPv6:2a02:6b8:c41:1300:1:45:d181:d503])
+	by forward500d.mail.yandex.net (postfix) with ESMTPS id D968384A53
+	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 17:13:59 +0300 (MSK)
+Received: from mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net [IPv6:2a02:6b8:c43:348:0:640:388a:0])
+	by forward503d.mail.yandex.net (postfix) with ESMTPS id 64A3A10001B;
+	Mon, 12 Oct 2026 17:13:41 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net (smtp) with ESMTPSA id bDTOx13h8qM0-CRpO3613;
+	Mon, 12 Oct 2026 17:13:40 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1791814420;
+	bh=xslEqBwdkysI63h0ftRA8vmqG+0YLXsLKqHYqkfd5HY=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=NWMw7TMCx1oScI9URbHWlpUHLIN42iIocpNaJIdlnxSLQfo95yrBMusptcV1yzv+0
+	 Q9rip2yaWX7+smfRLHj0o/47XftiCBb5Bx5cce4nwOcYag46L/JlyZwxQlhZPaP6jH
+	 Z1hIkCcdPTjMGtJoEDz8cYArAbB7rPRSVXMPTbqE=
+Authentication-Results: mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <33554e4e-f835-43db-acd0-312bb81685bb@sezginduran.net>
+Date: Mon, 12 Oct 2026 17:13:37 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 12 Oct 2026 14:19:04 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: "Luka Gejak" <luka.gejak@linux.dev>
-Message-ID: <7e9af4f7528da1307cf62e53cf6b00fa9c4f674f@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH 5.10] staging: rtl8723bs: fix OOB read in OnAssocRsp() IE
- loop
-To: "Mikhail Dmitrichenko" <mdmitrichenko@astralinux.ru>,
- stable@vger.kernel.org, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: "Mikhail Dmitrichenko" <mdmitrichenko@astralinux.ru>, "Sasha Levin"
- <sashal@kernel.org>, "Fabio Aiuto" <fabioaiuto83@gmail.com>, "Alexandru
- Hossu" <hossu.alexandru@gmail.com>, "Hans de Goede"
- <hdegoede@redhat.com>, "Navaneeth K" <knavaneeth786@gmail.com>, "Michael
- Straube" <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Dan Carpenter" <error27@gmail.com>,
- "Andrei Khomenkov" <khomenkov@mailbox.org>, "Dalvin-Ehinoma Noah
- Aiguobas" <fliegbert2@gmail.com>, "Michael Huang"
- <tehsiu.huang@gmail.com>, "Jinke Wu" <coolbeaner@126.com>, "Nikolay
- Kulikov" <nikolayof23@gmail.com>, "William Hansen-Baird"
- <william.hansen.baird@gmail.com>, "Serhat Kumral"
- <serhatkumral1@gmail.com>, "Nazar Kletskii" <nazar.kletskii@gmail.com>,
- "Jennifer Guo" <guojy.bj@gmail.com>, "Hans de Goede" <hansg@kernel.org>,
- lvc-project@linuxtesting.org, "stable" <stable@kernel.org>
-In-Reply-To: <20261012140642.1076-1-mdmitrichenko@astralinux.ru>
-References: <20261012140642.1076-1-mdmitrichenko@astralinux.ru>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: sm750fb: make g_fbmode array const
+To: Palak Dixit <pdsj2807@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+ gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20261007101109.707077-1-pdsj2807@gmail.com>
+ <1fb9ded9-8d98-47f3-8c74-4eb8bf427867@sezginduran.net>
+ <CANNUkNj7WJ0TNZUGAdJh9r7FQRQDvj8DmB9_HDD7sonNDHkRnA@mail.gmail.com>
+Content-Language: tr
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <CANNUkNj7WJ0TNZUGAdJh9r7FQRQDvj8DmB9_HDD7sonNDHkRnA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-October 12, 2026 at 4:06 PM, "Mikhail Dmitrichenko" <mdmitrichenko@astral=
-inux.ru> wrote:
+On 10/12/26 9:22 AM, Palak Dixit wrote:
+> Hi Ahmet,
+> 
+> Thanks for the review.
+> 
+> I enabled CONFIG_FB_SM750 and verified the patch by building the driver 
+> with:
+> 
+>      make M=drivers/staging/sm750fb
+> 
+> The build completed successfully and the sm750fb .ko module was generated.
+> 
+> Thanks,
+> Palak Raval
+g_fbmode[] is assigned in lynxfb_set_fbinfo() and sm750fb_setup(), so 
+this can't build. Maybe the .ko was left over from an earlier build? 
+"make drivers/staging/sm750fb/sm750.o" should show the error.
 
+This change has been sent and rejected many times before, see:
+https://lore.kernel.org/linux-staging/?q=g_fbmode
 
->=20
->=20From: Alexandru Hossu <hossu.alexandru@gmail.com>
->=20
->=20commit f9654207e92283e0acac5d64fe5f8835383b5a23 upstream.
->=20
->=20The IE parsing loop in OnAssocRsp() advances by (pIE->length + 2) eac=
-h
-> iteration but only guards on i < pkt_len. When a malicious AP sends an
-> AssocResponse whose last IE has only one byte remaining in the frame
-> (the element_id byte lands at pkt_len-1), the loop reads pIE->length
-> from pframe[pkt_len], which is one byte past the allocated receive buff=
-er.
->=20
->=20Additionally, even when the header bytes are in bounds, pIE->length
-> itself can extend the data window beyond pkt_len, silently passing a
-> truncated IE to the handler functions.
->=20
->=20Add two guards at the top of the loop body:
->  1. Break if fewer than sizeof(*pIE) bytes remain (can't read header).
->  2. Break if the IE's declared data extends past pkt_len.
->=20
->=20Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> Cc: stable <stable@kernel.org>
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-> Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
-> Link: https://patch.msgid.link/20260522004531.1038924-6-hossu.alexandru=
-@gmail.com
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-[...]
+Also, it doesn't even apply to Greg's staging-testing branch, make sure 
+to rebase.
 
-Hi Mikhail,
-
-It seems to me that this was sent by accident by running git format-patch=
- -1
-
-You probably forgot to commit so git made last commit into a patch file.
-
-Either way staging rtl8723bs is getting removed in linux 7.4 so any
-further commits for rtl8723bs are discouraged.
-
-Best regards,
-Luka Gejak
+Regards,
+Ahmet Sezgin Duran
