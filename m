@@ -1,71 +1,76 @@
-Received: from sonic308-2.consmr.mail.bf2.yahoo.com (sonic308-2.consmr.mail.bf2.yahoo.com [74.6.130.41])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5324B3E171E
-	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 22:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.130.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AE03C3F68
+	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 23:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791844798; cv=none; b=PJogkKe/5K69g2tqgjvouGVPpV5b+ANG3BGm0ZM4t9xAq2DiidytRGDG1pHm0gZrCeekIzR8a+rw7V6b9Z9pSVDlSM3ddGTt21yj83s3hitGBj7M96DMCVoifLsI9KXiBdk+kB+D8bGtSgsSAFsIIdUrkpJHQojT1vgrl7Qa2eo=
+	t=1791846520; cv=none; b=iz60ZcWjlPlTzukGykTI1B4pmEH1xkwhU7R89xpE1WefFax7URhpREbJa62/KpVXrhFrIHYvi2UrqrL8dUbtwEVW0YH+Niejwfmy17GrttsWiLJQgKm7UTnnoF8vuWekPWtYqx9ZvbBUQ8bo24X9oyfVxaz7yVvCvgxbWvWRqZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791844798; c=relaxed/simple;
-	bh=gCXOaRk/vTK1DhL6qLIW+SHbOH4P6Jjkw3OH9+v59+M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=gsgnLimLR4hPNWeOILyxFwFvLJBZ+QZ0ddoK2TT6ZleQIr75XbpS7V3GbhaeLmiKD5WWbF70LQU2wlErg9HeQyN2pIR6TnJwDufOWYnE99VzZlJWsme0qt2FA6l+BQO+QcRsrtgjyMLgmGaC1nq3IZTUehyGfgrJ0xtGX9XlPOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=R+50VtBl; arc=none smtp.client-ip=74.6.130.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1791846520; c=relaxed/simple;
+	bh=YRnZBWvvoL3gZ0b5c66VN59LYucaM/WJXc9j8W0cOFA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jkzjFqPFj1IV5VKzrQfHvi9shbaro7/pUlkV5S9iHNUIw5bdcx2mF1xK3Y7kbP+vU7+Ri3cw8Ai/8np093YBiOawebtyFXIpqi74/swQdWDgGyRbLFrHnEFDhZokqW3Gvey8x11NDSJa3bIKsrZMIJ4nFZrqP+4hMwod12breP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNW0yCpE; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="R+50VtBl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791844794; bh=1kalAvIfHRcDXkPRqDq1U6FEwWATH8wlkkkNkAB8hQU=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=R+50VtBl9iLl7Y6pO+oV09WYavOtuqrVAt83zqbVVMD2GItIWI0+oEWUPF5wvKf4HubyImVILycTei+leUJANDNT1yId7brChn/+sYsx4DEMWxhiSPiJc/3W1jKMeMV0hRC35CsJKWw9irCa8Dwed5Myd/RAgPMlMJgURnF7juMPGawskeS+7VFeJ2MSPYRXWvHfEMYBjHgM7LKD7d4hC1cpPKYmWQ9n+sSwb+gD6T5EcU+GIrouL+IGTFhEQgaRcXQs7Lastj6y8cyPx3aZCXyC5bjlDy3LmfJNxmra2SoxdvZBen01xUmrYBy7/XF0AOg8oO2WThTcx6T03d/3Eg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791844794; bh=S5IAMX1oz9ht7zWMTJSf/P579icRRtReDtZY8ID+9gA=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=DVCaWYiSGy6E1p+PPKTdjba8GJS7Vfd/56BRWw+/rl76dL26Zl0Czc9pgCmx5Rl68kyNGi4ChHQSkVthGaCwBYGvQwPfVxQI6SOWXlXYQyGgC3fwCroFsf2c1ljHXTReHFVMNbF3tEuONBzzCjcVc6n6NI4tlDZGOWW5TrzrhmCMUqcLlHq2H9suOvij+W7Vb9jJS0L0x/+XoYrhnMQLvuNZS/qhMDYaJk4mgqOwSJ3cBgQAfYuRTn15Lu2YL1q8Cp2csByrZXCWCmJTpq2yoy37LW1ERmdfiRFpOPP8IeQL4y5ekfAi7j+KyEXnT/9I3hEKEx8utBDx1na0SPcsMQ==
-X-YMail-OSG: WsPGVZ4VM1lk5rK6O8INNCb4QEKv4quJAIRBag814Wjy4Z_pNv8UvTlYC8wOQK8
- oC1ONmI9jqNUZ2Vml97YYPrS1PYkrbOMRP9bvB0FKNWD2jMhzKk3eTXrGkdfxfu6kFK7XHxTw2eV
- GvFCbUdETotJ3kOts530bBsaVRpKnBEBMCGgQtNXDuYeH4p0yHn4LNDRmFVTZFgJzNDVbLgIj_eV
- 3W4BotQgNHmEw.rhWhCc7LxCX4hdNkA3UZnsHLzA6MDhVVIDQ.gLKs.l7Xmr_9YkQdR6uDIA.Xa_
- epBLhDZYPdcBw_Zr1IR2kWI94WjP_dbT91dR4oNoK0Y6lCLUSGtrDu5MzOEincW2JRxuSD7ebbA_
- SrJ6s5CgWdDasS5oBlJ1JtwCi7MVjXxJmtu79K4ZYoH9ZyDAfmVNE6caZb8VJU4BZ8tIua4PyeNA
- cwYX0FYD5qOmQNyHU9_juJZIfQim5sBaM2gE1a0xXljJ0xzNQKXKO7aOvnYkKJKCKwUgN9XSbSxh
- LjiYOoacyJ7Qz8Zyjp9YjlONK42mY9eT1b062lEj359glBG4Q3ZpPkmusIDAU2E0TsmV4c.dWidA
- ZM8SIC9LRxo0XSs1Mjjkjkg9CCc9vepX2eFxsuYyIQ_wSAO3DueamvVibwGxBFIK980HO04yHOu9
- 8zV43_mRwpcldbixsr.oHg.dloVDz8DJN_HBBUODVoaNW.jiXUup3yQG3xgMgT2kipcdEIiRGsLK
- 6UGQUo7vxOedQOchdVHEN50a7R7jADSXA1Mjqk7o_Srql2pI7TUz1Pqc69NTURmllkufaqMx0yRl
- pQshNX1OcMnsT5tKqSN8FI7WmG9DJ8a0LNjuTWBvVH0Kw4uM01HCcYXxW9eBnW3iIEq8bLZ3ZQKm
- nDN.ilq2NfqX8jDilTkrpO9y1qkuVLqz8klQipypeA2aCVweDVwUv7KaVtuPBQdBVNrE35WNYTnK
- M88kMjBAeO2Nl7BMPIZcMXxcu0ycrT3yLrV9ru2k.JsXL5jiP4XcY24gtofK.8fsFd1qWbtIdRN2
- 1NmkPcn9kgYTaeiokrXlbFKZbHPzA1EwhGpmYZ0BMPA3aCYhXPlAd41V2KIOswwqI4H9NSZ2jfkH
- A1giNabkV9EvitU.UCIV2.ubHmQJNg.RCKCR4yLhzcadacgGyOpYXvOdum30PIOULHHKwNS2vLwc
- sajljcqGfENyHnBn4y26BWHjS6XAo9WlpLJ26NxpE6kaUrPt6.KZ_Zeb6sAdAAtyWvTxmJ0Vyd0W
- NY79l61YppTAKSTmrHqi62sgxEEu7jLNoy.mAl.2RpTWLYrpCmpPV5lkmHVhyhuedTzsNGKaTSkN
- asxiOg_f.W9owsf03AVpYO1hTavSKqxe.EFefYETrdzLz3v6lssSrfL8O7aauyZUAXzZYj.5Hqc2
- _1XdqOZlcYUruh3cL1rVLyHmvurIvmpTjdLJ_gflCC4BcEClA8B2rEPCuxpJrwJhLpHXGnOmDquO
- UJ7PNABoufp9Qh76fQticUKd0DhnLZymajmzgua3.klXwzI0NtEiDDjGmNYE3AT6U2Xe8ZXbd4.v
- veMPjFmyGBH4HSjVxYoi_X0COkXwDGucHOQT2n6KP5qKtYMMIcPaI11bgLTCosDRJhrzuQjrTOyj
- d0Tc6bY6_KgCqcUci.baGMSQXdlvBnrg82ftuk0Altdr7s5hfeTnn3Luc.IhoNjkDNZ6Rml26HUv
- atVrnZx_bLEDLIKTKTGF5WpKQATuPbGsa7TC5V33.21oE_l9admAoIiMWnoUfyFQHtFBP7vDyyIb
- YAKqcJNhQwBn1Bs_V8OLKVU89dhNZoBjNfoonf_F4uMyU9qBCq5aQgGhvo.amDnVpuBGA.HFtK6Z
- Kx_XMNdzH1eoPGtMOt.hCq4mLh.RTWvUiRKYx_C8Pa9wkXH8.3Ke.EmgZFw3696S1xbVjewnJHiR
- 0zVuUxoh9pq_nppSCgp9hUtVLqJyAGXD..j_QO.2_v6qSKkhFzTVRHVfVdSCip_V.XON5QRxGiLm
- n1ssUXIQkSKoPzQ1DMPJI4njM2qDIDDuAB0w.v_bgatW9.hyp3_ibc1mPT3bbOE_p_sdRZxghPtd
- LhS_bl7DAX6xE4N5is1VmCphjaBQ1Eb8_ijwfoa8NGbPZ8cYb7UJL3z1qVvTdVkVd9RUIRYUufLw
- RIEznecBoYG813GOwfnCfa7UjIWVSlWW_goqYF1jPSuThCIpuFErSu6zpTP6jJIx5DZxUNw4x5F0
- DoMzJHrJOkA9zsRw2AM1exAuNggsVjLe4ueww.GQNvxvt7yE-
-X-Sonic-MF: <deaner92@yahoo.com>
-X-Sonic-ID: 63af6003-ef7e-44ad-9aba-94ad906a4aae
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.bf2.yahoo.com with HTTP; Mon, 12 Oct 2026 22:39:54 +0000
-Received: by hermes--production-bf1-6d6877594b-hmvct (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d1b8cc93bac081ab1177366705bb57b9;
-          Mon, 12 Oct 2026 22:29:33 +0000 (UTC)
-From: Jeremy Dean Clifton <deaner92@yahoo.com>
-To: Marc Dietrich <marvin24@gmx.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNW0yCpE"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a19cba5c14so16659745e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 16:08:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791846515; x=1792451315; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AJ9Nma4YZ09TsegjNcwlomId4OFLBG68tURqtwyiYzk=;
+        b=CNW0yCpECTAC0jX1JerN5es7PgyDSvuV0IkZs6t6BMFWiSY7LNKr83bFCcb+frLctF
+         cc9KwBkdfzpDfmuxC2Vg8Cd7XOR2PHu2LZDrgSUKcty1VBAnr1bNt3MF2/kx6uaL2+TG
+         xh0v+1bwla/jngmSj2pXnyzvKkKco1th+CgkKkm/GPkuJy+Itbck6dIw3pW+K8k3Xz5N
+         U1HWWhsJhJ1y738LWCExAfwiZp+ng92SzGlJnEznnOGu3T11MavyKz6P+/2I3b9h4v9g
+         uCzfTLozyt7WfHsdEivlhU+TuL/9fc3WVSSiuWLSFXrSJ27YDp74mzNXoCFXe8kzjm91
+         P20A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791846515; x=1792451315;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AJ9Nma4YZ09TsegjNcwlomId4OFLBG68tURqtwyiYzk=;
+        b=iql1oUFRJqTPy9adZ+sTe5zk1eT2jAmnw/93lE+PVJfjl+N5qOfYMSHoYdvXlxaCDe
+         dURz582vwmzvHNi/z1+aopeCCL0Kvw6n9Co3x6B5TVMtC9Vcbp/W/XN6MwjRz5wZQl8Y
+         pZsd+W0e3UPkHq3nJbDLn7zvdmQlgEsPk+OQActG0TA5lfDcXmytyFis4Ys1S8xN/p2b
+         iPGxg0sjSz7NipzmtJUVoaCOgBPxY+TiWuVZlcsrLRi6eeCQRiPzgKT4QFgshF+OX+IS
+         HU0ggtBrVfF2kDjoGgZR0AbmDbT/910vrxG+Yu6xHdF8MWjVB5K3r01dCQAVZKR0vYzj
+         otcQ==
+X-Forwarded-Encrypted: i=1; AKwUvByQTAco/j4RSuLSks9Yy4vZBGP4cVofdXCP+npFp3s66j5WiAKlMfhdBMi4T/pzgzlQs2FHSY7fHdk24vCj@lists.linux.dev
+X-Gm-Message-State: AFq9FYJTUy2Czo/CelTnumTqlvTHYviWmH7FRoeyWzV6kO5o3A3ECKfI
+	eyFAJ1I+XEYYHYrdrvacpAlbORpq7OclvfuTgiTIb5bEtuTGvYp0jM4Q
+X-Gm-Gg: AYBFou2TUeB6mnPyKKBAD6OCRniOMs0ilwYhMeI42vVPWUO2ZTcXazu9QjBsPUOtAVH
+	3QogvWtG/j3zTPLCuG0vYAnLpWAMbajK/rgUu92LPjSwOZYVa3pDupty0roo5LmxPP/GVLVC1aD
+	JZJzUPw9cL0U+Ke22jxGDyArnfwMWN/PRiJYsR0SVaWLe4w6K0NXiLthx6p8M6cnmWYD4BildHT
+	AKv52W+UDUgoljYcqZ0dt2emplnwdTxXd5LdB0ixso3OtVrCl5K4Diyc/bDoKsFHgkvLQX0fiVv
+	XCfjLUmzIWxLvVXfsVQ5kzTNUrSGXUXmWrq3+2vCEq1mRY3mG+KVPElr7bsEGS5bbBG5jIgpAIx
+	E2rFv+aQv96GgpuDOtMDMpQA1HcaD8OLD1vUBksYAj3JI0NUqyD1nYqrbZWRHKA6HWfytH4ZW27
+	NUD0+CAmcofe4vKh5Xnb0dBGl1G8DUeMejLULbPM8DvsAj7tDjjnQMB5bSBU7Jw+Ao0ITOsZlZW
+	TKOx0KY/xgBBKYhKyjvFQ==
+X-Received: by 2002:a05:600c:4ecd:b0:4a1:96cd:2f60 with SMTP id 5b1f17b1804b1-4a19ecf4c20mr85630695e9.3.1791846515354;
+        Mon, 12 Oct 2026 16:08:35 -0700 (PDT)
+Received: from ubuntu-4gb-nbg1-1.. ([2a01:4f8:1c19:b0ad::1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0aaa9f9sm1873928f8f.19.2026.10.12.16.08.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 16:08:33 -0700 (PDT)
+From: =?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
+To: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Julia Lawall <julia.lawall@inria.fr>,
-	Jeremy Dean Clifton <deaner92@yahoo.com>
-Subject: [PATCH v2] staging: nvec: use guard(mutex) in nvec_write_sync()
-Date: Mon, 12 Oct 2026 22:29:26 +0000
-Message-ID: <20261012222926.7754-1-deaner92@yahoo.com>
+	=?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
+Subject: [PATCH 0/4] media: atomisp: remove the circbuf library
+Date: Mon, 12 Oct 2026 23:07:49 +0000
+Message-ID: <20261012230754.1914517-1-vladurares@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -73,71 +78,56 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-References: <20261012222926.7754-1-deaner92.ref@yahoo.com>
 
-The three return paths of nvec_write_sync() each release
-sync_write_mutex with explicit unlock calls.
+Thanks to Andy for suggesting, in review of my earlier typedef
+patch [1], that I look at converting the custom circbuf code to
+circ_buf or kfifo.
 
-Use guard(mutex) to unlock the lock automatically on any return
-path.
+While looking into it, it turned out that the circbuf API is only
+used by the local queue path, and ia_css_queue_local_init() has no
+callers, so that path is unused. The remote queues only need the
+descriptor and element layout shared with the SP firmware and a few
+small helpers.
 
-This removes the three mutex_unlock() calls.
+So this series removes the unused local path, moves those few pieces
+into ia_css_queue_comm.h and drops base/circbuf/. Please let me know
+if you would prefer a different approach and I will rework it.
 
-No functional change.
+Patch 3 only moves code, apart from dropping OP___assert(), so I did
+not touch the existing style issues there.
 
-Signed-off-by: Jeremy Dean Clifton <deaner92@yahoo.com>
----
-v2:
- - Reword the commit message to state the motivation and to make
-   clear that removing the mutex_unlock() calls is the result of
-   the change (Julia Lawall).
-v1: https://lore.kernel.org/all/20261012171312.5998-1-deaner92@yahoo.com/
+Compile-tested only, as I don't have the hardware.
 
- drivers/staging/nvec/nvec.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+This supersedes the typedef patch [1].
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index 41cbdfdc1da6..716b1b482568 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -298,17 +298,15 @@ int nvec_write_sync(struct nvec_chip *nvec,
- 		    const unsigned char *data, short size,
- 		    struct nvec_msg **msg)
- {
--	mutex_lock(&nvec->sync_write_mutex);
-+	guard(mutex)(&nvec->sync_write_mutex);
- 
- 	if (msg)
- 		*msg = NULL;
- 
- 	nvec->sync_write_pending = (data[1] << 8) + data[0];
- 
--	if (nvec_write_async(nvec, data, size) < 0) {
--		mutex_unlock(&nvec->sync_write_mutex);
-+	if (nvec_write_async(nvec, data, size) < 0)
- 		return -ENOMEM;
--	}
- 
- 	dev_dbg(nvec->dev, "nvec_sync_write: 0x%04x\n",
- 		nvec->sync_write_pending);
-@@ -316,7 +314,6 @@ int nvec_write_sync(struct nvec_chip *nvec,
- 					  msecs_to_jiffies(2000)))) {
- 		dev_warn(nvec->dev,
- 			 "Timeout waiting for sync write to complete\n");
--		mutex_unlock(&nvec->sync_write_mutex);
- 		return -ETIMEDOUT;
- 	}
- 
-@@ -327,8 +324,6 @@ int nvec_write_sync(struct nvec_chip *nvec,
- 	else
- 		nvec_msg_free(nvec, nvec->last_sync_msg);
- 
--	mutex_unlock(&nvec->sync_write_mutex);
--
- 	return 0;
- }
- EXPORT_SYMBOL(nvec_write_sync);
+[1] https://lore.kernel.org/all/20260918214132.1135549-1-vladurares@gmail.com/
+
+Rareș-Mihai Vladu (4):
+  media: atomisp: sh_css_mipi: include assert_support.h directly
+  media: atomisp: queue: remove unused local queue support
+  media: atomisp: queue: move circbuf types and helpers to queue_comm.h
+  media: atomisp: remove unused circbuf library
+
+ drivers/staging/media/atomisp/Makefile        |   2 -
+ .../base/circbuf/interface/ia_css_circbuf.h   | 363 ------------------
+ .../circbuf/interface/ia_css_circbuf_comm.h   |  56 ---
+ .../circbuf/interface/ia_css_circbuf_desc.h   | 160 --------
+ .../atomisp/pci/base/circbuf/src/circbuf.c    | 312 ---------------
+ .../runtime/queue/interface/ia_css_queue.h    |  29 --
+ .../queue/interface/ia_css_queue_comm.h       | 139 ++++++-
+ .../atomisp/pci/runtime/queue/src/queue.c     | 112 +-----
+ .../pci/runtime/queue/src/queue_access.c      |   1 -
+ .../pci/runtime/queue/src/queue_access.h      |   4 +-
+ .../media/atomisp/pci/sh_css_internal.h       |   2 +-
+ .../staging/media/atomisp/pci/sh_css_mipi.c   |   1 +
+ 12 files changed, 148 insertions(+), 1033 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
+ delete mode 100644 drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf_comm.h
+ delete mode 100644 drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf_desc.h
+ delete mode 100644 drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
+
 -- 
 2.43.0
 
