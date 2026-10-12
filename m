@@ -1,105 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B5F4F93A4
-	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 21:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F12427FB9
+	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 21:27:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791840334; cv=none; b=d0nsbKm5LnJL1CYrSilEbfdY3kcOKotM6CQUfryzJHVwCpg0ycNhSsU+4M6rqmBp7wABMGO1Hhe23uEUw+UCymixWeLm+E5s+GbfHNUJHYL595SdY1de03TPUU7I4RKuaD/pAeKr2ovpBAkYr/wK5/IaBmRlgVueeoGgWC8wWmQ=
+	t=1791840448; cv=none; b=EULBXxCU+EqferwibbuMCvh2ri0pf0HImLr3smAZA2YuMR68eIOQisd3eZfvUkNJYEazYlCKjgvGp48RLnbfcsr0yMmnl2fGBGeixWqEkQJaVhRAZNvkBufQziw25M2van7tDPHvrSCK4CITf66oJYvFoMpngOy98MtO5QaOhy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791840334; c=relaxed/simple;
-	bh=Z2tjRVdTDNm+ozMbUPHCMIHfkHjpaqjDZKGIgktI2Q0=;
+	s=arc-20240116; t=1791840448; c=relaxed/simple;
+	bh=oeSC2qlhQvedVTlGtVaXxMIyAYpEvR3Z38T+wufwsno=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BKyKgN6tD+TTA8SA0aerL3qPLyyOvPvRsLVux4drkHh09FBcTxGQm4lTWHJik+aTkEQU9KiXZxkq+B+zSHNrhT1j47gou73bdFiu1SQwfGrtMgu68PyEDcpHHALabx6NfblZ1d1bXqho2kjsnmWtNt+r1MSEwwuFczhdEigXMSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c9DTudKH; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=u/YZPtRbdRD1ZucW/OS5G9mqvC7C1Ia4xWuWlyjjOZsQ0lcyAnIqM1xfsT3JH6hSXoc/VVakdG/fwQoRxrwijx77iWjjXf2BjaqHeAFP7ER/UQWW65qLfsZiAAty5ivCogadNib9hKk0BmgtS/JV0hU3vQjOPx0v2Pp3HOn3bLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PwzOYhwh; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c9DTudKH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PwzOYhwh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791840332; x=1823376332;
+  t=1791840447; x=1823376447;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z2tjRVdTDNm+ozMbUPHCMIHfkHjpaqjDZKGIgktI2Q0=;
-  b=c9DTudKHWX3K4R5JaQJ88nNjijO1OopSVdzHT9KrLgtf6uRolGukL6PZ
-   KnAT3rIacyUFao+pOQpPQVaYXGmDS2Xwh2Bv077FQCCSbRySxzKY4xh+d
-   Uy3H4RuUSnb3jZU+Usi9JHFeh7SXt+c6+cy9L7J8+oT6P8wxjh8tC/Car
-   /7ockqDw+KhydCCbirCqd/Yy1UE1YoRNwHqNYIYQe4BvbR5WbKSyx02EH
-   v8yJtVlAAv6aEXNGFL5jD/pnRyw61vRFVFR0o9YTFEKqPpkbAJlUXEfef
-   IP6BJX3TcWTzswLWroqCERF9L7Et825iYDOg6NU4WUjT/csAmfqlJPSdB
-   g==;
-X-CSE-ConnectionGUID: oH9GdLvGTmC76/s3p99QMw==
-X-CSE-MsgGUID: t6PJzYo7QgS3hFTex78bPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="458086"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=oeSC2qlhQvedVTlGtVaXxMIyAYpEvR3Z38T+wufwsno=;
+  b=PwzOYhwh+R+k2e78QTxy6CSmKgVclsnSitCqyemMYe0ZETqqJn3CExIy
+   RCYqyAURmCBZUWM6sCPZrcWJDAsYhzOMZrodfjKmN1Gsy4XBztrKYbSMJ
+   HGL9M+fJRpZPeZX7wUym9zQLoLOM8G2zp2685vvhi0i5u/a/aoAt4enB0
+   A4TzevmyNpMuK6tK4JmMaTM5pmIuFmALkOjwd8yXDVjOsVip/f53ILARP
+   RCAUWj7enqLP6AhkyJiT1g9SIhJlW/CtosCkcMFpLXqZxbVHG+6MGM8sq
+   3aTUFgqYd8biQf7WuoyB7TaV/4pgDw2CIvAXzblCKys5rarXOYfILv20v
+   A==;
+X-CSE-ConnectionGUID: wIBKFiU+RZGXXT4cGUBx+w==
+X-CSE-MsgGUID: hJBCR8hDR/eMYWc+rD1aSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="441378"
 X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="458086"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 14:25:32 -0700
-X-CSE-ConnectionGUID: YNqlACGkTziuWFJBduGK6Q==
-X-CSE-MsgGUID: 1Oy9C0oOTqa7laHtZt7zEQ==
+   d="scan'208";a="441378"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 14:27:21 -0700
+X-CSE-ConnectionGUID: Ih2SfVXsRVq+Tk7DXmiFOQ==
+X-CSE-MsgGUID: 740QfzMHTjeoi21wm1gxlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="894657"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.35])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 14:25:29 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 171E8121BA6;
-	Tue, 13 Oct 2026 00:25:32 +0300 (EEST)
-Date: Tue, 13 Oct 2026 00:25:32 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jake Steinman <j@metarealtyinc.ca>
-Cc: Ramshouriesh R <rshouriesh@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Bryan O'Donoghue <bod@kernel.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+   d="scan'208";a="1108316"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.179])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 14:27:18 -0700
+Date: Tue, 13 Oct 2026 00:27:15 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
+Cc: raffaele.tranfaglia@gmail.com,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: staging/ipu7: Add 10-bit greyscale capture
- formats
-Message-ID: <as1QTFB1CRDNxAEY@kekkonen.localdomain>
-References: <20260801-hm1092-driver-v6-0-5979f223748a@gmail.com>
- <cover.1791608336.git.j@metarealtyinc.ca>
- <5423f57000600f27626ff785f80f94d3e7ad1106.1791608336.git.j@metarealtyinc.ca>
+Subject: Re: [PATCH] staging: iio: addac: adt7316: use dev_err_probe() for
+ ldac GPIO
+Message-ID: <as1Qs5H5-SG3gik4@ashevche-desk.local>
+References: <20261011-adt7316-dev-err-probe-v1-1-27a4a8ac74f3@gmail.com>
+ <aszvaazebS2NISxS@nsa>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <5423f57000600f27626ff785f80f94d3e7ad1106.1791608336.git.j@metarealtyinc.ca>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aszvaazebS2NISxS@nsa>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Jake,
+On Mon, Oct 12, 2026 at 03:35:30PM +0100, Nuno Sá wrote:
+> On Sun, Oct 11, 2026 at 07:56:22PM +0100, Raffaele Tranfaglia via B4 Relay wrote:
 
-On Sat, Oct 10, 2026 at 12:59:22AM -0400, Jake Steinman wrote:
-> The CSI-2 receiver sub-device accepts MEDIA_BUS_FMT_Y10_1X10, but the
-> capture nodes have no pixel format that maps to it. Link validation
-> between the receiver and the capture node therefore always fails for a
-> monochrome sensor and nothing can be captured from it.
-> 
-> Add V4L2_PIX_FMT_Y10 and V4L2_PIX_FMT_Y10P. They use the same firmware
-> frame formats as the unpacked and packed 10-bit Bayer formats, as the
-> ipu6 driver already does.
-> 
-> Tested on Panther Lake with a Himax HM1092: both formats capture
-> 648x368 frames, with 1344 and 832 bytes per line.
-> 
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Jake Steinman <j@metarealtyinc.ca>
-> ---
->  drivers/staging/media/ipu7/ipu7-isys-video.c | 4 ++++
+> > Use dev_err_probe() when requesting the ldac GPIO fails. This
+> > avoids logging an error when the GPIO controller is not ready yet
+> > and the request returns -EPROBE_DEFER, and records the deferral
+> > reason. It also simplifies the error path.
 
-We're about to remove the ipu7 staging driver, therefore I'm not taking
-non-fix patches to it. Can you se the ipu6 driver instead?
+> Not sure what's Jonathan policy in here (or don't remember :)).
+> Personally, I don't see much benefit on this kind of patches. I'm aware
+> you might be eager to have something upstream but for staging I guess
+> the real value is in having someone willing to really cleanup the driver
+> so that we can take it out of staging (naturally that also means having
+> HW or someone willing to test it).
+
+This is a real fix for a (rare enough) problem. Without this it's possible
+to get your dmesg flooded with the messages instead of the useful logs, so
+I'm definitely in favour of taking it.
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Sakari Ailus
+
