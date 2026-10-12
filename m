@@ -1,56 +1,56 @@
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421D74AA578
-	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 16:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086CC4AB1A3
+	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 16:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791821610; cv=none; b=fotCjsq5ntPDjysH0oEsOVbkMFtJuk8v2ZtbugGI6Wo8xSWsBQTpfNZSpivyIidAWLoVkJ/++BgZhraIK2XVNEfkP0jsUpIMSBRy3WE6DP0KXo9TcxzYtv7OXEQ+SK6r1a9cO8OB7WWEOOKEzdX75TWZ01RMBDANJwz7jdyXo9M=
+	t=1791821613; cv=none; b=tSqreiox9Qo4PSw/3HMgST8E6/ONI7D2KVRgbDcp5/MMM4VeAquowno5Ee76rWQC51lx0zDvhmWSPhzYRAQPe2T0ioIdWXp1uvKUmrNde0cOfDA2oLINV6MTWKGSVv5eAlaGXU3rVBX5PdFASYAcdVSTnZJkGDAK8cIk/gS4lGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791821610; c=relaxed/simple;
-	bh=RgV6tR5jcQa2cdmmaHtcrqW8KUs0QaaUYSr/3iY5+5c=;
+	s=arc-20240116; t=1791821613; c=relaxed/simple;
+	bh=mRVuLrRypkEWhO6R0jqCs1LjAdbCnuRcJMMG86l2Ptk=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=sIN+Zr0kq5jaFq65vtS4HzOpJ6tlf+xVHw3Xcmz4/xhjFDjUL8nG06YG193tjC1S3OKvzdjdiU30WH2NMnIjfEwSvi3NODkUoIwIn8mnEoEKZQojdJTcxlK+l9cB0B/nFb74sw4QWLKCPyyr1f/t84xV1ZeAvIfrzIdCoaHb26g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--johnsingleton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FHOJUAE7; arc=none smtp.client-ip=209.85.167.198
+	 To:Cc:Content-Type; b=tGYJIh1iVaw5m5PcG11lbR5dp7twAyxWpMbZTYpF1c03/G+XQbVLnWhGTE5kDn4hlrq2T9n4HiVc0GU45hiQaGwVCbg5kSfGkQBPiLiuDx4QV0M4ZReKhWxTjS9E+fMSLoaKVSAU/HtqaJC9yf2y0fCKXecdfFeHuE5vDptOPWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--johnsingleton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YX0/X7jl; arc=none smtp.client-ip=209.85.167.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--johnsingleton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FHOJUAE7"
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4db3db8687fso3472006b6e.0
-        for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 09:13:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YX0/X7jl"
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4cbf700ddccso1904288b6e.0
+        for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 09:13:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791821608; x=1792426408; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1791821610; x=1792426410; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Q5arXL8FFSiMk7enaPI4H1eACN8f2tsnY0z06uFeb7M=;
-        b=FHOJUAE7mn23EfxabNPUQjzlVWpPk96QM6NvaIBaoH8/p2c7aIQCBOuUf7AuYzOx1v
-         7aBHd16gsOzKPFEykb9Os1qiTQeceq8xE5FhgKCI+8lRiLCJqYvHgeyTt5++avxwThYU
-         +rrguc2xUA/pzN8yAr/iwyr4mOhwrxVo8Q/puit1/cUbM/QtP74ubVx64Ztg3UVMlvOj
-         NOnXemooyyNGpXTk3Ub6XmABqad5+KdqRfhH11o3YcRiANoXT7U8sGV7a5dK12mLmVPq
-         34hoyXdQs1XqMvv79lwM6/LhxZu9eB547GT6q4sU3DTeXsWprB28l5Vi7n1w9haX3VsO
-         bKTw==
+        bh=hcHBR6w/r+iCaRB31VpskZaNfVjVZKluZi2Tp8yT4OI=;
+        b=YX0/X7jlg4VmXuUzRQmtvArRLolrvcyXAEOhAkBLZ8FbnsPrScQu5ZGLsB227HYsWz
+         Oho9TJ330RnknlbC+yEwpePUTje2YrhwF0H6bVyHgnJwz98pliMb8Pf6YttzwHWY5CLD
+         aHHRbWBuH9Z2egICnQFY70iCEUkMBm+CSFbKTShCaskvcrrKyfzsBBRm6m4Dy+a/IKnH
+         GaTNn1prYZagYtQ8hv1VK/Fz07i0BwHHELlyiut7PpJZzAHA+jGmwGrXfQG9GuWcltre
+         thypttCaHb0GISEyjGE3H9DyQhKOYZzWlBEEkMjPen/m8kddGGDmAdjkDWmUwVb4Snoc
+         j9Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791821608; x=1792426408;
+        d=1e100.net; s=20260707; t=1791821610; x=1792426410;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Q5arXL8FFSiMk7enaPI4H1eACN8f2tsnY0z06uFeb7M=;
-        b=okYFee9AN4hMwHXu72ugIL0MQ6l4l9/gTJqtJ1qjp7lQ0bkwJ1Qd+LpXC9/rhRacNc
-         ER3LAxfarJTmZjHep9bG2CgznIOO59qqDk54SJeTk34b2m5u0bbSjNegxHvEjtHuTT8K
-         nwX98NzIPF71uUMdvy6yy0ABvjphpssAjb83q7KIxKlTMgbrhr6suW3hC9XTDgcL4VTU
-         gN2rwJm7fknjoFW2zGZxuiU9Bznsxprt19ZZ10/BHGN0CxhJa/g/Zcd6ZM4pvUnhHUy9
-         L+sXyZ/Xr4ShaF26o5YzH6EpBrlXu95s5Z23lMBNQIrVtFjoJdc7clR2Oy/xW3PSdRUM
-         otNw==
-X-Forwarded-Encrypted: i=1; AKwUvBw7vaHozbo3MZwAEZ6ixhk0geqS5ltplvcQ/04FyUbsf+0pLHU4MBclRySWbweCeJlvozNsB6UavKzzqTu8@lists.linux.dev
-X-Gm-Message-State: AFq9FYLxwFxcem6bh0OlUhAqbUPqaNmdPNyhdk5aTcj3Y2Y6oj+buzSn
-	/MhLdItRdpcJjR8jt8HqoQUibMTtlMfy3ktThbFu7/sGg3ogypj0/CUHzD9lCU+A1ynkGxGfut6
-	KSXCRnWFWMNDlH6+9/GnwyBScptz9DruPXg==
-X-Received: from jaac27-n1.prod.google.com ([2002:a05:6638:c75b:10b0:60b:13bf:fe78])
+        bh=hcHBR6w/r+iCaRB31VpskZaNfVjVZKluZi2Tp8yT4OI=;
+        b=d6qTZ29NKo9WMZzcZZEJNPv2q5/JzPuzMnUoifxqCtIrXsLWCe3VtGu00wTDCX6WLo
+         pkhHWNUTMg8TP7O7+p/fplYfWLGSvdZOEil0ovvBRwugnSQ+cPnNkoUFBaNiAqKmVg5O
+         jbN6JnwvX9PeDn2ofKZPlupQDtLxYSgL5S7qTdCbApJZs9fsVMgWnuNF6Pm85fExzqOq
+         Xq4R61Y5QBP0dooT/4Yztg1dUBJr4CyaHYxEmPvXR6qsxg1aNN2N+dWOx9NSr1AnfBgB
+         1qrmfSBIb7v+HYzo2kvVs8WTjTMno6aRUGTzQdxP3wv7bGWiwr3qKEYo2yxKaKj3nJzG
+         wDTw==
+X-Forwarded-Encrypted: i=1; AKwUvBz0UoN2gODOkuO0UXLtWZrhGXQ1/j9j4U5XdsdtJYc3ORf58QYJ9yR7l4uCY34/jwsi1mtjFpiWxs0cqklP@lists.linux.dev
+X-Gm-Message-State: AFq9FYKpmo9FlfbVm+OzIgVKB0qQE4WJ0uz47HkQO0RKvS1npLktPg6K
+	QxtAHr5T769N/lOmwoGSrgVCbihS4Q/CG4JDzYQd4XnWaZ3bGr7+d4KYBQmwgsFVnGfzih2GKdv
+	iLdXRxRM3LmajTAMuDFk6xlhbxVED9nNK3w==
+X-Received: from jagd20-n2.prod.google.com ([2002:a05:6639:14:20b0:612:1b1a:654c])
  (user=johnsingleton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:4f0a:b0:4ec:7639:2ad with SMTP id 5614622812f47-50c52471170mr8154333b6e.13.1791821607672;
- Mon, 12 Oct 2026 09:13:27 -0700 (PDT)
-Date: Mon, 12 Oct 2026 16:13:21 +0000
+ 2002:a05:6808:6617:b0:4d6:90f3:74b4 with SMTP id 5614622812f47-50c55b85e7emr8608012b6e.52.1791821609588;
+ Mon, 12 Oct 2026 09:13:29 -0700 (PDT)
+Date: Mon, 12 Oct 2026 16:13:22 +0000
 In-Reply-To: <20261012161322.930099-1-johnsingleton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -60,8 +60,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20261012161322.930099-1-johnsingleton@google.com>
 X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261012161322.930099-2-johnsingleton@google.com>
-Subject: [PATCH 2/3] staging: media: atomisp: Remove extraneous dev_dbg
+Message-ID: <20261012161322.930099-3-johnsingleton@google.com>
+Subject: [PATCH 3/3] staging: media: atomisp: Fix parameter indentation and
+ block comments
 From: John Singleton <johnsingleton@google.com>
 To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -70,50 +71,402 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, John Singleton <johnsingleton@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Remove dev_dbg calls that (per checkpatch) are duplicative
-wrt ftrace.
+Replace leading spaces with tabs in function parameter lists and
+format multi-line comments according to kernel coding style.
 
 Signed-off-by: John Singleton <johnsingleton@google.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c  | 2 --
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 4 ----
- 2 files changed, 6 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  21 +--
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 136 +++++++++---------
+ .../media/atomisp/pci/atomisp_subdev.c        |   2 +-
+ 3 files changed, 83 insertions(+), 76 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 6cd500d9fd26..a7c28c261320 100644
+index a7c28c261320..9483113f6c44 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -262,8 +262,6 @@ int atomisp_reset(struct atomisp_device *isp)
- 	/* Reset ISP by power-cycling it */
- 	int ret = 0;
- 
--	dev_dbg(isp->dev, "%s\n", __func__);
--
- 	ret = atomisp_power_off(isp->dev);
- 	if (ret < 0)
- 		dev_err(isp->dev, "atomisp_power_off failed, %d\n", ret);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 812230397409..d83c967fd125 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -345,8 +345,6 @@ static int atomisp_save_iunit_reg(struct atomisp_device *isp)
+@@ -1883,8 +1883,8 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
+  * Function to check the zoom region whether is effective
+  */
+ static bool atomisp_check_zoom_region(
+-    struct atomisp_sub_device *asd,
+-    struct ia_css_dz_config *dz_config)
++	struct atomisp_sub_device *asd,
++	struct ia_css_dz_config *dz_config)
  {
- 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 	struct atomisp_resolution  config;
+ 	bool flag = false;
+@@ -1918,8 +1918,8 @@ static bool atomisp_check_zoom_region(
+ }
  
--	dev_dbg(isp->dev, "%s\n", __func__);
--
- 	pci_read_config_word(pdev, PCI_COMMAND, &isp->saved_regs.pcicmdsts);
- 	/* isp->saved_regs.ispmmadr is set from the atomisp_pci_probe() */
- 	pci_read_config_dword(pdev, PCI_MSI_CAPID, &isp->saved_regs.msicap);
-@@ -400,8 +398,6 @@ static int atomisp_restore_iunit_reg(struct atomisp_device *isp)
+ void atomisp_apply_css_parameters(
+-    struct atomisp_sub_device *asd,
+-    struct atomisp_css_params *css_param)
++	struct atomisp_sub_device *asd,
++	struct atomisp_css_params *css_param)
  {
- 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 	if (css_param->update_flag.wb_config)
+ 		asd->params.config.wb_config = &css_param->wb_config;
+@@ -2518,9 +2518,10 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
+ 		if (sizeof(*cur) != sizeof(dvs2_coefs.grid) ||
+ 		    memcmp(&dvs2_coefs.grid, cur, sizeof(dvs2_coefs.grid))) {
+ 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
+-			/* If the grid info in the argument differs from the current
+-			grid info, we tell the caller to reset the grid size and
+-			try again. */
++			/* If the grid info in the argument differs from the
++			 * current grid info, we tell the caller to reset the
++			 * grid size and try again.
++			 */
+ 			return -EAGAIN;
+ 		}
  
--	dev_dbg(isp->dev, "%s\n", __func__);
--
- 	pci_write_config_word(pdev, PCI_COMMAND, isp->saved_regs.pcicmdsts);
- 	pci_write_config_dword(pdev, PCI_BASE_ADDRESS_0, isp->saved_regs.ispmmadr);
- 	pci_write_config_dword(pdev, PCI_MSI_CAPID, isp->saved_regs.msicap);
+@@ -3893,9 +3894,9 @@ enum mipi_port_id atomisp_port_to_mipi_port(struct atomisp_device *isp,
+ }
+ 
+ static inline int atomisp_set_sensor_mipi_to_isp(
+-    struct atomisp_sub_device *asd,
+-    enum atomisp_input_stream_id stream_id,
+-    struct camera_mipi_info *mipi_info)
++	struct atomisp_sub_device *asd,
++	enum atomisp_input_stream_id stream_id,
++	struct camera_mipi_info *mipi_info)
+ {
+ 	struct v4l2_control ctrl;
+ 	struct atomisp_device *isp = asd->isp;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index 0ee52637ea30..73edf3dfab5c 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -532,9 +532,9 @@ void atomisp_destroy_pipes_stream(struct atomisp_sub_device *asd)
+ }
+ 
+ static void __apply_additional_pipe_config(
+-    struct atomisp_sub_device *asd,
+-    struct atomisp_stream_env *stream_env,
+-    enum ia_css_pipe_id pipe_id)
++	struct atomisp_sub_device *asd,
++	struct atomisp_stream_env *stream_env,
++	enum ia_css_pipe_id pipe_id)
+ {
+ 	struct atomisp_device *isp = asd->isp;
+ 
+@@ -552,14 +552,16 @@ static void __apply_additional_pipe_config(
+ 	switch (pipe_id) {
+ 	case IA_CSS_PIPE_ID_CAPTURE:
+ 		/* enable capture pp/dz manually or digital zoom would
+-		 * fail*/
++		 * fail
++		 */
+ 		if (stream_env->pipe_configs[pipe_id].
+ 		    default_capture_config.mode == IA_CSS_CAPTURE_MODE_RAW)
+ 			stream_env->pipe_configs[pipe_id].enable_dz = false;
+ 		break;
+ 	case IA_CSS_PIPE_ID_VIDEO:
+ 		/* enable reduced pipe to have binary
+-		 * video_dz_2_min selected*/
++		 * video_dz_2_min selected
++		 */
+ 		stream_env->pipe_extra_configs[pipe_id]
+ 		.enable_reduced_pipe = true;
+ 		stream_env->pipe_configs[pipe_id]
+@@ -1305,7 +1307,8 @@ int atomisp_css_get_grid_info(struct atomisp_sub_device *asd,
+ 
+ 	/* If the grid info has not changed and the buffers for 3A and
+ 	 * DIS statistics buffers are allocated or buffer size would be zero
+-	 * then no need to do anything. */
++	 * then no need to do anything.
++	 */
+ 	if (((!memcmp(&old_info, &asd->params.curr_grid_info, sizeof(old_info))
+ 	      && asd->params.s3a_user_stat && asd->params.dvs_stat)
+ 	     || asd->params.curr_grid_info.s3a_grid.width == 0
+@@ -1392,7 +1395,8 @@ int atomisp_alloc_metadata_output_buf(struct atomisp_sub_device *asd)
+ 	int i;
+ 
+ 	/* We allocate the cpu-side buffer used for communication with user
+-	 * space */
++	 * space
++	 */
+ 	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
+ 		asd->params.metadata_user[i] = kvmalloc(
+ 						   asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].
+@@ -1554,10 +1558,10 @@ int atomisp_css_set_default_isys_config(struct atomisp_sub_device *asd,
+ }
+ 
+ void atomisp_css_isys_two_stream_cfg_update_stream1(
+-    struct atomisp_sub_device *asd,
+-    enum atomisp_input_stream_id stream_id,
+-    enum atomisp_input_format input_format,
+-    unsigned int width, unsigned int height)
++	struct atomisp_sub_device *asd,
++	enum atomisp_input_stream_id stream_id,
++	enum atomisp_input_format input_format,
++	unsigned int width, unsigned int height)
+ {
+ 	struct ia_css_stream_config *s_config =
+ 		    &asd->stream_env[stream_id].stream_config;
+@@ -1572,10 +1576,10 @@ void atomisp_css_isys_two_stream_cfg_update_stream1(
+ }
+ 
+ void atomisp_css_isys_two_stream_cfg_update_stream2(
+-    struct atomisp_sub_device *asd,
+-    enum atomisp_input_stream_id stream_id,
+-    enum atomisp_input_format input_format,
+-    unsigned int width, unsigned int height)
++	struct atomisp_sub_device *asd,
++	enum atomisp_input_stream_id stream_id,
++	enum atomisp_input_format input_format,
++	unsigned int width, unsigned int height)
+ {
+ 	struct ia_css_stream_config *s_config =
+ 		    &asd->stream_env[stream_id].stream_config;
+@@ -1592,9 +1596,9 @@ void atomisp_css_isys_two_stream_cfg_update_stream2(
+ }
+ 
+ int atomisp_css_input_set_effective_resolution(
+-    struct atomisp_sub_device *asd,
+-    enum atomisp_input_stream_id stream_id,
+-    unsigned int width, unsigned int height)
++	struct atomisp_sub_device *asd,
++	enum atomisp_input_stream_id stream_id,
++	unsigned int width, unsigned int height)
+ {
+ 	struct ia_css_stream_config *s_config =
+ 		    &asd->stream_env[stream_id].stream_config;
+@@ -1613,8 +1617,8 @@ void atomisp_css_video_set_dis_envelope(struct atomisp_sub_device *asd,
+ }
+ 
+ void atomisp_css_input_set_two_pixels_per_clock(
+-    struct atomisp_sub_device *asd,
+-    bool two_ppc)
++	struct atomisp_sub_device *asd,
++	bool two_ppc)
+ {
+ 	int i;
+ 
+@@ -1725,14 +1729,14 @@ void atomisp_css_preview_enable_online(struct atomisp_sub_device *asd,
+ }
+ 
+ int atomisp_css_input_configure_port(
+-    struct atomisp_sub_device *asd,
+-    enum mipi_port_id port,
+-    unsigned int num_lanes,
+-    unsigned int timeout,
+-    unsigned int mipi_freq,
+-    enum atomisp_input_format metadata_format,
+-    unsigned int metadata_width,
+-    unsigned int metadata_height)
++	struct atomisp_sub_device *asd,
++	enum mipi_port_id port,
++	unsigned int num_lanes,
++	unsigned int timeout,
++	unsigned int mipi_freq,
++	enum atomisp_input_format metadata_format,
++	unsigned int metadata_width,
++	unsigned int metadata_height)
+ {
+ 	int i;
+ 	struct atomisp_stream_env *stream_env;
+@@ -1822,8 +1826,8 @@ void atomisp_css_stop(struct atomisp_sub_device *asd, bool in_reset)
+ }
+ 
+ void atomisp_css_continuous_set_num_raw_frames(
+-     struct atomisp_sub_device *asd,
+-     int num_frames)
++	struct atomisp_sub_device *asd,
++	int num_frames)
+ {
+ 	if (asd->enable_raw_buffer_lock->val) {
+ 		asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
+@@ -1850,8 +1854,8 @@ void atomisp_css_continuous_set_num_raw_frames(
+ }
+ 
+ static enum ia_css_pipe_mode __pipe_id_to_pipe_mode(
+-    struct atomisp_sub_device *asd,
+-    enum ia_css_pipe_id pipe_id)
++	struct atomisp_sub_device *asd,
++	enum ia_css_pipe_id pipe_id)
+ {
+ 	struct atomisp_device *isp = asd->isp;
+ 	struct camera_mipi_info *mipi_info = atomisp_to_sensor_mipi_info(
+@@ -2357,10 +2361,10 @@ int atomisp_css_video_configure_output(struct atomisp_sub_device *asd,
+ }
+ 
+ int atomisp_css_video_configure_viewfinder(
+-    struct atomisp_sub_device *asd,
+-    unsigned int width, unsigned int height,
+-    unsigned int min_width,
+-    enum ia_css_frame_format format)
++	struct atomisp_sub_device *asd,
++	unsigned int width, unsigned int height,
++	unsigned int min_width,
++	enum ia_css_frame_format format)
+ {
+ 	__configure_vf_output(asd, width, height, min_width, format,
+ 			      IA_CSS_PIPE_ID_VIDEO);
+@@ -2368,67 +2372,67 @@ int atomisp_css_video_configure_viewfinder(
+ }
+ 
+ int atomisp_css_capture_configure_viewfinder(
+-    struct atomisp_sub_device *asd,
+-    unsigned int width, unsigned int height,
+-    unsigned int min_width,
+-    enum ia_css_frame_format format)
++	struct atomisp_sub_device *asd,
++	unsigned int width, unsigned int height,
++	unsigned int min_width,
++	enum ia_css_frame_format format)
+ {
+ 	__configure_vf_output(asd, width, height, min_width, format, IA_CSS_PIPE_ID_CAPTURE);
+ 	return 0;
+ }
+ 
+ int atomisp_css_video_get_viewfinder_frame_info(
+-    struct atomisp_sub_device *asd,
+-    struct ia_css_frame_info *info)
++	struct atomisp_sub_device *asd,
++	struct ia_css_frame_info *info)
+ {
+ 	return __get_frame_info(asd, ATOMISP_INPUT_STREAM_GENERAL, info,
+ 				ATOMISP_CSS_VF_FRAME, IA_CSS_PIPE_ID_VIDEO);
+ }
+ 
+ int atomisp_css_capture_get_viewfinder_frame_info(
+-    struct atomisp_sub_device *asd,
+-    struct ia_css_frame_info *info)
++	struct atomisp_sub_device *asd,
++	struct ia_css_frame_info *info)
+ {
+ 	return __get_frame_info(asd, ATOMISP_INPUT_STREAM_GENERAL, info,
+ 				ATOMISP_CSS_VF_FRAME, IA_CSS_PIPE_ID_CAPTURE);
+ }
+ 
+ int atomisp_css_copy_get_output_frame_info(
+-    struct atomisp_sub_device *asd,
+-    unsigned int stream_index,
+-    struct ia_css_frame_info *info)
++	struct atomisp_sub_device *asd,
++	unsigned int stream_index,
++	struct ia_css_frame_info *info)
+ {
+ 	return __get_frame_info(asd, stream_index, info,
+ 				ATOMISP_CSS_OUTPUT_FRAME, IA_CSS_PIPE_ID_COPY);
+ }
+ 
+ int atomisp_css_preview_get_output_frame_info(
+-    struct atomisp_sub_device *asd,
+-    struct ia_css_frame_info *info)
++	struct atomisp_sub_device *asd,
++	struct ia_css_frame_info *info)
+ {
+ 	return __get_frame_info(asd, ATOMISP_INPUT_STREAM_GENERAL, info,
+ 				ATOMISP_CSS_OUTPUT_FRAME, IA_CSS_PIPE_ID_PREVIEW);
+ }
+ 
+ int atomisp_css_capture_get_output_frame_info(
+-    struct atomisp_sub_device *asd,
+-    struct ia_css_frame_info *info)
++	struct atomisp_sub_device *asd,
++	struct ia_css_frame_info *info)
+ {
+ 	return __get_frame_info(asd, ATOMISP_INPUT_STREAM_GENERAL, info,
+ 				ATOMISP_CSS_OUTPUT_FRAME, IA_CSS_PIPE_ID_CAPTURE);
+ }
+ 
+ int atomisp_css_video_get_output_frame_info(
+-    struct atomisp_sub_device *asd,
+-    struct ia_css_frame_info *info)
++	struct atomisp_sub_device *asd,
++	struct ia_css_frame_info *info)
+ {
+ 	return __get_frame_info(asd, ATOMISP_INPUT_STREAM_GENERAL, info,
+ 				ATOMISP_CSS_OUTPUT_FRAME, IA_CSS_PIPE_ID_VIDEO);
+ }
+ 
+ int atomisp_css_preview_configure_pp_input(
+-    struct atomisp_sub_device *asd,
+-    unsigned int width, unsigned int height)
++	struct atomisp_sub_device *asd,
++	unsigned int width, unsigned int height)
+ {
+ 	struct atomisp_stream_env *stream_env =
+ 		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
+@@ -2442,16 +2446,16 @@ int atomisp_css_preview_configure_pp_input(
+ }
+ 
+ int atomisp_css_capture_configure_pp_input(
+-    struct atomisp_sub_device *asd,
+-    unsigned int width, unsigned int height)
++	struct atomisp_sub_device *asd,
++	unsigned int width, unsigned int height)
+ {
+ 	__configure_capture_pp_input(asd, width, height, IA_CSS_PIPE_ID_CAPTURE);
+ 	return 0;
+ }
+ 
+ int atomisp_css_video_configure_pp_input(
+-    struct atomisp_sub_device *asd,
+-    unsigned int width, unsigned int height)
++	struct atomisp_sub_device *asd,
++	unsigned int width, unsigned int height)
+ {
+ 	struct atomisp_stream_env *stream_env =
+ 		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
+@@ -2613,8 +2617,9 @@ int atomisp_css_set_dis_coefs(struct atomisp_sub_device *asd,
+ {
+ 	if (atomisp_compare_dvs_grid(asd, &coefs->grid_info) != 0)
+ 		/* If the grid info in the argument differs from the current
+-		   grid info, we tell the caller to reset the grid size and
+-		   try again. */
++		 * grid info, we tell the caller to reset the grid size and
++		   try again.
++		 */
+ 		return -EAGAIN;
+ 
+ 	if (!coefs->hor_coefs.odd_real ||
+@@ -3039,8 +3044,9 @@ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
+ 
+ 	if (atomisp_compare_dvs_grid(asd, &stats->dvs2_stat.grid_info) != 0)
+ 		/* If the grid info in the argument differs from the current
+-		   grid info, we tell the caller to reset the grid size and
+-		   try again. */
++		 * grid info, we tell the caller to reset the grid size and
++		   try again.
++		 */
+ 		return -EAGAIN;
+ 
+ 	spin_lock_irqsave(&asd->dis_stats_lock, flags);
+@@ -3104,7 +3110,7 @@ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
+ }
+ 
+ struct ia_css_shading_table *atomisp_css_shading_table_alloc(
+-    unsigned int width, unsigned int height)
++	unsigned int width, unsigned int height)
+ {
+ 	return ia_css_shading_table_alloc(width, height);
+ }
+@@ -3394,7 +3400,7 @@ void atomisp_en_dz_capt_pipe(struct atomisp_sub_device *asd, bool enable)
+ }
+ 
+ struct ia_css_dvs_grid_info *atomisp_css_get_dvs_grid_info(
+-    struct ia_css_grid_info *grid_info)
++	struct ia_css_grid_info *grid_info)
+ {
+ 	if (!grid_info)
+ 		return NULL;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index 9de9cd884d99..700fcf88a886 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -96,7 +96,7 @@ const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv(u32 code)
+ }
+ 
+ const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv_by_atomisp_in_fmt(
+-    enum atomisp_input_format atomisp_in_fmt)
++	enum atomisp_input_format atomisp_in_fmt)
+ {
+ 	int i;
+ 
 -- 
 2.56.0.385.gd3acb90ef8-goog
 
