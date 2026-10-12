@@ -1,64 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A2C4BB284
-	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 21:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B5F4F93A4
+	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 21:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791839137; cv=none; b=Og3sDnboh+LDOI9B89NLwgHUTDbR5c4j00ntXBlk0BXJH6C0YAeHQFarNNo1MXREAFXw6kAj2n/sfwNCa0HcHY8vk2WBSqhCCuy6ry3GjHTqVD+OQAtyH02jfcXgtp/RarDsySeJvEhiT2rbBa5YpYk5Nfb5WybYl6puj0fKPHY=
+	t=1791840334; cv=none; b=d0nsbKm5LnJL1CYrSilEbfdY3kcOKotM6CQUfryzJHVwCpg0ycNhSsU+4M6rqmBp7wABMGO1Hhe23uEUw+UCymixWeLm+E5s+GbfHNUJHYL595SdY1de03TPUU7I4RKuaD/pAeKr2ovpBAkYr/wK5/IaBmRlgVueeoGgWC8wWmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791839137; c=relaxed/simple;
-	bh=SadU8DnjTI8iqyC9HjuGra18BDSNoEP5rD9TJRC3DAQ=;
+	s=arc-20240116; t=1791840334; c=relaxed/simple;
+	bh=Z2tjRVdTDNm+ozMbUPHCMIHfkHjpaqjDZKGIgktI2Q0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bp+zsbNjFmbKVm3xn7qo8Iurkaf9A0DhFUHVX8eUbrLkVvGaza98pH6fkadPbKVxI6i+JZf0jcPH48ugMLLRd232Q6SPHGwvroWdPFq6gbeIbnMTADRJHOpG/8jEsVgvUITUJQofgFtUIbNs+xAwOMDnn8kIRcw9xtlJxYpq9BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyjXkzuh; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=BKyKgN6tD+TTA8SA0aerL3qPLyyOvPvRsLVux4drkHh09FBcTxGQm4lTWHJik+aTkEQU9KiXZxkq+B+zSHNrhT1j47gou73bdFiu1SQwfGrtMgu68PyEDcpHHALabx6NfblZ1d1bXqho2kjsnmWtNt+r1MSEwwuFczhdEigXMSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c9DTudKH; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyjXkzuh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c9DTudKH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791839137; x=1823375137;
+  t=1791840332; x=1823376332;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SadU8DnjTI8iqyC9HjuGra18BDSNoEP5rD9TJRC3DAQ=;
-  b=cyjXkzuhFPv3Y/lvZmXjtj+eOvierli5uP88MSyaEXNs8MxAh+niVvZA
-   W8ntmzhQuPD8weMwQwl0NYbJvvSPquvlG4JMpnWaFWr4tMUmoBvdHwdot
-   mDXVAbbe5XA7fCM6Isj9evQFeKpsrc6ccbdoMmpJRswCqkVXD5uuYhNgr
-   4j0+89SLoycE/3OqRMmZ7fGz8Kv0j/C3WBAuhQtUvg42XA8LMgnlHyinM
-   ML6wSrXuyPyfIiZ3Aw7YP+CP7AIWs3UtK05pkw6o9FJ/h1ERz+H8Hpfp4
-   SDSx3M4skdPfvWzFyndWlbnXgbKYEtTRdEhQ2DhtjhBav9i1eS6q2PQn6
+  bh=Z2tjRVdTDNm+ozMbUPHCMIHfkHjpaqjDZKGIgktI2Q0=;
+  b=c9DTudKHWX3K4R5JaQJ88nNjijO1OopSVdzHT9KrLgtf6uRolGukL6PZ
+   KnAT3rIacyUFao+pOQpPQVaYXGmDS2Xwh2Bv077FQCCSbRySxzKY4xh+d
+   Uy3H4RuUSnb3jZU+Usi9JHFeh7SXt+c6+cy9L7J8+oT6P8wxjh8tC/Car
+   /7ockqDw+KhydCCbirCqd/Yy1UE1YoRNwHqNYIYQe4BvbR5WbKSyx02EH
+   v8yJtVlAAv6aEXNGFL5jD/pnRyw61vRFVFR0o9YTFEKqPpkbAJlUXEfef
+   IP6BJX3TcWTzswLWroqCERF9L7Et825iYDOg6NU4WUjT/csAmfqlJPSdB
    g==;
-X-CSE-ConnectionGUID: QXu/nh68SL6WMNJODjc2DQ==
-X-CSE-MsgGUID: XPorER6ZR7aSgf/Rs3jvRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="565675"
+X-CSE-ConnectionGUID: oH9GdLvGTmC76/s3p99QMw==
+X-CSE-MsgGUID: t6PJzYo7QgS3hFTex78bPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="458086"
 X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="565675"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 14:05:36 -0700
-X-CSE-ConnectionGUID: BbQrLs3JSOSEu+A8+2ob3Q==
-X-CSE-MsgGUID: WLVyzymYQLGIGJAJSubY+g==
+   d="scan'208";a="458086"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 14:25:32 -0700
+X-CSE-ConnectionGUID: YNqlACGkTziuWFJBduGK6Q==
+X-CSE-MsgGUID: 1Oy9C0oOTqa7laHtZt7zEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="949457"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.179])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 14:05:32 -0700
-Date: Tue, 13 Oct 2026 00:05:30 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
+   d="scan'208";a="894657"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.35])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 14:25:29 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 171E8121BA6;
+	Tue, 13 Oct 2026 00:25:32 +0300 (EEST)
+Date: Tue, 13 Oct 2026 00:25:32 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jake Steinman <j@metarealtyinc.ca>
+Cc: Ramshouriesh R <rshouriesh@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Bingbu Cao <bingbu.cao@intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Joshua Crofts <joshua.crofts1@gmail.com>, linux@analog.com,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: adt7316: use kstrtobool() for sysfs
- boolean parsing
-Message-ID: <as1LmjjV_gLvgwiE@ashevche-desk.local>
-References: <20261006103350.32853-1-abdelnasserhussein11@gmail.com>
+Subject: Re: [PATCH 2/2] media: staging/ipu7: Add 10-bit greyscale capture
+ formats
+Message-ID: <as1QTFB1CRDNxAEY@kekkonen.localdomain>
+References: <20260801-hm1092-driver-v6-0-5979f223748a@gmail.com>
+ <cover.1791608336.git.j@metarealtyinc.ca>
+ <5423f57000600f27626ff785f80f94d3e7ad1106.1791608336.git.j@metarealtyinc.ca>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,29 +74,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261006103350.32853-1-abdelnasserhussein11@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <5423f57000600f27626ff785f80f94d3e7ad1106.1791608336.git.j@metarealtyinc.ca>
 
-On Tue, Oct 06, 2026 at 01:33:50PM +0300, Abdelnasser Hussein wrote:
-> Replace manual and unsafe character checks (e.g., buf[0] == '1') with the
-> standard kstrtobool() API in sysfs store functions. This ensures proper
-> handling of standard boolean inputs, fixes potential safety issues, and
-> adheres to the Linux kernel coding style.
+Hi Jake,
 
-...
+On Sat, Oct 10, 2026 at 12:59:22AM -0400, Jake Steinman wrote:
+> The CSI-2 receiver sub-device accepts MEDIA_BUS_FMT_Y10_1X10, but the
+> capture nodes have no pixel format that maps to it. Link validation
+> between the receiver and the capture node therefore always fails for a
+> monochrome sensor and nothing can be captured from it.
+> 
+> Add V4L2_PIX_FMT_Y10 and V4L2_PIX_FMT_Y10P. They use the same firmware
+> frame formats as the unpacked and packed 10-bit Bayer formats, as the
+> ipu6 driver already does.
+> 
+> Tested on Panther Lake with a Himax HM1092: both formats capture
+> 648x368 frames, with 1344 and 832 bytes per line.
+> 
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Jake Steinman <j@metarealtyinc.ca>
+> ---
+>  drivers/staging/media/ipu7/ipu7-isys-video.c | 4 ++++
 
-> -	int enable;
-> +	bool enable;
-
->  	if (_adt7316_store_enabled(chip, enable) < 0)
->  		return -EIO;
-
-Makes sense, but check that the type of the functions in use take now boolean,
-ditto for the rest.
+We're about to remove the ipu7 staging driver, therefore I'm not taking
+non-fix patches to it. Can you se the ipu6 driver instead?
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Sakari Ailus
