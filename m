@@ -1,141 +1,141 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E532ECD1D
-	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 04:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791780452; cv=none; b=mnabXJjIKKtyoboLj41GZsuEQ7NBsFev2RP2AA1cRBpM/i2fOYEVzN3HgZ8ypl6f0M5dxTQKKlIroTQjYEE2qA70eK8I3gnsG31H0jrQ8LWULZBYB6AxKdScBOliuxtZs8Qd2HRxdeXJ4V/c5qeKP2do/9VPT6BbuTnQy51+ahM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791780452; c=relaxed/simple;
-	bh=rHZ3blwmnCwtQE8g8vuh+GnhZEPjJ38mSCnJsVHGq0s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PGVPK7NeSQIsQhU/Hozq7dUvMGCgKmH8vkuo1df16A2ZB+4yIihkUA2IckTBCY/A2/ZAVNCo788EchmYylSJYEq0AA/8V4Ud6q/WkQ7Cu+gB3RQWjXCXIedczRrNhEMp4IFlBGRb9WTrUVDqTyN0ErqCFqjCgNGOtotm+i2z5OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s3aNth60; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA845471253
+	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 09:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791796919; cv=pass; b=aka0Ms24Hu882fsFJ1cAnFXMAaR3ZUssyW4Sws0bsioyiGt+7A06x2TnTLZFjH9uTyIq0k6wqfpc7tm8/P2hCQykC+Wyv/NrpfCON3mOFtX3ZKuiYmHLQtQbD0Z4alx7tzc1nkbnnig43CVh+ApzOn++jrUnCLAzMhgO9OIynbs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791796919; c=relaxed/simple;
+	bh=HMgUswHA9/JW7E20urE69ecFRmmPCiIt6XwvKa2U4aU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Hbvb4t1QZc3KWQhWfz4eMo6t5guaKnXdzAXwExhAuJNHHri/BbdNsnn1P29+QsCVhy6BnFhB14liZZPyFBRQsjH0yrdeewVkqIH7h3qsKZkuUMNZ3zYu1LS9T5quukNHr6IFdyEp3h/L6Bk7THaap6OKdU8dgCbDXFOr4k4cx+Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JZCDh5Bd; arc=pass smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s3aNth60"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-917bab38b14so23392076d6.3
-        for <linux-staging@lists.linux.dev>; Sun, 11 Oct 2026 21:47:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JZCDh5Bd"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6b1aa2848d2so1470757a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 02:21:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791796916; cv=none;
+        d=google.com; s=arc-20260327;
+        b=T4NFPNxG8T/HjbF3owh4ZRLkD5gabh43vrjYe8RUTS2yCEQgd09EyCBeyE9u2Z4t30
+         eLLt9pfWfYJTfxRn5KYgMPtE4l01T8ww7wpzxiOm48trb0mexj8v7wpa6XZqwjC2p+fO
+         TtV4pIl1RbVwqpVz7iE2fIsbgu/nwhz6zrzJwZYtXy3HPQyDujAosiFbUB/57DFf0NLZ
+         dF5TeA0N2O8HhNn/LDezndZbsIdLltLSFgyMg8u9uPffkQaRn9q8TY4FBa1OAhU+leZq
+         mejmuobW0ML8leG2F9CaaSfY5PNuYQmYrxfJMtMex7gNnR0SJw+0Y6C+pPLFgtNkMyD1
+         e8XQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=d00/PGVzqnOO3exQ/y/1tCNwmAX0u9uxnCPXmaeqvTE=;
+        fh=G5QTiK/eSTQUoZRSoxq5yGu0G7cKD5ENysOSvt3Q28U=;
+        b=J+6YGRSSB6JaopvAwiCorC7sIHNEm0q7r0vKg0bvYMsB7rSYtUfHRhD8WFKa0tm47w
+         v//a9UHb1d+wodUm+EMenEKiYKRtYCC3NSbRp6AiTTg4Miob1B9Ya6R9e1WZXSeuIX3r
+         YtwjY+mhrZIOpjFSA/A0Eu/nv/Jlxl/iTHj/FtVJhWTVASHQskyr8hS+39DawkzoEc8l
+         kJtoX96Y9BdjpOU6nJ099tYAv7c40wbhGVrJzdKp5fA1P8eGfuW8VnM3RJTMqV/9x5c2
+         vBx5NXpFwtAJzs7QYr3hTz0jaEFt+OKrZlukW5XdiY4q8deIzAnactGHWt4ekhU9C80s
+         d0og==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791780450; x=1792385250; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pwHcr7X/ONR4Ul02KZqQ9Bn6G0VNj5fx1pck5G2EhHI=;
-        b=s3aNth60maI6uphqbmowC95VgWIaex7lYKzS33cemqFbAPPAmBZxevubql5lnZpP3s
-         Ymbsxj2hr5BE3f50pqCsD05d6A4M8SVik1hAJ5Gr1EKw0wswnYD+sgzdycsLO9VDA2EC
-         RQ/g+cK2E+V9AcW6usk/j4n6ttnDyy5RZTpiGAk28hbI0z6JaiFcardGZvFA6NErsuig
-         PMRtJr30bb6At6Q73ZuCR1JN5YdIi+B4NyMs5AzpiuY/+omGR8m1Vfip7t3L6aks/AY/
-         PcEoEjG4IF8G3UhJzdNLRm8oxjTAdS/dOxF7mmYAM3T/AU1lHFeW08X2mvgMwevplHHO
-         KS3w==
+        d=gmail.com; s=20251104; t=1791796916; x=1792401716; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=d00/PGVzqnOO3exQ/y/1tCNwmAX0u9uxnCPXmaeqvTE=;
+        b=JZCDh5BdmcwqO/gIOyu8HB+RulFcTIUQ7UYRJ65dGDGAh1oMNSW54V1KbznKLKg7aa
+         ZU2JYnuSMmzt2xKgWhqzyaAIvZreLSSfavGy7hASaVkDn4dhz63iqXuiA2uIhARC1O8w
+         FOFMAetHIur58t3MApN1ycQIFqcpljRRsIcE284BLlT4TBUpPSGpShS8brqgQY6R+DFX
+         RGVjv+/cnMC+Jurgi1JvPc3D4+CN6mXIVgFO9C5ew1xPcz2VWgglWt1IxY3TQroz7gzK
+         67SmOpFhjr441bsT/q6dBWmtvwVHf+sNIRwVwYR3Xwv5Q61ESMzWPEf66kL43RFwavNd
+         PpPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791780450; x=1792385250;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pwHcr7X/ONR4Ul02KZqQ9Bn6G0VNj5fx1pck5G2EhHI=;
-        b=sL1BsGWhuhcDgRd0K8H/woWHQ1Vw25tsq5Sne2J4u8gDLZ5xkc5P65djxjykgbXcak
-         akQmBBWSZ+AOQYeQGtgQSyI35oZPhdO9JpvGDE3UAQRqnUzIStWp7kulWK+0UJzZGSQo
-         3EO7+Q2MLCwrtkuTt57idV+H+9rvDAZ9NqhWmErXgQE3+ygJC3wH85nqGsF/Kv8EvuxA
-         rDl9leG4tymxEIsY9K+JhoO2HoEaT62bPcTGzUBVwjkGC+Tl8PQCX+El5p6+EGX+VIz/
-         815M/oQ+ypdkGx/VjrvFm63jLriMkecOplcLRbmcv3u8ELEf0oep90i5TePPhNFWAW0W
-         1wpw==
-X-Forwarded-Encrypted: i=1; AKwUvBxS3x5fhZ36hjR88jqmTgY1YeUPRx6R8u678m8thsvUkPUcCFcT8u+uhd1gTAaZ9QBPiksEAzTCe2p3M58J@lists.linux.dev
-X-Gm-Message-State: AFq9FYKTBnxNLSECyxZgChWb2iNEndMVukfUPEKiGbyZZajkS0QqGOHl
-	p5NbAJ/LmUq2zUm4Aqcv8b40Uwb+iPf5WM8gXuWJc4+x69heEhTuIKw=
-X-Gm-Gg: AYBFou3sber03X8WEMe3bcfn+S8QKD8kibFIoTyvXihr2PbO9sZdfZCCmPl1XcSw6AR
-	dOmss429ZlzB/OopnyuY0StTgy0/QndlkyCxbYdcBWgH+AlW6x84Y0oUjPbLDnocDJNB+Op9t8n
-	E8cQs5SwfdY3gvkC1bbrlhJYrYPCRpTTO4kGUdn/nzZJHmcdIdXCiAR9wGNmupBTbDMKSMBYuGl
-	18gG1q4A4a9K5D+Ky92ozmlkBMRZ6dqWaZee9CUUtQbaSEqoKYnSPsuIPuzj7huEt0oZuBr94gK
-	qZwurnZ4pYwAAATAUXIIz0GdPQ5w803Yo9j7fFNwMF7vHGX8wsYWIAFN8m1yAlyOazjU42ae3XJ
-	IXMaOcZ20t/biLC4vPjrPpJjQuc+Kq26OPIhRgalwYmMEpRBTA2eMIOUI+tC1rjWp7vT66UPISc
-	wG7z2yCrUITSm/J672kJUAhiy/me2MPDpbOA3PeE4osQegpoqFNKPV+ora8cRJFu+iyIbxYpdoA
-	vLxhjMLN3PTxmMYgb6NPivn5gagIEOEcYznhgBbSR6rPf0Qd1TjTVkS683ZThaD8d1xnr1t0u4Y
-	30xmMvpxE1jzCn9kFP35GBrImcFvSQ==
-X-Received: by 2002:a05:6214:85d2:20b0:91b:5e33:9858 with SMTP id 6a1803df08f44-91b5e3399d7mr99215696d6.54.1791780450035;
-        Sun, 11 Oct 2026 21:47:30 -0700 (PDT)
-Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b812ba8c7sm17513956d6.38.2026.10.11.21.47.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 21:47:29 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH] media: atomisp: drain assert recovery before tearing down resources
-Date: Mon, 12 Oct 2026 00:47:24 -0400
-Message-ID: <20261012044724.160902-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20260707; t=1791796916; x=1792401716;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=d00/PGVzqnOO3exQ/y/1tCNwmAX0u9uxnCPXmaeqvTE=;
+        b=wh5ni0HLze9rzI4NM9pf6Zlq4ZhzWw4OBntkGDSayctofP8/eh2oTYBsDgKSii9yXJ
+         +7iF8EEmPdRw5VWxgYuJovUYHPTEe5qspgYFpuM1E6+h2vnyBzkVV1F3j4ytiwvA7W9K
+         P3Cxy+9cUND1Q7l5PowXaaWMZTGcm630Z+grRL9/7llTYcGqTzC4Unkt9EE1Fc0aRrim
+         0lk3HrSBaC8kYT74wcmAxmH8lVQ9TfgrI3zP8M805o6QvAgQwu+8Oboe7HpkViWmWn4N
+         YcR032R3LwEiRc4LeM2OR6EjlFzUisHWe3AsGWYl8eitEC8HRCD/8uMy9qGWZilpgEgo
+         uPyA==
+X-Forwarded-Encrypted: i=1; AKwUvBzMeJDGvAsVoyPDsa/IvcI9MoiOGgq6BEIiXbqzTuK/erCNeAJTIEz66KbnHM0SUGgWPkgwHFDn6Q36a6YE@lists.linux.dev
+X-Gm-Message-State: AFq9FYLe4I3sf+roM35cYRyRSpWaxjHy4ZgD4ggI1/kb08RSkuoNT0qY
+	HPPu0+cE+ywDbAlm0RcQEJDcHH6n8RpOcFix0pqvF1r99bUqZQS/1yQ1ps28KELc4ulP0vgtCzc
+	xeYVVMDNpzhAGhMIXY4dONve+rHsUMYc=
+X-Gm-Gg: AYBFou0MEtqZI+iQb3FRtx8vX168uDjOV5ArHEu0CRbonixR56B2IRD1qR7CyJ+Ook1
+	eYeAQQSQBXOhV1wtR+YFh9JAk7Qqs5PlsNBfO6l8uz2FR19mQITdiWH6LWqAe7PHWblvVQMRLaL
+	aVNnLomv1zbu1hN4AMcdLbSJw0akWGtQc5TNOQ9qOG0VtMScKDeTzlWAduwZVSScuEFoYy8PYl6
+	azWEFSwFvQiT+iNo6X8CZH/hK7PLQLD3S75MaKig68Qd6b7iTqcjyNUkGLtlA+OcOTE+xXwmmNA
+	f4eEu3YeBpGNIWpH5F5dEyOOFd1fmFvTFtswTgBV2FB6DryXDTwqy3SKFT6VeSfNxqzzGGW2YbQ
+	4YRygpCOaV7FLxE1os6DYPdjHkTI5eCav/FZWhLrM0ysOoe2dECXBpGIjppHjKeu/VXbGVciVHd
+	2ky8PWgtkGhLFIZjieShnXLPNW0sGgg8VDRmkYHf0v
+X-Received: by 2002:a17:907:3d09:b0:c31:8cfe:9a25 with SMTP id
+ a640c23a62f3a-c31a9fd33dcmr927229366b.9.1791796915831; Mon, 12 Oct 2026
+ 02:21:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261012044724.160902-1-mhun512@gmail.com>
+In-Reply-To: <20261012044724.160902-1-mhun512@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 12 Oct 2026 12:21:17 +0300
+X-Gm-Features: AclHuK8b6tUYO5p5GU84erIeD1vnrAS30oFKa_UyF3wbpOcD8fRDiFjk41OAN6Q
+Message-ID: <CAHp75VcEZ0RiCYKde7aiw7tK=J1LEfSeA=91GOHdPK6479V=mA@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: drain assert recovery before tearing down resources
+To: Myeonghun Pak <mhun512@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	Ijae Kim <ae878000@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The threaded IRQ queues assert_recovery_work, which can stop, reset and
-restart CSS. Removal currently tears down CSS and the CPU latency QoS
-request while recovery can still be running.
+On Mon, Oct 12, 2026 at 7:47=E2=80=AFAM Myeonghun Pak <mhun512@gmail.com> w=
+rote:
+>
+> The threaded IRQ queues assert_recovery_work, which can stop, reset and
+> restart CSS. Removal currently tears down CSS and the CPU latency QoS
+> request while recovery can still be running.
+>
+> Disable and drain recovery before atomisp_pm_uninit(), keeping the IRQ
+> available until recovery finishes. Then release the IRQ before CSS and
+> firmware teardown. Apply the same ordering on probe failure, and skip
+> the uninitialized recovery work in PM-only mode.
+>
+> This issue was found by static analysis.
 
-Disable and drain recovery before atomisp_pm_uninit(), keeping the IRQ
-available until recovery finishes. Then release the IRQ before CSS and
-firmware teardown. Apply the same ordering on probe failure, and skip
-the uninitialized recovery work in PM-only mode.
+Nice, have you read the code that you sent?
 
-This issue was found by static analysis.
+...
 
-Fixes: 93d3fb35aa10 ("media: atomisp: Remove watchdog timer")
-Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+>  error_unload_firmware:
+> +       disable_work_sync(&isp->assert_recovery_work);
+>         atomisp_pm_uninit(isp);
+> +       devm_free_irq(&pdev->dev, pdev->irq, isp);
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 812230397409..768b35468380 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1443,9 +1443,13 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	return 0;
- 
- error_unload_firmware:
-+	disable_work_sync(&isp->assert_recovery_work);
- 	atomisp_pm_uninit(isp);
-+	devm_free_irq(&pdev->dev, pdev->irq, isp);
- 	ia_css_unload_firmware();
-+	goto error_unregister_entities;
- error_free_irq:
-+	disable_work_sync(&isp->assert_recovery_work);
- 	devm_free_irq(&pdev->dev, pdev->irq, isp);
- error_unregister_entities:
- 	hmm_cleanup();
-@@ -1464,15 +1468,19 @@ static void atomisp_pci_remove(struct pci_dev *pdev)
- {
- 	struct atomisp_device *isp = pci_get_drvdata(pdev);
- 
-+	if (!isp->pm_only)
-+		disable_work_sync(&isp->assert_recovery_work);
-+
- 	atomisp_pm_uninit(isp);
- 
- 	if (isp->pm_only)
- 		return;
- 
-+	devm_free_irq(&pdev->dev, pdev->irq, isp);
-+
- 	/* Undo ia_css_init() from atomisp_power_on() */
- 	atomisp_css_uninit(isp);
- 	ia_css_unload_firmware();
--	devm_free_irq(&pdev->dev, pdev->irq, isp);
- 	hmm_cleanup();
- 
- 	atomisp_unregister_entities(isp);
+^^^
+
+>         ia_css_unload_firmware();
+> +       goto error_unregister_entities;
+>  error_free_irq:
+> +       disable_work_sync(&isp->assert_recovery_work);
+>         devm_free_irq(&pdev->dev, pdev->irq, isp);
+
+^^^
+
+>  error_unregister_entities:
+>         hmm_cleanup();
+
+--=20
+With Best Regards,
+Andy Shevchenko
