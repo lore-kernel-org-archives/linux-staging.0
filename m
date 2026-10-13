@@ -1,61 +1,61 @@
-Received: from sonic314-14.consmr.mail.bf2.yahoo.com (sonic314-14.consmr.mail.bf2.yahoo.com [74.6.132.124])
+Received: from sonic305-3.consmr.mail.bf2.yahoo.com (sonic305-3.consmr.mail.bf2.yahoo.com [74.6.133.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC87856260A
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 23:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.132.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2004BD0F8
+	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 23:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.133.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791933105; cv=none; b=eKOFKTYWZsxWRiJBnuUbdfthnVIhTBSrX/4dSZOF/WRD2EdiEV2gTRR/Wz2wwks8GOfAfNBdxDjnXFjTBNBN7lMkXphy0/DspFvpK/b5/gWUpPt5k2KXsP8ZofBNjdIW5M075Ez3uyySuunLTsSyB+wgtSRSjqmRFGZlGSwnd+g=
+	t=1791934131; cv=none; b=Melb8qtnsbQ0aWu6ET1KBi6uyqYZO0rvs4fFBoVFcdzFJuBOdVqNzfcedB9N1k71b3ArPGUTDUo5iMDo72kphzCyy8wmA0o639JlyX1l6Eko/xGaU/NEoambT8MvScxgHHob9QoEDxY+HVp3gVCHX+IiHOwxFsCp2b6XS0QE98A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791933105; c=relaxed/simple;
-	bh=w3fOXhyHupEbF+1KEAw/P+OGpHKOZQARS8fKM5MT5Uc=;
+	s=arc-20240116; t=1791934131; c=relaxed/simple;
+	bh=unrQ123xXTj9mg6azhbRZKBE0GJ2FJNrep2ZLraIK+4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JE/lYZtkTnMpR0xqcZJ4hNV8KXwNwmDHKRCPBRvvchwuHsBjRdU0HysdfQx92QvSiK2uB4ipc6s4YWX0WXzzwqTOuCuzC8McYrzfI7kJ2RilLFBCpYsxQDM/YWpYoe0mMEK2PfQjWLiCKwkU3PJxNBiI1AZTEn5swmzXANUMWGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=XB6gOWbJ; arc=none smtp.client-ip=74.6.132.124
+	 In-Reply-To:Content-Type; b=qdZPLfONyGPeNYNzrC/FvE7tmfhFqtBrT87McVVUaLee4ar/B8qYXbq+jkiTaW4SEl1q//9DTriDpzIgzj6aY9tZwJoPiEucxDvHxENN4cnV8kMee9Tlpps+hIm2rBaoTfsgpGyB1hPGi+rEEVEUX/nCfKHadh2/NsmNInFj5CY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=GZfXdfCm; arc=none smtp.client-ip=74.6.133.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="XB6gOWbJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791933097; bh=MqOTRBmtGCN5G/34eP6Fz2BuE/JTLfPIoBPz6mQtcSA=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=XB6gOWbJVBLXIb9yDGjl+sHblC6vW2jd8L1J92tqILPdBqCMMQye08PI9uUPHENrj0WJasbyGhLqUZg6TaKcm4k/IRzJVGLNQmiuDzexCdf1rOWIUe2OR5iU3R3nMD20dC2YTJfxj1w5wy/7/AhfHmgfAiBOMAJnCbfh3UZDSuMZ/RW1arbxN5CiwNc5y2kntBzI+ilutNOKIBXeKwHR6UxagC4hvOWlOqfio/Vfx39YQlwziLA1JkwjYGuIbNVjzW3jHCj+iAgDQf8TUqdkaGZvw6BqByBQRzqUO4bzh1+SmbE9wSX4YqIRTD7JbMZS8ABmZWKijSKcmxxtisLaoA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791933097; bh=9cHZKDS2xcTq6VGfG5BzbYJ2LZ2S5zFAKEiJlCCIyVI=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=cEVlw3AqnUjNuJrsNb9rvgC6xLTjQ0JR2p88UMtE6U6rdmJW0XHqZnY+/b7E2UKJPhudaKbrB8y91WH8bIW5bLfsoBexlUf4CO9kXi6vklAsqqV5h8N3kvpTj1s9KQ/LArXpOcGVKGZwlJCeC7dX/wCdxBUQwDSJcdFUuDInYh3Df6NUVK7GndsDUjRhdWbC/3t31ZZYinnnqkAxvNd0KwGubaqNBpG1YAY9ZLkTF/8PAK/3XYHT0lSlvBCeZGT5vlJE2M9nWQBBsfV7zfDulkYcqAMOuzvuRVFLSn+Q9q3aCVHgmRlqSgpWVhYi78qj9dv33fixhI3M9wKfwnTVIQ==
-X-YMail-OSG: 5Rih_4cVM1mVSO2m0SdjKTtXTIxtoKWYka9iFZYX2LaKHFp8Z5zl0omiXA8B80y
- NV_fsFGlqnAH9OacYn6UBGMVSxv6vwOdAOAq5Z20zsXOkx1DdllBmKyO3SbXhnDnWONssK0iJz5O
- u5EUPjHm__exEk72uVyoiw.41DCMDElewVCfkg1LTxJKm4QR9bYKvxgMtatpV.UX5dXN9tJ8jTy6
- DSCbQy23hKCE7xxEl4_4L0z9DV18yDvDFAQwAJgRCWUStMA6Xu7NNLPjmtTvrrCG2MQQV0wky.8L
- xg3_97GY8pfPdA9pOKhcTD5KAaVyDkv1MPq9Db65w7nUfyjKu1WkbKMvzeDYjV4BKycw3yjJ3IY3
- xNlXJuRHqzU7uJJMIwo4BqWIrpRBHmD1yZolulZUspwIdTpkRFo.MkeOrCXnphXvyllZNCl71YmT
- tX2EGt2gYRfGZZxQClKrlVxo8PRXTNSq5cnQSiMgZBbvtmfUpNoYjreVgAwlxYpbSV28obcRFHMB
- rW0f.zF3W28.bOt_HLSrm9uzDXaCQlXKGUCxMORqmRwi6sDnYVbsYuxGKRtptfw6sD5UQix7G4Hg
- h6z0a77Srt1qCmZ35PROpX2PkLRlG72OYHoXNLK3ZySnhIWOm8Mo8OXEt_I9jOKoHo.ZoLqUdODy
- YxzYpnyrqWnmApF1NnRrh6G4dlyJYddDFcb_t__wB8Px4D4D4UNylBHZsM7Zqhm4PRS2MgEp8dLy
- kkVeKBN8ATriMfEq_rwfXrENL6k7I6YMDNpxMhWTC3Q69DSzttMUgvbysWe4zQTH_c_h.1RGY9xC
- s7JgPCaYRlNjxMTaGucosX7j9PriM3oWhWoV0D4pKqIY3VcN7oRe23HYGxw5ntF5B.lKbmyqku1Q
- vYlDH50QXUGY_YPK8Qq232ou9z5AMg15ZXUWPhl18UWY667jy0ilyRd.Bvam1idnGIvJtDP6chZn
- U9TfHvuV1U0jwyJEbx2tBcDuckbwb_VYz4fN.bYforjRvnlZTIQRi6rlAqi7lqwGrJcIyNS0OaOi
- bhSrksxXCht1lu01zd8mS3MLxqZDOEKvKV2_Lmyi2q3HY56J0mGVGB.Lv0qC9WMGjGK_ulycWKb8
- KqcBbyWP3wSDFHe1E50KoCWQN2KWPOZ.Z.C.gZNRm8h5PUGmW6ZpAf0ZQKpxELGyO7mlriunDpcg
- y_SFendO7d_CjfN8k4wAL1sdw0xOVSU3qFZq6TG9WVyxJf3dkxFlGpwe3CF7Tgg6QhRZW0NI4ZLD
- .fOwTVvipzCHGOYfdMOuU5cnoqjkp.gAn8nUZHsmDEZNwR37Kn_CA_pSkgFPMn_aEHMZMhQUAVG2
- 4RXQoW0bQbZhQ82pHwa8QicqmUoHDkYTO3VXGY2fSSCPEA55nXoUgkv3.ul4KNPcSmZ.faxiVfAU
- 0FbVphglcTw.cfaj_K7IcknJvV4iUj5VRzJWn8X3McUcFXwHU372WSC70xbXw7c4CJLabBAHkeTP
- cA9dEx7D2.hCyd7hX_oEu3G0aBgzWJEcBdDsO8D8yelpMGVypP_JNPwLjYBqr.vxCnUS80OrwzSK
- v6g.KekzgKbIf2cSxg2LkPfmj9QQ1Z6d_8s.Ezvyw6lviHUahySNjcqDMqoAPfD108e5Fm4cs0_t
- CXnUGrgaxt38Ggsl4E6yfo0IaguJIlmLyCwmZll5opXeH2jMB9LCQUGKhURYvXj8dwO8I9OYuXFv
- dzweM3xSLXJKF3xIBs99pikXxb1GbTb69MLo6XYgw3Ls21lTashgbhRBvMJUJFDoA_H2YxsCMbV8
- lmuGEGlkzEHz1toft36ymk2Q8CYkQuwX5YUws89T68cBaj06MnjEopt2CCf8ifBLbMoTAJGpXkiN
- 38wKzKQKZssv4D63WV.HtPdddNXMsYP9rbiAMC0VL2UQLMJ3oYMjuvd1hNLsInAX1jyAqkLmyYX3
- e23LuauxXwPlIootSgMKJFTt3F.W5lPlFB3hAnDmlrnMK8.PXRGpLgJ_yfllF3V_xdEKU23pofNZ
- bUZaS7d2ck8A2vkbXoKd3t2KhTR.QuFJ0sK5uuC4HNnAZ1C20ldch.zqmeT.swaf4QddAPmil2.l
- 1uCuyqVCseEraDH1nCHSLk_NNaX4yT1aUCeUqvJ9uIsVAOUDCHZvmt0JiDai64UTpr4XqDBcB2ti
- EX3yLM5_penFTDyDG5h49sKrQZR7xQrB9boGMEogu0KCSy2uHFxo_MwKzkykhlUbb2wOsZVD08qY
- _IWxyNqNk_aCwaEuUe37InHxJy9DT2Y.ohRRqKI9YMpt.Im8M
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="GZfXdfCm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791934123; bh=ntTdf5da5riDGqp0/lnqznJtGtR2qq5uPORC63l8Kno=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=GZfXdfCmXxXR+gxmUIf504gbTRIVvUm4Xxq/5KM9e4/Nyw56ysDMCX0NDrR4ZR4ZuZqUXyf3iffZCSeP7Bz641eVreuAQCQduXB9u3cCVh9HtLtNpYF3B2IW/Z6o98ugdiIOCHqYCJ/yGMZBILNx6PbtT/ry3EfgM8mnmxt7nTpZKDYIMjJbz7a6bH+HbEs4vS2DlD8l+BaGrXKXXLwyJpooxa4jYfFev7OFaRHMh1n1H3ZiPKrXl5xECzekS6r2xajTl9hO8rMyzQ8CTdmsszySEiF9+KYdRtBN1niWHueojuuIHQ2aysbWPnStxg3baHquQC/bpEdJFWpaKtJ1Yw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791934123; bh=0fi1ySHALeWkSua+c1dfs6j+vXRKtO7VfdFp+F6np2x=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=KJELJ/Nvk2gwhUCT037QM+wFG7yVAhHUPl5U0lilkKsN+SExSuDWzMmExoBkaSwZ0GP+JMvMdE7x0YYXDtW+jWGSAoD94VP4xY0xVhX4m2D8PRxsH2K4zFktBmDuxhvv2WyJq/4UTKMS5zAueVAWDpws8oL+w/NqEx8jhO1d1WSsL/41eQjw8bsksN94l0kICt5zUFRM96Nn12AL3kOspN3ZP9P9HgISpIxW+BWYU3YSTXBcX4x3YpFs91hLz+vQDoZa5RoSQuJgirpamluZWLRR3yuPn4ZqcQhm4ecC7UjvvCnarl+Xqr0GMWAqLBS9vnN7z2R4rcMVmIDqqSsMjw==
+X-YMail-OSG: BhmqEuwVM1l4k9JTFM9jnnIs.e97bloKx8dRyHq4ts9WH3_4DKCuvs17y0GgEQ4
+ C1PRHf37Mxe_SLlgMzct9sEdYQ6M8oTTviavSgzhxjg3tfsyCxDwTbI7KcgbD4TGdmbmYkVJGzVA
+ skikEhc4YiYiR26KOPlmaUnfJxiBYjkfnh_XJYoSFWdBw_ZojapNLjsG9awUB1gtBYfd3_bJIRpN
+ Bqxd0UlSuB8I.OyZQ67gY.VXyVE9mrqs4fTl5VoXlD9TFd5NYy58SaIV53BmnzdKzCaEimqvVVV9
+ pfyGqfgzMjhq_FK8rFGGPAYC2VeAmLElo5bnZg5dwJXZfV1znHIWI_onRfkTuofyeASUmJwMTMeL
+ Metz7lKNs_oH1nJWJHTVPZ2RhQuy4rHckazxxxJoY.mWU1GUd6l1y3zYqQM8mO4hLjVvG4xpi1O1
+ 0QIGGHsmfYK46c2nsS22OYWXkprEuUwrmAqsJ1kRMocSSO9RziCo31eNKTtRADml2RP3wwISED.S
+ nMSaXCHe14Rz2frtWc6CFC461G8jRC9NOwuF0qRvm3YbRqJMTeMpPvvvjvtDwrX.hOOuGMAv3Mnq
+ pb4sKbJweD_bHNMbG0gRJ0YvUBM0mpl3i9q9gZde9HVadOCbiZir7J2H7I0_ngnkO1FGY_NS7sqH
+ mkio1pG8PfDQdpWBCaJ3h3FH4b7OkV_4Z6AD2Neq259TI5mz2tzmFqgfXyd5IcWwBh_qorRNaW2A
+ YlopBPPTqwI0Hlldbjizaaww_pwZmzhmliRYFXlJz3F5oeRLYETI0erxYdhFpdSZJBI9Q_tr7KXX
+ mPbiHVekyB9vtlTdZTcqm78L8OABFwpOUgc8F3LRgXZZairXGMmcnimQ8aPYhR.n1XuRRhK8Zih6
+ P83YRSdGXZpJ9i6IFmhRJzmX43XFWDGqPBiEmyOUMmowIFMXvTzNc_ZUjbrk2rYy_3bSOteYPk0W
+ xNsQpruPPTRrq_mLmzASKyAtz8_7uyuvzM45pcl6iv61cAd.T8VKyjFgNzs.3ISvXexdNfeCbrOY
+ 5Ea7hzhlZqsm4esYCaplHlLb6GtM_PVYJzJBWVrVJ_gdNlhRYIFp_eZ1s4UmWl8BctW2QubDMavI
+ 9GH.ojk0Rj.byk243dddzl6haeA6iDn2t2w0QTVzrn_F2EuRjFe5NEHB311HI6dyXmBT5t1D61k.
+ FW97GyGH4OHN3dcA5KVnQVB.FymbnhXAN9ExvRYzny2stzY43a_X5JbbnaB9umdjO7JdZ8XHuvzl
+ TXji.Jm9qIsfWNhjj2GISu8Jh0C4YqJtv5dH.5fgsuOaXq0KVDgOT5NlYFfbzzdf1tVc3YcmwORN
+ 9bdYWs4Xc9.QPnanI1ClQb5cSiBFZuhU7uutTL40gwQ.JEyR_bCRYZDC8WUgmLqT9CL3XNNARJWD
+ _QQLaKN2E3DmgcEEPr.hVfkZ4hHRSdMp7ytvwm_k_gNJ2wnYEH62IVo..IQjndysWt2izQdJzuUu
+ VbFwLhb1IRquuJg6XT4G81h3F6JgITYb.CMnLDYTIh0GtkvK9sZosZHpfSG2vkqIZGCSWspTJCr0
+ Z7QVcLgmy_lPct_i9B7F4NtAtuKJ5R.QQR015oSCHRLzr6mo67ixOh2fJX.p28j4Q3Oeuw95nqk8
+ IfaKlbrpJ_YujhPArPVzUoir05yEZdl18YMcGp9Bo6bn2nmR6rpbnp5xvLBdXb3sFmIss7a2wSCX
+ 3cspLhXGSTQQ4JUBK3sN7kvuOmqVx72DFEaFWY3FtjfX_w2gY5wb9WVpISXB7jrrSY8fQngL2xc8
+ qLJJ0NeIJfhgP8PvHW48FuVl8xn71ddD0rce24EsOzAWshBmW.Am59VMjvxt.dNW1.aDVwBQ7uH2
+ DK6H5yY99CwiPqbBCN14za03JyT7xdI05__EikLh55K6NKZ73xYMsQnSABbjBznARH3rXKtvhD3X
+ m8LTmp1ycTF8NKi02ruN1ZkrJG8pOrpYktPBKA267.I0cYBWI6M8p7HO.5a2VpALgFxTFlCdNbee
+ 8JbNuYz8YrGblUQmbfD1ksc06_OR.Ib_qtcIL7AiL8X.2azXSVl4U29f1MEV50Wr_Yt61dn7RtkG
+ 6C7mVn0YhYArPDntM_VXFFAc6vM2svSNxdExiG3Faicd7N5rNJYN6QFgZXfkYvXKBIXocVu8bhOG
+ kWpI50OBdvCmCvA0dg_i4ZjrU07KA09CyLNz6ObjLpi6eFPFOrBVELiNW20lyhQ_l1onore0uBGS
+ qLOrIg9mAnmn40RfCk4GNgTgSLDJLVsmV4Dn_9kvB1y7DymLhfMU-
 X-Sonic-MF: <deaner92@yahoo.com>
-X-Sonic-ID: 7464d60c-1205-4c0a-b555-2035bbd5ad36
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.bf2.yahoo.com with HTTP; Tue, 13 Oct 2026 23:11:37 +0000
-Received: by hermes--production-bf1-6d6877594b-cqkzp (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID f1f64af34a8ce3afe2931e33a9420692;
-          Tue, 13 Oct 2026 23:11:33 +0000 (UTC)
-Message-ID: <c293546a-155e-4d09-9c04-400c257137c3@yahoo.com>
-Date: Tue, 13 Oct 2026 17:11:27 -0600
+X-Sonic-ID: 580a666d-c35e-4236-bdc4-9891ef3e9414
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.bf2.yahoo.com with HTTP; Tue, 13 Oct 2026 23:28:43 +0000
+Received: by hermes--production-bf1-6d6877594b-r7rdv (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID c9026ab00b60b81d08c481f0c8e2d06a;
+          Tue, 13 Oct 2026 23:18:23 +0000 (UTC)
+Message-ID: <642cd62d-4e44-4e5e-be7c-1f2b0ce4a759@yahoo.com>
+Date: Tue, 13 Oct 2026 17:18:17 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,62 +63,61 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: Remove unused function
- 'to_fw_mgmt_connection'
-To: Alex Elder <elder@ieee.org>, Viresh Kumar <vireshk@kernel.org>,
- Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20261013181707.29830-1-deaner92.ref@yahoo.com>
- <20261013181707.29830-1-deaner92@yahoo.com>
- <fc8053fd-5831-48fb-98a5-f3e81323b51e@ieee.org>
+Subject: Re: [PATCH] staging: nvec: use guard(mutex) in nvec_write_sync()
+To: Temitope Obabi <obabitemitope765@gmail.com>,
+ Thierry Reding <thierry.reding@kernel.org>
+Cc: Julia Lawall <julia.lawall@inria.fr>, Marc Dietrich <marvin24@gmx.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ac100@lists.launchpad.net,
+ linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+References: <20261012171312.5998-1-deaner92.ref@yahoo.com>
+ <20261012171312.5998-1-deaner92@yahoo.com>
+ <b51c3755-a967-3de3-5f8c-3e4984d6e93c@inria.fr>
+ <492e9a13-b50b-48cb-bd41-3114573c7950@yahoo.com> <as5WES_Ec2KGWQsm@orome>
+ <CALUk5xZtpOH=23mdiT7MYs-gem2NL+EoV=priVxuSubbCocqFQ@mail.gmail.com>
 Content-Language: en-US
 From: Jeremy Clifton <deaner92@yahoo.com>
-In-Reply-To: <fc8053fd-5831-48fb-98a5-f3e81323b51e@ieee.org>
+In-Reply-To: <CALUk5xZtpOH=23mdiT7MYs-gem2NL+EoV=priVxuSubbCocqFQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Mailer: WebService/1.1.26740 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
+Hi T Obabi,
 
-On 10/13/26 2:12 PM, Alex Elder wrote:
-> On 10/13/26 1:17 PM, Jeremy Dean Clifton wrote:
->> Remove unused function from greybus driver to_fw_mgmt_connection.
->>
->> This function is not exported or called from anywhere tree-wide.
->>
->> Confirmed with git grep and cscope.
->>
->> Signed-off-by: Jeremy Dean Clifton <deaner92@yahoo.com>
-> 
-> Looks good to me.  Are there other unused functions
-> like this?
-> 
-I did not find any others like this one. There may be some in rtl. I 
-think that is going away soon, though.
+On 10/13/26 4:58 PM, Temitope Obabi wrote:
+> Hi I have finally installed Ubuntu on my system, I hope am on the right 
+> track
+You need to send plain text.
+Also, there is no need to reply to my v2 message here. Reply to the 
+Welcome 2026 Applicants. If you don't have that email, send out to 
+outreachy@lists.linux.dev with an intro.
 
-> Reviewed-by: Alex Elder <elder@riscstar.com>
-Thank you
->> ---
->>   drivers/staging/greybus/fw-core.c | 7 -------
->>   1 file changed, 7 deletions(-)
->>
->> diff --git a/drivers/staging/greybus/fw-core.c b/drivers/staging/ 
->> greybus/fw-core.c
->> index 78321be80013..46b35ef55090 100644
->> --- a/drivers/staging/greybus/fw-core.c
->> +++ b/drivers/staging/greybus/fw-core.c
->> @@ -21,13 +21,6 @@ struct gb_fw_core {
->>   static struct spilib_ops *spilib_ops;
->> -struct gb_connection *to_fw_mgmt_connection(struct device *dev)
->> -{
->> -    struct gb_fw_core *fw_core = dev_get_drvdata(dev);
->> -
->> -    return fw_core->mgmt_connection;
->> -}
->> -
->>   static int gb_fw_spi_connection_init(struct gb_connection *connection)
->>   {
->>       int ret;
+Look into plain text. >
+> On Tue, 13 Oct 2026, 7:57 pm Thierry Reding, <thierry.reding@kernel.org 
+> <mailto:thierry.reding@kernel.org>> wrote:
+> 
+>     On Mon, Oct 12, 2026 at 03:41:48PM -0600, Jeremy Clifton wrote:
+>      > Thank you so much for your guidance and feedback.
+>      >
+>      > It is the result that the patch will produce. All the unlock
+>     calls will
+>      > be deleted and the out of memory path will have no braces, as per
+>      > the style guidelines.
+>      >
+>      > The motivation behind the patch is to defer usage of manual locks
+>      > for new and improved guards, disallowing lock leaks.
+>      >
+>      > This way, there can be no error producing path by not calling unlock.
+>      >
+>      > Shall I send a v2 with motivation included?
+> 
+>     Not a big deal in this case, but you might want to read up on how to
+>     properly reply to emails:
+> 
+>     https://subspace.kernel.org/etiquette.html#do-not-top-post-when-
+>     replying <https://subspace.kernel.org/etiquette.html#do-not-top-
+>     post-when-replying>
+> 
+>     Thierry
 > 
 
