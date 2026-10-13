@@ -1,114 +1,101 @@
-Received: from sonic310-14.consmr.mail.bf2.yahoo.com (sonic310-14.consmr.mail.bf2.yahoo.com [74.6.135.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E7951AFF0
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 15:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.135.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E6A370ADA;
+	Tue, 13 Oct 2026 16:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791904408; cv=none; b=J3Fq9pPrKqTNLMPJjgjHL7+XVuqFQHwGQy8ZUpjCrG2Q2tqBYqlIpYOklYJv8mCYkUKgZe56PpY+H9wuCDyJdxjoDIPBZTeU88+zzO75QZrJCSOBquKWoR3WsA2tnkt0gua1bDpejHRY2Z54+QYdJRVknHtLV2DmbHfoO9q7Jtc=
+	t=1791907414; cv=none; b=kl6gpEPn6tgUVFZU5Mq0auFlNrUY3OlsnoMRFwe2D63XOK5U/Epmm7Uf7LO7it5UfwbNUpeDDLZg2hPlTbFx5QB9BMMJRinGH295MTVd7tJK5kPR9xej6GsOFnX1UbcMbVdlhxKC++Yttka3Nmh5ZiHvganIGSVgzcMuigC9fbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791904408; c=relaxed/simple;
-	bh=VWy8kOV5fpxV1rES9+rwWAo2HS95BTyvhW0F6FbOIyo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OiBE8HXdFJvI73DNLY+HMTTbtU7Hp6i4DLe9cgyu8nAYOd1eljFwkFzfk1+vxiKy/BB8Cd9Gs2ecHimcHWudb7c1v1eaoEdK2GJAe0KFQoLcwi90aRFVvJbikwx+wT+ujhuuCoKcqE5AtTCS3HrgV+xFTgrHlAD3QUh4ZnQFT48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=PtYbF22A; arc=none smtp.client-ip=74.6.135.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1791907414; c=relaxed/simple;
+	bh=5WHoeUINkgZunqY8JUIYAZgXEPU5x9iKF8csd5FaLyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SN2Zu//SAimAR1OrwIdFykmi9VydW0zQJimE8Y032a+RNF7Lg7J/H7m8eT9yv1nwiApJ4wCOS6yhUe0h7tueCKQRsHLXX4kQA4z1LywQFZbjK+lBqLyyMOJ2b1Jj9MM7J6n/5cPiMuNCbTjlwS1ePnT6r9s6GJb8a9pDLN6URxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HFJaatkP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="PtYbF22A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791904405; bh=8CabwxGpw7QPwiwrmZsN8gni+LU43IXDehbaUPw+ozI=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=PtYbF22AjCydqZYKfK1+5YGHznj1DzR4VJvg6IFy8RhpQw7Q/K7PDYe0XhFMjNSLdQsb9Z3znJ+IN6pdvPR7RfyhFUNvUeh3bDYAOXVhzvTv4MEGLKEf+UOmvQRXepyJzyNy9YBTJR/qkpOJ2MBBxBbiQ8Hbo+iboP8eO9YMFzeyk247Uv+YCmTWaSlsnoMbhJxYXpoBowUjM26tN+TzAH2UHOtGuQ/VEBuvIFH+c2bV3r1h+WRyLsgTg6O0LC5bMJkn7LyRn1B5ycAKo8qvzRQfl6KYnGCHlf+L7hua0EJklvrAeVD67fv186RHwYhuPTVwXd/GCzD9gO76s4ZVKQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791904405; bh=Gfq3O0CiKPflBA23nNJaVaMPJskvZTeUcIbAnxCRspt=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=mKxgkDHcp1uvnfsI/qGVPQznvT7Gr74r+nvKy/+m7XHHAl/5HBxR9mIAkLSJCF/tLlSBMSCcpjU0wEIVy3UftLtrtw88Wje/HXPIqafLSakFE3KbeY0llI8Pu0jjr+lKJKfCkwk1G5Sd009g/+OahZSsU7nNVIc3D2WC1xHWXZhXqlBJPFxpXUGVgN4CQNjMib5nUTgzrdeD38nTl2iEEwJjTtIchV69YSGfrhYAE9P+uy1fEO8+nB1FaLvu6NLMOqX6ExJym27n0hdWsaF3REs2WjAR1fZqMVGNPb4cPCcvyTHLpMfAHzDWmVo1EMPbK3vA3ZrpuNAHDqskmuESBw==
-X-YMail-OSG: gJgxy3IVM1mZ7XAYp4Rr2laLCAMsgib0PHD.dxk9mBSDPTN4r2G8BaR7FW.FRiQ
- MXvqVK1y7z5ENAq82IcHoyn3bf5Pi23yrt7gmGWnQGRJpkEUj3hts9oXP5kOwWsv0n7uEX25mwH0
- cTgWmNvXaLY2Y_G2YZhtUDWq1nN_cu3ctxy6VSzVduNpcvV0CZun5n.beGqRH4ocEV_8Sx3P7IuK
- kfQTN_1DZ1cixunwsE8wCGs8mSqVnJgVn4rOyFz7zyFju3DxqIel3_yFbQXvnN3ZaCQ4JCnPpA_p
- 66eh1nPsbBXICwrG9sNRcX_.7d70ZvXFqLp4IDXW3_kJvPVCtMqToRxhskn0tlEpY0BFQDyEMCyU
- xvGiKzAQNUyt0rELZa2eLTKx_MU9a6jgthuAxu4ZZ6cB12B0BuD3MP9f.b1HmPAiCzRheKfQ9sQJ
- itfX.4CJgUPjnpSkzwbQz.CdGElKxzZaIz06iKCjUP3QOwKojsViBQ6k0MM2lmrAtg5Vc8cLebZk
- P4WdowcsPRb.MogqzE2uhDQOteNYuMSOm6jlzy8dMOTGDbkwLoAtPAtrOKk3jYFUk6WDa6JPJOhL
- g58TtQGpBF8hn6A1Qn6XUftfMPI52tfckIVx7UkMjTXXngeOKT9Rm3PGPS1mmlWImzMF3SKmA2OU
- 9RVhT0XtaK9jlxs79RaIgBjfCxy7Rgt5e0gp5OYZyrwXN6bG7fO6vkF_spjy8VCOob7FBEeKxFjj
- jWUxIWVOniOMlzmkPwdOFSwdkEZQ5hgox4XKfVM1bqGsB4Rto3sitCvjpnuBdJOxraY_.M5.9lVP
- q904aQGKRpKNoBQVenfJmf1_CEBeLO..3sgs0Bp1jOa3OcY1p_jTWDWiY7Y4PgrQf5bx3bah2PiC
- GEmVORyY4Pu13vYG11LD2CQNIaT02l97WGRkHX9uLHpraWyPFlmHu3KPWzeC6AqVLFvLmKs21kAf
- 45fptbhi8.9njzHcRbQ7EGxbkpycHjk0QXucVKDesq35JOePtA7wfZQVpHs4TdHfWT7RPrTR8Chy
- dzmYS9VOmoNub9WdBC4qKiFWrZNIHvmN0BoOwKl_hATOoP..Y8rzpgQyZJjEb56.7tq12jls20HM
- wlptF5WDKr1tWH5.T_G8kTYb_Fz0LG1yV7mFHnclOXs7okvqqvSGtR9h936Bg2WK4f4h3TT9iN.L
- ljTfH5V1uGmKzva0pJZczDMjFL4VO0838mjFpexj.zv1fi_xqhUVSyYzhqcitVbENWVdL7Yq9Nru
- h5vV3mX05V061R9fLBC6KkhINiPCRXxkSnczF2u7NiAJEvexTHL1cvp9O1dy13_38wnIySD.L7tx
- e8hVIrl_CW982im1QgKq7yYLclTKBLepOXYmQkWM1QzMZljYhv0addPEHGURn6N1rckL001fQSAA
- giT92u4WDr1VjnARblE35B.U8DaS8Ek8TllLD.dvWT9S6OQ0TVl3D2IUszoFM9E.yqOq1.qeAOIn
- 3PYmDSND83zUH6XHIMyuT4beCJS8W9zKfHDeesXFi3V7GKMKSH93VREnTlQigva4rLbCYJs2csCO
- n2exc9wQ4qdYikhQdyK3XWUmcrvYYUxK3CKkWKlfiOfK5Ay2FyJvWzNLrmoOnma5NaDP_UxQhteW
- aPS3_Bl_g37G0zmoJ.mrCguEiYsuQ0vAD36.VvlvqFp3hbAxe6ps1czsBlk2.0U1zfLyVj467sDP
- MmRKek_JLuu8z4LxiZbHNtWi3_DDU1F.Aj6j9YXjSR5tkcuNuwFJc0oB3nRiNqbZTm4LnxDHtiN_
- I.Z1rQLI3WLhwziQk3yeGQ3JNsRPmi6kPikm3.Tgzg6RgwCbE2GlU8em3LO6_p5A8BnuVu_Q5Uhj
- prMWLSQJ5eUPA6AjjsNU0HVp1J78dtRkZ__q55yJtRNSn0vosotLUWUO4O.nfPv1XfKzX6SEPgwL
- TmjtDqpBCo5fP5OvkB.IXhisTgK2zSxjQjLmCk2LRkq0achM3wdR3Kp0J4BFuJgsLXLzuWNi6d_j
- iYW2KWg2l0XfG2gNb2gR6xswkbsRR.WHi6kQYurP7L_KeRGOqYQJG2UOSmkwFltzv76XDUXXUqZs
- Oajq1kDilYPCqRDLQdrkvZc9zlZMySattgsjVUwCXLv_qHCPUd7XMza08HvyRzUy14ESbIWQxhbL
- RkrwL015E8McAeUSrmLC1GxoV1SBPnaqP9hHRbBKugNXT7OszzTkQkpZZchMBMjSUL66hFbaSdex
- 8fL3pYDPYjsw31tt1qBPBVv8UWc22fZ81W.9l5O5Ht5k-
-X-Sonic-MF: <deaner92@yahoo.com>
-X-Sonic-ID: 5157e8c7-a71a-4ed1-b34a-cdaf6e57793e
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.bf2.yahoo.com with HTTP; Tue, 13 Oct 2026 15:13:25 +0000
-Received: by hermes--production-bf1-6d6877594b-tqwxv (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID efe0f48b2b69dba20bedb55f2cbb6290;
-          Tue, 13 Oct 2026 15:13:22 +0000 (UTC)
-Message-ID: <47090350-2dcd-4d7b-a73e-681f68ff3a1c@yahoo.com>
-Date: Tue, 13 Oct 2026 09:13:17 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HFJaatkP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DED11F000FF;
+	Tue, 13 Oct 2026 16:03:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791907413;
+	bh=s5v4uxkqBN5uEW7jS4QQBdALy0qidx9Gwm7FyQCTQOg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=HFJaatkPM8P3cKdqWx5HDHGyETlugYRtbcgnLGwDC6vfCzWcX5P0Po7bYmC/lvJ5R
+	 PZA9DERac7C1khJvwdImHMR59mJOSfzzUCbSOHxZXw1zVeHgq3eFORAZEiFcFFYL3N
+	 pEe2lR+ThCluEaX6c6zh+/cXTCL9Uz05YY+Lpubb3rfXYqzkf3Q1Tubij+K+H3lZni
+	 du/zHBLyRt0FP2ma+7bHpzECLZLhtx4HhX/UbuT73M8ZkkVPdbHtltBAOWyXl0vmWb
+	 IjRz6ptv0jI2J1ApjhCYWM8xCV4TE2GZxyKzG+DDHD6O/HdEYyCJX1zVMRUWtEmsKK
+	 OmOs4EW6yLA3Q==
+Date: Tue, 13 Oct 2026 18:03:31 +0200
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Jeremy Clifton <deaner92@yahoo.com>
+Cc: Julia Lawall <julia.lawall@inria.fr>, Marc Dietrich <marvin24@gmx.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ac100@lists.launchpad.net, linux-tegra@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: nvec: use guard(mutex) in nvec_write_sync()
+Message-ID: <as5WES_Ec2KGWQsm@orome>
+References: <20261012171312.5998-1-deaner92.ref@yahoo.com>
+ <20261012171312.5998-1-deaner92@yahoo.com>
+ <b51c3755-a967-3de3-5f8c-3e4984d6e93c@inria.fr>
+ <492e9a13-b50b-48cb-bd41-3114573c7950@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: nvec: use guard(mutex) in nvec_write_sync()
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Marc Dietrich <marvin24@gmx.de>, ac100@lists.launchpad.net,
- linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
- Julia Lawall <julia.lawall@inria.fr>
-References: <20261012222926.7754-1-deaner92.ref@yahoo.com>
- <20261012222926.7754-1-deaner92@yahoo.com>
- <2026101335-expansive-veteran-c4d6@gregkh>
-Content-Language: en-US
-From: Jeremy Clifton <deaner92@yahoo.com>
-In-Reply-To: <2026101335-expansive-veteran-c4d6@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.26668 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hzewtzrna6tsl46x"
+Content-Disposition: inline
+In-Reply-To: <492e9a13-b50b-48cb-bd41-3114573c7950@yahoo.com>
 
-OK, it's understood. I'll look for another candidate.
 
-Thanks for your feedback.
+--hzewtzrna6tsl46x
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] staging: nvec: use guard(mutex) in nvec_write_sync()
+MIME-Version: 1.0
 
-Jeremy
+On Mon, Oct 12, 2026 at 03:41:48PM -0600, Jeremy Clifton wrote:
+> Thank you so much for your guidance and feedback.
+>=20
+> It is the result that the patch will produce. All the unlock calls will
+> be deleted and the out of memory path will have no braces, as per
+> the style guidelines.
+>=20
+> The motivation behind the patch is to defer usage of manual locks
+> for new and improved guards, disallowing lock leaks.
+>=20
+> This way, there can be no error producing path by not calling unlock.
+>=20
+> Shall I send a v2 with motivation included?
 
-On 10/13/26 12:15 AM, Greg Kroah-Hartman wrote:
-> On Mon, Oct 12, 2026 at 10:29:26PM +0000, Jeremy Dean Clifton wrote:
->> The three return paths of nvec_write_sync() each release
->> sync_write_mutex with explicit unlock calls.
->>
->> Use guard(mutex) to unlock the lock automatically on any return
->> path.
->>
->> This removes the three mutex_unlock() calls.
->>
->> No functional change.
->>
->> Signed-off-by: Jeremy Dean Clifton <deaner92@yahoo.com>
->> ---
->> v2:
->>   - Reword the commit message to state the motivation and to make
->>     clear that removing the mutex_unlock() calls is the result of
->>     the change (Julia Lawall).
->> v1: https://lore.kernel.org/all/20261012171312.5998-1-deaner92@yahoo.com/
-> 
-> Please read the archives for why I will not take guard() rewrites of
-> staging drivers (nor do I want to see you use a LLM in here either.)
-> 
-> sorry,
-> 
-> greg k-h
+Not a big deal in this case, but you might want to read up on how to
+properly reply to emails:
 
+    https://subspace.kernel.org/etiquette.html#do-not-top-post-when-replying
+
+Thierry
+
+--hzewtzrna6tsl46x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmrOVlIACgkQ3SOs138+
+s6Ey4Q/9HeWRPuZBHvX53s52PXGTjx7DIALN1o0lQS3b1+MxhUlcETBj+3LrS/GV
+zwtBFcTdqMirW9QE9n+dScPrkSoxRCuX0p5BBpMMccYd3f+S3yMCHGCQ6Sy33qQb
+B59hayWYN/uxCo8LkZfeNgsOr+UDJ8nJuLehH3/OBz+ya86RJ1Jaz1kQzcDIBVEq
+dHR0NPKdcdCOgJYTaq0v59GSCavBAAGepGfa/3HOEZUPf6d0u8iy4kJbGH1dQff3
+JZbvseri/M6ONxcXq1DO0+TNMa99QX0gJMVXF6HCmsCot93v1/7s7iwlYdewjebM
+00brAb7yX0PrtraFf840pKf4Fy8iQ2M4a3/PwYpjBSDKP3oBlV/aVXjBJLMTGFrR
+qFN+mDTEGwt3Sz5babpmvXmWxchkwO05ayoTrOWxy4QJQ73blJbmx7l5EjQMl+8/
+4lmQWug9/KfumoKnex73Am2YYNQDh+bkGks/FjvSsBVy617F07fX3j4TdN+n40ME
+qn3GmAxFd31vK78lqASap7xG764Li9IBKn0Wt0LIzUfH5IJnMMb8weFM6VxvcI63
+5IuEAoqCRgz6YaNw8NnNkjvvcM2P0neW3/FHAsjYZcr4rFh3izw/UhfV+fR7CXuf
+j56BBV+TN8hqoNvtfgUcNXTHfWGwhmCxHcT7fw/BdJfgy6xFJBE=
+=5cEq
+-----END PGP SIGNATURE-----
+
+--hzewtzrna6tsl46x--
