@@ -1,86 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7BB51A128
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 16:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A535172E3;
+	Tue, 13 Oct 2026 16:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791908500; cv=none; b=oxgfP5QJhww58otSviGPbuIFN7rHFyr0l0dtCAH6mkYNzZyNtUUt9aGZ3Ro60n2n58zzIEuZIHljHnh11UftMiFuzBHtUEuHpOSiO3C3N70zGV2hg5Y4LRP2yfz5EXv9canrt4kNHByvVkHl8dvk1cZDcN+Jpm8lmZB18EogGx0=
+	t=1791908840; cv=none; b=r3R9To4uyXFgPZ/tSI2izNuSQvmCCZk5cKxIzLvuzJhgOeBCtvqzgiPlF8hxM3uUa/zYSfx3jNmGmdWGjD904NpLUViGoS6eiqLIxxJvKOpnlaaw4w9cTcrjxdgch0sHrkfxOk+6PDGyl4OFYBF64l1IMRMDfTI7DcmUuxpUx+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791908500; c=relaxed/simple;
-	bh=2Fe1AEOYThce9q2HA6HMtcK+p+baE4P9xz4DhljZsbg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tyY/QABkDu2VuRSroAl28SSzCJ7cgLpHI86ljNyOWBD9Z6sd2WUH005gwhznhWxBykmGlyMoZ3rB1U4/i2ay7ZTfHu13003HxFN62uRrHhhwXCwltNtMTpdifCZST3tKW/0lUJvuuSn4jmAYsf+KfaOYxVwWzENMiue9Tn1+oa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i4EcfbAJ; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791908840; c=relaxed/simple;
+	bh=shKJgZGIZFLzoHitxdERk+7/62vgv0+CoGsFsHHoCMI=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=uz8nRdy6b7ITh5WEkDkN64JIhSolVDT5pIkWvsA185DoxkGXfDgQQ1F4Me0V+WlBeuEPuyyyehEzGd++9BvN0uo2R7GgQKAGxQUR+cX9ByjXuXox0CFeox3HNGAYa2cu0p9AXhLMNm0v0bY8gGizAYnyIaQkMyo7AGRVY/Pg3dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rgP43o8L; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i4EcfbAJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791908500; x=1823444500;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=2Fe1AEOYThce9q2HA6HMtcK+p+baE4P9xz4DhljZsbg=;
-  b=i4EcfbAJ71aVv17VKfyDQLhgvXBIQthhSLHaNXW+Y1umKf/Aqnk5R04j
-   zrsEmZmm32BHFgvEy4ZkmSVRHlq+r7I4ZU6o5Xn+jYJgg3B4/XEKRO5Fl
-   L2BNgKhYaYBt6/Kg6sHFEA0VT+gvBvYOKcRNMRtsh2j5D0X1TUaogmRQm
-   mZmhT4niL5zx8xpdOn1KbyW2wU6ZZdqnub9bCFbVQE/M/hQxHQ0SEVZJI
-   8Pfd3thxXAmMJOv38Q5iBHgX40DWRoxWT9NEpY1DdTdpCxZq+ZkNKi4b2
-   XCghpr1uCFx5thXA6Una7722SmeTOgA7K9ZneLW2za3Su5TtTSqhn68WU
-   w==;
-X-CSE-ConnectionGUID: B31tUrX9SAumwwmLguQpWQ==
-X-CSE-MsgGUID: Zrp45wXIRU+b8RmTk0BStA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="671760"
-X-IronPort-AV: E=Sophos;i="6.27,156,1787036400"; 
-   d="scan'208";a="671760"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 09:21:40 -0700
-X-CSE-ConnectionGUID: tWpMIeioR06MVaRlpb3Shw==
-X-CSE-MsgGUID: kPcbyPKgQxySHPVNXw1EGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,156,1787036400"; 
-   d="scan'208";a="1524496"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.48])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 09:21:37 -0700
-Date: Tue, 13 Oct 2026 19:21:34 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: =?utf-8?Q?Rare=C8=99-Mihai?= Vladu <vladurares@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] media: atomisp: remove unused circbuf library
-Message-ID: <as5ajhgIu-Mkdns_@ashevche-desk.local>
-References: <20261012230754.1914517-1-vladurares@gmail.com>
- <20261012230754.1914517-5-vladurares@gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rgP43o8L"
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:46f5:32b8:ff94:7599:1aae])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E2C34230;
+	Tue, 13 Oct 2026 18:25:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1791908714;
+	bh=shKJgZGIZFLzoHitxdERk+7/62vgv0+CoGsFsHHoCMI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=rgP43o8LhCvfC1SbvJSrRxJBUKppE11ZS1DuyXq90Y1itX2aXXxg9jpzh04btvdef
+	 PNIfKLPD9vUyQzBrktYA8hYLLCrX/1+e6tju1cWcO8Hq0DsYaUEamUaqy7i0aPNFd0
+	 8ZFsaEhLIF4rnDgE6xA2AYDNli+Tt/QAE6qLw4Mc=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261012230754.1914517-5-vladurares@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20261013131435.1454019-1-martin@wetterwald.eu>
+References: <CAFERDQ0FpdVvA5VJxOyRAE_pgxnPVmFx1tkZio5R272j6Bs4tg@mail.gmail.com> <20261013131435.1454019-1-martin@wetterwald.eu>
+Subject: Re: [PATCH] platform/raspberrypi: vchiq: register bus at subsys_initcall
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Stefan Wahren <wahrenst@gmx.net>, Phil Elwell <phil@raspberrypi.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Umang Jain <uajain@igalia.com>, Kees Cook <kees@kernel.org>, linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, regressions@lists.linux.dev, Martin Wetterwald <martin@wetterwald.eu>
+To: Florian Fainelli <florian.fainelli@broadcom.com>, Martin Wetterwald <martin@wetterwald.eu>
+Date: Tue, 13 Oct 2026 21:57:10 +0530
+Message-ID: <179190883032.11414.8457896168331458036@freya>
+User-Agent: alot/0.13.dev38+g8e372ce37.d20260925
 
-On Mon, Oct 12, 2026 at 11:07:53PM +0000, Rareș-Mihai Vladu wrote:
-> After the previous changes nothing in the driver uses the custom
-> circular buffer implementation in base/circbuf/ anymore. Remove it
-> together with its Makefile entries.
+Hi Martin,
 
-The best patch of the series!
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-(assuming it compiles and likely works)
+Thanks for the quick fix.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Quoting Martin Wetterwald (2026-10-13 18:44:35)
+> Since the VCHIQ interface was moved out of staging, its bus is no longer
+> guaranteed to be registered before its client drivers. bcm2835-audio,
+> still in drivers/staging, registers at device_initcall level and now
+> runs first:
+>=20
+>   Driver 'bcm2835-audio' was unable to register with bus_type
+>   'vchiq-bus' because the bus was not initialized.
+>=20
+> Register the bus and the platform driver at subsys_initcall so the bus
+> exists before any client driver, independently of link order. The
+> platform driver probe already returns -EPROBE_DEFER while the firmware
+> is not ready, so probing earlier is safe. When built as modules, this is
+> equivalent to module_init() and nothing changes.
+>=20
+> Tested on Raspberry Pi 1B rev2, 1B+, 2B, 3B and 4B with VCHIQ and
+> bcm2835-audio both builtin and both as modules.
+>=20
+> Fixes: aa125180c673 ("platform/raspberrypi: Destage VCHIQ interface")
+> Reported-by: Martin Wetterwald <martin@wetterwald.eu>
+> Link: https://lore.kernel.org/r/CAFERDQ0FpdVvA5VJxOyRAE_pgxnPVmFx1tkZio5R=
+272j6Bs4tg@mail.gmail.com/
+> Closes: https://lore.kernel.org/r/CAFERDQ0FpdVvA5VJxOyRAE_pgxnPVmFx1tkZio=
+5R272j6Bs4tg@mail.gmail.com/
+> Signed-off-by: Martin Wetterwald <martin@wetterwald.eu>
 
+Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
 
+Thanks,
+  Jai
+
+> ---
+>  drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c b/d=
+rivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
+> index e78641703252..d35f5ac5c2e2 100644
+> --- a/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
+> +++ b/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
+> @@ -1462,7 +1462,7 @@ static int __init vchiq_driver_init(void)
+> =20
+>  	return ret;
+>  }
+> -module_init(vchiq_driver_init);
+> +subsys_initcall(vchiq_driver_init);
+> =20
+>  static void __exit vchiq_driver_exit(void)
+>  {
+> --=20
+> 2.55.0
+>
