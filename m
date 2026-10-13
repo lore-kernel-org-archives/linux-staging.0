@@ -1,101 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E6A370ADA;
-	Tue, 13 Oct 2026 16:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B53514742
+	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 16:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791907414; cv=none; b=kl6gpEPn6tgUVFZU5Mq0auFlNrUY3OlsnoMRFwe2D63XOK5U/Epmm7Uf7LO7it5UfwbNUpeDDLZg2hPlTbFx5QB9BMMJRinGH295MTVd7tJK5kPR9xej6GsOFnX1UbcMbVdlhxKC++Yttka3Nmh5ZiHvganIGSVgzcMuigC9fbw=
+	t=1791907599; cv=none; b=RLbdB1naqKk2e5BOS3F5UrSqYAES0UG/4ALeJYb5vEsBS9ETCUZWxHzlvHLZDFnQLuLiWY8WzR8A9tMiiJ1VedjfwlXct7CiYUan/2G/E+JbhAiHLYZWflY6bZSE9WSoOoFD9xRKUMw8R1iB2Z+Bm2As2goqLCMPGt22iX1qLDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791907414; c=relaxed/simple;
-	bh=5WHoeUINkgZunqY8JUIYAZgXEPU5x9iKF8csd5FaLyk=;
+	s=arc-20240116; t=1791907599; c=relaxed/simple;
+	bh=5j4Fa2hEPLpkLUY9qXFZYhRQpuA8BKf6NX+W8FBXNrQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SN2Zu//SAimAR1OrwIdFykmi9VydW0zQJimE8Y032a+RNF7Lg7J/H7m8eT9yv1nwiApJ4wCOS6yhUe0h7tueCKQRsHLXX4kQA4z1LywQFZbjK+lBqLyyMOJ2b1Jj9MM7J6n/5cPiMuNCbTjlwS1ePnT6r9s6GJb8a9pDLN6URxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HFJaatkP; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=UtdnsFIFGES2uP8w8CJ53QoDy1daQ6NEvny2Pp68kCve/s9LtzFPD1FOXvn67jf8b6VIjp61mwwccDimkg4mcG1TULlUYxiXjsc1HFNjAwaKuqyohM+gild56JJwKQrxUZq5h7BY8Cqpco/jKBD0yS6e24mEj/tdNGmE5gBhdb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zmbdhl6I; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HFJaatkP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DED11F000FF;
-	Tue, 13 Oct 2026 16:03:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791907413;
-	bh=s5v4uxkqBN5uEW7jS4QQBdALy0qidx9Gwm7FyQCTQOg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HFJaatkPM8P3cKdqWx5HDHGyETlugYRtbcgnLGwDC6vfCzWcX5P0Po7bYmC/lvJ5R
-	 PZA9DERac7C1khJvwdImHMR59mJOSfzzUCbSOHxZXw1zVeHgq3eFORAZEiFcFFYL3N
-	 pEe2lR+ThCluEaX6c6zh+/cXTCL9Uz05YY+Lpubb3rfXYqzkf3Q1Tubij+K+H3lZni
-	 du/zHBLyRt0FP2ma+7bHpzECLZLhtx4HhX/UbuT73M8ZkkVPdbHtltBAOWyXl0vmWb
-	 IjRz6ptv0jI2J1ApjhCYWM8xCV4TE2GZxyKzG+DDHD6O/HdEYyCJX1zVMRUWtEmsKK
-	 OmOs4EW6yLA3Q==
-Date: Tue, 13 Oct 2026 18:03:31 +0200
-From: Thierry Reding <thierry.reding@kernel.org>
-To: Jeremy Clifton <deaner92@yahoo.com>
-Cc: Julia Lawall <julia.lawall@inria.fr>, Marc Dietrich <marvin24@gmx.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ac100@lists.launchpad.net, linux-tegra@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: nvec: use guard(mutex) in nvec_write_sync()
-Message-ID: <as5WES_Ec2KGWQsm@orome>
-References: <20261012171312.5998-1-deaner92.ref@yahoo.com>
- <20261012171312.5998-1-deaner92@yahoo.com>
- <b51c3755-a967-3de3-5f8c-3e4984d6e93c@inria.fr>
- <492e9a13-b50b-48cb-bd41-3114573c7950@yahoo.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zmbdhl6I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791907599; x=1823443599;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=5j4Fa2hEPLpkLUY9qXFZYhRQpuA8BKf6NX+W8FBXNrQ=;
+  b=Zmbdhl6Iptgivv3afNlPC6f+Szz8XbrdFdPFvkg41SnouiNssz8TwcfS
+   KlfdHtGkgV0l0omI2qr2l1YXJfcWj/xHo9TeObkDdDUpS6Z1iiukTqtL8
+   xxx8cf8D7M2zymm5F1Q6Xes50+f3u+M4clR4yPkM6LL0KoSMuFNbhomek
+   BJETZCZiNv97gpUQWK5LUYHryFHzr76bho1k4JY/5G7R23QVXHiXOlbJx
+   F2E92D65Gww1k6LD3NYtv2Nck8k83UzeMqxcxi/36QkGzUxDF6N5bK6lY
+   0xHnBScz2sQRHvhptxzBS0pj181pCqM3mt1EXAX6tcJy8Oi9QQRcQmEUw
+   g==;
+X-CSE-ConnectionGUID: P+FoWfIOTkm3dpjzZsNyXg==
+X-CSE-MsgGUID: peojo5gpSO6ioe4nAGvkpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="539296"
+X-IronPort-AV: E=Sophos;i="6.27,156,1787036400"; 
+   d="scan'208";a="539296"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 09:06:38 -0700
+X-CSE-ConnectionGUID: xdKiRcIdSqWf/Caf4ZhzPg==
+X-CSE-MsgGUID: iSt42Bu5S6qLClbaI0gxZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,156,1787036400"; 
+   d="scan'208";a="1636088"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.48])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 09:06:35 -0700
+Date: Tue, 13 Oct 2026 19:06:32 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: =?utf-8?Q?Rare=C8=99-Mihai?= Vladu <vladurares@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] media: atomisp: sh_css_mipi: include
+ assert_support.h directly
+Message-ID: <as5XCB4qLykBYmEE@ashevche-desk.local>
+References: <20261012230754.1914517-1-vladurares@gmail.com>
+ <20261012230754.1914517-2-vladurares@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hzewtzrna6tsl46x"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <492e9a13-b50b-48cb-bd41-3114573c7950@yahoo.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261012230754.1914517-2-vladurares@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+
+On Mon, Oct 12, 2026 at 11:07:50PM +0000, Rareș-Mihai Vladu wrote:
+> sh_css_mipi.c uses assert() but only gets its definition indirectly
+> through the circbuf headers. Include assert_support.h directly so the
+> file does not depend on that include chain.
+
+...
+
+>  #include "sh_css_defs.h"
+>  #include "sh_css_sp.h" /* sh_css_update_host2sp_mipi_frame sh_css_update_host2sp_num_mipi_frames ... */
+>  #include "sw_event_global.h" /* IA_CSS_PSYS_SW_EVENT_MIPI_BUFFERS_READY */
+> +#include "assert_support.h"
+
+Keep it ordered by name.
 
 
---hzewtzrna6tsl46x
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] staging: nvec: use guard(mutex) in nvec_write_sync()
-MIME-Version: 1.0
+-- 
+With Best Regards,
+Andy Shevchenko
 
-On Mon, Oct 12, 2026 at 03:41:48PM -0600, Jeremy Clifton wrote:
-> Thank you so much for your guidance and feedback.
->=20
-> It is the result that the patch will produce. All the unlock calls will
-> be deleted and the out of memory path will have no braces, as per
-> the style guidelines.
->=20
-> The motivation behind the patch is to defer usage of manual locks
-> for new and improved guards, disallowing lock leaks.
->=20
-> This way, there can be no error producing path by not calling unlock.
->=20
-> Shall I send a v2 with motivation included?
 
-Not a big deal in this case, but you might want to read up on how to
-properly reply to emails:
-
-    https://subspace.kernel.org/etiquette.html#do-not-top-post-when-replying
-
-Thierry
-
---hzewtzrna6tsl46x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmrOVlIACgkQ3SOs138+
-s6Ey4Q/9HeWRPuZBHvX53s52PXGTjx7DIALN1o0lQS3b1+MxhUlcETBj+3LrS/GV
-zwtBFcTdqMirW9QE9n+dScPrkSoxRCuX0p5BBpMMccYd3f+S3yMCHGCQ6Sy33qQb
-B59hayWYN/uxCo8LkZfeNgsOr+UDJ8nJuLehH3/OBz+ya86RJ1Jaz1kQzcDIBVEq
-dHR0NPKdcdCOgJYTaq0v59GSCavBAAGepGfa/3HOEZUPf6d0u8iy4kJbGH1dQff3
-JZbvseri/M6ONxcXq1DO0+TNMa99QX0gJMVXF6HCmsCot93v1/7s7iwlYdewjebM
-00brAb7yX0PrtraFf840pKf4Fy8iQ2M4a3/PwYpjBSDKP3oBlV/aVXjBJLMTGFrR
-qFN+mDTEGwt3Sz5babpmvXmWxchkwO05ayoTrOWxy4QJQ73blJbmx7l5EjQMl+8/
-4lmQWug9/KfumoKnex73Am2YYNQDh+bkGks/FjvSsBVy617F07fX3j4TdN+n40ME
-qn3GmAxFd31vK78lqASap7xG764Li9IBKn0Wt0LIzUfH5IJnMMb8weFM6VxvcI63
-5IuEAoqCRgz6YaNw8NnNkjvvcM2P0neW3/FHAsjYZcr4rFh3izw/UhfV+fR7CXuf
-j56BBV+TN8hqoNvtfgUcNXTHfWGwhmCxHcT7fw/BdJfgy6xFJBE=
-=5cEq
------END PGP SIGNATURE-----
-
---hzewtzrna6tsl46x--
