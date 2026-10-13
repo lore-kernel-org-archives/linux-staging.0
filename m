@@ -1,61 +1,61 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15ECB52BE3E
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 20:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0647545DBA
+	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 20:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791922547; cv=none; b=m08QZM+rtD8+wmJllFPDpqk4aqyjYL1fZyiA3Bmz/66o26fNwPndt/CIskeT85mXsbegSnetYovJ+MmJ8ENiX429WJ9FK34ttltsGTcRsqeBLIMgkRFHyNLlYUPb3APeB/Xvq6QNPlMSZzyHckQyV6GVjEB+IJnufW6IvMOO/nw=
+	t=1791922547; cv=none; b=F8ldZLs1Y0RadTBw22jd0fll0d4RzGg/gQRCBzJINliFSFrmaUpjuzVLDstgklp3haAcFHddQ+BmzPUzIyV0FnMOQoFJ0TylpEQsI4MknFZRdzRhlV0IRZr3rFzN1YW+ulvl7eIlR4L0X3AExFzoq8blIHobTMGylhe6HL+rvnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791922547; c=relaxed/simple;
-	bh=Z8Bu+KL+bj0mGq2kIrvhdlj8hmMhTjmJBRCxms5B6UE=;
+	bh=NbA2GcP4Lr6cnBCo/m/J4Gq2aFWPZ4BazXL7PMFsUFg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qR8NUZPZHngG91UW3mVUI2pZUEeWWLyRlsCRlZxORVN6dgP7n0SUc9BBgX6DEr5ckRQPWvpLTIh0iYsjNaPkIWJEzriJ8/2/XURXLsFJ4TYweSngDBhL9dsmNynt+iMbsJE+apil3Mx0UO941oAvNXBf14xN5dOBEHVW+cOoFmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNL0C5Ls; arc=none smtp.client-ip=209.85.210.45
+	 MIME-Version; b=cniWjfjz0bT4UJJQPNQmHGMHKS9UqiIxxijwP/uueRowQBhU2zZuhasSz8Q9jCEQ7lPZWsQK8SI+wdh0eaHa6u8bKyvazlZOiSxBk47tPk1pg/WpZGOxzHQ1qnlA89onkiMgZvwEzZSqOBTUSWt9Qtx3/V0q5aOZe1LxPv5WMXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=py4yFJNn; arc=none smtp.client-ip=209.85.210.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PNL0C5Ls"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-823e4047037so2700444a34.2
-        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 13:15:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="py4yFJNn"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-8266c388b67so2886294a34.0
+        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 13:15:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1791922543; x=1792527343; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JOYnbfYGvBBLrVRDfsaZ7wyCdHgMKhFfjmPtx3cZKDo=;
-        b=PNL0C5LsYIsOo8OKfx6wxK3fIcNaFuK1X9gg1XAd6RlRm65AnKBGLVLZ1xqRDIf1JX
-         UXc0sbY3jFuFGauuImqbfvsSp9oTCxkQwYDE2ByWIro1OPUaAcGIgY4wepmGDGAbW5as
-         kFu5AJZ5YJRJj6a4zaJKpRoG0WoFv1IiwXn4a6aZsWdO/FZMF7fiibWwu865BQVBO3wL
-         dwsPhBtfbdCWt/iHTm4xcLu/2wIMJxUAaV0Bu9FwVGHbAqzirr3FVZQDdxSa0Ly+jnBy
-         8kD+XonsqxZ/Moqp6C1KBIX8KkipkSPI+YAYZaymfqNFbP+Bu2tpwBSr+tB7nFgwX7IA
-         nGng==
+        bh=ZAYbhl8kX/IVaP666bJYOPGUDp0WP0iUVoNYGhCA0n0=;
+        b=py4yFJNnpfZXWJ7aqo6Qj5QeWj2er3wnQsQXgy9fyhGrGVH5608jqWm7rs1Rp1I7KD
+         dH/Qu8sHSJMDvoPJaW3CSuRmRrfl9UGc7bAMV7/5qf66kz2vV/5fx3T39BNSnB9TSIJ2
+         6z05A0TsFb4xcW+zb3uQQgKY2OVa7RMmAB4s6IXviIHl9mYOOkiUOVgd5ruriULaT3wy
+         qobx7gWEr6fRFJbD+4tQQ7JhtCutWbzKTghEM2RYmsto2LLHEJ7IODF6Iy58uHdQuZHm
+         djDsr+iiRL/0lkbwzGKjC1lu0EEHSbk2Pd8azTpqjC7NpdEwyHRtVm5QIXEJanU/yUHk
+         W+kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1791922543; x=1792527343;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JOYnbfYGvBBLrVRDfsaZ7wyCdHgMKhFfjmPtx3cZKDo=;
-        b=HBNBzVwfnWEEATbKJX2H8OOChSc1RtabX3kjf6pMyUE0dRcHYMBhsSjFGbIqZIphGU
-         pDwhG2D7QOhu8y9H3zUmWgzGbJNLLzRKuOYP6YZLhMRANpyi+eD1dUqy9vNxYMU0+RZT
-         dY8rrcwwIzFsebShk98yOSkzRq6uWQ/kjqN+N9SUYoN5d7K1E1aPnXlyF9t2NzuH6+qG
-         vQukwAm2F2TsJN8i4f2WXCeCWFqLoyfj/uGeaqJt8Mmuh1VoLjIa9sH13h0BhFN4DNc2
-         PV+8n8Hh7ThvdZrZ9AoCjMg6OXgxWkBDBB+y7ZrTWKfQgCQjUKsyUsAlGgXPQ1i0kJqG
-         YA1w==
-X-Gm-Message-State: AFq9FYLt/nRvG5NjK+2Q4OgmpEGk13VvVkrFwkpNAsqv19j1qmqipKpT
-	/QbHhUpOS8We1wEau+84FLvuiIxnXWK3auLU6JZ/ImVJX/FNoQQ3EsRO
-X-Gm-Gg: AYBFou3r1ZvVlk7MXss1qSDh1UpSOEVljxRBGYZTNGsftRoj4mvi87jU8SJd6hFV3Po
-	H7Z6CMsJFMGkOBLJqr7nJ6/8U5+8R1wZUzVKUntp1JzOSESrC9XQE3nU4jQJEKWnZSBKoTj0dmy
-	icRzzwqTgHKHQcpAmaMRhjV/5X8b6mQvOk0m5gdSuu6vTXzMJO6yJop/Z33iQQo+1mvYt8IzdYE
-	LEFkiypr4mtgl3JDicRebEKmo6leBmaiNwA69XccOansyiwBQBM9ABvLO+HsNbrB0P00R4JfJZF
-	02A/b2VVxZsPuD4s774IN0Uf2hOAeVBq4EGqwfIjbHSNk7/s5WYBEY474TbeSnXrM80XTg/WUop
-	8NEhffUtw51pMMUGreMQ3bQ/4542F0inBXjztWTrU6zSzeaCdwLZd3W5A4t0bCrfjHSwxgNgt12
-	U5PQKrwoKrfpUpfJOZuvxg7FSLxuG6QR871Xt+ndp8QbVXeOP6oC5eIfB9vuSacuadvETMSk0/Y
-	zo=
-X-Received: by 2002:a05:6830:6f8f:b0:821:8e71:1bb5 with SMTP id 46e09a7af769-830963f4818mr13915729a34.14.1791922542558;
-        Tue, 13 Oct 2026 13:15:42 -0700 (PDT)
+        bh=ZAYbhl8kX/IVaP666bJYOPGUDp0WP0iUVoNYGhCA0n0=;
+        b=yfxoTnvlXPlR8xcwPNJcAueYfLn4XQ9DXLW/GeaxG1CJyBeiDE995iYf2d8tWNgXAn
+         tpv4/GZkTYJCyY9G25V3JMs6oHjlVQ6O7+H/FsIJQkbl43ybTEBF+TdH3iWeo6ArNHoU
+         DfvickDxLTOUBsXbkaMyvYsflz/ja3e/lpV7pkuepTyrpc8d+fdNdb/h/BVqKVKXh71M
+         BNeLRpfjWwlvv0ZuHJdhDoh7av44B/xQlTcqE7MU9U8/k1olejWdXluUuq9s/lo4Vgxc
+         ExZ7ZFHPPS/IvRMdJdkguU6blPJomFUyPHp6ltiMMrhGPA6vsu+XPJ0DN9wLrqjIFCWR
+         nyjQ==
+X-Gm-Message-State: AFq9FYLNUrjV9m/QxUVbOl6lwXOf9icJ9gA1DXHpZSMxrrLmF8CR1Tji
+	AMa2xLZ20Gwtrcf+1JFfC5tpKCOi6d4UvvWZKV7PWV2TdMAj8HMuuNKrj8/6dwMGIcc=
+X-Gm-Gg: AYBFou0fDowNwmI6iO6gUroTI5pOEIIhrN7jy48q+aWBnVEGPQ7EXtjxWu186HdU197
+	QQ9xo9yi7DTm6p7RWX8Yvq9iHTwUNPsKXBboB3GdhnyW+h9a5jzUyjukIExxY8PieS51V9GNbwy
+	osatq8LlIK876g5TlXAnQkU65AR9YTcAZdFfuxudsOJ1G0DedCeMVZ+FZ37tmJXuw9bYKBeVwh9
+	CH8QGUvahqdJtuuManHclFKlZ7YElSssPMU0vA8Pe5JkkDoxKncbqu5sK9MbNpEq62xhBCnh7X9
+	Q4NLAwfH7CnomCcM/t5I1UUIPCfbmmi91d1JhExXSPwShu+SJdh8iHflquWNVRLSCKyBunLLeLG
+	hfZoVi2kds1hxlWf4XeuPIbK4l4Foc2h20FaKQcOpOCnZ2ELnmn6ojyDox64nuTCv5004nt9dgq
+	/fJhqHOg+Kukr1PU/Pa2CTwRxdmWGEqHFd1btvKZemA1uyLDXK/hVug4AYy6eamAcGUPBnl+hBD
+	lY=
+X-Received: by 2002:a05:6830:490c:b0:80c:d34f:5f62 with SMTP id 46e09a7af769-83097e5963cmr13101661a34.27.1791922543519;
+        Tue, 13 Oct 2026 13:15:43 -0700 (PDT)
 Received: from pop-os.. ([24.32.17.59])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-83038f82468sm13557570a34.11.2026.10.13.13.15.41
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-83038f82468sm13557570a34.11.2026.10.13.13.15.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 13 Oct 2026 13:15:42 -0700 (PDT)
 From: Rishik Yechuri <epicrishik@gmail.com>
@@ -64,9 +64,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Rishik Yechuri <rishik.yechuri.code@gmail.com>
-Subject: [PATCH 02/10] staging: rtl8723bs: use ieee80211_has_*() to test frame control flags
-Date: Tue, 13 Oct 2026 15:15:30 -0500
-Message-ID: <20261013201538.43156-3-rishik.yechuri.code@gmail.com>
+Subject: [PATCH 03/10] staging: rtl8723bs: set frame control flags with IEEE80211_FCTL_* masks
+Date: Tue, 13 Oct 2026 15:15:31 -0500
+Message-ID: <20261013201538.43156-4-rishik.yechuri.code@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
 References: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
@@ -78,247 +78,314 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver defines GetToDs(), GetFrDs(), get_tofr_ds(), GetMFrag(),
-GetRetry(), GetPwrMgt(), GetMData(), GetPrivacy() and GetOrder() in
-wifi.h to test individual bits of the IEEE 802.11 Frame Control field.
-Each macro casts the frame buffer to __le16 and masks a single bit.
-<linux/ieee80211.h> provides equivalent helpers that operate on the
-frame_control member of struct ieee80211_hdr and test the same bits.
+The driver defines SetToDs(), SetFrDs(), SetMFrag(), ClearMFrag(),
+ClearRetry(), SetPwrMgt(), ClearPwrMgt(), SetMData(), ClearMData() and
+SetPrivacy() in wifi.h to set and clear bits of the IEEE 802.11 Frame
+Control field, using private _TO_DS_ through _ORDER_ bit definitions
+that duplicate the IEEE80211_FCTL_* constants in <linux/ieee80211.h>.
 
-Replace each use of these macros with the corresponding helper:
+Replace each use of these macros by operating on the frame_control
+member directly with the corresponding IEEE80211_FCTL_* mask, as is
+done elsewhere in the wireless subsystem.
 
-  GetToDs()    -> ieee80211_has_tods()
-  GetFrDs()    -> ieee80211_has_fromds()
-  GetMFrag()   -> ieee80211_has_morefrags()
-  GetRetry()   -> ieee80211_has_retry()
-  GetPwrMgt()  -> ieee80211_has_pm()
-  GetMData()   -> ieee80211_has_moredata()
-  GetPrivacy() -> ieee80211_has_protected()
-  GetOrder()   -> ieee80211_has_order()
+In rtw_xmitframe_coalesce(), the header pointer is updated on each
+iteration of the fragmentation loop, since mem_start advances to a new
+fragment each time.
 
-Open code get_tofr_ds() using ieee80211_has_tods() and
-ieee80211_has_fromds(), and remove the macro definitions. Also remove
-GetOrderBit(), which has no users.
+When constructing the BIP additional authentication data, mask the
+Retry, Power Management and More Data bits in a local copy of the
+Frame Control field before copying it into the buffer. This matches
+bip_aad() in net/mac80211/wpa.c.
+
+Remove the macro definitions and the private bit definitions, which no
+longer have any users. Also remove the mem_start variable from
+rtw_mgmt_xmitframe_coalesce(), as its only use was the SetPrivacy()
+call.
 
 No functional change intended.
 
 Signed-off-by: Rishik Yechuri <rishik.yechuri.code@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 10 +++---
- drivers/staging/rtl8723bs/core/rtw_recv.c     | 19 +++++++-----
- drivers/staging/rtl8723bs/include/wifi.h      | 31 ++++---------------
- 3 files changed, 23 insertions(+), 37 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 12 +++---
+ drivers/staging/rtl8723bs/core/rtw_security.c |  9 +++--
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 29 +++++++-------
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 12 +++---
+ drivers/staging/rtl8723bs/include/wifi.h      | 39 -------------------
+ 5 files changed, 33 insertions(+), 68 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 1349bd423..d318b0ff4 100644
+index d318b0ff4..842c3d39c 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -455,7 +455,7 @@ void mgt_dispatcher(struct adapter *padapter, union recv_frame *precv_frame)
- 	ptable += index;
+@@ -2573,7 +2573,7 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
+ 		if ((pmlmeinfo->auth_seq == 3) && (pmlmeinfo->state & WIFI_FW_AUTH_STATE) && (use_shared_key == 1)) {
+ 			pframe = rtw_set_ie(pframe, WLAN_EID_CHALLENGE, 128, pmlmeinfo->chg_txt, &(pattrib->pktlen));
  
- 	if (psta) {
--		if (GetRetry(pframe)) {
-+		if (ieee80211_has_retry(hdr->frame_control)) {
- 			if (precv_frame->u.hdr.attrib.seq_num == psta->rx_mgmt_frame_seq_num) {
- 				/* drop the duplicate management frame */
- 				return;
-@@ -690,7 +690,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
+-			SetPrivacy(fctrl);
++			*fctrl |= cpu_to_le16(IEEE80211_FCTL_PROTECTED);
  
- 	auth_mode = psecuritypriv->dot11_auth_algrthm;
+ 			pattrib->hdrlen = sizeof(struct ieee80211_hdr_3addr);
  
--	if (GetPrivacy(pframe)) {
-+	if (ieee80211_has_protected(hdr->frame_control)) {
- 		u8 *iv;
- 		struct rx_pkt_attrib	 *prxattrib = &(precv_frame->u.hdr.attrib);
+@@ -2926,12 +2926,12 @@ static int _issue_nulldata(struct adapter *padapter, unsigned char *da,
+ 	*(fctrl) = 0;
  
-@@ -849,6 +849,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
+ 	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)
+-		SetFrDs(fctrl);
++		*fctrl |= cpu_to_le16(IEEE80211_FCTL_FROMDS);
+ 	else if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
+-		SetToDs(fctrl);
++		*fctrl |= cpu_to_le16(IEEE80211_FCTL_TODS);
+ 
+ 	if (power_mode)
+-		SetPwrMgt(fctrl);
++		*fctrl |= cpu_to_le16(IEEE80211_FCTL_PM);
+ 
+ 	memcpy(pwlanhdr->addr1, da, ETH_ALEN);
+ 	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
+@@ -3068,9 +3068,9 @@ static int _issue_qos_nulldata(struct adapter *padapter, unsigned char *da,
+ 	*(fctrl) = 0;
+ 
+ 	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)
+-		SetFrDs(fctrl);
++		*fctrl |= cpu_to_le16(IEEE80211_FCTL_FROMDS);
+ 	else if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
+-		SetToDs(fctrl);
++		*fctrl |= cpu_to_le16(IEEE80211_FCTL_TODS);
+ 
+ 	qc = (unsigned short *)(pframe + pattrib->hdrlen - 2);
+ 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index ae64823af..fc3113922 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -1277,6 +1277,7 @@ u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
+ 	u8 mic[16];
  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	u8 *pframe = precv_frame->u.hdr.rx_data;
-+	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
- 	uint pkt_len = precv_frame->u.hdr.len;
+ 	__le16 le_tmp;
++	__le16 mask_fc;
+ 	__le64 le_tmp64 = 0;
  
- 	/* check A1 matches or not */
-@@ -858,7 +859,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
- 	if (!(pmlmeinfo->state & WIFI_FW_AUTH_STATE))
- 		return _SUCCESS;
+ 	ori_len = pattrib->pkt_len - WLAN_HDR_A3_LEN + BIP_AAD_SIZE;
+@@ -1320,10 +1321,10 @@ u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
+ 		memset(p + 2 + len - 8, 0, 8);
  
--	offset = (GetPrivacy(pframe)) ? 4 : 0;
-+	offset = (ieee80211_has_protected(hdr->frame_control)) ? 4 : 0;
+ 		/* conscruct AAD, copy frame control field */
+-		memcpy(BIP_AAD, &pwlanhdr->frame_control, 2);
+-		ClearRetry(BIP_AAD);
+-		ClearPwrMgt(BIP_AAD);
+-		ClearMData(BIP_AAD);
++		mask_fc = pwlanhdr->frame_control;
++		mask_fc &= ~cpu_to_le16(IEEE80211_FCTL_RETRY | IEEE80211_FCTL_PM |
++					IEEE80211_FCTL_MOREDATA);
++		memcpy(BIP_AAD, &mask_fc, 2);
+ 		/* conscruct AAD, copy address 1 to address 3 */
+ 		memcpy(BIP_AAD + 2, &pwlanhdr->addrs, sizeof(pwlanhdr->addrs));
  
- 	seq	= le16_to_cpu(*(__le16 *)((SIZE_PTR)pframe + WLAN_HDR_A3_LEN + offset + 2));
- 	status	= le16_to_cpu(*(__le16 *)((SIZE_PTR)pframe + WLAN_HDR_A3_LEN + offset + 4));
-@@ -1673,10 +1674,11 @@ static s32 rtw_action_public_decache(union recv_frame *recv_frame, s32 token)
- 	struct adapter *adapter = recv_frame->u.hdr.adapter;
- 	struct mlme_ext_priv *mlmeext = &(adapter->mlmeextpriv);
- 	u8 *frame = recv_frame->u.hdr.rx_data;
-+	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)frame;
- 	u16 seq_ctrl = ((recv_frame->u.hdr.attrib.seq_num & 0xffff) << 4) |
- 		(recv_frame->u.hdr.attrib.frag_num & 0xf);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 364de3c8d..db75ff51f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -921,7 +921,7 @@ int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 			{
+ 				/*  1.Data transfer to AP */
+ 				/*  2.Arp pkt will relayed by AP */
+-				SetToDs(fctrl);
++				*fctrl |= cpu_to_le16(IEEE80211_FCTL_TODS);
+ 				memcpy(pwlanhdr->addr1, get_bssid(pmlmepriv), ETH_ALEN);
+ 				memcpy(pwlanhdr->addr2, pattrib->src, ETH_ALEN);
+ 				memcpy(pwlanhdr->addr3, pattrib->dst, ETH_ALEN);
+@@ -930,7 +930,7 @@ int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 			if (pqospriv->qos_option)
+ 				qos_option = true;
+ 		} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
+-			SetFrDs(fctrl);
++			*fctrl |= cpu_to_le16(IEEE80211_FCTL_FROMDS);
+ 			memcpy(pwlanhdr->addr1, pattrib->dst, ETH_ALEN);
+ 			memcpy(pwlanhdr->addr2, get_bssid(pmlmepriv), ETH_ALEN);
+ 			memcpy(pwlanhdr->addr3, pattrib->src, ETH_ALEN);
+@@ -950,10 +950,10 @@ int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 		}
  
--	if (GetRetry(frame)) {
-+	if (ieee80211_has_retry(hdr->frame_control)) {
- 		if (token >= 0) {
- 			if ((seq_ctrl == mlmeext->action_public_rxseq)
- 				&& (token == mlmeext->action_public_dialog_token))
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 8f3c0552e..43452f50d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -566,13 +566,14 @@ static void process_pwrbit_data(struct adapter *padapter, union recv_frame *prec
+ 		if (pattrib->mdata)
+-			SetMData(fctrl);
++			*fctrl |= cpu_to_le16(IEEE80211_FCTL_MOREDATA);
+ 
+ 		if (pattrib->encrypt)
+-			SetPrivacy(fctrl);
++			*fctrl |= cpu_to_le16(IEEE80211_FCTL_PROTECTED);
+ 
+ 		if (qos_option) {
+ 			qc = (unsigned short *)(hdr + pattrib->hdrlen - 2);
+@@ -1069,6 +1069,7 @@ int rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 	SIZE_PTR addr;
+ 
+ 	u8 *pframe, *mem_start;
++	struct ieee80211_hdr *hdr;
+ 	u8 hw_hdr_offset;
+ 
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+@@ -1106,8 +1107,9 @@ int rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 		mpdu_len = frg_len;
+ 
+ 		pframe = mem_start;
++		hdr = (struct ieee80211_hdr *)mem_start;
+ 
+-		SetMFrag(mem_start);
++		hdr->frame_control |= cpu_to_le16(IEEE80211_FCTL_MOREFRAGS);
+ 
+ 		pframe += pattrib->hdrlen;
+ 		mpdu_len -= pattrib->hdrlen;
+@@ -1157,7 +1159,7 @@ int rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 						((pattrib->bswenc) ? pattrib->icv_len : 0) +
+ 						mem_sz;
+ 
+-			ClearMFrag(mem_start);
++			hdr->frame_control &= ~cpu_to_le16(IEEE80211_FCTL_MOREFRAGS);
+ 
+ 			break;
+ 		}
+@@ -1185,7 +1187,7 @@ int rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ /* broadcast or multicast management pkt use BIP, unicast management pkt use CCMP encryption */
+ int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct xmit_frame *pxmitframe)
  {
- 	unsigned char pwrbit;
- 	u8 *ptr = precv_frame->u.hdr.rx_data;
-+	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)ptr;
- 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
+-	u8 *pframe, *mem_start = NULL, *tmp_buf = NULL;
++	u8 *pframe, *tmp_buf = NULL;
+ 	u8 subtype;
  	struct sta_info *psta = NULL;
+ 	struct pkt_attrib *pattrib = &pxmitframe->attrib;
+@@ -1196,10 +1198,11 @@ int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct ieee80211_hdr	*pwlanhdr;
++	__le16 mask_fc;
+ 	u8 MME[_MME_IE_LENGTH_];
+ 	u32 ori_len;
  
- 	psta = rtw_get_stainfo(pstapriv, pattrib->src);
+-	mem_start = pframe = (u8 *)(pxmitframe->buf_addr) + TXDESC_OFFSET;
++	pframe = (u8 *)(pxmitframe->buf_addr) + TXDESC_OFFSET;
+ 	pwlanhdr = (struct ieee80211_hdr *)pframe;
  
--	pwrbit = GetPwrMgt(ptr);
-+	pwrbit = ieee80211_has_pm(hdr->frame_control);
+ 	ori_len = BIP_AAD_SIZE + pattrib->pktlen;
+@@ -1249,10 +1252,10 @@ int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 		frame_body_len = pattrib->pktlen - sizeof(struct ieee80211_hdr_3addr);
  
- 	if (psta) {
- 		if (pwrbit) {
-@@ -1248,7 +1249,7 @@ static signed int validate_recv_data_frame(struct adapter *adapter, union recv_f
- 	struct security_priv *psecuritypriv = &adapter->securitypriv;
- 	signed int ret = _SUCCESS;
+ 		/* conscruct AAD, copy frame control field */
+-		memcpy(BIP_AAD, &pwlanhdr->frame_control, 2);
+-		ClearRetry(BIP_AAD);
+-		ClearPwrMgt(BIP_AAD);
+-		ClearMData(BIP_AAD);
++		mask_fc = pwlanhdr->frame_control;
++		mask_fc &= ~cpu_to_le16(IEEE80211_FCTL_RETRY | IEEE80211_FCTL_PM |
++					IEEE80211_FCTL_MOREDATA);
++		memcpy(BIP_AAD, &mask_fc, 2);
+ 		/* conscruct AAD, copy address 1 to address 3 */
+ 		memcpy(BIP_AAD + 2, &pwlanhdr->addrs, sizeof(pwlanhdr->addrs));
+ 		/* copy management fram body */
+@@ -1329,7 +1332,7 @@ int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 			pattrib->last_txcmdsz = pattrib->pktlen;
  
--	bretry = GetRetry(ptr);
-+	bretry = ieee80211_has_retry(hdr->frame_control);
- 	pda = get_da(ptr);
- 	psa = get_sa(ptr);
- 	pbssid = get_hdr_bssid(ptr);
-@@ -1435,6 +1436,7 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
- 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
+ 			/* set protected bit must be before SW encrypt */
+-			SetPrivacy(mem_start);
++			pwlanhdr->frame_control |= cpu_to_le16(IEEE80211_FCTL_PROTECTED);
+ 			/* software encrypt */
+ 			xmitframe_swencrypt(padapter, pxmitframe);
+ 		}
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+index 734fb9bb1..5600d9064 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -192,7 +192,7 @@ static void ConstructPSPoll(struct adapter *padapter, u8 *pframe, u32 *pLength)
+ 	/*  Frame control. */
+ 	fctrl = &pwlanhdr->frame_control;
+ 	*(fctrl) = 0;
+-	SetPwrMgt(fctrl);
++	*fctrl |= cpu_to_le16(IEEE80211_FCTL_PM);
+ 	SetFrameSubType(pframe, WIFI_PSPOLL);
  
- 	u8 *ptr = precv_frame->u.hdr.rx_data;
-+	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)ptr;
- 	u8  ver = (unsigned char) (*ptr) & 0x3;
+ 	/*  AID. */
+@@ -229,17 +229,17 @@ static void ConstructNullFunctionData(struct adapter *padapter,
+ 	fctrl = &pwlanhdr->frame_control;
+ 	*(fctrl) = 0;
+ 	if (bForcePowerSave)
+-		SetPwrMgt(fctrl);
++		*fctrl |= cpu_to_le16(IEEE80211_FCTL_PM);
  
- 	/* add version chk */
-@@ -1446,16 +1448,17 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
- 	type =  GetFrameType(ptr);
- 	subtype = GetFrameSubType(ptr); /* bit(7)~bit(2) */
+ 	switch (cur_network->network.infrastructure_mode) {
+ 	case NL80211_IFTYPE_STATION:
+-		SetToDs(fctrl);
++		*fctrl |= cpu_to_le16(IEEE80211_FCTL_TODS);
+ 		ether_addr_copy(pwlanhdr->addr1, get_my_bssid(&(pmlmeinfo->network)));
+ 		ether_addr_copy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)));
+ 		ether_addr_copy(pwlanhdr->addr3, StaAddr);
+ 		break;
+ 	case NL80211_IFTYPE_AP:
+-		SetFrDs(fctrl);
++		*fctrl |= cpu_to_le16(IEEE80211_FCTL_FROMDS);
+ 		ether_addr_copy(pwlanhdr->addr1, StaAddr);
+ 		ether_addr_copy(pwlanhdr->addr2, get_my_bssid(&(pmlmeinfo->network)));
+ 		ether_addr_copy(pwlanhdr->addr3, myid(&(padapter->eeprompriv)));
+@@ -732,9 +732,9 @@ static void ConstructBtNullFunctionData(struct adapter *padapter,
+ 	fctrl = &pwlanhdr->frame_control;
+ 	*fctrl = 0;
+ 	if (bForcePowerSave)
+-		SetPwrMgt(fctrl);
++		*fctrl |= cpu_to_le16(IEEE80211_FCTL_PM);
  
--	pattrib->to_fr_ds = get_tofr_ds(ptr);
-+	pattrib->to_fr_ds = (ieee80211_has_tods(hdr->frame_control) << 1) |
-+			    ieee80211_has_fromds(hdr->frame_control);
- 
- 	pattrib->frag_num = GetFragNum(ptr);
- 	pattrib->seq_num = GetSequence(ptr);
- 
--	pattrib->pw_save = GetPwrMgt(ptr);
--	pattrib->mfrag = GetMFrag(ptr);
--	pattrib->mdata = GetMData(ptr);
--	pattrib->privacy = GetPrivacy(ptr);
--	pattrib->order = GetOrder(ptr);
-+	pattrib->pw_save = ieee80211_has_pm(hdr->frame_control);
-+	pattrib->mfrag = ieee80211_has_morefrags(hdr->frame_control);
-+	pattrib->mdata = ieee80211_has_moredata(hdr->frame_control);
-+	pattrib->privacy = ieee80211_has_protected(hdr->frame_control);
-+	pattrib->order = ieee80211_has_order(hdr->frame_control);
- 
- 	switch (type) {
- 	case WIFI_MGT_TYPE: /* mgnt */
+-	SetFrDs(fctrl);
++	*fctrl |= cpu_to_le16(IEEE80211_FCTL_FROMDS);
+ 	ether_addr_copy(pwlanhdr->addr1, StaAddr);
+ 	ether_addr_copy(pwlanhdr->addr2, myid(&padapter->eeprompriv));
+ 	ether_addr_copy(pwlanhdr->addr3, myid(&padapter->eeprompriv));
 diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
-index 6c877c7ca..800bfd962 100644
+index 800bfd962..bfc985870 100644
 --- a/drivers/staging/rtl8723bs/include/wifi.h
 +++ b/drivers/staging/rtl8723bs/include/wifi.h
-@@ -75,53 +75,33 @@ enum {
- #define SetToDs(pbuf)	\
- 	(*(__le16 *)(pbuf) |= cpu_to_le16(_TO_DS_))
+@@ -63,45 +63,6 @@ enum {
+     WIFI_QOS_DATA_NULL	= (BIT(6) | WIFI_QOS_DATA_TYPE),
+ };
  
--#define GetToDs(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_TO_DS_)) != 0)
+-#define _TO_DS_		BIT(8)
+-#define _FROM_DS_	BIT(9)
+-#define _MORE_FRAG_	BIT(10)
+-#define _RETRY_		BIT(11)
+-#define _PWRMGT_	BIT(12)
+-#define _MORE_DATA_	BIT(13)
+-#define _PRIVACY_	BIT(14)
+-#define _ORDER_			BIT(15)
 -
- #define SetFrDs(pbuf)	\
- 	(*(__le16 *)(pbuf) |= cpu_to_le16(_FROM_DS_))
- 
--#define GetFrDs(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_FROM_DS_)) != 0)
+-#define SetToDs(pbuf)	\
+-	(*(__le16 *)(pbuf) |= cpu_to_le16(_TO_DS_))
 -
--#define get_tofr_ds(pframe)	((GetToDs(pframe) << 1) | GetFrDs(pframe))
+-#define SetFrDs(pbuf)	\
+-	(*(__le16 *)(pbuf) |= cpu_to_le16(_FROM_DS_))
 -
- #define SetMFrag(pbuf)	\
- 	(*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_FRAG_))
- 
--#define GetMFrag(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_MORE_FRAG_)) != 0)
+-#define SetMFrag(pbuf)	\
+-	(*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_FRAG_))
 -
- #define ClearMFrag(pbuf)	\
- 	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_FRAG_)))
- 
--#define GetRetry(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_RETRY_)) != 0)
+-#define ClearMFrag(pbuf)	\
+-	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_FRAG_)))
 -
- #define ClearRetry(pbuf)	\
- 	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_RETRY_)))
- 
- #define SetPwrMgt(pbuf)	\
- 	(*(__le16 *)(pbuf) |= cpu_to_le16(_PWRMGT_))
- 
--#define GetPwrMgt(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_PWRMGT_)) != 0)
+-#define ClearRetry(pbuf)	\
+-	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_RETRY_)))
 -
- #define ClearPwrMgt(pbuf)	\
- 	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_PWRMGT_)))
- 
- #define SetMData(pbuf)	\
- 	(*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_DATA_))
- 
--#define GetMData(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_MORE_DATA_)) != 0)
+-#define SetPwrMgt(pbuf)	\
+-	(*(__le16 *)(pbuf) |= cpu_to_le16(_PWRMGT_))
 -
- #define ClearMData(pbuf)	\
- 	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_DATA_)))
- 
- #define SetPrivacy(pbuf)	\
- 	(*(__le16 *)(pbuf) |= cpu_to_le16(_PRIVACY_))
- 
--#define GetPrivacy(pbuf)					\
--	(((*(__le16 *)(pbuf)) & cpu_to_le16(_PRIVACY_)) != 0)
+-#define ClearPwrMgt(pbuf)	\
+-	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_PWRMGT_)))
 -
--#define GetOrder(pbuf)					\
--	(((*(__le16 *)(pbuf)) & cpu_to_le16(_ORDER_)) != 0)
+-#define SetMData(pbuf)	\
+-	(*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_DATA_))
+-
+-#define ClearMData(pbuf)	\
+-	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_DATA_)))
+-
+-#define SetPrivacy(pbuf)	\
+-	(*(__le16 *)(pbuf) |= cpu_to_le16(_PRIVACY_))
 -
  #define GetFrameType(pbuf)				\
  	(le16_to_cpu(*(__le16 *)(pbuf)) & (BIT(3) | BIT(2)))
  
-@@ -204,7 +184,8 @@ static inline unsigned char *get_da(unsigned char *pframe)
- {
- 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
- 	unsigned char *da;
--	unsigned int	to_fr_ds	= (GetToDs(pframe) << 1) | GetFrDs(pframe);
-+	unsigned int to_fr_ds = (ieee80211_has_tods(hdr->frame_control) << 1) |
-+				ieee80211_has_fromds(hdr->frame_control);
- 
- 	switch (to_fr_ds) {
- 	case 0x00:	/*  ToDs = 0, FromDs = 0 */
-@@ -228,7 +209,8 @@ static inline unsigned char *get_sa(unsigned char *pframe)
- {
- 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
- 	unsigned char *sa;
--	unsigned int	to_fr_ds	= (GetToDs(pframe) << 1) | GetFrDs(pframe);
-+	unsigned int to_fr_ds = (ieee80211_has_tods(hdr->frame_control) << 1) |
-+				ieee80211_has_fromds(hdr->frame_control);
- 
- 	switch (to_fr_ds) {
- 	case 0x00:	/*  ToDs = 0, FromDs = 0 */
-@@ -252,7 +234,8 @@ static inline unsigned char *get_hdr_bssid(unsigned char *pframe)
- {
- 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
- 	unsigned char *sa = NULL;
--	unsigned int	to_fr_ds	= (GetToDs(pframe) << 1) | GetFrDs(pframe);
-+	unsigned int to_fr_ds = (ieee80211_has_tods(hdr->frame_control) << 1) |
-+				ieee80211_has_fromds(hdr->frame_control);
- 
- 	switch (to_fr_ds) {
- 	case 0x00:	/*  ToDs = 0, FromDs = 0 */
-@@ -317,8 +300,6 @@ static inline int IsFrameTypeCtrl(unsigned char *pframe)
- /*-----------------------------------------------------------------------------
- 				Below is the definition for 802.11n
- ------------------------------------------------------------------------------*/
--#define GetOrderBit(pbuf)	(((*(unsigned short *)(pbuf)) & cpu_to_le16(_ORDER_)) != 0)
--
- #define ACT_CAT_VENDOR				0x7F/* 127 */
- 
- /**
 -- 
 2.43.0
 
