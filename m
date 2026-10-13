@@ -1,85 +1,77 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7201738F927
-	for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 23:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC3235AC24
+	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 02:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791847852; cv=none; b=kh6ly145p5s09TWr2MmUUZidMRKD2jgCNrolu11TioPBT3vFA7gAgLIo6+rDYlVylPY4Poh/gKvrmKQpevXXMGDjz9zAqr8Bd2JSJiZo2tVQ34KsuVsnM+si3zZslDA9n7W1RQIzjyuNwklNBjZ1cC8jT6UWsn0Z6vGHKw6CoOI=
+	t=1791858257; cv=none; b=cU+fwuaALDg00qx7hAuxx4WrtHHmdI4aJ8mBu1BlQaaHpAw82CYL6/sl0ytdYGokQ+BvO3ZqvLwJ897tDBACiKFEcMvCPh0M9tLAiSNSuCys7WGdidvuqugz0Of5rZfqcS916oIoy0mlC6RcI/q6pVi/1OlC4AJ/LPRLulnQXjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791847852; c=relaxed/simple;
-	bh=CfunYNfp8YoHmHdRkHWuL0TCzYiZC7UIKmuNtNZSoPw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BbUWLhBqR05ix1oqINaDoquMtiWrovjVfau3RakfYwl4xdSJ4uQNUCaz0f47lw7RUY+4X50OMC2WrOtgyVeUecYSxkp7mRsyGZfzSfi+c/FBo+nHHivSTLy5f+lb2LYGISfc/mMSWPNUZv4gpESUfd6Z2ZIrzS9lvyN6v59NLH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=metarealtyinc.ca; spf=pass smtp.mailfrom=metarealtyinc.ca; dkim=pass (2048-bit key) header.d=metarealtyinc-ca.20251104.gappssmtp.com header.i=@metarealtyinc-ca.20251104.gappssmtp.com header.b=TpksNCvS; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=metarealtyinc.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=metarealtyinc.ca
+	s=arc-20240116; t=1791858257; c=relaxed/simple;
+	bh=MoMGSPOqTr4M6F5ZHRoW8h+LRARnD0C9eFYVg3JWUMk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XzfnL2sIndsujkvPvPwgSWMCU26MZU02VLz+5LZDclhYXquzZmq4vkSlQQvFBC3tMgL+DL6ODqaOKpQjDGt/oKtpQt9hSkDJXeoqVsAOpUxjXvBsprRBQbqh+OmAdhPtPpazIHJo2NSL2fH3qeVMb4yETdX+ETWJ94IVrQKWWOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JT8lzspH; arc=none smtp.client-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=metarealtyinc-ca.20251104.gappssmtp.com header.i=@metarealtyinc-ca.20251104.gappssmtp.com header.b="TpksNCvS"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-91b83459526so14664066d6.2
-        for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 16:30:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JT8lzspH"
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-35c76e9614aso179165eec.0
+        for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 19:24:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=metarealtyinc-ca.20251104.gappssmtp.com; s=20251104; t=1791847850; x=1792452650; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CfunYNfp8YoHmHdRkHWuL0TCzYiZC7UIKmuNtNZSoPw=;
-        b=TpksNCvSf+nUdKXt8lORlcPaw2N3BRtjHGrzJWLLRXcpk0Y9dWwlPoNtxoM7fNz6NP
-         kYT4Z+Rb+W63suxgXXVKTpPEugItWWAFGCy5xpZ9wKrV/AMG1TfBvnd7tb82Fuv7sHAe
-         V4OmWIq/Tw0/5xhqv0Qx+YeKoGH4XUGjFjNYVNspqAiD8+q4ZuUb5OGEqp0P7oJcf+OJ
-         5m00rWyRB3uFb/sC8CYqwh9FZmd+s7VQDfTsZHYGjJ7NV7c306TKY76BLDZTU4L/rzEw
-         fpxOPPKmODIcqhAG6RiTZ1JHKVEVGjxx9YyIp9NF8Gv7rSpNAKFKNAepWIB7uS0wmscJ
-         bNLA==
+        d=gmail.com; s=20251104; t=1791858253; x=1792463053; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2mt3JmLLgHj7BPLHepcEaqLDPCG5DVuA7mfVobinE+s=;
+        b=JT8lzspHS/s+C7RVix/+GxLqgG8vwxisll+7a/kGJEif4yPmJtwdWtgGKQyR3EBgcW
+         vTOH3g6PcfC0Ukfelr0A7L1XctiMGvPT8/BjZ2QJbbNuWJhCo7qMv62XTSfcEwI9+KFX
+         KRD7JaGBaoATpNKyM8HTGvsiC7mkfROzNOt8RuvwzOaBP5OUqAScfTklA3CBBrtn9Tu3
+         nj7dFA1i6DlySmvZ3nc2OGJ2zoIFTZDxHvAcbOlCmLSkrUf6a/NqoNPZb7DiiJ6e8l1I
+         9XSjD6Fj2zUqGHoLvCP1put+Car62BUXAJo9ygBckWpIfiLxUExCaW0soFLSOV3Uj96w
+         dAng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791847850; x=1792452650;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CfunYNfp8YoHmHdRkHWuL0TCzYiZC7UIKmuNtNZSoPw=;
-        b=I05bse/H+rmepfUujRV+CMVMKvsi7VGE/yux19VropWxg9dGdw9r8wfTy5T5Sn8SCu
-         BsJ2MxLkdFtLYAGQVyeK+ys8W6A9cfP+O2hL9VJ97kBvbS34dG2PPpMwXRlv3aMN8fSB
-         JDrUHxpoRn+obYNg4mXeImMJ+EAxhv7V9geSK7GrFqaiAPve+LwgAkvMp7Ba25w4YIqP
-         6yOaPIqbOGRWta9+D8nvWCcGsOShVwAedQtF9CgIglByt/nBGkVtBDxDr/6CPhXzWr5S
-         uWVkTz5zun+oRDa38vOiZExx3yNCI7LYYfCqpWZY6+oxEPGRMur5PTOvJy8eil71gX4b
-         s3PQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzqNPKg6jls1sgpkwP5+w34szkKqT7L65WZTKrq6KQVefg74j90Pdo1wpQyr3BsvIfevOJLXEuAANw7FugG@lists.linux.dev
-X-Gm-Message-State: AFq9FYKvs0Nkt4ruQIKEE1VwbumVMV9k0YoIuLc9IX4wAOVeHDFE37iI
-	psFVSsEe8fsTsfbKNNOJTO5edDSZnVvIxwCofTfmW7Dp8Uqs5Q6S7il/n7a9fkHQy+8=
-X-Gm-Gg: AYBFou0gyvJsGZnv8drIedXvo4/h9s45q87lUbPVMklSlXDT7AAcYjg2KySaIq87uWF
-	65lyv/nyP9eyqVGXom0CH9BcdkfV/gfOPFrj2HL+XI4KrtDLcKZvCaE1WftNxYO4csderEIUpbE
-	sJ/22G6QleTVd7Ljn3oE1tTlTHoxAk0dopyWa8C7N0F9gfYMvplao0GN2R+P3OZXODdTdO0LVES
-	BCV9pm1IjFDE4rI+hx8wtIM0NPOQjMs2zy1rmoGthrndxBDtTkM0WyIay+cdiNo8ngPFb6g6EZh
-	/3LxWDtKY7lNaxdWe/wlBSkLOo/hzowxm11I1bQr5yelbRHuSIqzi5EabBsQjBSaq2l8FWqUIVb
-	cGZXxRbsFJlJUITtSVLZWgsjjjlOumQyE5n64Q/9rLq6/AYGo68L5+myk9YLpXyby4yEg4ryXDq
-	ryeEdeZNQ6ye3YS7m4zIJwzeu8WiwddO9pyNAHcRwSpmqTdcCYSyGnxlpdF2yNqBFf799xvr7Za
-	eKfTSNXS6lwBnSUW922sMrT2E+zXuZPg83tTFU47DdO+wbecZdhdD9tuo0HNs8Wm+xhGy4ljG8e
-	Ckkaf0EPiwGzpKwWcOXbQS06R5n1pOZbLYGfAzjlltUfmDlSEnOrMg==
-X-Received: by 2002:a05:6214:328d:b0:91b:5d3b:4abd with SMTP id 6a1803df08f44-91b5d3b4da4mr183530656d6.50.1791847850247;
-        Mon, 12 Oct 2026 16:30:50 -0700 (PDT)
-Received: from jake-laptop ([2607:fea8:e5:500::662b])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b97b3864dsm10654626d6.14.2026.10.12.16.30.48
+        d=1e100.net; s=20260707; t=1791858253; x=1792463053;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2mt3JmLLgHj7BPLHepcEaqLDPCG5DVuA7mfVobinE+s=;
+        b=lhm11DdZlKL4pKLUFIpfjwSRQsLmtwH559gKGAiT12CjWTwRDiXjhiiayMUfWS3VV8
+         eyE7+5sKtMH2RpkphxLNAEnFPrN6UyhUyx6kkq8iUin8xWLlEFA4B9ge9AagWWhIOxN9
+         i9/N64gJ3DIn+fola+ayWPCD7R43vhhri12Yx740/MKKnOvmJOBnwvj9r1EuV5TH+RTy
+         6RURheZIDXHFGn3hqdpVpkC1vNJqJEY9f83/bLie8eD2B83YypF5nA8d+OJcPumOc0Uh
+         alBdgnmwDPnuV3XDkimME7fwekz6koTEbAh/j0E/IP4Orj78GiczCHEYEbxgm0HqdSYn
+         uERw==
+X-Forwarded-Encrypted: i=1; AKwUvBy7XI6MCHM57hJTGiD5jvXm90yyWawolFmMZteC+7f1Hw9gSxwUYVCQp7vBi2wMg8b7jsw943YiEJjvvR9I@lists.linux.dev
+X-Gm-Message-State: AFq9FYLuOceiLd8lPQ5iZzjZcICyO7ln9XNLCku6TepuSai6e/No1AbU
+	8WuTwEnKwmys2Vn/SlF1z5vLh2kllE6tHBfbmksngACEmUqNeGdgfImc
+X-Gm-Gg: AYBFou3PvG/ooB5vIHoI9HsAyX4x8i8s5ChuxiKk9yd2r7eKY5i0iRvZGgrGGaWQuOe
+	a1Tu13BXQrt7QC9dILitl/OKCUpQT17aIxKEXeOlxJ2L6TVrynY726vzaBUhIlBLh6572/VczQ2
+	JjOTXcaTQTrZyVuywF6eD3EmjXOzbJmAV4UG98r/2FDaSEe19/NhLEuCUr9Lavw3UZfqxDdy9ba
+	qD42v8sjYRvcnngRHOxvYlbcmk/7pTtK05ibXFLLrcwAeum2cqu6scbyvkf/dPrr0s/eSLzUXcE
+	sx1xjqYUA4Uog6uK/RCTBiicykitMAylR614vvyogqjKmdc8TBSEbEdJk/HlRvTu6LhrQbGz5hj
+	llrx2VxjFChS5/Q7sTfjRYi2/987AmhUSYvfVhmgVGoGWpZXD4N0fYn+0vXdg8jPFUrlDx8/NCO
+	+2m7t8St5/S4ofJ2VRezL0oKqSvPBFVcx5NdWa0Ug0MSqCr4xgZO0u0NCcKYMqzQ3LMY0lhyiCM
+	dno2w==
+X-Received: by 2002:a05:693c:620f:b0:33b:c24c:d31c with SMTP id 5a478bee46e88-3537dfc7ddbmr19496412eec.7.1791858253173;
+        Mon, 12 Oct 2026 19:24:13 -0700 (PDT)
+Received: from user.. ([2405:201:c052:b00b:d39e:c181:5646:33b])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cb68e56sm34777638eec.29.2026.10.12.19.24.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 16:30:48 -0700 (PDT)
-From: Jake Steinman <j@metarealtyinc.ca>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Ramshouriesh R <rshouriesh@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Bryan O'Donoghue <bod@kernel.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Eduard Kulyk <kulikeduard89@gmail.com>,
-	linux-media@vger.kernel.org,
+        Mon, 12 Oct 2026 19:24:12 -0700 (PDT)
+From: pavankumaryalagada@gmail.com
+To: johan@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: vireshk@kernel.org,
+	elder@kernel.org,
+	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: staging/ipu7: Add 10-bit greyscale capture formats
-Date: Mon, 12 Oct 2026 19:30:47 -0400
-Message-ID: <20261012233047.1026925-1-j@metarealtyinc.ca>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <as1QTFB1CRDNxAEY@kekkonen.localdomain>
-References: <20260801-hm1092-driver-v6-0-5979f223748a@gmail.com> <cover.1791608336.git.j@metarealtyinc.ca> <5423f57000600f27626ff785f80f94d3e7ad1106.1791608336.git.j@metarealtyinc.ca> <as1QTFB1CRDNxAEY@kekkonen.localdomain>
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	gservice341@gmail.com,
+	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+Subject: [PATCH v2] staging: greybus: replace PTR_ERR() with %pe in error messages
+Date: Tue, 13 Oct 2026 07:54:02 +0530
+Message-ID: <20261013022402.6322-1-pavankumaryalagada@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -88,15 +80,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 
-On Mon, Oct 12, 2026, Sakari Ailus wrote:
-> We're about to remove the ipu7 staging driver, therefore I'm not taking
-> non-fix patches to it. Can you se the ipu6 driver instead?
+Use %pe to print error pointers directly and display their
+error names.
 
-Understood, I will drop this patch. The ipu6 driver already has Y10 and
-Y10P, so nothing is needed there. I will retest the sensor patch on
-Panther Lake with the ipu6 driver from media/next and send v2 with the
-result.
+Keep the other PTR_ERR() call because its return value is
+needed for ret.
 
-Jake
+Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+---
+v2:
+- Use %pe in the firmware management case, as suggested by Jeremy Clifton,
+  to match the other cases.
+
+v1: https://lore.kernel.org/outreachy/as0nhVbagZa8Birm@user/T/#t
+---
+ drivers/staging/greybus/fw-core.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/greybus/fw-core.c b/drivers/staging/greybus/fw-core.c
+index 2016a74f137f..78321be80013 100644
+--- a/drivers/staging/greybus/fw-core.c
++++ b/drivers/staging/greybus/fw-core.c
+@@ -93,8 +93,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
+ 			if (IS_ERR(connection)) {
+ 				ret = PTR_ERR(connection);
+ 				dev_err(&bundle->dev,
+-					"failed to create management connection (%d)\n",
+-					ret);
++					"failed to create management connection (%pe)\n",
++					connection);
+ 				goto err_destroy_connections;
+ 			}
+ 
+@@ -112,8 +112,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
+ 			connection = gb_connection_create(bundle, cport_id,
+ 							  gb_fw_download_request_handler);
+ 			if (IS_ERR(connection)) {
+-				dev_err(&bundle->dev, "failed to create download connection (%ld)\n",
+-					PTR_ERR(connection));
++				dev_err(&bundle->dev, "failed to create download connection (%pe)\n",
++					connection);
+ 			} else {
+ 				fw_core->download_connection = connection;
+ 			}
+@@ -131,8 +131,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
+ 			connection = gb_connection_create(bundle, cport_id,
+ 							  NULL);
+ 			if (IS_ERR(connection)) {
+-				dev_err(&bundle->dev, "failed to create SPI connection (%ld)\n",
+-					PTR_ERR(connection));
++				dev_err(&bundle->dev, "failed to create SPI connection (%pe)\n",
++					connection);
+ 			} else {
+ 				fw_core->spi_connection = connection;
+ 			}
+@@ -149,8 +149,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
+ 			connection = gb_connection_create(bundle, cport_id,
+ 							  NULL);
+ 			if (IS_ERR(connection)) {
+-				dev_err(&bundle->dev, "failed to create Authentication connection (%ld)\n",
+-					PTR_ERR(connection));
++				dev_err(&bundle->dev, "failed to create Authentication connection (%pe)\n",
++					connection);
+ 			} else {
+ 				fw_core->cap_connection = connection;
+ 			}
+-- 
+2.43.0
+
