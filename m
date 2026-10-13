@@ -1,72 +1,72 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326B7542EEF
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 20:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA77454B1D5
+	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 20:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791922550; cv=none; b=sxqDeK14HoMLaR1/5dfzd2yCLnT1Dq5O1AO2jIG4O6bfh6lMStFt2Fn2nCpxwjJW5mjFkJx+0ISEXTjbMrAnuy80sV/spAROb7j/Xk2rGPmql1+6TkA8yrNygONg5lfrfythmTzx+xEEVvvM4uUPvg12UKyj/CDboJVVgkgahK0=
+	t=1791922551; cv=none; b=pabixfT5/NjtldxkPcFXiTzZynNcJv1glIV5DQy/iMf8qsnda9SI+k5axzoveOD/RFoVrL+PoDdO6W9T3Fp3B6hMhyQLMAavmAxfaRzWLwaJ1jR+T/fB9kRUl568fXMvR4ESBlhLhqvOdt/WdZhtPkt9M0vxWEOkq1U8K3MT3ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791922550; c=relaxed/simple;
-	bh=/4sN80egNkOhp7Y0xA7GlnS2ylBeKF+0+kjrQt9XOkM=;
+	s=arc-20240116; t=1791922551; c=relaxed/simple;
+	bh=I+NdIKU01Z7WUSf5DE1xW1Wbmeu81osluftFHMiNXWw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZdaLu8I4tnQCC9ZY+R14WoQk/exCRyTADdz7nDN8EXoS6sLVthIJSTNaclhCqzRP2aUcqsHUVZmNQf9DU4xdUobSeAJwt2UC8vzMaYG8JXjSrQKK5nctx67V6KUSZ9S6VtLtGUlrIfDTSwbQt66hq2xkTtd3XJHvz4QM9zF3Lys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GmtyF5r5; arc=none smtp.client-ip=209.85.210.48
+	 MIME-Version; b=b42xS+9C7t5ffc6nSfZu9TK/F41UJ4ZObQrBsOzdA518uIQshjW6UqTpCyScuffAdMr7nFJTqWKTVtTgk76WCp3QyDGhO9QEQk0OKjkuNN9DtEh2pmD11i9d9QVd/CMnNSfm8UnpGWPA9wUk/JIlRGY8mdX/KnQ348Wr4Fecbbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gcvcylU1; arc=none smtp.client-ip=209.85.210.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GmtyF5r5"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-822ddb835fbso2491229a34.0
-        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 13:15:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gcvcylU1"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-8198a3a54d7so5533019a34.1
+        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 13:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791922545; x=1792527345; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791922546; x=1792527346; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9PtkALnml1BFj40cO4YIh2d4PtMJJuv1aPw/IiEsjms=;
-        b=GmtyF5r54yrKE/s7LDHWuWp+huEoNjHf2/ReQmfZzUbMjcd9X1NM7WvyZvVYJr4zvb
-         HWGUA6Nwe23Ey3ULztdl1cmy3+dOpyzFAwxN7h/lO6SlckV0Ib01yPKODf5AFl8yhtBq
-         0sguU4G4h9zBIbil4qL97Gqpaf22TuZ32CmypyFjKxvifHHFJrh1lK01BrR1pAy4d/TO
-         YGI8z1bnaLi58KzH9X9oovTP/mMLyCKkmac7/zHgX0hrJ3y5LwkYATOGOy2FP1G5wmMR
-         US5C+0BZ+SCMiwdKuufvhgm1md+61HtQi1IGIe25Hqr8W6c/gIYgifO8d1sDhkGQmG4I
-         UqiQ==
+        bh=P1VoopQsNzs3OiTLGLS/LZbk0RPHVRqGEEw5UCMuK14=;
+        b=gcvcylU1ksGo0+ARKnyPhXYCWuedibcLnqxvjP0lIfFisKX8BRc5a31c7DijU8Jfzn
+         NQPDhbttyi6T/ASN9PoiJePHd7uu4fLMT3IHI3X9KygddtZGtmG7q/9axAOdYLQtpoTe
+         SaqC5wsBsBgF6/GBPFxQuS/9k9mtqa/tS2zIlLu/XMiRSslR1WKgjiT4dA0/IotNJa85
+         37fY0ZET7ihdjsfhnrZaGJb1qBMbNmvPcFfDkKaeFOAfKRTdOgnV4sryUr7amwXlYvOQ
+         kgARLEiDQgBcVB7pzM9qlsb63/JRMTpBtE784V18hF5u7ju+6hBs3B3drtLUAp+o7Tnt
+         /xMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791922545; x=1792527345;
+        d=1e100.net; s=20260707; t=1791922546; x=1792527346;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9PtkALnml1BFj40cO4YIh2d4PtMJJuv1aPw/IiEsjms=;
-        b=EBjMzYgAzDGDB7gp6VDZXvHM7TwTa0VHY34S/ENLfMsfkm6ErunK5nZ2akNU9UXT5G
-         0tIxqoEw43rTsFGToqxCMWz1pOOVglUf8d3WvygkJRrRD1XymRlbkMeryhVqjlXRFiAA
-         x+OqxRtoEViZ8akfHrqWTfcK96t3dF56zJiGBo6xW3X6d2+9zgUOZLfLeT9qmT5BPj4U
-         8beufnucuDiSjxaD0yN7NkMf1gk7ZNIxsXQ+VfOOMYY5/0DdvwDjq1TxQAcwe5cvDB2e
-         xxBqB/0u+XWA5u3fcxF3YdFgcKUYFKhR3o1C2MbqhwEvb+M8xCQdOcf54d1ehPO3roTp
-         Bi9w==
-X-Gm-Message-State: AFq9FYIgHVsyoZCgHNW2Z1GxTFNhK0OQBHCSfv12GEEU49EFjZA6KBz9
-	Q4P/pnW60c5maqOIR7v3RqaM9wfIcFtS5gCas7BWZENOUReiU8bCbLD8lP506bYdsp0=
-X-Gm-Gg: AYBFou2NM/xJffxeA1PFyNOgpSdINWaOPMqnGdImtnAl0cHmifLv/hnX/J7zBYbqEfM
-	u0nZ6PXyKsf3f1rKWAsI8KTR5tC3xHvQoyD7yo9n2LpjVF62GNm2sOA+eYY9D+Wuggu43Fc3pkS
-	i6h79b4L6fW4a3rYrgXObM+TCX7kHQHbD/tlf8LwOg7J2AxnPvmJRDhQ9qvO6qRhbIg8LynL0pl
-	mq5xKfh8B3/+bjA/tQ8iWohO9VZyj9dDpPwtcTd0Yn8ZqBBDKS+jCAmPd1S8LRNwbqJzK1jGCLK
-	/klhxRkPPD5qlfw6/03+SpB9qfKQR47NF+awTbTC8wJQ1AwEESoZsoLK96ssySFqKEu9yLsPHFP
-	R7R4Z4vZw7a4pmK1sKHZ2CkxFkvpkz0EnmIzs7m1KEs/EiQ2k7qLf9zr7v8Poj+JxtBFTZi9up0
-	teQQnOJZ1XIcP0nCVInBBy7N9CbjAd6qOfh6BT+qlJHjFVkC3wATMQr26V8/syDcCYnl65gx64/
-	+g=
-X-Received: by 2002:a05:6830:270d:b0:810:521f:3033 with SMTP id 46e09a7af769-8309506c445mr12813593a34.10.1791922544604;
-        Tue, 13 Oct 2026 13:15:44 -0700 (PDT)
+        bh=P1VoopQsNzs3OiTLGLS/LZbk0RPHVRqGEEw5UCMuK14=;
+        b=HnPajjxwv28uqJ4ApylSpEt+n/0O+74T04DP6ZdU1EiUUQj8+K8B6zfAfv6qF7rX9n
+         Wy3pQCCJe7VKGZdMSYd12gmRS7NlrsJqJ1qlU9Vxsqqvyb8r3ap9qLs89noRGML1pqF8
+         GeFd2SRzBVLCOIhTB/D1vgRbmQVwVsBH4ssHC9yeliphU8kPdxsl1PTKmOHkQIRW855W
+         +tFqi2ZFznQy3zXOlnQRod2xUgLjZQGOJJfw2AWGkkhsQx1AqAaeGFJ91X7cREZscmbh
+         fj9dsyx4BlslYzoyt90dcs/aQTvWYWtT9yykZxpKwzCMsmfjRnG+Pi4goGtifkK1IM1N
+         Gg9w==
+X-Gm-Message-State: AFq9FYJhM2IkwWFntZbP6a0QADqlL5+rCh50KhAGoll5A/DN7Kd7M6mI
+	FY4VEhsYueeRncmEC8c9bkW1Fi94irqmTE6Nnd0GvCNNM9RBWuRy9F3J
+X-Gm-Gg: AYBFou0o9zib0J+WbXgAbs/XUZWj6vr6V7/j7Ow+FEmKAW/rp3ai2jy0ubqkViOjOBg
+	slXiCZjZmlLEunvzjBRn/mh8ris6he+a9Uq8V9ZAVJ0/RJbMF9fPA615SSE7UC+yT2fxoz6pQrw
+	dH7Tdg4/mtdLgNCBQTFqWzxGM1Y/+d+GVGH/4Z0eYEN+fIR2fn/z2/zioKeRtGaAFoXoQK8SxS4
+	5JzKDMPtmkfTh368HtpccSRRZVXz1bGMution7eBUEcsWErwKvrer3kRasgxKP1/k/BsFr0JGR/
+	rD2mvYGTguHaxLTd9xmqf6UgC/R4Ha9ln4Q14DxrT0eiaZMKNpr+eEnGulr3XmSqshMAqjZJoOU
+	6iw6BKf3okOF5dGtyTLF/vWjAnt2hokYu9uhPI0dXCb5GQtAj5MyB4QdqX4FYBzpHiQ3c4ZhgUY
+	Y9gxOUFGjAL3RdQZID8+KaSOosS7+ZxIrxth495hsc7LQX2oKPuqsc04gz6KefLj5cpQj0lLmcU
+	jk=
+X-Received: by 2002:a05:6830:c90:b0:820:91b1:5ad4 with SMTP id 46e09a7af769-830296218camr6337416a34.23.1791922546276;
+        Tue, 13 Oct 2026 13:15:46 -0700 (PDT)
 Received: from pop-os.. ([24.32.17.59])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-83038f82468sm13557570a34.11.2026.10.13.13.15.43
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-83038f82468sm13557570a34.11.2026.10.13.13.15.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 13:15:44 -0700 (PDT)
+        Tue, 13 Oct 2026 13:15:45 -0700 (PDT)
 From: Rishik Yechuri <epicrishik@gmail.com>
 X-Google-Original-From: Rishik Yechuri <rishik.yechuri.code@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Rishik Yechuri <rishik.yechuri.code@gmail.com>
-Subject: [PATCH 04/10] staging: rtl8723bs: use ieee80211_is_*() for frame type tests
-Date: Tue, 13 Oct 2026 15:15:32 -0500
-Message-ID: <20261013201538.43156-5-rishik.yechuri.code@gmail.com>
+Subject: [PATCH 05/10] staging: rtl8723bs: use IEEE80211_FCTL_* masks for frame type dispatch
+Date: Tue, 13 Oct 2026 15:15:33 -0500
+Message-ID: <20261013201538.43156-6-rishik.yechuri.code@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
 References: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
@@ -78,220 +78,502 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several functions test whether a received or transmitted frame is of
-one particular type or subtype by comparing the result of
-GetFrameType() or GetFrameSubType() against the driver's WIFI_*
-constants. <linux/ieee80211.h> provides ieee80211_is_*() helpers that
-perform the same tests on the frame_control member of
-struct ieee80211_hdr.
+The remaining users of GetFrameType() and GetFrameSubType() switch on
+the frame type or subtype, store it for several later comparisons, or
+derive values from its individual bits. Convert them to operate on the
+frame_control member of struct ieee80211_hdr.
 
-Replace these single comparisons with the corresponding helpers:
+Switch statements now mask frame_control with IEEE80211_FCTL_FTYPE or
+IEEE80211_FCTL_STYPE and use cpu_to_le16(IEEE80211_FTYPE_*) or
+cpu_to_le16(IEEE80211_STYPE_*) case labels, as is done in mac80211.
 
-  GetFrameType() == WIFI_MGT_TYPE    -> ieee80211_is_mgmt()
-  GetFrameType() == WIFI_CTRL_TYPE   -> ieee80211_is_ctl()
-  GetFrameType() == WIFI_DATA_TYPE   -> ieee80211_is_data()
-  GetFrameSubType() == WIFI_BEACON   -> ieee80211_is_beacon()
-  GetFrameSubType() == WIFI_PSPOLL   -> ieee80211_is_pspoll()
-  GetFrameSubType() == WIFI_ASSOCREQ -> ieee80211_is_assoc_req()
-  GetFrameSubType() == WIFI_DEAUTH   -> ieee80211_is_deauth()
-  GetFrameSubType() == WIFI_DISASSOC -> ieee80211_is_disassoc()
+Where the subtype was stored in a local variable and compared against
+several values, store the frame_control value instead and use the
+ieee80211_is_*() helpers.
 
-The QoS data test in sta2ap_data_frame() is replaced with
-ieee80211_is_data_qos(). The helper additionally checks that the frame
-type is data, which is always the case on this path since the frame
-has already been classified as a data frame by validate_recv_frame().
+The test for the absence of a data payload in ap2sta_data_frame() and
+sta2ap_data_frame() is replaced with ieee80211_is_data_present(), and
+the QoS test in validate_recv_frame() with ieee80211_is_data_qos().
+Both helpers additionally check that the frame type is data, which is
+always the case on these paths.
 
-Remove IsFrameTypeCtrl(), whose only caller is converted by this
-change.
+In aes_cipher(), aes_decipher() and rtw_check_bcn_info(), the type and
+subtype are kept as integer values and are now derived using the
+IEEE80211_FCTL_* masks and compared against IEEE80211_FTYPE_* and
+IEEE80211_STYPE_* values, which are numerically identical to the WIFI_*
+values they replace.
 
-The remaining users of GetFrameType() and GetFrameSubType() are
-converted separately.
+Remove the GetFrameType() and GetFrameSubType() macros, which no longer
+have any users.
 
 No functional change intended.
 
 Signed-off-by: Rishik Yechuri <rishik.yechuri.code@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     |  2 +-
- drivers/staging/rtl8723bs/core/rtw_recv.c         | 11 ++++++-----
- drivers/staging/rtl8723bs/core/rtw_xmit.c         |  3 ++-
- drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c    |  5 +++--
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  3 ++-
- drivers/staging/rtl8723bs/include/wifi.h          |  5 -----
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  6 +++---
- 7 files changed, 17 insertions(+), 18 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 35 ++++++++--------
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 40 +++++++++----------
+ drivers/staging/rtl8723bs/core/rtw_security.c | 32 ++++++++-------
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  7 ++--
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 20 +++++-----
+ drivers/staging/rtl8723bs/include/wifi.h      |  6 ---
+ 6 files changed, 65 insertions(+), 75 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 842c3d39c..dfe4f6210 100644
+index dfe4f6210..e315d693f 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -436,7 +436,7 @@ void mgt_dispatcher(struct adapter *padapter, union recv_frame *precv_frame)
- 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
- 	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, hdr->addr2);
+@@ -447,7 +447,7 @@ void mgt_dispatcher(struct adapter *padapter, union recv_frame *precv_frame)
  
--	if (GetFrameType(pframe) != WIFI_MGT_TYPE)
-+	if (!ieee80211_is_mgmt(hdr->frame_control))
+ 	ptable = mlme_sta_tbl;
+ 
+-	index = GetFrameSubType(pframe) >> 4;
++	index = (le16_to_cpu(hdr->frame_control) & IEEE80211_FCTL_STYPE) >> 4;
+ 
+ 	if (index >= ARRAY_SIZE(mlme_sta_tbl))
  		return;
+@@ -464,24 +464,24 @@ void mgt_dispatcher(struct adapter *padapter, union recv_frame *precv_frame)
+ 		psta->rx_mgmt_frame_seq_num = precv_frame->u.hdr.attrib.seq_num;
+ 	}
  
- 	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 43452f50d..3dcb4c8b5 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -859,6 +859,7 @@ static signed int sta2ap_data_frame(struct adapter *adapter, union recv_frame *p
- 		       struct sta_info **psta)
- {
- 	u8 *ptr = precv_frame->u.hdr.rx_data;
-+	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)ptr;
- 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
- 	struct sta_priv *pstapriv = &adapter->stapriv;
- 	struct mlme_priv *pmlmepriv = &adapter->mlmepriv;
-@@ -882,7 +883,7 @@ static signed int sta2ap_data_frame(struct adapter *adapter, union recv_frame *p
- 
- 		process_pwrbit_data(adapter, precv_frame);
- 
--		if ((GetFrameSubType(ptr) & WIFI_QOS_DATA_TYPE) == WIFI_QOS_DATA_TYPE)
-+		if (ieee80211_is_data_qos(hdr->frame_control))
- 			process_wmmps_data(adapter, precv_frame);
- 
- 		if (GetFrameSubType(ptr) & BIT(6)) {
-@@ -915,7 +916,7 @@ static signed int validate_recv_ctrl_frame(struct adapter *padapter, union recv_
- 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
- 	struct sta_info *psta = NULL;
- 
--	if (GetFrameType(pframe) != WIFI_CTRL_TYPE)
-+	if (!ieee80211_is_ctl(hdr->frame_control))
+-	switch (GetFrameSubType(pframe)) {
+-	case WIFI_AUTH:
++	switch (hdr->frame_control & cpu_to_le16(IEEE80211_FCTL_STYPE)) {
++	case cpu_to_le16(IEEE80211_STYPE_AUTH):
+ 		if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
+ 			ptable->func = &OnAuth;
+ 		else
+ 			ptable->func = &OnAuthClient;
+ 		fallthrough;
+-	case WIFI_ASSOCREQ:
+-	case WIFI_REASSOCREQ:
++	case cpu_to_le16(IEEE80211_STYPE_ASSOC_REQ):
++	case cpu_to_le16(IEEE80211_STYPE_REASSOC_REQ):
+ 		_mgt_dispatcher(padapter, ptable, precv_frame);
+ 		break;
+-	case WIFI_PROBEREQ:
++	case cpu_to_le16(IEEE80211_STYPE_PROBE_REQ):
+ 		_mgt_dispatcher(padapter, ptable, precv_frame);
+ 		break;
+-	case WIFI_BEACON:
++	case cpu_to_le16(IEEE80211_STYPE_BEACON):
+ 		_mgt_dispatcher(padapter, ptable, precv_frame);
+ 		break;
+-	case WIFI_ACTION:
++	case cpu_to_le16(IEEE80211_STYPE_ACTION):
+ 		_mgt_dispatcher(padapter, ptable, precv_frame);
+ 		break;
+ 	default:
+@@ -927,7 +927,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 	unsigned char supportRate[16];
+ 	int					support_rate_num;
+ 	unsigned short		status = WLAN_STATUS_SUCCESS;
+-	unsigned short		frame_type, ie_offset = 0;
++	unsigned short		ie_offset = 0;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+@@ -941,8 +941,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
  		return _FAIL;
  
- 	/* receive the frames that ra(a1) is my address */
-@@ -930,7 +931,7 @@ static signed int validate_recv_ctrl_frame(struct adapter *padapter, union recv_
- 	psta->sta_stats.rx_ctrl_pkts++;
+-	frame_type = GetFrameSubType(pframe);
+-	if (frame_type == WIFI_ASSOCREQ)
++	if (ieee80211_is_assoc_req(hdr->frame_control))
+ 		ie_offset = _ASOCREQ_IE_OFFSET_;
+ 	else /*  WIFI_REASSOCREQ */
+ 		ie_offset = _REASOCREQ_IE_OFFSET_;
+@@ -1286,7 +1285,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		sta_info_update(padapter, pstat);
  
- 	/* only handle ps-poll */
--	if (GetFrameSubType(pframe) == WIFI_PSPOLL) {
-+	if (ieee80211_is_pspoll(hdr->frame_control)) {
- 		u16 aid;
- 		u8 wmmps_ac = 0;
+ 		/* 2 issue assoc rsp before notify station join event. */
+-		if (frame_type == WIFI_ASSOCREQ)
++		if (ieee80211_is_assoc_req(hdr->frame_control))
+ 			issue_asocrsp(padapter, status, pstat, WIFI_ASSOCRSP);
+ 		else
+ 			issue_asocrsp(padapter, status, pstat, WIFI_REASSOCRSP);
+@@ -1315,7 +1314,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ OnAssocReqFail:
  
-@@ -1128,9 +1129,9 @@ static union recv_frame *recvframe_chk_defrag(struct adapter *padapter, union re
- 	psta_addr = pfhdr->attrib.ta;
- 	psta = rtw_get_stainfo(pstapriv, psta_addr);
- 	if (!psta) {
--		u8 type = GetFrameType(pfhdr->rx_data);
-+		struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pfhdr->rx_data;
+ 	pstat->aid = 0;
+-	if (frame_type == WIFI_ASSOCREQ)
++	if (ieee80211_is_assoc_req(hdr->frame_control))
+ 		issue_asocrsp(padapter, status, pstat, WIFI_ASSOCRSP);
+ 	else
+ 		issue_asocrsp(padapter, status, pstat, WIFI_REASSOCRSP);
+@@ -3756,7 +3755,7 @@ u8 collect_bss_info(struct adapter *padapter, union recv_frame *precv_frame, str
+ 	int	i;
+ 	u32 len;
+ 	u8 *p;
+-	u16 val16, subtype;
++	u16 val16;
+ 	u8 *pframe = precv_frame->u.hdr.rx_data;
+ 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
+ 	u32 packet_len = precv_frame->u.hdr.len;
+@@ -3773,17 +3772,15 @@ u8 collect_bss_info(struct adapter *padapter, union recv_frame *precv_frame, str
  
--		if (type != WIFI_DATA_TYPE) {
-+		if (!ieee80211_is_data(hdr->frame_control)) {
- 			psta = rtw_get_bcmc_stainfo(padapter);
- 			pdefrag_q = &psta->sta_recvpriv.defrag_q;
+ 	memset(bssid, 0, sizeof(struct wlan_bssid_ex));
+ 
+-	subtype = GetFrameSubType(pframe);
+-
+-	if (subtype == WIFI_BEACON) {
++	if (ieee80211_is_beacon(hdr->frame_control)) {
+ 		bssid->reserved[0] = 1;
+ 		ie_offset = _BEACON_IE_OFFSET_;
+ 	} else {
+ 		/*  FIXME : more type */
+-		if (subtype == WIFI_PROBERSP) {
++		if (ieee80211_is_probe_resp(hdr->frame_control)) {
+ 			ie_offset = _PROBERSP_IE_OFFSET_;
+ 			bssid->reserved[0] = 3;
+-		} else if (subtype == WIFI_PROBEREQ) {
++		} else if (ieee80211_is_probe_req(hdr->frame_control)) {
+ 			ie_offset = _PROBEREQ_IE_OFFSET_;
+ 			bssid->reserved[0] = 2;
  		} else {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index 3dcb4c8b5..75eef9662 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -806,7 +806,7 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+ 			goto exit;
+ 		}
+ 
+-		if (GetFrameSubType(ptr) & BIT(6)) {
++		if (!ieee80211_is_data_present(hdr->frame_control)) {
+ 			/* No data, will not indicate to upper layer, temporarily count it here */
+ 			count_rx_stats(adapter, precv_frame, *psta);
+ 			ret = RTW_RX_HANDLED;
+@@ -886,7 +886,7 @@ static signed int sta2ap_data_frame(struct adapter *adapter, union recv_frame *p
+ 		if (ieee80211_is_data_qos(hdr->frame_control))
+ 			process_wmmps_data(adapter, precv_frame);
+ 
+-		if (GetFrameSubType(ptr) & BIT(6)) {
++		if (!ieee80211_is_data_present(hdr->frame_control)) {
+ 			/* No data, will not indicate to upper layer, temporarily count it here */
+ 			count_rx_stats(adapter, precv_frame, *psta);
+ 			ret = RTW_RX_HANDLED;
+@@ -1214,14 +1214,14 @@ static signed int validate_recv_mgnt_frame(struct adapter *padapter, union recv_
+ 
+ 	psta->sta_stats.rx_mgnt_pkts++;
+ 
+-	switch (GetFrameSubType(precv_frame->u.hdr.rx_data)) {
+-	case WIFI_BEACON:
++	switch (hdr->frame_control & cpu_to_le16(IEEE80211_FCTL_STYPE)) {
++	case cpu_to_le16(IEEE80211_STYPE_BEACON):
+ 		psta->sta_stats.rx_beacon_pkts++;
+ 		break;
+-	case WIFI_PROBEREQ:
++	case cpu_to_le16(IEEE80211_STYPE_PROBE_REQ):
+ 		psta->sta_stats.rx_probereq_pkts++;
+ 		break;
+-	case WIFI_PROBERSP:
++	case cpu_to_le16(IEEE80211_STYPE_PROBE_RESP):
+ 		if (!memcmp(padapter->eeprompriv.mac_addr, hdr->addr1, ETH_ALEN))
+ 			psta->sta_stats.rx_probersp_pkts++;
+ 		else if (is_broadcast_ether_addr(hdr->addr1) ||
+@@ -1352,16 +1352,17 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
+ 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
+ 	u8 *ptr = precv_frame->u.hdr.rx_data;
+ 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)ptr;
+-	u8 subtype;
++	__le16 fc;
+ 
+-	subtype = GetFrameSubType(ptr); /* bit(7)~bit(2) */
++	fc = hdr->frame_control;
+ 
+ 	/* only support station mode */
+ 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) && check_fwstate(pmlmepriv, _FW_LINKED) &&
+ 	    adapter->securitypriv.binstallBIPkey) {
+ 		/* unicast management frame decrypt */
+ 		if (pattrib->privacy && !(is_multicast_ether_addr(hdr->addr1)) &&
+-			(subtype == WIFI_DEAUTH || subtype == WIFI_DISASSOC || subtype == WIFI_ACTION)) {
++			(ieee80211_is_deauth(fc) || ieee80211_is_disassoc(fc) ||
++			 ieee80211_is_action(fc))) {
+ 			u8 *mgmt_DATA;
+ 			u32 data_len = 0;
+ 
+@@ -1390,7 +1391,7 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
+ 			pattrib->pkt_len = pattrib->pkt_len - pattrib->iv_len - pattrib->icv_len;
+ 			kfree(mgmt_DATA);
+ 		} else if (is_multicast_ether_addr(hdr->addr1) &&
+-			(subtype == WIFI_DEAUTH || subtype == WIFI_DISASSOC)) {
++			(ieee80211_is_deauth(fc) || ieee80211_is_disassoc(fc))) {
+ 			signed int BIP_ret = _SUCCESS;
+ 			/* verify BIP MME IE of broadcast/multicast de-auth/disassoc packet */
+ 			BIP_ret = rtw_BIP_verify(adapter, (u8 *)precv_frame);
+@@ -1402,7 +1403,7 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
+ 				goto validate_80211w_fail;
+ 			}
+ 		} else { /* 802.11w protect */
+-			if (subtype == WIFI_ACTION) {
++			if (ieee80211_is_action(fc)) {
+ 				/* according 802.11-2012 standard, these five types are not robust types */
+ 				if (ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_PUBLIC          &&
+ 					ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_HT              &&
+@@ -1411,7 +1412,7 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
+ 					ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_P2P) {
+ 					goto validate_80211w_fail;
+ 				}
+-			} else if (subtype == WIFI_DEAUTH || subtype == WIFI_DISASSOC) {
++			} else if (ieee80211_is_deauth(fc) || ieee80211_is_disassoc(fc)) {
+ 				/* issue sa query request */
+ 				issue_action_SA_Query(adapter, NULL, 0, 0);
+ 				goto validate_80211w_fail;
+@@ -1430,8 +1431,6 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
+ 
+ 	/* then call check if rx seq/frag. duplicated. */
+ 
+-	u8 type;
+-	u8 subtype;
+ 	signed int retval = _SUCCESS;
+ 
+ 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
+@@ -1446,9 +1445,6 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
+ 		goto exit;
+ 	}
+ 
+-	type =  GetFrameType(ptr);
+-	subtype = GetFrameSubType(ptr); /* bit(7)~bit(2) */
+-
+ 	pattrib->to_fr_ds = (ieee80211_has_tods(hdr->frame_control) << 1) |
+ 			    ieee80211_has_fromds(hdr->frame_control);
+ 
+@@ -1461,8 +1457,8 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
+ 	pattrib->privacy = ieee80211_has_protected(hdr->frame_control);
+ 	pattrib->order = ieee80211_has_order(hdr->frame_control);
+ 
+-	switch (type) {
+-	case WIFI_MGT_TYPE: /* mgnt */
++	switch (hdr->frame_control & cpu_to_le16(IEEE80211_FCTL_FTYPE)) {
++	case cpu_to_le16(IEEE80211_FTYPE_MGMT): /* mgnt */
+ 		if (validate_80211w_mgmt(adapter, precv_frame) == _FAIL) {
+ 			retval = _FAIL;
+ 			break;
+@@ -1471,12 +1467,12 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
+ 		retval = validate_recv_mgnt_frame(adapter, precv_frame);
+ 		retval = _FAIL; /*  only data frame return _SUCCESS */
+ 		break;
+-	case WIFI_CTRL_TYPE: /* ctrl */
++	case cpu_to_le16(IEEE80211_FTYPE_CTL): /* ctrl */
+ 		retval = validate_recv_ctrl_frame(adapter, precv_frame);
+ 		retval = _FAIL; /*  only data frame return _SUCCESS */
+ 		break;
+-	case WIFI_DATA_TYPE: /* data */
+-		pattrib->qos = (subtype & BIT(7)) ? 1 : 0;
++	case cpu_to_le16(IEEE80211_FTYPE_DATA): /* data */
++		pattrib->qos = ieee80211_is_data_qos(hdr->frame_control);
+ 		retval = validate_recv_data_frame(adapter, precv_frame);
+ 		if (retval == _FAIL) {
+ 			struct recv_priv *precvpriv = &adapter->recvpriv;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index fc3113922..f22f6a201 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -649,7 +649,7 @@ static void construct_mic_iv(u8 *mic_iv,
+ 			mic_iv[1] = 0x00;
+ 
+ 		/* 802.11w management frame should set management bit(4) */
+-		if (frtype == WIFI_MGT_TYPE)
++		if (frtype == IEEE80211_FTYPE_MGMT)
+ 			mic_iv[1] |= BIT(4);
+ 
+ 		for (i = 2; i < 8; i++)
+@@ -675,7 +675,7 @@ static void construct_mic_header1(u8 *mic_header1,
+ 		mic_header1[1] = (u8)((header_length - 2) % 256);
+ 
+ 		/* 802.11w management frame don't AND subtype bits 4, 5, 6 of frame control field */
+-		if (frtype == WIFI_MGT_TYPE)
++		if (frtype == IEEE80211_FTYPE_MGMT)
+ 			mic_header1[2] = mpdu[0];
+ 		else
+ 			mic_header1[2] = mpdu[0] & 0xcf;    /* Mute CF poll & CF ack bits */
+@@ -767,7 +767,7 @@ static void construct_ctr_preload(u8 *ctr_preload,
+ 		ctr_preload[1] = mpdu[24] & 0x0f;
+ 
+ 	/* 802.11w management frame should set management bit(4) */
+-	if (frtype == WIFI_MGT_TYPE)
++	if (frtype == IEEE80211_FTYPE_MGMT)
+ 		ctr_preload[1] |= BIT(4);
+ 
+ 	/* ctr_preload[2:7] = A2[0:5] = mpdu[10:15] */
+@@ -800,8 +800,9 @@ static signed int aes_cipher(u8 *key, u16 hdrlen,
+ 	u8 aes_out[16] = {};
+ 	u8 padded_buffer[16] = {};
+ 	u8 mic[8];
+-	u8 frtype  = GetFrameType(pframe);
+-	u8 frsubtype  = GetFrameSubType(pframe);
++	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
++	u8 frtype = le16_to_cpu(hdr->frame_control) & IEEE80211_FCTL_FTYPE;
++	u8 frsubtype = le16_to_cpu(hdr->frame_control) & IEEE80211_FCTL_STYPE;
+ 
+ 	frsubtype = frsubtype >> 4;
+ 
+@@ -810,14 +811,14 @@ static signed int aes_cipher(u8 *key, u16 hdrlen,
+ 	else
+ 		a4_exists = true;
+ 
+-	if (((frtype | frsubtype) == WIFI_DATA_CFACK) ||
+-	    ((frtype | frsubtype) == WIFI_DATA_CFPOLL) ||
+-	    ((frtype | frsubtype) == WIFI_DATA_CFACKPOLL)) {
++	if (((frtype | frsubtype) == (IEEE80211_FTYPE_DATA | IEEE80211_STYPE_DATA_CFACK)) ||
++	    ((frtype | frsubtype) == (IEEE80211_FTYPE_DATA | IEEE80211_STYPE_DATA_CFPOLL)) ||
++	    ((frtype | frsubtype) == (IEEE80211_FTYPE_DATA | IEEE80211_STYPE_DATA_CFACKPOLL))) {
+ 		qc_exists = true;
+ 		if (hdrlen !=  WLAN_HDR_A3_QOS_LEN)
+ 			hdrlen += 2;
+ 
+-	} else if ((frtype == WIFI_DATA) &&
++	} else if ((frtype == IEEE80211_FTYPE_DATA) &&
+ 		   ((frsubtype == 0x08) ||
+ 		   (frsubtype == 0x09) ||
+ 		   (frsubtype == 0x0a) ||
+@@ -1005,8 +1006,9 @@ static signed int aes_decipher(u8 *key, u8 hdrlen,
+ 	u8 padded_buffer[16] = {};
+ 	u8 mic[8];
+ 
+-	u8 frtype  = GetFrameType(pframe);
+-	u8 frsubtype  = GetFrameSubType(pframe);
++	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
++	u8 frtype = le16_to_cpu(hdr->frame_control) & IEEE80211_FCTL_FTYPE;
++	u8 frsubtype = le16_to_cpu(hdr->frame_control) & IEEE80211_FCTL_STYPE;
+ 
+ 	frsubtype = frsubtype >> 4;
+ 
+@@ -1028,14 +1030,14 @@ static signed int aes_decipher(u8 *key, u8 hdrlen,
+ 	else
+ 		a4_exists = true;
+ 
+-	if (((frtype | frsubtype) == WIFI_DATA_CFACK) ||
+-	    ((frtype | frsubtype) == WIFI_DATA_CFPOLL) ||
+-	    ((frtype | frsubtype) == WIFI_DATA_CFACKPOLL)) {
++	if (((frtype | frsubtype) == (IEEE80211_FTYPE_DATA | IEEE80211_STYPE_DATA_CFACK)) ||
++	    ((frtype | frsubtype) == (IEEE80211_FTYPE_DATA | IEEE80211_STYPE_DATA_CFPOLL)) ||
++	    ((frtype | frsubtype) == (IEEE80211_FTYPE_DATA | IEEE80211_STYPE_DATA_CFACKPOLL))) {
+ 		qc_exists = true;
+ 		if (hdrlen !=  WLAN_HDR_A3_QOS_LEN)
+ 			hdrlen += 2;
+ 
+-	} else if ((frtype == WIFI_DATA) &&
++	} else if ((frtype == IEEE80211_FTYPE_DATA) &&
+ 		   ((frsubtype == 0x08) ||
+ 		   (frsubtype == 0x09) ||
+ 		   (frsubtype == 0x0a) ||
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 72607588d..883365458 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -1082,7 +1082,8 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 	int group_cipher = 0, pairwise_cipher = 0, is_8021x = 0;
+ 	unsigned char *pbuf;
+ 	u32 wpa_ielen = 0;
+-	u8 *pbssid = ((struct ieee80211_hdr *)pframe)->addr3;
++	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
++	u8 *pbssid = hdr->addr3;
+ 	struct HT_info_element *pht_info = NULL;
+ 	struct ieee80211_ht_cap *pht_cap = NULL;
+ 	u32 bcn_channel;
+@@ -1111,9 +1112,9 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 		pmlmepriv->NumOfBcnInfoChkFail = 0;
+ 	}
+ 
+-	subtype = GetFrameSubType(pframe) >> 4;
++	subtype = (le16_to_cpu(hdr->frame_control) & IEEE80211_FCTL_STYPE) >> 4;
+ 
+-	if (subtype == WIFI_BEACON)
++	if (subtype == IEEE80211_STYPE_BEACON)
+ 		bssid->reserved[0] = 1;
+ 
+ 	bssid->length = sizeof(struct wlan_bssid_ex) - MAX_IE_SZ + len;
 diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index db75ff51f..2e1a4b483 100644
+index 2e1a4b483..920f0b93b 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -1231,7 +1231,8 @@ int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
- 		memset(MME, 0, 18);
+@@ -1188,7 +1188,7 @@ int rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct xmit_frame *pxmitframe)
+ {
+ 	u8 *pframe, *tmp_buf = NULL;
+-	u8 subtype;
++	__le16 fc;
+ 	struct sta_info *psta = NULL;
+ 	struct pkt_attrib *pattrib = &pxmitframe->attrib;
+ 	s32 bmcst = is_multicast_ether_addr(pattrib->ra);
+@@ -1212,7 +1212,7 @@ int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 		return -ENOMEM;
  
- 		/* other types doesn't need the BIP */
--		if (GetFrameSubType(pframe) != WIFI_DEAUTH && GetFrameSubType(pframe) != WIFI_DISASSOC)
-+		if (!ieee80211_is_deauth(pwlanhdr->frame_control) &&
-+		    !ieee80211_is_disassoc(pwlanhdr->frame_control))
- 			goto xmitframe_coalesce_fail;
+ 	tmp_buf = BIP_AAD;
+-	subtype = GetFrameSubType(pframe); /* bit(7)~bit(2) */
++	fc = pwlanhdr->frame_control;
+ 	spin_lock_bh(&padapter->security_key_mutex);
  
- 		MGMT_body = pframe + sizeof(struct ieee80211_hdr_3addr);
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-index a62b845c6..79d6d7431 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-@@ -82,6 +82,7 @@ static void update_recvframe_phyinfo(union recv_frame *precvframe,
- 		(struct odm_phy_info *)(&pattrib->phy_info);
+ 	/* only support station mode */
+@@ -1270,8 +1270,8 @@ int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 		memcpy(pframe - 8, mic, 8);
+ 	} else { /* unicast mgmt frame TX */
+ 		/* start to encrypt mgmt frame */
+-		if (subtype == WIFI_DEAUTH || subtype == WIFI_DISASSOC ||
+-			subtype == WIFI_REASSOCREQ || subtype == WIFI_ACTION) {
++		if (ieee80211_is_deauth(fc) || ieee80211_is_disassoc(fc) ||
++		    ieee80211_is_reassoc_req(fc) || ieee80211_is_action(fc)) {
+ 			if (pattrib->psta)
+ 				psta = pattrib->psta;
+ 			else
+@@ -1284,7 +1284,7 @@ int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 				goto xmitframe_coalesce_fail;
  
- 	u8 *wlanhdr = precvframe->u.hdr.rx_data;
-+	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)wlanhdr;
- 	u8 *my_bssid;
- 	u8 *rx_bssid;
- 	u8 *rx_ra;
-@@ -101,7 +102,7 @@ static void update_recvframe_phyinfo(union recv_frame *precvframe,
+ 			/* according 802.11-2012 standard, these five types are not robust types */
+-			if (subtype == WIFI_ACTION &&
++			if (ieee80211_is_action(fc) &&
+ 			(pframe[WLAN_HDR_A3_LEN] == RTW_WLAN_CATEGORY_PUBLIC ||
+ 			pframe[WLAN_HDR_A3_LEN] == RTW_WLAN_CATEGORY_HT ||
+ 			pframe[WLAN_HDR_A3_LEN] == RTW_WLAN_CATEGORY_UNPROTECTED_WNM ||
+@@ -2440,7 +2440,7 @@ struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpri
  
- 	my_bssid = get_bssid(&padapter->mlmepriv);
- 	rx_bssid = get_hdr_bssid(wlanhdr);
--	pkt_info.bssid_match = ((!IsFrameTypeCtrl(wlanhdr)) &&
-+	pkt_info.bssid_match = (!ieee80211_is_ctl(hdr->frame_control) &&
- 				!pattrib->icv_err && !pattrib->crc_err &&
- 				ether_addr_equal(rx_bssid, my_bssid));
+ 	if (!list_empty(&pqueue->queue)) {
+ 		struct list_head *plist, *phead;
+-		u8 type;
++		struct ieee80211_hdr *hdr;
  
-@@ -111,7 +112,7 @@ static void update_recvframe_phyinfo(union recv_frame *precvframe,
- 		ether_addr_equal(rx_ra, my_hwaddr);
+ 		phead = get_list_head(pqueue);
+ 		plist = phead;
+@@ -2451,11 +2451,11 @@ struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpri
  
- 	pkt_info.is_beacon = pkt_info.bssid_match &&
--		(GetFrameSubType(wlanhdr) == WIFI_BEACON);
-+		ieee80211_is_beacon(hdr->frame_control);
+ 			pxmitbuf = container_of(plist, struct xmit_buf, list);
  
- 	sa = get_ta(wlanhdr);
+-			type = GetFrameSubType(pxmitbuf->pbuf + TXDESC_OFFSET);
++			hdr = (struct ieee80211_hdr *)(pxmitbuf->pbuf + TXDESC_OFFSET);
  
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index 6ba004aa8..eb8b73fba 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -426,6 +426,7 @@ s32 rtl8723bs_mgnt_xmit(
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
- 	u8 *pframe = (u8 *)(pmgntframe->buf_addr) + TXDESC_OFFSET;
-+	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
- 	u8 txdesc_size = TXDESC_SIZE;
- 
- 	rtl8723b_update_txdesc(pmgntframe, pmgntframe->buf_addr);
-@@ -441,7 +442,7 @@ s32 rtl8723bs_mgnt_xmit(
- 
- 	pxmitbuf->priv_data = NULL;
- 
--	if (GetFrameSubType(pframe) == WIFI_BEACON) { /* dump beacon directly */
-+	if (ieee80211_is_beacon(hdr->frame_control)) { /* dump beacon directly */
- 		ret = rtw_write_port(padapter, pdvobjpriv->Queue2Pipe[pxmitbuf->ff_hwaddr], pxmitbuf->len, (u8 *)pxmitbuf);
- 		if (ret != _SUCCESS)
- 			rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_WRITE_PORT_ERR);
+-			if ((type == WIFI_PROBEREQ) ||
+-				(type == WIFI_DATA_NULL) ||
+-				(type == WIFI_QOS_DATA_NULL)) {
++			if (ieee80211_is_probe_req(hdr->frame_control) ||
++			    ieee80211_is_nullfunc(hdr->frame_control) ||
++			    ieee80211_is_qos_nullfunc(hdr->frame_control)) {
+ 				list_del_init(&pxmitbuf->list);
+ 				break;
+ 			}
 diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
-index bfc985870..558e734a2 100644
+index 558e734a2..b46ff7020 100644
 --- a/drivers/staging/rtl8723bs/include/wifi.h
 +++ b/drivers/staging/rtl8723bs/include/wifi.h
-@@ -216,11 +216,6 @@ static inline unsigned char *get_hdr_bssid(unsigned char *pframe)
- 	return sa;
- }
+@@ -63,18 +63,12 @@ enum {
+     WIFI_QOS_DATA_NULL	= (BIT(6) | WIFI_QOS_DATA_TYPE),
+ };
  
--static inline int IsFrameTypeCtrl(unsigned char *pframe)
--{
--	return GetFrameType(pframe) == WIFI_CTRL_TYPE;
--}
+-#define GetFrameType(pbuf)				\
+-	(le16_to_cpu(*(__le16 *)(pbuf)) & (BIT(3) | BIT(2)))
 -
- /*-----------------------------------------------------------------------------
- 			Below is for the security related definition
- ------------------------------------------------------------------------------*/
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 9d203810e..150469cda 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1897,10 +1897,11 @@ void rtw_cfg80211_indicate_sta_assoc(struct adapter *padapter, u8 *pmgmt_frame,
- 	struct wireless_dev *wdev = padapter->rtw_wdev;
+ #define SetFrameType(pbuf, type)	\
+ 	do {	\
+ 		*(unsigned short *)(pbuf) &= cpu_to_le16(~(BIT(3) | BIT(2))); \
+ 		*(unsigned short *)(pbuf) |= cpu_to_le16(type); \
+ 	} while (0)
  
- 	{
-+		struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pmgmt_frame;
- 		struct station_info sinfo = {};
- 		u8 ie_offset;
- 
--		if (GetFrameSubType(pmgmt_frame) == WIFI_ASSOCREQ)
-+		if (ieee80211_is_assoc_req(hdr->frame_control))
- 			ie_offset = _ASOCREQ_IE_OFFSET_;
- 		else /*  WIFI_REASSOCREQ */
- 			ie_offset = _REASOCREQ_IE_OFFSET_;
-@@ -1908,8 +1909,7 @@ void rtw_cfg80211_indicate_sta_assoc(struct adapter *padapter, u8 *pmgmt_frame,
- 		sinfo.filled = 0;
- 		sinfo.assoc_req_ies = pmgmt_frame + WLAN_HDR_A3_LEN + ie_offset;
- 		sinfo.assoc_req_ies_len = frame_len - WLAN_HDR_A3_LEN - ie_offset;
--		cfg80211_new_sta(wdev, ((struct ieee80211_hdr *)pmgmt_frame)->addr2,
--				 &sinfo, GFP_ATOMIC);
-+		cfg80211_new_sta(wdev, hdr->addr2, &sinfo, GFP_ATOMIC);
- 	}
- }
- 
+-#define GetFrameSubType(pbuf)	(le16_to_cpu(*(__le16 *)(pbuf)) & (BIT(7) |\
+-	 BIT(6) | BIT(5) | BIT(4) | BIT(3) | BIT(2)))
+-
+ #define SetFrameSubType(pbuf, type) \
+ 	do {    \
+ 		*(__le16 *)(pbuf) &= cpu_to_le16(~(BIT(7) | BIT(6) |	\
 -- 
 2.43.0
 
