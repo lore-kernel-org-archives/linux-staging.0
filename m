@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE8B4DAFA4
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 16:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE425187D2
+	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 16:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791908080; cv=none; b=Otr3pX21mjUDt5fPlbZKZkl4V6YizANzJxUHJh4dvV1xgfDB9XDBYWem/3F5pqVLv2+XBKMAt6O7BKTCk9jKLBW3fufYduohKM+BrFxM4TF1zER9MFLGgrud3oY0HOBPOIvj3N6ULQh8RCecc0/5mNp/MsUxGFYxkfxgP/7/Nag=
+	t=1791908410; cv=none; b=DzikufrbibK5LNqTYqc2XIlMHsyEI282w9mvSPKl2M9OH3mxy3fpnpyQSJ7OhOyByMtEs2J6I2DrWiCtFjgfKuO02CVciQThCJ1yQSQdNcE5Dt2Bzf9k3swWXGR1GGB61GflNyPtJG7ugdPRV/lM6TjlTq5LVKnDPolofjuEl8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791908080; c=relaxed/simple;
-	bh=LTruQoW8hg4nggqn+OIxVCj2Kv4Z3Lu4ZK3YcscwsuM=;
+	s=arc-20240116; t=1791908410; c=relaxed/simple;
+	bh=BbmNPrjSY/tGIxn+E5mxN0X/4tEFCb6SOMm9R5IDjz8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cj7pRFY0nawaStV0ib8q88eS4evqckhELfJxOMvuhS7ZnP2B2ktHV8kZFW3i99r0j9AXo76njyujKnvhSISl2iRvAw8hfoGIOP9xXXi955HgxA5w6qVR4Heb+vabyIq2uiZ+grfXh/U6QhVb0WE/ywGCmtIzsJ95isyx7Nbdw4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O1cMsGQ6; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cy2b6ZS7PgXorsHl8dioFeFwfO/kY2tvnX+u+F/0Bk+4HTxbXYyvSEmDfbFpscfnrN7Ng8EdzAWYaytLmQdOm++vDbayja3NIvtbYtEfa0jseNhN9picpa8U+EP3PW9lCrKWbuYZMbWFW8AKQpbMV/DcQYuHIAcn9EED0p03ecQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GjlxOI5D; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O1cMsGQ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GjlxOI5D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791908079; x=1823444079;
+  t=1791908409; x=1823444409;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=LTruQoW8hg4nggqn+OIxVCj2Kv4Z3Lu4ZK3YcscwsuM=;
-  b=O1cMsGQ6vyfAMu0cTtoEXDTFDY5ZNjgY4Mpc7fgOg36SJni+rDBiVhq7
-   2j0Qb0Fw1WX5KJhKzSgFG/CEEARmOBgzWgvgozUYgbTooiFkfjjBGlokR
-   Mx8VI0VIQaN8qT/OUnFdCdNZgI/E48vBMy49kI2HvKFq6juLuYuhb6yT8
-   +987Up4ldr4KVTKXeSMpjQTrb46jG9inNecTRqA0IskINbqolZ5boJalL
-   Fhc2D78GwQcqk5bB3GwAQ6bvR37NhKMisn18hcLplKmt0aH8Lozk2WppV
-   qvXjmhIqIK6yveitExaLoarLePOD1KQXrFec+vxym7S1967EkGo1KHsZB
-   g==;
-X-CSE-ConnectionGUID: I40aXQ+4T3Ol0SNenr9z8Q==
-X-CSE-MsgGUID: +VjBuSShTrqvmHbSNypMQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="670524"
+  bh=BbmNPrjSY/tGIxn+E5mxN0X/4tEFCb6SOMm9R5IDjz8=;
+  b=GjlxOI5D6F/snBld43V92AmFVHbk+4tRxDkSd+3XsvxCVtxV3RcHXiXa
+   UT5oDx23y+Q4/nhzjhK0dVa9+pcJUDjx43SB3GlPEYgatarju3ZRSmo4d
+   pwsGlEekvAgf3jq3/bNjzllV29fjbWP94q5QT4q4mky7kQnGzKNfDLeU3
+   N9wwrRracLnuUqQSgpvOErbf9PTtEjiD9RA/KsQr6yjPeWqYHZSkLKM6w
+   vOSRV02YYN+g94KxzQfanZAm7cr9vy6qR3JCey57OcwPqj/0WqwGWmbAG
+   xz+NxjLvmaqnNTQ4wEatBtrg9or9/zpOwBw30D4fnZT/PmNLn+WEg8boj
+   w==;
+X-CSE-ConnectionGUID: S5jeVcTwSui2o4x2jehTpg==
+X-CSE-MsgGUID: PuwQKnTtQAS0BKrGFwrPGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="535267"
 X-IronPort-AV: E=Sophos;i="6.27,156,1787036400"; 
-   d="scan'208";a="670524"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 09:14:38 -0700
-X-CSE-ConnectionGUID: WZ61k93gRhalFd/hdCLOHw==
-X-CSE-MsgGUID: g4KMYIyoT6SLBYoXPKd4tg==
+   d="scan'208";a="535267"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 09:20:08 -0700
+X-CSE-ConnectionGUID: S2wRa1AQSXCVEP7a4sYSBQ==
+X-CSE-MsgGUID: lepL5JzBQ7SOoHmWUJOaWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,156,1787036400"; 
-   d="scan'208";a="1522795"
+   d="scan'208";a="1638940"
 Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.48])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 09:14:35 -0700
-Date: Tue, 13 Oct 2026 19:14:33 +0300
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 09:20:06 -0700
+Date: Tue, 13 Oct 2026 19:20:03 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: =?utf-8?Q?Rare=C8=99-Mihai?= Vladu <vladurares@gmail.com>
 Cc: Hans de Goede <hansg@kernel.org>,
@@ -53,11 +53,11 @@ Cc: Hans de Goede <hansg@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] media: atomisp: queue: remove unused local queue
- support
-Message-ID: <as5Y6Y6XfME9t70X@ashevche-desk.local>
+Subject: Re: [PATCH 3/4] media: atomisp: queue: move circbuf types and
+ helpers to queue_comm.h
+Message-ID: <as5aM_zYghHjRDsL@ashevche-desk.local>
 References: <20261012230754.1914517-1-vladurares@gmail.com>
- <20261012230754.1914517-3-vladurares@gmail.com>
+ <20261012230754.1914517-4-vladurares@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,52 +67,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261012230754.1914517-3-vladurares@gmail.com>
+In-Reply-To: <20261012230754.1914517-4-vladurares@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Oct 12, 2026 at 11:07:51PM +0000, Rareș-Mihai Vladu wrote:
-> ia_css_queue_local_init() has no callers, so IA_CSS_QUEUE_TYPE_LOCAL
-> is never set and every local queue branch in queue.c is unreachable.
-> ia_css_queue_uninit() only tore down local queues and has no callers
-> either.
+On Mon, Oct 12, 2026 at 11:07:52PM +0000, Rareș-Mihai Vladu wrote:
+> The remote queue code only needs the circbuf descriptor and element
+> layouts plus five small descriptor helpers from the circbuf library.
+> Move them into ia_css_queue_comm.h and include that header instead of
+> the circbuf ones.
 > 
-> Remove both functions, the local branches, struct ia_css_queue_local
-> and the local member of the struct ia_css_queue union. Only remote
-> queues, shared with the SP firmware, are used by the driver.
+> The descriptor and element layouts are shared with the SP firmware and
+> are moved unchanged, including their static_asserts.
+> 
+> While at it, drop the OP___assert() NULL checks from the moved helpers:
+> every caller passes the address of a local variable, so the pointer can
+> never be NULL.
 
 ...
 
->  /* Queue type specifier */
->  /* Avoiding enums to save space */
-> -#define IA_CSS_QUEUE_TYPE_LOCAL  0
->  #define IA_CSS_QUEUE_TYPE_REMOTE 1
+> +/*
+> + * @brief Data structure for the circular descriptor.
+> + */
+> +typedef struct ia_css_circbuf_desc_s ia_css_circbuf_desc_t;
+> +struct ia_css_circbuf_desc_s {
+> +	u8 size;	/* the maximum number of elements*/
+> +	u8 step;   /* number of bytes per element */
+> +	u8 start;	/* index of the oldest element */
+> +	u8 end;	/* index at which to write the new element */
+> +};
+> +
+> +#define SIZE_OF_IA_CSS_CIRCBUF_DESC_S_STRUCT				\
+> +	(4 * sizeof(uint8_t))
 
-This is a slippery slope. 0 can be default by implicit zeroed data type, so you
-need to really carefully check all call sites that use qhandle and/or allocate
-it. Since there are two possible values only, the IA_CSS_QUEUE_TYPE_REMOTE
-must gone together (in case this patch is proved to be correct). TL;DR: there
-is more homework to do and clean up more at the end.
+Why not sizeof(u8) ?
+
+#define SIZE_OF_IA_CSS_CIRCBUF_DESC_S_STRUCT	(4 * sizeof(u8))
 
 ...
 
->  struct ia_css_queue {
-> -	u8 type;        /* Specify remote/local type of access */
-> +	u8 type;        /* Specify remote type of access */
+In the same way for the rest of the similar pieces of code below.
 
-This is FW interface, I don't think we may drop the comment above.
+...
 
->  	u8 location;    /* Cell location for queue */
->  	u8 proc_id;     /* Processor id for queue access */
->  	union {
-> -		ia_css_circbuf_t cb_local;
+> +static inline bool ia_css_circbuf_desc_is_empty(
+> +    ia_css_circbuf_desc_t *cb_desc)
 
-Not sure about this, but since it's union the only thing to check is
-the sizeof(struct ia_css_queue) to be the same after removal.
+Don't repeat wrong style, correct it here
 
->  		struct {
->  			u32 cb_desc_addr; /*Circbuf desc address for remote queues*/
->  			u32 cb_elems_addr; /*Circbuf elements addr for remote queue*/
+static inline bool ia_css_circbuf_desc_is_empty(ia_css_circbuf_desc_t *cb_desc)
+
+...
+
+In the same way for the rest of the similar pieces of code below.
+
+...
+
+> +static inline uint32_t ia_css_circbuf_desc_get_num_elems(
+
+While at it, use uXX types directly. Would it compile?
+
+> +    ia_css_circbuf_desc_t *cb_desc)
+
 
 -- 
 With Best Regards,
