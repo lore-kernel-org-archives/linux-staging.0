@@ -1,61 +1,62 @@
-Received: from mail-wm2-f8.google.com (mail-wm2-f8.google.com [74.125.225.136])
+Received: from mail-wm2-f10.google.com (mail-wm2-f10.google.com [74.125.225.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A5C4A8FEB
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 19:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3020253E31A
+	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 19:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791918959; cv=none; b=scvZfYdqiCYBArwH9ktnfAo4RhKTCO1DZV6DQzNwtrR9nogzWp5lQ2Zxsqr62Dw8YoHOJDMVNnkJtbaHxMWBsQXa43gjwOHk2L49jUVW4rHlGmlL7teowNvRMJJJzpfIB2idEp9IYBgi4UKcBpj/sWciQOXEonRsVduD2KTZ1t8=
+	t=1791918964; cv=none; b=rYAJ6ogcpXkiqA5H17nXjoVk1Q8F2Eup3UUJrghX6vpHmiwX6/yx7e5ThyAdCDwh1nR/wX9ryw/X/WCHn+R+87LoT7DLotOiTGGrRs/IE/8LCjkW9cGk0jNd645Vo3XPqAiO749xTTXtnWnehJRC0Mj5IBFisjc1V+FlWc9pIjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791918959; c=relaxed/simple;
-	bh=YqIFBD0cMGaqBJVTPfg5GHhAEe9OSyYJzacDjggqHpI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FNwyz/AYyx/eZDfthCKRdiI0cuo2Xriv/0cD8iztBgWpOWjpjfX2hMZQIDon3bXrI+hM2WooDdid0U1e+laV8Z4zcp6KJeK9QCKhjAgMShdVxnZ/QvfRHVUtEWL7Qvv8oYWn9jhIYqGLX21g3T7059yYvfWMvdl2mT/DAgMYzMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P1kVYsQP; arc=none smtp.client-ip=74.125.225.136
+	s=arc-20240116; t=1791918964; c=relaxed/simple;
+	bh=Da96R+zPW0YWB/TP8+fA7TNkzu0UByBi2AvOovFfMAw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jB5d8IlBwFqtbL2wignXLm+yS9CbppC1NxXWVB86r9KXgKiI0H9FkGFOrsl7tl/I+zPkQP+9OJ4MFpgBKRHC5apvvAe3nvjjfxG5x0xLDyEh8feUz2Zl3CEsio6UeqZHjUH0lSSv76nvm7eUZtszu5TZ/vuNt+MAsgH4lfPzJsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AE9v3qj7; arc=none smtp.client-ip=74.125.225.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1kVYsQP"
-Received: by mail-wm2-f8.google.com with SMTP id 5b1f17b1804b1-4a198438aacso5215385e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 12:15:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AE9v3qj7"
+Received: by mail-wm2-f10.google.com with SMTP id 5b1f17b1804b1-4a0f23b853dso11629015e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 12:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791918956; x=1792523756; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xAiWr2qQ//z0iBACrzomuihaSPDdArLye5ron8Ml9Ro=;
-        b=P1kVYsQP1AnY83SZEz6aAOVxz45HgVFVK+e0fUAcbQx91f9j5+vlC9ZD1+uHXFpqnB
-         IQqz6yQrxc22LAvc2Az04+4Y5Eyobb0E4mYCv4VuCetv++DS1qPl0GW6D6oh8p3crl3M
-         MqM1H7Xs64Vzfv93ewhz2GhLcM9rEw2JSrDPqDXzTKVssDjJYniipb2k604xaFA29o5Z
-         dOLK/sW5NL/gXvNTe243ws/XothSi3l6ZrVPknf4e9RdABjjOmW5IfPpT8ZUrPLsG5PA
-         ZautOP847rhqy0hOTtC3k4YRNE00zI2998MKAduDmS/cNt9MGTNnP7bNa4RcuJw358DA
-         TwdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791918956; x=1792523756;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1791918960; x=1792523760; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xAiWr2qQ//z0iBACrzomuihaSPDdArLye5ron8Ml9Ro=;
-        b=j4xLYUSa6D1LBbPbAyhbgP/obtLGGqxmMVt3XPBOcPwXofiKTmpKozHbW0SJaChLUR
-         ossWfgHmbQsvSnnUVA5BErWtR8a1A51hAs4PgYog89zj1ERaznvA/zTs24sQTwyI+PO8
-         RJ6UToMtduGmhQlbq3/q1i2ArczLROE3jMkQDad5/ipveU/qCSn3CFom/jSYu7HA5frf
-         hNPjod45TjBFQTPiDa1Cxg648yecbv4ET8iJHDRvAfB6f3hNJTB9Z9z0BK74+Nys8YY4
-         JU18Jl3AnPa7sgcmEKmfPwt3AwI1Mg/lT0eSPnmyd7jf9yIv+5ro8B9TusvUBDYqHVn2
-         8ZWg==
-X-Gm-Message-State: AFq9FYJGPC/F9ZKaB0ONRisFfp5mWJWmoxd85cx0sbZBNQATPh6FXwxM
-	/DBQ7HGfSy/mA/ugm20NMGNInBHFVnx13HobHhIcdnOWiKuI8cJtfXyl
-X-Gm-Gg: AYBFou0aiReQMZM7NFOFVvsXNQ0l0fRmG+HkCPBCZ61hNJSlWZgTCqKXp0UxvTIgnUD
-	mA+Gf6VrmYyHj82POSlzFgXzm/G8MR0y00G601hP2EvtQP4kC/7hxL8Q5L6+4tFOYFcs3/thUJE
-	0gnsmZBNoiSHSZj4Upg7ubGJ4lVFMEzuBM2d3TsF2JzRrER+ye9LJd44YuOg6ubArzpFtJt7ir3
-	Rk1ZKQDfmltG2bdi6M2uRoEo9Nt89SS2FCeHmbFLhrKk9iqRJbqSXRi82Jg7n9+nPYRpCNAeHIK
-	TjfsntGSRWp9dS+4dmTfsXN4OJjBVyqCRQUqA+JWqgqj1Ob8SbqlYR0fdbqilVRBeWHQ+/JMdn0
-	Tef5V31yNErWLZ5baij191woeEd5EXQW7IxM0sIXKybhrHeAWs17UYJQNCYdzRdXXQ+RYNYu8zG
-	V9bP0Es07GqpuWlbcQKAZOLLaBEo+s2q5fOGYnNp3RUaj8FtNtj7qfB8FTBaHCUFW6bl4THwkRn
-	QEqLt7G
-X-Received: by 2002:a05:600c:c3cc:10b0:4a1:a7f8:c12b with SMTP id 5b1f17b1804b1-4a1a7f8c219mr58730485e9.19.1791918955848;
-        Tue, 13 Oct 2026 12:15:55 -0700 (PDT)
+        bh=fdcJdPVK9+I5ZWIyZV6AA95lxASUqFlBpjIiNY93CZs=;
+        b=AE9v3qj7IZjsfLT7+J90f4H+b5uVWvfe0tkb8l2g8MX6nD5JRYND1ZR0E6uLYjINey
+         a+UxRBLy4wjzRWUOdAjkpTKm2VllLsyYeHg/+bOTzZOa4QMxWQ00wjUHX03FSwLUB3Bn
+         XIUccm2VP6lqtaYDCS9Nkyk4S8h8gVAkxUDEqAasCNDKzHGqB5eA5y4h+cgRaU02ed1S
+         wpC8lcntlhI2BJXy3K85Pcp3Bg0AYRt3tSqAF5PfnqinicjpuptikKNIRalr2ERPqjK8
+         Q1SGAwe6GaZ+hdJYxha04CzevxnvRcTK+hU1XwUzS9OO7fWkcpq8Uq1KBOtogvu1vrtO
+         4pYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791918960; x=1792523760;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fdcJdPVK9+I5ZWIyZV6AA95lxASUqFlBpjIiNY93CZs=;
+        b=PE23Jb8W90JowWMqfpkkQK+tZa70NGKCt+e6GxoEBz4nQRsFgHs+UBIAXblJVrg9W/
+         jofoW9zEiUtO2oalJtp4DGj38XClkZXyicsfzLJKseIyOKp/KGCc2CkHrGgf+mp1n3pw
+         5ICBOthG7eLbDMm9rwdVJ/kID3dG7tPS3t8VMjvMx3V6uoV2zShIWvlluXtGlnG+yXb3
+         ZuAZHzyMQ/sBkqmrmua7E7sR9blJAgUzWUxpNErznQO6AUHRSY4vl5W5p4ZxUgmu/3Yb
+         ezOkJTGvUx9dPl8y42EZPUUg43hFA9ZkjK71w5OEQCYxiz+YuX9JHmYrwRcr99QIP8Oa
+         V4hg==
+X-Gm-Message-State: AFq9FYIDD8HREgrpoLhbh1jglSDkpQkN0F9zZ3ZFYgnjr9GWj3sODLnZ
+	ZrrN0gTK4C/ZvCSbwIIwyh0wPOngHsAKKzcW8KuDqMk7v/wybDzaanwi
+X-Gm-Gg: AYBFou2ahzs7ilxOPXpDv2nWaz7KF9O7o5jer0RUs6cYiwL/fIV29RqHc/rzU7cpoQz
+	eJCEcGzD+WnBUc9XVdFkaUOORjcX+hOGwXdv5G/kqLGvQHMfHDomale+HKQkLKFNJ+BWkgkhAA+
+	juv63L9fhD+j3CwcpfttDdtTWQBXwJ9advd10zaho7Is/VwaxNGw2/zBqmfhcnzr/Oqzvh3K/Ke
+	dLjTrUd+Yf6mxYcng2Y5x2sHAUz3uCkexpWTE6ZVggFd0PBreG52+DXCjxF2kG0E/0Bboiu51iW
+	pppXiLGmmO5+t3kbxznohBptUNcbuejJabc9ra6xwkbMqG1qiofu78uG8YCxA9AfuLOVXVl+EgM
+	bb02wGbj4n8ncsNqYd6hqmkEMDO4yYcyxCa09MNWDxOr2FvlBaw2KxMPIYelPEZSW9kzc19fVFZ
+	nQVFOuvMTZJZ+CZmC2PTlF0r4MVm5He/E17xLUOH2h9orlPm3PzL+AEkxipPUfQJ5uLBCGKA==
+X-Received: by 2002:a05:600c:19ca:b0:4a0:2484:2800 with SMTP id 5b1f17b1804b1-4a18e4464famr258730665e9.3.1791918960237;
+        Tue, 13 Oct 2026 12:16:00 -0700 (PDT)
 Received: from fedora41 ([37.168.42.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1b2fc4724sm7229275e9.2.2026.10.13.12.15.54
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1b2fc4724sm7229275e9.2.2026.10.13.12.15.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 12:15:55 -0700 (PDT)
+        Tue, 13 Oct 2026 12:15:59 -0700 (PDT)
 From: Timo Joannin <timo.joannin@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
@@ -63,10 +64,12 @@ Cc: linux-staging@lists.linux.dev,
 	error27@gmail.com,
 	guojy.bj@gmail.com,
 	Timo Joannin <timo.joannin@gmail.com>
-Subject: [PATCH v5 0/2] staging: rtl8723bs: clean up phy status structs and casts
-Date: Tue, 13 Oct 2026 21:15:01 +0200
-Message-ID: <20261013191503.152056-1-timo.joannin@gmail.com>
+Subject: [PATCH v5 1/2] staging: rtl8723bs: rename struct phy_status_rpt_8192cd_t to rtl8723bs_phy_status_rpt.
+Date: Tue, 13 Oct 2026 21:15:02 +0200
+Message-ID: <20261013191503.152056-2-timo.joannin@gmail.com>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261013191503.152056-1-timo.joannin@gmail.com>
+References: <20261013191503.152056-1-timo.joannin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,50 +78,414 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hey Now,
+The struct identifier references the 8192CD chip while being in a
+rtl8723bs codebase. Additionally, the identifier uses the _t suffix,
+while being generally reserved for typedef identifiers.
 
-This patch series splits the v3 patch into a 2-part series as requested,
-separating the struct renaming from the cast mess unwinding.
+Rename the struct to rtl8723bs_phy_status_rpt
+across the rtl8723bs codebase to accurately
+reflect the driver and clean up the naming.
 
-Changes in v5:
-- Rebased against the latest staging/staging-testing branch.
-- Resolved minor merge conflicts in odm_HWConfig.c.
+Signed-off-by: Timo Joannin <timo.joannin@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/odm_HWConfig.c | 210 ++++++++++++-------
+ 1 file changed, 129 insertions(+), 81 deletions(-)
 
-Changes in v4:
-- Split monolithic patch into 2-part series.
-- Removed dead struct phy_stat and unused prototype
-rtl8723b_query_rx_phy_status().
-
-Changes in v3:
-- Included patch version changelog (missed in v2, sorry).
-
-Changes in v2:
-- Propagated the real struct type through
-the call chain to remove u8 * casting.
-
-Regarding your question about the existence of struct phy_stat,
-I discovered it was dead code; no function actually used it. Furthermore,
-the rtl8723b_query_rx_phy_status() function prototype referencing
-it was also unused, and was removed.
-
-Patch 1 renames struct phy_status_rpt_8192cd_t
-to rtl8723bs_phy_status_rpt.
-
-Patch 2 unwinds the cast mess and propagates
-the real struct type all the way through
-the call chain, and removes the unused phy_stat struct
-and ghost function prototype.
-
-Timo Joannin (2):
-  staging: rtl8723bs: rename struct phy_status_rpt_8192cd_t to
-    rtl8723bs_phy_status_rpt.
-  staging: rtl8723bs: unwind cast mess and remove phy_stat struct
-
- drivers/staging/rtl8723bs/hal/odm_HWConfig.c  | 215 +++++++++++-------
- .../staging/rtl8723bs/include/rtl8192c_recv.h |  18 --
- .../staging/rtl8723bs/include/rtl8723b_recv.h |   1 -
- 3 files changed, 134 insertions(+), 100 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+index 173ef3f437b9..fb3a19da5de3 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
++++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+@@ -10,23 +10,22 @@
+ static u8 odm_query_rx_pwr_percentage(s8 ant_power)
+ {
+ 	if ((ant_power <= -100) || (ant_power >= 20))
+-		return	0;
++		return 0;
+ 	else if (ant_power >= 0)
+-		return	100;
++		return 100;
+ 	else
+ 		return 100 + ant_power;
+-
+ }
+ 
+ s32 odm_signal_scale_mapping(struct dm_odm_t *dm_odm, s32 curr_sig)
+ {
+ 	s32 ret_sig = 0;
+ 
+-	if (dm_odm->SupportInterface  == ODM_ITRF_SDIO) {
++	if (dm_odm->SupportInterface == ODM_ITRF_SDIO) {
+ 		if (curr_sig >= 51 && curr_sig <= 100)
+ 			ret_sig = 100;
+ 		else if (curr_sig >= 41 && curr_sig <= 50)
+-			ret_sig = 80 + ((curr_sig - 40)*2);
++			ret_sig = 80 + ((curr_sig - 40) * 2);
+ 		else if (curr_sig >= 31 && curr_sig <= 40)
+ 			ret_sig = 66 + (curr_sig - 30);
+ 		else if (curr_sig >= 21 && curr_sig <= 30)
+@@ -71,8 +70,8 @@ static s8 odm_cck_rssi(u8 lna_idx, u8 vga_idx)
+ 	s8 rx_pwr_all = 0x00;
+ 
+ 	switch (lna_idx) {
+-	/* 46  53 73 95 201301231630 */
+-	/*  46 53 77 99 201301241630 */
++		/* 46  53 73 95 201301231630 */
++		/*  46 53 77 99 201301241630 */
+ 
+ 	case 6:
+ 		rx_pwr_all = -34 - (2 * vga_idx);
+@@ -93,10 +92,11 @@ static s8 odm_cck_rssi(u8 lna_idx, u8 vga_idx)
+ 	return rx_pwr_all;
+ }
+ 
+-static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
+-				      struct odm_phy_info *phy_info,
+-				      struct rtl8723bs_phy_status_rpt *phy_sta_rpt,
+-				      struct odm_packet_info *pkt_info)
++static void
++odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
++			  struct odm_phy_info *phy_info,
++			  struct rtl8723bs_phy_status_rpt *phy_sta_rpt,
++			  struct odm_packet_info *pkt_info)
+ {
+ 	u8 i;
+ 	s8 rx_pwr[4], rx_pwr_all = 0;
+@@ -127,7 +127,7 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
+ 		 * 2011.11.28 LukeLee: 88E use different LNA & VGA gain table
+ 		 * The RSSI formula should be modified according to the gain table
+ 		 */
+-		lna_idx = ((cck_agc_rpt & 0xE0)>>5);
++		lna_idx = ((cck_agc_rpt & 0xE0) >> 5);
+ 		vga_idx = (cck_agc_rpt & 0x1F);
+ 		rx_pwr_all = odm_cck_rssi(lna_idx, vga_idx);
+ 		pwdb_all = odm_query_rx_pwr_percentage(rx_pwr_all);
+@@ -147,15 +147,15 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
+ 			if (phy_info->rx_pwd_ba11 > 40 && !dm_odm->bInHctTest)
+ 				sq = 100;
+ 			else {
+-				sq_rpt = phy_sta_rpt->cck_sig_qual_ofdm_pwdb_all;
++				sq_rpt =
++					phy_sta_rpt->cck_sig_qual_ofdm_pwdb_all;
+ 
+ 				if (sq_rpt > 64)
+ 					sq = 0;
+ 				else if (sq_rpt < 20)
+ 					sq = 100;
+ 				else
+-					sq = ((64-sq_rpt) * 100) / 44;
+-
++					sq = ((64 - sq_rpt) * 100) / 44;
+ 			}
+ 
+ 			phy_info->signal_quality = sq;
+@@ -174,9 +174,11 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
+ 			if (dm_odm->RFPathRxEnable & BIT(i))
+ 				rf_rx_num++;
+ 			/* else */
+-				/* continue; */
++			/* continue; */
+ 
+-			rx_pwr[i] = ((phy_sta_rpt->path_agc[i].gain & 0x3F) * 2) - 110;
++			rx_pwr[i] =
++				((phy_sta_rpt->path_agc[i].gain & 0x3F) * 2) -
++				110;
+ 
+ 			phy_info->rx_pwr[i] = rx_pwr[i];
+ 
+@@ -187,15 +189,19 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
+ 			phy_info->rx_mimo_signal_strength[i] = (u8)rssi;
+ 
+ 			/* Get Rx snr value in DB */
+-			phy_info->rx_snr[i] = dm_odm->PhyDbgInfo.RxSNRdB[i] = (s32)(phy_sta_rpt->path_rxsnr[i]/2);
++			phy_info->rx_snr[i] = dm_odm->PhyDbgInfo.RxSNRdB[i] =
++				(s32)(phy_sta_rpt->path_rxsnr[i] / 2);
+ 		}
+ 
+ 		/*
+ 		 * (2)PWDB, Average PWDB calculated by hardware (for rate adaptive)
+ 		 */
+-		rx_pwr_all = ((phy_sta_rpt->cck_sig_qual_ofdm_pwdb_all >> 1) & 0x7f) - 110;
++		rx_pwr_all = ((phy_sta_rpt->cck_sig_qual_ofdm_pwdb_all >> 1) &
++			      0x7f) -
++			     110;
+ 
+-		pwdb_all_bt = pwdb_all = odm_query_rx_pwr_percentage(rx_pwr_all);
++		pwdb_all_bt = pwdb_all =
++			odm_query_rx_pwr_percentage(rx_pwr_all);
+ 
+ 		phy_info->rx_pwd_ba11 = pwdb_all;
+ 		phy_info->bt_rx_rssi_percentage = pwdb_all_bt;
+@@ -215,7 +221,8 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
+ 		 * is supposed to be negative) is not correct
+ 		 * anymore.
+ 		 */
+-		evm = odm_evm_db_to_percentage(phy_sta_rpt->stream_rxevm[0]); /* dbm */
++		evm = odm_evm_db_to_percentage(
++			phy_sta_rpt->stream_rxevm[0]); /* dbm */
+ 
+ 		/*  Fill value in RFD, Get the first spatial stream only */
+ 		phy_info->signal_quality = (u8)(evm & 0xff);
+@@ -231,19 +238,22 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
+ 	 * It is assigned to the BSS List in GetValueFromBeaconOrProbeRsp().
+ 	 */
+ 	if (is_cck_rate) {
+-		phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, pwdb_all));
++		phy_info->signal_strength =
++			(u8)(odm_signal_scale_mapping(dm_odm, pwdb_all));
+ 	} else {
+ 		if (rf_rx_num != 0)
+-			phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, total_rssi /= rf_rx_num));
++			phy_info->signal_strength =
++				(u8)(odm_signal_scale_mapping(
++					dm_odm, total_rssi /= rf_rx_num));
+ 	}
+ }
+ 
+-static void odm_Process_RSSIForDM(
+-	struct dm_odm_t *pDM_Odm, struct odm_phy_info *pPhyInfo, struct odm_packet_info *pPktinfo
+-)
++static void odm_Process_RSSIForDM(struct dm_odm_t *pDM_Odm,
++				  struct odm_phy_info *pPhyInfo,
++				  struct odm_packet_info *pPktinfo)
+ {
+-
+-	s32 UndecoratedSmoothedPWDB, UndecoratedSmoothedCCK, UndecoratedSmoothedOFDM, RSSI_Ave;
++	s32 UndecoratedSmoothedPWDB, UndecoratedSmoothedCCK,
++		UndecoratedSmoothedOFDM, RSSI_Ave;
+ 	u8 isCCKrate = 0;
+ 	u8 RSSI_max, RSSI_min, i;
+ 	u32 OFDM_pkt = 0;
+@@ -269,7 +279,6 @@ static void odm_Process_RSSIForDM(
+ 
+ 	/* Statistic for antenna/path diversity------------------ */
+ 	if (pDM_Odm->SupportAbility & ODM_BB_ANT_DIV) {
+-
+ 	}
+ 
+ 	/* Smart Antenna Debug Message------------------ */
+@@ -279,76 +288,102 @@ static void odm_Process_RSSIForDM(
+ 	UndecoratedSmoothedPWDB = pEntry->rssi_stat.UndecoratedSmoothedPWDB;
+ 
+ 	if (pPktinfo->to_self || pPktinfo->is_beacon) {
+-
+ 		if (!isCCKrate) { /* ofdm rate */
+ 			if (pPhyInfo->rx_mimo_signal_strength[RF_PATH_B] == 0) {
+-				RSSI_Ave = pPhyInfo->rx_mimo_signal_strength[RF_PATH_A];
+-				pDM_Odm->RSSI_A = pPhyInfo->rx_mimo_signal_strength[RF_PATH_A];
++				RSSI_Ave = pPhyInfo->rx_mimo_signal_strength
++						   [RF_PATH_A];
++				pDM_Odm->RSSI_A =
++					pPhyInfo->rx_mimo_signal_strength
++						[RF_PATH_A];
+ 				pDM_Odm->RSSI_B = 0;
+ 			} else {
+-				pDM_Odm->RSSI_A =  pPhyInfo->rx_mimo_signal_strength[RF_PATH_A];
+-				pDM_Odm->RSSI_B = pPhyInfo->rx_mimo_signal_strength[RF_PATH_B];
+-
+-				if (
+-					pPhyInfo->rx_mimo_signal_strength[RF_PATH_A] >
+-					pPhyInfo->rx_mimo_signal_strength[RF_PATH_B]
+-				) {
+-					RSSI_max = pPhyInfo->rx_mimo_signal_strength[RF_PATH_A];
+-					RSSI_min = pPhyInfo->rx_mimo_signal_strength[RF_PATH_B];
++				pDM_Odm->RSSI_A =
++					pPhyInfo->rx_mimo_signal_strength
++						[RF_PATH_A];
++				pDM_Odm->RSSI_B =
++					pPhyInfo->rx_mimo_signal_strength
++						[RF_PATH_B];
++
++				if (pPhyInfo->rx_mimo_signal_strength[RF_PATH_A] >
++				    pPhyInfo->rx_mimo_signal_strength[RF_PATH_B]) {
++					RSSI_max =
++						pPhyInfo->rx_mimo_signal_strength
++							[RF_PATH_A];
++					RSSI_min =
++						pPhyInfo->rx_mimo_signal_strength
++							[RF_PATH_B];
+ 				} else {
+-					RSSI_max = pPhyInfo->rx_mimo_signal_strength[RF_PATH_B];
+-					RSSI_min = pPhyInfo->rx_mimo_signal_strength[RF_PATH_A];
++					RSSI_max =
++						pPhyInfo->rx_mimo_signal_strength
++							[RF_PATH_B];
++					RSSI_min =
++						pPhyInfo->rx_mimo_signal_strength
++							[RF_PATH_A];
+ 				}
+ 
+-				if ((RSSI_max-RSSI_min) < 3)
++				if ((RSSI_max - RSSI_min) < 3)
+ 					RSSI_Ave = RSSI_max;
+-				else if ((RSSI_max-RSSI_min) < 6)
++				else if ((RSSI_max - RSSI_min) < 6)
+ 					RSSI_Ave = RSSI_max - 1;
+-				else if ((RSSI_max-RSSI_min) < 10)
++				else if ((RSSI_max - RSSI_min) < 10)
+ 					RSSI_Ave = RSSI_max - 2;
+ 				else
+ 					RSSI_Ave = RSSI_max - 3;
+ 			}
+ 
+ 			/* 1 Process OFDM RSSI */
+-			if (UndecoratedSmoothedOFDM <= 0)	/*  initialize */
++			if (UndecoratedSmoothedOFDM <= 0) /*  initialize */
+ 				UndecoratedSmoothedOFDM = pPhyInfo->rx_pwd_ba11;
+ 			else {
+-				if (pPhyInfo->rx_pwd_ba11 > (u32)UndecoratedSmoothedOFDM) {
++				if (pPhyInfo->rx_pwd_ba11 >
++				    (u32)UndecoratedSmoothedOFDM) {
++					UndecoratedSmoothedOFDM =
++						((UndecoratedSmoothedOFDM *
++						  (Rx_Smooth_Factor - 1)) +
++						 RSSI_Ave) /
++						Rx_Smooth_Factor;
+ 					UndecoratedSmoothedOFDM =
+-							((UndecoratedSmoothedOFDM*(Rx_Smooth_Factor-1)) +
+-							RSSI_Ave)/Rx_Smooth_Factor;
+-					UndecoratedSmoothedOFDM = UndecoratedSmoothedOFDM + 1;
++						UndecoratedSmoothedOFDM + 1;
+ 				} else {
+ 					UndecoratedSmoothedOFDM =
+-							((UndecoratedSmoothedOFDM*(Rx_Smooth_Factor-1)) +
+-							RSSI_Ave)/Rx_Smooth_Factor;
++						((UndecoratedSmoothedOFDM *
++						  (Rx_Smooth_Factor - 1)) +
++						 RSSI_Ave) /
++						Rx_Smooth_Factor;
+ 				}
+ 			}
+ 
+-			pEntry->rssi_stat.PacketMap = (pEntry->rssi_stat.PacketMap<<1) | BIT(0);
++			pEntry->rssi_stat.PacketMap =
++				(pEntry->rssi_stat.PacketMap << 1) | BIT(0);
+ 
+ 		} else {
+ 			RSSI_Ave = pPhyInfo->rx_pwd_ba11;
+-			pDM_Odm->RSSI_A = (u8) pPhyInfo->rx_pwd_ba11;
++			pDM_Odm->RSSI_A = (u8)pPhyInfo->rx_pwd_ba11;
+ 			pDM_Odm->RSSI_B = 0;
+ 
+ 			/* 1 Process CCK RSSI */
+-			if (UndecoratedSmoothedCCK <= 0)	/*  initialize */
++			if (UndecoratedSmoothedCCK <= 0) /*  initialize */
+ 				UndecoratedSmoothedCCK = pPhyInfo->rx_pwd_ba11;
+ 			else {
+-				if (pPhyInfo->rx_pwd_ba11 > (u32)UndecoratedSmoothedCCK) {
++				if (pPhyInfo->rx_pwd_ba11 >
++				    (u32)UndecoratedSmoothedCCK) {
++					UndecoratedSmoothedCCK =
++						((UndecoratedSmoothedCCK *
++						  (Rx_Smooth_Factor - 1)) +
++						 pPhyInfo->rx_pwd_ba11) /
++						Rx_Smooth_Factor;
+ 					UndecoratedSmoothedCCK =
+-							((UndecoratedSmoothedCCK*(Rx_Smooth_Factor-1)) +
+-							pPhyInfo->rx_pwd_ba11)/Rx_Smooth_Factor;
+-					UndecoratedSmoothedCCK = UndecoratedSmoothedCCK + 1;
++						UndecoratedSmoothedCCK + 1;
+ 				} else {
+ 					UndecoratedSmoothedCCK =
+-							((UndecoratedSmoothedCCK*(Rx_Smooth_Factor-1)) +
+-							pPhyInfo->rx_pwd_ba11)/Rx_Smooth_Factor;
++						((UndecoratedSmoothedCCK *
++						  (Rx_Smooth_Factor - 1)) +
++						 pPhyInfo->rx_pwd_ba11) /
++						Rx_Smooth_Factor;
+ 				}
+ 			}
+-			pEntry->rssi_stat.PacketMap = pEntry->rssi_stat.PacketMap<<1;
++			pEntry->rssi_stat.PacketMap =
++				pEntry->rssi_stat.PacketMap << 1;
+ 		}
+ 
+ 		/* if (pEntry) */
+@@ -360,32 +395,48 @@ static void odm_Process_RSSIForDM(
+ 				pEntry->rssi_stat.ValidBit++;
+ 
+ 			for (i = 0; i < pEntry->rssi_stat.ValidBit; i++)
+-				OFDM_pkt += (u8)(pEntry->rssi_stat.PacketMap>>i)&BIT(0);
++				OFDM_pkt +=
++					(u8)(pEntry->rssi_stat.PacketMap >> i) &
++					BIT(0);
+ 
+ 			if (pEntry->rssi_stat.ValidBit == 64) {
+-				Weighting = ((OFDM_pkt<<4) > 64)?64:(OFDM_pkt<<4);
+-				UndecoratedSmoothedPWDB = (Weighting*UndecoratedSmoothedOFDM+(64-Weighting)*UndecoratedSmoothedCCK)>>6;
++				Weighting = ((OFDM_pkt << 4) > 64) ?
++						    64 :
++						    (OFDM_pkt << 4);
++				UndecoratedSmoothedPWDB =
++					(Weighting * UndecoratedSmoothedOFDM +
++					 (64 - Weighting) *
++						 UndecoratedSmoothedCCK) >>
++					6;
+ 			} else {
+ 				if (pEntry->rssi_stat.ValidBit != 0)
+-					UndecoratedSmoothedPWDB = (OFDM_pkt*UndecoratedSmoothedOFDM+(pEntry->rssi_stat.ValidBit-OFDM_pkt)*UndecoratedSmoothedCCK)/pEntry->rssi_stat.ValidBit;
++					UndecoratedSmoothedPWDB =
++						(OFDM_pkt *
++							 UndecoratedSmoothedOFDM +
++						 (pEntry->rssi_stat.ValidBit -
++						  OFDM_pkt) *
++							 UndecoratedSmoothedCCK) /
++						pEntry->rssi_stat.ValidBit;
+ 				else
+ 					UndecoratedSmoothedPWDB = 0;
+ 			}
+ 
+-			pEntry->rssi_stat.UndecoratedSmoothedCCK = UndecoratedSmoothedCCK;
+-			pEntry->rssi_stat.UndecoratedSmoothedOFDM = UndecoratedSmoothedOFDM;
+-			pEntry->rssi_stat.UndecoratedSmoothedPWDB = UndecoratedSmoothedPWDB;
++			pEntry->rssi_stat.UndecoratedSmoothedCCK =
++				UndecoratedSmoothedCCK;
++			pEntry->rssi_stat.UndecoratedSmoothedOFDM =
++				UndecoratedSmoothedOFDM;
++			pEntry->rssi_stat.UndecoratedSmoothedPWDB =
++				UndecoratedSmoothedPWDB;
+ 		}
+-
+ 	}
+ }
+ 
+ /*  Endianness before calling this API */
+-void odm_phy_status_query(struct dm_odm_t *dm_odm, struct odm_phy_info *phy_info,
++void odm_phy_status_query(struct dm_odm_t *dm_odm,
++			  struct odm_phy_info *phy_info,
+ 			  struct rtl8723bs_phy_status_rpt *phy_status,
+ 			  struct odm_packet_info *pkt_info)
+ {
+-
+ 	odm_rx_phy_status_parsing(dm_odm, phy_info, phy_status, pkt_info);
+ 
+ 	if (!dm_odm->RSSI_test)
+@@ -394,11 +445,9 @@ void odm_phy_status_query(struct dm_odm_t *dm_odm, struct odm_phy_info *phy_info
+ 
+ /*  If you want to add a new IC, Please follow below template and generate a new one. */
+ 
+-void ODM_ConfigRFWithHeaderFile(
+-	struct dm_odm_t *pDM_Odm,
+-	enum ODM_RF_Config_Type ConfigType,
+-	enum rf_path eRFPath
+-)
++void ODM_ConfigRFWithHeaderFile(struct dm_odm_t *pDM_Odm,
++				enum ODM_RF_Config_Type ConfigType,
++				enum rf_path eRFPath)
+ {
+ 	if (ConfigType == CONFIG_RF_RADIO)
+ 		ODM_ReadAndConfig_MP_8723B_RadioA(pDM_Odm);
+@@ -412,9 +461,8 @@ void ODM_ConfigRFWithTxPwrTrackHeaderFile(struct dm_odm_t *pDM_Odm)
+ 		ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(pDM_Odm);
+ }
+ 
+-void ODM_ConfigBBWithHeaderFile(
+-	struct dm_odm_t *pDM_Odm, enum ODM_BB_Config_Type ConfigType
+-)
++void ODM_ConfigBBWithHeaderFile(struct dm_odm_t *pDM_Odm,
++				enum ODM_BB_Config_Type ConfigType)
+ {
+ 	if (ConfigType == CONFIG_BB_PHY_REG)
+ 		ODM_ReadAndConfig_MP_8723B_PHY_REG(pDM_Odm);
 -- 
 2.56.0
 
