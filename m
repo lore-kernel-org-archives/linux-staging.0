@@ -1,106 +1,82 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AEA394498
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 03:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DC32EA749;
+	Tue, 13 Oct 2026 04:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791860914; cv=none; b=EfsQjgR1yyzyivt4mP2NMbfKMsiTEl1KrFhSQ79R4vxOuU9FtKeKTAX16Y5yw4PFhHRoeDlZozA6kelquxOwWMmFLdy6U51BujUElFHMJXGIvGrkygYHOJ//sK/5WDFV9OCFyK823cRPat7ffQCjMyZEgxAXLBBxYIMNR+yU6SQ=
+	t=1791867434; cv=none; b=Gk0zJQXvXBUo8uuprCNCX69AYeD1mMk1Kpqx1rZrqNqXxMw7Ovz+HvDkLQFYRqFxGrG9oX4s3UmfyYmOX5neRbXTheAq33L6fnW/yFBzSj99KRUUsL5gRewnupDO4OqU8rzGXPY+iuebz5iIcKheVDAwBf+2e/sTon2hYox1Olo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791860914; c=relaxed/simple;
-	bh=alXKlejZ3rjbqbavz9evBznlUeY1CvfBnpw+hhl51Nk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WBxRTDetF/fPeL8LX1K6VzEmwKiikoV82pbrj+V3epxolTkE1srX22SQLIO6hOqTg/Lm+M0fi+r5Tz7RlVrxn6so34OXUnEbUvkM8J0DOBXrj6OHXNcjh5AoptX7yzFurUbIxBdWugzAZs20db/+e5wJNUd3KmyCxmObIvjPQg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qXjuTFmH; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791867434; c=relaxed/simple;
+	bh=m7WD5JVyztuBXOQBNShzaLvDDxmsGU7L1mNhyVgSFZI=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=KDdK+PmTnp50HD/uGRN3hBkQ9Q+umxogc9z3Yh1V5x/AWy0QR5squs4blil1r9f8LbeUFLtyAVXUUoR+GtNZU87zCy1d4g2C0xb5tKMMDHW8Z+gS3xS/yoTgqDEpbRUMlx8OpRX3Jilv1gYOx1FxrdvApaBu/NWrqyey7cs4YyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CPEhfc4Q; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qXjuTFmH"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e8f2c3ad6bso5048295ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 12 Oct 2026 20:08:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791860913; x=1792465713; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AsQluREAsaidaH9yxQg+zSsmSWQvjbWvelg3Usb8Q7w=;
-        b=qXjuTFmHZpCNiawNnUbbXfFb2DoZken0ZG6JZxz3SaUu9EgHVfipYEH2Qd8lZGnJ8/
-         U/29bd1hJ4494MEkRKZdNDn9WdRECBNMRH00pz841DBH0uOO5OSy66HUQT+G/nB/egyU
-         NoHciAqlsvm1x5hKyf0RgfyuDR9v3zeBrFWMB1LHRxk4OCluGclK6O2Au/hiBwHc0RLV
-         FLRI5SRK/XW1joWuvAcoE/JfOAWRL6ArSFrdupCiLmNxSWMF8M2L9u+YNlLsbHWR7ylp
-         A11/tQzC85qIY6D24B9U81SAdBLc/yHYwyh0nDlapnYF4+yJo0E4tymnfkuWGLSvHB2v
-         S29w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791860913; x=1792465713;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AsQluREAsaidaH9yxQg+zSsmSWQvjbWvelg3Usb8Q7w=;
-        b=QQKtawcnPq++WwpflsmDxZAXWDzjFr9uVm1exljGx/0AJdEImfy7BJ/+Xrl3ze4/Iw
-         sECLtKCT4UGVphmNALWq5vS2Wp1FJrzfJS84SVqzOElP6K/+dQMrhT+4zByaofCGj7rs
-         xju+uAmWMDWrXWCrbEzn6Sn0jv1c4J3O9SkYAObOlAetum9ilmGazGqQykBw+NajRqc9
-         z1r3AkPyv1VoLaZbUez+VBjNAsjqTe16pkXGasQsx8mIQLoh4W0qW2mPujf4xDKhWT0s
-         rZuUFm2uhsvM7FndDHZmqciqIjlTkxck6sSlzP+fa19tt4HISRGgdZ6/CIR+uZoK3HQ9
-         z9+g==
-X-Gm-Message-State: AFq9FYJRdAWFA3L+/xaSeZE/fGP8ya/QfWQSzYZUhs68AG2mZ2kQhEwf
-	v234+dNULLigF3WlaTIJVLmmPXGXlSXjtqPQNVR+RaJYiQ+p9g0aWgQ=
-X-Gm-Gg: AYBFou3IH+p2K1xNjFT7XNX/WndsipKMzHGnMaCUiNz3um7d3YZT7i5xBfoFedlwufX
-	ce/EWU8O68hKVfBqDfFjXeYypS9EMEkQeiaI3cLWUYNgrMK/YoZHG246kwI4HyKT7XvNVYavG8I
-	z98mE0isT9f5FCGwPuzEeCqSVZnCu7D6mxnQgnihZqE0dSIy19pd8dogurWsEmsEw8QHsFWil/M
-	HXzLrtdBZ48+TNOjLO/8LKW9qiD/Nt3Ef/2NVuiwvN7AABm6deRgW4vcRnzyeGsSnBCnsQvzUVQ
-	7q70ycs2UKKTUCSdBJ+AIjTyMgAE0cOAaIm1QzO62sav5RJJVx2N3LAB2ucHorb1dOHaTvUOmUD
-	0VPDKp1KTObNOkupXCclmUdJrFofe5l/AdgLWgwB3JzQ/F7YqgnqasO0ei/gRdaKWttPi137Eaa
-	UAxqRy4Isv1PBZ1r8vOBT30fIL5vtMbhO3n4mj/7/EcoPp7vJl8DUR4ksizC3/Qq7Ov0XqvmqAY
-	Rc6oBBS9w==
-X-Received: by 2002:a17:902:c941:b0:2e8:486d:fa00 with SMTP id d9443c01a7336-2e8486dfb5dmr98051075ad.29.1791860912306;
-        Mon, 12 Oct 2026 20:08:32 -0700 (PDT)
-Received: from localhost.localdomain ([185.220.238.36])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422e2511sm48584505ad.76.2026.10.12.20.08.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 20:08:31 -0700 (PDT)
-From: wangyibo <szwyb123@gmail.com>
-To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mustafa Karamanli <mbarancemkaramanli@gmail.com>,
-	wangyibo <szwyb123@gmail.com>
-Subject: [PATCH] staging: most: fix typo in driver_usage.txt
-Date: Tue, 13 Oct 2026 11:08:24 +0800
-Message-Id: <20261013030824.329969-1-szwyb123@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CPEhfc4Q"
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:46f5:32b8:ff94:7599:1aae])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24A731E4;
+	Tue, 13 Oct 2026 06:55:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1791867308;
+	bh=m7WD5JVyztuBXOQBNShzaLvDDxmsGU7L1mNhyVgSFZI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=CPEhfc4QkfD4iHH26HwwSHtBZneKBryjhLrEz1fi+dEBlsk58Cat/QmwcqtsHP2OG
+	 joXijqXx/t1OnoBBApejg0x6aKIX8HSEVUB9xGaRHYe3kKFT+sz83fbSnEMCLOb38g
+	 tw+zoN4iYFKo6FsveVFGCRK34OrWQK2aDK4OQbAA=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <a6b71984-cd0b-4e81-a240-ec05abc6327a@leemhuis.info>
+References: <CAFERDQ0FpdVvA5VJxOyRAE_pgxnPVmFx1tkZio5R272j6Bs4tg@mail.gmail.com> <a6b71984-cd0b-4e81-a240-ec05abc6327a@leemhuis.info>
+Subject: Re: [REGRESSION] bcm2835-audio fails to register on vchiq-bus in monolithic kernels since 6.19 (VCHIQ destaging?)
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: uajain@igalia.com, Stefan Wahren <wahrenst@gmx.net>, linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, regressions@lists.linux.dev
+To: Martin Wetterwald <martin@wetterwald.eu>, Thorsten Leemhuis <regressions@leemhuis.info>, florian.fainelli@broadcom.com, gregkh@linuxfoundation.org
+Date: Tue, 13 Oct 2026 10:27:05 +0530
+Message-ID: <179186742507.11414.3709235533520575164@freya>
+User-Agent: alot/0.13.dev38+g8e372ce37.d20260925
 
-Fix a spelling mistake in the ALSA component description of the
-application layer section: 'can by used' should be 'can be used'.
+Hi Martin, Thorsten,
 
-The same typo was fixed for the networking and V4L2 sections by
-commit b114ef1efc49 ("staging: most: fix typos in driver_usage.txt"),
-but this third occurrence was missed.
+Quoting Thorsten Leemhuis (2026-10-12 18:53:13)
+> On 9/21/26 12:07, Martin Wetterwald wrote:
+>=20
+> > After moving from 6.18.52 to 6.19 (still present in 7.2.6), the bcm2835
+> > Headphones sound card no longer appears on my Raspberry Pi 3 Model B Re=
+v 1.2
+> > (arm64). 6.18.52 works with the exact same userspace.
+> > [...]
+> > My suspect is this commit:
+> >=20
+> >   aa125180c673881f88b528600b57865dc158b3a7
+> >   ("platform/raspberrypi: Destage VCHIQ interface")
+> >=20
+> > I could not bisect to a single commit,
+>=20
+> Hmm, no answer, so it seems nobody really cares. A bisection might help.
+> Or at least validating your suspicion, hence: why can't you check the
+> parent of aa125180c6738 and aa125180c6738 itself? Or at least the range
+> with that commit in it? And is latest 7.3-rc still broken?
+>=20
 
-Signed-off-by: wangyibo <szwyb123@gmail.com>
----
- drivers/staging/most/Documentation/driver_usage.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sorry, this got lost in my inbox last month. It's likely my series that=20
+destaged VCHIQ broke the ordering as Martin suspects. I always tested with =
 
-diff --git a/drivers/staging/most/Documentation/driver_usage.txt b/drivers/staging/most/Documentation/driver_usage.txt
-index f1b6977f4543..32a2e5ecb48b 100644
---- a/drivers/staging/most/Documentation/driver_usage.txt
-+++ b/drivers/staging/most/Documentation/driver_usage.txt
-@@ -109,7 +109,7 @@ following components are available
- 	   driver via the V4L subsystem.
- 
- 	4) Advanced Linux Sound Architecture (ALSA)
--	   Standard sound applications (e.g. aplay, arecord, audacity) can by
-+	   Standard sound applications (e.g. aplay, arecord, audacity) can be
- 	   used to access the driver via the ALSA subsystem.
- 
- 
--- 
-2.25.1
+modules enabled so didn't encounter this issue.
 
+I'll look into how we can ensure the VCHIQ bus gets registered before=20
+peripheral drivers (like audio here) when CONFIG_MODULES=3Dn. If someone=20
+already knows what to do, pointers are appreciated :-)
+
+> Ciao, Thorsten
+
+Thanks,
+Jai
