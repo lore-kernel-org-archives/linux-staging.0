@@ -1,144 +1,119 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5217E3E00B8
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 09:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9A748EC7D
+	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 10:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791885435; cv=none; b=e2pKS3KYK+CgqL3VgQjC2+aeeIYEI3+WElsFfVFQkeOwwhs++sZ0l7HMZ3S6/Z8Q/043OYVF/yPlbv8dEbWeB5vC/5aptsfEzY08Jyi36S2WyQ0k6QHMldpdH9j8Uw3mPYMN8dDVzRWeEimTm7Gq19t0FVrf6tTlm5Jxn893vqo=
+	t=1791887388; cv=none; b=Z5g0cZ2N9rVqumJKx6V63DqEIJiIkX8+MvjSpzTChsjLHG/uTXFWadyU2AwbzsofYj/GbB+Qke+3GeS7IekgsBa9E4go7B3Ud5DFh8zz9jExo55WNdY0g39NFa8r8IHV3SdLEAUvgfGz1R8uH3qGLvLmM3TD2Pe6ZPQxtNideB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791885435; c=relaxed/simple;
-	bh=3abKAhIkx78dcddudfnNcTjPTC2m93Ecx/g3mCrvIXA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Es/+dgyjnyC6O1AP+/0Abbx2HLBj5VTr8a4QKsZG7lkP/ifA+oKQS8iETnBbO2V+iznZnYmwWVK7uGdmTccjGmmb2v8RCij538Vu5Vr/VQYGqaOjmeDiNdN/UqMrL8Tf5VbmAEbD7ob4fF17MEvhLVcK+HXei6blCo/ImAjASLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VI82gHc6; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1791887388; c=relaxed/simple;
+	bh=km1G/HHhK4mc4byWSgOHYVTFBTlTfLPGrUqU5+gvS1U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FcvNaYSiWp9AoHEVnNvkOQmknD/zDwmO0KeWJGtPsLocjXroPR1IxtUVSG2WNOSrOAbEPzK/cAE08baoT4Vij90KW6aP8FxHZ/vvqk6k5zJmgXujw5C7IysW1gGnF9wI0xxesPtWn/BCOiz2lO5AV/FstRLgvy5gTCZNSoIXqk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VI82gHc6"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2e618db81c0so22323995ad.2
-        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 02:57:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791885433; x=1792490233; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/PxcGxjYizPXeuPKAi/3W+fOgW1EHAMoCbtXdC0dqqY=;
-        b=VI82gHc6sRiAbyfNE6Z8c+twZYS01l+B90TbDltNenV4e+fC5xGQav6mwZGlVLc9Xm
-         FUTwCBOAKTpyz+pUKG5K04ZY/6MLyIPsMXWrfkyDFg4tivswdIt+9sebsrrHO3/Y92pl
-         mzv5ZVapsr/j3peV3bXbjkDSGbmqczp8/v4oZYubeyO3mely2i1NnQD3nRLahuh5YKDt
-         sMuAnNiGxRlVbF6jK1ZA4j8014bx5h2BgxPNUwrjFrNG+n03DkOQDfd1D2hXlgbflkPX
-         FP590PmTMYBl+A7p5rgzM8E1lnB8v3yrwDyPot64rEHag5nlMdv6p+W/VjIoxOPub14w
-         ctrA==
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-91b52ba422cso32857466d6.2
+        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 03:29:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791885433; x=1792490233;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/PxcGxjYizPXeuPKAi/3W+fOgW1EHAMoCbtXdC0dqqY=;
-        b=bBYUKHIRr/7yvTpoMg7gbg/stkJQVdt4b5hZT8CMLlCho/9Xj87U/lHjT+PhH8Uhhn
-         X7zJzumAUhpXPa7wBaiO6k7fd2Ex+tl9/8dOg3r0f8tiUHrb4UVdoRHjTjRi74UihIuR
-         AaKQ8t1yLcJACS3uote6oajIm+SWqDPLIc23dVgyWQmrhvDBkc3voNvAM0YBm0xWc2XV
-         poI3vo/GED83jUKtj7OaRbPGotqBHQZ8w7ivIvDWL5WNOredsnfRywnk7OdqWJp5LnMS
-         6t1VfEnxRes8BkmOumQNe1lpkqLhs7yHcIUJB725iqsKrBniH22lGXwxZFsHnFjRPBta
-         cPIg==
-X-Gm-Message-State: AFq9FYI3pqbQkFcZDqJRBwVxJB4VxKgS9PkvsuzYEMXzdZNopUHf9PTm
-	ySgFi+LMANZDYAIPh9kV5qjFO2Xm0cba8NalkTVBEdB1BjjQIQSeyPs=
-X-Gm-Gg: AYBFou2nqCSl9dV5a0m+bPFz3uEoMNdgRud6+f5ZA29yC2BQNGY75DVBkCyvdzV05Z6
-	/DUevbYvM3/NWsdImdyl80RxzxATIchwNOcWSqC+OwWnyo4a8cnJWEqNEXKgiliDuNz8kzc/INW
-	A2B9mfzddUJmOMbODJjLgCtm7RErUAaYkVtM+KFcxuwn+R0FXnrEh1hkceyti5MipCeWw5PVprt
-	GYV3KvB109Apj7N7w03w2GotYHQ0qpLFiL3FTBI8aV50w7fCq1VB8CdLVwKBvbjDmsEh4yU2Cb/
-	sxJn/nIU3cahpSGq+D7fq33UilNSaFzPLBNGIH770yeMGuk+plex9OY9uXhFeW41HlNwBMdtt/j
-	V3+OCuZIPL0adWcTKt9Um20bUgQF8Cbspsxx8Wkokaymw7FQp3NmIhSfrGYQUHCAibcE6BsuL27
-	SRwSpQUIVuW7+xbMpov04Cy0oZcXiWV+IfvtffXYIsj2eOC5rpIu3xrPAmHOD1Ctsug2anJsoEC
-	Ob6ur/lCw==
-X-Received: by 2002:a17:902:e551:b0:2df:8430:a580 with SMTP id d9443c01a7336-2e876ca7075mr85664185ad.45.1791885433158;
-        Tue, 13 Oct 2026 02:57:13 -0700 (PDT)
-Received: from localhost.localdomain ([185.220.238.36])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e84219e6aasm51797055ad.18.2026.10.13.02.57.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 02:57:12 -0700 (PDT)
-From: Wang Yibo <szwyb123@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>,
-	Jennifer Guo <guojy.bj@gmail.com>,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
-	Adriano Cordova <adrianox@gmail.com>,
-	Azamat Rakhim <azamatrakhim8@gmail.com>,
-	Nikolay Kulikov <nikolayof23@gmail.com>,
-	=?UTF-8?q?Michael=20Steinm=C3=B6tzger?= <m.steinmoetzger@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unused defines in odm.h
-Date: Tue, 13 Oct 2026 17:57:07 +0800
-Message-Id: <20261013095707.387341-1-szwyb123@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20260707; t=1791887386; x=1792492186;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=mGQ/GpRO6vnxq7fb84hh6aj2KXsZIXY1TgeovdND5Hc=;
+        b=AVCef+YQP3emWpObqBRtCUntip6f+g4DwynYAp4uFkJ38E2DobEVqt3pvPXyW8cTLq
+         ghNAlyabLOtRZmVyyYxRqcnKLPTFf/LAaTLVC6Y9TwtcNsd4cyOdN1kQeTVXveNiX5Og
+         h9+/81aWZAYENThII6g97MZkYo1E8/a5aPIzCr63azSb+reU+CrpsZVuldbuj2tenhGI
+         mToWG2j0AMUsGZdz5AwdG6EbZIyJwu3HPKmirnoRt6439SssNZmYI31qPyh/vueAMq69
+         El/e7cThuHqV//DdXhMTPoGRks1+HIBDNOuDWX/1hOHs4v5pMQ+bTca0+m1tRM0RE1M/
+         T4Xw==
+X-Forwarded-Encrypted: i=1; AKwUvByMymsH9yJfOJymUZsD+fN4+yvqFR6f8j4amFpX1x/Qj8MDWAh55F4sgLrExSaJckw42Ms+5sowVDQr30yQ@lists.linux.dev
+X-Gm-Message-State: AFq9FYLiBJdv7mllJ1xHXjce8+r7v8rUiZiuxrMJbzP9Mq2+BuyoOxNC
+	TnJJLSlmomvRME637DDBqofipsoYvpWqeyzcSD1rR8gBIMg+nfCSrZvdbnbr/LAU
+X-Gm-Gg: AYBFou2NHfe0vy+bFdyUCGHs+6BdPku+Y8XP+wgHuz5vMP1OgLkQ7/hdNvrEfs2qQtI
+	flggSxZWIiRgw5HBQGUQN0bPUySio9m8X571WukOwIIPZbK0QenbgFE+gkmtN9AXHsjtjjJrBOX
+	p+wXkqL8Hu6eVFzieo4lUHw8zt+vFoNAsz48rRXhHxPw03yRyzncPQP8lMC/aWWe4J0ujdYduIA
+	fwZs1/l5mU0RXmCkIk/2IEYvv/88HYaKe8UG4oX7lRBxxpLyl8ONm0XYbEivQ6lnLR+9gncxang
+	k6xbgv/kXm+hAi/C9opMJnbXDyGg+/8r0Y4DWmB3Ttw5AriwyT7ZnVaL7zxdCy+VbLMszToD48e
+	zr9k//laxNY6JjPCbh4OFU8A+b+J3NYRnkSwtoc0tvmJvGQt5vTOM3aCPeIcojXaPNEcgyuEmRq
+	ybWsDGyVV35kOFg5iUW41LW0Z3cOOBbyrvFgsuYfbtGIi6N8+2yMdbO4WEfGenKOnZj8q2QduoM
+	MxmN+n39G3lodFP6MXa/39iAErqgDwAGE93rtcw
+X-Received: by 2002:a05:622a:4ccb:b0:532:ca82:51f7 with SMTP id d75a77b69052e-5359fdcec61mr187212281cf.54.1791887385694;
+        Tue, 13 Oct 2026 03:29:45 -0700 (PDT)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com. [209.85.160.179])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-535e652f3c7sm21414141cf.26.2026.10.13.03.29.45
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 03:29:45 -0700 (PDT)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-53504882980so33685281cf.2
+        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 03:29:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBz2Xn2QrruDF5mV1GkBO/irUraJJ3f2XX7lDCzKeRcxIaXRXDevKjnk0vjLT5Fbs0Ws+dbMQrYVNjIXOQHP@lists.linux.dev
+X-Received: by 2002:a05:6102:149d:b0:7a7:ad9f:53e2 with SMTP id
+ ada2fe7eead31-7cb36987a53mr4125862137.1.1791887065725; Tue, 13 Oct 2026
+ 03:24:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250718152500.2656391-1-demonsingur@gmail.com> <20250718152500.2656391-22-demonsingur@gmail.com>
+In-Reply-To: <20250718152500.2656391-22-demonsingur@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 13 Oct 2026 12:24:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXA83Dm=Mf9MFdGNH+-J6dPrZJGS0R_6hPNgC0x1suBHw@mail.gmail.com>
+X-Gm-Features: AclHuK9EzHrMNGZ9VqEt7mZlsF4wljWQ4a5mjitwSzx9DSYBvOK99D8Xhx8xmLo
+Message-ID: <CAMuHMdXA83Dm=Mf9MFdGNH+-J6dPrZJGS0R_6hPNgC0x1suBHw@mail.gmail.com>
+Subject: Re: [PATCH v7 21/24] arm64: defconfig: disable deprecated MAX96712 driver
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Cosmin Tanislav <cosmin.tanislav@analog.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Julien Massot <julien.massot@collabora.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-hal/odm.h still defines several constants that no code in the driver
-ever references:
+Hi Cosmin,
 
-  BAND_NUM, AFH_PSD, Adaptive_SIR
-  ANTTESTALL, ANTTESTA, ANTTESTB
-  AUX_ANT
+On Fri, 18 Jul 2025 at 17:33, Cosmin Tanislav <demonsingur@gmail.com> wrote:
+> The staging MAX96712 driver will be removed as its functionality has
+> been moved to the MAX96724 driver which makes use of the Maxim
+> GMSL2/3 deserializer framework.
+>
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 
-They come from the PSD and antenna-diversity sections of the vendor ODM
-code and were never wired up for the RTL8723BS.  The "/* ANT Test */"
-comment is removed together with the defines it introduced.
+Thanks for your patch, which is now commit e8d5a57e6d0ce827 ("arm64:
+defconfig: disable deprecated MAX96712 driver") in media/master.
 
-No functional change intended.
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -1300,7 +1300,6 @@ CONFIG_GREYBUS=m
+>  CONFIG_GREYBUS_BEAGLEPLAY=m
+>  CONFIG_STAGING=y
+>  CONFIG_STAGING_MEDIA=y
+> -CONFIG_VIDEO_MAX96712=m
 
-Signed-off-by: Wang Yibo <szwyb123@gmail.com>
----
- drivers/staging/rtl8723bs/hal/odm.h | 9 ---------
- 1 file changed, 9 deletions(-)
+As Niklas has already pointed out in a reply to v5, you forgot to enable
+the replacement CONFIG_VIDEO_MAX96724, thus breaking operation.
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-index 3532f0d79363..8a357658fdb5 100644
---- a/drivers/staging/rtl8723bs/hal/odm.h
-+++ b/drivers/staging/rtl8723bs/hal/odm.h
-@@ -29,12 +29,10 @@
- #define TXSCALE_TABLE_SIZE		37
- #define TXPWR_TRACK_TABLE_SIZE	30
- #define DELTA_SWINGIDX_SIZE     30
--#define BAND_NUM				4
- 
- /* 3 PSD Handler */
- /* 3 ============================================================ */
- 
--#define	AFH_PSD		1	/* 0:normal PSD scan, 1: only do 20 pts PSD */
- #define	MODE_40M		0	/* 0:20M, 1:40M */
- #define	PSD_TH2		3
- #define	PSD_CHMIN		20   /*  Minimum channel number for BT AFH */
-@@ -46,7 +44,6 @@
- #define   Smooth_Size_3		20
- #define	Smooth_TH_3	4
- #define   Smooth_Step_Size 5
--#define	Adaptive_SIR	1
- #define	PSD_RESCAN		4
- #define	PSD_SCAN_INTERVAL	700 /* ms */
- 
-@@ -56,16 +53,10 @@
- #define		DM_DIG_HIGH_PWR_THRESHOLD	0x3a
- #define		DM_DIG_LOW_PWR_THRESHOLD	0x14
- 
--/* ANT Test */
--#define			ANTTESTALL		0x00		/* Ant A or B will be Testing */
--#define		ANTTESTA		0x01		/* Ant A will be Testing */
--#define		ANTTESTB		0x02		/* Ant B will be testing */
--
- #define	PS_MODE_ACTIVE 0x01
- 
- /* for 8723A Ant Definition--2012--06--07 due to different IC may be different ANT define */
- #define		MAIN_ANT		1		/* Ant A or Ant Main */
--#define		AUX_ANT		2		/* AntB or Ant Aux */
- #define		MAX_ANT		3		/*  3 for AP using */
- 
- /* Antenna Diversity Type */
--- 
-2.25.1
+>  CONFIG_VIDEO_MESON_VDEC=m
+>  CONFIG_SND_BCM2835=m
+>  CONFIG_CHROME_PLATFORMS=y
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
