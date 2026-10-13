@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275A65038E6;
-	Tue, 13 Oct 2026 13:33:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29F54F7CC9;
+	Tue, 13 Oct 2026 13:36:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791898400; cv=none; b=oDdpfP1mInR/cjX7IMHRbvcVda42Tv+NF+yKrrlRCoXVPQ8W458+WZssx7A21lTbv3D/tb4mRlM+mRh9rH1Bev4iDpQW3VbfWDX9nOc479kBk4KDzsKywiLqRjO6cNL1xKB7Gajxsg1iCgPedXIgKbkIkg9fDxYW19AeFROS8B0=
+	t=1791898566; cv=none; b=G7I5gbB10rajyVzOFxtJItNC2FDomFxu1HfffQme4+BvRxc3ayxT3xmUZnoSWRPpLRw1e6Q9OhwR0jHZnWYPbAznWmhORCmaPrI01IUW2aYctBjb7pwWBWhj9xgygak3/JqckgTgP64CLFItS4Fge37ngzyb2+IkVAsOD+blEVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791898400; c=relaxed/simple;
-	bh=cPVdDNYJoApSx+eURFNqmHO4aY1NPkklxp7No2AbiC8=;
+	s=arc-20240116; t=1791898566; c=relaxed/simple;
+	bh=M1RpNe+fn19NUmtB8rF012bOdRyYnhyIvNqmej0drZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mz4Q+2LMOfldKYU4vjSD9iL35V3EFbS+pH35s88d/NjuKI1Wrqvc67v4KnF5qpZ/PPebIHiBWNTa/BVvy85erSpNMdGm530ydZ8GMNfthYRl4v2tzqTv42qyIR3WlDyawW2xVGg8MBaOsWNF9iX2y/SQbzD/MGEx+ExIF5ajAsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dQpSHBnk; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ka1aK4pSa7F4QHgCF2X4LUaUqhEGTQpivI8mveCExV51eb/vxcda2fLByDmAx5S8IWol82pja4X27MGAd5Ny8lY2BfDAuYDHr06hDXYRMdfDNZi76p2Gx2WHqkZdh4Bsbf2YdHi3HN1r6ZEXJQMJoYScSD9m+PnReo6DHfkebTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aMj0XRZT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dQpSHBnk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2903D1F000FF;
-	Tue, 13 Oct 2026 13:33:17 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aMj0XRZT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A4521F000FF;
+	Tue, 13 Oct 2026 13:36:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791898398;
-	bh=qA4VvsSqMwfRFBuX/zH0bRqB9tHqU0s8qak4tSqjWsQ=;
+	s=korg; t=1791898565;
+	bh=Qih6lUW0+W4MJ/d0vrThaVXzypdp+hA18v135PEjfdY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dQpSHBnk1+uFgaHJg23XwmFZDT+qGDAw/F7HyUyA4TimtID1U1ZNiYF2JsKkV+Pkq
-	 epU3y7FCNYMOOavtiDcpi9L+voRcQxKEjDnl8lrYgx2bnGZtQDSzqZs54PoVvZK+2k
-	 ftqe0577IquR/3C8jB89lVJ8SwgOHfFcUTh78rzE=
-Date: Tue, 13 Oct 2026 15:33:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: use u8 instead of unsigned char
- in NDIS typedefs
-Message-ID: <2026101314-dimmer-squishier-3781@gregkh>
-References: <20261007103236.37607-1-ampr.mhd@gmail.com>
+	b=aMj0XRZTclZGPJWkFgnw3VwihLBOLrQsNYHBev5WSeyUjf0xhzRkMa3mVPRpMEUHl
+	 ZXmMUPlAHs/X1BrpEqNT+EyDTHs2PIaxdszWqI+nZCkZoCoqoGEIzvYw378V1riIAK
+	 jwdH+iQHLFDSj4/9PViIjv5y+sSwsHqL8230GA2A=
+Date: Tue, 13 Oct 2026 15:36:10 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Timo Joannin <timo.joannin@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dan Carpenter <error27@gmail.com>,
+	Jennifer Guo <guojy.bj@gmail.com>
+Subject: Re: [PATCH v4 0/2] staging: rtl8723bs: struct rename and cast unwind
+Message-ID: <2026101355-improper-elsewhere-c20d@gregkh>
+References: <20261007090736.277636-1-timo.joannin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,40 +40,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261007103236.37607-1-ampr.mhd@gmail.com>
+In-Reply-To: <20261007090736.277636-1-timo.joannin@gmail.com>
 
-On Wed, Oct 07, 2026 at 02:02:36PM +0330, Muhammad Mahdi Amirpour wrote:
-> Replace the plain C type 'unsigned char' with the kernel's fixed-width
-> type 'u8' in the NDIS_802_11_RATES and NDIS_802_11_RATES_EX typedefs.
+On Wed, Oct 07, 2026 at 11:07:34AM +0200, Timo Joannin wrote:
+> Hey Now,
 > 
-> The kernel coding style prefers fixed-width types over plain C types.
-> This addresses one of the outstanding TODO items in the rtl8723bs
-> driver: "convert any remaining unusual variable types".
+> This patch series splits the v3 patch into a 2-part series as requested,
+> separating the struct renaming from the cast mess unwinding.
 > 
-> No functional change.
-> 
-> Signed-off-by: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/include/wlan_bssdef.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-> index f4c1456f1..df541e956 100644
-> --- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-> +++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-> @@ -15,8 +15,8 @@
->  #define NDIS_802_11_LENGTH_RATES        8
->  #define NDIS_802_11_LENGTH_RATES_EX     16
->  
-> -typedef unsigned char   NDIS_802_11_RATES[NDIS_802_11_LENGTH_RATES];        /*  Set of 8 data rates */
-> -typedef unsigned char   NDIS_802_11_RATES_EX[NDIS_802_11_LENGTH_RATES_EX];  /*  Set of 16 data rates */
-> +typedef u8 NDIS_802_11_RATES[NDIS_802_11_LENGTH_RATES];        /*  Set of 8 data rates */
-> +typedef u8 NDIS_802_11_RATES_EX[NDIS_802_11_LENGTH_RATES_EX];  /*  Set of 16 data rates */
->  
->  struct ndis_802_11_ssid {
->  	u32 ssid_length;
-> -- 
-> 2.55.0
-> 
+> Changes in v4:
+> - Split monolithic patch into 2-part series.
+> - Removed dead struct phy_stat and unused prototype
+> rtl8723b_query_rx_phy_status().
 
-Does not apply to the the staging-next branch at all :(
+Does not apply, can you please rebase it against staging-testing?
+
+thanks,
+
+greg k-h
