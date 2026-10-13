@@ -1,132 +1,78 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EB04F0546
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 13:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275A65038E6;
+	Tue, 13 Oct 2026 13:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791897364; cv=none; b=iAt0/mM0RxzpvIfo0J+8soRTyk2KeMDp8BrSXVL8gN701xKhTerrqJnEwn3Oz9pduQfjvhigs9TlMNQQ4Qz/UyddKXPDRt+SYOvzKU6p98U5PWSgadWGufTHvlQ9Mi9E100dm4Kj3OxZun8M8zeKPXC30l/ICQ7Cbv+sEj5qnbo=
+	t=1791898400; cv=none; b=oDdpfP1mInR/cjX7IMHRbvcVda42Tv+NF+yKrrlRCoXVPQ8W458+WZssx7A21lTbv3D/tb4mRlM+mRh9rH1Bev4iDpQW3VbfWDX9nOc479kBk4KDzsKywiLqRjO6cNL1xKB7Gajxsg1iCgPedXIgKbkIkg9fDxYW19AeFROS8B0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791897364; c=relaxed/simple;
-	bh=KYNq+5UASvVLUUueo5+fWrGKvfr+e6x8JGly1DJBrfc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mS0k7F1899Q7lACSORXGoXvIOo0TBwC2inVGqJ6b0N8pd/fk/3t152pDV7T3BWxx7bJD6KgwSYP9zXAKXoIG9i7FDc+2l4FcVcdS12PeQQwU15W8Db2ZCVhPHjwn6zdfTya+uRuSxRKKnpnHtv+Cro65bUIdIz2/fafkz4rZRAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wetterwald.eu; spf=pass smtp.mailfrom=wetterwald.eu; dkim=pass (2048-bit key) header.d=wetterwald.eu header.i=@wetterwald.eu header.b=rO+uDpEH; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wetterwald.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wetterwald.eu
+	s=arc-20240116; t=1791898400; c=relaxed/simple;
+	bh=cPVdDNYJoApSx+eURFNqmHO4aY1NPkklxp7No2AbiC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mz4Q+2LMOfldKYU4vjSD9iL35V3EFbS+pH35s88d/NjuKI1Wrqvc67v4KnF5qpZ/PPebIHiBWNTa/BVvy85erSpNMdGm530ydZ8GMNfthYRl4v2tzqTv42qyIR3WlDyawW2xVGg8MBaOsWNF9iX2y/SQbzD/MGEx+ExIF5ajAsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dQpSHBnk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wetterwald.eu header.i=@wetterwald.eu header.b="rO+uDpEH"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4980fe6b3beso26249305e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 06:16:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wetterwald.eu; s=wetter; t=1791897359; x=1792502159; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ig0Y0bs9FN6Dhfi95iv4Xq2tV5MXRKRrxHG4lzB5XTM=;
-        b=rO+uDpEHImSw9FP3tZvTrtubwORcUNZEARbY/7LnUrcn7IDpX+/jBqyOpy5Voen8Jo
-         +vsnPXlTGABtdcBHs/cSh4gsAjTU0ZrlyToqjHCpAYkb4xo3QUW74hxxedtetKrmFNA1
-         HrkMatrO8MDgcQ9G52xaD2+fKfJAXtH8K+LF8mrADTzVIZBXEBynM7pmhfKQECPL9Rfe
-         axq7j2eGhILKPrlYZaacV/lVG8m1YLxbdwJzR+hliPGaDjo5Cq2eTbIvp5jA4OBn5EGe
-         W41/vnTbmMFlYnjrb2NMGsljsBUzwRdbDJ1tBRcOV958TgTmuizj+WO2ilBWI2SGYZyv
-         bSdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791897359; x=1792502159;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ig0Y0bs9FN6Dhfi95iv4Xq2tV5MXRKRrxHG4lzB5XTM=;
-        b=GkM5pUMeAXnV3DbnUAuLaA+A3/aIK1FOhwwnWKtsfIwmLSjLz+G+uQrkzk2URGkYU4
-         ZF7Lu7cBZdetbDG853ytzTjskaSn5qLyhQyVuhjLG2L4PIxvlTl60b6TbKN1nv9Sdzcg
-         pTQcy7A58VIO69bClVXSiejWptLfD9y6xwFUzfSCX8ulUBFXldzcP8Ce7AhzPJyznUyR
-         rIbVSy8CI8FhpeGDFarbDMj6xm1MflzqdbxGUJrRfo0rg3v2blmAZ3XD8gg7d0lLOD4Y
-         pN9DArv22U+wpW9bs6gDeFGVkD0E/VBDqH8ggcVbMUc7MiYF1x6DUfJpChcOVfTSBjMY
-         /uAA==
-X-Forwarded-Encrypted: i=1; AKwUvBzTcA4lV3BscLBYQZeqOK2zdIWdsQaChVyRWRkmQTbsmsjGtaAWNeJoSFJaLFnxEd6S/A5ZwI9AgMQ69ZtQ@lists.linux.dev
-X-Gm-Message-State: AFq9FYKok0gRrT5a0JFmsvwsA2bQ7YGE7df+41aT05mDWCkKGc9BjtYZ
-	Nz5E4OwKCmv/axBBz4D58w8Z0acEDHw2DwX4rzF/Y9dIuqxd/ZBIAfrRCwOceHM0V6g=
-X-Gm-Gg: AYBFou2S/gvBbfgYq+oO5pE1ojPc3crWnPjcMilxUPoTGfzIRH1MlYcEDJqKAhDd5Ts
-	z9Umot6Qv5jnD6mrxmWBkd1uOluhhNGbzkoithW5IMerOhuxAnp5v+GPXS9pmUUIq8WoAoI29fh
-	dLlCLJHsnpXon0tbfKk1zuT3Iy1SoLfFbpxkONr7r98i4oLuFLu5sd3WW1d5IBXi8pY1nkmHxhk
-	CfjJT2DI81GOD3a2uzkIyCedreNFQY8/HecFhHqZjUDRdCzN5qWiQd29Kcg8D2JfDTm/r7fl8b0
-	xYMMSGiH7+i01hSX32KYEEjCJNMNNMFzKXeirdfuKKdxZHBpfkm3UU497VWbLthujulBSQGIbZ5
-	BCYh/nrnz+CG6fGeGtAFv35YWFV09EK6nX2HFI2wDf7dbnssEmYVrpVFs3I3RhDXMHtvMlG2YJL
-	ZFzLGc8e2JfrfwufnDGU5lx2Pf5KlLYv5jdYdxqlUrC72QJZHIk2ux2wWs9MSrDSzSAQ==
-X-Received: by 2002:a05:600c:3512:b0:49f:c5aa:9ef4 with SMTP id 5b1f17b1804b1-4a18e4913c3mr213743705e9.8.1791897359239;
-        Tue, 13 Oct 2026 06:15:59 -0700 (PDT)
-Received: from Halley ([2a01:e0a:dcd:52a0:bf8b:5759:6fe4:3105])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18be96549sm520141515e9.6.2026.10.13.06.15.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 06:15:58 -0700 (PDT)
-From: Martin Wetterwald <martin@wetterwald.eu>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <uajain@igalia.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev,
-	Martin Wetterwald <martin@wetterwald.eu>
-Subject: [PATCH] platform/raspberrypi: vchiq: register bus at subsys_initcall
-Date: Tue, 13 Oct 2026 15:14:35 +0200
-Message-ID: <20261013131435.1454019-1-martin@wetterwald.eu>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <CAFERDQ0FpdVvA5VJxOyRAE_pgxnPVmFx1tkZio5R272j6Bs4tg@mail.gmail.com>
-References: <CAFERDQ0FpdVvA5VJxOyRAE_pgxnPVmFx1tkZio5R272j6Bs4tg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dQpSHBnk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2903D1F000FF;
+	Tue, 13 Oct 2026 13:33:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791898398;
+	bh=qA4VvsSqMwfRFBuX/zH0bRqB9tHqU0s8qak4tSqjWsQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dQpSHBnk1+uFgaHJg23XwmFZDT+qGDAw/F7HyUyA4TimtID1U1ZNiYF2JsKkV+Pkq
+	 epU3y7FCNYMOOavtiDcpi9L+voRcQxKEjDnl8lrYgx2bnGZtQDSzqZs54PoVvZK+2k
+	 ftqe0577IquR/3C8jB89lVJ8SwgOHfFcUTh78rzE=
+Date: Tue, 13 Oct 2026 15:33:23 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: use u8 instead of unsigned char
+ in NDIS typedefs
+Message-ID: <2026101314-dimmer-squishier-3781@gregkh>
+References: <20261007103236.37607-1-ampr.mhd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261007103236.37607-1-ampr.mhd@gmail.com>
 
-Since the VCHIQ interface was moved out of staging, its bus is no longer
-guaranteed to be registered before its client drivers. bcm2835-audio,
-still in drivers/staging, registers at device_initcall level and now
-runs first:
+On Wed, Oct 07, 2026 at 02:02:36PM +0330, Muhammad Mahdi Amirpour wrote:
+> Replace the plain C type 'unsigned char' with the kernel's fixed-width
+> type 'u8' in the NDIS_802_11_RATES and NDIS_802_11_RATES_EX typedefs.
+> 
+> The kernel coding style prefers fixed-width types over plain C types.
+> This addresses one of the outstanding TODO items in the rtl8723bs
+> driver: "convert any remaining unusual variable types".
+> 
+> No functional change.
+> 
+> Signed-off-by: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/include/wlan_bssdef.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+> index f4c1456f1..df541e956 100644
+> --- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+> +++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+> @@ -15,8 +15,8 @@
+>  #define NDIS_802_11_LENGTH_RATES        8
+>  #define NDIS_802_11_LENGTH_RATES_EX     16
+>  
+> -typedef unsigned char   NDIS_802_11_RATES[NDIS_802_11_LENGTH_RATES];        /*  Set of 8 data rates */
+> -typedef unsigned char   NDIS_802_11_RATES_EX[NDIS_802_11_LENGTH_RATES_EX];  /*  Set of 16 data rates */
+> +typedef u8 NDIS_802_11_RATES[NDIS_802_11_LENGTH_RATES];        /*  Set of 8 data rates */
+> +typedef u8 NDIS_802_11_RATES_EX[NDIS_802_11_LENGTH_RATES_EX];  /*  Set of 16 data rates */
+>  
+>  struct ndis_802_11_ssid {
+>  	u32 ssid_length;
+> -- 
+> 2.55.0
+> 
 
-  Driver 'bcm2835-audio' was unable to register with bus_type
-  'vchiq-bus' because the bus was not initialized.
-
-Register the bus and the platform driver at subsys_initcall so the bus
-exists before any client driver, independently of link order. The
-platform driver probe already returns -EPROBE_DEFER while the firmware
-is not ready, so probing earlier is safe. When built as modules, this is
-equivalent to module_init() and nothing changes.
-
-Tested on Raspberry Pi 1B rev2, 1B+, 2B, 3B and 4B with VCHIQ and
-bcm2835-audio both builtin and both as modules.
-
-Fixes: aa125180c673 ("platform/raspberrypi: Destage VCHIQ interface")
-Reported-by: Martin Wetterwald <martin@wetterwald.eu>
-Link: https://lore.kernel.org/r/CAFERDQ0FpdVvA5VJxOyRAE_pgxnPVmFx1tkZio5R272j6Bs4tg@mail.gmail.com/
-Closes: https://lore.kernel.org/r/CAFERDQ0FpdVvA5VJxOyRAE_pgxnPVmFx1tkZio5R272j6Bs4tg@mail.gmail.com/
-Signed-off-by: Martin Wetterwald <martin@wetterwald.eu>
----
- drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c b/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
-index e78641703252..d35f5ac5c2e2 100644
---- a/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
-+++ b/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
-@@ -1462,7 +1462,7 @@ static int __init vchiq_driver_init(void)
- 
- 	return ret;
- }
--module_init(vchiq_driver_init);
-+subsys_initcall(vchiq_driver_init);
- 
- static void __exit vchiq_driver_exit(void)
- {
--- 
-2.55.0
-
+Does not apply to the the staging-next branch at all :(
