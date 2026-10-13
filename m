@@ -1,72 +1,72 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB77B51DB17
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 20:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1625581E5
+	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 20:15:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791922559; cv=none; b=A+7cr3p6gmJ8WbG1HL2P9CcesxWGbM5H1gsm73vopisAOzfXGC1rIQ7Ca2CvpJiN6SXjeZSIk1fcZPT3lKlrnOCqUBRSWWwCeFW1U3/QIC5YkeVuCnm5E2swtK5mHRfu3rulxoGFNYlmLpPiKmgfeDi1015PCmlxEqRV2dn7efQ=
+	t=1791922560; cv=none; b=Rsf5kcXgYaGHrWnX0aTcsWnII2NGs8xGS8adkm+WptsLuyOjDpHc4Til+BTrA9I6Cwx+eOCc/aF1698UzzpdaoMGHlPyU1SPXRXAMu8owBLxTwQFcGYcNWdy1VWE+U568YpJ4P/EYWbHydOaW86P085YqY20WzUwJ1B7UFvczBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791922559; c=relaxed/simple;
-	bh=QhdnGdpvtmparr4Xi8uw/xZgYagD6HCTCg8um9xEWng=;
+	s=arc-20240116; t=1791922560; c=relaxed/simple;
+	bh=XrOKi5+LPvGwFwVerfisjs3shnJ7pN8myymdFyxc1Ec=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hPdrxAIgFKL6wjqAHNx7q/1CBjjqKDBQnzyvPFqvOuSf7adsLkpoAz1yewglsgPvVvJdV0/dC4BuXjCi78SFBZvx6ytmTw3syAPHvJC2YxIpS3pW/AcL1imzp1I6GBPM8kVS0xhv9ABMkeZSTHbfgdFizULubKKh0HASfw0MYS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HnC0e1jS; arc=none smtp.client-ip=209.85.210.42
+	 MIME-Version; b=q7GwTze+0gaA0gikWXK+abUHpL2EZDl4bGskWPlVi31punxNuK2bnWLc7RIxn+neGAVImjdf37UUG7N+qq0fF8vi3HIGrMfs9WgltrXlVk/149psaWrpg30M6/7neT4M6yXILyg2HuKTqFQpGjE9tCFsVWGQBcKQ82Cjsp1Cdxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I/Op3uBZ; arc=none smtp.client-ip=209.85.210.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HnC0e1jS"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-823545ce223so183834a34.2
-        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 13:15:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I/Op3uBZ"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-81ae6aefdceso221953a34.0
+        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 13:15:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791922554; x=1792527354; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791922556; x=1792527356; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=icsSJV72bXxG8OjYZeuIPNKvf6R3bMtCE307eWSpXdc=;
-        b=HnC0e1jSygSnWEztmOAWidjT8ucfJDdUf2nGY0ysHfYFTK9MteBkBwaS/9ZhpXTDTm
-         z4s3GK9AirEzQpW79CiucZ5krmL5eP9Ug/2J3SzIaVK4gdv7ZUTW8oF3nM2ZfVmgbJ4V
-         y9x3ndNYctLWBV8Hg89zX5GXnCTq5q2EW9i/3E5cKOVPU79UxE5XFb90FT9U+85HW7sT
-         /ZRFt0jhP2H0bW1BlJhJxw3mJp5kETZa/qoAKfp2hGXkZsT5UdrdHhtCF7tdR/fc99qS
-         EHgoZJlJY6mzE2SFSWUijLp3odC+IYuEtGou/kwn/j8NsPqOf3sQ5q+zXzk/gdLKGs0c
-         zwLw==
+        bh=jcBlwSovPnfSTK4K/hUxzccfjyfeJvmVDVyKW4TD8gg=;
+        b=I/Op3uBZLkHf4N8BPzowLyxzZqD4F8L3oMSyCW4lTrui8xrcVUsKTCco/dBaYb/1y6
+         T2yXtAxx62LYjc8Wo6GIO/EBhYMvnIGmUschUaYVjXB392w+SeDwcAtQwfjc7RLswZtH
+         iIK1F29qVX2RzfwnBsaOCOgWDSde47sxDPakJiL88p5GtNtVJuHBopNUlY2DzIGyiINL
+         tudwr0Afc4V1r7VmAikdxUYf44AuezFT9RP/6zPedAgACwQj7PKO9lgG7SDV81+NyGJP
+         esCKJNZyt8wGWPnStfwU9i/bMQ/CigGY0qi2ns2Q8MNGmzSVAp8JWWJzrWZmxTlzqeE3
+         BXsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791922554; x=1792527354;
+        d=1e100.net; s=20260707; t=1791922556; x=1792527356;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=icsSJV72bXxG8OjYZeuIPNKvf6R3bMtCE307eWSpXdc=;
-        b=BacIom3QMyLhwTc3h3QR9YnVZ7KbE7TBdxd6isLMHAiWh20M99hNfuf1LoOBN7ppIs
-         KINmCcvnTMugCcBaCbZ6Vt8iYvRwLjllA+17voSkrISwc0devbzqKBXi+cN3zOnajiXV
-         wnvggyjuHnnLl+WEM8qk+r6GxpQfvtrcUlvXPhwa1/Za3mWp7w0Tip2SUayaXYLiiHaB
-         fiSBIzZi7OdVBl/j6mvpcBM7060W1322/A0B8rr/rOvWcMJC2C+7GhZBtK1HOQM27Efy
-         hIIzKJ7YjGCLD+iQGLPY2n9PT56nIWc7j90Ns/02f1LjJ2HyLH9lh0mB0AS0Md/AK/C6
-         P1gg==
-X-Gm-Message-State: AFq9FYKWIdhRPIhjc78B+kcHoRNDN8IcBGxvj2O62U0kfE6KilGsbMkh
-	8QNVoaIBazv3dyWFM4vR7LaWlb8VJUSiNnaXqAMbtOqh9Dt5DQ98wfBa
-X-Gm-Gg: AYBFou0yx/+7leZX7sxKEJL6YQZtXPo/AQ12fxsBJgI4IzgqNzhljGKfbYl2eFtcOeq
-	Be1k/yf13IG2OM54umXfukIqZIlgGinOPu6fr/VKcLZzULAlXPOeAg4IoYhwis2YY0VuXoIvwOX
-	0qoPnQB450TYo5wgApSJnMApQ7lXFcy/oXQ7hrKCuW40DPmLqAg7IuCz+cMEBlcltjs4DjWQiN1
-	psHSgjq2MdU92Jxysa9fjL/M8MIhVgh7mRkZzlqw9BcnoDyGTM95blJJJdwzEaFM7QSV24GKSL+
-	BMYRzISElfdJXYkVKqVZ9lzfDnS36vDA7ciWhLtuxV2ZY9XWEniUvfTC4UchetbXOhWwditmKiF
-	d5bT6h7XNuFfhLfYGvMzRVkAYRbKv8ydxUrqjna8ha9kc8OgKCvgBTpoON66htLn0DvdpzrnnRP
-	MKDo1Af+dyr7tKmBasMv6Akl5BLb+SsCROPZS49ufoum7ZF/snde6mQSgJyUaTWpHS8NFGj9Ig/
-	Vw=
-X-Received: by 2002:a9d:65c9:0:b0:826:b77:adef with SMTP id 46e09a7af769-83095b27f85mr9727096a34.14.1791922554456;
-        Tue, 13 Oct 2026 13:15:54 -0700 (PDT)
+        bh=jcBlwSovPnfSTK4K/hUxzccfjyfeJvmVDVyKW4TD8gg=;
+        b=RwyllTnDfJQr/M7/TsHkC3gIdCZJ7NnCaYfNT50bJnMpjL5ePcpmHBu0yw0MYbYKI6
+         wYmBWVCkgoLBnILrC/JVQmpFCkO9gEQNWAPjoudcbBJkY0f97n2UbX1wRzrCuUoJGU0Z
+         ViJuzfax0G8ab9ckqSboZohFzMMtzOYSQ0E/W3l8DL7Q30zJY+wDgIm3eDfZPKoAlTWS
+         bimOLSpumllAzU3oRF0Kcl2SJYHKLEjTpXqAAx0N1ga2ITmSj/p1ck5SepyO75eEjCoR
+         sSIvETpbY4TIkQZ4zhTaC6jpTXUfE3qbrUzsQRaaf8omoQumAZABwMJVcIRiRva6YWeS
+         ASjA==
+X-Gm-Message-State: AFq9FYKzpQOXZRqeWWpT/dhyK1CWEAw9/ZUtAR1ce3EoEeWWiyqhaez5
+	n3aSOQt0t1SyHwXwK+srF2iNaRoFIJs+BYStxTp5rUvr81FMLORe2cxrPn6WRBomkbo=
+X-Gm-Gg: AYBFou1hTqbSqUEVF26jgAcQY9coTUorh1i1RzdtpCBgK+OIbMsEbCQmjc/AIfPKpmf
+	QA4O2GF64jASDAphzJDKXNnEBz+gIQwgbmSRQaatLN9lAw6D3Nap07ap3tUIL0yEgsGSycdAw+r
+	0BFa5q1iT8bts2q3VrBfhIt/YKmWZhLUD2OCOxWJQAwe2cziq5koTE8Y38wHBB7F0tLHmqDR9i6
+	IgmF80LuEWBOB1lYjDUDtXRQdynRACt8FWvWCY7XEj9UXnOwIUV9RCeDD2uubxwGrlg5eFq+I26
+	coABmybB2ZxgV7LBy7Y7m1U8DgwnmBZWcFxAiv8+05ELYAxBaCD/fzBI+XjbqzrYrjnYCyjA1ZB
+	/utExeRRfQl9ijbI+Xnch8S/rdZEzWSJuCihBJt4ItbPQqSu2Cq+WFHXcdHF/FTpuXk3r/5yXx5
+	FKIttvMam7sP2AvvuFHIfzeYyHc72Vemq5YcOdaXktjAMKROz/O4MNbByzDphx8PNVhvXeEKOnU
+	i8=
+X-Received: by 2002:a05:6830:6f8d:b0:824:e29:e00e with SMTP id 46e09a7af769-830971a491fmr11696739a34.20.1791922556403;
+        Tue, 13 Oct 2026 13:15:56 -0700 (PDT)
 Received: from pop-os.. ([24.32.17.59])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-83038f82468sm13557570a34.11.2026.10.13.13.15.51
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-83038f82468sm13557570a34.11.2026.10.13.13.15.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 13:15:51 -0700 (PDT)
+        Tue, 13 Oct 2026 13:15:55 -0700 (PDT)
 From: Rishik Yechuri <epicrishik@gmail.com>
 X-Google-Original-From: Rishik Yechuri <rishik.yechuri.code@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Rishik Yechuri <rishik.yechuri.code@gmail.com>
-Subject: [PATCH 08/10] staging: rtl8723bs: use struct ieee80211_hdr for seq_ctrl and duration_id
-Date: Tue, 13 Oct 2026 15:15:36 -0500
-Message-ID: <20261013201538.43156-9-rishik.yechuri.code@gmail.com>
+Subject: [PATCH 09/10] staging: rtl8723bs: use IEEE80211_QOS_CTL_* masks for QoS control
+Date: Tue, 13 Oct 2026 15:15:37 -0500
+Message-ID: <20261013201538.43156-10-rishik.yechuri.code@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
 References: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
@@ -78,307 +78,172 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver reads and writes the Sequence Control and Duration/ID fields
-of IEEE 802.11 headers with the SetSeqNum(), GetSequence(),
-GetFragNum(), SetDuration() and GetAid() macros, which access the
-frame buffer at hardcoded byte offsets. struct ieee80211_hdr provides
-the seq_ctrl and duration_id members for these fields, and
-<linux/ieee80211.h> provides IEEE80211_SCTL_* masks and helpers to
-convert between sequence numbers and the Sequence Control field.
+The driver reads and writes the QoS Control field with the
+SetPriority(), GetPriority(), SetEOSP(), SetAckpolicy(),
+GetAckpolicy() and GetAMsdu() macros, which shift and mask the field
+by hand. <linux/ieee80211.h> defines IEEE80211_QOS_CTL_* masks for the
+TID, EOSP, Ack Policy and A-MSDU Present subfields.
 
-Replace GetSequence() with ieee80211_get_sn(), GetFragNum() with a
-mask of seq_ctrl with IEEE80211_SCTL_FRAG, and SetDuration() and
-GetAid() with accesses to duration_id.
+On transmit, set the subfields with le16_encode_bits() and the
+corresponding masks, and declare the QoS Control pointers as __le16
+to match the byte order of the field. le16_encode_bits() masks the
+value to the width of the subfield, as the macros did.
 
-SetSeqNum() updates the sequence number while preserving the fragment
-number. Where the header has just been cleared, replace it with an
-assignment of IEEE80211_SN_TO_SEQ() to seq_ctrl. The reserved page
-frames built in rtl8723b_cmd.c are written into a buffer that is not
-cleared between uses. Those callers set a sequence number of zero, so
-replace them with a mask that clears the sequence number and keeps the
-fragment number, as SetSeqNum() did.
+On receive, locate the field with ieee80211_get_qos_ctl() instead of
+a fixed offset of 24 bytes, and extract the subfields with
+u8_get_bits(). Frames with four addresses are rejected by
+validate_recv_data_frame() before the QoS Control field is parsed, so
+the helper always returns the same offset as before.
 
-Remove these macros and the unused SetFragNum().
+Remove the macro definitions, which no longer have any users.
 
 No functional change intended.
 
 Signed-off-by: Rishik Yechuri <rishik.yechuri.code@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 24 ++++++++---------
- drivers/staging/rtl8723bs/core/rtw_recv.c     |  6 ++---
- drivers/staging/rtl8723bs/core/rtw_xmit.c     |  3 ++-
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 10 +++----
- drivers/staging/rtl8723bs/include/wifi.h      | 26 -------------------
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  6 ++---
- 6 files changed, 25 insertions(+), 50 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 10 +++++-----
+ drivers/staging/rtl8723bs/core/rtw_recv.c     |  8 +++++---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 12 +++++++-----
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  8 ++++----
+ drivers/staging/rtl8723bs/include/wifi.h      | 15 ---------------
+ 5 files changed, 21 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 000c23983..ec0046d3a 100644
+index ec0046d3a..4d8073d48 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -2082,7 +2082,7 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+@@ -3039,7 +3039,7 @@ static int _issue_qos_nulldata(struct adapter *padapter, unsigned char *da,
+ 	unsigned char *pframe;
+ 	struct ieee80211_hdr	*pwlanhdr;
+ 	__le16 *fctrl;
+-	u16 *qc;
++	__le16 *qc;
+ 	struct xmit_priv *pxmitpriv = &(padapter->xmitpriv);
+ 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
+ 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+@@ -3071,13 +3071,13 @@ static int _issue_qos_nulldata(struct adapter *padapter, unsigned char *da,
+ 	else if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
+ 		*fctrl |= cpu_to_le16(IEEE80211_FCTL_TODS);
+ 
+-	qc = (unsigned short *)(pframe + pattrib->hdrlen - 2);
++	qc = (__le16 *)(pframe + pattrib->hdrlen - 2);
+ 
+-	SetPriority(qc, tid);
++	*qc |= le16_encode_bits(tid, IEEE80211_QOS_CTL_TID_MASK);
+ 
+-	SetEOSP(qc, pattrib->eosp);
++	*qc |= le16_encode_bits(pattrib->eosp, IEEE80211_QOS_CTL_EOSP);
+ 
+-	SetAckpolicy(qc, pattrib->ack_policy);
++	*qc |= le16_encode_bits(pattrib->ack_policy, IEEE80211_QOS_CTL_ACK_POLICY_MASK);
+ 
+ 	memcpy(pwlanhdr->addr1, da, ETH_ALEN);
  	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, get_my_bssid(cur_network), ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, 0/*pmlmeext->mgnt_seq*/);
-+	pwlanhdr->seq_ctrl = 0;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_BEACON);
- 
- 	pframe += sizeof(struct ieee80211_hdr_3addr);
-@@ -2233,7 +2233,7 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
- 	memcpy(pwlanhdr->addr2, mac, ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, bssid, ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_PROBE_RESP);
- 
-@@ -2430,7 +2430,7 @@ static void issue_probereq(struct adapter *padapter, struct ndis_802_11_ssid *ps
- 
- 	memcpy(pwlanhdr->addr2, mac, ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_PROBE_REQ);
- 
-@@ -2497,7 +2497,7 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
- 	fctrl = &(pwlanhdr->frame_control);
- 	*(fctrl) = 0;
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_AUTH);
- 
-@@ -2626,7 +2626,7 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
- 	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	if (pkt_type == IEEE80211_STYPE_ASSOC_RESP || pkt_type == IEEE80211_STYPE_REASSOC_RESP) {
- 		*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | pkt_type);
-@@ -2753,7 +2753,7 @@ void issue_assocreq(struct adapter *padapter)
- 	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_ASSOC_REQ);
- 
-@@ -2936,7 +2936,7 @@ static int _issue_nulldata(struct adapter *padapter, unsigned char *da,
- 	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_DATA | IEEE80211_STYPE_NULLFUNC);
- 
-@@ -3083,7 +3083,7 @@ static int _issue_qos_nulldata(struct adapter *padapter, unsigned char *da,
- 	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_DATA | IEEE80211_STYPE_QOS_NULLFUNC);
- 
-@@ -3175,7 +3175,7 @@ static int _issue_deauth(struct adapter *padapter, unsigned char *da,
- 	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_DEAUTH);
- 
-@@ -3269,7 +3269,7 @@ void issue_action_SA_Query(struct adapter *padapter, unsigned char *raddr, unsig
- 	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_ACTION);
- 
-@@ -3342,7 +3342,7 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_ACTION);
- 
-@@ -3496,7 +3496,7 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
- 
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	pwlanhdr->seq_ctrl = cpu_to_le16(IEEE80211_SN_TO_SEQ(pmlmeext->mgnt_seq));
- 	pmlmeext->mgnt_seq++;
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_ACTION);
- 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 75eef9662..b09ea6f76 100644
+index b09ea6f76..a7462444e 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -935,7 +935,7 @@ static signed int validate_recv_ctrl_frame(struct adapter *padapter, union recv_
- 		u16 aid;
- 		u8 wmmps_ac = 0;
+@@ -1309,9 +1309,11 @@ static signed int validate_recv_data_frame(struct adapter *adapter, union recv_f
+ 	pattrib->ack_policy = 0;
+ 	/* parsing QC field */
+ 	if (pattrib->qos == 1) {
+-		pattrib->priority = GetPriority((ptr + 24));
+-		pattrib->ack_policy = GetAckpolicy((ptr + 24));
+-		pattrib->amsdu = GetAMsdu((ptr + 24));
++		u8 *qc = ieee80211_get_qos_ctl(hdr);
++
++		pattrib->priority = u8_get_bits(*qc, IEEE80211_QOS_CTL_TID_MASK);
++		pattrib->ack_policy = u8_get_bits(*qc, IEEE80211_QOS_CTL_ACK_POLICY_MASK);
++		pattrib->amsdu = u8_get_bits(*qc, IEEE80211_QOS_CTL_A_MSDU_PRESENT);
+ 		pattrib->hdrlen = pattrib->to_fr_ds == 3 ? 32 : 26;
  
--		aid = GetAid(pframe);
-+		aid = le16_to_cpu(hdr->duration_id) & 0x3fff;
- 		if (psta->aid != aid)
- 			return _FAIL;
- 
-@@ -1448,8 +1448,8 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
- 	pattrib->to_fr_ds = (ieee80211_has_tods(hdr->frame_control) << 1) |
- 			    ieee80211_has_fromds(hdr->frame_control);
- 
--	pattrib->frag_num = GetFragNum(ptr);
--	pattrib->seq_num = GetSequence(ptr);
-+	pattrib->frag_num = le16_to_cpu(hdr->seq_ctrl) & IEEE80211_SCTL_FRAG;
-+	pattrib->seq_num = ieee80211_get_sn(hdr);
- 
- 	pattrib->pw_save = ieee80211_has_pm(hdr->frame_control);
- 	pattrib->mfrag = ieee80211_has_morefrags(hdr->frame_control);
+ 		if (pattrib->priority != 0 && pattrib->priority != 3)
 diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 8855f80f7..1624bf6de 100644
+index 1624bf6de..290e7e589 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -987,7 +987,8 @@ int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
- 				psta->sta_xmitpriv.txseq_tid[pattrib->priority] %= 4096u;
- 				pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
+@@ -904,7 +904,7 @@ static void xmitframe_swencrypt(struct adapter *padapter, struct xmit_frame *pxm
  
--				SetSeqNum(hdr, pattrib->seqnum);
-+				pwlanhdr->seq_ctrl =
-+					cpu_to_le16(IEEE80211_SN_TO_SEQ(pattrib->seqnum));
+ int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattrib)
+ {
+-	u16 *qc;
++	__le16 *qc;
  
- 				/* check if enable ampdu */
- 				if (pattrib->ht_en && psta->htpriv.ampdu_enable)
+ 	struct ieee80211_hdr *pwlanhdr = (struct ieee80211_hdr *)hdr;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+@@ -956,14 +956,16 @@ int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 			*fctrl |= cpu_to_le16(IEEE80211_FCTL_PROTECTED);
+ 
+ 		if (qos_option) {
+-			qc = (unsigned short *)(hdr + pattrib->hdrlen - 2);
++			qc = (__le16 *)(hdr + pattrib->hdrlen - 2);
+ 
+ 			if (pattrib->priority)
+-				SetPriority(qc, pattrib->priority);
++				*qc |= le16_encode_bits(pattrib->priority,
++							IEEE80211_QOS_CTL_TID_MASK);
+ 
+-			SetEOSP(qc, pattrib->eosp);
++			*qc |= le16_encode_bits(pattrib->eosp, IEEE80211_QOS_CTL_EOSP);
+ 
+-			SetAckpolicy(qc, pattrib->ack_policy);
++			*qc |= le16_encode_bits(pattrib->ack_policy,
++						IEEE80211_QOS_CTL_ACK_POLICY_MASK);
+ 		}
+ 
+ 		/* TODO: fill HT Control Field */
 diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-index c5518eeea..756d6dc84 100644
+index 756d6dc84..24cf2b6eb 100644
 --- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
 +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-@@ -115,7 +115,7 @@ static void ConstructBeacon(struct adapter *padapter, u8 *pframe, u32 *pLength)
- 	ether_addr_copy(pwlanhdr->addr2, myid(&padapter->eeprompriv));
- 	ether_addr_copy(pwlanhdr->addr3, get_my_bssid(cur_network));
+@@ -260,8 +260,8 @@ static void ConstructNullFunctionData(struct adapter *padapter,
+ 		*fctrl |= cpu_to_le16(IEEE80211_FTYPE_DATA | IEEE80211_STYPE_QOS_NULLFUNC);
  
--	SetSeqNum(pwlanhdr, 0);
-+	pwlanhdr->seq_ctrl &= cpu_to_le16(IEEE80211_SCTL_FRAG);
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_BEACON);
+ 		pwlanqoshdr = (struct ieee80211_qos_hdr *)pframe;
+-		SetPriority(&pwlanqoshdr->qos_ctrl, AC);
+-		SetEOSP(&pwlanqoshdr->qos_ctrl, bEosp);
++		pwlanqoshdr->qos_ctrl |= le16_encode_bits(AC, IEEE80211_QOS_CTL_TID_MASK);
++		pwlanqoshdr->qos_ctrl |= le16_encode_bits(bEosp, IEEE80211_QOS_CTL_EOSP);
  
- 	pframe += sizeof(struct ieee80211_hdr_3addr);
-@@ -196,7 +196,7 @@ static void ConstructPSPoll(struct adapter *padapter, u8 *pframe, u32 *pLength)
- 	*fctrl |= cpu_to_le16(IEEE80211_FTYPE_CTL | IEEE80211_STYPE_PSPOLL);
+ 		pktlen = sizeof(struct ieee80211_qos_hdr);
+ 	} else {
+@@ -748,8 +748,8 @@ static void ConstructBtNullFunctionData(struct adapter *padapter,
+ 		*fctrl |= cpu_to_le16(IEEE80211_FTYPE_DATA | IEEE80211_STYPE_QOS_NULLFUNC);
  
- 	/*  AID. */
--	SetDuration(pframe, (pmlmeinfo->aid | 0xc000));
-+	pwlanhdr->duration_id = cpu_to_le16(pmlmeinfo->aid | 0xc000);
+ 		pwlanqoshdr = (struct ieee80211_qos_hdr *)pframe;
+-		SetPriority(&pwlanqoshdr->qos_ctrl, AC);
+-		SetEOSP(&pwlanqoshdr->qos_ctrl, bEosp);
++		pwlanqoshdr->qos_ctrl |= le16_encode_bits(AC, IEEE80211_QOS_CTL_TID_MASK);
++		pwlanqoshdr->qos_ctrl |= le16_encode_bits(bEosp, IEEE80211_QOS_CTL_EOSP);
  
- 	/*  BSSID. */
- 	ether_addr_copy(pwlanhdr->addr1, get_my_bssid(&pmlmeinfo->network));
-@@ -252,7 +252,7 @@ static void ConstructNullFunctionData(struct adapter *padapter,
- 		break;
- 	}
- 
--	SetSeqNum(pwlanhdr, 0);
-+	pwlanhdr->seq_ctrl &= cpu_to_le16(IEEE80211_SCTL_FRAG);
- 
- 	if (bQoS) {
- 		struct ieee80211_qos_hdr *pwlanqoshdr;
-@@ -739,8 +739,8 @@ static void ConstructBtNullFunctionData(struct adapter *padapter,
- 	ether_addr_copy(pwlanhdr->addr2, myid(&padapter->eeprompriv));
- 	ether_addr_copy(pwlanhdr->addr3, myid(&padapter->eeprompriv));
- 
--	SetDuration(pwlanhdr, 0);
--	SetSeqNum(pwlanhdr, 0);
-+	pwlanhdr->duration_id = 0;
-+	pwlanhdr->seq_ctrl &= cpu_to_le16(IEEE80211_SCTL_FRAG);
- 
- 	if (bQoS) {
- 		struct ieee80211_qos_hdr *pwlanqoshdr;
+ 		pktlen = sizeof(struct ieee80211_qos_hdr);
+ 	} else {
 diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
-index 9790bd850..85348979a 100644
+index 85348979a..d1bb9076d 100644
 --- a/drivers/staging/rtl8723bs/include/wifi.h
 +++ b/drivers/staging/rtl8723bs/include/wifi.h
-@@ -18,30 +18,6 @@
+@@ -18,21 +18,6 @@
  /*  This test verifies the WLAN NIC can update the NAV through sending the CTS with large duration. */
  #define	WiFiNavUpperUs				30000	/*  30 ms */
  
--#define GetSequence(pbuf)			\
--	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 22)) >> 4)
+-#define SetPriority(pbuf, tid)	\
+-	(*(__le16 *)(pbuf) |= cpu_to_le16(tid & 0xf))
 -
--#define GetFragNum(pbuf)			\
--	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 22)) & 0x0f)
+-#define GetPriority(pbuf)	((le16_to_cpu(*(__le16 *)(pbuf))) & 0xf)
 -
--#define SetFragNum(pbuf, num) \
--	do {    \
--		*(unsigned short *)((size_t)(pbuf) + 22) = \
--			((*(unsigned short *)((size_t)(pbuf) + 22)) &	\
--			le16_to_cpu(~(0x000f))) | \
--			cpu_to_le16(0x0f & (num));     \
--	} while (0)
+-#define SetEOSP(pbuf, eosp)	\
+-		(*(__le16 *)(pbuf) |= cpu_to_le16((eosp & 1) << 4))
 -
--#define SetSeqNum(pbuf, num) \
--	do {    \
--		*(__le16 *)((size_t)(pbuf) + 22) = \
--			((*(__le16 *)((size_t)(pbuf) + 22)) & cpu_to_le16((unsigned short)0x000f)) | \
--			cpu_to_le16((unsigned short)(0xfff0 & (num << 4))); \
--	} while (0)
+-#define SetAckpolicy(pbuf, ack)	\
+-	(*(__le16 *)(pbuf) |= cpu_to_le16((ack & 3) << 5))
 -
--#define SetDuration(pbuf, dur) \
--	(*(__le16 *)((size_t)(pbuf) + 2) = cpu_to_le16(0xffff & (dur)))
+-#define GetAckpolicy(pbuf) (((le16_to_cpu(*(__le16 *)pbuf)) >> 5) & 0x3)
 -
- #define SetPriority(pbuf, tid)	\
- 	(*(__le16 *)(pbuf) |= cpu_to_le16(tid & 0xf))
- 
-@@ -57,8 +33,6 @@
- 
- #define GetAMsdu(pbuf) (((le16_to_cpu(*(__le16 *)pbuf)) >> 7) & 0x1)
- 
--#define GetAid(pbuf)	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 2)) & 0x3fff)
+-#define GetAMsdu(pbuf) (((le16_to_cpu(*(__le16 *)pbuf)) >> 7) & 0x1)
 -
  static inline unsigned char *rtl8723bs_get_ra(unsigned char *pframe)
  {
  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)pframe;
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index d52bcf1b1..fe59307bf 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -281,7 +281,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 	fctrl = &pwlanhdr->frame_control;
- 	*(fctrl) = 0;
- 
--	SetSeqNum(pwlanhdr, 0/*pmlmeext->mgnt_seq*/);
-+	pwlanhdr->seq_ctrl = 0;
- 
- 	if (pnetwork->network.reserved[0] == 1) { /* beacon */
- 		eth_broadcast_addr(pwlanhdr->addr1);
-@@ -2074,7 +2074,7 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
- 
- 		pwlanhdr = (struct ieee80211_hdr *)pframe;
- 		/* update seq number */
--		pmlmeext->mgnt_seq = GetSequence(pwlanhdr);
-+		pmlmeext->mgnt_seq = ieee80211_get_sn(pwlanhdr);
- 		pattrib->seqnum = pmlmeext->mgnt_seq;
- 		pmlmeext->mgnt_seq++;
- 
-@@ -2480,7 +2480,7 @@ static int _cfg80211_rtw_mgmt_tx(struct adapter *padapter, u8 tx_ch, const u8 *b
- 
- 	pwlanhdr = (struct ieee80211_hdr *)pframe;
- 	/* update seq number */
--	pmlmeext->mgnt_seq = GetSequence(pwlanhdr);
-+	pmlmeext->mgnt_seq = ieee80211_get_sn(pwlanhdr);
- 	pattrib->seqnum = pmlmeext->mgnt_seq;
- 	pmlmeext->mgnt_seq++;
- 
 -- 
 2.43.0
 
