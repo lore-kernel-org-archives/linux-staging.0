@@ -1,155 +1,173 @@
-Received: from mail-wm2-f8.google.com (mail-wm2-f8.google.com [74.125.225.136])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B9553E319
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 19:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2236453E317
+	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 20:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791918966; cv=none; b=PqcQ9eExBA29AsjIqvkqG2G7ajuEDi+iUNrMwO7XOCzqyhU4zHnHWvpg+In0kcuD0I6pjscSntVoBSi3tMUYuCZVhmkm2yCnrbLLvHU0Z1z4K+XzlzVKGbP46oAgub9sa6RxK8FgM4Mf3hYjUH8dvYoIMITw4/W45UxQUMYXFYc=
+	t=1791922319; cv=none; b=CTk3J2EF33cqglayQgn02wkvPAYPkSigblOSOzgsEJtva9FrhAfbFzcbkaT4ktYbIvsdV/wmIigvt4WfkeVsIZj+3GGFu3Ctb5VwqYbFaOe9yGxUXw6FUpbtAuS6bZEKAEFNTd4dubQgBNPpMnJfK71vSy5rfL6Xihdk4W9xc0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791918966; c=relaxed/simple;
-	bh=IDJqFbIJ+Lq1Jf9DcU0KCW0ttxfoA2bTcIvvprI6nfs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kw1cAD+oW/xAH7aG0Ytpt2yjn0mu6Ff5+momFbHWm2gvMmqEA8ecu/4EZhfeHUswPfmyYk/oEzBaMKPYZh7AxKTka/h7zBAILtOtDck0w5GNXI9EMRWTofLOkmPbShaiSR5n1LD/2GZORjQoxUQCvoaTbpqZVZ3HfY1p9aMwv7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mcIT8yAt; arc=none smtp.client-ip=74.125.225.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791922319; c=relaxed/simple;
+	bh=HNXFWZVoSrIw23q3IgkNMzcKb/CWkz06yGOhyswlFZs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bSbB9HBe/Wcvpp9z06gxBH2RgFbOkc8T4S+WiOQ7GplRyVpRO5TMgleYdv1eN8SPTsItzitQS/wMkGYa/VL8Q9kobYe7Nf8bW7Lmd089FBmppNXLXkS+VQzg+mqmzSaSTJX0AMO5I9HPGKdwhCYVeWi4OmoXDJDZntepFOEobpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=Geeq37pM; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mcIT8yAt"
-Received: by mail-wm2-f8.google.com with SMTP id 5b1f17b1804b1-4a1963cf318so3536745e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 12:16:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="Geeq37pM"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93e503815adso232269385a.1
+        for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 13:11:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791918963; x=1792523763; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QDIRPE7o88CGHqIF/j5hvY6UjNuhEKh9m4Ei7y5vR34=;
-        b=mcIT8yAtfPKocTonhhj8Yc8OaFVDRuIOy1zIXx8qfh2jb2g403WbXPbPjMf58dyp14
-         VFDLv9NKYZzwNeaf9IPuNZAwMIKgMCcEgMEYQ6hrsQ5FwNVK5ug4PmfdcYWMT7W0zg0m
-         CZRBpf3lWYM7MxVJkUppIG62zQ/tV06Y2qu+jTJDv4pgqApNeLDaTW96WCmORHX5DX1M
-         RD0n4M1sU8DoW86EPxNQ6bw6o7mFXtdCjlt5G1XszCkaX5o6wD+aTFUkF1Ff78zSsjlk
-         NgcevkndESjr81knaBkusn81a+N1b1R/pYaF5JaNjSjFj/MWlkjtdhROipp/LUbQMjCc
-         FRiQ==
+        d=ieee.org; s=google; t=1791922314; x=1792527114; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xuCIoz2IYjkzdzL/4g0Gyi+YveB0FaYW1V1bCHm1ABI=;
+        b=Geeq37pMlV52hkj0w8yNHydojd7e/P0AqHwpINTv7DJ0mdQENsLO8nGv8lmYjgDs0c
+         xU4B7jcRF06iDmL7uGLCRkt3T1vtTm7vxZHeAtY/R1Vm73FD+o/pVdCpFDo5PufoZTZz
+         mh6XE7v3QLYHqtSVTV7BdPUBvK5cQX3Lv5nIs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791918963; x=1792523763;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QDIRPE7o88CGHqIF/j5hvY6UjNuhEKh9m4Ei7y5vR34=;
-        b=rHlNhBj+yaFmi4ZHu6WuRyq+N41rMgUi/bxXG3CT27K2R8gT5Ba5lHIINRtkDnK03v
-         AqfxrJpcfcqScJS6XRImdObH931OW6f+FACPFuAaDDXpYeU3IncMeArT8Dtmxcz4vl8J
-         6D1sPcMAAnLn7l+/VSL/l7rhzzKj+ViawrV+2ZB0uthvXoXJktqkWQbr0cqI1T10C1c+
-         UQ+9UskpMzbgtCDXcUQzEU0O7D2pYNjWuSLd4cQVE2BgPKJc5YCYqCllEtTezibiaxbd
-         coHQerNar40vkGFqU0UG3llhOLTwvmljfTSfBht92ki/pfB+UmqLILrgh0QOLkIwkE/u
-         xCzw==
-X-Gm-Message-State: AFq9FYIn3J3SSc1s4TLuQ2cA2AD1izfyRBYLnTbq08qwqjaPYL7aaWy9
-	nUYeuTv5M2x0wjcr2/Enrhy+56xqO21jWKdICyNX9C/rTJT6iXWJTcqk
-X-Gm-Gg: AYBFou0QcrtZacM3/V4ZH2IVodFbunbrGkcv7hT80XphGi93o6SIvpMPMxO8UvEOY8Y
-	Ed5z6KPbubstZiXkcTGhd6KQjx+wIRHRzBcgxUvGSsLYdRGIjEtfn+sY1p2bMtq8YyxOPjkUUmw
-	18YWQe7OXBXjlunhBjgvQ6FGjEn4yTWHoFZzfNWPSRZ9w3jp/YbtNTDznZC8a+KkHTgCnkreAMw
-	8UjV0lpJTN2l3j2fp8nvJ+gxDj545FIZ7Rvnk6qOgsz3SJwnmiIShv+iYF46HifhKmSIPwmqNDx
-	fsiTGS3bBVGNxE0gXkJhx8PDYafaNncNWMOGjpXIAjlvZwTVN8IpgFRx+MZG3nFX4aRuVl1lK73
-	cC3cpl8APLvk4MtewG1crXXibFq805CgXxd1M+r8HNNe+Dl5FwTtkPq2zkezi2cot/057YARnP7
-	K0Mk7IO8epiBO0v7Lh0Z6JumXwR4R6nKoFEjOFNQwRmdUT4C9IyhzyuKdRzYRcZq6EZhZS7Q==
-X-Received: by 2002:a05:600c:4fcb:b0:4a1:811c:8083 with SMTP id 5b1f17b1804b1-4a18e4c3600mr266379435e9.33.1791918963174;
-        Tue, 13 Oct 2026 12:16:03 -0700 (PDT)
-Received: from fedora41 ([37.168.42.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1b2fc4724sm7229275e9.2.2026.10.13.12.16.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 12:16:02 -0700 (PDT)
-From: Timo Joannin <timo.joannin@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	error27@gmail.com,
-	guojy.bj@gmail.com,
-	Timo Joannin <timo.joannin@gmail.com>
-Subject: [PATCH v5 2/2] staging: rtl8723bs: unwind cast mess and remove phy_stat struct
-Date: Tue, 13 Oct 2026 21:15:03 +0200
-Message-ID: <20261013191503.152056-3-timo.joannin@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261013191503.152056-1-timo.joannin@gmail.com>
-References: <20261013191503.152056-1-timo.joannin@gmail.com>
+        d=1e100.net; s=20260707; t=1791922314; x=1792527114;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xuCIoz2IYjkzdzL/4g0Gyi+YveB0FaYW1V1bCHm1ABI=;
+        b=c0+TI5m6xelicWYncIDGJH2cZQsdflVbPXPKpcCZ+NfOIlCxzg8slvMfkM640YpV/2
+         8Tst2LqkESYDJE05TrwTmek2GzTI7IwOhfJW/T5eHpDojXhWn6RPHIrVT+5o2F0AtqfC
+         0BEK+bXmDw2a6kVKu29So2LCVApirZWVdlMqLgk+B3aLNAEAKR0v5rqj2PZaLdYF2T46
+         HrLftZzG5ZmFzFN/j0PnPLq96X8TZMvXvquepIjvaQWYcJiikSzJ/cGCX7197a6hhcGq
+         v6ma+ZBrJ5xGrDbhjp6G5qMfLgcihnS9QW19yHOsRLyN4UiJZOlnMw5I7xRYFS+Icr72
+         I0rA==
+X-Forwarded-Encrypted: i=1; AKwUvBwu7tEFs6wAmEX/MlXJRUKb20zjg9+ykv7gMq1E9WUH6IBR3JztICQX2cZ8M8qhP2NeKic+0UGc9EaQBJai@lists.linux.dev
+X-Gm-Message-State: AFq9FYINyMMMR94oQbhZUgzFEyHNR7MVmqQmH7ae62aJt31bNntgB203
+	oxm89Tp767Q9Yn0HwPMj3BN4TcQxL/fltOVnCBD87bn9kbiW1HYw3TEGErQjX2p/7tjZItPgfL8
+	jgYYMmg==
+X-Gm-Gg: AYBFou14Et5bj1ixVhO2EqtcvDRM713wpeAI6JzKH4bh6Icpf0Ob1jkrw2h8dR2znnZ
+	Q5lAEMBLh5Cqdy1Ry4jA9sS/x42P/sjEgJC2XrY6UAzq52NYJlwOARDl0MvDWuilM1aq2u5KVaS
+	8biX+MqdV2+Lc0UQ/BvIB6g7R5EasFzAAbQUFVG6WFbjv0Auu95YOcQDp+z+2pm/ZGJrndU+Sv4
+	DvUyODWdRB6nBFN/IADTyMYSuijqqyhZjcU/7PhDav+OBG3lGzcdq4jbSqLBy/VCEi9MKb0p06B
+	vZ7DJAuDxlvMHCTBbgoHya53/kG9VTX4zIti733PMynsKwDM0qspREGSYi0ACDh6B4ArZsbnPvL
+	fV0RDI1Gi4trUqRQfFwBQGZFutLapH5oCy705yClbF3mzvCS+qsaAznBbs6/bPYAthB6m24kkyK
+	Ke7ypPVcxu1gdvE9zzp7BMr8Hj/I6cn3RwGLxEKlvkNNdQL7GX72QPd09ffGHQAvhDPA==
+X-Received: by 2002:a05:620a:472a:b0:93e:70cd:e428 with SMTP id af79cd13be357-93ebd267ddemr2287238885a.66.1791922313908;
+        Tue, 13 Oct 2026 13:11:53 -0700 (PDT)
+Received: from [172.22.22.28] ([73.62.185.64])
+        by smtp.googlemail.com with ESMTPSA id af79cd13be357-93ef4d31b91sm323643685a.0.2026.10.13.13.11.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 13:11:53 -0700 (PDT)
+Message-ID: <2fd23f9b-7eab-4afd-aa77-93a5b9ff0c75@ieee.org>
+Date: Tue, 13 Oct 2026 15:11:51 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: greybus: replace PTR_ERR() with %pe in error
+ messages
+To: pavankumaryalagada@gmail.com, johan@kernel.org, gregkh@linuxfoundation.org
+Cc: vireshk@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev, gservice341@gmail.com
+References: <20261013022402.6322-1-pavankumaryalagada@gmail.com>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20261013022402.6322-1-pavankumaryalagada@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Propagate the real struct type all the way through
-the call chain to remove redundant casts to and from u8 *.
+On 10/12/26 9:24 PM, pavankumaryalagada@gmail.com wrote:
+> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> 
+> Use %pe to print error pointers directly and display their
+> error names.
+> 
+> Keep the other PTR_ERR() call because its return value is
+> needed for ret.
+> 
+> Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 
-Remove redundant phy_stat struct, along with the dead function
-prototype rtl8723b_query_rx_phy_status() which referenced it.
 
-Signed-off-by: Timo Joannin <timo.joannin@gmail.com>
----
- drivers/staging/rtl8723bs/hal/odm_HWConfig.c   |  5 +++++
- .../staging/rtl8723bs/include/rtl8192c_recv.h  | 18 ------------------
- .../staging/rtl8723bs/include/rtl8723b_recv.h  |  1 -
- 3 files changed, 5 insertions(+), 19 deletions(-)
+Generally I think what you're doing is OK.  It looks
+like %pe is better than just %d, because it prints
+the error *name* for the pointer-coded error.
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-index fb3a19da5de3..c0a079003e73 100644
---- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-@@ -432,8 +432,13 @@ static void odm_Process_RSSIForDM(struct dm_odm_t *pDM_Odm,
- }
- 
- /*  Endianness before calling this API */
-+<<<<<<< HEAD
- void odm_phy_status_query(struct dm_odm_t *dm_odm,
- 			  struct odm_phy_info *phy_info,
-+=======
-+void odm_phy_status_query(struct dm_odm_t *dm_odm,
-+			  struct odm_phy_info *phy_info,
-+>>>>>>> f52adf8 (staging: rtl8723bs: unwind cast mess and remove phy_stat struct)
- 			  struct rtl8723bs_phy_status_rpt *phy_status,
- 			  struct odm_packet_info *pkt_info)
- {
-diff --git a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-index b63625ab4e45..072e2b5f6129 100644
---- a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-@@ -9,24 +9,6 @@
- 
- #define MAX_RECVBUF_SZ (10240)
- 
--struct phy_stat {
--	unsigned int phydw0;
--
--	unsigned int phydw1;
--
--	unsigned int phydw2;
--
--	unsigned int phydw3;
--
--	unsigned int phydw4;
--
--	unsigned int phydw5;
--
--	unsigned int phydw6;
--
--	unsigned int phydw7;
--};
--
- /*  Rx smooth factor */
- #define	Rx_Smooth_Factor (20)
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_recv.h b/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
-index e9ebecb224a6..2f230e2d27a4 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
-@@ -84,7 +84,6 @@ struct rxreport_8723b {
- s32 rtl8723bs_init_recv_priv(struct adapter *padapter);
- void rtl8723bs_free_recv_priv(struct adapter *padapter);
- 
--void rtl8723b_query_rx_phy_status(union recv_frame *prframe, struct phy_stat *pphy_stat);
- void rtl8723b_process_phy_info(struct adapter *padapter, void *prframe);
- 
- void rtl8723b_read_chip_version(struct adapter *padapter);
--- 
-2.56.0
+But I have two general questions about this effort:
+
+- There are other places in the Greybus code (even in
+   just the staging source files) where this exact same
+   thing could be done.  Why limit this to "fw-core.c" only?
+
+- Do you think that all Greybus error messages should be
+   converted to use %pe (passing ERR_PTR() if necessary)
+   instead of %d for showing the error number?
+
+I think your suggested change is a net positive, but
+doing it in some spots but not others means it is
+adding a bit of inconsistency.
+
+					-Alex
+
+> ---
+> v2:
+> - Use %pe in the firmware management case, as suggested by Jeremy Clifton,
+>    to match the other cases.
+> 
+> v1: https://lore.kernel.org/outreachy/as0nhVbagZa8Birm@user/T/#t
+> ---
+>   drivers/staging/greybus/fw-core.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/fw-core.c b/drivers/staging/greybus/fw-core.c
+> index 2016a74f137f..78321be80013 100644
+> --- a/drivers/staging/greybus/fw-core.c
+> +++ b/drivers/staging/greybus/fw-core.c
+> @@ -93,8 +93,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
+>   			if (IS_ERR(connection)) {
+>   				ret = PTR_ERR(connection);
+>   				dev_err(&bundle->dev,
+> -					"failed to create management connection (%d)\n",
+> -					ret);
+> +					"failed to create management connection (%pe)\n",
+> +					connection);
+>   				goto err_destroy_connections;
+>   			}
+>   
+> @@ -112,8 +112,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
+>   			connection = gb_connection_create(bundle, cport_id,
+>   							  gb_fw_download_request_handler);
+>   			if (IS_ERR(connection)) {
+> -				dev_err(&bundle->dev, "failed to create download connection (%ld)\n",
+> -					PTR_ERR(connection));
+> +				dev_err(&bundle->dev, "failed to create download connection (%pe)\n",
+> +					connection);
+>   			} else {
+>   				fw_core->download_connection = connection;
+>   			}
+> @@ -131,8 +131,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
+>   			connection = gb_connection_create(bundle, cport_id,
+>   							  NULL);
+>   			if (IS_ERR(connection)) {
+> -				dev_err(&bundle->dev, "failed to create SPI connection (%ld)\n",
+> -					PTR_ERR(connection));
+> +				dev_err(&bundle->dev, "failed to create SPI connection (%pe)\n",
+> +					connection);
+>   			} else {
+>   				fw_core->spi_connection = connection;
+>   			}
+> @@ -149,8 +149,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
+>   			connection = gb_connection_create(bundle, cport_id,
+>   							  NULL);
+>   			if (IS_ERR(connection)) {
+> -				dev_err(&bundle->dev, "failed to create Authentication connection (%ld)\n",
+> -					PTR_ERR(connection));
+> +				dev_err(&bundle->dev, "failed to create Authentication connection (%pe)\n",
+> +					connection);
+>   			} else {
+>   				fw_core->cap_connection = connection;
+>   			}
 
