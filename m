@@ -1,113 +1,92 @@
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF31A3806C5
-	for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 14:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFED50C2BD;
+	Wed, 14 Oct 2026 15:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791989477; cv=none; b=hgejLP+ZYqQBwshTDZwdc/2+T9ytpg9SKlX2S8j0hjYl853y8JhXW5D9F+BbV6p7dXYxo7m4XZC89RJSGt1AhbfoDFU/I3BlUr8fE0RECeDU9WOayk8LiDXEwnzKV6u51KRxEVzNMncKLx6FDoo/i4wdgvng8A37SoXHIsTu92A=
+	t=1791992726; cv=none; b=WLTvL0Es2Uywqw6SKPXwUjT6VejKDGLP5LEIstFpHW0BpeMUedpDotBV0ICtromdLC/Xjs2ijGosUUASco3r06muFIAwMMO3Wc3wyTzdtZOpH5J+8azB7r3A43NabblUIVcWlq+RY/EgY+iMzNVHE30MsOBv0E5a6MkvuM0kzSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791989477; c=relaxed/simple;
-	bh=Z3DSauD323e0qNhplb/tB3PMe0QiufBuk5MzkOwYu90=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=e+HPjz3TdWxlwlQHBcFSA3vAMGINwe6wZHO+qCxYlHy84oj0CLaqSvgerYWNTd1CA8C/uXI60zNa7QJWSw5MT5NYXDKctqKRzaALOagqgB7diGIzplWqLxX4dfnwpvzINRtocZJCEm2V8DekJ5g+PqkOIP+strJ+2xP/1CjeCdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--johnsingleton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NQ7bBKUA; arc=none smtp.client-ip=209.85.167.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--johnsingleton.bounces.google.com
+	s=arc-20240116; t=1791992726; c=relaxed/simple;
+	bh=R+ukTzmLbnPFNE5OJ0y8SEeHvT4kuxP/6O5+1VooLwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bVCaTcI8Aa/EPIO2dyDLO0NCU24jGGFKPLSmCx9/0QELR007nsVStkVmCmU0P9cyqDk86AcHZ9tMNt9wrSXtkAtMfDhSkZm5XBRY0+jWUzyauQYqXy1tfnysgSBXCHZMSwAKg/Eo8gAEp+q8CJ735mphRo0L2Es7VpF4xb3pD4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zGxcBKyA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NQ7bBKUA"
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4a45b3f0bdfso618160b6e.1
-        for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 07:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791989474; x=1792594274; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Z3DSauD323e0qNhplb/tB3PMe0QiufBuk5MzkOwYu90=;
-        b=NQ7bBKUAZqSmJLlLjmkb5sO90pLWsJFBb6lj4lia+PhC1z+ZAftJEO1Mvfje24Rk0V
-         S41rqwRrnFDmvH4qsZM407rHrU/6n+GaQ8JIAQGLwncLjU20OEC1XihjifgnSTrDlWOX
-         Yd22eWB/xG7BD1/bXnnsIfIUrvrGbJ6RQs3s722JQ99ZB0NIhRuYqkSFvoaz4DIpfVKC
-         EYc+UfYSernxznsqGt1Z6my+/Nj3oFN4PTw3v/80f8EXOiPz2eEYDFJL2otJ7ESrHkDP
-         z49B+5+F0UrceueEeIavM7pSUK0Kk+sqOSypUQbK3T7xuVO3cFOFBrKtOds391/TRum3
-         5qCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791989474; x=1792594274;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Z3DSauD323e0qNhplb/tB3PMe0QiufBuk5MzkOwYu90=;
-        b=oTx0RQvYCyqu8bi+RBEGDrrsZrSSNmdYzpQ6mpHy82xWYkQPZLWaIYUkWko+e4wmCz
-         05+7EZ4TO7JHddyFerSmH4T4uVXyoV/uk2RTvadVVe8x89D7uznc8+wT3Xvtzmv8AkGm
-         w9E1dNfJQ2yBKuuLynhIeJLzFoYtIqiHEfhwPhsyjJ5qLAVNrE1hfGByQbzF1KSB61pp
-         Dls3o9zQz362TeUBEC5aLlbfwf1uJZMiAdp+rKl9LM8TmWPGZVx4/qdq7HQEK9XwAogN
-         uPhaGRl4/pihVJMMbRy+UbWFfjhEC5Co8ln9h7auf+UOqZbU9J8SnuCIuxI003FLCnnV
-         ysbw==
-X-Forwarded-Encrypted: i=1; AKwUvBzoQb1UtIl+eos7wlRi3SMs24UKGJGnbDJHvzvCSKBI+4yrQ0ZZI9EuUcs/hLxSGhbyq1peWTSK4TlpgLxo@lists.linux.dev
-X-Gm-Message-State: AFq9FYLMWXK4OuUS2hzaRkZmTldBxgQuXKUIHlkOM/v0iMjvsGR/t19A
-	0x3wvqJ5MUNQRr5EHwzw9r0DkVTZrU812KyUpFlr+gYgvz0DbIvV6qmjmbp3oohEFZlCQ1x68UJ
-	tY7RPtegYKB83K1AavuoHADx91+fDMk2N8g==
-X-Received: from oiic12-n1.prod.google.com ([2002:a05:6808:a5cc:10b0:4f2:6bd5:e3a1])
- (user=johnsingleton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:1a1b:b0:4d6:9335:d533 with SMTP id 5614622812f47-50c5b17f9b1mr14938839b6e.64.1791989474239;
- Wed, 14 Oct 2026 07:51:14 -0700 (PDT)
-Date: Wed, 14 Oct 2026 14:50:37 +0000
-In-Reply-To: <CAHp75VdjeG2kNzfRRAmHZp=++gOz48ifnKMCu0oPK=nZBewHPA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zGxcBKyA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 416691F000C4;
+	Wed, 14 Oct 2026 15:45:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791992724;
+	bh=4N3/SfAmFRViFWazATLvErJNHUxEQ8iCvSfoJhR/1Z8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=zGxcBKyAs00jWBadcoxo7r06oEISgiNsC+v6cpHbZIZ8PcJFR1Q+viLDHbIlSPu3o
+	 IxSkXcpK1U2IJZvHARm6MiL1FgzTx7OuhtUIFJfbbMUvhY6mXPXSdmeQWbfV9ufKqO
+	 CPv1geZ4rfYCjg/T/ZU83VJoVgz7OFG4/AoxHACA=
+Date: Wed, 14 Oct 2026 17:45:29 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Rishik Yechuri <epicrishik@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Rishik Yechuri <rishik.yechuri.code@gmail.com>
+Subject: Re: [PATCH 00/10] staging: rtl8723bs: replace private 802.11 header
+ macros with generic helpers
+Message-ID: <2026101402-spotter-stitch-056b@gregkh>
+References: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <CAHp75VdjeG2kNzfRRAmHZp=++gOz48ifnKMCu0oPK=nZBewHPA@mail.gmail.com>
-X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261014145045.2369689-1-johnsingleton@google.com>
-Subject: [PATCH 3/3] staging: media: atomisp: Fix parameter indentation and
- block comments
-From: John Singleton <johnsingleton@google.com>
-To: andy.shevchenko@gmail.com
-Cc: andy@kernel.org, gregkh@linuxfoundation.org, hansg@kernel.org, 
-	johnsingleton@google.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	mchehab@kernel.org, sakari.ailus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
 
-On Wed, Oct 14, 2026 at 9:20=E2=80=AFAM John Singleton <johnsingleton@googl=
-e.com> wrote:
->
-> Thank you, Andy. Just to confirm from my examination, I think the key iss=
-ues are:
-> 1) There should be separate patches for the comment-cleanup and the funct=
-ion-header cleanup and
-> 2) The preference is to do this for all files in a directory, rather than=
- a subset.
->
-> Is that a fair summary of the concerns?
->
-> On Mon, Oct 12, 2026 at 2:05=E2=80=AFPM Andy Shevchenko <andy.shevchenko@=
-gmail.com> wrote:
->>
->> On Mon, Oct 12, 2026 at 7:13=E2=80=AFPM John Singleton <johnsingleton@go=
-ogle.com> wrote:
->> >
->> > Replace leading spaces with tabs in function parameter lists and
->> > format multi-line comments according to kernel coding style.
->>
->> Please, read the mail archive to understand why this patch is no-go.
+On Tue, Oct 13, 2026 at 03:15:28PM -0500, Rishik Yechuri wrote:
+> The rtl8723bs driver has its own set of macros and inline functions in
+> wifi.h for working with 802.11 frame headers. They access the header
+> through hardcoded byte offsets and pointer casts, and they duplicate
+> struct ieee80211_hdr and the helpers in <linux/ieee80211.h> that
+> mac80211, cfg80211 and other wireless drivers already use.
+> 
+> This series switches the driver over to the generic versions and
+> deletes the private ones from wifi.h. Each patch converts one group of
+> macros and removes their definitions once nothing uses them anymore,
+> so the driver builds after every patch.
+> 
+>   Patches 1 to 3 convert header address access and the Frame Control
+>   flag checks and updates.
+> 
+>   Patches 4 and 5 convert the frame type and subtype checks. Single
+>   comparisons use the ieee80211_is_*() helpers, and switch statements
+>   mask frame_control with IEEE80211_FCTL_* and use IEEE80211_STYPE_*
+>   case labels, the same way mac80211 does.
+> 
+>   Patch 6 removes an unused struct member. Its initialisers were the
+>   last users of a few private subtype constants that have no generic
+>   equivalent.
+> 
+>   Patch 7 converts the frame subtype setter and removes the private
+>   WIFI_* frame type enum.
+> 
+>   Patches 8 and 9 convert the Sequence Control, Duration/ID and QoS
+>   Control fields.
+> 
+>   Patch 10 replaces the driver's destination and source address
+>   helpers with ieee80211_get_DA() and ieee80211_get_SA().
+> 
+> None of this should change behaviour. In the few places where a
+> generic helper checks more than the code it replaces, or where the old
+> macro kept bits that a plain assignment would overwrite, the commit
+> message explains why the result is the same.
+> 
+> Compile tested with W=1 after each patch, and checked with checkpatch
+> and smatch. I don't have a device with this chip, so it has not been
+> tested on hardware.
 
+Did you forget the assisted-by tag for this series or did you really do
+this "by hand"?
 
-Thank you, Andy. Just to confirm from my examination, I think the key issue=
-s are:
-1) There should be separate patches for the comment-cleanup and the functio=
-n-header cleanup and
-2) The preference is to do this for all files in a directory, rather than a=
- subset.
+thanks,
 
-Is that a fair summary of the concerns?
-
->>
->> --
->> With Best Regards,
->> Andy Shevchenko
-
+greg k-h
