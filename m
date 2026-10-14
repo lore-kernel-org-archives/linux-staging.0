@@ -1,151 +1,113 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic312-21.consmr.mail.bf2.yahoo.com (sonic312-21.consmr.mail.bf2.yahoo.com [74.6.128.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2205423645D;
-	Wed, 14 Oct 2026 19:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A695A47DFA9
+	for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 22:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.128.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792005362; cv=none; b=mWdCekN4suxjqvB1Qg28WFR0GqQFXkZfWJoMF5hkJzZDbLbu5pvYtBVqm+yJAkZLXkV9Bzhm2YnLrPlTrNHLPfQRHJlxVwNB9MhMXP+l9vX6p+y/9wLYweA1y4mmVEOkJG+8xRgMG9pOqP+hZdzuIDvs3PsdcqthYEq/nAVswLQ=
+	t=1792016541; cv=none; b=PQP8Sjtxp3rYCn044k3AkyYyIbXk8uaKjHg2uGMZZPKrto/JjUTzL7Uu/FjQ7ZO8OPY70+FzXa6ws6blQgj8EbZYeRC95EnDz1C4zabNNnvj0GxCIzDgydWwoe3NKwuyUaHn/1/U5TrzX96cReGkBzuYRzJSl2u6ESMJcZP5D6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792005362; c=relaxed/simple;
-	bh=I9I4EOND5TtH3mV4xT5cLVd8uGjJE3khrYWrEH2r6NU=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=XWl6mdx6/7u2yLSa4l91zN6Fa6SlGEmPlF55qnO7vcD5VrcaJV8EZ5W7mNCAMmjgv0OxblCW46H8iU8Gt5HMbKk2wyJVOW1j3uud/aI81rLtHCJLkrO44ytvATvKkK85w7TAa4VwC7e+0U0spsBBfr452VHhLEJhqaDHjekHORc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=nVlqyriL; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1792016541; c=relaxed/simple;
+	bh=22rh2zgvVwGy0yPhA7ZVRYDeOghFgS9cVi3/wmOGsXs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ujcAQl7LtDW+zNxZHqrbcB7DJqPffFIdlNSib8SRHXOQe0UpN0NE+nHSPEw3z4ggFhtNR8yutpMzyYqjWyfaT3X3c3lLRGwwWvA8UPdNOf6VNvH/PUp/vGi91aodo0wcMaF5ilONS1GCw8MKTDeMqXTwGHyqOOfqKRBnUtxuoXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=dhgEoOVR; arc=none smtp.client-ip=74.6.128.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="nVlqyriL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=A+QLA+MTonc5guRorxistBoawFVrCJ1ubobT4AQZVfE=;
-  b=nVlqyriLrRrXhEEmgXSKus1COP9jqN+AelU6dy1XQNGTUXjwA181XFUd
-   stvIjHzv+dxAHFxLemLJZVOlvKKKH9xqTtex4hlxg9wIDOs9micsWHLq6
-   BpjY64848gNKJOfpx98UEZWkbkD3iPWSXvGifMrw+Pxmkv86wmjJL/wMc
-   0=;
-X-CSE-ConnectionGUID: Bx2F/LenQvK9F6HxKL4HEA==
-X-CSE-MsgGUID: gsnCk0vwQcCZp9jkAPNHVg==
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.27,158,1787004000"; 
-   d="scan'208";a="300237533"
-Received: from static.host-68-71-1-178.nrbn.ca (HELO hadrien) ([68.71.18.178])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 21:15:55 +0200
-Date: Wed, 14 Oct 2026 15:15:54 -0400 (EDT)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Jeremy Dean Clifton <gservice341@gmail.com>
-cc: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>, 
-    Alex Elder <elder@ieee.org>, johan@kernel.org, gregkh@linuxfoundation.org, 
-    vireshk@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    outreachy@lists.linux.dev
-Subject: Re: [PATCH v2] staging: greybus: replace PTR_ERR() with %pe in error
- messages
-In-Reply-To: <6d881c38-33f7-48e0-88d0-4d16170c24e6@gmail.com>
-Message-ID: <b37cb31e-a9e9-7248-27a-fcb31c5f6e65@inria.fr>
-References: <20261013022402.6322-1-pavankumaryalagada@gmail.com> <2fd23f9b-7eab-4afd-aa77-93a5b9ff0c75@ieee.org> <as6mC7sZnpqIKxN6@user> <6d881c38-33f7-48e0-88d0-4d16170c24e6@gmail.com>
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="dhgEoOVR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1792016539; bh=2lyXd+fDqFFVLb6Ux/gSobPldVCnGppznjAjTuiEp9E=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=dhgEoOVRuyt9//viM2epKHsGOdj3qrXt4ufEuH6wUYTWBkjsjP8tgt13XImw+rteGILo7TSwcvf1Qr2E7UDPgCjotcEOG2yADOavDj6ildUTkwJIhHZnZ/+CdNITuLdUhbPRBkyvke4gCB+J4LkE4os14hPdl8zGWmIjB5fz9KTNpCcOxcDNKb/dsTqb/PTL59rxXdRq7KlGg9EhNBTPl6dsOwBLx7UlGDRvktoQ4FdE+m7/AmT0Cb69/icStlmrdSpLmqm0OhMyZmSQsx17TugZItp2SbVoDgRZ8GJY3QhzNTtIRH64B/CYbrUGM69gNwE6lpz5bQFJiNBEEHP8Gg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1792016539; bh=WXXSV5xRL912FatuJBGWMMtObZrG0NjUQyHQ3bBi2Uu=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=seuQ9Mi0pp5l4pXS6VBeWe4Cw2xuWVPEe2ftBlZtp6ctbavadd3MYLQLKLYqhHI2EarW0E5qKSNXgo+yDbNXLHnEtU9XCuBzZhuSpAITE06S0mV9YNBKIvCk/3ICRWCiRXdarPk0jFj1yBUcj4GpBhktSqVho6tX6DQ/c7UNZA4qDnWhDVc9GZz1LYdvMMuF9he5RNyjA4KgndaP8dAvXiOpiM5OY2bpZWcnXmyGl+l1D9oGYpifc47+XlCxg0G2B4p7HrHenE2v4zWYcAD1dcOp4cyPkUaZbIDf8MnkQQj9ycq8DCPNCdCjJ6eoBfrQXZqIqGOoE5deg27fOf+JfQ==
+X-YMail-OSG: Z0seP64VM1mTHVwywJ6FSoq5MxYNK3XDe9L1ZdGx9MG70I3B1z7wJfecdIXA_DO
+ CyM7oMXTBqp2MPvqXxEdHgEAAtoB.HmcCX15pwYRoMc85YIJ.BRHaU_NJWmIbxNIuiYvYwbIJ8LB
+ 09cgF.ARaczmGQqwC.xGGcQcuv0hymNbzqMi9JJWNKRTjCDPPZLVNj73CsrBhyMIL00hDH4DmIJp
+ 30CDP8seQcz.VcJ1DDRS3A2Vio3lNPZ1t4CGB9kcxrHw_.mG81bJojvBrejh7aE9XCfz4Fe9fAbW
+ Kl.hCoFBbi3IFbcsewtLcKIQHKJpzxexy5c1V_lRiDgpfG8CDQYjuAGN6uZTl5wDWS.mBxjqdl_f
+ ZUZRR_8xAcUxGfgOO3dya36vlXT3gsSSPdEuxU8EhGfPjVLarFGohnhaXPuTXdyoLdAk.SQSRXIN
+ TfyxYAIiGOlQIiXWEzA8RbYo9OMZHRkBpeQj8URuGbh8bAre4VqQ_okxtdwcH1wTEhJ0MTGH5XPo
+ COlQvU4YUZUMeHWAJhic9hxxtLX8fxc8JYv1UoHwOSNmVb63iYNQCcZvQiBAMYfORXyu_.kBkmWa
+ UbZ23IGZt50LYqqqPWWq9gnaSgGj7pw1VrkSqYl2o.Tee3LW0gPE2ueiYzzWX0rUs7Qyx0KZD.0O
+ KzPjqW5cPnkpyhR9ynJlvqmIQeAc4BZrrAjAKsFDUCAVc.MVronAQ0K32fFvD1j.HXHRz231gTBC
+ 0c.WTik96to67Wh9yeMkf1YL.qeYSWCBOdkuNtX2TonCxa7Zk.4s89TqMPRns0OvomPRWMwmz0lH
+ iMqytBP_qJLdqAhX1yKV4mCIX1nVrzqQKOIRwJy8SsL5S0AsPJjxc74AUJBNzhbh46KuPAOT34JC
+ eBKczRjDyo.q1f9j6CCFTD2wPdys0qJng8pz3jroE0FR6oyGvVfwySkK6c0GJCQsOhYu7wzlzMQ2
+ EkePQRJGa6qkcvew32ppE6RfBKRqav0_RxZAssGvQt_ZTgj8xhH7Jox48qnvV524dJhAToa8x2Br
+ SYToK8W4Pi.MvkTLnGHOq6X_G0U3GqaW2CGjW.sT3UrIkd2EkuukF9a..pKkwF1Mjky51KvYnt.y
+ 9Ul5hvIyi501V4oEDjUDwllgDQrz8AfheebZ_ck72u1q41kz8gp1_qGtH5_GdU50PWPduFHitzRV
+ M.m5bk0P2L4bOQtBZPcNw6YhOrAgbuVTdbWEhx3lBnM8cFVpmjUH1yXRGZzSlsDxuH0U8zjUTsku
+ YApNhvNdPdvybNpJ9K9p3xrTx8vTH1hCIKTjQglapyI2xy6hg7aYAGVV8FlwQN7hqAOWfiTlQeKp
+ d_vbOjAsRe3wGoq9QQNquayFy28Z2ucUyjC0Hpiq6KXytlmTPdRc8B.6PPDtpkNK2zqwfwAQDA7p
+ qI1lC5CIcZyF5VQq5m_mN0ca0OIE5kj9MUabfMDSFuGb9WjUy4mVcBWkrceyR5C9y67dC6F.OvJQ
+ M5bAJ8C9BOICglfw4Rxri6AUsptAMKPp8YrRhtqiRx6fbRHQuWNYzZblRMExKyXAHV0I57Oy3ORu
+ PBA6wxxH3nuVtyzkFLNCu4BYPhs4grRu6rTJ0hODSXVcFhb_892D8eO0yYb4PKxNQaLKDq0oMCUQ
+ vie_qqk.8Ss72yZpkw5iShLVpD4kzNLPuHEvvshhog6oIyG3Y3zca.imgDDJxVltnIfFO7W7E2lr
+ I62XPDDGrE6_NJqvhCtFcwQEJYNLPVGpQ32Imk4DwvoHH3Cq6NP.miZKLqJSEoI5PjwqW9QUpmJQ
+ yCaydd8d.W.Wta5JF9ZJUCl2K0BrSpaBxvFGU68SgRVSiTG7wHaWrKeFpYlqeDY2kLNoE9vpE6PY
+ 3_qOkxRNaERDnq3kUJPI7VG1dcqhXRkMAQx4XkfwUYF7sTMDXOlnlkqpLtxSjjqMpyNVwIb0gyBf
+ zIFa1dpTAuhfISrn92W3TJqTWlyGUikw9Da5t58c7A806AkX3jK8lGGthLAVwrZuMMyuJlFHHR0w
+ EeCVJsrP1HqtPsSFqH7CbparmmfBbh5AJ2OsHz9msEJ3l2Nn5lHxhF5_TKqD94cje5xq5yXzmRgG
+ 7QDk.I9EYgFaGuE.dLXKYzeUNWh15zcnZUkq2q6WVVLGMokdJd4FrNDb2K6d7HuBSW5VM9I3TmyI
+ JIKdxjDcsQPWeGX_Ginf30XDTzhD9Mrfyy.LDeaoT7CaeAwPpDp6_prxKxoRFshWqKqQokxZ1SVc
+ oVIup8x8zrbK5Wa3IAN2KAuuBxncsIoJJFA--
+X-Sonic-MF: <deaner92@yahoo.com>
+X-Sonic-ID: 06a2b5b5-4991-40c2-827a-2f8435ac73d7
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.bf2.yahoo.com with HTTP; Wed, 14 Oct 2026 22:22:19 +0000
+Received: by hermes--production-bf1-6d6877594b-mcfwx (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 13145d99c0856444ce8fdd200f288c70;
+          Wed, 14 Oct 2026 22:22:16 +0000 (UTC)
+Message-ID: <c4c3cfb5-1933-484a-8ad4-acff8dacd178@yahoo.com>
+Date: Wed, 14 Oct 2026 16:22:10 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: Remove unused header declaration
+ to_fw_mgmt_connection
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20261014171342.97160-1-deaner92.ref@yahoo.com>
+ <20261014171342.97160-1-deaner92@yahoo.com>
+ <377d4e4f-93bd-6634-c3c5-1113f5057e2@inria.fr>
+Content-Language: en-US
+From: Jeremy Clifton <deaner92@yahoo.com>
+In-Reply-To: <377d4e4f-93bd-6634-c3c5-1113f5057e2@inria.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.26740 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
+On 10/14/26 1:13 PM, Julia Lawall wrote:
+> 
+> 
+> On Wed, 14 Oct 2026, Jeremy Dean Clifton wrote:
+> 
+>> commit 3228900f80c2
+>> ("staging: greybus: Remove unused function 'to_fw_mgmt_connection'")
+> 
+> What is this?
+> 
 
+This is the previous commit that did not remove the prototype of the 
+function it removed. I'll include a sentence explaining what this commit 
+info is here for.
+>>
+>> Function header declaration needs to be removed after it's declaration.
+> 
+> it's -> its
+> 
 
-On Wed, 14 Oct 2026, Jeremy Dean Clifton wrote:
+This is a grammar and semantic error on my part. First, you are correct 
+about 'its.'
+Second, the word 'declaration' is truly not correct here. It would read 
+better as 'definition.'
 
-> On 10/13/26 3:43 PM, Yalagada Pavan Kumar wrote:
-> > On Tue, Oct 13, 2026 at 03:11:51PM -0500, Alex Elder wrote:
-> > > On 10/12/26 9:24 PM, pavankumaryalagada@gmail.com wrote:
-> > > > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > > >
-> > > > Use %pe to print error pointers directly and display their
-> > > > error names.
-> > > >
-> > > > Keep the other PTR_ERR() call because its return value is
-> > > > needed for ret.
-> > > >
-> > > > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > >
-> > >
-> > > Generally I think what you're doing is OK.  It looks
-> > > like %pe is better than just %d, because it prints
-> > > the error *name* for the pointer-coded error.
-> > >
-> > > But I have two general questions about this effort:
-> > >
-> > > - There are other places in the Greybus code (even in
-> > >    just the staging source files) where this exact same
-> > >    thing could be done.  Why limit this to "fw-core.c" only?
-> >
-> > I initially limited the change to "fw-core.c" because I was
-> > focusing on the error messages in that file.
-> >
-> > >
-> > > - Do you think that all Greybus error messages should be
-> > >    converted to use %pe (passing ERR_PTR() if necessary)
-> > >    instead of %d for showing the error number?
-> >
-> > Using %pe prints the error name instead of just the
-> > error number, which makes the error messages easier
-> > to understand.
-> >
-> > For example, the current message is:
-> >
-> > 	failed to create download connection (-12)
-> >
-> > with %pe, it becomes:
-> >
-> > 	failed to create download connection (-ENOMEM)
-> >
-> > I think the second message is easier to understand because
-> > it shows the error name instead of just error number.
-> >
-> > I also found other PTR_ERR() calls in Greybus. some of them
-> > are used to return error codes and should remain unchanged.
-> >
-> > For example, in fw-core.c:
-> >
-> > 	if (IS_ERR(connection)) {
-> > 		ret = PTR_ERR(connection);
-> > 		dev_err(&bundle->dev,
-> > 			"failed to create management connection (%pe)\n",
-> > 			connection);
-> > 		goto err_destroy_connections;
-> > 	}
-> >
-> > Here, PTR_ERR(connection) is needed to store the error code in ret
-> > for the error-handling path, while passing connection to %pe makes
-> > the error message more readable.
-> >
-> > >
-> > > I think your suggested change is a net positive, but
-> > > doing it in some spots but not others means it is
-> > > adding a bit of inconsistency.
-> >
-> > I agree that similar cases elsewhere in Greybus are worth
-> > checking to keep error reporting consistent. I will look
-> > at the other Greybus files for cases where using %pe would
-> > be appropriate.
-> >
-> > Would you prefer me to extend this change to the other
-> > relevant Greybus files, or keep this patch focused on
-> > fw-core.c and submit a separate patch for the remaining
-> > changes?
-> Also, you could coordinate something with Julia to use Coccinelle for this.
-> Using regular expressions, you could programmatically find all the places
-> where %pe and connection can be in place of %d or %ld and the return from
-> PTR_ERR().
+"Function header declaration needs to be removed after definition removal."
 
-Coccinelle could probably be used for finding opportunities.  Modifying
-strings can be a bit awkward, but is not impossible.
+Submitting v2 with corrections.
 
-julia
-
->
-> Jeremy Clifton
->
->
+Jeremy
