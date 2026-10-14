@@ -1,144 +1,172 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2643E4A2626
-	for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 16:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6B655D89C
+	for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 16:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791996060; cv=none; b=obzF6Lb9soj4A3q9CTG0fgOy2Dt6Z9liw2SsqQNdhE0QayZS4wnsLLH0ine+IuuJ+hiAsimBGe3d/dmI8YRclytVelq8ld6agT1VtT5PkDAYgzUOEj5+yNA5U3dAQonwU47YF/O7k7P6m7V2/V/+NVS91Ov1wsq16+LCrZXWuEY=
+	t=1791996236; cv=none; b=FFxwWWT5Y7eS3nLcirZLIACdaZbhKfAUx/khM4yYsLfSBNp6cdOsdhhZNr9+lHJ82KCOXBNIT8dcURSikbgyksmci35i6B0YQP6j2h9IdmjZN/THFqmkQYXd23DJSbiDwjleLIV746weXdb/d+eHpRcXSW+1/rAYyiq7CiSIRFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791996060; c=relaxed/simple;
-	bh=XfSNuOCiGSFrTrFIJ4lT3my+Lp1JTDESDqQCedNpmtc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kzd9lHvH/Qcqx+r7IG135JGI+y1JkUb8lyTT8MoX+pYeYxbaa4MQw5pZXUr0wbX41XDBzBGC8bueiG51vbVst3lGcJGKgF1xUByOP5OCmixpU+5NeLUemD5UKz6/fw2OlXJ1TUUdMfUyZ30hxFBUJzLc35POoY/RXF41Q7ucQ5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h/xaa1u7; arc=none smtp.client-ip=74.125.82.41
+	s=arc-20240116; t=1791996236; c=relaxed/simple;
+	bh=bMi/DEr46nCBK0Ri82lU6QRjtiZ7lCr+IIP2NY+jCtY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jJ5z3OA2rRPrFYVd6HuWt7W0/pZw2bIxeuaWWEOkpj5+aj0Tua9af41xZveAFS6Fuh0/DyJcsphqhjZK4Wfg9/W8guLtEH9iS87X5SRwLFbkpb3yejkMLGwFg5+0DstDXjRl9C5/QPAuIcNswjF9posOQSlDp2uCRM2pjN/wRrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S/w40c/J; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h/xaa1u7"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-15354aa70e8so3168378c88.1
-        for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 09:40:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S/w40c/J"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a02667ccebso31933715e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 09:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791996058; x=1792600858; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=UgGn+abtiqJOh+LR7c9Lyg9H/TKcLZIpibd1bP5k/sI=;
-        b=h/xaa1u7E6wqRtTF0AjHpLTdaEwkZEF4ry4dglO6iHwRnxa2idLMzSvL7GWVNo+6Rp
-         LFlcdNp1u+B5TUVL7Szv+IJEet/MaPmb0dGN6GkV9cgG2JI8NfaV2I9FV0t9VMOZ0iU7
-         3HrRZ1LtIJWx3/IaVjXFVpq9oHoUQXryFbzwtX0r6FzOYK4yYaIG+NEsBG8A0iSS3jA/
-         AM48ncpQI1l5hIoGFDrKT4W8JoBA6XrhoRlo1DqHPamixglJI7CIcn0M4jBmB+4zBwMJ
-         jY7iR4WZjVZzCsadZAgVoSC4k6aAcqwnBmA8bgDZabY4xYJeQsdXLRpoh++GXBkQYAEO
-         fY0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791996058; x=1792600858;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1791996233; x=1792601033; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UgGn+abtiqJOh+LR7c9Lyg9H/TKcLZIpibd1bP5k/sI=;
-        b=19ZjDH1H4SLzipdhyiosk/umU86yMukVgJE7wcoIYfu/esJNckWJ3Sg2bnGoNyvGcu
-         /DjrVwJA8fBMRsA70LSjE+eznMVPuY1GR1T9JKqErV3Mdob8wlBNOJ0cfrpa7/RXSc2R
-         9y2x5KY9kcgfA50U/y2lXx8czkybucQFonoyYiO3NqEJyZl21++Q9AEm3XvPlkcw4yfA
-         61CYNOWb9pdRMlJGOqKBuURk6fPXWq+rh7XHJ35p/RezeLD4sBzT3Kba1NAISWGh4fR2
-         abgbkzxZuriddn7h8rDT5tUqFj5mBKX3G4AKH+Igr3iWdT5q27nuLWgOyYyIFCRojqRA
-         FlyA==
-X-Forwarded-Encrypted: i=1; AKwUvBydZiH3Kk1De5OcR+I9mCRQqC20zcg/ptlt2DgCeIphXBNoaqHoNpZpN0JCngXW7HpB8aD681IE+dTZUkVb@lists.linux.dev
-X-Gm-Message-State: AFq9FYIZsLYruJs9UZ46fz9YbDOW7jMyqvbTNqi9WLEX7GrFKKzgTs2+
-	bc7tqLe6kZN5r7CrSvBrSXyWehiestL4Le/icnDuPErDy7VBgwVG8Fm9
-X-Gm-Gg: AYBFou1QAn9nY6uwJcFSULQRPYaDleUvace7ne15dP41KtkIZQo+PbQoJ68nMfYVgeS
-	14EHGi1ibbw9CFZJ6v1I+olxptc5WxgLJddsBtT5NE9gTo2EmL3kC12BDQtH6QIT04gS9kXrf2s
-	/rbOVTtuSwbQTOg9Vb9oPVtCLLXYbiIVk8HfqqyKjb8nlatgN4NL9Tj0E1wytg+6wVCNRvuTMHk
-	hq/roeEQ/Q3ANecDrBBRJslOYwzxSnnL9gQycC6eOYqwG0qTmC1KQDojsYaH1KzBGNNWq2V6bzB
-	crz4H2OcthL8mnGVRlzUcFebX8AmRbT7HGDonp8rZ78sIWsc5VMuWix+s+QyLZBTfAt1XYqJHvX
-	L6MHCVtU5pn8/9ziUJLsVen7PhbVzItn/xGvUWb+BVqIRkdShT1HgwnizML5Va42Tk3xFw2iopR
-	k2k8iikUHWUaSrfeyv9al1dxL06Jknbrcgkx8LaklK+jakCWK8AYPAduSV9esX8l4jRh1U6426D
-	Ow=
-X-Received: by 2002:a05:701b:42c9:10b0:15c:705f:b981 with SMTP id a92af1059eb24-16a6043c616mr24016690c88.32.1791996058090;
-        Wed, 14 Oct 2026 09:40:58 -0700 (PDT)
-Received: from user ([2405:201:c052:b00b:a8d1:172d:7ab0:de86])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cb68e56sm49903496eec.29.2026.10.14.09.40.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 09:40:57 -0700 (PDT)
-Date: Wed, 14 Oct 2026 22:10:32 +0530
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-To: Alex Elder <elder@ieee.org>
-Cc: johan@kernel.org, gregkh@linuxfoundation.org, vireshk@kernel.org,
-	elder@kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev, gservice341@gmail.com
-Subject: Re: [PATCH v2] staging: greybus: replace PTR_ERR() with %pe in error
- messages
-Message-ID: <as-wgGhJAGgYBZ7-@user>
-References: <20261013022402.6322-1-pavankumaryalagada@gmail.com>
- <2fd23f9b-7eab-4afd-aa77-93a5b9ff0c75@ieee.org>
- <as6mC7sZnpqIKxN6@user>
- <26a2a4af-5d27-4bd5-b284-3758fa7a67b2@ieee.org>
+        bh=3r2lwCTZGF+MXPZOewUY2omgQNLDPCVMfOb7+0VhAMI=;
+        b=S/w40c/JJUmQtHPk94JNjBcdqwkwsboHL0lmji2fZuxq7EKp9anzMTsaaAzZXy+whk
+         W1F2iU3IFTV/VtHiqEyBdTWYTqupBoCp1qHFTK86HPllv2UueqqpXaY+a2UTGoZlBGmu
+         c1/lEmAT/zl0TDCH9EyiON/PivNnYtQzqRZ/r8W8Rx7+WZVAVem+UJZset1D41OD7VSm
+         prrtmn90O/cp75m0rhA0rc2nuDUjoHKgbsqmgOdjRaJAx2VZdHCXLGsrrHjXo+NrG9Li
+         9Lj0VN9d8meEQSeqeoAR/Q6kxC7F13F46wb5MDbJnWWZl2LqI3AZKCoyvqPPou5UCZbA
+         RvUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791996233; x=1792601033;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3r2lwCTZGF+MXPZOewUY2omgQNLDPCVMfOb7+0VhAMI=;
+        b=23uH8B9gBgNfKlTh+2W5yLYkLsgJ87pLjBveVWc1ELa5W9IVUqNvNySkFRHCQa/ji+
+         547D//2a3NUEtZcrPDYZ12Sc2pJ4cLaU0kFtqKMN7nA6JvkK/Cgz2YR/PKd248K8v3dz
+         JZVJ8hakyKco1YfZDP+4Y3jAypMWIcIPslzOc5gCJDZuk14fmdcJiCuAn5ZWyTFdQ0+z
+         UmM4GsVcCFC+6+bAE6bePg4thpzfmgnp6ZyZp3oqmvP55s1rM42zygVcInj0IkguEAQv
+         yoqXGB7WtDNJxC0B0Y6EsVCtEJbtjYrpztFfmQxklWCYur5/G/As5Oem4zaNdoY2YE0h
+         /QBg==
+X-Forwarded-Encrypted: i=1; AKwUvBz+LTU792C5stKMrXGMCI8fFN5Unex5U1KvfHPmbmWis6r2oHpg4aDkamBERSXKRwtBzYA9WgXxp23jLNhZ@lists.linux.dev
+X-Gm-Message-State: AFq9FYInCDzzfoFdH0bXBuzHnlFRAhq+aZwT2JqLz/zO8BegWjLxCRuJ
+	OIrB9vpzTrZzdtzUIGULNLrXQRS6CCNWMt3yu5TojKyXooLM68wLyg6x
+X-Gm-Gg: AYBFou0OLX++1InldsQQNbKp5ugdOHBpAiVrIbuw0Fq8Z7gvBvP4zXuWkUYnLYuKRja
+	ceiSk1vLY7aZhuafQ0uQZyLOj94tPLGmYvdWlhhiCWtsWLN7fK8PIlKqX0Vwh8zf+thdwOVQksP
+	PH7C15WWN1d/D4ZgM/KZgJTX4pLjDIgYCTUHwdfVWxa6eC8A67qXa+WN3dBD0dYxCnu2Y3il5s9
+	T1BTIwJ6OFaG2tTv4FG7cbwwhk8VqE+4jwnuYqZCq/mBZ1bFCJO9mLE2sy8LWBvIorFk8k04Vzl
+	nUEPogs5g7BQ//rWI7ZxEZATHOKseSt6YQfYiCKdoUXkLl5hpIHJ48tdDM7Wo6qZwTm7IviE9jz
+	Tzxu+fw1KdDrOxe2xRlKWmp05xvKLfG7+jQYPZcKGE1DhBxhbIK4JVbLyNJoSWPeyUj2A8GzO/+
+	msqgS2AUk73lcOjAMkG8E1sAzsAYmDmMpJCJOky+uX9sNtU9gcRVBj7I7cy5BLVIeMypOk2ie6N
+	uDcTnOTgLnHxF/Yb/kmpSs60jOiu7TbngEuIL0=
+X-Received: by 2002:a05:600c:8b83:b0:4a1:811c:8064 with SMTP id 5b1f17b1804b1-4a18e4d5512mr318233085e9.26.1791996232493;
+        Wed, 14 Oct 2026 09:43:52 -0700 (PDT)
+Received: from [10.5.0.2] ([187.14.227.28])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd9b381fsm3544945e9.7.2026.10.14.09.43.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2026 09:43:49 -0700 (PDT)
+Message-ID: <6d881c38-33f7-48e0-88d0-4d16170c24e6@gmail.com>
+Date: Wed, 14 Oct 2026 10:43:46 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <26a2a4af-5d27-4bd5-b284-3758fa7a67b2@ieee.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: greybus: replace PTR_ERR() with %pe in error
+ messages
+To: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>,
+ Alex Elder <elder@ieee.org>
+Cc: johan@kernel.org, gregkh@linuxfoundation.org, vireshk@kernel.org,
+ elder@kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev
+References: <20261013022402.6322-1-pavankumaryalagada@gmail.com>
+ <2fd23f9b-7eab-4afd-aa77-93a5b9ff0c75@ieee.org> <as6mC7sZnpqIKxN6@user>
+Content-Language: en-US
+From: Jeremy Dean Clifton <gservice341@gmail.com>
+In-Reply-To: <as6mC7sZnpqIKxN6@user>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 14, 2026 at 08:32:54AM -0500, Alex Elder wrote:
-> On 10/13/26 4:43 PM, Yalagada Pavan Kumar wrote:
-> > > I think your suggested change is a net positive, but
-> > > doing it in some spots but not others means it is
-> > > adding a bit of inconsistency.
-> > I agree that similar cases elsewhere in Greybus are worth
-> > checking to keep error reporting consistent. I will look
-> > at the other Greybus files for cases where using %pe would
-> > be appropriate.
-> > 
-> > Would you prefer me to extend this change to the other
-> > relevant Greybus files, or keep this patch focused on
-> > fw-core.c and submit a separate patch for the remaining
-> > changes?
+On 10/13/26 3:43 PM, Yalagada Pavan Kumar wrote:
+> On Tue, Oct 13, 2026 at 03:11:51PM -0500, Alex Elder wrote:
+>> On 10/12/26 9:24 PM, pavankumaryalagada@gmail.com wrote:
+>>> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+>>>
+>>> Use %pe to print error pointers directly and display their
+>>> error names.
+>>>
+>>> Keep the other PTR_ERR() call because its return value is
+>>> needed for ret.
+>>>
+>>> Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+>>
+>>
+>> Generally I think what you're doing is OK.  It looks
+>> like %pe is better than just %d, because it prints
+>> the error *name* for the pointer-coded error.
+>>
+>> But I have two general questions about this effort:
+>>
+>> - There are other places in the Greybus code (even in
+>>    just the staging source files) where this exact same
+>>    thing could be done.  Why limit this to "fw-core.c" only?
 > 
-> I guess I mainly wanted to understand your intent.  I don't
-> really mind your proposed change, but I would really prefer
-> to have it be part of an overall plan to upgrade all error
-> messages this way.
-
-I checked all Greybus source files to identify other places where
-%pe could be used.
-
+> I initially limited the change to "fw-core.c" because I was
+> focusing on the error messages in that file.
 > 
-> Ideally error (and other) messages are done consistently,
-> and so changing them in just one file sort of raises a flag
-> for me.
-
-I agree that keeping error messages consistent across Greybus.
-
+>>
+>> - Do you think that all Greybus error messages should be
+>>    converted to use %pe (passing ERR_PTR() if necessary)
+>>    instead of %d for showing the error number?
 > 
-> Can you survey the messages elsewhere in the Greybus code
-> and get a sense of how much work it will be to do this
-> comprehensively?  Your current patch affects four spots in
-> one source file; how many others would there be?
-
-I found 12 additional cases in arche-apb-ctrl.c and arche-platform.c
-where using %pe would be appropriate. I also found one additional
-case in uart.c:954 where the error message could be improved by
-printing the error name.
-
-I will keep PTR_ERR() calls that are needed to return error codes
-unchanged.
-
+> Using %pe prints the error name instead of just the
+> error number, which makes the error messages easier
+> to understand.
 > 
-> And if updating everything is a task you're willing to do,
-> then I think I would prefer you extend this change.
-
-I am willing to make these additional changes. Since my original patch
-is already in staging-next, should i send a v3 of the existing patch
-or submit a new patch covering all the relevant cases?
-
-Thanks for your guidance.
-
-Pavan
-
+> For example, the current message is:
 > 
-> 					-Alex
+> 	failed to create download connection (-12)
+> 
+> with %pe, it becomes:
+> 
+> 	failed to create download connection (-ENOMEM)
+> 
+> I think the second message is easier to understand because
+> it shows the error name instead of just error number.
+> 
+> I also found other PTR_ERR() calls in Greybus. some of them
+> are used to return error codes and should remain unchanged.
+> 
+> For example, in fw-core.c:
+> 
+> 	if (IS_ERR(connection)) {
+> 		ret = PTR_ERR(connection);
+> 		dev_err(&bundle->dev,
+> 			"failed to create management connection (%pe)\n",
+> 			connection);
+> 		goto err_destroy_connections;
+> 	}
+> 
+> Here, PTR_ERR(connection) is needed to store the error code in ret
+> for the error-handling path, while passing connection to %pe makes
+> the error message more readable.
+> 
+>>
+>> I think your suggested change is a net positive, but
+>> doing it in some spots but not others means it is
+>> adding a bit of inconsistency.
+> 
+> I agree that similar cases elsewhere in Greybus are worth
+> checking to keep error reporting consistent. I will look
+> at the other Greybus files for cases where using %pe would
+> be appropriate.
+> 
+> Would you prefer me to extend this change to the other
+> relevant Greybus files, or keep this patch focused on
+> fw-core.c and submit a separate patch for the remaining
+> changes?
+Also, you could coordinate something with Julia to use Coccinelle for 
+this. Using regular expressions, you could programmatically find all the 
+places where %pe and connection can be in place of %d or %ld and the 
+return from PTR_ERR().
+
+Jeremy Clifton
