@@ -1,49 +1,50 @@
 Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C509233F5BC;
-	Wed, 14 Oct 2026 19:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2205423645D;
+	Wed, 14 Oct 2026 19:15:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792005285; cv=none; b=nvhJvzo+RuD9Y9B9NIh72t0kXQT3WjgUuo4ELjGJNQZZSK23wj+0AoqtVJXaXPz08DFNkyQ9kKMYbKhrpMQ37K00Z0fmGqfD2V3voGAEAITKwLPLTYLXbOA/Ocas0/WqKKm/15ZbyCxrHuY+fJV+ezb0Rjo/ffR+/c2YMjOHcgw=
+	t=1792005362; cv=none; b=mWdCekN4suxjqvB1Qg28WFR0GqQFXkZfWJoMF5hkJzZDbLbu5pvYtBVqm+yJAkZLXkV9Bzhm2YnLrPlTrNHLPfQRHJlxVwNB9MhMXP+l9vX6p+y/9wLYweA1y4mmVEOkJG+8xRgMG9pOqP+hZdzuIDvs3PsdcqthYEq/nAVswLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792005285; c=relaxed/simple;
-	bh=22cMGJmu+olcIQAvru8FYwcvx83drLwu6zBAFWRXOkk=;
+	s=arc-20240116; t=1792005362; c=relaxed/simple;
+	bh=I9I4EOND5TtH3mV4xT5cLVd8uGjJE3khrYWrEH2r6NU=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=uzdUAeKHsZyFX0U0DxtkASDoyAIEsYTow3jtLbDoCyEsCFZbCiz5fhmcU+MGjmqb0pMLSEDkptL4dkP1U6IzG+lK1eLP4s+QbqacN4hBN+wBjETSPMz/ZoQWW6/ma+3T+Se91ChkosZl8skh0p/X4bwamB/yIuEVA63E5959I8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=gVctyC/2; arc=none smtp.client-ip=192.134.164.83
+	 MIME-Version:Content-Type; b=XWl6mdx6/7u2yLSa4l91zN6Fa6SlGEmPlF55qnO7vcD5VrcaJV8EZ5W7mNCAMmjgv0OxblCW46H8iU8Gt5HMbKk2wyJVOW1j3uud/aI81rLtHCJLkrO44ytvATvKkK85w7TAa4VwC7e+0U0spsBBfr452VHhLEJhqaDHjekHORc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=nVlqyriL; arc=none smtp.client-ip=192.134.164.83
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="gVctyC/2"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="nVlqyriL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=2XFcb73BfOgY5BAeGxtj9itl8uTCT7Sg++CRrNSV6LE=;
-  b=gVctyC/2uAJQkGMJPlCsjd4V6ly49hws3QVqcT3FfdjK2s6qOf0/KMAT
-   jOF4/pqtXKEOqdflDZ0rjFnkU4G+QlQoXuXaehSWhGrfXBXxdamo/RBpN
-   TZvhkgBPcDO72bl4OEv0u5UpKw6dJRQ2sEayw3tE9oCM2ddxprgo5EagD
-   8=;
-X-CSE-ConnectionGUID: 9oiZ0uKsRHOy1l7giRFkdw==
-X-CSE-MsgGUID: RzJDcJiZQlWUqUv73eSuhQ==
+  bh=A+QLA+MTonc5guRorxistBoawFVrCJ1ubobT4AQZVfE=;
+  b=nVlqyriLrRrXhEEmgXSKus1COP9jqN+AelU6dy1XQNGTUXjwA181XFUd
+   stvIjHzv+dxAHFxLemLJZVOlvKKKH9xqTtex4hlxg9wIDOs9micsWHLq6
+   BpjY64848gNKJOfpx98UEZWkbkD3iPWSXvGifMrw+Pxmkv86wmjJL/wMc
+   0=;
+X-CSE-ConnectionGUID: Bx2F/LenQvK9F6HxKL4HEA==
+X-CSE-MsgGUID: gsnCk0vwQcCZp9jkAPNHVg==
 Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.27,158,1787004000"; 
-   d="scan'208";a="300237447"
+   d="scan'208";a="300237533"
 Received: from static.host-68-71-1-178.nrbn.ca (HELO hadrien) ([68.71.18.178])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 21:14:37 +0200
-Date: Wed, 14 Oct 2026 15:14:36 -0400 (EDT)
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 21:15:55 +0200
+Date: Wed, 14 Oct 2026 15:15:54 -0400 (EDT)
 From: Julia Lawall <julia.lawall@inria.fr>
-To: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-cc: Alex Elder <elder@ieee.org>, johan@kernel.org, gregkh@linuxfoundation.org, 
+To: Jeremy Dean Clifton <gservice341@gmail.com>
+cc: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>, 
+    Alex Elder <elder@ieee.org>, johan@kernel.org, gregkh@linuxfoundation.org, 
     vireshk@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org, 
     linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    outreachy@lists.linux.dev, gservice341@gmail.com
+    outreachy@lists.linux.dev
 Subject: Re: [PATCH v2] staging: greybus: replace PTR_ERR() with %pe in error
  messages
-In-Reply-To: <as-wgGhJAGgYBZ7-@user>
-Message-ID: <9f3e98b4-8c11-62bb-49e0-99873c6fea8@inria.fr>
-References: <20261013022402.6322-1-pavankumaryalagada@gmail.com> <2fd23f9b-7eab-4afd-aa77-93a5b9ff0c75@ieee.org> <as6mC7sZnpqIKxN6@user> <26a2a4af-5d27-4bd5-b284-3758fa7a67b2@ieee.org> <as-wgGhJAGgYBZ7-@user>
+In-Reply-To: <6d881c38-33f7-48e0-88d0-4d16170c24e6@gmail.com>
+Message-ID: <b37cb31e-a9e9-7248-27a-fcb31c5f6e65@inria.fr>
+References: <20261013022402.6322-1-pavankumaryalagada@gmail.com> <2fd23f9b-7eab-4afd-aa77-93a5b9ff0c75@ieee.org> <as6mC7sZnpqIKxN6@user> <6d881c38-33f7-48e0-88d0-4d16170c24e6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,70 +55,97 @@ Content-Type: text/plain; charset=US-ASCII
 
 
 
-On Wed, 14 Oct 2026, Yalagada Pavan Kumar wrote:
+On Wed, 14 Oct 2026, Jeremy Dean Clifton wrote:
 
-> On Wed, Oct 14, 2026 at 08:32:54AM -0500, Alex Elder wrote:
-> > On 10/13/26 4:43 PM, Yalagada Pavan Kumar wrote:
-> > > > I think your suggested change is a net positive, but
-> > > > doing it in some spots but not others means it is
-> > > > adding a bit of inconsistency.
-> > > I agree that similar cases elsewhere in Greybus are worth
-> > > checking to keep error reporting consistent. I will look
-> > > at the other Greybus files for cases where using %pe would
-> > > be appropriate.
+> On 10/13/26 3:43 PM, Yalagada Pavan Kumar wrote:
+> > On Tue, Oct 13, 2026 at 03:11:51PM -0500, Alex Elder wrote:
+> > > On 10/12/26 9:24 PM, pavankumaryalagada@gmail.com wrote:
+> > > > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> > > >
+> > > > Use %pe to print error pointers directly and display their
+> > > > error names.
+> > > >
+> > > > Keep the other PTR_ERR() call because its return value is
+> > > > needed for ret.
+> > > >
+> > > > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 > > >
-> > > Would you prefer me to extend this change to the other
-> > > relevant Greybus files, or keep this patch focused on
-> > > fw-core.c and submit a separate patch for the remaining
-> > > changes?
+> > >
+> > > Generally I think what you're doing is OK.  It looks
+> > > like %pe is better than just %d, because it prints
+> > > the error *name* for the pointer-coded error.
+> > >
+> > > But I have two general questions about this effort:
+> > >
+> > > - There are other places in the Greybus code (even in
+> > >    just the staging source files) where this exact same
+> > >    thing could be done.  Why limit this to "fw-core.c" only?
 > >
-> > I guess I mainly wanted to understand your intent.  I don't
-> > really mind your proposed change, but I would really prefer
-> > to have it be part of an overall plan to upgrade all error
-> > messages this way.
->
-> I checked all Greybus source files to identify other places where
-> %pe could be used.
->
+> > I initially limited the change to "fw-core.c" because I was
+> > focusing on the error messages in that file.
 > >
-> > Ideally error (and other) messages are done consistently,
-> > and so changing them in just one file sort of raises a flag
-> > for me.
->
-> I agree that keeping error messages consistent across Greybus.
->
+> > >
+> > > - Do you think that all Greybus error messages should be
+> > >    converted to use %pe (passing ERR_PTR() if necessary)
+> > >    instead of %d for showing the error number?
 > >
-> > Can you survey the messages elsewhere in the Greybus code
-> > and get a sense of how much work it will be to do this
-> > comprehensively?  Your current patch affects four spots in
-> > one source file; how many others would there be?
->
-> I found 12 additional cases in arche-apb-ctrl.c and arche-platform.c
-> where using %pe would be appropriate. I also found one additional
-> case in uart.c:954 where the error message could be improved by
-> printing the error name.
->
-> I will keep PTR_ERR() calls that are needed to return error codes
-> unchanged.
->
+> > Using %pe prints the error name instead of just the
+> > error number, which makes the error messages easier
+> > to understand.
 > >
-> > And if updating everything is a task you're willing to do,
-> > then I think I would prefer you extend this change.
->
-> I am willing to make these additional changes. Since my original patch
-> is already in staging-next, should i send a v3 of the existing patch
-> or submit a new patch covering all the relevant cases?
+> > For example, the current message is:
+> >
+> > 	failed to create download connection (-12)
+> >
+> > with %pe, it becomes:
+> >
+> > 	failed to create download connection (-ENOMEM)
+> >
+> > I think the second message is easier to understand because
+> > it shows the error name instead of just error number.
+> >
+> > I also found other PTR_ERR() calls in Greybus. some of them
+> > are used to return error codes and should remain unchanged.
+> >
+> > For example, in fw-core.c:
+> >
+> > 	if (IS_ERR(connection)) {
+> > 		ret = PTR_ERR(connection);
+> > 		dev_err(&bundle->dev,
+> > 			"failed to create management connection (%pe)\n",
+> > 			connection);
+> > 		goto err_destroy_connections;
+> > 	}
+> >
+> > Here, PTR_ERR(connection) is needed to store the error code in ret
+> > for the error-handling path, while passing connection to %pe makes
+> > the error message more readable.
+> >
+> > >
+> > > I think your suggested change is a net positive, but
+> > > doing it in some spots but not others means it is
+> > > adding a bit of inconsistency.
+> >
+> > I agree that similar cases elsewhere in Greybus are worth
+> > checking to keep error reporting consistent. I will look
+> > at the other Greybus files for cases where using %pe would
+> > be appropriate.
+> >
+> > Would you prefer me to extend this change to the other
+> > relevant Greybus files, or keep this patch focused on
+> > fw-core.c and submit a separate patch for the remaining
+> > changes?
+> Also, you could coordinate something with Julia to use Coccinelle for this.
+> Using regular expressions, you could programmatically find all the places
+> where %pe and connection can be in place of %d or %ld and the return from
+> PTR_ERR().
 
-v3
+Coccinelle could probably be used for finding opportunities.  Modifying
+strings can be a bit awkward, but is not impossible.
 
 julia
 
 >
-> Thanks for your guidance.
->
-> Pavan
->
-> >
-> > 					-Alex
+> Jeremy Clifton
 >
 >
