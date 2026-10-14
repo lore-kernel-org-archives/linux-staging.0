@@ -1,113 +1,112 @@
-Received: from sonic312-21.consmr.mail.bf2.yahoo.com (sonic312-21.consmr.mail.bf2.yahoo.com [74.6.128.83])
+Received: from sonic314-14.consmr.mail.bf2.yahoo.com (sonic314-14.consmr.mail.bf2.yahoo.com [74.6.132.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A695A47DFA9
-	for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 22:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.128.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AA94C9E12
+	for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 22:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.132.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792016541; cv=none; b=PQP8Sjtxp3rYCn044k3AkyYyIbXk8uaKjHg2uGMZZPKrto/JjUTzL7Uu/FjQ7ZO8OPY70+FzXa6ws6blQgj8EbZYeRC95EnDz1C4zabNNnvj0GxCIzDgydWwoe3NKwuyUaHn/1/U5TrzX96cReGkBzuYRzJSl2u6ESMJcZP5D6I=
+	t=1792016577; cv=none; b=CaA6u0wEoNh2ZTOxJv3U0VIOj6jpbikCNwhxp+YcHIzXvEL6z/+xdq1yNYnCUk39Ju/Jrvy+CxQbKYVl6+RpjIYUcoq/JorNtjdFqPVgKicktOpWZNbmWAuPaoYlkrcxCMFekn2bDqEA9ZAZYW3kJIzVwziOd2qtTa4VaiUUwMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792016541; c=relaxed/simple;
-	bh=22rh2zgvVwGy0yPhA7ZVRYDeOghFgS9cVi3/wmOGsXs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ujcAQl7LtDW+zNxZHqrbcB7DJqPffFIdlNSib8SRHXOQe0UpN0NE+nHSPEw3z4ggFhtNR8yutpMzyYqjWyfaT3X3c3lLRGwwWvA8UPdNOf6VNvH/PUp/vGi91aodo0wcMaF5ilONS1GCw8MKTDeMqXTwGHyqOOfqKRBnUtxuoXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=dhgEoOVR; arc=none smtp.client-ip=74.6.128.83
+	s=arc-20240116; t=1792016577; c=relaxed/simple;
+	bh=JV6Plj3R0iHBSfI0LE4ZZk1iaGp0QitK5wRces+OM+Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=PHAQc/EawDPXj4OycT7wz2ktiDHCTP0qoM8VER09zuIDWPNGLjBPr0QgYSL0ssRgboeG1GPkm3kQVa0H563wIOnKyBx8ft9tRecFval4sVyQGhMxz6h+xlvVnUjTgyk6MJhnnzL1NQHmrpsuxhY00qjebDSMsgd8Y2hqTCPsBRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=HH22UHJd; arc=none smtp.client-ip=74.6.132.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="dhgEoOVR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1792016539; bh=2lyXd+fDqFFVLb6Ux/gSobPldVCnGppznjAjTuiEp9E=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=dhgEoOVRuyt9//viM2epKHsGOdj3qrXt4ufEuH6wUYTWBkjsjP8tgt13XImw+rteGILo7TSwcvf1Qr2E7UDPgCjotcEOG2yADOavDj6ildUTkwJIhHZnZ/+CdNITuLdUhbPRBkyvke4gCB+J4LkE4os14hPdl8zGWmIjB5fz9KTNpCcOxcDNKb/dsTqb/PTL59rxXdRq7KlGg9EhNBTPl6dsOwBLx7UlGDRvktoQ4FdE+m7/AmT0Cb69/icStlmrdSpLmqm0OhMyZmSQsx17TugZItp2SbVoDgRZ8GJY3QhzNTtIRH64B/CYbrUGM69gNwE6lpz5bQFJiNBEEHP8Gg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1792016539; bh=WXXSV5xRL912FatuJBGWMMtObZrG0NjUQyHQ3bBi2Uu=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=seuQ9Mi0pp5l4pXS6VBeWe4Cw2xuWVPEe2ftBlZtp6ctbavadd3MYLQLKLYqhHI2EarW0E5qKSNXgo+yDbNXLHnEtU9XCuBzZhuSpAITE06S0mV9YNBKIvCk/3ICRWCiRXdarPk0jFj1yBUcj4GpBhktSqVho6tX6DQ/c7UNZA4qDnWhDVc9GZz1LYdvMMuF9he5RNyjA4KgndaP8dAvXiOpiM5OY2bpZWcnXmyGl+l1D9oGYpifc47+XlCxg0G2B4p7HrHenE2v4zWYcAD1dcOp4cyPkUaZbIDf8MnkQQj9ycq8DCPNCdCjJ6eoBfrQXZqIqGOoE5deg27fOf+JfQ==
-X-YMail-OSG: Z0seP64VM1mTHVwywJ6FSoq5MxYNK3XDe9L1ZdGx9MG70I3B1z7wJfecdIXA_DO
- CyM7oMXTBqp2MPvqXxEdHgEAAtoB.HmcCX15pwYRoMc85YIJ.BRHaU_NJWmIbxNIuiYvYwbIJ8LB
- 09cgF.ARaczmGQqwC.xGGcQcuv0hymNbzqMi9JJWNKRTjCDPPZLVNj73CsrBhyMIL00hDH4DmIJp
- 30CDP8seQcz.VcJ1DDRS3A2Vio3lNPZ1t4CGB9kcxrHw_.mG81bJojvBrejh7aE9XCfz4Fe9fAbW
- Kl.hCoFBbi3IFbcsewtLcKIQHKJpzxexy5c1V_lRiDgpfG8CDQYjuAGN6uZTl5wDWS.mBxjqdl_f
- ZUZRR_8xAcUxGfgOO3dya36vlXT3gsSSPdEuxU8EhGfPjVLarFGohnhaXPuTXdyoLdAk.SQSRXIN
- TfyxYAIiGOlQIiXWEzA8RbYo9OMZHRkBpeQj8URuGbh8bAre4VqQ_okxtdwcH1wTEhJ0MTGH5XPo
- COlQvU4YUZUMeHWAJhic9hxxtLX8fxc8JYv1UoHwOSNmVb63iYNQCcZvQiBAMYfORXyu_.kBkmWa
- UbZ23IGZt50LYqqqPWWq9gnaSgGj7pw1VrkSqYl2o.Tee3LW0gPE2ueiYzzWX0rUs7Qyx0KZD.0O
- KzPjqW5cPnkpyhR9ynJlvqmIQeAc4BZrrAjAKsFDUCAVc.MVronAQ0K32fFvD1j.HXHRz231gTBC
- 0c.WTik96to67Wh9yeMkf1YL.qeYSWCBOdkuNtX2TonCxa7Zk.4s89TqMPRns0OvomPRWMwmz0lH
- iMqytBP_qJLdqAhX1yKV4mCIX1nVrzqQKOIRwJy8SsL5S0AsPJjxc74AUJBNzhbh46KuPAOT34JC
- eBKczRjDyo.q1f9j6CCFTD2wPdys0qJng8pz3jroE0FR6oyGvVfwySkK6c0GJCQsOhYu7wzlzMQ2
- EkePQRJGa6qkcvew32ppE6RfBKRqav0_RxZAssGvQt_ZTgj8xhH7Jox48qnvV524dJhAToa8x2Br
- SYToK8W4Pi.MvkTLnGHOq6X_G0U3GqaW2CGjW.sT3UrIkd2EkuukF9a..pKkwF1Mjky51KvYnt.y
- 9Ul5hvIyi501V4oEDjUDwllgDQrz8AfheebZ_ck72u1q41kz8gp1_qGtH5_GdU50PWPduFHitzRV
- M.m5bk0P2L4bOQtBZPcNw6YhOrAgbuVTdbWEhx3lBnM8cFVpmjUH1yXRGZzSlsDxuH0U8zjUTsku
- YApNhvNdPdvybNpJ9K9p3xrTx8vTH1hCIKTjQglapyI2xy6hg7aYAGVV8FlwQN7hqAOWfiTlQeKp
- d_vbOjAsRe3wGoq9QQNquayFy28Z2ucUyjC0Hpiq6KXytlmTPdRc8B.6PPDtpkNK2zqwfwAQDA7p
- qI1lC5CIcZyF5VQq5m_mN0ca0OIE5kj9MUabfMDSFuGb9WjUy4mVcBWkrceyR5C9y67dC6F.OvJQ
- M5bAJ8C9BOICglfw4Rxri6AUsptAMKPp8YrRhtqiRx6fbRHQuWNYzZblRMExKyXAHV0I57Oy3ORu
- PBA6wxxH3nuVtyzkFLNCu4BYPhs4grRu6rTJ0hODSXVcFhb_892D8eO0yYb4PKxNQaLKDq0oMCUQ
- vie_qqk.8Ss72yZpkw5iShLVpD4kzNLPuHEvvshhog6oIyG3Y3zca.imgDDJxVltnIfFO7W7E2lr
- I62XPDDGrE6_NJqvhCtFcwQEJYNLPVGpQ32Imk4DwvoHH3Cq6NP.miZKLqJSEoI5PjwqW9QUpmJQ
- yCaydd8d.W.Wta5JF9ZJUCl2K0BrSpaBxvFGU68SgRVSiTG7wHaWrKeFpYlqeDY2kLNoE9vpE6PY
- 3_qOkxRNaERDnq3kUJPI7VG1dcqhXRkMAQx4XkfwUYF7sTMDXOlnlkqpLtxSjjqMpyNVwIb0gyBf
- zIFa1dpTAuhfISrn92W3TJqTWlyGUikw9Da5t58c7A806AkX3jK8lGGthLAVwrZuMMyuJlFHHR0w
- EeCVJsrP1HqtPsSFqH7CbparmmfBbh5AJ2OsHz9msEJ3l2Nn5lHxhF5_TKqD94cje5xq5yXzmRgG
- 7QDk.I9EYgFaGuE.dLXKYzeUNWh15zcnZUkq2q6WVVLGMokdJd4FrNDb2K6d7HuBSW5VM9I3TmyI
- JIKdxjDcsQPWeGX_Ginf30XDTzhD9Mrfyy.LDeaoT7CaeAwPpDp6_prxKxoRFshWqKqQokxZ1SVc
- oVIup8x8zrbK5Wa3IAN2KAuuBxncsIoJJFA--
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="HH22UHJd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1792016574; bh=g6oy0nU/YnirXHZOdkgWO+qlky6gP3LJ7xGc7jBOseY=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=HH22UHJdI3Zpp++LzaOiulIT3DNOj6Xg5BSQdQ6sYee0MLw84idipcXMLwA3i9d/7nUZ11Gq7p0Kcdr/Wotp4thKq5Ku8fsX0D4m+ironu0qZWV6FKqF7Kz9+pbJl6QyEy21wCA2pqA2jEQEzzweBWUNgh48UG9yuTFCsmSlUREvgrk36HOoGgwmPetcnWVOVVIbQVwcP4Mazzx1lG3iJoPFJmObYcsSXOifCZRsl7ZGK6lEX70lL++tbT5YJ1xyYkJguLDQmkJvcee/v2n6DaM1FwKOF9lNUBCJuzY3CiPiaWoSl2OhQ45+HaXlTKYEbyauUEDOoyD44XLVwoX3wQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1792016574; bh=eaWNO/jDNfkIOtEnoIAjqVvesfLEfSXaHcs6r7gDHea=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=F/Qdizc6lrmtgeyTXf7nDcPocIOZjnEExkt+QQPLJsfJvBbsfMdgajwVdsqX+vj+UlfjPo5JsdS2f34ScWyq0rbPlah4ceOUwOcawoGlbQQ+qoA7JJQ0qsxyg6yXWTCy8sY3ctv5cUaAxU/+6iV3e7sgMKqAAwx9j78gOdW1DDNies9MT+pZL+rL17BBXHtr9OTzxf4n1o/HlrY66Babmatg5OhvmS2aay1i5/jXnzS5SxGSX1Dlhf+bECGDAYmHt0AcBwZdUDmPDYuHpt3y2vEyQ587ZQ9LSGzqQHqptwGYfaWEVN4zNYSsXuF/Rmm8SaSkivNlzR8xyHUwIWeEYA==
+X-YMail-OSG: NcctO3UVM1mnvi7IdEwp26wNAtqNmkrbv.u9.LiBy..HxKoYWhu1O0zo7lfGroQ
+ tb8vDfW0kEQJwwx6YqLO0sXPJiN9W4bmQg3Q5SgyNY727csfOgdCT944dacYjzCxrxJnAgYJYll3
+ 6ALZ2FBiXr_L.epGoyeCPkf_P_zVi_K6K9icsg9mfhjdoWE_CiEugDW0ncEUNtPY5tZDsMC7NTlR
+ MIheON2z1V3feRLQdZhIGVNPPFVabTyovDTi8bUEqpmEafcs3.k.HqflNmOtWqoQjHhoOttphrLT
+ fgKPJAPGDL0e_3oJ28cOg2lZMys979TNd2WaWQQrqdmxP0hLaa.OsqsFIDDLpJiiAU9nqlksD1AW
+ RrjKQt3G6Vn644vZgnPYwiMBGcNHpmvpdfttgNl3kAmWKx2jchznHCYWop7Z8RZSX0houb_YzfPv
+ MkTtw3unHKIHET8fPM06q.SwLcu.n1VFk.Sw0PjzzqSK_tsvS7bPEJfmg8cMse.gnrh2hhRgTNTj
+ sNYytJO6yo3Wrwr65YHyOfcHhsnpH6YxIX9evu7sqyHkOk5fjf4286_nnbdTq7areFi9iTjCXxMD
+ s8rZ1Ijmv7QlTJEKOaF8AEuURBEyfVvxmpMMlQEfus.MrN4H82TQ.mnUVOwqLGPhltAvOQXTlFQL
+ Xa9ue3TSVMfI9aph2rSs6VcrptxRIm78nKfRCpI57HULeXm_f_Gg48ErE1H6KPoZ6lgVbEyxfr5F
+ hBXebomv4rcM9OAK278py_gKX0ueWDFiKO9bkkzDxFsMmd6y2V5EEoPMIz2a3DKP0VjCnwI2Az72
+ 4.kYFg5Nl1aa19k8mUDrFYdJnMD_jhw7yM1rGWyTAs5ZAbZIQxgoAB.ZniPKmVhOZDZYFaAgBCZC
+ POl10jhJX.xWSuA9i8hDROWxRLiMaW9KJYKIWlk0k1rFOAvtA1h5YPqUq8WsjW.qu.XrU21NCZlG
+ hnPepdBb1pYlLCICOftpDFVWKWDZLyuYEVp.9XSLls96vqJFSLZZfxt8iQqpEEcpKJc.9ZcoFnGH
+ eCtLyAdAFt9Q49cHA1WXR_2Zb6E.KMeAEpq0QYGUVgK0ce_kb0oJnr4koU5F5ShnBzuoyOqwEOP2
+ zxUsvesK9rKoaVXWpgznuSsnHV6fzwDYdYa9iYzQzFwA4xoTEMsaJKRaHj8NiMCwfBR8t2nu9uc1
+ s5LzeakEUdrARPOH2QZcAPPcuz4tK_E7c9cY.HsvTrMDKRug86N9bahfMpbi6bg52DwwbOupeaDE
+ xighv2z9lyrt43prIP_u.CVQ9ipkJSuBvvpSQWz3bVa0_WV5w.FySrMZ9w9PHtpyiJ5OEU.I6J8G
+ CBNCrub7.Qt3JNqaf6HLtdgXpPsCCgbGRydqBtium8srY9_JnxQu_009RqezYQK4vjKqS6FFs1Dh
+ ygCA5ykQrfSwokzzxNku2IO9bM2E7r3kCeTUgYT7nEK9pL4m18Kzaa61ZY5ksfkoPJ0b1eEjuY_3
+ 8L4GIntcjfNLuOUBawkyO9oxXePb4RlKHcHxYweonB49IqbXX7xnUL9FytsBVYIGSJ7XqMNrqpY4
+ OTZo4rVYUXsV6Wc8UPJejyjdjtve3QFsvcdw4AeUlMZkMoJYhq0eXpsGCTVrVUBH611yqh7_NQ8D
+ Z4hFRvYUusVy2Hd24dgULDuk.YWnROSij6ovZ5DUCSGCsI_q9M.SZWbjelppVrLl68LUtOwxLsfo
+ H8YzO0mE74oJVC.468q30z3eny0e7VRbMrZ5ga_g0MYdne0LSBUbPw2n7Up2qCUfHuFH9ETQLw1m
+ R_dzOOw3cWoC1DeWQNaqRPE2YALpD0yEU8JI8Dp0ndSzW4NDTGlSPm0ve7.jYA51dms8guy_FqaA
+ v7oLkvwaqEqRxOe1gynqHFl0XuLQs66psPlX7igZI81uArAgw2GKwDp45Yfsg3sN123mDIkcKRf0
+ hIbrg1oBnYsi47pDci8m5whOTYV1lLOSbjYF2ojBS31W4Feq68trJ10in8R1d.ec3od0l9CDVfTa
+ 6bqOQXf3r8jUOA7_7tOOUJoH5a6iH0Ny2blWevCDVEdChTWBCYdHqP60TVwKPLM6c_YjfBlKBFq6
+ chlSW55DWeJgZtlAyjgvfC8xaGFyX.ybOXjM2_0dAk_0mnwwhLYV.cRZ6YkcMZ_TzRvTKewoBMoz
+ xRbCGdBWlXKKKr8Hk0_jhTm6Vs3vHaa5l5FZet4L3a3pDrlWKX97C9H0H50.5bb.UCL8zFJ1Hdbk
+ ux5klvY2yv1aEkLJGzhd2k1wdlbQWuVk4OyTt86ynnImaajaJJ6DdBgOaD7kWia4xicI-
 X-Sonic-MF: <deaner92@yahoo.com>
-X-Sonic-ID: 06a2b5b5-4991-40c2-827a-2f8435ac73d7
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.bf2.yahoo.com with HTTP; Wed, 14 Oct 2026 22:22:19 +0000
-Received: by hermes--production-bf1-6d6877594b-mcfwx (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 13145d99c0856444ce8fdd200f288c70;
-          Wed, 14 Oct 2026 22:22:16 +0000 (UTC)
-Message-ID: <c4c3cfb5-1933-484a-8ad4-acff8dacd178@yahoo.com>
-Date: Wed, 14 Oct 2026 16:22:10 -0600
+X-Sonic-ID: 07c27ad4-72c0-429c-9b2c-098160be6176
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.bf2.yahoo.com with HTTP; Wed, 14 Oct 2026 22:22:54 +0000
+Received: by hermes--production-bf1-6d6877594b-5ssw4 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 77450296e97a96797f2c934e50296e27;
+          Wed, 14 Oct 2026 22:22:49 +0000 (UTC)
+From: Jeremy Dean Clifton <deaner92@yahoo.com>
+To: Viresh Kumar <vireshk@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev,
+	Jeremy Dean Clifton <deaner92@yahoo.com>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: greybus: Remove unused header declaration to_fw_mgmt_connection
+Date: Wed, 14 Oct 2026 17:42:48 +0000
+Message-ID: <20261014174248.97561-1-deaner92@yahoo.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: Remove unused header declaration
- to_fw_mgmt_connection
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
- Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20261014171342.97160-1-deaner92.ref@yahoo.com>
- <20261014171342.97160-1-deaner92@yahoo.com>
- <377d4e4f-93bd-6634-c3c5-1113f5057e2@inria.fr>
-Content-Language: en-US
-From: Jeremy Clifton <deaner92@yahoo.com>
-In-Reply-To: <377d4e4f-93bd-6634-c3c5-1113f5057e2@inria.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.26740 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Transfer-Encoding: 8bit
+References: <20261014174248.97561-1-deaner92.ref@yahoo.com>
 
-On 10/14/26 1:13 PM, Julia Lawall wrote:
-> 
-> 
-> On Wed, 14 Oct 2026, Jeremy Dean Clifton wrote:
-> 
->> commit 3228900f80c2
->> ("staging: greybus: Remove unused function 'to_fw_mgmt_connection'")
-> 
-> What is this?
-> 
+Previous commit removing a function definition did not remove the
+function prototype.
 
-This is the previous commit that did not remove the prototype of the 
-function it removed. I'll include a sentence explaining what this commit 
-info is here for.
->>
->> Function header declaration needs to be removed after it's declaration.
-> 
-> it's -> its
-> 
+commit 3228900f80c2 ("staging: greybus: Remove unused function
+'to_fw_mgmt_connection'")
 
-This is a grammar and semantic error on my part. First, you are correct 
-about 'its.'
-Second, the word 'declaration' is truly not correct here. It would read 
-better as 'definition.'
+Function header declaration needs to be removed after definition
+removal.
 
-"Function header declaration needs to be removed after definition removal."
+There is no definition of this function nor is there any place where it
+is called.
 
-Submitting v2 with corrections.
+Signed-off-by: Jeremy Dean Clifton <deaner92@yahoo.com>
+---
+v2: Fix grammar and spelling in commit message.
 
-Jeremy
+ drivers/staging/greybus/firmware.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/greybus/firmware.h b/drivers/staging/greybus/firmware.h
+index 5d2564462ffc..04a67d2d5b8f 100644
+--- a/drivers/staging/greybus/firmware.h
++++ b/drivers/staging/greybus/firmware.h
+@@ -22,7 +22,6 @@
+ /* Firmware Management Protocol specific functions */
+ int fw_mgmt_init(void);
+ void fw_mgmt_exit(void);
+-struct gb_connection *to_fw_mgmt_connection(struct device *dev);
+ int gb_fw_mgmt_request_handler(struct gb_operation *op);
+ int gb_fw_mgmt_connection_init(struct gb_connection *connection);
+ void gb_fw_mgmt_connection_exit(struct gb_connection *connection);
+-- 
+2.43.0
+
