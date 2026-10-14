@@ -1,98 +1,165 @@
-Received: from mail-4318.protonmail.ch (mail-4318.protonmail.ch [185.70.43.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f10.google.com (mail-wm2-f10.google.com [74.125.225.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BB04D0CC5
-	for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 13:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1558851DDE0
+	for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 13:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791983034; cv=none; b=JrtDGHJkUK2+FfPNOO0tqQwfUj/DL0EM2yX2BdAz7zHaZhc6NMnJJpXNMUSjHBpNZ+SjEU7SKxFDf0/j3D7458WtktjYiK6wjdhVCjjAgaK7dQCLsaautQqrtur8JMLw2JzqhNBTpMupLCo6CIuFAl68NbBUE5xnt+Mg2CR5vwg=
+	t=1791984085; cv=none; b=fpiHAou/QLS+F9hDSpmcfSGxrLDgADiJLGowSXO736GwOUBWhhXCN3RPtzHoqkUwxYyd+n8mg9O+ISKCMSWUa2fVSyx7eTLQoaoEa6PRL8eUq+PcOabQA8EhNKo0uhYGRxCVb0hVAUPwWt/FW6MdrQvb8ADrXKxDi9JtPIZgITM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791983034; c=relaxed/simple;
-	bh=w7IQ5SmN66Cmz7BFNaB7Dcx+rS3uCOjFI/RUyBBxj7I=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V0xIUfmRioZ4yl0hQblAkwHSck3DUeM1L3Ujb5WteyNt3hq09S1VYpgjj//EPY60QKvi59TABg/9nBwkDo12oObchWi1CBxu0U9FCmI8teePs2uHOXQvh9tg23hui8iOUplHzJgqojFAA3hWOAcQS4w0ZTp5TypGazjUdB+3aXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zachschneider.com; spf=pass smtp.mailfrom=zachschneider.com; dkim=pass (2048-bit key) header.d=zachschneider.com header.i=@zachschneider.com header.b=sAdQ50ue; arc=none smtp.client-ip=185.70.43.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zachschneider.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zachschneider.com
+	s=arc-20240116; t=1791984085; c=relaxed/simple;
+	bh=+2DksuN0PXimCBlfhp3flMUyobqYYJ1LAz/bP03IRBA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NuuNQTLkQiBpKDLGJt4EMiAn+nbpUq57pneM+CYiZeZkPHCWY/E385xk0q8nzHuj6JnG+IYrvwEryfeo5IgOI5c1vtgv+9NTG9+tDv3yD/VMG7ftilC2BzM7uP0rE94zidBCefaH+qweW8w3KVwVPrn3H7oq21gr53rIPRqn2IY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cjIfWvvQ; arc=none smtp.client-ip=74.125.225.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zachschneider.com header.i=@zachschneider.com header.b="sAdQ50ue"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zachschneider.com;
-	s=protonmail; t=1791983023; x=1792242223;
-	bh=Dq3DDbqmOY1X/L0Ddbisgc644Vl94jil0I3a1cjoZTc=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=sAdQ50ueiLVU/PRuEkis8Sp4lzuIJSOSkjTEMl2ozdn9stB99ejE4WkCLToykUr+F
-	 3LlZB8e2KUiT1MSSeqdzkNNTxey+nMyA6ZxH3ev+NjJW3NWLIgALPGxKHTu+l/coIB
-	 v/pbxdlQEFiAiz8aef88MRRYGeoz0ipielsHtiY3lYDnmHHDeelk1axUfK8Rcuy8OG
-	 fLX/bYqT5YdHE7ZsWM/4k91qY6IL6wVZBu548lqNXp1aVTs4QWDt0mcM6yDO9TkWZI
-	 nOVkXtb2rAFGU0hmQESZh9kqKYdfF4XTQrua3Q9kF+U7Sst+QVUTliKyKQjcZgjLoh
-	 VGc7EWk+RcW8g==
-Date: Wed, 14 Oct 2026 13:03:38 +0000
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Zach Schneider <me@zachschneider.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: remove remaining comparisons to true/false
-Message-ID: <lpfZsbMLmaIzZ7HynGEtUr-ckIqJuV45aYX2Wp1UZ6eH9zWMVDXycF0h0Brr53k7evaZwxJbEsxUuL1YnXEc1SzioY9-H7-3trp5NCdfRc0=@zachschneider.com>
-In-Reply-To: <2026101410-estate-tasting-23bb@gregkh>
-References: <20261013214129.699212-1-me@zachschneider.com> <2026101410-estate-tasting-23bb@gregkh>
-Feedback-ID: 134141743:user:proton
-X-Pm-Message-ID: 2f42ef1e20f5204d2c179911e71a1f57a72c89d5
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cjIfWvvQ"
+Received: by mail-wm2-f10.google.com with SMTP id 5b1f17b1804b1-4a16dfb8fa6so3837915e9.1
+        for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 06:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791984080; x=1792588880; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mH8cYaV01On54VD3MX65wnE47n38Aav2xpeeuVOOg0E=;
+        b=cjIfWvvQzR+GCA/zmIdtKi9/x6B25wVEMjQIuU8FosfU0WAzQECKHLG/5m312564b/
+         vuiIvdtaP3RAnisVem0+ZIKBTS/cIAa9Ej2Q2p5fYpDdcJZSD4G9rJm8LNflZBZpTA+6
+         59eQaSqohHgYb06IprM9meLuX2WVIQpMBC6PcozhczmR+Ecw728fGPnEp/hZ7SZgliu7
+         mgmukAp2GVx1KDB55xjVtWIC+g/Yn6U1uk4newM0CWfOAh+lEh8516AjTjkiOo/Tty/x
+         UZ2fzcm1pws0rT8q1TLHFyrQKHAgYzVz3MVfEwzIeIhcQFIQcxnRz0pT9c34uRxNZ+zQ
+         lPtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791984080; x=1792588880;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mH8cYaV01On54VD3MX65wnE47n38Aav2xpeeuVOOg0E=;
+        b=wOyhbu+xBw9y1szG0pIiV0N61w4iPfHKV1RXin775XX5s+zONyYs41X7a+MsOOQ8Wu
+         5axaJb83m57GExg8EfSgV0opnq4tF/gcvUNX7MMaMw6i7WW8gtZlkoFj+tY/NpqOdrsY
+         L3IvQVS1A0dBPZPkiNjl+bgeNJeyc+O+QynnIPaWnpkvaswt0QTQ8CJe3anZjfwG1E4t
+         rA/Tbr+NJCUgtwKK4M05DqQNDXQcB33wsXBnMovfY4cUjdx+2NCDiLWQc5tvilU5I9FP
+         vHfEoqK6WJO6tQ3v6I4nAzPVMGb7AcduYK7hbYUNzfWbWCFrhvt5maQK2zLa4ZhCePGG
+         Em8w==
+X-Gm-Message-State: AFq9FYJ3I6vPUe9Sc4GDoSoYV45DdJZqygaeoIhkGGLdxi9chvJptb7K
+	dMOiYnPzSNXEyz0FwOI/pK5F2cXa7uQy+JCiLDPY6QkrkeE7AzBQ1tQ9
+X-Gm-Gg: AYBFou2rxhmK4qd1mp4gqsLl0QEWJRF7eFukePtu/IzpIGi+HiZOB6Rt20PRlGzwi6Z
+	8cUUv8vhHOj2LvRS4ZH0YQ7lbjFzQ4kJvniSLtKmhH8vzfpMYWoWwMFNT2VTmTtZSLYZasXD7zz
+	prK1T99QmxVIqsF0zODlEPTtDmwO00bU7TXmJqrqWt0iGxABanXT5PXd87mLE1nUk4v0SRtM+XN
+	RJN5Bkk+BNy7tTKBtsFl5puQ4H2p8RIRCzqH0w98/pio/JpGAqPQgJ0CVusmBjveEAEucelEWHr
+	prrk0MymEVyRRjROb5sk/CN5VjgpFQLhGu8UMXEEMMqrZW9KfXJ3IYydHVQmo+i3xq71HHA0VGZ
+	GvFxtijD4qtxa58L8I4VSxyqKjkFETSw4dw31bTJHTWH18O/bHAZ3r9aGSKsbjkxKytCLGDlhMk
+	h199milTwM6TVGezUFKAIWCisghVnfcDCj5Z/wDcQ6D3gC7yozkUHzVSrBPiWZkgxvLbWNfg==
+X-Received: by 2002:a05:600c:524a:b0:49b:9202:6f80 with SMTP id 5b1f17b1804b1-4a18e4a4f2amr317315465e9.6.1791984079883;
+        Wed, 14 Oct 2026 06:21:19 -0700 (PDT)
+Received: from fedora41 ([37.168.54.225])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bcf2537fsm1250895e9.8.2026.10.14.06.21.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 06:21:19 -0700 (PDT)
+From: Timo Joannin <timo.joannin@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	guojy.bj@gmail.com,
+	error27@gmail.com,
+	Timo Joannin <timo.joannin@gmail.com>
+Subject: [PATCH v6] staging: rtl8723bs: remove unused phy_stat struct and dead prototype
+Date: Wed, 14 Oct 2026 15:21:07 +0200
+Message-ID: <20261014132107.171964-1-timo.joannin@gmail.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> Please read:
->     https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
+Commit d355fbb22519 ("staging: rtl8723bs: rename phy_status_rpt_8192cd_t
+to rtl8723bs_phy_status_rpt.") renamed struct phy_status_rpt_8192cd_t
+and propagated its type through the call chain.
 
-Sorry, I missed that policy. I was trying to learn how the contribution pro=
-cess works end to end, and leaned on an LLM to get through it. Your point m=
-akes sense though: the learning is in doing the work myself.=20
+Remove the remaining unused phy_stat struct in rtl8192c_recv.h along
+with the dead function prototype rtl8723b_query_rx_phy_status() in
+rtl8723b_recv.h which referenced it.
 
-Please drop this series (both 1/2 and 2/2), and I'll come back with patches=
- I've done by hand.
+Signed-off-by: Timo Joannin <timo.joannin@gmail.com>
+---
+Note: While rebasing onto staging-testing as requested in v4, I noticed
+that the struct rename and u8 * cast cleanup from v2/v3 were already
+applied to staging-testing in commit d355fbb22519 ("staging: rtl8723bs:
+rename phy_status_rpt_8192cd_t to rtl8723bs_phy_status_rpt.").
+This v6 patch contains only the remaining change from v4/v5: removing
+the unused phy_stat struct and dead prototype.
 
-thank you,
-Zach Schneider
+Changes in v6:
+- Fixed build failure in v5 caused by leftover rebase conflict markers
+  in odm_HWConfig.c.
+- Dropped patch 1/2 and the cast cleanup from patch 2/2 as they are
+  already in staging-testing.
+- Updated subject and commit message to reflect only the remaining
+  phy_stat struct and dead prototype removal.
 
-Mobile: 260.435.9767
-https://zachschneider.com/
-https://linkedin.com/in/zschneider
+Changes in v5:
+- Rebased against the latest staging/staging-testing branch.
+- Resolved minor merge conflicts in odm_HWConfig.c.
 
+Changes in v4:
+- Split monolithic patch into 2-part series.
+- Removed dead struct phy_stat and unused prototype
+  rtl8723b_query_rx_phy_status().
 
-On Tuesday, October 13th, 2026 at 11:56 PM, Greg Kroah-Hartman <gregkh@linu=
-xfoundation.org> wrote:
+Changes in v3:
+- Included patch version changelog (missed in v2, sorry).
 
-> On Tue, Oct 13, 2026 at 04:41:28PM -0500, Zach Schneider wrote:
-> > Checkpatch reports "Using comparison to true/false is error prone"
-> > in rtw_wlan_util.c, hal_com.c, hal_intf.c, odm.c and
-> > ioctl_cfg80211.c. Replace "x =3D=3D true" with "x" and "x =3D=3D false"
-> > with "!x".
-> >
-> > bwmode_updated, bDisableSWChannelPlan and the HAL_DEF_MACID_SLEEP
-> > value are u8, and rtw_validate_ssid() returns u8, but they only ever
-> > hold true or false. ODM_RAStateCheck() returns bool. This does not
-> > change behavior.
-> >
-> > Assisted-by: LLM
-> > Signed-off-by: Zach Schneider <me@zachschneider.com>
-> > ---
-> >  drivers/staging/rtl8723bs/core/rtw_wlan_util.c    | 2 +-
-> >  drivers/staging/rtl8723bs/hal/hal_com.c           | 2 +-
-> >  drivers/staging/rtl8723bs/hal/hal_intf.c          | 4 ++--
-> >  drivers/staging/rtl8723bs/hal/odm.c               | 2 +-
-> >  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
-> >  5 files changed, 6 insertions(+), 6 deletions(-)
->=20
-> Please read:
-> =09https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
->=20
-> thanks,
->=20
-> greg k-h
-> 
+Changes in v2:
+- Propagated the real struct type through
+  the call chain to remove u8 * casting.
+
+ .../staging/rtl8723bs/include/rtl8192c_recv.h  | 18 ------------------
+ .../staging/rtl8723bs/include/rtl8723b_recv.h  |  1 -
+ 2 files changed, 19 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
+index b63625ab4e45..072e2b5f6129 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
++++ b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
+@@ -9,24 +9,6 @@
+ 
+ #define MAX_RECVBUF_SZ (10240)
+ 
+-struct phy_stat {
+-	unsigned int phydw0;
+-
+-	unsigned int phydw1;
+-
+-	unsigned int phydw2;
+-
+-	unsigned int phydw3;
+-
+-	unsigned int phydw4;
+-
+-	unsigned int phydw5;
+-
+-	unsigned int phydw6;
+-
+-	unsigned int phydw7;
+-};
+-
+ /*  Rx smooth factor */
+ #define	Rx_Smooth_Factor (20)
+ 
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_recv.h b/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
+index e9ebecb224a6..2f230e2d27a4 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
+@@ -84,7 +84,6 @@ struct rxreport_8723b {
+ s32 rtl8723bs_init_recv_priv(struct adapter *padapter);
+ void rtl8723bs_free_recv_priv(struct adapter *padapter);
+ 
+-void rtl8723b_query_rx_phy_status(union recv_frame *prframe, struct phy_stat *pphy_stat);
+ void rtl8723b_process_phy_info(struct adapter *padapter, void *prframe);
+ 
+ void rtl8723b_read_chip_version(struct adapter *padapter);
+-- 
+2.56.0
+
