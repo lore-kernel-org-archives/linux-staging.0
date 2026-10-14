@@ -1,37 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFED50C2BD;
-	Wed, 14 Oct 2026 15:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2643E4A2626
+	for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 16:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791992726; cv=none; b=WLTvL0Es2Uywqw6SKPXwUjT6VejKDGLP5LEIstFpHW0BpeMUedpDotBV0ICtromdLC/Xjs2ijGosUUASco3r06muFIAwMMO3Wc3wyTzdtZOpH5J+8azB7r3A43NabblUIVcWlq+RY/EgY+iMzNVHE30MsOBv0E5a6MkvuM0kzSU=
+	t=1791996060; cv=none; b=obzF6Lb9soj4A3q9CTG0fgOy2Dt6Z9liw2SsqQNdhE0QayZS4wnsLLH0ine+IuuJ+hiAsimBGe3d/dmI8YRclytVelq8ld6agT1VtT5PkDAYgzUOEj5+yNA5U3dAQonwU47YF/O7k7P6m7V2/V/+NVS91Ov1wsq16+LCrZXWuEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791992726; c=relaxed/simple;
-	bh=R+ukTzmLbnPFNE5OJ0y8SEeHvT4kuxP/6O5+1VooLwA=;
+	s=arc-20240116; t=1791996060; c=relaxed/simple;
+	bh=XfSNuOCiGSFrTrFIJ4lT3my+Lp1JTDESDqQCedNpmtc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bVCaTcI8Aa/EPIO2dyDLO0NCU24jGGFKPLSmCx9/0QELR007nsVStkVmCmU0P9cyqDk86AcHZ9tMNt9wrSXtkAtMfDhSkZm5XBRY0+jWUzyauQYqXy1tfnysgSBXCHZMSwAKg/Eo8gAEp+q8CJ735mphRo0L2Es7VpF4xb3pD4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zGxcBKyA; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kzd9lHvH/Qcqx+r7IG135JGI+y1JkUb8lyTT8MoX+pYeYxbaa4MQw5pZXUr0wbX41XDBzBGC8bueiG51vbVst3lGcJGKgF1xUByOP5OCmixpU+5NeLUemD5UKz6/fw2OlXJ1TUUdMfUyZ30hxFBUJzLc35POoY/RXF41Q7ucQ5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h/xaa1u7; arc=none smtp.client-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zGxcBKyA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 416691F000C4;
-	Wed, 14 Oct 2026 15:45:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791992724;
-	bh=4N3/SfAmFRViFWazATLvErJNHUxEQ8iCvSfoJhR/1Z8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=zGxcBKyAs00jWBadcoxo7r06oEISgiNsC+v6cpHbZIZ8PcJFR1Q+viLDHbIlSPu3o
-	 IxSkXcpK1U2IJZvHARm6MiL1FgzTx7OuhtUIFJfbbMUvhY6mXPXSdmeQWbfV9ufKqO
-	 CPv1geZ4rfYCjg/T/ZU83VJoVgz7OFG4/AoxHACA=
-Date: Wed, 14 Oct 2026 17:45:29 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rishik Yechuri <epicrishik@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Rishik Yechuri <rishik.yechuri.code@gmail.com>
-Subject: Re: [PATCH 00/10] staging: rtl8723bs: replace private 802.11 header
- macros with generic helpers
-Message-ID: <2026101402-spotter-stitch-056b@gregkh>
-References: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h/xaa1u7"
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-15354aa70e8so3168378c88.1
+        for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 09:40:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791996058; x=1792600858; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UgGn+abtiqJOh+LR7c9Lyg9H/TKcLZIpibd1bP5k/sI=;
+        b=h/xaa1u7E6wqRtTF0AjHpLTdaEwkZEF4ry4dglO6iHwRnxa2idLMzSvL7GWVNo+6Rp
+         LFlcdNp1u+B5TUVL7Szv+IJEet/MaPmb0dGN6GkV9cgG2JI8NfaV2I9FV0t9VMOZ0iU7
+         3HrRZ1LtIJWx3/IaVjXFVpq9oHoUQXryFbzwtX0r6FzOYK4yYaIG+NEsBG8A0iSS3jA/
+         AM48ncpQI1l5hIoGFDrKT4W8JoBA6XrhoRlo1DqHPamixglJI7CIcn0M4jBmB+4zBwMJ
+         jY7iR4WZjVZzCsadZAgVoSC4k6aAcqwnBmA8bgDZabY4xYJeQsdXLRpoh++GXBkQYAEO
+         fY0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791996058; x=1792600858;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UgGn+abtiqJOh+LR7c9Lyg9H/TKcLZIpibd1bP5k/sI=;
+        b=19ZjDH1H4SLzipdhyiosk/umU86yMukVgJE7wcoIYfu/esJNckWJ3Sg2bnGoNyvGcu
+         /DjrVwJA8fBMRsA70LSjE+eznMVPuY1GR1T9JKqErV3Mdob8wlBNOJ0cfrpa7/RXSc2R
+         9y2x5KY9kcgfA50U/y2lXx8czkybucQFonoyYiO3NqEJyZl21++Q9AEm3XvPlkcw4yfA
+         61CYNOWb9pdRMlJGOqKBuURk6fPXWq+rh7XHJ35p/RezeLD4sBzT3Kba1NAISWGh4fR2
+         abgbkzxZuriddn7h8rDT5tUqFj5mBKX3G4AKH+Igr3iWdT5q27nuLWgOyYyIFCRojqRA
+         FlyA==
+X-Forwarded-Encrypted: i=1; AKwUvBydZiH3Kk1De5OcR+I9mCRQqC20zcg/ptlt2DgCeIphXBNoaqHoNpZpN0JCngXW7HpB8aD681IE+dTZUkVb@lists.linux.dev
+X-Gm-Message-State: AFq9FYIZsLYruJs9UZ46fz9YbDOW7jMyqvbTNqi9WLEX7GrFKKzgTs2+
+	bc7tqLe6kZN5r7CrSvBrSXyWehiestL4Le/icnDuPErDy7VBgwVG8Fm9
+X-Gm-Gg: AYBFou1QAn9nY6uwJcFSULQRPYaDleUvace7ne15dP41KtkIZQo+PbQoJ68nMfYVgeS
+	14EHGi1ibbw9CFZJ6v1I+olxptc5WxgLJddsBtT5NE9gTo2EmL3kC12BDQtH6QIT04gS9kXrf2s
+	/rbOVTtuSwbQTOg9Vb9oPVtCLLXYbiIVk8HfqqyKjb8nlatgN4NL9Tj0E1wytg+6wVCNRvuTMHk
+	hq/roeEQ/Q3ANecDrBBRJslOYwzxSnnL9gQycC6eOYqwG0qTmC1KQDojsYaH1KzBGNNWq2V6bzB
+	crz4H2OcthL8mnGVRlzUcFebX8AmRbT7HGDonp8rZ78sIWsc5VMuWix+s+QyLZBTfAt1XYqJHvX
+	L6MHCVtU5pn8/9ziUJLsVen7PhbVzItn/xGvUWb+BVqIRkdShT1HgwnizML5Va42Tk3xFw2iopR
+	k2k8iikUHWUaSrfeyv9al1dxL06Jknbrcgkx8LaklK+jakCWK8AYPAduSV9esX8l4jRh1U6426D
+	Ow=
+X-Received: by 2002:a05:701b:42c9:10b0:15c:705f:b981 with SMTP id a92af1059eb24-16a6043c616mr24016690c88.32.1791996058090;
+        Wed, 14 Oct 2026 09:40:58 -0700 (PDT)
+Received: from user ([2405:201:c052:b00b:a8d1:172d:7ab0:de86])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cb68e56sm49903496eec.29.2026.10.14.09.40.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 09:40:57 -0700 (PDT)
+Date: Wed, 14 Oct 2026 22:10:32 +0530
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+To: Alex Elder <elder@ieee.org>
+Cc: johan@kernel.org, gregkh@linuxfoundation.org, vireshk@kernel.org,
+	elder@kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev, gservice341@gmail.com
+Subject: Re: [PATCH v2] staging: greybus: replace PTR_ERR() with %pe in error
+ messages
+Message-ID: <as-wgGhJAGgYBZ7-@user>
+References: <20261013022402.6322-1-pavankumaryalagada@gmail.com>
+ <2fd23f9b-7eab-4afd-aa77-93a5b9ff0c75@ieee.org>
+ <as6mC7sZnpqIKxN6@user>
+ <26a2a4af-5d27-4bd5-b284-3758fa7a67b2@ieee.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,53 +82,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
+In-Reply-To: <26a2a4af-5d27-4bd5-b284-3758fa7a67b2@ieee.org>
 
-On Tue, Oct 13, 2026 at 03:15:28PM -0500, Rishik Yechuri wrote:
-> The rtl8723bs driver has its own set of macros and inline functions in
-> wifi.h for working with 802.11 frame headers. They access the header
-> through hardcoded byte offsets and pointer casts, and they duplicate
-> struct ieee80211_hdr and the helpers in <linux/ieee80211.h> that
-> mac80211, cfg80211 and other wireless drivers already use.
+On Wed, Oct 14, 2026 at 08:32:54AM -0500, Alex Elder wrote:
+> On 10/13/26 4:43 PM, Yalagada Pavan Kumar wrote:
+> > > I think your suggested change is a net positive, but
+> > > doing it in some spots but not others means it is
+> > > adding a bit of inconsistency.
+> > I agree that similar cases elsewhere in Greybus are worth
+> > checking to keep error reporting consistent. I will look
+> > at the other Greybus files for cases where using %pe would
+> > be appropriate.
+> > 
+> > Would you prefer me to extend this change to the other
+> > relevant Greybus files, or keep this patch focused on
+> > fw-core.c and submit a separate patch for the remaining
+> > changes?
 > 
-> This series switches the driver over to the generic versions and
-> deletes the private ones from wifi.h. Each patch converts one group of
-> macros and removes their definitions once nothing uses them anymore,
-> so the driver builds after every patch.
-> 
->   Patches 1 to 3 convert header address access and the Frame Control
->   flag checks and updates.
-> 
->   Patches 4 and 5 convert the frame type and subtype checks. Single
->   comparisons use the ieee80211_is_*() helpers, and switch statements
->   mask frame_control with IEEE80211_FCTL_* and use IEEE80211_STYPE_*
->   case labels, the same way mac80211 does.
-> 
->   Patch 6 removes an unused struct member. Its initialisers were the
->   last users of a few private subtype constants that have no generic
->   equivalent.
-> 
->   Patch 7 converts the frame subtype setter and removes the private
->   WIFI_* frame type enum.
-> 
->   Patches 8 and 9 convert the Sequence Control, Duration/ID and QoS
->   Control fields.
-> 
->   Patch 10 replaces the driver's destination and source address
->   helpers with ieee80211_get_DA() and ieee80211_get_SA().
-> 
-> None of this should change behaviour. In the few places where a
-> generic helper checks more than the code it replaces, or where the old
-> macro kept bits that a plain assignment would overwrite, the commit
-> message explains why the result is the same.
-> 
-> Compile tested with W=1 after each patch, and checked with checkpatch
-> and smatch. I don't have a device with this chip, so it has not been
-> tested on hardware.
+> I guess I mainly wanted to understand your intent.  I don't
+> really mind your proposed change, but I would really prefer
+> to have it be part of an overall plan to upgrade all error
+> messages this way.
 
-Did you forget the assisted-by tag for this series or did you really do
-this "by hand"?
+I checked all Greybus source files to identify other places where
+%pe could be used.
 
-thanks,
+> 
+> Ideally error (and other) messages are done consistently,
+> and so changing them in just one file sort of raises a flag
+> for me.
 
-greg k-h
+I agree that keeping error messages consistent across Greybus.
+
+> 
+> Can you survey the messages elsewhere in the Greybus code
+> and get a sense of how much work it will be to do this
+> comprehensively?  Your current patch affects four spots in
+> one source file; how many others would there be?
+
+I found 12 additional cases in arche-apb-ctrl.c and arche-platform.c
+where using %pe would be appropriate. I also found one additional
+case in uart.c:954 where the error message could be improved by
+printing the error name.
+
+I will keep PTR_ERR() calls that are needed to return error codes
+unchanged.
+
+> 
+> And if updating everything is a task you're willing to do,
+> then I think I would prefer you extend this change.
+
+I am willing to make these additional changes. Since my original patch
+is already in staging-next, should i send a v3 of the existing patch
+or submit a new patch covering all the relevant cases?
+
+Thanks for your guidance.
+
+Pavan
+
+> 
+> 					-Alex
