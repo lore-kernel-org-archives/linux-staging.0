@@ -1,123 +1,70 @@
-Received: from sonic305-3.consmr.mail.bf2.yahoo.com (sonic305-3.consmr.mail.bf2.yahoo.com [74.6.133.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2004BD0F8
-	for <linux-staging@lists.linux.dev>; Tue, 13 Oct 2026 23:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.133.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597461D9A70;
+	Wed, 14 Oct 2026 04:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791934131; cv=none; b=Melb8qtnsbQ0aWu6ET1KBi6uyqYZO0rvs4fFBoVFcdzFJuBOdVqNzfcedB9N1k71b3ArPGUTDUo5iMDo72kphzCyy8wmA0o639JlyX1l6Eko/xGaU/NEoambT8MvScxgHHob9QoEDxY+HVp3gVCHX+IiHOwxFsCp2b6XS0QE98A=
+	t=1791953783; cv=none; b=YmF3hzle8+aB183P6vCxQDqRKg5QBuX/rbhVhFJOSasP+6efVJgcg1WiAQB0Nwmg7w7pwklnV13TCZOqxqi2UiB+xj2Xi0LVR/I1LHZy7t4xSyvZCb6DQPJy8dkjx3Dp5rKGYfwiRlLbrYFvlqjmEQJc7h4HhbYwqtPjVt6ek4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791934131; c=relaxed/simple;
-	bh=unrQ123xXTj9mg6azhbRZKBE0GJ2FJNrep2ZLraIK+4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qdZPLfONyGPeNYNzrC/FvE7tmfhFqtBrT87McVVUaLee4ar/B8qYXbq+jkiTaW4SEl1q//9DTriDpzIgzj6aY9tZwJoPiEucxDvHxENN4cnV8kMee9Tlpps+hIm2rBaoTfsgpGyB1hPGi+rEEVEUX/nCfKHadh2/NsmNInFj5CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=GZfXdfCm; arc=none smtp.client-ip=74.6.133.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1791953783; c=relaxed/simple;
+	bh=9Dgr6S9rub3+BJDRKPd6m5eYRoQZhIcuq4O4s8VoVx8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E1W3PP3smZLXGZzp7HxlLUMQH3k24rz+5vS/hyWKo4oxGo9YXXriux0zFWeJ98/K2XJ//Plw5dJbLmb1WMYCkXSGBTAkfYqZ/Zvbq4G3Gt0iobhyhnWzfRzBCZ+S19AsHhFRzb+04oKwnCURYcZu6UM2Ex1jaNSx8GjAZ2UuQ1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=alNvzpql; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="GZfXdfCm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791934123; bh=ntTdf5da5riDGqp0/lnqznJtGtR2qq5uPORC63l8Kno=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=GZfXdfCmXxXR+gxmUIf504gbTRIVvUm4Xxq/5KM9e4/Nyw56ysDMCX0NDrR4ZR4ZuZqUXyf3iffZCSeP7Bz641eVreuAQCQduXB9u3cCVh9HtLtNpYF3B2IW/Z6o98ugdiIOCHqYCJ/yGMZBILNx6PbtT/ry3EfgM8mnmxt7nTpZKDYIMjJbz7a6bH+HbEs4vS2DlD8l+BaGrXKXXLwyJpooxa4jYfFev7OFaRHMh1n1H3ZiPKrXl5xECzekS6r2xajTl9hO8rMyzQ8CTdmsszySEiF9+KYdRtBN1niWHueojuuIHQ2aysbWPnStxg3baHquQC/bpEdJFWpaKtJ1Yw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791934123; bh=0fi1ySHALeWkSua+c1dfs6j+vXRKtO7VfdFp+F6np2x=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=KJELJ/Nvk2gwhUCT037QM+wFG7yVAhHUPl5U0lilkKsN+SExSuDWzMmExoBkaSwZ0GP+JMvMdE7x0YYXDtW+jWGSAoD94VP4xY0xVhX4m2D8PRxsH2K4zFktBmDuxhvv2WyJq/4UTKMS5zAueVAWDpws8oL+w/NqEx8jhO1d1WSsL/41eQjw8bsksN94l0kICt5zUFRM96Nn12AL3kOspN3ZP9P9HgISpIxW+BWYU3YSTXBcX4x3YpFs91hLz+vQDoZa5RoSQuJgirpamluZWLRR3yuPn4ZqcQhm4ecC7UjvvCnarl+Xqr0GMWAqLBS9vnN7z2R4rcMVmIDqqSsMjw==
-X-YMail-OSG: BhmqEuwVM1l4k9JTFM9jnnIs.e97bloKx8dRyHq4ts9WH3_4DKCuvs17y0GgEQ4
- C1PRHf37Mxe_SLlgMzct9sEdYQ6M8oTTviavSgzhxjg3tfsyCxDwTbI7KcgbD4TGdmbmYkVJGzVA
- skikEhc4YiYiR26KOPlmaUnfJxiBYjkfnh_XJYoSFWdBw_ZojapNLjsG9awUB1gtBYfd3_bJIRpN
- Bqxd0UlSuB8I.OyZQ67gY.VXyVE9mrqs4fTl5VoXlD9TFd5NYy58SaIV53BmnzdKzCaEimqvVVV9
- pfyGqfgzMjhq_FK8rFGGPAYC2VeAmLElo5bnZg5dwJXZfV1znHIWI_onRfkTuofyeASUmJwMTMeL
- Metz7lKNs_oH1nJWJHTVPZ2RhQuy4rHckazxxxJoY.mWU1GUd6l1y3zYqQM8mO4hLjVvG4xpi1O1
- 0QIGGHsmfYK46c2nsS22OYWXkprEuUwrmAqsJ1kRMocSSO9RziCo31eNKTtRADml2RP3wwISED.S
- nMSaXCHe14Rz2frtWc6CFC461G8jRC9NOwuF0qRvm3YbRqJMTeMpPvvvjvtDwrX.hOOuGMAv3Mnq
- pb4sKbJweD_bHNMbG0gRJ0YvUBM0mpl3i9q9gZde9HVadOCbiZir7J2H7I0_ngnkO1FGY_NS7sqH
- mkio1pG8PfDQdpWBCaJ3h3FH4b7OkV_4Z6AD2Neq259TI5mz2tzmFqgfXyd5IcWwBh_qorRNaW2A
- YlopBPPTqwI0Hlldbjizaaww_pwZmzhmliRYFXlJz3F5oeRLYETI0erxYdhFpdSZJBI9Q_tr7KXX
- mPbiHVekyB9vtlTdZTcqm78L8OABFwpOUgc8F3LRgXZZairXGMmcnimQ8aPYhR.n1XuRRhK8Zih6
- P83YRSdGXZpJ9i6IFmhRJzmX43XFWDGqPBiEmyOUMmowIFMXvTzNc_ZUjbrk2rYy_3bSOteYPk0W
- xNsQpruPPTRrq_mLmzASKyAtz8_7uyuvzM45pcl6iv61cAd.T8VKyjFgNzs.3ISvXexdNfeCbrOY
- 5Ea7hzhlZqsm4esYCaplHlLb6GtM_PVYJzJBWVrVJ_gdNlhRYIFp_eZ1s4UmWl8BctW2QubDMavI
- 9GH.ojk0Rj.byk243dddzl6haeA6iDn2t2w0QTVzrn_F2EuRjFe5NEHB311HI6dyXmBT5t1D61k.
- FW97GyGH4OHN3dcA5KVnQVB.FymbnhXAN9ExvRYzny2stzY43a_X5JbbnaB9umdjO7JdZ8XHuvzl
- TXji.Jm9qIsfWNhjj2GISu8Jh0C4YqJtv5dH.5fgsuOaXq0KVDgOT5NlYFfbzzdf1tVc3YcmwORN
- 9bdYWs4Xc9.QPnanI1ClQb5cSiBFZuhU7uutTL40gwQ.JEyR_bCRYZDC8WUgmLqT9CL3XNNARJWD
- _QQLaKN2E3DmgcEEPr.hVfkZ4hHRSdMp7ytvwm_k_gNJ2wnYEH62IVo..IQjndysWt2izQdJzuUu
- VbFwLhb1IRquuJg6XT4G81h3F6JgITYb.CMnLDYTIh0GtkvK9sZosZHpfSG2vkqIZGCSWspTJCr0
- Z7QVcLgmy_lPct_i9B7F4NtAtuKJ5R.QQR015oSCHRLzr6mo67ixOh2fJX.p28j4Q3Oeuw95nqk8
- IfaKlbrpJ_YujhPArPVzUoir05yEZdl18YMcGp9Bo6bn2nmR6rpbnp5xvLBdXb3sFmIss7a2wSCX
- 3cspLhXGSTQQ4JUBK3sN7kvuOmqVx72DFEaFWY3FtjfX_w2gY5wb9WVpISXB7jrrSY8fQngL2xc8
- qLJJ0NeIJfhgP8PvHW48FuVl8xn71ddD0rce24EsOzAWshBmW.Am59VMjvxt.dNW1.aDVwBQ7uH2
- DK6H5yY99CwiPqbBCN14za03JyT7xdI05__EikLh55K6NKZ73xYMsQnSABbjBznARH3rXKtvhD3X
- m8LTmp1ycTF8NKi02ruN1ZkrJG8pOrpYktPBKA267.I0cYBWI6M8p7HO.5a2VpALgFxTFlCdNbee
- 8JbNuYz8YrGblUQmbfD1ksc06_OR.Ib_qtcIL7AiL8X.2azXSVl4U29f1MEV50Wr_Yt61dn7RtkG
- 6C7mVn0YhYArPDntM_VXFFAc6vM2svSNxdExiG3Faicd7N5rNJYN6QFgZXfkYvXKBIXocVu8bhOG
- kWpI50OBdvCmCvA0dg_i4ZjrU07KA09CyLNz6ObjLpi6eFPFOrBVELiNW20lyhQ_l1onore0uBGS
- qLOrIg9mAnmn40RfCk4GNgTgSLDJLVsmV4Dn_9kvB1y7DymLhfMU-
-X-Sonic-MF: <deaner92@yahoo.com>
-X-Sonic-ID: 580a666d-c35e-4236-bdc4-9891ef3e9414
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.bf2.yahoo.com with HTTP; Tue, 13 Oct 2026 23:28:43 +0000
-Received: by hermes--production-bf1-6d6877594b-r7rdv (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID c9026ab00b60b81d08c481f0c8e2d06a;
-          Tue, 13 Oct 2026 23:18:23 +0000 (UTC)
-Message-ID: <642cd62d-4e44-4e5e-be7c-1f2b0ce4a759@yahoo.com>
-Date: Tue, 13 Oct 2026 17:18:17 -0600
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="alNvzpql"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 614AC1F000FF;
+	Wed, 14 Oct 2026 04:56:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791953781;
+	bh=3rNi/lg2R62xrW1wOGGqDN728UZW/+SlnQLPcg3WGXc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=alNvzpql4l3HOe/DGiQDHWL5TXY/Q5fu7gwMSlLRMfa87c6QY0OsNZvbl3qum/47W
+	 AORO9HswAMUweAw4kBUrNzuMPzLTzFYDl+a7F+Bb1024DDnk+RoE0h60yFDcvARuTk
+	 Cg7rIWvqGFiAkvu33m1ioItcV19JdaXpgFTFMdJk=
+Date: Wed, 14 Oct 2026 06:56:26 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Zach Schneider <me@zachschneider.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] staging: rtl8723bs: remove remaining comparisons to
+ true/false
+Message-ID: <2026101410-estate-tasting-23bb@gregkh>
+References: <20261013214129.699212-1-me@zachschneider.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: nvec: use guard(mutex) in nvec_write_sync()
-To: Temitope Obabi <obabitemitope765@gmail.com>,
- Thierry Reding <thierry.reding@kernel.org>
-Cc: Julia Lawall <julia.lawall@inria.fr>, Marc Dietrich <marvin24@gmx.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ac100@lists.launchpad.net,
- linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-References: <20261012171312.5998-1-deaner92.ref@yahoo.com>
- <20261012171312.5998-1-deaner92@yahoo.com>
- <b51c3755-a967-3de3-5f8c-3e4984d6e93c@inria.fr>
- <492e9a13-b50b-48cb-bd41-3114573c7950@yahoo.com> <as5WES_Ec2KGWQsm@orome>
- <CALUk5xZtpOH=23mdiT7MYs-gem2NL+EoV=priVxuSubbCocqFQ@mail.gmail.com>
-Content-Language: en-US
-From: Jeremy Clifton <deaner92@yahoo.com>
-In-Reply-To: <CALUk5xZtpOH=23mdiT7MYs-gem2NL+EoV=priVxuSubbCocqFQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.26740 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261013214129.699212-1-me@zachschneider.com>
 
-Hi T Obabi,
+On Tue, Oct 13, 2026 at 04:41:28PM -0500, Zach Schneider wrote:
+> Checkpatch reports "Using comparison to true/false is error prone"
+> in rtw_wlan_util.c, hal_com.c, hal_intf.c, odm.c and
+> ioctl_cfg80211.c. Replace "x == true" with "x" and "x == false"
+> with "!x".
+> 
+> bwmode_updated, bDisableSWChannelPlan and the HAL_DEF_MACID_SLEEP
+> value are u8, and rtw_validate_ssid() returns u8, but they only ever
+> hold true or false. ODM_RAStateCheck() returns bool. This does not
+> change behavior.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Zach Schneider <me@zachschneider.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_wlan_util.c    | 2 +-
+>  drivers/staging/rtl8723bs/hal/hal_com.c           | 2 +-
+>  drivers/staging/rtl8723bs/hal/hal_intf.c          | 4 ++--
+>  drivers/staging/rtl8723bs/hal/odm.c               | 2 +-
+>  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
+>  5 files changed, 6 insertions(+), 6 deletions(-)
 
-On 10/13/26 4:58 PM, Temitope Obabi wrote:
-> Hi I have finally installed Ubuntu on my system, I hope am on the right 
-> track
-You need to send plain text.
-Also, there is no need to reply to my v2 message here. Reply to the 
-Welcome 2026 Applicants. If you don't have that email, send out to 
-outreachy@lists.linux.dev with an intro.
+Please read:
+	https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
 
-Look into plain text. >
-> On Tue, 13 Oct 2026, 7:57 pm Thierry Reding, <thierry.reding@kernel.org 
-> <mailto:thierry.reding@kernel.org>> wrote:
-> 
->     On Mon, Oct 12, 2026 at 03:41:48PM -0600, Jeremy Clifton wrote:
->      > Thank you so much for your guidance and feedback.
->      >
->      > It is the result that the patch will produce. All the unlock
->     calls will
->      > be deleted and the out of memory path will have no braces, as per
->      > the style guidelines.
->      >
->      > The motivation behind the patch is to defer usage of manual locks
->      > for new and improved guards, disallowing lock leaks.
->      >
->      > This way, there can be no error producing path by not calling unlock.
->      >
->      > Shall I send a v2 with motivation included?
-> 
->     Not a big deal in this case, but you might want to read up on how to
->     properly reply to emails:
-> 
->     https://subspace.kernel.org/etiquette.html#do-not-top-post-when-
->     replying <https://subspace.kernel.org/etiquette.html#do-not-top-
->     post-when-replying>
-> 
->     Thierry
-> 
+thanks,
 
+greg k-h
