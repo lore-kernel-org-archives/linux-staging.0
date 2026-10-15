@@ -1,49 +1,50 @@
 Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABCB282F15;
-	Thu, 15 Oct 2026 02:21:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024E84C6D;
+	Thu, 15 Oct 2026 02:22:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792030890; cv=none; b=oI+qfDK0yY5liA1zTySPDOJ8tmshL6DaOoo161My3OgT8vYtzwsEruHzmCqsAB48HB+FnDtcjTna/VMUacm/2Kd5UpSz56t4rsLyQD/dF5atu6bzi0AicMzPfuzftUMxcMMUlrZwpA8b8peBAnDWbKahv5clBW9RqlgALjZl1mg=
+	t=1792030950; cv=none; b=Ih6ddXSOVgQIwiPwDWoz4VKOypPnFTB0C/zLSYZtuTb6A1UKq8VX+oQZ4pK54k49LvmBeWXP80cnKTDlpWRedhySH+kOC+mS0mP+H0N/msyPL1tXb233OLyzMQbFmfK1sewPCbPf/wKzt+/Yr+i/nrq/9e6cUJUDB6yNfQ9HQ2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792030890; c=relaxed/simple;
-	bh=LWMhfmN0h1/ORMip9RaDPmUcGXvCLGQbdN2F4Uk60L0=;
+	s=arc-20240116; t=1792030950; c=relaxed/simple;
+	bh=ptlvY4GyN1Szen2Zlc62nSTAG1mlbJjXwA3RU8tu3eg=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=f96h6kqXUXuCB72MUu1kYq1VWLYJ05+tvb+TtQYoFVGbi4+WLzMJo9P0bXy1fB3yzhClA0M+d0hkq+idTKZNVZTiobvyQuZlYiRWnje/ULco26oZb2YLun9WnSyHjbSoAItSvN3oqjbDIhL8xjOClzn2SHgDjHvLmtzbz8vnKS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=MvT09+qd; arc=none smtp.client-ip=192.134.164.83
+	 MIME-Version:Content-Type; b=Iz6XIcYtkV/+cmJtBmyukyeZwtNosiaWOxrG97v1RWAk+wAOL4sVg1To1XRdYCVJ47YrTiIjQQkXkc5bmQyp05CUO38/kR4bTfrnqIi7UJjxuClv+XYkt6kPsRlzcp1YmB9co8yF+pPmQY1TY2aqXPen6gx+9Zp4+RCR5M9m6d0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=FrpYx4LQ; arc=none smtp.client-ip=192.134.164.83
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="MvT09+qd"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="FrpYx4LQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=RnXTNwerBgQqWgqQhL4zziJKRpc/uU5pPZ7H4xoQWBc=;
-  b=MvT09+qdydLKRaQ8UsktmQpJjLryHfDrdg9vs/nDlWAcqRR1V2PARJpk
-   LW4UiPTlXm9pkMC6RAnrwWdNOeKYrQxFmvPe9Sw+mcy87BNn2MTBQUnjO
-   wmvctXp/xL4L3D/n1jn4r8QnpgiSP4iqh51E0Ry6GEiOkju+kejyhD2cI
-   0=;
-X-CSE-ConnectionGUID: mrZtPcrRTyGUzdxrrkI08A==
-X-CSE-MsgGUID: RCHKlq7FRROo8vW7T9vBCA==
+  bh=M5urV4Du4gv+/AM+1fa4OQuLjDSmps5PFX1r1B4wZlw=;
+  b=FrpYx4LQyo2mZtua4vG+4bQp86OTlFPcSgTYVH2nUxcrBtnIfZQf4aB9
+   OppKbCziIlcLI5jQbQ6vsazvydKk+XYUvfvTia9KQFoPHxua1P3EMrv62
+   5pDh47Q5/E2YnCGVUm/nwKCmmnyg/jiHkusd55R7PhlKswLvNUyKzCclG
+   w=;
+X-CSE-ConnectionGUID: Ek4CdOcxTh+KMV2TAX7ERg==
+X-CSE-MsgGUID: Q+Um1q9kQeKy+ip2gX6/8A==
 Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.27,158,1787004000"; 
-   d="scan'208";a="300261299"
+   d="scan'208";a="300261319"
 Received: from static.host-68-71-1-178.nrbn.ca (HELO hadrien) ([68.71.18.178])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 04:21:24 +0200
-Date: Wed, 14 Oct 2026 22:21:22 -0400 (EDT)
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 04:22:25 +0200
+Date: Wed, 14 Oct 2026 22:22:24 -0400 (EDT)
 From: Julia Lawall <julia.lawall@inria.fr>
-To: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-cc: johan@kernel.org, gregkh@linuxfoundation.org, vireshk@kernel.org, 
-    elder@kernel.org, greybus-dev@lists.linaro.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    outreachy@lists.linux.dev
-Subject: Re: [PATCH v3] staging: greybus: replace PTR_ERR() with %pe in error
- messages
-In-Reply-To: <20261015015624.22031-1-pavankumaryalagada@gmail.com>
-Message-ID: <c42bf562-913d-c449-4c7a-5f67bd08f9d@inria.fr>
-References: <20261015015624.22031-1-pavankumaryalagada@gmail.com>
+To: Jeremy Clifton <deaner92@yahoo.com>
+cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, 
+    Alex Elder <elder@kernel.org>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
+    greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: greybus: Remove unused header declaration
+ to_fw_mgmt_connection
+In-Reply-To: <b19b8058-bfe9-4800-95c8-d2db889b43e6@yahoo.com>
+Message-ID: <a82dbd9e-061-a415-25cf-b8760484baa@inria.fr>
+References: <20261014174248.97561-1-deaner92.ref@yahoo.com> <20261014174248.97561-1-deaner92@yahoo.com> <2d2106c-a2d2-2bec-b368-c03850cba9a7@inria.fr> <b19b8058-bfe9-4800-95c8-d2db889b43e6@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,222 +55,45 @@ Content-Type: text/plain; charset=US-ASCII
 
 
 
-On Thu, 15 Oct 2026, pavankumaryalagada@gmail.com wrote:
+On Wed, 14 Oct 2026, Jeremy Clifton wrote:
 
-> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> On 10/14/26 7:46 PM, Julia Lawall wrote:
+> >
+> >
+> > On Wed, 14 Oct 2026, Jeremy Dean Clifton wrote:
+> >
+> >> Previous commit removing a function definition did not remove the
+> >> function prototype.
+> >
+> > Please use proper English.
+> >
+> > The commit 3228900f80c2 ("staging: greybus: Remove unused function
+> > 'to_fw_mgmt_connection'") removing a function definition did not remove
+> > the function prototype.
+> >
+> >>
+> >> commit 3228900f80c2 ("staging: greybus: Remove unused function
+> >> 'to_fw_mgmt_connection'")
+> >>
+> >> Function header declaration needs to be removed after definition
+> >> removal.
+> >
+> > This is saying what you did.  It should be in the imperative:
+> >
+> > Remove the prototype.
+> >
 >
-> Use %pe to print error pointers directly and display their
-> error names.
+> "Remove the prototype." in the imperative has been changed.
 >
-> Keep PTR_ERR() calls when the numeric error value is needed
-> for returning the error code.
+> >> There is no definition of this function nor is there any place where it
+> >> is called.
+> >
+> > Not sure this is needed, since the definition was removed previously.
 >
-> Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> ---
-> v3:
-> - Extend the %pe conversion throughout Greybus, as suggested by Alex Elder.
+> It's been removed.
 >
-> v2:
-> - Use %pe in the firmware management case, as suggested by Jeremy Clifton,
->   to match the other cases.
->
-> v1: https://lore.kernel.org/outreachy/as0nhVbagZa8Birm@user/T/#t
-> ---
->  drivers/staging/greybus/arche-apb-ctrl.c | 18 +++++++++---------
->  drivers/staging/greybus/arche-platform.c |  8 ++++----
->  drivers/staging/greybus/fw-core.c        | 16 ++++++++--------
->  drivers/staging/greybus/uart.c           |  2 +-
->  4 files changed, 22 insertions(+), 22 deletions(-)
->
-> diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
-> index 4302c2226126..fa4d2d88dc3f 100644
-> --- a/drivers/staging/greybus/arche-apb-ctrl.c
-> +++ b/drivers/staging/greybus/arche-apb-ctrl.c
-> @@ -145,8 +145,8 @@ static int fw_flashing_seq(struct platform_device *pdev)
->  		apb->spi_en = devm_gpiod_get(dev, "spi-en", flags);
->  		if (IS_ERR(apb->spi_en)) {
->  			ret = PTR_ERR(apb->spi_en);
-> -			dev_err(dev, "Failed requesting SPI bus en GPIO: %d\n",
-> -				ret);
-> +			dev_err(dev, "Failed requesting SPI bus en GPIO: %pe\n",
-> +				apb->spi_en);
->  			return ret;
+> The next revision is sent.
 
-Maybe it's for after this series gets accepted, but you don't really need
-to initialize ret here.  You can just return PTR_ERR(apb->spi_en).
-
-You can also check whether the ret variable is needed at all in this
-function (I don't know).
-
->  		}
->  	}
-> @@ -323,14 +323,14 @@ static int apb_ctrl_get_fw_data(struct platform_device *pdev,
->  	apb->resetn = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
->  	if (IS_ERR(apb->resetn)) {
->  		ret = PTR_ERR(apb->resetn);
-> -		dev_err(dev, "Failed requesting reset GPIO: %d\n", ret);
-> +		dev_err(dev, "Failed requesting reset GPIO: %pe\n", apb->resetn);
->  		return ret;
->  	}
->
->  	apb->boot_ret = devm_gpiod_get(dev, "boot-ret", GPIOD_OUT_LOW);
->  	if (IS_ERR(apb->boot_ret)) {
->  		ret = PTR_ERR(apb->boot_ret);
-> -		dev_err(dev, "Failed requesting bootret GPIO: %d\n", ret);
-> +		dev_err(dev, "Failed requesting bootret GPIO: %pe\n", apb->boot_ret);
->  		return ret;
->  	}
-
-Same here and in the subsequent ones.
-
-> @@ -338,7 +338,7 @@ static int apb_ctrl_get_fw_data(struct platform_device *pdev,
->  	apb->pwroff = devm_gpiod_get_optional(dev, "pwr-off", GPIOD_IN);
->  	if (IS_ERR(apb->pwroff)) {
->  		ret = PTR_ERR(apb->pwroff);
-> -		dev_err(dev, "Failed requesting pwroff_n GPIO: %d\n", ret);
-> +		dev_err(dev, "Failed requesting pwroff_n GPIO: %pe\n", apb->pwroff);
->  		return ret;
->  	}
->
-> @@ -346,14 +346,14 @@ static int apb_ctrl_get_fw_data(struct platform_device *pdev,
->  	apb->clk_en = devm_gpiod_get_optional(dev, "clock-en", GPIOD_OUT_LOW);
->  	if (IS_ERR(apb->clk_en)) {
->  		ret = PTR_ERR(apb->clk_en);
-> -		dev_err(dev, "Failed requesting APB clock en GPIO: %d\n", ret);
-> +		dev_err(dev, "Failed requesting APB clock en GPIO: %pe\n", apb->clk_en);
->  		return ret;
->  	}
->
->  	apb->pwrdn = devm_gpiod_get(dev, "pwr-down", GPIOD_OUT_LOW);
->  	if (IS_ERR(apb->pwrdn)) {
->  		ret = PTR_ERR(apb->pwrdn);
-> -		dev_warn(dev, "Failed requesting power down GPIO: %d\n", ret);
-> +		dev_warn(dev, "Failed requesting power down GPIO: %pe\n", apb->pwrdn);
->  		return ret;
->  	}
->
-> @@ -368,12 +368,12 @@ static int apb_ctrl_get_fw_data(struct platform_device *pdev,
->
->  	apb->pinctrl = devm_pinctrl_get(&pdev->dev);
->  	if (IS_ERR(apb->pinctrl)) {
-> -		dev_err(&pdev->dev, "could not get pinctrl handle\n");
-> +		dev_err(&pdev->dev, "could not get pinctrl handle: %pe\n", apb->pinctrl);
->  		return PTR_ERR(apb->pinctrl);
->  	}
->  	apb->pin_default = pinctrl_lookup_state(apb->pinctrl, "default");
->  	if (IS_ERR(apb->pin_default)) {
-> -		dev_err(&pdev->dev, "could not get default pin state\n");
-> +		dev_err(&pdev->dev, "could not get default pin state: %pe\n", apb->pin_default);
->  		return PTR_ERR(apb->pin_default);
->  	}
-
-These two are different from the others.
+I haven't received it.  Maybe the mailing list is slow again.
 
 julia
-
-> diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> index de5de59ea8ab..a97ac59c6f01 100644
-> --- a/drivers/staging/greybus/arche-platform.c
-> +++ b/drivers/staging/greybus/arche-platform.c
-> @@ -445,7 +445,7 @@ static int arche_platform_probe(struct platform_device *pdev)
->  	arche_pdata->svc_reset = devm_gpiod_get(dev, "svc,reset", flags);
->  	if (IS_ERR(arche_pdata->svc_reset)) {
->  		ret = PTR_ERR(arche_pdata->svc_reset);
-> -		dev_err(dev, "failed to request svc-reset GPIO: %d\n", ret);
-> +		dev_err(dev, "failed to request svc-reset GPIO: %pe\n", arche_pdata->svc_reset);
->  		return ret;
->  	}
->  	arche_platform_set_state(arche_pdata, ARCHE_PLATFORM_STATE_OFF);
-> @@ -454,7 +454,7 @@ static int arche_platform_probe(struct platform_device *pdev)
->  						  GPIOD_OUT_LOW);
->  	if (IS_ERR(arche_pdata->svc_sysboot)) {
->  		ret = PTR_ERR(arche_pdata->svc_sysboot);
-> -		dev_err(dev, "failed to request sysboot0 GPIO: %d\n", ret);
-> +		dev_err(dev, "failed to request sysboot0 GPIO: %pe\n", arche_pdata->svc_sysboot);
->  		return ret;
->  	}
->
-> @@ -471,7 +471,7 @@ static int arche_platform_probe(struct platform_device *pdev)
->  	arche_pdata->svc_ref_clk = devm_clk_get(dev, "svc_ref_clk");
->  	if (IS_ERR(arche_pdata->svc_ref_clk)) {
->  		ret = PTR_ERR(arche_pdata->svc_ref_clk);
-> -		dev_err(dev, "failed to get svc_ref_clk: %d\n", ret);
-> +		dev_err(dev, "failed to get svc_ref_clk: %pe\n", arche_pdata->svc_ref_clk);
->  		return ret;
->  	}
->
-> @@ -484,7 +484,7 @@ static int arche_platform_probe(struct platform_device *pdev)
->  						  GPIOD_IN);
->  	if (IS_ERR(arche_pdata->wake_detect)) {
->  		ret = PTR_ERR(arche_pdata->wake_detect);
-> -		dev_err(dev, "Failed requesting wake_detect GPIO: %d\n", ret);
-> +		dev_err(dev, "Failed requesting wake_detect GPIO: %pe\n", arche_pdata->wake_detect);
->  		return ret;
->  	}
->
-> diff --git a/drivers/staging/greybus/fw-core.c b/drivers/staging/greybus/fw-core.c
-> index 2016a74f137f..78321be80013 100644
-> --- a/drivers/staging/greybus/fw-core.c
-> +++ b/drivers/staging/greybus/fw-core.c
-> @@ -93,8 +93,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
->  			if (IS_ERR(connection)) {
->  				ret = PTR_ERR(connection);
->  				dev_err(&bundle->dev,
-> -					"failed to create management connection (%d)\n",
-> -					ret);
-> +					"failed to create management connection (%pe)\n",
-> +					connection);
->  				goto err_destroy_connections;
->  			}
->
-> @@ -112,8 +112,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
->  			connection = gb_connection_create(bundle, cport_id,
->  							  gb_fw_download_request_handler);
->  			if (IS_ERR(connection)) {
-> -				dev_err(&bundle->dev, "failed to create download connection (%ld)\n",
-> -					PTR_ERR(connection));
-> +				dev_err(&bundle->dev, "failed to create download connection (%pe)\n",
-> +					connection);
->  			} else {
->  				fw_core->download_connection = connection;
->  			}
-> @@ -131,8 +131,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
->  			connection = gb_connection_create(bundle, cport_id,
->  							  NULL);
->  			if (IS_ERR(connection)) {
-> -				dev_err(&bundle->dev, "failed to create SPI connection (%ld)\n",
-> -					PTR_ERR(connection));
-> +				dev_err(&bundle->dev, "failed to create SPI connection (%pe)\n",
-> +					connection);
->  			} else {
->  				fw_core->spi_connection = connection;
->  			}
-> @@ -149,8 +149,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
->  			connection = gb_connection_create(bundle, cport_id,
->  							  NULL);
->  			if (IS_ERR(connection)) {
-> -				dev_err(&bundle->dev, "failed to create Authentication connection (%ld)\n",
-> -					PTR_ERR(connection));
-> +				dev_err(&bundle->dev, "failed to create Authentication connection (%pe)\n",
-> +					connection);
->  			} else {
->  				fw_core->cap_connection = connection;
->  			}
-> diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-> index 172cf900eaf0..59a112cf47a0 100644
-> --- a/drivers/staging/greybus/uart.c
-> +++ b/drivers/staging/greybus/uart.c
-> @@ -951,7 +951,7 @@ static int gb_tty_init(void)
->  					 TTY_DRIVER_DYNAMIC_DEV |
->  					 TTY_DRIVER_RESET_SAVED_TERMIOS);
->  	if (IS_ERR(gb_tty_driver)) {
-> -		pr_err("Can not allocate tty driver\n");
-> +		pr_err("Can not allocate tty driver: %pe\n", gb_tty_driver);
->  		retval = PTR_ERR(gb_tty_driver);
->  		goto fail_unregister_dev;
->  	}
-> --
-> 2.43.0
->
->
->
