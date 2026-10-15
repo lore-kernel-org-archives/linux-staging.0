@@ -1,112 +1,109 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+Received: from mta0.migadu.com (out-78.mta0.migadu.com [91.218.175.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E1F53CA9F
-	for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 15:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD10253F6B2
+	for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 15:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792078953; cv=none; b=KftVI9P6Saik9DPYlokEtJ8sjNGx0anJ9X6DjTxP9WQk8EBvMSOzxR+gMVOMvYUrSXBnF2AMRK7StJGfBuhFn4XBboXJPCoERvOE7bWg++1D9ehK37m/+aNiEsDej/tQzFd4ACDLKbN1tz+wqA4JzQB1+FyO6QQWdiA/CuxSgmY=
+	t=1792079847; cv=none; b=KI3wz9SvzrzvQellZPeIJrLp5PlVdpwDGkoJGex4hnkOIqloXwZaM7IWpLcoMSU6ZQcYXb+gYqy6qRMe+TfSei3np0lx3nc6C5fBlTG7wfE2BRaMLSBHm/7BhmcwBw1q2J26fxRMbUHzm2qP8LGK3Uw66AYkbicGWaCH64U6/Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792078953; c=relaxed/simple;
-	bh=/PrbupM46ccToCRLv+o5mLwJEPyXOMp2KRQjTagiWmI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=KT1DBX+kP9KCjJMbUJH7hQOAjNsgWvB64HK87MYeqfLpaVTxya5rtSoTgcQQytBCnEy6e4Hy4/0z8K0BrPiURmU/+BxyZRISsK9fCHd6AWHp/JWaqGYzsUBzhqr7Ulhq2b+oPwunbr9SnCyBhXYzWhw0bWhSErdXirYjdv9Boqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sxELfenF; arc=none smtp.client-ip=74.125.224.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792079847; c=relaxed/simple;
+	bh=9XrrRohksxXXsEJa/XTCK+b8gkvPG0g+P/pdu0Eu9A0=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=FYRJaI+vfRpDgf+lKYek/r5hwl9NE/ouQUBjoh2nLr9Tjg71FxwdMMFUXbtO/HPcQQaYzA1fVd15QWhuORx08+ua96mI+MigqkyWohGdUZwI9u/LSzVNM+DgUYgbKKaKlU26fbDHLDn7M8PemC710Fj+BsSVzhHsONJzpHonjYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=d6KEylfW; arc=none smtp.client-ip=91.218.175.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sxELfenF"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-679334baa1fso4815040d50.2
-        for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 08:42:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792078943; x=1792683743; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/PrbupM46ccToCRLv+o5mLwJEPyXOMp2KRQjTagiWmI=;
-        b=sxELfenFh2pYoGa8J6U0yk44HiDIDlULZ50mZpAFc6vrcRKw/h8l/sljMSjXUkXyvC
-         cef20p6CkeqUcBdeFmQozchBBhxFXHNQghutOfU20/yEhWy9bBe6my9C5CRDMxhBmIYz
-         po4oO52vK9i/9/mot4lCjsiGQmxgJz/jw4cFjRgKSsuJITKU/9q9+lXYL5kYQCLKuse7
-         OgjlRK3PKBEf/lpv6aQdmN1Z/8kmRviGni5lGW14s5egqnChCVJBOm0YHo/35KkzI8Cx
-         vQWJgJe+h4WZzFmo8rV+v1J1oU3zjhQHQxZXw0zfPJhxQE1WYoV4K3sTNtfvxnDClU62
-         4AGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792078943; x=1792683743;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/PrbupM46ccToCRLv+o5mLwJEPyXOMp2KRQjTagiWmI=;
-        b=pFPUl8ti+eUveFK2KWozzFiH9kwvWgJvQGTySwHwTfyIzN7kjbnRP7oLZhz7cvTWLX
-         B8PF4qLFv98lKAvBKNH1ZpAwMe0zEmrbsBWbyDB1iy8ToaIiRflEfghbdrkP1tbgJ4jZ
-         Cwy4XnmWPAEhmDbQY74sYlAGskvQ6qRejMEvaYPbBleN79mbAqUp6K4DRXlLmgoLnvpA
-         MK7Ur8yCuyUVBiVSlDW+s8JjUPfkJ49TbvHlTO5ig9MFf0I7hj0fXpteWkF/aNGDULaE
-         0F5SDQ+DVdRosr2Pj0LFQmDqBm0R7PPmNGz8iG3VFy0kzqvZU3tTIT/d+iLHiwxs/AJZ
-         JgLA==
-X-Forwarded-Encrypted: i=1; AKwUvBwFrKrEX3PqN2pxy+hBToNtpQwSijS/MHDrk64fkCmqr68WTDLsnixNuIsaznAII5k/LDFdD08oYAJcWEk5@lists.linux.dev
-X-Gm-Message-State: AFq9FYLvp91jrWm0qawooZc/kXi8NILO2Tp/2kV5bWNUB46Jr7MRppeY
-	VcFW+ogvwR8G1eiaz4GC3HonB75kRgwP4tgTmcXdvdyZUhemXQlHcf7+
-X-Gm-Gg: AYBFou0fo1VtSMWzAgN20L2XaGZNBohD74tTgeT9sek3bdfkle0CGIMmPidv6fsO8Wv
-	SgsMPzZi4bYKVN5XsOyjf/iCgAn+8zd3b2XUYVhI3EF7L2SzC2YrNBvMkyIPCkPqguEDjF2xYHW
-	c9zMgHYzEb3md60CzWQVQF54d6Em+vzV7my+GWF4vptW3VX8YmNIEcz1QeZp88dTzWTpQilINlU
-	L7JE9Cv4Y1/weq5VwUrfvE4C6qI3ezpLb/CpLQ5gArJHbHOqd/ER71zTiNomk2cefPUmsDUkJeh
-	MWSJiKlhK0oaubLO2CAHYIAa9Z2gZXrVqV4FSYbCofydNpWInzyH9T145Nn/psM6poHQS6aFwyX
-	eOnvuhCHxoZZ4CiApyOLcrBZOKREo3gJzXreI88D8ErdCyDsu/hdFL4nrM4rJk2kYcRQGh57kV8
-	11SUfPXxRBEZd0Fduz+S/OBSgQBNI03IZ1nGa2e/8y8Snj2MYV+KZsoswAkxrAGZ3XkesISFBmF
-	Icmy3CEa6R44NyBY8mI1WJBMZif9ibJP1oAj5K5Nu9/TJcUKODlMfGmnG5okh5YRUvZs3klBh+5
-	D4I=
-X-Received: by 2002:a05:690e:1304:b0:678:151:5218 with SMTP id 956f58d0204a3-679362f1c23mr5974469d50.110.1792078942713;
-        Thu, 15 Oct 2026 08:42:22 -0700 (PDT)
-Received: from localhost ([2601:7c0:c37c:135::8803])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679b1e11207sm162433d50.8.2026.10.15.08.42.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Oct 2026 08:42:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="d6KEylfW"
+X-Envelope-To: linux-staging@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=9XrrRohksxXXsEJa/XTCK+b8gkvPG0g+P/pdu0Eu9A0=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792079831; v=1; x=1792684631;
+ b=d6KEylfWgLSYicPdKpics+TMKGnPSAUYQo6CSmju1z5O0qHaIlY5+pxAAxXaRhXK1apPg5rG
+ UlL3JfiLhl6LsmvML/+Gp2Y8zFXYVBIlOzulx0ZXrDODxep+nBcpvYYR9NuTM8Lx8QPsnUcwr1d
+ 4wcdeqmnJz8BSaDPA2VmvqcY=
+X-Envelope-To: linux-staging@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id e9ad1e8e8c4ad241;
+	Thu, 15 Oct 2026 15:57:11 +0000
+X-Mizu-Trace-ID: e9ad1e8e8c4ad241
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+Date: Thu, 15 Oct 2026 15:57:11 +0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 15 Oct 2026 10:41:53 -0500
-Message-Id: <DM5IYFCRBE9W.1U3KCU36BUE36@gmail.com>
-Cc: <error27@gmail.com>, <ethantidmore06@gmail.com>,
- <dennylin0707@gmail.com>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
+From: "Luka Gejak" <luka.gejak@linux.dev>
+Message-ID: <5f06793dbe846865b7d86f656d27caa1c65732b5@linux.dev>
+TLS-Required: No
 Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary parentheses
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Luka Gejak" <luka.gejak@linux.dev>, <pavankumaryalagada@gmail.com>,
- <gregkh@linuxfoundation.org>, <outreachy@lists.linux.dev>
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+To: "Ethan Tidmore" <ethantidmore06@gmail.com>, pavankumaryalagada@gmail.com,
+ gregkh@linuxfoundation.org, outreachy@lists.linux.dev
+Cc: error27@gmail.com, ethantidmore06@gmail.com, dennylin0707@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <DM5IYFCRBE9W.1U3KCU36BUE36@gmail.com>
 References: <20261015120634.95218-1-pavankumaryalagada@gmail.com>
  <5d577cb1b4a91e8cdfda171bc7100105ae90d91e@linux.dev>
-In-Reply-To: <5d577cb1b4a91e8cdfda171bc7100105ae90d91e@linux.dev>
+ <DM5IYFCRBE9W.1U3KCU36BUE36@gmail.com>
 
-On Thu Oct 15, 2026 at 9:11 AM CDT, Luka Gejak wrote:
-> October 15, 2026 at 2:06 PM, pavankumaryalagada@gmail.com wrote:
->
->
->>=20
->> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
->>=20
->> Remove redundant parentheses around the address-of operator to
->> follow kernel coding style.
->>=20
->> Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
->> ---
->
-> Hi Yalagada,
->
-> I'm just letting you know that this change is no longer needed as the
-> entire staging/rtl8723bs driver is being deprecated and removed.
-> Support for RTL8723BS has been ported to rtw88 subsystem.
-
-So rtl8723bs patches aren't being accepted anymore? I saw Dan reviewing
-one earlier, just wondering.
-
->
-> Best regards,
-> Luka Gejak
+October 15, 2026 at 5:41 PM, "Ethan Tidmore" <ethantidmore06@gmail.com> w=
+rote:
 
 
+>=20
+>=20On Thu Oct 15, 2026 at 9:11 AM CDT, Luka Gejak wrote:
+>=20
+>=20>=20
+>=20> October 15, 2026 at 2:06 PM, pavankumaryalagada@gmail.com wrote:
+> >=20
+>=20> >=20
+>=20> > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> > >=20=20
+>=20> >  Remove redundant parentheses around the address-of operator to
+> > >  follow kernel coding style.
+> > >=20=20
+>=20> >  Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.co=
+m>
+> > >  ---
+> > >=20
+>=20>  Hi Yalagada,
+> >=20
+>=20>  I'm just letting you know that this change is no longer needed as =
+the
+> >  entire staging/rtl8723bs driver is being deprecated and removed.
+> >  Support for RTL8723BS has been ported to rtw88 subsystem.
+> >=20
+>=20So rtl8723bs patches aren't being accepted anymore? I saw Dan reviewi=
+ng
+> one earlier, just wondering.
+>
+
+Hi Ethan,
+
+I haven't seen Greg's official stance on this matter, however as far
+as I can see this is my view on this topic: the staging driver got
+deleted at one point in time via my patch that goes through netdev
+tree. If after that patch is merged into staging-next which affects a
+file which is removed it will cause a merge conflict when they flow
+into mainline tree, therefore it would be the best to just drop all
+the rtl8723bs related patches which are being sent in order to not
+cause merge conflicts. And on top of that I don't see a point in
+staging driver getting "improved" if it's getting deleted in the same
+cycle. I also forgot to mention that once the patch that removes
+staging driver got merged into wireless-next linux-next had merge
+conflict and its maintainer fixed the conflict by removing those files
+and Greg said feel free to delete it. He also said in conversation
+with Ping-Ke Shih and me that we can delete it, so I believe it would
+be the best just let them get deleted without any further issues.
+
+This email it is dictated by voice, not written by hand because I'm
+currently outside so apologies in advance if something is repeated or
+there's some issues with it.
+
+Best regards,
+Luka Gejak
