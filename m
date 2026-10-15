@@ -1,112 +1,97 @@
-Received: from sonic314-14.consmr.mail.bf2.yahoo.com (sonic314-14.consmr.mail.bf2.yahoo.com [74.6.132.124])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AA94C9E12
-	for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 22:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.132.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047EE24E4C6
+	for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 01:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792016577; cv=none; b=CaA6u0wEoNh2ZTOxJv3U0VIOj6jpbikCNwhxp+YcHIzXvEL6z/+xdq1yNYnCUk39Ju/Jrvy+CxQbKYVl6+RpjIYUcoq/JorNtjdFqPVgKicktOpWZNbmWAuPaoYlkrcxCMFekn2bDqEA9ZAZYW3kJIzVwziOd2qtTa4VaiUUwMM=
+	t=1792027398; cv=none; b=PwIEx3ClGxYVQ0E3TYVFQf7LX7HtZwUE4Xk/b08HRZ1b4Bubsa4ZXliE04wJu3QV9iJXXWGnLyGykqDvVzqfebIgF4yGa8qD2dOPw5EKkZ6hhjWgLqbEB8VkuLPxU0ZJC/BX0JcmCsCANL7DxGETg/ZaGs/t2EQr30iO4Awg93I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792016577; c=relaxed/simple;
-	bh=JV6Plj3R0iHBSfI0LE4ZZk1iaGp0QitK5wRces+OM+Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=PHAQc/EawDPXj4OycT7wz2ktiDHCTP0qoM8VER09zuIDWPNGLjBPr0QgYSL0ssRgboeG1GPkm3kQVa0H563wIOnKyBx8ft9tRecFval4sVyQGhMxz6h+xlvVnUjTgyk6MJhnnzL1NQHmrpsuxhY00qjebDSMsgd8Y2hqTCPsBRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=HH22UHJd; arc=none smtp.client-ip=74.6.132.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1792027398; c=relaxed/simple;
+	bh=7ficzhK3Rhv6KNOjHabHwbT4xbc1BJMxfoyzCtkPbaI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qNHgnvvDW8vvHQiSATvvhHQpDGQFbm4pphnKaEAd2KqnaycCxt5huIUHwHzdVIl3vJb/2ce5LWbjBObGHM2BkKCTvPzn+uk5k/SfoS9kHyF+Vpeuer/KrtVEeM+zYChgH1gcCasDM2EzN1nJvL7YpxUQCXlQfHeXSfXlYwWnT5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=XIAVQtI8; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="HH22UHJd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1792016574; bh=g6oy0nU/YnirXHZOdkgWO+qlky6gP3LJ7xGc7jBOseY=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=HH22UHJdI3Zpp++LzaOiulIT3DNOj6Xg5BSQdQ6sYee0MLw84idipcXMLwA3i9d/7nUZ11Gq7p0Kcdr/Wotp4thKq5Ku8fsX0D4m+ironu0qZWV6FKqF7Kz9+pbJl6QyEy21wCA2pqA2jEQEzzweBWUNgh48UG9yuTFCsmSlUREvgrk36HOoGgwmPetcnWVOVVIbQVwcP4Mazzx1lG3iJoPFJmObYcsSXOifCZRsl7ZGK6lEX70lL++tbT5YJ1xyYkJguLDQmkJvcee/v2n6DaM1FwKOF9lNUBCJuzY3CiPiaWoSl2OhQ45+HaXlTKYEbyauUEDOoyD44XLVwoX3wQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1792016574; bh=eaWNO/jDNfkIOtEnoIAjqVvesfLEfSXaHcs6r7gDHea=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=F/Qdizc6lrmtgeyTXf7nDcPocIOZjnEExkt+QQPLJsfJvBbsfMdgajwVdsqX+vj+UlfjPo5JsdS2f34ScWyq0rbPlah4ceOUwOcawoGlbQQ+qoA7JJQ0qsxyg6yXWTCy8sY3ctv5cUaAxU/+6iV3e7sgMKqAAwx9j78gOdW1DDNies9MT+pZL+rL17BBXHtr9OTzxf4n1o/HlrY66Babmatg5OhvmS2aay1i5/jXnzS5SxGSX1Dlhf+bECGDAYmHt0AcBwZdUDmPDYuHpt3y2vEyQ587ZQ9LSGzqQHqptwGYfaWEVN4zNYSsXuF/Rmm8SaSkivNlzR8xyHUwIWeEYA==
-X-YMail-OSG: NcctO3UVM1mnvi7IdEwp26wNAtqNmkrbv.u9.LiBy..HxKoYWhu1O0zo7lfGroQ
- tb8vDfW0kEQJwwx6YqLO0sXPJiN9W4bmQg3Q5SgyNY727csfOgdCT944dacYjzCxrxJnAgYJYll3
- 6ALZ2FBiXr_L.epGoyeCPkf_P_zVi_K6K9icsg9mfhjdoWE_CiEugDW0ncEUNtPY5tZDsMC7NTlR
- MIheON2z1V3feRLQdZhIGVNPPFVabTyovDTi8bUEqpmEafcs3.k.HqflNmOtWqoQjHhoOttphrLT
- fgKPJAPGDL0e_3oJ28cOg2lZMys979TNd2WaWQQrqdmxP0hLaa.OsqsFIDDLpJiiAU9nqlksD1AW
- RrjKQt3G6Vn644vZgnPYwiMBGcNHpmvpdfttgNl3kAmWKx2jchznHCYWop7Z8RZSX0houb_YzfPv
- MkTtw3unHKIHET8fPM06q.SwLcu.n1VFk.Sw0PjzzqSK_tsvS7bPEJfmg8cMse.gnrh2hhRgTNTj
- sNYytJO6yo3Wrwr65YHyOfcHhsnpH6YxIX9evu7sqyHkOk5fjf4286_nnbdTq7areFi9iTjCXxMD
- s8rZ1Ijmv7QlTJEKOaF8AEuURBEyfVvxmpMMlQEfus.MrN4H82TQ.mnUVOwqLGPhltAvOQXTlFQL
- Xa9ue3TSVMfI9aph2rSs6VcrptxRIm78nKfRCpI57HULeXm_f_Gg48ErE1H6KPoZ6lgVbEyxfr5F
- hBXebomv4rcM9OAK278py_gKX0ueWDFiKO9bkkzDxFsMmd6y2V5EEoPMIz2a3DKP0VjCnwI2Az72
- 4.kYFg5Nl1aa19k8mUDrFYdJnMD_jhw7yM1rGWyTAs5ZAbZIQxgoAB.ZniPKmVhOZDZYFaAgBCZC
- POl10jhJX.xWSuA9i8hDROWxRLiMaW9KJYKIWlk0k1rFOAvtA1h5YPqUq8WsjW.qu.XrU21NCZlG
- hnPepdBb1pYlLCICOftpDFVWKWDZLyuYEVp.9XSLls96vqJFSLZZfxt8iQqpEEcpKJc.9ZcoFnGH
- eCtLyAdAFt9Q49cHA1WXR_2Zb6E.KMeAEpq0QYGUVgK0ce_kb0oJnr4koU5F5ShnBzuoyOqwEOP2
- zxUsvesK9rKoaVXWpgznuSsnHV6fzwDYdYa9iYzQzFwA4xoTEMsaJKRaHj8NiMCwfBR8t2nu9uc1
- s5LzeakEUdrARPOH2QZcAPPcuz4tK_E7c9cY.HsvTrMDKRug86N9bahfMpbi6bg52DwwbOupeaDE
- xighv2z9lyrt43prIP_u.CVQ9ipkJSuBvvpSQWz3bVa0_WV5w.FySrMZ9w9PHtpyiJ5OEU.I6J8G
- CBNCrub7.Qt3JNqaf6HLtdgXpPsCCgbGRydqBtium8srY9_JnxQu_009RqezYQK4vjKqS6FFs1Dh
- ygCA5ykQrfSwokzzxNku2IO9bM2E7r3kCeTUgYT7nEK9pL4m18Kzaa61ZY5ksfkoPJ0b1eEjuY_3
- 8L4GIntcjfNLuOUBawkyO9oxXePb4RlKHcHxYweonB49IqbXX7xnUL9FytsBVYIGSJ7XqMNrqpY4
- OTZo4rVYUXsV6Wc8UPJejyjdjtve3QFsvcdw4AeUlMZkMoJYhq0eXpsGCTVrVUBH611yqh7_NQ8D
- Z4hFRvYUusVy2Hd24dgULDuk.YWnROSij6ovZ5DUCSGCsI_q9M.SZWbjelppVrLl68LUtOwxLsfo
- H8YzO0mE74oJVC.468q30z3eny0e7VRbMrZ5ga_g0MYdne0LSBUbPw2n7Up2qCUfHuFH9ETQLw1m
- R_dzOOw3cWoC1DeWQNaqRPE2YALpD0yEU8JI8Dp0ndSzW4NDTGlSPm0ve7.jYA51dms8guy_FqaA
- v7oLkvwaqEqRxOe1gynqHFl0XuLQs66psPlX7igZI81uArAgw2GKwDp45Yfsg3sN123mDIkcKRf0
- hIbrg1oBnYsi47pDci8m5whOTYV1lLOSbjYF2ojBS31W4Feq68trJ10in8R1d.ec3od0l9CDVfTa
- 6bqOQXf3r8jUOA7_7tOOUJoH5a6iH0Ny2blWevCDVEdChTWBCYdHqP60TVwKPLM6c_YjfBlKBFq6
- chlSW55DWeJgZtlAyjgvfC8xaGFyX.ybOXjM2_0dAk_0mnwwhLYV.cRZ6YkcMZ_TzRvTKewoBMoz
- xRbCGdBWlXKKKr8Hk0_jhTm6Vs3vHaa5l5FZet4L3a3pDrlWKX97C9H0H50.5bb.UCL8zFJ1Hdbk
- ux5klvY2yv1aEkLJGzhd2k1wdlbQWuVk4OyTt86ynnImaajaJJ6DdBgOaD7kWia4xicI-
-X-Sonic-MF: <deaner92@yahoo.com>
-X-Sonic-ID: 07c27ad4-72c0-429c-9b2c-098160be6176
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.bf2.yahoo.com with HTTP; Wed, 14 Oct 2026 22:22:54 +0000
-Received: by hermes--production-bf1-6d6877594b-5ssw4 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 77450296e97a96797f2c934e50296e27;
-          Wed, 14 Oct 2026 22:22:49 +0000 (UTC)
-From: Jeremy Dean Clifton <deaner92@yahoo.com>
-To: Viresh Kumar <vireshk@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev,
-	Jeremy Dean Clifton <deaner92@yahoo.com>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: greybus: Remove unused header declaration to_fw_mgmt_connection
-Date: Wed, 14 Oct 2026 17:42:48 +0000
-Message-ID: <20261014174248.97561-1-deaner92@yahoo.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="XIAVQtI8"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-53391786e55so77409761cf.2
+        for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 18:23:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1792027396; x=1792632196; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tDPLaKfb2lMm0cNVfzQxbfZzYs380EKo9PAZuk6Z0DE=;
+        b=XIAVQtI8UCn91FeRnOwpDfAoIHsezTtPOHA/mVYrQi0sX7FnfNuVHn0cCZHh8+Dp8m
+         D2pc3ilkSBG63G9D+nVrsE1IOF3lPOi/pkOYEQDw0pbgnid+sjypeFpBVm/yLcQsOQT5
+         KUXqDr+XZbKnbSVubFXOPTpaSONr4uF76+njg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792027396; x=1792632196;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tDPLaKfb2lMm0cNVfzQxbfZzYs380EKo9PAZuk6Z0DE=;
+        b=RWdM7kj6hzpjKZ97enOdKp/ZPCj0dGI9HjLcOmCrNIiNCZmyxmX1FC/G89EtqD0j0f
+         CE/eHWVrpHsr3czPO7Uf6thCrzScbuIjC5C8vjT1r/kfmx7NrjxNnYA81rKHDAOEr9Un
+         4c3/6QGWS5Ib3WqSZP51SxdqfjWF/Obsjl99XzcSdnlp15YwC4nHWMZmhpChVkAHAiHv
+         i1EUbs1+PPxHMfp9Na6pEFP2lqIk3V05Z4ktbXbFuVBoYqvawkGClMgRhdWKHq6ZFf8X
+         qUblC69ebvHbqReET+dGPnAOxl9pmeSJ4+Lc04dYTu8RdmazguSWiQ4DseqTgnl/6Ntu
+         Kpfg==
+X-Forwarded-Encrypted: i=1; AKwUvBzad3FCEMxulj6BwGoUIUxVUkko8LJQ9uFjBA6ebeRs22omx/Igc7g9vvnX7a+3L8iRqEv5XoYbmYQ3UVNJ@lists.linux.dev
+X-Gm-Message-State: AFq9FYKsUK4eOSfxIKX//MmxbSW/v8HflBj8nV36BXnVTm3ISRMf5Tzr
+	hUZD12411qMboZXSC1DUZ16t9KKKQcynbTikDgK9k8Na+CaXq/hCTg5hy4cq+fdZmQ==
+X-Gm-Gg: AYBFou1v1ZMELYJjgeIrTn3yTX/RuTCguIsijLJnTbCrpMNwNZywyQGHNingh1ym0Vg
+	FrXG2s31ZpCQC6f63x8CcMHk0yXkclz/pyPEbyVjP8J2eP3BKBK0FJW3OTEHBbQbfOESnknTVvl
+	YsoCskhT8KnrpP/Pvk8WwImP0aoU58rmsGKtSI9xYKyUyJz4CywoFqDTC7fkZAEkZ5id4BOV0fj
+	u5PXNOcUo8vmZcLJ2tPGoflVpNenv29pZMs+zQkwZ+RBb/mPinhteKtMXVXqy8o0iD95pXbTxMd
+	xY60YtuvKtXDYkC5t60C/PZ+1p0xQuyeDqjkdKH5GiHKDw9K3nNduEMUSVSf77FUfsBRAMyqn9k
+	FH8KQR31zd/AqGhPzWmOxF3B904BPwTtLtzXMjAYzm1xM4iWl9RA9FVaHQ8Aw/Q60eNzY+5qHWW
+	2Q88nh+W25zft5g3DG8fbUNXFcRVVkWPYPfAWSYv1Jf0TvhILrLVzPQnoQV5DyWb1PZw==
+X-Received: by 2002:a05:622a:c14:b0:535:521:75aa with SMTP id d75a77b69052e-5359fba2477mr270509491cf.48.1792027395839;
+        Wed, 14 Oct 2026 18:23:15 -0700 (PDT)
+Received: from [172.22.22.28] ([73.62.185.64])
+        by smtp.googlemail.com with ESMTPSA id d75a77b69052e-536128071c9sm12258771cf.21.2026.10.14.18.23.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2026 18:23:15 -0700 (PDT)
+Message-ID: <80a12db6-8617-44f9-aac0-c4aa69de0a1c@ieee.org>
+Date: Wed, 14 Oct 2026 20:23:13 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20261014174248.97561-1-deaner92.ref@yahoo.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: greybus: replace PTR_ERR() with %pe in error
+ messages
+To: Julia Lawall <julia.lawall@inria.fr>,
+ Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+Cc: johan@kernel.org, gregkh@linuxfoundation.org, vireshk@kernel.org,
+ elder@kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev, gservice341@gmail.com
+References: <20261013022402.6322-1-pavankumaryalagada@gmail.com>
+ <2fd23f9b-7eab-4afd-aa77-93a5b9ff0c75@ieee.org> <as6mC7sZnpqIKxN6@user>
+ <26a2a4af-5d27-4bd5-b284-3758fa7a67b2@ieee.org> <as-wgGhJAGgYBZ7-@user>
+ <9f3e98b4-8c11-62bb-49e0-99873c6fea8@inria.fr>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <9f3e98b4-8c11-62bb-49e0-99873c6fea8@inria.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Previous commit removing a function definition did not remove the
-function prototype.
+On 10/14/26 2:14 PM, Julia Lawall wrote:
+>>> And if updating everything is a task you're willing to do,
+>>> then I think I would prefer you extend this change.
+>> I am willing to make these additional changes. Since my original patch
+>> is already in staging-next, should i send a v3 of the existing patch
+>> or submit a new patch covering all the relevant cases?
+> v3
+> 
+> julia
 
-commit 3228900f80c2 ("staging: greybus: Remove unused function
-'to_fw_mgmt_connection'")
-
-Function header declaration needs to be removed after definition
-removal.
-
-There is no definition of this function nor is there any place where it
-is called.
-
-Signed-off-by: Jeremy Dean Clifton <deaner92@yahoo.com>
----
-v2: Fix grammar and spelling in commit message.
-
- drivers/staging/greybus/firmware.h | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/greybus/firmware.h b/drivers/staging/greybus/firmware.h
-index 5d2564462ffc..04a67d2d5b8f 100644
---- a/drivers/staging/greybus/firmware.h
-+++ b/drivers/staging/greybus/firmware.h
-@@ -22,7 +22,6 @@
- /* Firmware Management Protocol specific functions */
- int fw_mgmt_init(void);
- void fw_mgmt_exit(void);
--struct gb_connection *to_fw_mgmt_connection(struct device *dev);
- int gb_fw_mgmt_request_handler(struct gb_operation *op);
- int gb_fw_mgmt_connection_init(struct gb_connection *connection);
- void gb_fw_mgmt_connection_exit(struct gb_connection *connection);
--- 
-2.43.0
-
+Yes, agreed.  Thanks Julia.	-Alex
