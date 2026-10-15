@@ -1,283 +1,121 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+Received: from sonic308-3.consmr.mail.bf2.yahoo.com (sonic308-3.consmr.mail.bf2.yahoo.com [74.6.130.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715D933939C
-	for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 01:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE17372058
+	for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 02:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.6.130.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792029396; cv=none; b=TftYE497WwQI7eNFXOn2zIIwCeOdttNyjK4xJ6OHMIakyT4RBWG43NAt3G+UdOfqRJ+OoPUikgbdbn7juS4xUoJxaWuam2efWfDqOB/FMFBzYVMCvke5unJbB/QL7ACBP8TXIXiGsMeZN+faO0AKOOpwSeI4XtacYP2qKl7Sg48=
+	t=1792030873; cv=none; b=njtKtjge4PI3E0pU5mcCgDkx0qGaH8ZnZoEeSTZFjrTotRwlr40O87s/Dq6+8eCHRxnImr/S5YZynsHJ2bcao5kcCfCV9gxpHoId1tI4hw38C3qgGqWK3AdEToO4xxK18hATWDpI45L/kmRt9gOwvSljvhql+2cQfcHsxWVfr78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792029396; c=relaxed/simple;
-	bh=rEr0SuVn7nZ9MjGQg/bSCKwbMj++w/gb0WSIVoNsmao=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Kchuhxe0LoO/30Lc7tA/njuhKKKW35qCNKStzWxwBK19+x8AP5BQIuAt6ZPt5Jz0hLgasWCHeOhznUVY+pBhP8Wy2ff4iPCHmxQQkYDnJJGECLPJfevik2XcZIb3H/NuMRUiRWtX6MvMMa6QRpiIPebO3iqn31sxCf5X1Q12xfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=huZrippi; arc=none smtp.client-ip=74.125.82.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792030873; c=relaxed/simple;
+	bh=6iCNyIYIVE1txCcTSBFFp94PtgI/sJl9EiKwOEh1bss=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qTMYGMjUkySUaOOujY003SgIqT80kqs02/pI81xJFlvj4lWefjU4y8cduMnp+Xoqh+mNdqw9EkJcQ5rTYbrrXzyVbQnap764ClK8AGobqNPnDqSoyPHmS46iKC5Fh1RBlDZfye+JSAj/fp2FVFiwV6rQ+R34Ajq9B95DA+Z+iRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=q7Karaiq; arc=none smtp.client-ip=74.6.130.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="huZrippi"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-3535a54bed9so2340166eec.1
-        for <linux-staging@lists.linux.dev>; Wed, 14 Oct 2026 18:56:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792029394; x=1792634194; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=F1FsLNvJbfAGqqWf52h0nbW4N3/eLeJk37u/bFcrI00=;
-        b=huZrippiueCZiNSuhgXDUNDLNC1t+Ucx2XzwCXkTVHCPQ+S9kIhuGG32GjYkZcVjib
-         SBAsnx+P7DG/pIy0GhnBDUlq58ehsYK/tLLCJzUtOSBTQz0FjmXAjXKKNzbU1n1XM2Qk
-         HmNCQ3obNM8y6OnPkDWfza1afLSOB1yFDXWFZacS7XwCAEpE+FouvNmDHB5OuD7c/3yR
-         bX7YI0OAkMRdRGfjDUPI/00f4GV8qfGQtX7hTUJxMAoRFBpZw/Vgw9jl9nXlS1ZyCdRJ
-         ZMFjL/9AX2sDyFhbK1f6Uz0T9P1sjZZNOA/YUkAAiuP1FjDpLwt9HI8LRq15kjn59iuT
-         wXdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792029394; x=1792634194;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=F1FsLNvJbfAGqqWf52h0nbW4N3/eLeJk37u/bFcrI00=;
-        b=BRwnsFwTp8nJmj4lMsxIWUngJR9sEVJTBl7GVwOpvfV/0VQthTabEZbgTVr/Hh8cfj
-         tv1kK3jjMkCKlsIQ3h/FB2JV46qRz6tkZS5zkhb/W+NbiG5H+KMWT8Wy5yV2GsCFcoy7
-         4kUwBQyyNCCMoWRWl8ccne5+0wOj5LRWFYXJntNacBhZUwlpjFjcubrgRK53mcgeIO1K
-         5lZxe/73PA3QPDvEE1mm6B+8GK8+cBLEfQ3fbSFUHu9Weeu7LlluvrXkwZsJS0+uEoMp
-         ctSb7/NE+ToHwT7pDKnQ2wqgn/ZbifTKCIWIV3N79Dyy/IETwT2hJQwieq3Qxvd6a+Z9
-         NzyQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwEAPJ/lf1jgkDxh9JBaE8uZsYFyOzlWgnx5C0kQXPiSACglm3KeZ7U0EepDldCn+dL+8nIQ2Hmy3qX7kJd@lists.linux.dev
-X-Gm-Message-State: AFq9FYLuCM1q/zZAQiL+XwmykuQDei582/oiIrolM9OZKZ0raJeBb1sD
-	CnMTCuE4GfixD40WYo8NABbxqI9xDhygf8z7Z8XR1CVqjlv/aPjseHZs
-X-Gm-Gg: AYBFou1Pw1RnbrCpIMoPlIIS4JEul8+440idO7MqupIiD/RkgKlivnU24YFUit8QNGL
-	f9dc8ey6pb8+anytyZBy5wGPIhce0b/uvUQqpeSa2F8srNAGcgDMWRndwWTfQ3HAKSOCfSleeRU
-	TAQFDvXE01a6hYpkJ9/TMxTdQph2gvh5+PyOtwLY7yTJwWWs5lZTSj02PgMNaJqcf+XsbMRhioK
-	N/wd+mGCM7KnpFv3FGcJOzrKyF6JtJ5AzIDj8efbSDC8Wc8wLhZkVgQVTLA1f+RNI8wfSN5mHiW
-	4CbOd2uR+CfuPRMW89pkBqM33k6ZiwQYFgYro0RHjqv0G95wS2PE2EjwZf8kDNDNqIni4tcUQXh
-	8s1M30iKYQa8zG8C0rtNIT2RhefS1MLTbjLVabh6cC4pVU11IQIFg7e8gGQwn90vTXokdJU2AtI
-	VpzSfGfFxvUTPzqd1w8eEHzrmv0prLZGbApC5hPoSznIMJW0NGJx2aof756PtHb3950zFd+YhEt
-	rTWWjk=
-X-Received: by 2002:a05:693c:2a04:b0:35e:1807:cedf with SMTP id 5a478bee46e88-35e18171411mr4108373eec.1.1792029394233;
-        Wed, 14 Oct 2026 18:56:34 -0700 (PDT)
-Received: from user.. ([2405:201:c052:b00b:a490:42fc:1e02:1d0b])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-35b690af3easm27111347eec.1.2026.10.14.18.56.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 18:56:33 -0700 (PDT)
-From: pavankumaryalagada@gmail.com
-To: johan@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: vireshk@kernel.org,
-	elder@kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-Subject: [PATCH v3] staging: greybus: replace PTR_ERR() with %pe in error messages
-Date: Thu, 15 Oct 2026 07:26:24 +0530
-Message-ID: <20261015015624.22031-1-pavankumaryalagada@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="q7Karaiq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1792030870; bh=/mXmejL8yTKKnZA63ElBBljQ/vMiEe97CA820DaIQpE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=q7KaraiqI59JGRNBnG+kSSffIIgNVXBjA3iRcSSfqG8dgCDa001ajW30qiGxU98OeHf7HWlUS8W0lHeaNoomx9QCRd+0aVCZY5/nQXXObazOCbqqI8UnQHkmUhHO1ZlbT05oh1PuYuMUyHTFoemIgLy/CpJxaXS/oa99XDJM4SqbXLmePa6EXC/TlFg/TmnI5ylleEyM9ICrqW9iOAlNoHIjvvymrtuXxjJw5bwDKYe3kk7tIiGnHtqpUbzdoE5rMgSTBg/QyVHhKvGOdtRKB+tX+s11GWNNp5uRvNgEyI+/kQqYu6IvLQ25hxvW+8+eDKSfVBbzcKQLVi3KoBMyLQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1792030870; bh=4TjRdyKTDTab93dtxoP2NH5UTYlo9OJpoo9xmDrB/vy=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=CyCciPHjP2o2srI1miH3mjyLITkOT2wv5W07Czv+a1WIvw/5tVAKdIOGmCJNPWZa+FmaLKs5xU1uqZzkUdQVBMCZHfjFvq9IUyXL5+b6sfigY5WGVFtXEnIOeod0kewJkIyIG2JMd0URVe6J7zdATl4P4SkiVUgtfEQ2Vi4h1T95vCZQp0UsoNZU0P4wVyA5dppvggxqYbBGJ4Ctsc8fhm9NL2TeOPCsAjKjU53Ht+Y1cbJ21Z6LaQVWrweyWUCOReRkvC2fSwlwLFo2W+TSNWxe1S0c6LxCCWEv+YeCIOe2sa/IcOQGIsxRvud7pub4sy9Oc6ok+122bbb1s9ArkA==
+X-YMail-OSG: XGWBACcVM1n0skbHV0a4WR8D8eHe8xirFJLp16jXthxuw2GEWL1wRg33KMn6let
+ 9iZzo8kUEeOB3P6ccoRuu9MwL58oo3b.SM.nbyuVqnB_maUQJyAoqLGI3rsljlHIZcAItNv_O0nJ
+ hHuUr0a1YWqm59qe41SNqOO388J8H3xKDpKA3mtD9FtetSV0mTlkaRscNSHAancIIwBgMNALNFFh
+ IAaCsk36VkbbesdUgkzlXYU.V0s0OdUaJC278Yg6JIcG27PqwZ9VQ08nb4GsEPiz6IMWm1yNH_eu
+ qRd_583WasTZ6TmbcJa_JIVgi1PixBhV1Sn5Cl2aUBtB33UfxAI0GGmcnnSl1uhamTY5pKwZ0u.6
+ tni6tnCpgl9la4UNNoOTuwGst0VYLMgRWtyqxIZZBED7NAeJavrPgt2WLqLnTUUGAeTVt2j2Zfox
+ yuBSkzKVPzTaX0ARuSsW5RHC1HApBkGuLZQArXD1iJ759njV9nW3.RfxWv3lKXDxV2Ozp6zSKaf2
+ 9tGJWo2p.XfydC5hXXA3sLqEiy0Ok3h6C_VReoyFg9dCWZRadUiH_KrlHfQiCr4o8TRrBPBQfM9y
+ tx6F7AKsfef_gpGgkKJtGR0KMGoM2AZ.9lgd_Xm88VplrXnplaNG9UGOQVD7SWIOva786LpGbgUt
+ fpre8kSWoENcKUZqpyDuVWjX.Ac.URAHNp7oOEo1ivROadUKSkptIvLlcHJtgI6i_T3wiV1czXUB
+ fsD8.1xaxXDpZxbFYhX7cSuXyC.tiUXPXXMyB76IyhPn7mEVhZRw3OnBKLI_f2l16mjKFG2dNsG1
+ RK.c0kumv1r2ezRHoNgmI_Ab3gdq2nDEblSovxnNKy1MA5qm7TU8slMt17ap58ZciiY7nTdI4nGt
+ qarT9cIsOndv3oy.3_PzBJLvy_fTCngolJ2nXfYhaDwQU_otSz1i2vEMwuwW24H7lPaFCr9v5grT
+ mBVqDAMcaF99chHZoAG2BllM2l55TPy1AbdPjts0oWuqIREI0svafh7Y5Q2eQON9Kh9Sd.gW65QE
+ ME1C80zfOa3N2AgucFtBaqc2qeZ__F2Nwzf_bvESqAAnaEv0Uih9FDznhXRFHyua77m0bmUEhY0A
+ oL1nBqhD1t00Rtmzqdlam8EsFjDR4.QmHvb4e3wTxviqL4CZqN7aXpZHCxwgHtn054rCawYD1Hyi
+ HfBnlzr3z6E3rT1EvPImS1yd9pmZZUGt3uF1avO8jH935Zb6qAx0VC7R7aM6XM75vdNqKBtsnr3z
+ f9q9lih1j0Qwu0fAMJhfpX2zXlSIDcN8WdThfRbMa4v5U_auUIq7EnF4ufb6am1gZDyQ3XUNNoXF
+ Uf3P8obPLOliMKXzJ67QfY18pnQB6KnsEu6T_ZtEGtv7UJRKoGq_v9P34oqJH4oDazzxg5.PGBWr
+ KhPhhCxUgk5nP5j9C34e0pvtGmcuzd3Wf4RjMOiYABCZlUpUOMMzRqbZJzkiCD_sYAazn_eRKoxO
+ dAFpM.URTcAn9pz0HKALJrrnBzyK3DK6EkjBZnakt4.nCmJVZ.SpW4dyOX8wtSJBXRXj.NFMMpFz
+ XWyTHL.byYbuV04iMUhhkYMByDjQdMQ4kHwQvVFnbgVMT0NwxmTp_sp4PRtHF5PGW2vVzY1FEIz5
+ ODYPQlOJyIMpiQ9IR.Uuhq.OxEUw815hHlSNPbC7f7vLBNIyQuNZhuoSV20hZ8..Yl7.vG7tJuJJ
+ flXG6D49XG7hvMTj_9480e2PlxW8awEGcVOfoRq3CFk1r6U4gGbZaKHqc1vhdBGKKzN41CL3FJAp
+ Aidvn1UliTKiUaJNw5Mc2D6lUPHkyBtfWPjSbmNiQdqzheig49K7jDOMDLYVkI3YW6mytLCBP8kS
+ a6pCi46NSK.tUmuFD7TKnVB_8Godao9HM9lM0FctD3Enju1xaK1sFALcJBZJSAaKr9gMTp7u8Dci
+ fHRSTpnXMBZcWEmT_H6HsoQCF._3C9darfdxowdNdaJsfYETJk_Snxa0leI.23SwUBm9uJEGDCQY
+ OZqYfwTbm6Z5S.g9uKulzZfyZcUnBAU2MGaP5CXbDJxBZgK1i9UiNFQSKoJ_Q6eDt.Xj46iH6lEc
+ S6UB0SjnubLJUlssD3wBvMdzjLvRnEDQfFREuHQR3JOyca3aWSBgcaM3zG9IRM_lIYdd3hnQm7OT
+ 7IpkOhjBMC00F5K6vfs2_rZq4R3oVnXADGkjiwigFIFJnZSk7zdT.2A9yBnlXdfya.La8ODWXxRl
+ UwkJ0T5JqimeZ9.5yvWysajiNAkWGNdzSub6EnEuf
+X-Sonic-MF: <deaner92@yahoo.com>
+X-Sonic-ID: 8fac883a-483c-4b84-b963-3c23456837dc
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.bf2.yahoo.com with HTTP; Thu, 15 Oct 2026 02:21:10 +0000
+Received: by hermes--production-bf1-6d6877594b-4bzzg (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID c701c841d9d059b8a0836afa4f7a7bcc;
+          Thu, 15 Oct 2026 02:10:54 +0000 (UTC)
+Message-ID: <b19b8058-bfe9-4800-95c8-d2db889b43e6@yahoo.com>
+Date: Wed, 14 Oct 2026 20:10:49 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: greybus: Remove unused header declaration
+ to_fw_mgmt_connection
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20261014174248.97561-1-deaner92.ref@yahoo.com>
+ <20261014174248.97561-1-deaner92@yahoo.com>
+ <2d2106c-a2d2-2bec-b368-c03850cba9a7@inria.fr>
+Content-Language: en-US
+From: Jeremy Clifton <deaner92@yahoo.com>
+In-Reply-To: <2d2106c-a2d2-2bec-b368-c03850cba9a7@inria.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.26740 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+On 10/14/26 7:46 PM, Julia Lawall wrote:
+ >
+ >
+ > On Wed, 14 Oct 2026, Jeremy Dean Clifton wrote:
+ >
+ >> Previous commit removing a function definition did not remove the
+ >> function prototype.
+ >
+ > Please use proper English.
+ >
+ > The commit 3228900f80c2 ("staging: greybus: Remove unused function
+ > 'to_fw_mgmt_connection'") removing a function definition did not remove
+ > the function prototype.
+ >
+ >>
+ >> commit 3228900f80c2 ("staging: greybus: Remove unused function
+ >> 'to_fw_mgmt_connection'")
+ >>
+ >> Function header declaration needs to be removed after definition
+ >> removal.
+ >
+ > This is saying what you did.  It should be in the imperative:
+ >
+ > Remove the prototype.
+ >
 
-Use %pe to print error pointers directly and display their
-error names.
+"Remove the prototype." in the imperative has been changed.
 
-Keep PTR_ERR() calls when the numeric error value is needed
-for returning the error code.
+ >> There is no definition of this function nor is there any place where it
+ >> is called.
+ >
+ > Not sure this is needed, since the definition was removed previously.
 
-Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
----
-v3:
-- Extend the %pe conversion throughout Greybus, as suggested by Alex Elder.
+It's been removed.
 
-v2:
-- Use %pe in the firmware management case, as suggested by Jeremy Clifton,
-  to match the other cases.
+The next revision is sent.
 
-v1: https://lore.kernel.org/outreachy/as0nhVbagZa8Birm@user/T/#t
----
- drivers/staging/greybus/arche-apb-ctrl.c | 18 +++++++++---------
- drivers/staging/greybus/arche-platform.c |  8 ++++----
- drivers/staging/greybus/fw-core.c        | 16 ++++++++--------
- drivers/staging/greybus/uart.c           |  2 +-
- 4 files changed, 22 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
-index 4302c2226126..fa4d2d88dc3f 100644
---- a/drivers/staging/greybus/arche-apb-ctrl.c
-+++ b/drivers/staging/greybus/arche-apb-ctrl.c
-@@ -145,8 +145,8 @@ static int fw_flashing_seq(struct platform_device *pdev)
- 		apb->spi_en = devm_gpiod_get(dev, "spi-en", flags);
- 		if (IS_ERR(apb->spi_en)) {
- 			ret = PTR_ERR(apb->spi_en);
--			dev_err(dev, "Failed requesting SPI bus en GPIO: %d\n",
--				ret);
-+			dev_err(dev, "Failed requesting SPI bus en GPIO: %pe\n",
-+				apb->spi_en);
- 			return ret;
- 		}
- 	}
-@@ -323,14 +323,14 @@ static int apb_ctrl_get_fw_data(struct platform_device *pdev,
- 	apb->resetn = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
- 	if (IS_ERR(apb->resetn)) {
- 		ret = PTR_ERR(apb->resetn);
--		dev_err(dev, "Failed requesting reset GPIO: %d\n", ret);
-+		dev_err(dev, "Failed requesting reset GPIO: %pe\n", apb->resetn);
- 		return ret;
- 	}
- 
- 	apb->boot_ret = devm_gpiod_get(dev, "boot-ret", GPIOD_OUT_LOW);
- 	if (IS_ERR(apb->boot_ret)) {
- 		ret = PTR_ERR(apb->boot_ret);
--		dev_err(dev, "Failed requesting bootret GPIO: %d\n", ret);
-+		dev_err(dev, "Failed requesting bootret GPIO: %pe\n", apb->boot_ret);
- 		return ret;
- 	}
- 
-@@ -338,7 +338,7 @@ static int apb_ctrl_get_fw_data(struct platform_device *pdev,
- 	apb->pwroff = devm_gpiod_get_optional(dev, "pwr-off", GPIOD_IN);
- 	if (IS_ERR(apb->pwroff)) {
- 		ret = PTR_ERR(apb->pwroff);
--		dev_err(dev, "Failed requesting pwroff_n GPIO: %d\n", ret);
-+		dev_err(dev, "Failed requesting pwroff_n GPIO: %pe\n", apb->pwroff);
- 		return ret;
- 	}
- 
-@@ -346,14 +346,14 @@ static int apb_ctrl_get_fw_data(struct platform_device *pdev,
- 	apb->clk_en = devm_gpiod_get_optional(dev, "clock-en", GPIOD_OUT_LOW);
- 	if (IS_ERR(apb->clk_en)) {
- 		ret = PTR_ERR(apb->clk_en);
--		dev_err(dev, "Failed requesting APB clock en GPIO: %d\n", ret);
-+		dev_err(dev, "Failed requesting APB clock en GPIO: %pe\n", apb->clk_en);
- 		return ret;
- 	}
- 
- 	apb->pwrdn = devm_gpiod_get(dev, "pwr-down", GPIOD_OUT_LOW);
- 	if (IS_ERR(apb->pwrdn)) {
- 		ret = PTR_ERR(apb->pwrdn);
--		dev_warn(dev, "Failed requesting power down GPIO: %d\n", ret);
-+		dev_warn(dev, "Failed requesting power down GPIO: %pe\n", apb->pwrdn);
- 		return ret;
- 	}
- 
-@@ -368,12 +368,12 @@ static int apb_ctrl_get_fw_data(struct platform_device *pdev,
- 
- 	apb->pinctrl = devm_pinctrl_get(&pdev->dev);
- 	if (IS_ERR(apb->pinctrl)) {
--		dev_err(&pdev->dev, "could not get pinctrl handle\n");
-+		dev_err(&pdev->dev, "could not get pinctrl handle: %pe\n", apb->pinctrl);
- 		return PTR_ERR(apb->pinctrl);
- 	}
- 	apb->pin_default = pinctrl_lookup_state(apb->pinctrl, "default");
- 	if (IS_ERR(apb->pin_default)) {
--		dev_err(&pdev->dev, "could not get default pin state\n");
-+		dev_err(&pdev->dev, "could not get default pin state: %pe\n", apb->pin_default);
- 		return PTR_ERR(apb->pin_default);
- 	}
- 
-diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-index de5de59ea8ab..a97ac59c6f01 100644
---- a/drivers/staging/greybus/arche-platform.c
-+++ b/drivers/staging/greybus/arche-platform.c
-@@ -445,7 +445,7 @@ static int arche_platform_probe(struct platform_device *pdev)
- 	arche_pdata->svc_reset = devm_gpiod_get(dev, "svc,reset", flags);
- 	if (IS_ERR(arche_pdata->svc_reset)) {
- 		ret = PTR_ERR(arche_pdata->svc_reset);
--		dev_err(dev, "failed to request svc-reset GPIO: %d\n", ret);
-+		dev_err(dev, "failed to request svc-reset GPIO: %pe\n", arche_pdata->svc_reset);
- 		return ret;
- 	}
- 	arche_platform_set_state(arche_pdata, ARCHE_PLATFORM_STATE_OFF);
-@@ -454,7 +454,7 @@ static int arche_platform_probe(struct platform_device *pdev)
- 						  GPIOD_OUT_LOW);
- 	if (IS_ERR(arche_pdata->svc_sysboot)) {
- 		ret = PTR_ERR(arche_pdata->svc_sysboot);
--		dev_err(dev, "failed to request sysboot0 GPIO: %d\n", ret);
-+		dev_err(dev, "failed to request sysboot0 GPIO: %pe\n", arche_pdata->svc_sysboot);
- 		return ret;
- 	}
- 
-@@ -471,7 +471,7 @@ static int arche_platform_probe(struct platform_device *pdev)
- 	arche_pdata->svc_ref_clk = devm_clk_get(dev, "svc_ref_clk");
- 	if (IS_ERR(arche_pdata->svc_ref_clk)) {
- 		ret = PTR_ERR(arche_pdata->svc_ref_clk);
--		dev_err(dev, "failed to get svc_ref_clk: %d\n", ret);
-+		dev_err(dev, "failed to get svc_ref_clk: %pe\n", arche_pdata->svc_ref_clk);
- 		return ret;
- 	}
- 
-@@ -484,7 +484,7 @@ static int arche_platform_probe(struct platform_device *pdev)
- 						  GPIOD_IN);
- 	if (IS_ERR(arche_pdata->wake_detect)) {
- 		ret = PTR_ERR(arche_pdata->wake_detect);
--		dev_err(dev, "Failed requesting wake_detect GPIO: %d\n", ret);
-+		dev_err(dev, "Failed requesting wake_detect GPIO: %pe\n", arche_pdata->wake_detect);
- 		return ret;
- 	}
- 
-diff --git a/drivers/staging/greybus/fw-core.c b/drivers/staging/greybus/fw-core.c
-index 2016a74f137f..78321be80013 100644
---- a/drivers/staging/greybus/fw-core.c
-+++ b/drivers/staging/greybus/fw-core.c
-@@ -93,8 +93,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
- 			if (IS_ERR(connection)) {
- 				ret = PTR_ERR(connection);
- 				dev_err(&bundle->dev,
--					"failed to create management connection (%d)\n",
--					ret);
-+					"failed to create management connection (%pe)\n",
-+					connection);
- 				goto err_destroy_connections;
- 			}
- 
-@@ -112,8 +112,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
- 			connection = gb_connection_create(bundle, cport_id,
- 							  gb_fw_download_request_handler);
- 			if (IS_ERR(connection)) {
--				dev_err(&bundle->dev, "failed to create download connection (%ld)\n",
--					PTR_ERR(connection));
-+				dev_err(&bundle->dev, "failed to create download connection (%pe)\n",
-+					connection);
- 			} else {
- 				fw_core->download_connection = connection;
- 			}
-@@ -131,8 +131,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
- 			connection = gb_connection_create(bundle, cport_id,
- 							  NULL);
- 			if (IS_ERR(connection)) {
--				dev_err(&bundle->dev, "failed to create SPI connection (%ld)\n",
--					PTR_ERR(connection));
-+				dev_err(&bundle->dev, "failed to create SPI connection (%pe)\n",
-+					connection);
- 			} else {
- 				fw_core->spi_connection = connection;
- 			}
-@@ -149,8 +149,8 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
- 			connection = gb_connection_create(bundle, cport_id,
- 							  NULL);
- 			if (IS_ERR(connection)) {
--				dev_err(&bundle->dev, "failed to create Authentication connection (%ld)\n",
--					PTR_ERR(connection));
-+				dev_err(&bundle->dev, "failed to create Authentication connection (%pe)\n",
-+					connection);
- 			} else {
- 				fw_core->cap_connection = connection;
- 			}
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index 172cf900eaf0..59a112cf47a0 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -951,7 +951,7 @@ static int gb_tty_init(void)
- 					 TTY_DRIVER_DYNAMIC_DEV |
- 					 TTY_DRIVER_RESET_SAVED_TERMIOS);
- 	if (IS_ERR(gb_tty_driver)) {
--		pr_err("Can not allocate tty driver\n");
-+		pr_err("Can not allocate tty driver: %pe\n", gb_tty_driver);
- 		retval = PTR_ERR(gb_tty_driver);
- 		goto fail_unregister_dev;
- 	}
--- 
-2.43.0
-
+Jeremy
