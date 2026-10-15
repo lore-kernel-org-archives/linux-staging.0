@@ -1,112 +1,122 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663803264CC
-	for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 12:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9F45226AC
+	for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 12:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792066703; cv=none; b=NinDhFfZGKZFhCeb0EbPepJvQz/v+EzjbfCWRHAFk/LKjr6xBKwtlmtNOLGjGcxnPvy3XhzQnVI52P3ZU24vRHsVXET3ubRJWf0N35cHyos6GaEbAAjlnbA2xjI9nkEu+IyWj81EikVY5xOooUpxc33jdbH8LeDajJrXIQGIa8s=
+	t=1792066799; cv=none; b=mRrq7WZ/7k84hF9qz7hW+XtLRtg35t42r93qExOlR+Mvb4iTyBdYixTveS6pDI5SlcIODeQM71cweF6Ok4Mf3LY7h6l4gXKS3K5Gnpsb+cSSWLEJDQDCbPnaL+GWKeqdXtbPpjBx9zaI0QNPlI0/p80w6L47KR4QPQ9E53YQ+n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792066703; c=relaxed/simple;
-	bh=uZQRom0gOEmB6fHbiq8k/VrJlHLoufkcYR/1mJZyD0E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T3NVlY6Fex+1FSDf404J8Rf1P9Zd5f+j1/k7hl8cMEv9t4m/6bLB6irxRtxDcHF3ijiMLmlGlawL4vqWraqlAN2maeMqvdAB90BA5cbVPnqE3WY25v6+LujbLjbgCoK3wXhWs98MztKBVedMOCUsMeHVK5TTFXTLSzp+vOMWUZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SXYZmaO2; arc=none smtp.client-ip=74.125.82.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792066799; c=relaxed/simple;
+	bh=N7pksNGYwP5bIoLxax1myHPV/MNG0nXyJIIQxi9X+RQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RrCQUYtkNqHpkkFtnjhZgxwuXNoIhlN03vT66dOEj5TyPKRIXxTR9EnQGgRNqGFs9CQ2pQq8xKsRH/MmKxKkO7vOTOXcDm7D3FWNF/ARD7//tbSNuOPN9Kmn4Z+6nCwqWNSE4gPNGqOIOzolXbFCfMQNhAZCojpCHP6xnYqsu3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=BUhahIjT; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXYZmaO2"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35f1f76ea84so1329530eec.1
-        for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 05:18:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="BUhahIjT"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-917b78dfe30so83327056d6.0
+        for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 05:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792066701; x=1792671501; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NHThfDJt4B6WauVL/2Vr0/FHJJdXFFoLAtYeGFhagO4=;
-        b=SXYZmaO20uZx5VL3QZbVKO2W/xtPn+j7SDM6qODf5O6hNvf0RBXXDYJ8HESBF059oP
-         Pxw6mAc7Z2JkJ9t+IAl57HBxwlTUemKRLwTc25/SbkbyWoEGEH71vPBplEuEmY30n9hb
-         bnTYKdHfzeCe7rgdx8OjSSf3BYvDPvPw83y27On5obm68ZEGecCmpaVyvEaooSksefln
-         opC7ms9iKjIIJLvrEkQEmCGkc9h9hYXeNkg6LH6t06b08n0VqtsZhogutLUUTQoTl8Qd
-         6pmRzypIvxgKXRk5KInqA7o86dEmR505mCVkDF2SE2xcfU09TqIBNlCBFbW5kIzn49fZ
-         kY5Q==
+        d=ieee.org; s=google; t=1792066795; x=1792671595; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Q7VT0D2PaN+6c8JQLPdTKBkDcQOrdP2XWII1gwddmXc=;
+        b=BUhahIjTo/Cq6Yeonmp3neLGB1hlx9AMIDPDyLwn/d3t0owt6w6ZbLyISAavcpWsJR
+         dUQvKNjV8QDsPwJo8lKJLL7PYkRd+Uodn9eC1ifSPgCPEB5Bt7HWXGGHv/ZZGs9hgGKz
+         0wAn7o134mk/b/4Iwra6sy8P/sTt9qMtdS63E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792066701; x=1792671501;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NHThfDJt4B6WauVL/2Vr0/FHJJdXFFoLAtYeGFhagO4=;
-        b=P0ZV70Mxj2UVfk7vharfPmYd8Y+RrsQk/ZvJdQROcZSECHSRtiLtGLEy9T02/lZmEB
-         ER8RAA/SDhrxov3nvr6CDNRIsPXt7OauymbJMynhpGostUTRxmI3KuZ93TlqRkgrgwQc
-         g/ypmpQ6GK1yJZBayS4n+nLgeNk/NNUKTcjnXrnMRbTPuFvrQ9XqOziYZ97TjOzmgD6t
-         yIZgD3CjxOFCF+vkrJxiKdmE+chVYd2j/0AjZvUMi5zEU7GYIH05vvAhMlmbaROjBZcz
-         p+8jYae4EV46Gd8NUKFthZDUtZrEYvL3OR+Udups8MHse333Qykt8uVfNlawvs0+QF93
-         5GvQ==
-X-Gm-Message-State: AFq9FYIn+/NiY1JkHo8tiMsd2DKe+BGhHXrhGGFHEvfTzp0+hDspieXn
-	ke2m2JfBQyNdOCgckV151acnfhQqLlTPjlFszDXuNg8ubitgdxfxfe0h
-X-Gm-Gg: AYBFou1D/N3qebAEekRSCc9pwVyGz4nNOoRC2qty/TpL7lVc6wwTIsgJ8sZ6OCx1cfK
-	TK7ElAqdF5wwLKT7PkskpACp0PWZKFic2PGqAv1XIQDmeMhKPm8wO7p5+JSwzyFeLhv3LTPQj7Y
-	h1/uT1uf2OM2zlw7ciY0dYdSSDQIimfhD0S1I49BAm7dhRbGHaxZDnRb88DyorAA00HpwFFgQcB
-	ZzqnH+5Mm7KVSd/WVIbHVHZE1U49F4/Ku1FqyWYSRtnQNl8iIjENsAuucU0KHe4q5BzVC3r3ahW
-	PyKl2B3cdWGgT9d6WslqgEust4mlNuVzn6XIltKpw3onQLIlee1NHY9aZrYkt5ajPU7gQvvzoFI
-	ZpuJjrBeIVoSIPFDif26Yl5lkIKAXo9WVR5H9XHlXdzkyfxEN7MIKmvblL7nnJfRxfCS36jQSMq
-	iMFmnUFIBjsYC48lfE83goG2X/R1HvUGaklIFJorz7OQex3/0lbIoFTv5rDobxtcFhFBNVKgA/B
-	A==
-X-Received: by 2002:a05:7301:53c9:b0:359:d4c9:6081 with SMTP id 5a478bee46e88-359d4c96379mr17612443eec.12.1792066701355;
-        Thu, 15 Oct 2026 05:18:21 -0700 (PDT)
-Received: from gmail.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cb6a279sm61220790eec.30.2026.10.15.05.18.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 05:18:20 -0700 (PDT)
-From: pdsj2807@gmail.com
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Palak Raval <pdsj2807@gmail.com>
-Subject: [PATCH v2] staging: gdm724x: make DEVICE_STRING array const
-Date: Thu, 15 Oct 2026 17:48:06 +0530
-Message-ID: <20261015121813.1130536-1-pdsj2807@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261015093128.1004956-1-pdsj2807@gmail.com>
-References: <20261015093128.1004956-1-pdsj2807@gmail.com>
+        d=1e100.net; s=20260707; t=1792066795; x=1792671595;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Q7VT0D2PaN+6c8JQLPdTKBkDcQOrdP2XWII1gwddmXc=;
+        b=phWUdGJEm64xf+BgzYPvYN0wdkI+rGniNQWovZ9RBy8FnTQj95V7J9Ty/NdBNK66dM
+         Rkt5b3FR/U9GBYB9k0i/uGs4eoOPk9yta+RDjXtLd+FKvUt6nUuvnMZK3twfT/y8aZkV
+         qsI5AEtXuGJdjrki70RFR0oBj0NEuoq/xT1iLb8OJDnRqrHPX+SKBarXUSO6wy1KahQ8
+         I0HVAulwmXrHuYuNphKGMZy3q53b4DEJqymE5N5TC4J59hGpHSWWdohZD/ZogvrlJdCM
+         Fs+aQTGbAcEDZ6zJNN0aGRZNlqnfgumdxZVa1Eb+FrnE6v7vbVMm+S4/zLNPZiMqAxHO
+         Vgkw==
+X-Forwarded-Encrypted: i=1; AKwUvByZm7tctWOtiYkU7QWQL2/O7AdAHAGwR85DeLvSfzvNGrad6Vhrh1orslq4St2aGGzxjwKpo/ZPRPFvdiNy@lists.linux.dev
+X-Gm-Message-State: AFq9FYK1W2s6bUlTntBNSxfmN+jFZ3ZPzyIx50VSgFEWbM0YtjUprntc
+	1A/01JsG9tl524yL3hqwpFdOPNfW4zstexKVgpAc0JZp/7C/rFh9tscb8bFm3F1hjw==
+X-Gm-Gg: AYBFou1hP5YgQxq9dr6mIlPAsCTfnnoa5o41lBZWDkqQEyeSPNXgzdkQY7ML1LlEmyk
+	MjpQO4rcoecFuvfSBNJ8usPyEOoejR1K2YZCqT1ULKC5dLGEgVGZ0vOmPPZY5zONdLW+uKhS9PL
+	GexukkgYW2JRNtNz0PSRwLBxTURown5TgB54Uv9WSO7JkKtMYQBNFWy1hXFy2CLl7u+KfutMxZF
+	wmVeXvMrp86yOm1P9w9N9jdEldz6Wg8XSuUwjV3DNVO+jwh8fCUN8bwPBXS+hH8dUfNZRdCbhJL
+	Piy9gd+yECZ/S963K6ejGGkPJG6TGYrZCtBPfaGL7gKHH8FbcbPF+hjQFf7kMlErvVV/JtWh7mu
+	QWZ88ymGuikETY7XBOWh1+f/Rf5iZKKzYkIfo+6dbiCo7lybucpqEC8rq6gF1kQqlxJwHSrs9yf
+	Q/c2bhaTIg3wkAwWlCphXUePnp1M68AuEqQ597HCEfQE+IRMMH+0fDkMx3jcURgtxEqg==
+X-Received: by 2002:a05:620a:3712:b0:93e:92b8:e373 with SMTP id af79cd13be357-93ebd0c0183mr3124333785a.4.1792066795257;
+        Thu, 15 Oct 2026 05:19:55 -0700 (PDT)
+Received: from [172.22.22.28] ([73.62.185.64])
+        by smtp.googlemail.com with ESMTPSA id af79cd13be357-93ef502b096sm751802385a.21.2026.10.15.05.19.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Oct 2026 05:19:54 -0700 (PDT)
+Message-ID: <5c775b87-fe61-4384-bd23-9f563237945c@ieee.org>
+Date: Thu, 15 Oct 2026 07:19:53 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] staging: greybus: Remove unused header declaration
+ to_fw_mgmt_connection
+To: Jeremy Dean Clifton <deaner92@yahoo.com>,
+ Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20261015020731.98150-1-deaner92.ref@yahoo.com>
+ <20261015020731.98150-1-deaner92@yahoo.com>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20261015020731.98150-1-deaner92@yahoo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Palak Raval <pdsj2807@gmail.com>
+On 10/14/26 9:07 PM, Jeremy Dean Clifton wrote:
+> Commit 3228900f80c2 ("staging: greybus: Remove unused function
+> 'to_fw_mgmt_connection'") removed a function definition but did not
+> remove the function prototype.
+> 
+> Remove the prototype.
+> 
+> Signed-off-by: Jeremy Dean Clifton <deaner92@yahoo.com>
 
-The DEVICE_STRING array contains pointers to string literals and is
-never modified.
+This could maybe have a "fixes" but if it gets accepted soon
+I don't think it will matter, because this will land in the
+same release as the fixed commit.
 
-Declare it as 'const char * const' to improve const correctness and
-prevent accidental modification.
+This looks good.
 
-Signed-off-by: Palak Raval <pdsj2807@gmail.com>
----
-v2:
-- Drop unrelated formatting changes
-- Keep only the DEVICE_STRING const-correctness change
----
- drivers/staging/gdm724x/gdm_tty.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Alex Elder <elder@riscstar.com>
 
-diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
-index 32b2e817ff04..65c53811f099 100644
---- a/drivers/staging/gdm724x/gdm_tty.c
-+++ b/drivers/staging/gdm724x/gdm_tty.c
-@@ -31,7 +31,7 @@ static struct gdm *gdm_table[TTY_MAX_COUNT][GDM_TTY_MINOR];
- static DEFINE_MUTEX(gdm_table_lock);
- 
- static const char *DRIVER_STRING[TTY_MAX_COUNT] = {"GCTATC", "GCTDM"};
--static char *DEVICE_STRING[TTY_MAX_COUNT] = {"GCT-ATC", "GCT-DM"};
-+static const char * const DEVICE_STRING[TTY_MAX_COUNT] = {"GCT-ATC", "GCT-DM"};
- 
- static void gdm_port_destruct(struct tty_port *port)
- {
--- 
-2.34.1
+> ---
+> v3: Change to imperative mood and write in proper English (Julia
+> Lawall).
+> v2: Fix grammar and spelling in commit message.
+> 
+>   drivers/staging/greybus/firmware.h | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/greybus/firmware.h b/drivers/staging/greybus/firmware.h
+> index 5d2564462ffc..04a67d2d5b8f 100644
+> --- a/drivers/staging/greybus/firmware.h
+> +++ b/drivers/staging/greybus/firmware.h
+> @@ -22,7 +22,6 @@
+>   /* Firmware Management Protocol specific functions */
+>   int fw_mgmt_init(void);
+>   void fw_mgmt_exit(void);
+> -struct gb_connection *to_fw_mgmt_connection(struct device *dev);
+>   int gb_fw_mgmt_request_handler(struct gb_operation *op);
+>   int gb_fw_mgmt_connection_init(struct gb_connection *connection);
+>   void gb_fw_mgmt_connection_exit(struct gb_connection *connection);
 
