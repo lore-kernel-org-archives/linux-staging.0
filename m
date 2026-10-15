@@ -1,33 +1,33 @@
-Received: from mta0.migadu.com (out-38.mta0.migadu.com [91.218.175.38])
+Received: from mta1.migadu.com (out-138.mta1.migadu.com [95.215.58.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B7F480348
-	for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 20:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0E64A387A
+	for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 20:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792095269; cv=none; b=ffI9I5HtpIDX62IS9eXwq19P4jO1YZ1FS3omGx2SbV9qwZQPAcwvsIMXWT88nThaTxUrh5CJhVgPmf460/0C6wQYMXxf2L2Uhl75e42c2nxcLr4FDBg3dX0h0J8fywr/t/6Rnvce8HDHxCJ76o7jMi/rzosb4oawQmaEsy3yDJ4=
+	t=1792095426; cv=none; b=pyREK3nJGPUFTl7IG60xr+6dZFg79PD80qXH7prExG2MOZEbj177MNGprIMnmx5+L0ct/qWlDPna5AB5spxdYeST/YN1Ibc7BYndq2pSHLWdZvjhoCWRKFmA1jcEis9yOaOLQuhFb6L+thmMXk/r6YPzFxU5wxvrHxtVUB2faG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792095269; c=relaxed/simple;
-	bh=54gikot2EebTARWuZt4xtl2olUaey15VTtmwXRgDO8w=;
+	s=arc-20240116; t=1792095426; c=relaxed/simple;
+	bh=MYXLiVTLg/DCzZKSclfoxj5H3WsaJ7br5zXoPYN9bS4=;
 	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=M829IeIvUl8myGiGz+OdakHzDocePkmuwQD82VhJLH5F0VINqXCO6VhHQMB1yE8aTKVBKLTQ+/2gttDhbz2GK8fjcMudpXbmpUXxGn4zFVz/4SruGpKiblKpIrBXGsDARbEXrucMldAPSylfrW8axJYX4SZxK6IRSM1nMIfhnBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fiezQO3K; arc=none smtp.client-ip=91.218.175.38
+	 In-Reply-To:References; b=egvDr81wOFqwOB6VxJR3mWpcG0J80z4ssxe73cZRRvRKI2E3q76YD50wn819issrBJxTljI6V4V4CIW0Te7N8QgNanFmz3Ygt7yoFq/HFaqpmNvhrypAXcQ/nVClD6+W2hgJ5EHNCK7lRO5DtGREuO13NUwWQ/wcNho7e0lLIZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=oXjFiJ7z; arc=none smtp.client-ip=95.215.58.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fiezQO3K"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="oXjFiJ7z"
 X-Envelope-To: linux-staging@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=54gikot2EebTARWuZt4xtl2olUaey15VTtmwXRgDO8w=;
+DKIM-Signature: a=rsa-sha256; bh=MYXLiVTLg/DCzZKSclfoxj5H3WsaJ7br5zXoPYN9bS4=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792095265; v=1; x=1792700065;
- b=fiezQO3KIzi08agXDoC/zCVXoetE0V0LcGGFYxNHb7pxhvdM+gVIXAcxpeyE/2KOcZVlgkr5
- 2zKVRU1RcZ9i6e/YzfN8CpwslNiVht8ZewlyRhQRO41tth79A+eVAUv9/PQizSZqEwfZSw4Ivx/
- m4k61xUfSfuxrQs5scA8iK+Y=
+ t=1792095423; v=1; x=1792700223;
+ b=oXjFiJ7z5Lbh2bw46PbToAZiulXeta2aFyDP03G5P8AQ/He7YhOHG3Waz6F08Gwi7ZTM0/FU
+ zcYgheWnt1aBXHKSH2vLBw9rkRxh56c7nC52w0TEhxDYXbHTgtHvt7BU8Ub7W2jcE7OogzI0/BX
+ KtqlGoKhzrmfsdZm5ekHl0ho=
 X-Envelope-To: linux-staging@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id bdc65f95dec0f2e0;
-	Thu, 15 Oct 2026 20:14:25 +0000
-X-Mizu-Trace-ID: bdc65f95dec0f2e0
+Received: by smtp.migadu.com with ESMTPS id 0b35ae72c49bde15;
+	Thu, 15 Oct 2026 20:17:02 +0000
+X-Mizu-Trace-ID: 0b35ae72c49bde15
 X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -35,43 +35,89 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Thu, 15 Oct 2026 20:14:23 +0000
+Date: Thu, 15 Oct 2026 20:17:02 +0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 From: "Luka Gejak" <luka.gejak@linux.dev>
-Message-ID: <8d62b637dcfbdc6d6ee122118c46425e0383c051@linux.dev>
+Message-ID: <dec2320eb01dc6499948a936c94512ddfd47e2a4@linux.dev>
 TLS-Required: No
 Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary parentheses
-To: "Dan Carpenter" <error27@gmail.com>
-Cc: "Ethan Tidmore" <ethantidmore06@gmail.com>, pavankumaryalagada@gmail.com,
- gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
- dennylin0707@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-In-Reply-To: <atEu_ZAyNVxyfbMr@stanley.mountain>
+To: "Dan Carpenter" <error27@gmail.com>, "Ethan Tidmore"
+ <ethantidmore06@gmail.com>
+Cc: pavankumaryalagada@gmail.com, gregkh@linuxfoundation.org,
+ outreachy@lists.linux.dev, dennylin0707@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <672f78b36290a4021d3f94d9ec401d23420febbc@linux.dev>
 References: <20261015120634.95218-1-pavankumaryalagada@gmail.com>
  <5d577cb1b4a91e8cdfda171bc7100105ae90d91e@linux.dev>
  <DM5IYFCRBE9W.1U3KCU36BUE36@gmail.com>
- <5f06793dbe846865b7d86f656d27caa1c65732b5@linux.dev>
- <atEu_ZAyNVxyfbMr@stanley.mountain>
+ <atEtUV5q9MHRSTJb@stanley.mountain>
+ <672f78b36290a4021d3f94d9ec401d23420febbc@linux.dev>
 
-October 15, 2026 at 9:52 PM, "Dan Carpenter" <error27@gmail.com> wrote:
+October 15, 2026 at 10:11 PM, "Luka Gejak" <luka.gejak@linux.dev> wrote:
 
 
 >=20
->=20Ah. In staging, patches are merged on a first come first serve basis
-> so you are free to ignore any patches which are sent after you sent you=
-r
-> deletion patch. Obviously we're not going to merge fixups to a driver
-> which has been deleted. If there are patches in the list that were sent
-> earlier and haven't been reviewed then reply to those.
+>=20October 15, 2026 at 9:45 PM, "Dan Carpenter" <error27@gmail.com> wrot=
+e:
 >=20
->=20The rule here is that it's a good idea to search lore before sending
-> a patch.
-> https://lore.kernel.org/all/?q=3Drtw_generate_ie
+>=20>=20
+>=20> On Thu, Oct 15, 2026 at 10:41:53AM -0500, Ethan Tidmore wrote:
+> >=20=20
+>=20>=20=20
+>=20>  On Thu Oct 15, 2026 at 9:11 AM CDT, Luka Gejak wrote:
+> >  October 15, 2026 at 2:06 PM, pavankumaryalagada@gmail.com wrote:
+> >=20=20
+>=20>=20=20
+>=20>  From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> >=20=20
+>=20>  Remove redundant parentheses around the address-of operator to
+> >  follow kernel coding style.
+> >=20=20
+>=20>  Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> >  ---
+> >=20=20
+>=20>  Hi Yalagada,
+> >=20=20
+>=20>  I'm just letting you know that this change is no longer needed as =
+the
+> >  entire staging/rtl8723bs driver is being deprecated and removed.
+> >  Support for RTL8723BS has been ported to rtw88 subsystem.
+> >=20=20
+>=20>  So rtl8723bs patches aren't being accepted anymore? I saw Dan revi=
+ewing
+> >  one earlier, just wondering.
+> >=20=20
+>=20>  I didn't know it was being removed. My expectation is that we'll
+> >  probably keep merging patches until it's actually removed. It's some=
+times
+> >  easier to just merge easy uncontroversial things without trying to t=
+rack
+> >  everything happening in the kernel. We should obviously delete the d=
+river
+> >  as soon as the other patch is merged.
+> >=20=20
+>=20>  regards,
+> >  dan carpenter
+> >=20
+>=20But won't that cause a conflict? PR has been sent today, carrying my
+> patch that removes whole staging/rtl8723bs into net-next and if
+> another patch is merged into staging-next, whose time of commit is
+> later than the time I made my commit localy it will try to exit a
+> non-existent file.
 >=20
->=20regards,
-> dan carpenter
+>=20And since both net-next tree and staging-next tree are merged at the
+> same merge window this will cause merge conflict. Correct me if I am
+> wrong, but this is what I think would happen.
+>=20
+>=20Best regards,
+> Luka Gejak
 >
 
-Is this email intended for me? I don't understand what is it supposed
-to say?
+To clarify something: new driver, which replaces staging rtl8723bs and
+the mentioned patch which removes the rtl8723bs from staging, have
+been merged into  wireless-next and are awaiting to merged into the
+net-next and eventually mainline when 7.4 merge window opens.
+
+Best regards,
+Luka Gejak
