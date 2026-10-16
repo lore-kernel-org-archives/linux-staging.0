@@ -1,126 +1,99 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1C6184524
-	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 06:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E23F443ABA
+	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 08:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792132702; cv=none; b=bWuHE0rgFq0KWFGRb4jqBNkGPMxzpWLtdPDbwLUk917FlUEUuHxtqJ9KMCM7E9jy3OXrOxRSQfcsuNq+Cy+nDdgXaSuAZbL4hyVk0qdbOGutc7Eb08FPY1uysqwQx3+NfMbF5cbaPiIG8sT2e0+8fCrt1x1R57n40KeQqmCmHgc=
+	t=1792138328; cv=none; b=ob+pCQRE1a++AFdOZ8LmGfSPnBuxltt+yejD9Xc5E9BZMcox4b33jNDIRgDb1PvBxIoFF5iRyGLHUqXs6pQz8hnZmoEztM/W9kJmTU4C44nFpdj5EPMvTsTf1qLoABjvmfiIGJ+sq8gBsZJwbCUsEfQs+9eI1xq2ZTZkiBxVjfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792132702; c=relaxed/simple;
-	bh=zbBYNRqIpU/zXlbS3PL2t380sFU4bLeo0x/J25o3/Yk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A67onV4TTTc+wZH/5Z5bnHqWvDxYz2qbgrH7VO9iz028VYIk1KxCdnh0cFt5roNaklTZb/lXp6t2irfJj4IYk2J1lucVUKyG6g897m576u5U6oZTjtuuP5mnA17/TTEAAJiz6sliX/4MiwhduXCmaw+ATwrAsqfo/9mJf3tTpX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bO7KZwZ6; arc=none smtp.client-ip=74.125.82.176
+	s=arc-20240116; t=1792138328; c=relaxed/simple;
+	bh=4jk+j9YNuu/5rZ6mDSj5zkzgKBVWnJ0lqMSB5k2Ri4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IJGx0ntO87N1ODzKMnJc7LHdAQxt6QSGzbY/oWRKrCFYOlYRajlaeZKz8/7p8k93/UyKyjwCHytDhvm+l2N6vkW0lGT2c5v5MDTHnYPvVkKPvnsK7mODrbOgAZgdEbSjXuJDqmJ9V9084c7n26VYrqLFV9Mm0nPqK8lgHML98Uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WeCBp5E8; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bO7KZwZ6"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-35b2c599f43so2290152eec.0
-        for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 23:38:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WeCBp5E8"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a0286c981dso27410685e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 01:12:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792132700; x=1792737500; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zozTgap9/7XkjDcW6YDxcMncGVIIlLjENhuebqzWUwg=;
-        b=bO7KZwZ65Ucz+vT/W4uMUY7Zogcz1aZoW0Y3QudEWGrkTPleSZ6HSLL6jm+XQ43AFO
-         16Ffllq2+PiSW96BtKVTNPqBrMiPpy7FAhW+ELVluSvymj8zbCsckRNKnVHoPms8Jwyz
-         nUfL3/Tv+2kg35VgIzvqCp1jVgFuv5ta+/l+jmqJin8/MwaD1zDssGznGt7W5LtvYc3o
-         93emAZDwQ2qzmik30Fuymn3uH0tx0gKFNe3xK7/hB0Hbd7zqSSSfKFMzwuzdMu7wh6r5
-         5cYfvhVmcpG5MHdO3sQLgRfWJ8NCYwo8Smx6EI+RQMbTkfIJHTzxjUYSfnpTgF0dwSKf
-         YxnA==
+        d=gmail.com; s=20251104; t=1792138324; x=1792743124; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=coNAFChQpDjBCCj96hHJcqUiTEEavSTGgtqRHjd5Zp4=;
+        b=WeCBp5E8tYaYeHjsvS01uWUjQRIBi+vJytiZWLpkylJeaOe6Gh9GYv8QUAL/4L8Csg
+         xKdkw0Rq6Sn3SARbg59yUaAKRE5C7tQr+aVtS+nqFfHgb2q/GlwxvOIWbOfytN+VqnPz
+         kLJcFDOm/HyzBMBdqSEabPvLCf7zpLN6AtajFDUBuynNsnrku5xdPNIh1bAjIYZFhviJ
+         1n2M5hra9R2YQdiuU1om+dErob2TLIxvGWuFpP2emJ2ehiOMCJ7Tbt8b5O/1myaGT8vG
+         rzFLScvKZpkrRzkv4BqgFl0eL7Qv9ul0w22ich+glTOeD+RmMZ3XSUJjJ2yqUcagURwZ
+         7BbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792132700; x=1792737500;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zozTgap9/7XkjDcW6YDxcMncGVIIlLjENhuebqzWUwg=;
-        b=OqK/5bdXAqRb/9Lm2Yn5FcTqz2zYiQkojPLtE8TJ1A8yESl2Bm4lkUFccCxtA3tTfe
-         CWSJH2tUi+jgg5qtKtMgT6xMSqgPY3GcbD9jZXHLd2wwh+src4PWVLXSDcE3Z+KLgV8p
-         xZfmlFDJyauuFdiETLfg4PBxUkoI2M20/mFj0QKetkPgKAFcU54i1tsiLKcABD+GXPKi
-         aU6I/VOoPCJ7wFgbHGu5UoqcI7lZNAOLe3+Olcq5tTeQFTIkPxKLvpFbku8IRZNhLrf5
-         rnPoNPWNQOyQ5pkIMvo4bVQMD0v7CiPPpJLlbl8CGmjh1mWZGw8mIkVwayet/Ie2uBLM
-         lVTA==
-X-Forwarded-Encrypted: i=1; AKwUvBxp/w9enLCq5UyxhkpGtwC/D2mtvt9VSReCAGocG3VllxkDcoY1AYckeC0ohAPbGluMXMrOQEdmpCZvvhjn@lists.linux.dev
-X-Gm-Message-State: AFq9FYL1Yt2HJSAUon0F1u8dWT/jnEOBr+0Hcqp4NMIu4RPkxurv0wr6
-	VlrjZLJBbLWwX/e7wZbZzB6kqAWtYXIpJ1dFE+Lp+yL4hM6Xj5e/w2Ig
-X-Gm-Gg: AYBFou3f7jPB0nn9Y0HRsws8My2wETtTf+4grXrXefXuyV+i6l0pqyiWVAcCGIhy73k
-	NZMu012VycTLdL6LeCQ+n3i84xz37CEJ/BRdAfpuvUW2WN9dIq1aI2bNJSrIRD3jQb6Q6TNURrT
-	TD44EtHIc9E5P3GTWqDH25HrqkKah2Z4jTjhIs1FaMcMHrvkAo46aJOkDlgA101BWQl8pFrQLBW
-	aZbgUIKdPa+l4U/Qi+o86zaOrHE3/6uE45x2ZW+kMXBqZMUzMlKZMaWiZ9qAf1IhWl3M1j/kcib
-	QGaI0Y19zsjAIsuGO+d9nHCYZX+vf6dmLU8mpyYwQU7chdKNhTO3hORayws3jxPs7RegL68O5+T
-	JWPxYXEmfQVvG9XJJSHz/6Kxho8EsdojJCwdWB9vEUZXXQ2EIryAjirQpKiiNlhQBKwFgxgihXY
-	C3suaj7w/H3lAeLItIX27eibp6Amfn7NjMFXjnzSddoGQkn3IYO6uli5GzawmqSwOqxCL4dmBOD
-	Q11jA==
-X-Received: by 2002:a05:701b:2305:b0:14f:505d:813 with SMTP id a92af1059eb24-16a60811423mr29806233c88.41.1792132700064;
-        Thu, 15 Oct 2026 23:38:20 -0700 (PDT)
-Received: from user.. ([2405:201:c052:b00b:78ea:36df:1d29:86cb])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-18319d3b880sm2650986c88.10.2026.10.15.23.38.14
+        d=1e100.net; s=20260707; t=1792138324; x=1792743124;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=coNAFChQpDjBCCj96hHJcqUiTEEavSTGgtqRHjd5Zp4=;
+        b=KyldJ+16gaoGVMMIPTIC1/MmaTwdQyQr6qw6ncXjcbOBEgN4jkhke/jgPnG5GUwvrx
+         el3a9WP7wxNGYRzURfi3Ujuokl5ixjVEBu3eu1ggq8akaT0z2kU4FFEZ+06ixg+VnEsY
+         XaWpgLHsusGCLUSv8ne4/ucPMk1y0NgcBvWuhGP3xUNc87HVKigASCpMzkB8Ca0/ieFb
+         vOf9ThzC7t0ZjiXZ6iA4Bb9sCX1dqd4hofsNRn9PctPKW7C0aIzMWZoFIVrMaW8D6XAn
+         qCdgerD8AqrJrnrgt3KfREkjllRSbRR5mUwVOGrYt1peUEo+TDtrYKNpEvW2OtZOF4h2
+         f6KA==
+X-Forwarded-Encrypted: i=1; AKwUvBxctpYlOecZLCa9LJQvJjpxj2mYSBixo0nqcjqMfuKgeC0S7Q+tQDbDPmSGB7VTjZXOghzanYiiiwPk8Y13@lists.linux.dev
+X-Gm-Message-State: AFq9FYJneIYcqWUiPTyk1YkOXTsagmKBxH3l8n6SqI+AE6LnTkB2ZpB4
+	JBwcu7Ryy9ZqzQEBDJa8gzVo7vVIpIGUhfRx383XFmA8SmUQFQ3uyCcrSJyvJg/IhynI2g==
+X-Gm-Gg: AYBFou3WX3G7BWRLyXbvh+bYNq3aKsDOtQGfTUFpez7nrKBm+uvgIvCHCeDzRmLV040
+	KzWGpLQqjfIgKmnGl2KXcXAPbigTTs+PY3zm3EGaFndz+KRmG5gWlQaS/zSrdny2hSnUqMZgP8B
+	wNOD9ApnrCOV+g9E+5PKT1gHUx4hRM0nKsJD5bj89xxj/4ZOAqf7GV2TgWRRZbgaxJKVzuOuhy0
+	FdcSq5xeu70472RxoMiZ+x2fZmbUAV5UUTO5/Tb24JnK7Jm1LiJnOzBaEG2W9J6OaiCNJtLqgsL
+	LZYSicNzAArIYgEwtitJFqp5lJUDZNFduFIHD/IuJgeA2kxz8b8cejeXyh8cILO43DTzEYPto4k
+	OiSqZoupt9VqlwOjcJefino6F5KV5PjLHFWeELN5vGJ6L4WBsZeLUYC2sEdRMg36i4ugOEewfA0
+	dK0P8Ax4BNTYl+kOka0q0FrCVuwu4+9aFC4spuGo1WlT/Ud0oVx82UneWDE+ACrin+/HI=
+X-Received: by 2002:a05:600c:8708:b0:4a1:7b05:3a6d with SMTP id 5b1f17b1804b1-4a18e49881amr421665075e9.8.1792138324082;
+        Fri, 16 Oct 2026 01:12:04 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfdeb18f8sm2892143f8f.20.2026.10.16.01.12.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 23:38:19 -0700 (PDT)
-From: pavankumaryalagada@gmail.com
-To: pure.logic@nexus-software.ie
-Cc: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	rmfrfs@gmail.com,
-	vireshk@kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-Subject: [PATCH] staging: greybus: Align function arguments
-Date: Fri, 16 Oct 2026 12:06:48 +0530
-Message-ID: <20261016063648.22795-1-pavankumaryalagada@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 16 Oct 2026 01:12:03 -0700 (PDT)
+Date: Fri, 16 Oct 2026 11:11:59 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Luka Gejak <luka.gejak@linux.dev>, Ping-Ke Shih <pkshih@realtek.com>
+Cc: Ethan Tidmore <ethantidmore06@gmail.com>, pavankumaryalagada@gmail.com,
+	gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
+	dennylin0707@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary parentheses
+Message-ID: <atHcT5GG8zzoH7kk@stanley.mountain>
+References: <20261015120634.95218-1-pavankumaryalagada@gmail.com>
+ <5d577cb1b4a91e8cdfda171bc7100105ae90d91e@linux.dev>
+ <DM5IYFCRBE9W.1U3KCU36BUE36@gmail.com>
+ <atEtUV5q9MHRSTJb@stanley.mountain>
+ <672f78b36290a4021d3f94d9ec401d23420febbc@linux.dev>
+ <dec2320eb01dc6499948a936c94512ddfd47e2a4@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dec2320eb01dc6499948a936c94512ddfd47e2a4@linux.dev>
 
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+Ah...  I didn't realize this patch was applied to a different tree.
+#Unexpected.
 
-Align the function arguments to follow the coding style and
-improve readability, addressing the alignment warning reported by
-checkpatch.pl
+https://lore.kernel.org/all/7e53bd59b7b146caabebeca4347674c7@realtek.com/
 
-Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
----
- drivers/staging/greybus/loopback.c | 3 ++-
- drivers/staging/greybus/spilib.c   | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+That's a mistake.  Staging patches should go through the staging tree
+or atleast they should be Acked by the staging maintainer.
 
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index 2a623fc2e99b..0f699afc10f2 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -653,7 +653,8 @@ static int gb_loopback_request_handler(struct gb_operation *operation)
- 		}
- 
- 		if (!gb_operation_response_alloc(operation,
--				len + sizeof(*response), GFP_KERNEL)) {
-+						 len + sizeof(*response),
-+						 GFP_KERNEL)) {
- 			dev_err(dev, "error allocating response\n");
- 			return -ENOMEM;
- 		}
-diff --git a/drivers/staging/greybus/spilib.c b/drivers/staging/greybus/spilib.c
-index e4d1ae8308aa..c1982f3fb931 100644
---- a/drivers/staging/greybus/spilib.c
-+++ b/drivers/staging/greybus/spilib.c
-@@ -160,7 +160,8 @@ static struct spi_transfer *get_next_xfer(struct spi_transfer *xfer,
- 
- /* Routines to transfer data */
- static struct gb_operation *gb_spi_operation_create(struct gb_spilib *spi,
--		struct gb_connection *connection, struct spi_message *msg)
-+						    struct gb_connection *connection,
-+						    struct spi_message *msg)
- {
- 	struct gb_spi_transfer_request *request;
- 	struct spi_device *dev = msg->spi;
--- 
-2.43.0
+So, yes, that's always going to lead to merge issues.  Not a super big
+deal because the conflicts are simple to resolve.
 
+regards,
+dan carpenter
