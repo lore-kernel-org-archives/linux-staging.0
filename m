@@ -1,144 +1,98 @@
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9A039656D
-	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 20:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D5833F8AD
+	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 22:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792183125; cv=none; b=k69Fv4vCNFcy9N2L89GkJm5WBJVa4SM4xVqtcfAM1yJ7AbA4c8rd5oWCl8Fvxn8TvDNHCwHgZikjEF+36Kb5hRcsU8ywo5RuC0F2BnTypNu0wbXsuvx7C9SWGTSM46RT4R/tSlKP9TGlm8blxhHfoalK7RstVrvQtEJcNXOwaUU=
+	t=1792190120; cv=none; b=jVc+2NxdCYMz2O8wJRXG3wD/zrXPOgyLhOQlJ5bYZEWvo//esumBYpEY+8pUdceDVFPDmZnMA6E6NB0sxdHu1gmdN3vehGSCWgMtUgqfpEhow9V2cy3uwIJ1wOnZsWfHZElDUVIJWvoCni8UIIwYLTPOTqojd4PJOk2b6avqSQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792183125; c=relaxed/simple;
-	bh=3Lhri/9i3TNtw9R/Tcbw/mOjoERB6hK1pH191CCiSzM=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=eCc67AbcupoXkj/m9c1VTAQyJyHlmn/5w6wge1e1eErEg7I6WFFe3IDh772DjSyjNx9IS2NV3gamM/KxwdGtOloJ7hvGJk582/m9siIiWmGuVm5xoiX9TYYvMT7oXkrSuMIWh6d2f5mvJrFYryYVU/d7QB8MwP29dcDOd3Me3y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-47d75bcf3ebso465241fac.0
-        for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 13:38:43 -0700 (PDT)
+	s=arc-20240116; t=1792190120; c=relaxed/simple;
+	bh=MZ2Rq4/80Q7iGewMisCrHrq9so+ss6+rUrfgmY5SqJM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=Nknvxvh40axu3onWfQyLCUUi8xd68jGS6kpPie8vo93R1e21QpnA2wZ/fYMWIJjCbJRutsCUuZ+81rcNt0UF1GU/Bh5ILRGTdWSL4dv2C4Fyp79q9QB2nssDP4WblyywHl+nBaFqIGK4PPamSoyjC6nRZz2LbULQJjmJ6YzifNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CldxH4vA; arc=none smtp.client-ip=74.125.224.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CldxH4vA"
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-675617e81f9so479422d50.3
+        for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 15:35:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792190118; x=1792794918; darn=lists.linux.dev;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=MZ2Rq4/80Q7iGewMisCrHrq9so+ss6+rUrfgmY5SqJM=;
+        b=CldxH4vAsoGih5swVsceWNFbVaHzRrXvoqB/x4PV/STHuNyD11FdjDY1WZE3JDOR9t
+         eBS7YtILu81wYlksoPo8Ud4KgW1NdSA5YoOZiWwRWa14U6QNzFxxE32oIYLnYlMGugIu
+         WJiwi4wnr5J60ImIIwpYUVxxCR94vi4Mnnr1I/0Mqe0e3kTA0kDJhdFS//GcQVXY2Jso
+         GjP7tNBO2sqVWOZhKhRXazdUCAoHVUVhB1g4Za7C7xdH2tJgjuvyQ73x/bMpUEZdSPg4
+         374iJfbyRPrKgTKjEc101p9NAPzYKAnbxZIze5X4kV+XzeRSzLYdnUZ8emSmVDjSTg/y
+         D2MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792183123; x=1792787923;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=AY8LAWcYNYyJyH/2TYt4cmd1InLt2Z9ePL5WuUaiwao=;
-        b=xRxBd9kQsW/3SOjjtlhaxdEKAT9gBlUy1KHS33c0w9RFLZ0bVHoQjFhgmq0BUD25qi
-         MX4ghCwXNjaTkSCiyxUfj0EmVVYRebOox96rmJy63mIkqq9mcosYYxu8+LDBdWjAW1Tf
-         EUp97tIgOuxabuyJkfaYQ4kiO24GfCte9DRZcPV6gelGxv99PkvJuVKZNRbdyoO0923v
-         ZNXl+Y5qE9JnEklWdeihJ1tb1iYS9QOW2cuiZOLPGnQPfuW4Eii2MGyyysHHb1gqd8Ce
-         BKMuqUrDzP97CTnep6iSxd3vjB/U7tZGdx/0OZHKwuBexxT4nibBTpQRKHVe8cTY51Pe
-         JABw==
-X-Forwarded-Encrypted: i=1; AKwUvBwaWKObgLWDhU0xEe7kCzxLfV4UrYWJUKgwzKU7rW0D0Nw0JhhhMSrh1yt/TBgk+xeMTZfddJ5hwFsq4PEA@lists.linux.dev
-X-Gm-Message-State: AFq9FYJGJ3uAdHrQnVDLBmyhTo4lLFK4/kz/E7yFdlUzKISsqOpQ5D8m
-	ZIe1r57M220YgUv0r3N57FkhYHpunH5gNzZpM435skLeIWIWXMDU41duAsSs7ZrcewM+gAzaEt4
-	03oasXRBDqA8mGxBfyY2RYaRK233GWwGIo5tnhWIe3RLgR3081p+osTAXuXc=
+        d=1e100.net; s=20260707; t=1792190118; x=1792794918;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MZ2Rq4/80Q7iGewMisCrHrq9so+ss6+rUrfgmY5SqJM=;
+        b=M3Uyjyk9BM/eSOPceNqzR4q3lXgYPp8XEpMQ0mt0BzSKBV6qARNogOX3ae/quts7Hw
+         9aix58h8K7oInHO71mE85hHS5y1b3VaqmLeVq3GeJezP5xpU0t//rkQo/6ZSF9o6VlLy
+         UwLWbTW2Z7LUwT5i2CZzLXABdhb1HKXkxkc0wjOVL/omeX8guloREwE3fF6CwuXYGmQ/
+         jTiPmZ40snuFvDRro5ATVmqpD82Nzq+Fm9UPA1q7P7fYxtgzmhW41oJF1X8B3BmvZ4v0
+         jTnbl/3c5n7ERjKWpp0ndZ+H///2wxGcYECnS7GzUwxiiX6ERirzV/MXW9UxdELK6EGg
+         p3qQ==
+X-Forwarded-Encrypted: i=1; AKwUvByfHKUSRrMcHjptNI+amoK+1ir13gu1R7W/grW4t4P+UsINP/fIRzzwSX9M9H8zfQydOQwvv1GzK2YX2dtO@lists.linux.dev
+X-Gm-Message-State: AFq9FYKJHg9Ewz+HCfw3ogWN/4lwXgVZV+kPAHNl6pEpsMrcFtWpDncQ
+	5u9d/nJXoW0Qg5oiQ3iHz+gT9LJQlyT87vVhjco41osE4RlLqsMej8w0
+X-Gm-Gg: AYBFou32aBLZTkOxbwSq3yv6cQyUUmToL/sixQAU0zjNBgucYoivXdM4ESF3fia3Lpo
+	kTbGdOQ5XFliyTm4a3LMVGt842PoJTATaGEbbvanowNvgQqA/e2HUg7+iZxghlCU8CLH22WT6b6
+	Gm0+evz22pBNpdLUXaJum3nvxn5t/w5yB+qNrU3VNWHenz8G/+XIw6p+Ph2f7ezTAoemiMGinxo
+	G965p6kjDMiqXAe9ws5wW4XEaKsyyPivqQ5dyi3H4JPe9myhkKhhtySn7x1UFE2W59k6rb2KKAz
+	YSGdDzcacZ47iCmK59EkcO+o1ZxJgz2QH1O4wRcbX4db0jhXfJTuJ2SpaMFlVJeHe+mhIqdDzgV
+	8pRobgYBCiXLYohCrTkSF96f9nEHOp8/oJna7pNA6nNDgMQ+ftnMs8ArEz/HNupKK3bjp9tchAE
+	0wNRJ8ug4FDohqdGxX6CWoo3uq9zCxSgiZebdgVMFC/fXtJI0Vyyt6q3FelOvRS5TeFZI6NiW66
+	Y+FZOzHQOpU5yTMHxHc55h1CgvODbSgX2ngcmCN6Sh+f5FLFO1g4UGsvfXRM8AZ3giAiisg0d0w
+	jaM=
+X-Received: by 2002:a05:690e:d85:b0:671:70d1:d6cb with SMTP id 956f58d0204a3-679ca7f922emr229592d50.61.1792190117971;
+        Fri, 16 Oct 2026 15:35:17 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37c:135::8803])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679b1eb0b6dsm1651282d50.13.2026.10.16.15.35.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2026 15:35:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3509:b0:4d7:17d5:6c9b with SMTP id
- 5614622812f47-53cc1ef9b0cmr725570b6e.9.1792183123019; Fri, 16 Oct 2026
- 13:38:43 -0700 (PDT)
-Date: Fri, 16 Oct 2026 13:38:43 -0700
-In-Reply-To: <6ad27bcb.6814cce4.34c49f.000b.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ad28b52.a6d1a155.34a93f.0005.GAE@google.com>
-Subject: Re: [syzbot] [greybus?] WARNING: ODEBUG bug in gb_operation_sync_timeout
-From: syzbot <syzbot+a2e50fb40695811c2dab@syzkaller.appspotmail.com>
-To: elder@kernel.org, gregkh@linuxfoundation.org, 
-	greybus-dev-bounces@lists.linaro.org, greybus-dev@lists.linaro.org, 
-	johan@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 16 Oct 2026 17:34:44 -0500
+Message-Id: <DM6MD2KJ8KS8.33P7OXVDIFUEP@gmail.com>
+Subject: Re: [PATCH] staging: greybus: Align function arguments
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: <pavankumaryalagada@gmail.com>, <pure.logic@nexus-software.ie>
+Cc: <johan@kernel.org>, <elder@kernel.org>, <gregkh@linuxfoundation.org>,
+ <rmfrfs@gmail.com>, <vireshk@kernel.org>, <greybus-dev@lists.linaro.org>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <outreachy@lists.linux.dev>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261016063648.22795-1-pavankumaryalagada@gmail.com>
+In-Reply-To: <20261016063648.22795-1-pavankumaryalagada@gmail.com>
 
-syzbot has found a reproducer for the following issue on:
+On Fri Oct 16, 2026 at 1:36 AM CDT, pavankumaryalagada wrote:
+> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+>
+> Align the function arguments to follow the coding style and
+> improve readability, addressing the alignment warning reported by
+> checkpatch.pl
+>
+> Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> ---
 
-HEAD commit:    2f2f7eeef8b0 Merge tag 'soc-fixes-7.3-3' of git://git.kern..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13a0d18e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4ccb65e03706547e
-dashboard link: https://syzkaller.appspot.com/bug?extid=a2e50fb40695811c2dab
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=172ff571580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1333e971580000
+This doesn't apply. Are you using staging-next?
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-2f2f7eee.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5c84d55442c9/vmlinux-2f2f7eee.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/45a44266fe39/bzImage-2f2f7eee.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a2e50fb40695811c2dab@syzkaller.appspotmail.com
-
-greybus greybus1: 0/0:0: synchronous operation id 0x0003 of type 0x14 failed: -71
-------------[ cut here ]------------
-ODEBUG: free active (active state 0) object: ffff8880353040d0 object type: timer_list hint: gb_operation_timeout+0x0/0x110 drivers/greybus/operation.c:1265
-WARNING: lib/debugobjects.c:632 at debug_print_object+0xec/0x230 lib/debugobjects.c:629, CPU#0: kworker/u4:7/180
-Modules linked in:
-CPU: 0 UID: 0 PID: 180 Comm: kworker/u4:7 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: greybus1:0 gb_operation_work
-RIP: 0010:debug_print_object+0x18a/0x230 lib/debugobjects.c:629
-Code: f8 48 c1 e8 03 80 3c 18 00 74 08 4c 89 ff e8 cd 97 4c fd 4d 8b 0f 4c 89 ef 48 8b 74 24 08 48 89 ea 44 89 e1 4d 89 f0 ff 34 24 <67> 48 0f b9 3a 48 83 c4 08 ff 05 73 bf 8c 0c 48 83 c4 10 5b 41 5c
-RSP: 0018:ffffc90001a2f780 EFLAGS: 00010246
-RAX: 1ffffffff181f08c RBX: dffffc0000000000 RCX: 0000000000000000
-RDX: ffffffff8c6df740 RSI: ffffffff8c6df1c0 RDI: ffffffff9185c030
-RBP: ffffffff8c6df740 R08: ffff8880353040d0 R09: ffffffff8c0f97c0
-R10: dffffc0000000000 R11: ffffffff81b3f760 R12: 0000000000000000
-R13: ffffffff9185c030 R14: ffff8880353040d0 R15: ffffffff8c0f8460
-FS:  0000000000000000(0000) GS:ffff88808b0b4000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f5280b524c0 CR3: 000000000fb48000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- __debug_check_no_obj_freed lib/debugobjects.c:1171 [inline]
- debug_check_no_obj_freed+0x2e3/0x450 lib/debugobjects.c:1201
- slab_free_hook mm/slub.c:2679 [inline]
- slab_free mm/slub.c:6509 [inline]
- kmem_cache_free+0xfd/0x650 mm/slub.c:6636
- gb_operation_sync_timeout+0x1c7/0x270 drivers/greybus/operation.c:1172
- gb_operation_sync include/linux/greybus/operation.h:203 [inline]
- gb_svc_pwrmon_rail_count_get drivers/greybus/svc.c:137 [inline]
- gb_svc_pwrmon_debugfs_init drivers/greybus/svc.c:772 [inline]
- gb_svc_debugfs_init drivers/greybus/svc.c:827 [inline]
- gb_svc_hello drivers/greybus/svc.c:875 [inline]
- gb_svc_request_handler+0x902/0x1300 drivers/greybus/svc.c:1276
- gb_operation_request_handle drivers/greybus/operation.c:243 [inline]
- gb_operation_work+0xe1/0x960 drivers/greybus/operation.c:280
- process_one_work kernel/workqueue.c:3396 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	f8                   	clc
-   1:	48 c1 e8 03          	shr    $0x3,%rax
-   5:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
-   9:	74 08                	je     0x13
-   b:	4c 89 ff             	mov    %r15,%rdi
-   e:	e8 cd 97 4c fd       	call   0xfd4c97e0
-  13:	4d 8b 0f             	mov    (%r15),%r9
-  16:	4c 89 ef             	mov    %r13,%rdi
-  19:	48 8b 74 24 08       	mov    0x8(%rsp),%rsi
-  1e:	48 89 ea             	mov    %rbp,%rdx
-  21:	44 89 e1             	mov    %r12d,%ecx
-  24:	4d 89 f0             	mov    %r14,%r8
-  27:	ff 34 24             	push   (%rsp)
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	48 83 c4 08          	add    $0x8,%rsp
-  33:	ff 05 73 bf 8c 0c    	incl   0xc8cbf73(%rip)        # 0xc8cbfac
-  39:	48 83 c4 10          	add    $0x10,%rsp
-  3d:	5b                   	pop    %rbx
-  3e:	41 5c                	pop    %r12
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Thanks,
+ET
