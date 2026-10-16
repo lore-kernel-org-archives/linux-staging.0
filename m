@@ -1,77 +1,69 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162A730C37C
-	for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 22:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32097175A8D
+	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 01:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792103272; cv=none; b=uRk+TXsOsnK7wcbxuPUUG8zelI0eDIyuf2LpYAV5/3tPavml+YlDf9G+nG8DKJ5WiMSFOSbm2It0YSJ2YABhCpdkTOLshz5YJDBNYZyw2OU3fUveYB9trGwltpATSgCqkC8SHOa6DppvommVK0eYLPS4SlXO1OIPF+fYSuXYW9A=
+	t=1792113700; cv=none; b=P0KrJQ/nIlieKlCM6/Hs7ihVDZaTiMDjrevc2kErjpKsrRz8AB+hZyLUMRB4ZrJlIh69j8s99XnD52Lft+gYwyapoH3zRcBvQDddKjEi9/al8CFOGcY23EVAaPBSOD0P/vm9cgQUl3jHUUkBfZXrsqXF818eTVYP+i9B1OMcasI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792103272; c=relaxed/simple;
-	bh=rJMZO0VgIuzF0WSOhbe5gXe0SOTu6iu5Wck6NzeudBQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YqeW0bDQ8cljIRy29nEc/VPTMsRZH4/bWpKKVUHS/ALXm/fDoWi2H+BRlcCyCJWa39TbBRTFJ59kmSg54OuuYVTjJZf4I9s+fatk8Ruwdh4KIo+u9275/JYVOTW16pcctJpLLOB8WQ6rqLsIi6Nihrb0tQ1vEgiByawmKFnf3JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p9UMobBe; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1792113700; c=relaxed/simple;
+	bh=+i07IwIEsP7E/LMwd68sFQNjGMiry34gNPJZcRbgehE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZGDZZhzrPel35qUl1IExn0RiXyyrsSDBWFv5YG6ELs506D/q7FdChA97E65TClqL9UtMeG0r9q0xylzCYlidqlGnPJ8PlwVZHDpilQf1sUgcVaM9+2YqqmyWglw+GQSan7Qv5UHV7CxCjskSsc15S5oSIkV9qeEs+t9uFxP/5Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=coxB71vF; arc=none smtp.client-ip=74.125.82.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p9UMobBe"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a02667ccebso42666345e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 15:27:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="coxB71vF"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-35c76e9614aso4297366eec.0
+        for <linux-staging@lists.linux.dev>; Thu, 15 Oct 2026 18:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792103269; x=1792708069; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792113698; x=1792718498; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vTeoZs89HS3SYDzrwek7OhSrNhRzVN8YqVYgGwhyqS8=;
-        b=p9UMobBeeHs2cJPi47h3thODj1nwDpThbslorKZNlW+FkOylEU0OHaOMZg6tHuygw8
-         4w14pRFJTd1bbcXHn50w6VKo/taGeyskTJkbCyRv6501vNa8KFYTO916vVuXxe9vUmOe
-         auO4z24fTomRRri9BTSP0S1JK4YK/cGsKqh+kMEddZyFEpHfqgt8lkOX+Ts416iEB+/f
-         nq5LuHD5fJXKmfFHgJhYOMfsA5WN10JfMhWkZnyEowe1JJ9NMs56iYeGp70tZ3vQtI1I
-         4vkGuTV5p0g90AFlEnu1DJ8WF/jmAxV0LKJ3wfsTCFwikO/3gz6nzPEZG+v8z0ZaXXHH
-         Nnkg==
+        bh=+S8LbbbkE+rdxtgh7jfWvM5EQN41RJP14wQndkrzGJ0=;
+        b=coxB71vFJG59wp19eWtWTr/2XOGSC1BxnBn7Fln3wXIVyKxD9qKNqbS//WBPO0hOnn
+         1yNt4T6dggHzTMFhBydGdZ1AFiHAAoeELCGTadLElSIBYMsN/zRh9ChH0NlleXo+rtPx
+         xXA40p0d1jV4/SI9088V4ztcUep2FeEUn04NP0I5Fs8bJuVqaa2hReHYibuekpoYkKMq
+         raIC3mqcs4JnW8RcIx9vYmreEjZr2ZQPQL69ISs9hgsl7hZwXarcaHAZ2SNo6DRxJHqo
+         TBpMuYeniyjpGJYw4nTCHBqlzqVgRIKpRLkGaQZna9JUaWP+zOMIQfyqPJI8Dh520cXN
+         AWuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792103269; x=1792708069;
+        d=1e100.net; s=20260707; t=1792113698; x=1792718498;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vTeoZs89HS3SYDzrwek7OhSrNhRzVN8YqVYgGwhyqS8=;
-        b=mYS485TUFy8tDsULo87WcfwKMuJIqc3qb0e3k8+DKdt5LfWWbJHAb3YbjmDXOPXftt
-         5/8dCJtolts8Qvcwp+FM+npmK60VpkbRbRtj59xmO1HM1joOr1gnPQ5518pDwGoRSig1
-         7E6hyWfAQm0KBq47VYGJS3MttyHZsUjtudgeK1sIEZdAJhzDpGEoJpcHVQyer6GVjQUX
-         HIz2F+F7ZUJBCwCNoC/o6Ix/zVAQavctCRae9uLMGXM6WTtOga8uianiWEC1z1n9HFsQ
-         Q1vvKlCD6AYIeE6Uli3zTfEv5ycYrJNzHLXpf2RfQtk/07WF4kCnH4qtjxBjqynI0xZh
-         7VoA==
-X-Forwarded-Encrypted: i=1; AKwUvBw6ERY39PneamHpENXl9i4r8dVSDuIosDIhX/pPUb4AAsYQCZwJx2QnPfqgORKPxy6z0NALotY4LA7WU1BP@lists.linux.dev
-X-Gm-Message-State: AFq9FYIAdI2c9oP3P98XXwH1s3nruFfVlNGSN9e5BBxbDLn/rMBDC3F+
-	HbSN1ptqnRfarpzBeQT9QrPAH+6fZH2Yt6qfdXf/HSYKTs/DinHhh42fnyshcmNmSG5DtQ==
-X-Gm-Gg: AYBFou1Ds6e8rztT8UWJn9VaciHo2gFLhB3yTk++PRMx0x3DiVxhlCXtBijd05so+Oy
-	pLWrRk80nUhjcO0RjrXfEFZfa8vsIcNNPNxusTvnidjDDktzCraAJzKBVQ7zFHlRO9SCN2UZrf6
-	en4NSh0UZdP86PLyEFPhO6X8wl5aqQ/tmMRBHMI5p3zrRglzVJT4dXhI95ShKfNwR3uxo+dCJmR
-	837PLrDr9VU9VIdX93MSP+1FyBgrWBmqG4PeEkImLxOfBCT1DQ12jJiSETmCdtdC96Pe+ArwYym
-	vXUJgzQuFp0zEJFjhnXotcTvNGv9snQloNPakEffaq8jPlt+vVMbknWZOBsoCf0VZEGHF2dWv6q
-	k81+C3//kgQMVoV8ZUReGZR+flgYUzKkHbiuA5hjIe5uqFgF09ThnX6pnaaGj3gsUjML9vcNsa4
-	HypxNh6ifbwOoYO8sqovBqeIk7iDRJ4dX6DCBzoYMHFhza3fMImeZJEvJPAc3fHvTGNzAoNAuWl
-	UnPUYgM34PY5LimgsKeU8A/rwB3g8kTq9p9GyHodXC838Ysa+irdERHezfKsLoOeuPSDj6s7hJl
-	xpm6S0MHtBEAQDfirasY5yBIb2OHqQRSfzDoEaDURK+zTLm5wOkdrhxbtBuAMZBASGSHpO4TWw=
-	=
-X-Received: by 2002:a05:600c:3f06:b0:49f:bc43:9e96 with SMTP id 5b1f17b1804b1-4a18e4a3bfbmr435955355e9.8.1792103269119;
-        Thu, 15 Oct 2026 15:27:49 -0700 (PDT)
-Received: from localhost.localdomain ([102.88.166.12])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1c8ac19c9sm5917375e9.0.2026.10.15.15.27.46
+        bh=+S8LbbbkE+rdxtgh7jfWvM5EQN41RJP14wQndkrzGJ0=;
+        b=0QLBze+UF3mDWB1PVbibr9OnJ6zBUvvxAicMJtYGvy0LS6bL5hi0BPPqS0rUs2JAyK
+         hiCLf3vsCmPy5FTXfRHftRNZZ9n5BCxG08ekFFnDlubcu64seRem0UJLnnYxK42yLnjQ
+         mk1mdbPrsfSMxDOii2/WiRyOj+5TPKqVUtwbC5N3a1TfV5VYBnG0l2M4ZHe+1FH/5W9M
+         SHyPeyGChNayQ01K9SQ2PyXzEqS+6dZjcI512EeBKj8CVkwqoEN64pTwPt3aVNIcEmay
+         tvhPKVXKCyKJwjghI8DUE3bx2AuRKEY6ulCqKr3a3t+50airOyucJdZD7sOd7cWWJ0hE
+         7BTA==
+X-Gm-Message-State: AFq9FYJabU2baer7mTqYFslpXI7kKfWCVvrOJE+SIYDhsVPIK4UM6q5D
+	DMsMrFaGu+WGbpsm3Sp//RJazhek6zbPqkUBj5XW7neEPE4xk+/Px7Ha
+X-Gm-Gg: AYBFou17fVWmDpR8Rgw4DUKAPvpFJFD3mwW3GsJ5AveNH6dTnZtTygDKpTLvxs9kvbb
+	pvBv/qL/24CUaN25F+DCrnkUn32GEXPbxYgAK1XHkpRyDy8X3coD3sAHLysxHeffSXvW+I/DQcv
+	KYqriY8rYDB8uqgLeted1GHNCeTPNzOX37rQ1mOXAO8nOZe+/zm7L8HG0VKvbtQ7aJGKPf92xi0
+	8KdZl+J6cE68ro/GgwFr1I4flM9ZWn4/Vj7PCfZ7whhzU1wH0DNhIHovDtIEyutXgABkeplmo5b
+	PmKinYZFYdvLWBG9uufojJfZ4fQWbNvo0RxkZCOxVV9VrWuTiOuDQyvp7uRtRjUavrfBP5HWZrP
+	FzJDSwm+Zz9MlOUqDPs7FC1eShD3/nF3hn3AARUu6PB4y8T2kEB/eD3m3wJ9m5qVwsYyiYjTKau
+	HB7L6TCNgEV1iZuQ4k+4v6ZoYjg+x09x6AysJyrmdPijUiThDxhA0L3qx2LhPpSfmiprApmUdOl
+	LMcADOiT7knQ8w1ykB+j4uyJgHeuNSN72YBBa0BRP8kfH5SZMc=
+X-Received: by 2002:a05:693c:8641:20b0:360:34e4:39d2 with SMTP id 5a478bee46e88-36034e43ca5mr2055483eec.10.1792113698111;
+        Thu, 15 Oct 2026 18:21:38 -0700 (PDT)
+Received: from samaritan.sole-larch.ts.net ([38.78.160.29])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3608258aa66sm1897927eec.20.2026.10.15.18.21.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 15:27:48 -0700 (PDT)
-From: Okhuomon Ajayi <okhuomonajayi54@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Okhuomon Ajayi <okhuomonajayi54@gmail.com>
-Subject: [PATCH] staging: greybus: add blank lines after struct definitions in gbphy.h
-Date: Thu, 15 Oct 2026 23:27:35 +0100
-Message-ID: <20261015222735.89251-1-okhuomonajayi54@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 15 Oct 2026 18:21:37 -0700 (PDT)
+From: iuseacosbtw@gmail.com
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	Alexis Buttler <iuseacosbtw@gmail.com>
+Subject: [PATCH] rtl8723bs: Remove redundant macro in basic_types.h
+Date: Thu, 15 Oct 2026 18:19:44 -0700
+Message-ID: <20261016012126.65939-1-iuseacosbtw@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,38 +72,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add blank lines between the structure definitions and the
-to_gbphy_dev() and to_gbphy_driver() macros to improve
-readability. This fixes the following checkpatch warning:
+From: Alexis Buttler <iuseacosbtw@gmail.com>
 
-CHECK: Please use a blank line after function/struct/union/enum
-declarations
+LE_BITS_CLEARED_TO_1BYTE_8BIT() is only used by SET_BITS_TO_LE_1BYTE_8BIT(),
+and its implementation simply expands to LE_P1BYTE_TO_HOST_1BYTE().
+Remove LE_BITS_CLEARED_TO_1BYTE_8BIT() and replace its original invocation with the definition.
 
-Signed-off-by: Okhuomon Ajayi <okhuomonajayi54@gmail.com>
+Signed-off-by: Alexis Buttler <iuseacosbtw@gmail.com>
 ---
- drivers/staging/greybus/gbphy.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/staging/rtl8723bs/include/basic_types.h | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/staging/greybus/gbphy.h b/drivers/staging/greybus/gbphy.h
-index d4a225b76338..1de510499480 100644
---- a/drivers/staging/greybus/gbphy.h
-+++ b/drivers/staging/greybus/gbphy.h
-@@ -15,6 +15,7 @@ struct gbphy_device {
- 	struct list_head list;
- 	struct device dev;
- };
-+
- #define to_gbphy_dev(d) container_of(d, struct gbphy_device, dev)
+diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
+index d2436459cff6..e2abbf691e21 100644
+--- a/drivers/staging/rtl8723bs/include/basic_types.h
++++ b/drivers/staging/rtl8723bs/include/basic_types.h
+@@ -143,16 +143,11 @@
+ 		((((u8)__val) & BIT_LEN_MASK_8(__bitlen)) << (__bitoffset)) \
+ 		))
  
- static inline void *gb_gbphy_get_data(struct gbphy_device *gdev)
-@@ -43,6 +44,7 @@ struct gbphy_driver {
- 
- 	struct device_driver driver;
- };
-+
- #define to_gbphy_driver(d) container_of(d, struct gbphy_driver, driver)
- 
- int gb_gbphy_register_driver(struct gbphy_driver *driver,
+-#define LE_BITS_CLEARED_TO_1BYTE_8BIT(__pStart, __BitOffset, __BitLen) \
+-	(\
+-		LE_P1BYTE_TO_HOST_1BYTE(__pStart) \
+-	)
+-
+ #define SET_BITS_TO_LE_1BYTE_8BIT(__pStart, __BitOffset, __BitLen, __Value) \
+ { \
+ 	*((u8 *)(__pStart)) = \
+ 		EF1Byte(\
+-			LE_BITS_CLEARED_TO_1BYTE_8BIT(__pStart, __BitOffset, __BitLen) \
++			LE_P1BYTE_TO_HOST_1BYTE(__pStart) \
+ 			| \
+ 			((u8)__Value) \
+ 		); \
 -- 
-2.43.0
+2.53.0
 
