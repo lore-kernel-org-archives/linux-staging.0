@@ -1,212 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF2E3101A6;
-	Fri, 16 Oct 2026 23:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E573041BA98
+	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 23:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792194358; cv=none; b=j7MMeUj1LPiIY3eSZ+LweV6Uay+jf9vZJPxZQBly9Bia1CNfgMgedN6Vi/HZwSkhq9Z2NXWDhIqZdeKNhCHL4OhwFIEe0H8cRtegDeovQRs5jcuwsUeFbFDQB5mqegEOFwMO0zyHfTuZUY+gpO87ZChyqNmyZDmS8yFrNtIxd14=
+	t=1792194618; cv=none; b=Dyrz+6WW9dEgWdgBOqM/S5K97Y8XP3pBSvFX81JnmE1GzZmnKKnE4W3hT/JMAQrWPbDlW26ti7Nf9HJ1qVgBSiryM2QxyVQsT4J1qFUt9Wye9OMNKCIAScSX/N2wawvqBN5M9QlreYi/mzrH3vhtVwWz6ibFCpoBB0nVWwOhhRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792194358; c=relaxed/simple;
-	bh=gs32zXmkqfNnDVhhozI3eslbeo8A7IlYN/2jK6jv1uk=;
-	h=From:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type; b=rCcsGyWjgX/Q2QESdVYtMCsjW5dcXXsI8cSop+U9VRWAciL24AzrDwMo3GUtdhNG7cIg/MA46Mmk0KwdU2czGZqvaDezhMCOPICnrqqoIp2eGO3OyAMvHSuMO77B39ktGmGTQef3NxplS0eiUFZsFBq9aqRU67gtTa1xpb2eLZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XoKkzt+E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1792194618; c=relaxed/simple;
+	bh=GYVffwSyA/tW73L1hgZM9lALroKhDjOBd+0Vmma8slA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MNGvGYqYO0mSShr8RWhizetli6KZQTqzfULUHC1fST0LGB10QCcwvwOgO3YysbfsflkB7kcttJp+ArGhuXYECxgij5Z9FjGk35Barv4xo6d574GZfuucW6xTCwzzxsRsTuaza7L83Fh+SkYAlmffmwIi4TikMCjc6b8gQZcFM2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X6IHjBBs; arc=none smtp.client-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XoKkzt+E"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7B56BC2BCF4;
-	Fri, 16 Oct 2026 23:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792194358;
-	bh=gs32zXmkqfNnDVhhozI3eslbeo8A7IlYN/2jK6jv1uk=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=XoKkzt+E71f0q0TAgbfXIuGHZz6T+PRUJTjBgS/SVXjDvTimEJjfOdTVV6dkPZObx
-	 1wZp3syUNWcsAfYwWD1qyzP5AanIE898CoeNv28fcUELu9vR/ozuDa69pKyjIAMcyw
-	 oEpGlEmhOIzme82+Oslr1IP5KDpX2VqBKV/0+VNRjCAd1/vJIYtv/xiVeuThfYyuWE
-	 x2Vx4wjeCFS8uVJu2VpsM1m3ZD0mOiNHUdy9OJpkyjkJ1yLBrMFcOfeDiVVe22loZD
-	 edru4FWMZTemFCIy5B6m78URU+HAUha73IL6z4TheHvyk7xpqWFHGDQWz2hybPkwKm
-	 AEiuMzAUZ2/qw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56799CCA46C;
-	Fri, 16 Oct 2026 23:45:58 +0000 (UTC)
-From: Amir Atef via B4 Relay <devnull+amiratefabdallah1122.gmail.com@kernel.org>
-Subject: [PATCH v2] staging: iio: frequency: ad9834: use guard(mutex)
-Date: Sat, 17 Oct 2026 02:45:52 +0300
-Message-Id: <179219435216.322.13409717511306957730.20261017-ad9834-guard-mutex-v2@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X6IHjBBs"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-35d0be18c71so1564030eec.1
+        for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 16:50:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792194616; x=1792799416; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8SJKkat+VQh4F6rl2h/cHjhe4hX3sReiQ/IZr42ROVM=;
+        b=X6IHjBBsjZatc5BswiXprBvGr7Pwt5bdJpZgwSTxNa1WEIOFzz0huqx3EoTwWQUAfo
+         EzBt2Qm1zKkFxkTPUmYOSsm4kyvidTp2T1cu4GFW5vEY2ZLjPswxf6/7VkDtZ1ptvQW8
+         AftuJLdy2p6CogQEg/5jSa+kzUzm1ThWr/CJPuQBOpOMr13BM9tuhULvUfzwPLfun8kC
+         6TeF0Y7Br5yO68KBzxkTEIYhtpfGg8wa4hF3oKl9JOIsF4aiJ0xiYJVO79cajsguYD5w
+         u17Sfg91KWvzyP6mGkA6SNNdrW4AvLsyfjm5TmOaKudJ25uQ96fxw4bZOB1C8cLtg1lA
+         KY5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792194616; x=1792799416;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8SJKkat+VQh4F6rl2h/cHjhe4hX3sReiQ/IZr42ROVM=;
+        b=bh9jfOIjYjlES/OkPXZdvuTXduhtnp3xx2PCig+6gdCFxtpisyEkEqvlCIfx09+JKd
+         qEslZLL0EUwDq+J6QXrJ6Efp4mZvyC1QjOqFuJjxgR6xw6DEkTelos35EczJ7q4t/B6x
+         1ZYc+rgh9YDo4Oj4/hccXIPeGFDkimvahMwQ12ZeycTg+yWC+77kWI1uUXAQwh94fRG1
+         9Y1oWC2xJgxR3qNY0udbvWaufPprCZ+4NiUkmaIp6ZtljLuqs9seW8FVyNgRwQsGEPo+
+         bU7B/l9BafPlkqZhZHCFPe+P/EfXGpM62DGMXixplC2D6Cd8paxBJ9ZO+2M24gCCXL/1
+         xyYg==
+X-Forwarded-Encrypted: i=1; AKwUvBzQ554Tl9/Z09V3NbDBhgWafL7LP461nORICGZuK6y8YHKoPBvKjUEKz0T9j40JLIlXFVEvivwc6Qp8pB9W@lists.linux.dev
+X-Gm-Message-State: AFq9FYJMp9F7vgdIK+rYyLL1EDJLbKyId1CpwuMyOMbP3fwHxmniA5wJ
+	5X42v42ulK5bprgsDvLQIs+Yrt5S9RX9bCWG6qEuH8y+it9XnWQlysoM
+X-Gm-Gg: AYBFou0aPnDAM7m+jA1XQ51J/DDCgFcORY/pbZSKHc8lg2JvvDe5ce3THBt/xOXWLtZ
+	/lX98CfeNTJk/ZDoqCZg40Ay3Yqcl9WKcT/MmMqPtoWIXl0h//+PECvjwXvZ5Rw5o72UJyoL+2F
+	n+xoOGDFg9uVGlZk5fY7Tz9tmAHi99lOy3P+Ip+v1PNr0PF8DS6e+/kgd+0zNHmlefVdv1ZsqtH
+	vfLY/tYQpHepviTecIGFV/XZ45izY4bWGhovyr4+cxObDHhpDOm6QgrOH2ctTBSMli3BuG+uquc
+	j/ynlbTISlFFMYTJJr4mZHT+D6FMgK8BwFHpTRwivZFsKuMqaZXG+x3K7smCmZZvBlDvs5Q7+L6
+	DOJvjrmODIi2zKWADf7HG+ilbLOCVnQvIJxb7akn9oE9L+8n6udgdOatXFor7r2KBOd8tyIcsHO
+	H2fwytNaGSjhlZDSV+/bZhvh+iHv9ehI/xv5PGKMYKQXKbO4M3VKlqeULNMalr+756pz4LOC2GK
+	vQ=
+X-Received: by 2002:a05:7300:f0c3:b0:35f:ab1:4792 with SMTP id 5a478bee46e88-3602d6e460dmr5639283eec.6.1792194615855;
+        Fri, 16 Oct 2026 16:50:15 -0700 (PDT)
+Received: from user ([2405:201:c052:b00b:a69d:8570:9766:5ea])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-360820a79c7sm9584342eec.18.2026.10.16.16.50.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 16:50:15 -0700 (PDT)
+Date: Sat, 17 Oct 2026 05:19:59 +0530
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+	gregkh@linuxfoundation.org, rmfrfs@gmail.com, vireshk@kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: Align function arguments
+Message-ID: <atK4JxHU2SmM-HbV@user>
+References: <20261016063648.22795-1-pavankumaryalagada@gmail.com>
+ <DM6MD2KJ8KS8.33P7OXVDIFUEP@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792194352; l=4410;
- i=amiratefabdallah1122@gmail.com; s=20261016; h=from:subject:message-id;
- bh=QC3WjUcRokALSjuAgdPJHx7Z+g92N3srbIAjHSHgWH0=;
- b=XqlHDjIA8XspS27KHuZUtY1Q9oxs7Yin5t4IjtP4AZgGZvqWRSEuhAIOQZebtLSetiYdydJ5z
- Bb6H5vmf0WyA2YwWr4yKFsbGkzOgT7Lrx/mkq6UAnVIfyVOpQqWpgmE
-X-Developer-Key: i=amiratefabdallah1122@gmail.com; a=ed25519;
- pk=FRhtQptjt3GSkQBUg7qfVL8eusorsJqHzciu3+ss11o=
-X-Endpoint-Received: by B4 Relay for
- amiratefabdallah1122@gmail.com/20261016 with auth_id=1209
-X-Original-From: Amir Atef <amiratefabdallah1122@gmail.com>
-Reply-To: amiratefabdallah1122@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM6MD2KJ8KS8.33P7OXVDIFUEP@gmail.com>
 
-From: Amir Atef <amiratefabdallah1122@gmail.com>
+On Fri, Oct 16, 2026 at 05:34:44PM -0500, Ethan Tidmore wrote:
+> On Fri Oct 16, 2026 at 1:36 AM CDT, pavankumaryalagada wrote:
+> > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> >
+> > Align the function arguments to follow the coding style and
+> > improve readability, addressing the alignment warning reported by
+> > checkpatch.pl
+> >
+> > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> > ---
+> 
+> This doesn't apply. Are you using staging-next?
 
-Use guard(mutex) to manage the state lock in ad9834_write() and
-ad9834_store_wavetype(). This simplifies error handling by allowing
-early returns instead of setting the return code and breaking out of the
-switch statement to manually unlock the mutex.
+I'm not using staging-next for this patch.
 
-Signed-off-by: Amir Atef <amiratefabdallah1122@gmail.com>
----
-Changes in v2:
-- Add blank line after guard(mutex) in ad9834_write().
-- Move 'int ret;' to the end of the variable declaration block in
-  ad9834_store_wavetype().
-- Drop redundant 'else' in ad9834_store_wavetype() case 1 by inverting
-  the condition (kept 'else' in ad9834_write() and case 0 where they are
-  part of if-else-if-else chains).
-- Replace ternary return with explicit 'if (ret) return ret;' in
-  ad9834_store_wavetype().
-- Link to v1: https://lore.kernel.org/r/179214943270.333.5921549521929682753.20261016-ad9834-guard-mutex@gmail.com
+Should i rebase it onto staging-next and send v2?
 
- drivers/staging/iio/frequency/ad9834.c | 50 ++++++++++++--------------
- 1 file changed, 22 insertions(+), 28 deletions(-)
+Thanks,
+Pavan
 
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index 0d20f796e0f0..c45bb388c998 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include <linux/bits.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/dev_printk.h>
- #include <linux/err.h>
-@@ -154,7 +155,8 @@ static ssize_t ad9834_write(struct device *dev,
- 	if (ret)
- 		return ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
-+
- 	switch ((u32)this_attr->address) {
- 	case AD9834_REG_FREQ0:
- 	case AD9834_REG_FREQ1:
-@@ -165,10 +167,8 @@ static ssize_t ad9834_write(struct device *dev,
- 		ret = ad9834_write_phase(st, this_attr->address, val);
- 		break;
- 	case AD9834_OPBITEN:
--		if (st->control & AD9834_MODE) {
--			ret = -EINVAL;  /* AD9834 reserved mode */
--			break;
--		}
-+		if (st->control & AD9834_MODE)
-+			return -EINVAL;  /* AD9834 reserved mode */
- 
- 		if (val)
- 			st->control |= AD9834_OPBITEN;
-@@ -194,8 +194,7 @@ static ssize_t ad9834_write(struct device *dev,
- 			st->control |= this_attr->address;
- 			st->control &= ~AD9834_PIN_SW;
- 		} else {
--			ret = -EINVAL;
--			break;
-+			return -EINVAL;
- 		}
- 		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
- 		ret = spi_sync(st->spi, &st->msg);
-@@ -210,9 +209,8 @@ static ssize_t ad9834_write(struct device *dev,
- 		ret = spi_sync(st->spi, &st->msg);
- 		break;
- 	default:
--		ret = -ENODEV;
-+		return -ENODEV;
- 	}
--	mutex_unlock(&st->lock);
- 
- 	return ret ? ret : len;
- }
-@@ -225,10 +223,10 @@ static ssize_t ad9834_store_wavetype(struct device *dev,
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad9834_state *st = iio_priv(indio_dev);
- 	struct iio_dev_attr *this_attr = to_iio_dev_attr(attr);
--	int ret = 0;
- 	bool is_ad9833_7 = (st->devid == ID_AD9833) || (st->devid == ID_AD9837);
-+	int ret;
- 
--	mutex_lock(&st->lock);
-+	guard(mutex)(&st->lock);
- 
- 	switch ((u32)this_attr->address) {
- 	case 0:
-@@ -241,7 +239,7 @@ static ssize_t ad9834_store_wavetype(struct device *dev,
- 				st->control &= ~AD9834_OPBITEN;
- 				st->control |= AD9834_MODE;
- 			} else if (st->control & AD9834_OPBITEN) {
--				ret = -EINVAL;	/* AD9834 reserved mode */
-+				return -EINVAL;	/* AD9834 reserved mode */
- 			} else {
- 				st->control |= AD9834_MODE;
- 			}
-@@ -249,31 +247,27 @@ static ssize_t ad9834_store_wavetype(struct device *dev,
- 			st->control &= ~AD9834_MODE;
- 			st->control |= AD9834_OPBITEN;
- 		} else {
--			ret = -EINVAL;
-+			return -EINVAL;
- 		}
- 
- 		break;
- 	case 1:
--		if (sysfs_streq(buf, "square") &&
--		    !(st->control & AD9834_MODE)) {
--			st->control &= ~AD9834_MODE;
--			st->control |= AD9834_OPBITEN;
--		} else {
--			ret = -EINVAL;
--		}
-+		if (!sysfs_streq(buf, "square") || (st->control & AD9834_MODE))
-+			return -EINVAL;
-+
-+		st->control &= ~AD9834_MODE;
-+		st->control |= AD9834_OPBITEN;
- 		break;
- 	default:
--		ret = -EINVAL;
--		break;
-+		return -EINVAL;
- 	}
- 
--	if (!ret) {
--		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
--		ret = spi_sync(st->spi, &st->msg);
--	}
--	mutex_unlock(&st->lock);
-+	st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
-+	ret = spi_sync(st->spi, &st->msg);
-+	if (ret)
-+		return ret;
- 
--	return ret ? ret : len;
-+	return len;
- }
- 
- static
--- 
-2.51.0
-
-
-
+> 
+> Thanks,
+> ET
