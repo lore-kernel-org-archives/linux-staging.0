@@ -1,97 +1,97 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508463A9616
-	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 19:32:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9A039656D
+	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 20:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792179152; cv=none; b=Hczx4sZHpAVAVBv739S4cLnkpJ9f3vWKA/VZVgw2N+9YjFluzC6sEpi/FrMrAq24/IQrIoMMQpDsGEPCjvng8YPD23h8pvGLrmBzAeDAUX5HDV0KJG3wzv/KBgolXd6gFzcojVyyuoAYE2UfFcCtGHDLFIudBxorEEkI6SvOKgY=
+	t=1792183125; cv=none; b=k69Fv4vCNFcy9N2L89GkJm5WBJVa4SM4xVqtcfAM1yJ7AbA4c8rd5oWCl8Fvxn8TvDNHCwHgZikjEF+36Kb5hRcsU8ywo5RuC0F2BnTypNu0wbXsuvx7C9SWGTSM46RT4R/tSlKP9TGlm8blxhHfoalK7RstVrvQtEJcNXOwaUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792179152; c=relaxed/simple;
-	bh=nema57VpknUEVjHK/6OaGO6/Ax8j31pmoGa6E/DIQpM=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rWPlz/xuBbE93DNGUuqEMqh/UglGwUAG6TsZkBoAz6fpmDf4BmOuofejYe7NxktjhON6tf6SssNlfp4OjfOjFcNakLR59fLlD+vZxJ/16mhR7Yf1KLD7kvLDJh0rORAviFY5AJ7j197faN2QbH4bOm58ryP7WYXc83fjX3f62QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
+	s=arc-20240116; t=1792183125; c=relaxed/simple;
+	bh=3Lhri/9i3TNtw9R/Tcbw/mOjoERB6hK1pH191CCiSzM=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=eCc67AbcupoXkj/m9c1VTAQyJyHlmn/5w6wge1e1eErEg7I6WFFe3IDh772DjSyjNx9IS2NV3gamM/KxwdGtOloJ7hvGJk582/m9siIiWmGuVm5xoiX9TYYvMT7oXkrSuMIWh6d2f5mvJrFYryYVU/d7QB8MwP29dcDOd3Me3y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4e778acdbc6so489796b6e.3
-        for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 12:32:28 -0700 (PDT)
+Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-47d75bcf3ebso465241fac.0
+        for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 13:38:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792179148; x=1792783948;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eqhbNevn+egUUM8xu0N1mDNSKYZORquqfhQb7/sTToI=;
-        b=daAf0vgxd+cWZf2cwdHw7UsaCBtzqY43D3psH/HrR+cNRm+vOEPDOHkbDxChjSNnti
-         A442RogJL4O96WxZxQofvzcQM2MsyuyQYHbWrYhl9ppjFcrX1QkdyKXQ2lZAX62Z1kj6
-         RUmf6IqH0j9JzuBi+Vo8NUQScxZU7YZWOTTH2T98DjfTAd3cUPduxDT7Ten7nzHDucHc
-         GVIYcM1hG53Opo+e4WvbIGFdJ7YOuiUxa1rxlClxYL6SwDbutY9SvsTxhy1SDotTkRuc
-         TWDuzmstKdE5oVbp/qLCTozjW8NJPvP7RRowZd54GXEm2LlaZTttO5GXUpkOacurPAUQ
-         ECqg==
-X-Forwarded-Encrypted: i=1; AKwUvBwTW2oEGGO+Fm+roSyIfREtUFU5z4Ijbp1zHBErlL8q/c252OTiZ1M6y6EY05v5CgzQ913LIs8WkgGIvFyk@lists.linux.dev
-X-Gm-Message-State: AFq9FYICyMcLKJgAdVh3TWT4Qcv0WWkNEfhGSztsRjJ+vgLYhbaiJ+iw
-	DdVDz7j9qzCzSNuiwS16CnNGWsQuzhcNtzjAnCUBRPlSJ/MajoQUWb2YMfl91o5FOxCwpa5AHuN
-	tTL4l029P3kpa0NKc2UX3gKSVzdHIIgJIALskTNuIMqyR9k29qqM1vwVgc3Q=
+        d=1e100.net; s=20260707; t=1792183123; x=1792787923;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=AY8LAWcYNYyJyH/2TYt4cmd1InLt2Z9ePL5WuUaiwao=;
+        b=xRxBd9kQsW/3SOjjtlhaxdEKAT9gBlUy1KHS33c0w9RFLZ0bVHoQjFhgmq0BUD25qi
+         MX4ghCwXNjaTkSCiyxUfj0EmVVYRebOox96rmJy63mIkqq9mcosYYxu8+LDBdWjAW1Tf
+         EUp97tIgOuxabuyJkfaYQ4kiO24GfCte9DRZcPV6gelGxv99PkvJuVKZNRbdyoO0923v
+         ZNXl+Y5qE9JnEklWdeihJ1tb1iYS9QOW2cuiZOLPGnQPfuW4Eii2MGyyysHHb1gqd8Ce
+         BKMuqUrDzP97CTnep6iSxd3vjB/U7tZGdx/0OZHKwuBexxT4nibBTpQRKHVe8cTY51Pe
+         JABw==
+X-Forwarded-Encrypted: i=1; AKwUvBwaWKObgLWDhU0xEe7kCzxLfV4UrYWJUKgwzKU7rW0D0Nw0JhhhMSrh1yt/TBgk+xeMTZfddJ5hwFsq4PEA@lists.linux.dev
+X-Gm-Message-State: AFq9FYJGJ3uAdHrQnVDLBmyhTo4lLFK4/kz/E7yFdlUzKISsqOpQ5D8m
+	ZIe1r57M220YgUv0r3N57FkhYHpunH5gNzZpM435skLeIWIWXMDU41duAsSs7ZrcewM+gAzaEt4
+	03oasXRBDqA8mGxBfyY2RYaRK233GWwGIo5tnhWIe3RLgR3081p+osTAXuXc=
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3a1a:b0:4cb:f21c:a795 with SMTP id
- 5614622812f47-53cd056572amr606742b6e.29.1792179147921; Fri, 16 Oct 2026
- 12:32:27 -0700 (PDT)
-Date: Fri, 16 Oct 2026 12:32:27 -0700
+X-Received: by 2002:a05:6808:3509:b0:4d7:17d5:6c9b with SMTP id
+ 5614622812f47-53cc1ef9b0cmr725570b6e.9.1792183123019; Fri, 16 Oct 2026
+ 13:38:43 -0700 (PDT)
+Date: Fri, 16 Oct 2026 13:38:43 -0700
+In-Reply-To: <6ad27bcb.6814cce4.34c49f.000b.GAE@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ad27bcb.6814cce4.34c49f.000b.GAE@google.com>
-Subject: [syzbot] [greybus?] WARNING: ODEBUG bug in gb_operation_sync_timeout
+Message-ID: <6ad28b52.a6d1a155.34a93f.0005.GAE@google.com>
+Subject: Re: [syzbot] [greybus?] WARNING: ODEBUG bug in gb_operation_sync_timeout
 From: syzbot <syzbot+a2e50fb40695811c2dab@syzkaller.appspotmail.com>
-To: elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
+To: elder@kernel.org, gregkh@linuxfoundation.org, 
+	greybus-dev-bounces@lists.linaro.org, greybus-dev@lists.linaro.org, 
 	johan@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
 	linux-staging@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
-
-syzbot found the following issue on:
+syzbot has found a reproducer for the following issue on:
 
 HEAD commit:    2f2f7eeef8b0 Merge tag 'soc-fixes-7.3-3' of git://git.kern..
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=157b1bd1580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c4b098695335c89f
+console output: https://syzkaller.appspot.com/x/log.txt?x=13a0d18e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4ccb65e03706547e
 dashboard link: https://syzkaller.appspot.com/bug?extid=a2e50fb40695811c2dab
 compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=172ff571580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1333e971580000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/e46a243fa39c/disk-2f2f7eee.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/04a37a0099c0/vmlinux-2f2f7eee.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c2964fdca34d/bzImage-2f2f7eee.xz
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-2f2f7eee.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/5c84d55442c9/vmlinux-2f2f7eee.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/45a44266fe39/bzImage-2f2f7eee.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
 Reported-by: syzbot+a2e50fb40695811c2dab@syzkaller.appspotmail.com
 
-greybus greybus1: 0/0:0: synchronous operation id 0x0002 of type 0x10 failed: -71
+greybus greybus1: 0/0:0: synchronous operation id 0x0003 of type 0x14 failed: -71
 ------------[ cut here ]------------
-ODEBUG: free active (active state 0) object: ffff888087f2c878 object type: timer_list hint: gb_operation_timeout+0x0/0x110 drivers/greybus/operation.c:1265
-WARNING: lib/debugobjects.c:632 at debug_print_object+0xec/0x230 lib/debugobjects.c:629, CPU#1: kworker/u8:19/14610
+ODEBUG: free active (active state 0) object: ffff8880353040d0 object type: timer_list hint: gb_operation_timeout+0x0/0x110 drivers/greybus/operation.c:1265
+WARNING: lib/debugobjects.c:632 at debug_print_object+0xec/0x230 lib/debugobjects.c:629, CPU#0: kworker/u4:7/180
 Modules linked in:
-CPU: 1 UID: 0 PID: 14610 Comm: kworker/u8:19 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/07/2026
-Workqueue: greybus1:svc gb_svc_process_deferred_request
+CPU: 0 UID: 0 PID: 180 Comm: kworker/u4:7 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Workqueue: greybus1:0 gb_operation_work
 RIP: 0010:debug_print_object+0x18a/0x230 lib/debugobjects.c:629
-Code: f8 48 c1 e8 03 80 3c 18 00 74 08 4c 89 ff e8 4d 99 4c fd 4d 8b 0f 4c 89 ef 48 8b 74 24 08 48 89 ea 44 89 e1 4d 89 f0 ff 34 24 <67> 48 0f b9 3a 48 83 c4 08 ff 05 f3 4c 8e 0c 48 83 c4 10 5b 41 5c
-RSP: 0018:ffffc9000767f7e0 EFLAGS: 00010246
+Code: f8 48 c1 e8 03 80 3c 18 00 74 08 4c 89 ff e8 cd 97 4c fd 4d 8b 0f 4c 89 ef 48 8b 74 24 08 48 89 ea 44 89 e1 4d 89 f0 ff 34 24 <67> 48 0f b9 3a 48 83 c4 08 ff 05 73 bf 8c 0c 48 83 c4 10 5b 41 5c
+RSP: 0018:ffffc90001a2f780 EFLAGS: 00010246
 RAX: 1ffffffff181f08c RBX: dffffc0000000000 RCX: 0000000000000000
-RDX: ffffffff8c6de740 RSI: ffffffff8c6de1c0 RDI: ffffffff91859a20
-RBP: ffffffff8c6de740 R08: ffff888087f2c878 R09: ffffffff8c0f97c0
+RDX: ffffffff8c6df740 RSI: ffffffff8c6df1c0 RDI: ffffffff9185c030
+RBP: ffffffff8c6df740 R08: ffff8880353040d0 R09: ffffffff8c0f97c0
 R10: dffffc0000000000 R11: ffffffff81b3f760 R12: 0000000000000000
-R13: ffffffff91859a20 R14: ffff888087f2c878 R15: ffffffff8c0f8460
-FS:  0000000000000000(0000) GS:ffff888123bbf000(0000) knlGS:0000000000000000
+R13: ffffffff9185c030 R14: ffff8880353040d0 R15: ffffffff8c0f8460
+FS:  0000000000000000(0000) GS:ffff88808b0b4000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000000110c25d909 CR3: 0000000071620000 CR4: 00000000003526f0
+CR2: 00007f5280b524c0 CR3: 000000000fb48000 CR4: 0000000000352ef0
 Call Trace:
  <TASK>
  __debug_check_no_obj_freed lib/debugobjects.c:1171 [inline]
@@ -101,9 +101,13 @@ Call Trace:
  kmem_cache_free+0xfd/0x650 mm/slub.c:6636
  gb_operation_sync_timeout+0x1c7/0x270 drivers/greybus/operation.c:1172
  gb_operation_sync include/linux/greybus/operation.h:203 [inline]
- gb_svc_intf_set_power_mode drivers/greybus/svc.c:584 [inline]
- gb_svc_process_hello_deferred drivers/greybus/svc.c:936 [inline]
- gb_svc_process_deferred_request+0x5f3/0x1150 drivers/greybus/svc.c:1102
+ gb_svc_pwrmon_rail_count_get drivers/greybus/svc.c:137 [inline]
+ gb_svc_pwrmon_debugfs_init drivers/greybus/svc.c:772 [inline]
+ gb_svc_debugfs_init drivers/greybus/svc.c:827 [inline]
+ gb_svc_hello drivers/greybus/svc.c:875 [inline]
+ gb_svc_request_handler+0x902/0x1300 drivers/greybus/svc.c:1276
+ gb_operation_request_handle drivers/greybus/operation.c:243 [inline]
+ gb_operation_work+0xe1/0x960 drivers/greybus/operation.c:280
  process_one_work kernel/workqueue.c:3396 [inline]
  process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
  worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
@@ -118,7 +122,7 @@ Code disassembly (best guess):
    5:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
    9:	74 08                	je     0x13
    b:	4c 89 ff             	mov    %r15,%rdi
-   e:	e8 4d 99 4c fd       	call   0xfd4c9960
+   e:	e8 cd 97 4c fd       	call   0xfd4c97e0
   13:	4d 8b 0f             	mov    (%r15),%r9
   16:	4c 89 ef             	mov    %r13,%rdi
   19:	48 8b 74 24 08       	mov    0x8(%rsp),%rsi
@@ -128,29 +132,13 @@ Code disassembly (best guess):
   27:	ff 34 24             	push   (%rsp)
 * 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
   2f:	48 83 c4 08          	add    $0x8,%rsp
-  33:	ff 05 f3 4c 8e 0c    	incl   0xc8e4cf3(%rip)        # 0xc8e4d2c
+  33:	ff 05 73 bf 8c 0c    	incl   0xc8cbf73(%rip)        # 0xc8cbfac
   39:	48 83 c4 10          	add    $0x10,%rsp
   3d:	5b                   	pop    %rbx
   3e:	41 5c                	pop    %r12
 
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
