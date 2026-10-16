@@ -1,178 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212504A64E0
-	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 13:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792155996; cv=none; b=MTiKqqN/xIjEtIEO3Pl4bjwSdf8aPFfqYGACVEDYc2YsvbEQ4d5rnCYY8hTsZtMEfkWE4wFxrCPiQOHjm8KkNlsdB1Lwb12Tveclv8WiK3Moml3WlgtJIsETCan7haIghwqFlTerutmo1j+VHtHIDu+LrITcCRBTCVApETKm7kM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792155996; c=relaxed/simple;
-	bh=b66PwVgixFODkxnqwvb8zbNY+Im0BxU/SnjjTDsRYqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QoWJVfbK4Fvpf3vaf3PdLP2Zpeso5ME3cfN+Z0rvZsLQb1x0PBlSEfNDtidPi76KFsWurDiSue1WjRvCu5B51GMQtToznfdQ6KY67q+pbElb06Y7QmBFNyooETTfU2+C+PfALw82Itu8/odbGGqf7ER8z5ZkaGsMwdaBTrKrotc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IznA6M8/; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1FA562604
+	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 17:20:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792171225; cv=pass; b=gZNjXiODxzCjo+BVVlxS7QcT9zm9Xa2UtMNXwJkMEtsq8lPcFMTOav/fbXGp+Bf1NXzjEupz9ONWqdpkwAVevLfW+0pNInq1N9hk9OLe+AJTj4amu/mEF5BvXRkhULgxa3cjTgHgCWQB+LUHEuO/t3I0jN94KlO5ApYMAlUKsvo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792171225; c=relaxed/simple;
+	bh=MiP0/OfvrCvA4rJbJ0HuMjTm1tAB0xvIAwvsxL8/19Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GsXFsEEEVu4ZeQMrfLU+FqZj2LRKcnHReDGGOOE5YKhmcN4NKhA2i2sd77+25loHhaqF3yrzp2UTycPIKbbyCpsQ8LgiUy25hTz1xrQhqa60PF15Zwtbkegz4q0qyzFo5f++39LCm9mfxFTBFMFSH85Y1rXOyeC5F0z8E232HeA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=im3GC75V; arc=pass smtp.client-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IznA6M8/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792155993; x=1823691993;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b66PwVgixFODkxnqwvb8zbNY+Im0BxU/SnjjTDsRYqU=;
-  b=IznA6M8/VVTI6DEFr65rieubcSiVutF8fd1yrJAGOtJ4XHfxUekz6ysI
-   GI08klDacg9fo2BMYWQ6Nqkueq3XdNKBMtjBtbgQiP5CH8iYXdjkCitO0
-   Hitm7eXQmQdS3fMqWeDS1I40FUpsxbFozteOTA51OeJA6cVT/8Zo+GZJb
-   /7VsOox9ZmDSKhzpv82HnXAb+S3UyY3rDUqxEEQLxV5InbJ/sbKlhxmWh
-   GRPUfQo95agMZeE7OoBxJgDsRNoLBVY4mtElrax4f39f6HYaUB7MdhZkT
-   udPmG9mt0RcNu4k4DsJg3Dub31D/Vh3CcyRLc1cZYqB4s7DzOfYUjBNsI
-   A==;
-X-CSE-ConnectionGUID: PoPLVudiTaeOvXxleZPFTg==
-X-CSE-MsgGUID: s5Pnu8s9Soq20WdfY7VK8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="934246"
-X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="934246"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 06:06:33 -0700
-X-CSE-ConnectionGUID: 0QGEmuoyRxWTE2j7eyKIdw==
-X-CSE-MsgGUID: unqe8aqCQWyJM9QWpP87mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="1929831"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.35])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 06:06:30 -0700
-Date: Fri, 16 Oct 2026 16:06:27 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: amiratefabdallah1122@gmail.com
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: frequency: ad9834: use guard(mutex)
-Message-ID: <atIhU8goKaSJUcrV@ashevche-desk.local>
-References: <179214943270.333.5921549521929682753.20261016-ad9834-guard-mutex@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="im3GC75V"
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-16079d54c17so260800c88.0
+        for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 10:20:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792171223; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TEcbmUrAEMIhliELyScxhpRnnEoEmxS0wINt4XZUOD0e15yyLQGyyXDFHYCuTsTR8b
+         +XNQFdo/QMZsHq6dfiDDUdI9tMu+vibaXwqpVqgRPf3NLCUDK9DlHvk4lJ7KaCEBVmRP
+         8P8Q+s/TFUzUr4rvyEbZlD9H5N+8uVnX8ZA/jn8Cwz8o/Rm/sfNn5/nZejf5O8WGIRgR
+         YnH5CuMzcJfrUFbIDF3q0E2xjJfuM0vNGPjceK+vyU/7maWs8fGE8UDBCv6POxpKZT7K
+         JT4Cq6FQ61yGsKBoxYtRIbUtRjV+TyiiwexdHQkdIHvCYxQf7CpSC8oXh5KeRpiKmCpL
+         JDpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=MiP0/OfvrCvA4rJbJ0HuMjTm1tAB0xvIAwvsxL8/19Y=;
+        fh=xWK6EvU6R/QMuNkIeULbOYkGfmVdH0ITcyQo2uoUiMo=;
+        b=P/TsQBkY4bDUIwDjrOEf0b/oW2A42Roybn/e0psm0vqJDouW0JnS+58DrPRmbfjWOW
+         o4sdqbAxkW6UWZVIoHkvZBAfuD4hJVytp9clAsyqLnplAsB0lMr2B/io4/U0gLOgFOFn
+         jlHpbMWWm5m9AkrUi/ykhO0C19kLu7dGoeLW9wPh9XqkzseL3/CAturzMYDsSgfC4itp
+         RHG+0yG0eF/c8agiWrGbePidjgboG26L6climmtwPeR+IOhthbV++sXSX8y/A5mBpBNi
+         fazYiFqFpZii5pUunwY9My0QFA27ZYKj9LWB3yIdsJGb43MYmcbf8g4Lefj2SI4/1zYn
+         eoVw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792171223; x=1792776023; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MiP0/OfvrCvA4rJbJ0HuMjTm1tAB0xvIAwvsxL8/19Y=;
+        b=im3GC75VJGQDsYxYIjeolUxJFN9H5Eyl9S/AZWa3av386lSkvPvZ2rmGpR5OumoYwT
+         F48Bcd/IAOWO98XWvd1uixRBoaduXXN2lZeSPD5LLMPgpymUonxgVXX0D6PiNmSRgNXN
+         Eu2IwyYBYhLpgpeu/Ik8YcJAs+il4ZPy+cFwHFdmyk5JDPPTN7L9q3JY5Kdf0l1UzXFz
+         L0J/U6s/Zesj0Vt3H74SNn//50fgvp3pjWAvISdGbSoDPv2xRvUOF5fgrS+TDtiGE/F8
+         dU72us46N0V5Mz6cH/I3rqhxQWcbrFLbNUnd79vZr5fGt7CG+qr59k65LZKeYQ+s51OK
+         exIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792171223; x=1792776023;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=MiP0/OfvrCvA4rJbJ0HuMjTm1tAB0xvIAwvsxL8/19Y=;
+        b=KparzyMIIDatzNKwIUmOe5sFCJBSxTdQlg2eP+jeAZo8l2PkA9ymku34pwzZ17PxPW
+         yqP6i4reSSETEpwHYsWHkrriSQzMTKfLh+0FACR854Rm+1PYAMTw5hnKXEeGoojpGjKT
+         hS7lNJkj+jxsAzOCNBg1JGU5Vy8kL6HoleVsjCBtHK2BUeQnipMtTyj1PEiLNVNZIfNF
+         6T+vKPjV8SFi/zpQGhBGm8WNs7eD9Ha43aKxaMQXTb2dRtRnVtWEEqUBoaHUCMoYCHdR
+         YwPRfOgrYDGL10p8tC2bKh1HLJImRoSzn07aYxC+8c1/J5kRCeQdn2dnBVN2RRUMYVmJ
+         SFZg==
+X-Forwarded-Encrypted: i=1; AKwUvBxE4DrLloMF0EdRqiVASzXP/6ozSviodVlmeDe20yJQrECD2uEr9aV8iqAbPCrU6rGyy5IbP942TsG+iglY@lists.linux.dev
+X-Gm-Message-State: AFq9FYJbKqIX233yswWMGVbnkmpbP2PtQVFpnduL7WhTG0Ac3p1ylCnd
+	31r81Ty8ndgEUOouRFjsfxp7PveEGcdF9VOZtcRB3G78tjiwDCk8fr1aGryDU2rYDa5r6QJm1Nt
+	FeRfcuBe7C4fsipChdmN8bntXPEABkAAl7Y7BHSU=
+X-Gm-Gg: AYBFou1EJ3Qw65qbNs1XiZo7pDgH8JIZ68yv6eCtwfWndhJGHjQTNTiMEpumQ64V0Tk
+	g+h4y2uhx+f1GYrYb0QM254MV/lNVggUWbKodRCtvzgOAc07dqSdTf7NV+7argg13EJBNj+ogQZ
+	t3tVtiCBo+4N4B/d+myVWsrpH7QidBnwDcAX54twuoKVyTlPtIu7i9XXxV3ltIJvuNt/0LlX9jR
+	FQXJlRq/8ngLyoek6y9Tz2zQeB0jtkRXGIwCKh6mruh/kDqTOunIXgK1vASxlRfPBxuYW7z0RmS
+	7RacziByjJoddnIFS/bj+3BTkGtt6A5B26vU4mVM3VAwgSxGHZZr4vjKqnd+4O5akDsuz58gWMP
+	1/7LRi85HvMX+s87Ym0GZo2vx0JZ/kTv+AiHYUIJqtfl0qvcDouVR2nM3wwVBowTdmc/JG7+YR5
+	CufHaTblxPky56q5ZZGRe8fw==
+X-Received: by 2002:a05:7022:7e83:b0:144:c12b:dfc6 with SMTP id
+ a92af1059eb24-18514a0bc6amr736465c88.44.1792171223208; Fri, 16 Oct 2026
+ 10:20:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179214943270.333.5921549521929682753.20261016-ad9834-guard-mutex@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20261012034020.100737-1-oliva.scorza@gmail.com> <atHkgyGbF6TR-lT4@stanley.mountain>
+In-Reply-To: <atHkgyGbF6TR-lT4@stanley.mountain>
+From: Riccardo Oliva <oliva.scorza@gmail.com>
+Date: Fri, 16 Oct 2026 12:20:11 -0500
+X-Gm-Features: AclHuK84seWErEQdezQ7ejBx3BT29fQ44gl29cEvTvBdMD6FM3ekTXKHgel4_qE
+Message-ID: <CACseTmkGtaLQMhBw4CwwH7Ym1NrGi58y=C59rGiex7R6a0O9QA@mail.gmail.com>
+Subject: Re: [PATCH] staging: vme_user: avoid iterator variable access outside
+ list loop
+To: Dan Carpenter <error27@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Oct 16, 2026 at 02:17:12PM +0300, Amir Atef via B4 Relay wrote:
+> You should generally assume old warnings are false positives.
+>
+> There is a check which tests if we found the image or not.
+>
+> regards,
+> dan carpenter
 
-> Use guard(mutex) to manage the state lock in ad9834_write() and
-> ad9834_store_wavetype(). simplifies error handling by allowing
-> early returns instead of setting the return code and breaking out of the
-> switch statement to manually unlock the mutex.
+Thank you for the advice! I'll treat the static analyzer output with
+more skepticism moving forward.
+I appreciate you taking the time to explain that to me.
 
-...
-
-> -	mutex_lock(&st->lock);
-> +	guard(mutex)(&st->lock);
-
-+ blank line.
-
->  	switch ((u32)this_attr->address) {
->  	case AD9834_REG_FREQ0:
->  	case AD9834_REG_FREQ1:
-
-...
-
->  			st->control |= this_attr->address;
->  			st->control &= ~AD9834_PIN_SW;
->  		} else {
-> -			ret = -EINVAL;
-> -			break;
-> +			return -EINVAL;
->  		}
-
-You can get rid of now redundant 'else' (although I haven't checked the full
-context, it might work only in the if-else case, but if-else-if-else requires
-different approach).
-
->  		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
->  		ret = spi_sync(st->spi, &st->msg);
-
-...
-
-> static ssize_t ad9834_store_wavetype(struct device *dev,
-
->  	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
->  	struct ad9834_state *st = iio_priv(indio_dev);
->  	struct iio_dev_attr *this_attr = to_iio_dev_attr(attr);
-> -	int ret = 0;
-> +	int ret;
-
-While at it, move it to be the last in the definition block.
-
->  	bool is_ad9833_7 = (st->devid == ID_AD9833) || (st->devid == ID_AD9837);
-
-...
-
-> static ssize_t ad9834_store_wavetype(struct device *dev,
-
->  			st->control &= ~AD9834_MODE;
->  			st->control |= AD9834_OPBITEN;
->  		} else {
-> -			ret = -EINVAL;
-> +			return -EINVAL;
->  		}
-
-Try to get rid of 'else'.
-
->  		break;
-
-...
-
-> static ssize_t ad9834_store_wavetype(struct device *dev,
-
->  			st->control &= ~AD9834_MODE;
->  			st->control |= AD9834_OPBITEN;
->  		} else {
-> -			ret = -EINVAL;
-> +			return -EINVAL;
->  		}
->  		break;
-
-Ditto.
-
->  	default:
-> -		ret = -EINVAL;
-> -		break;
-> +		return -EINVAL;
->  	}
->  
-> -	if (!ret) {
-> -		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
-> -		ret = spi_sync(st->spi, &st->msg);
-> -	}
-> -	mutex_unlock(&st->lock);
-> +	st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
-> +	ret = spi_sync(st->spi, &st->msg);
->  
->  	return ret ? ret : len;
-
-Rewrite it with proper if ().
-
-	ret = spi_sync(st->spi, &st->msg);
-	if (ret)
-		return ret;
-
-	return len;
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Best regards,
+Riccardo Oliva
