@@ -1,66 +1,65 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D5833F8AD
-	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 22:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C573F3B05AC
+	for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 22:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792190120; cv=none; b=jVc+2NxdCYMz2O8wJRXG3wD/zrXPOgyLhOQlJ5bYZEWvo//esumBYpEY+8pUdceDVFPDmZnMA6E6NB0sxdHu1gmdN3vehGSCWgMtUgqfpEhow9V2cy3uwIJ1wOnZsWfHZElDUVIJWvoCni8UIIwYLTPOTqojd4PJOk2b6avqSQg=
+	t=1792190575; cv=none; b=SdTObwQb35nC3RvqUAAsPb1Dc4rFOHnaVbQMTiS1KRcNRGDGctFNaaN2nhk5EMYfUCymGs6id/dYaWBN71F9mCnFP1Yrz79uOWzB7pC1AwYSutlGrBmZH7bVuQOfwfqTFqrBglY09hypAvMQxw1eIJnBW5sKoO9/ul+D0fLYhOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792190120; c=relaxed/simple;
-	bh=MZ2Rq4/80Q7iGewMisCrHrq9so+ss6+rUrfgmY5SqJM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=Nknvxvh40axu3onWfQyLCUUi8xd68jGS6kpPie8vo93R1e21QpnA2wZ/fYMWIJjCbJRutsCUuZ+81rcNt0UF1GU/Bh5ILRGTdWSL4dv2C4Fyp79q9QB2nssDP4WblyywHl+nBaFqIGK4PPamSoyjC6nRZz2LbULQJjmJ6YzifNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CldxH4vA; arc=none smtp.client-ip=74.125.224.45
+	s=arc-20240116; t=1792190575; c=relaxed/simple;
+	bh=yRPqnIJzWGrFd6xMxKB1kIUP2dXi0WX53WeK1s+gxfg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=UfT4uurtI/sIcZmnyWLfssHfI8o3iEL1YhnHFx2jBYz5xyMGHLGgG+mNXIyc1w5VQ1r23k/BQOsCChXus2wWtLuOXBeI5JiIECYAy7lJ5Dnz13p1PoYVlwfqnzvjZYJR7AOiqWKp5JnmmUfvUH+k6sF78Zfb6y1VWQy8nqFWorM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZkJUAd1b; arc=none smtp.client-ip=74.125.224.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CldxH4vA"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-675617e81f9so479422d50.3
-        for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 15:35:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZkJUAd1b"
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-67992884b02so288155d50.3
+        for <linux-staging@lists.linux.dev>; Fri, 16 Oct 2026 15:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792190118; x=1792794918; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=gmail.com; s=20251104; t=1792190574; x=1792795374; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=MZ2Rq4/80Q7iGewMisCrHrq9so+ss6+rUrfgmY5SqJM=;
-        b=CldxH4vAsoGih5swVsceWNFbVaHzRrXvoqB/x4PV/STHuNyD11FdjDY1WZE3JDOR9t
-         eBS7YtILu81wYlksoPo8Ud4KgW1NdSA5YoOZiWwRWa14U6QNzFxxE32oIYLnYlMGugIu
-         WJiwi4wnr5J60ImIIwpYUVxxCR94vi4Mnnr1I/0Mqe0e3kTA0kDJhdFS//GcQVXY2Jso
-         GjP7tNBO2sqVWOZhKhRXazdUCAoHVUVhB1g4Za7C7xdH2tJgjuvyQ73x/bMpUEZdSPg4
-         374iJfbyRPrKgTKjEc101p9NAPzYKAnbxZIze5X4kV+XzeRSzLYdnUZ8emSmVDjSTg/y
-         D2MA==
+        bh=yRPqnIJzWGrFd6xMxKB1kIUP2dXi0WX53WeK1s+gxfg=;
+        b=ZkJUAd1bBLaEGixS4UczznwLkWJ4ncrKJkb/ZrPdLftcWL2kE0srNFEo2U9mIY8dof
+         R2Z4ptDeogrQpXJPC4zMYaMbSLCPuSfZlMAlVpoUVA5V67Lam8GAVlpFD3EmyHlnvKAT
+         yzSIT92GHADe3EunbUZj4wA52pfT6WVoufnREMoUjDvw5ozwhgxY3eedLFHaZe5o/HzT
+         qgQr1eWmyU176Dnn8qt41M1XG87Xv/EPsscB6DcaSsagkU5USbnS6KLw/xme7epLz+UZ
+         fIEhPPAvQVEtr02yShGrR9FleaTHjykMd29cmTF9aKmTrbHiKsy5giWRQUF4lZdqCxkc
+         jvew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792190118; x=1792794918;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=1e100.net; s=20260707; t=1792190574; x=1792795374;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=MZ2Rq4/80Q7iGewMisCrHrq9so+ss6+rUrfgmY5SqJM=;
-        b=M3Uyjyk9BM/eSOPceNqzR4q3lXgYPp8XEpMQ0mt0BzSKBV6qARNogOX3ae/quts7Hw
-         9aix58h8K7oInHO71mE85hHS5y1b3VaqmLeVq3GeJezP5xpU0t//rkQo/6ZSF9o6VlLy
-         UwLWbTW2Z7LUwT5i2CZzLXABdhb1HKXkxkc0wjOVL/omeX8guloREwE3fF6CwuXYGmQ/
-         jTiPmZ40snuFvDRro5ATVmqpD82Nzq+Fm9UPA1q7P7fYxtgzmhW41oJF1X8B3BmvZ4v0
-         jTnbl/3c5n7ERjKWpp0ndZ+H///2wxGcYECnS7GzUwxiiX6ERirzV/MXW9UxdELK6EGg
-         p3qQ==
-X-Forwarded-Encrypted: i=1; AKwUvByfHKUSRrMcHjptNI+amoK+1ir13gu1R7W/grW4t4P+UsINP/fIRzzwSX9M9H8zfQydOQwvv1GzK2YX2dtO@lists.linux.dev
-X-Gm-Message-State: AFq9FYKJHg9Ewz+HCfw3ogWN/4lwXgVZV+kPAHNl6pEpsMrcFtWpDncQ
-	5u9d/nJXoW0Qg5oiQ3iHz+gT9LJQlyT87vVhjco41osE4RlLqsMej8w0
-X-Gm-Gg: AYBFou32aBLZTkOxbwSq3yv6cQyUUmToL/sixQAU0zjNBgucYoivXdM4ESF3fia3Lpo
-	kTbGdOQ5XFliyTm4a3LMVGt842PoJTATaGEbbvanowNvgQqA/e2HUg7+iZxghlCU8CLH22WT6b6
-	Gm0+evz22pBNpdLUXaJum3nvxn5t/w5yB+qNrU3VNWHenz8G/+XIw6p+Ph2f7ezTAoemiMGinxo
-	G965p6kjDMiqXAe9ws5wW4XEaKsyyPivqQ5dyi3H4JPe9myhkKhhtySn7x1UFE2W59k6rb2KKAz
-	YSGdDzcacZ47iCmK59EkcO+o1ZxJgz2QH1O4wRcbX4db0jhXfJTuJ2SpaMFlVJeHe+mhIqdDzgV
-	8pRobgYBCiXLYohCrTkSF96f9nEHOp8/oJna7pNA6nNDgMQ+ftnMs8ArEz/HNupKK3bjp9tchAE
-	0wNRJ8ug4FDohqdGxX6CWoo3uq9zCxSgiZebdgVMFC/fXtJI0Vyyt6q3FelOvRS5TeFZI6NiW66
-	Y+FZOzHQOpU5yTMHxHc55h1CgvODbSgX2ngcmCN6Sh+f5FLFO1g4UGsvfXRM8AZ3giAiisg0d0w
-	jaM=
-X-Received: by 2002:a05:690e:d85:b0:671:70d1:d6cb with SMTP id 956f58d0204a3-679ca7f922emr229592d50.61.1792190117971;
-        Fri, 16 Oct 2026 15:35:17 -0700 (PDT)
+        bh=yRPqnIJzWGrFd6xMxKB1kIUP2dXi0WX53WeK1s+gxfg=;
+        b=kRJp2fvra34L128sUEUO3BbY1xZE0xbvUEE9dxmJKagZ7WJuS26zZECIdcwv0DEMEX
+         S1mVaB4fxBx/7svLp5ueXeeAcAqqDTnDZ89bHWaopyW8uHvQBQNRsW+8quD//TMqQoK8
+         EQyOptq1WeoZWnH55epPG5hPV+IzmldSxlyH4BH4P8/TZJ4rX8kC/3/oRbG+nCrz0NSx
+         B2fp4yDH7LR97h3Hjnuu3U6QK2zrKpGDsI/tgHChNeTEx1aLknWXMCb2PmxzuOfdhZfS
+         CVXOuxOdHPV//dtGsLI6YRCGJuQ3+tCSeCrFgFiHCc9f1ew85dkp8i9mh3XVxElNbZyt
+         ro5w==
+X-Gm-Message-State: AFq9FYLgbuI0yaDwBLqKqG9qYZMdSv0SsB1RuJWRjnqOTjnmEwE33VfI
+	TKbVOfnDce2D9bQgfDS/jdZNrnxLhYv7DJYfvIn3XCuV2S28uoj6BAse
+X-Gm-Gg: AYBFou1saNevntmkw7prc7n/eFhu0qUDlH0RwQb/Gq7sh10ZReWf2xByjgO7in45N10
+	FjZthKZgII/wGEPMAw8t5hNjWqTqePjCrkBOd9ddmNCgislNg2vIr7uBBk0Mxc2h4prOtPCcPH5
+	C31MT00YZNQMvZDcDq+n8OyuQaJdLdE3b1tHofeA3QGUyhICRRgkf3dkEyAnmb1DNQ8tepduZll
+	nt9bMtCLSorz0DXP1ZwKWS19ejg1cYkChuhXrSwO/2ab0CjsyZa97SRQ2gNuVONRgr+SFSHBVhs
+	MVlmKeajkFy+3GRlIUhDIE5ualKjxzC3yaeVzrEiBV3tLvZc7UjzI6k6GSUUQZ7tpE+eGcUVIqJ
+	A0cIbkhOXEAOFJSXilGp4ElnwudYcQfKjHmImz0HNr7BRNqqq8KSxibjuC9q+PR1PLrZ5YuytEp
+	wZo1JpMa/W4uXg7Vnbv6aYWC6lyB+oe6j4eGPbor2y/edTgRAf0iPv9K6JmuJ26nAoVjN9pOyGj
+	iMFam6dwLMHcKF4W5wwuysmcnGiogx0n/j3FzHtsOY1NPt5BHokP6z2X1uUlMrk0X6k2uXbUTd1
+	43g=
+X-Received: by 2002:a05:690e:d58:b0:673:572:4492 with SMTP id 956f58d0204a3-679ca75a37bmr205770d50.24.1792190573851;
+        Fri, 16 Oct 2026 15:42:53 -0700 (PDT)
 Received: from localhost ([2601:7c0:c37c:135::8803])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679b1eb0b6dsm1651282d50.13.2026.10.16.15.35.16
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679b1f29ddfsm1661911d50.23.2026.10.16.15.42.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 15:35:17 -0700 (PDT)
+        Fri, 16 Oct 2026 15:42:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,30 +68,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 16 Oct 2026 17:34:44 -0500
-Message-Id: <DM6MD2KJ8KS8.33P7OXVDIFUEP@gmail.com>
-Subject: Re: [PATCH] staging: greybus: Align function arguments
+Date: Fri, 16 Oct 2026 17:42:21 -0500
+Message-Id: <DM6MIWQ5MROM.26MIBOH4D61MD@gmail.com>
+Cc: <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH] rtl8723bs: Remove redundant macro in basic_types.h
 From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: <pavankumaryalagada@gmail.com>, <pure.logic@nexus-software.ie>
-Cc: <johan@kernel.org>, <elder@kernel.org>, <gregkh@linuxfoundation.org>,
- <rmfrfs@gmail.com>, <vireshk@kernel.org>, <greybus-dev@lists.linaro.org>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <outreachy@lists.linux.dev>
+To: <iuseacosbtw@gmail.com>, <gregkh@linuxfoundation.org>
 X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
-References: <20261016063648.22795-1-pavankumaryalagada@gmail.com>
-In-Reply-To: <20261016063648.22795-1-pavankumaryalagada@gmail.com>
+References: <20261016012126.65939-1-iuseacosbtw@gmail.com>
+In-Reply-To: <20261016012126.65939-1-iuseacosbtw@gmail.com>
 
-On Fri Oct 16, 2026 at 1:36 AM CDT, pavankumaryalagada wrote:
-> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+On Thu Oct 15, 2026 at 8:19 PM CDT, iuseacosbtw wrote:
+> From: Alexis Buttler <iuseacosbtw@gmail.com>
 >
-> Align the function arguments to follow the coding style and
-> improve readability, addressing the alignment warning reported by
-> checkpatch.pl
+> LE_BITS_CLEARED_TO_1BYTE_8BIT() is only used by SET_BITS_TO_LE_1BYTE_8BIT=
+(),
+> and its implementation simply expands to LE_P1BYTE_TO_HOST_1BYTE().
+> Remove LE_BITS_CLEARED_TO_1BYTE_8BIT() and replace its original invocatio=
+n with the definition.
 >
-> Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> Signed-off-by: Alexis Buttler <iuseacosbtw@gmail.com>
 > ---
 
-This doesn't apply. Are you using staging-next?
+No more patches for this driver are being accepted. This driver is being
+deleted in the next merge window.
 
 Thanks,
 ET
