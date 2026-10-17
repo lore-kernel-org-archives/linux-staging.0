@@ -1,145 +1,153 @@
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838D447FAFE
-	for <linux-staging@lists.linux.dev>; Sat, 17 Oct 2026 13:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCD7377A80;
+	Sat, 17 Oct 2026 19:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792244789; cv=none; b=fDNuLRO2UdXXZyC28hWkXKiinZg/UDwRMRkxj0awtJdYHL9+1Gn7F9qCiq/qPe+4vgo1SUWoJpcsYfZhhUG6oyaHBlm52EIriyG8PmX7+fkAqGfY+kLfblgyRa8uCfOPc+1nqJkL2XN+XMbtEit/73MJNPFXQOgjt1kVBmgMf3U=
+	t=1792266901; cv=none; b=MrFW8tQ39EMg6JIB0pxVsIYqfiOjXD0sPQEKaoygNjeKCBCbaUS9I/danbva9H/w1D9Uvz5KT201brct9CehGlSHYigZOgvUhc22kOKcHZB7iUaIBEGlntA2BL0OOP4fLAd4r5i+Ca+pkP6yYScVyJjn14sWLpdUudXobsjsQMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792244789; c=relaxed/simple;
-	bh=3DPK6cH6FljcWcEzc8QBsxgrvL5qSlEw3yTx8FrNJmo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M7oSS1op/JOdBxC10qXiCfg5mOKN5qwxZRa7eAG/K+w0xihvHy+KvI8ZIwl/pJ1MjebxnbMhP9EnWRp3w1RXNhwTmO/i2HkEyhzqPWIbX69Hjfk3OtA55CGn5CKURc6tN4IKpgqZRE7S1LkZV0y9vECDKzZaGS9EZBTHZZADTAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HKIrIKvp; arc=none smtp.client-ip=74.125.82.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792266901; c=relaxed/simple;
+	bh=0bT2+GHx7Y4WzsDkVAh94etRhRU792kGvbpMzUv9tEs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Al8QXayv214jlE04iMwmJYoNJQTYTwBTPVjj2m5ff6HwUOzKzxKJu9xF6uxOVHA1RE5K4AtrvSJyZIoldyj+34NyuxIhmE0tlbf036xh2nFWOn+f53rfnjc9UGlpH50YaKpU3ao8Vb+s+46pPB6c5n8xJM7MnJsgULkYOmVg23Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oPonUEIK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HKIrIKvp"
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-35c76e9614aso1323155eec.0
-        for <linux-staging@lists.linux.dev>; Sat, 17 Oct 2026 06:46:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792244786; x=1792849586; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BF3VtQyRsgICOKVzKwtZMUAurVHYZDeyL4UhBQXKZWc=;
-        b=HKIrIKvp/usdR19no0pbdygwsGAa6Z+BBp4I5UTYShZln4xde6IMtfv/3cjWikUGDK
-         HHBJwO/yQdQ8aeMme40ppNUNy5JNA1cCmXTQLmzFTNzevcMZbuu260kkQ+t+RR+acd9o
-         Ph47FhbjTUdqAzFnhhddYO12+/o8By1FBvLp1muA6/FzM5DJErzeDqzFKYovMSG1YpsK
-         wb73dcD9vqzTRSHprdaRVzsDquIMDcxepQBHaM2GeabHOHNDy0DSq7cDgDpQszlmptA+
-         Oha1r/IrYBtOBHRIAdqePFpdSNE13CQ2msvpFnMZuBWxLVY3WnafX1xBsOCVbonDZFZG
-         4nUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792244786; x=1792849586;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BF3VtQyRsgICOKVzKwtZMUAurVHYZDeyL4UhBQXKZWc=;
-        b=ChfD6Z+aBnONO/RioGzgfIawhJG6E57qmJORT2v9QX//VTjiY85O+kahki2Q+oj+b5
-         RBswmW7aL/5tbh80JjJwsWXKkoHpstbOnH7YLWZ1xjxwb+qO0glRYBDZNF9EyuhajKSY
-         awvccXNB7tGCzsog5d9/lSl3R/b153tAGWqdEf6pkPfixt5A9dsOosQ3pHH0kFCqbcij
-         Bvy68HgR7gfPkuL8R1gotwG8PQMZ7ZIQcTR/u5nK0SWyhabKWnZzF9HSUnJ1LUUIpzUL
-         NkVe9ojMCy1T4/C5tgLYvdJEnQwp0aVL8RcOpTcgnLdcruwltOgighK/i0qGB09mxULM
-         aFvA==
-X-Forwarded-Encrypted: i=1; AKwUvByU8RoPXe6pWGcKvKQz2zk41J287aETaijKaLQTB4QGc0vZ8cEJfCb7PPHgiDWabXmmvK35eB/iPGITbTIG@lists.linux.dev
-X-Gm-Message-State: AFq9FYKkioBMwNxUPZKncnE2lnObfF7rF3Pq84vq9EfFCYs64R+/3Piy
-	XlXQQLKIcx9Ebo4DaAg93o8XJptoEVnfKJuKCGycH92bqoky8K1l/JAl
-X-Gm-Gg: AYBFou1sojBA6yy8vbhG51U7+EAchh+rPce78ms8IAU/O++ht+V3WJUn/LqhjhPXBLo
-	wYOzZPQHRYewO1NIXt6/1bxuMdkJkgMT7Sksy1bCMFTS6RUA/8Sz0qvl0hbPFCb67d9P1y2Z1ff
-	QGqZmIVbG9ys6eXBtuAeF0E+L3mGEAZfH6fje9LRqwpx0nlYjMaJkksXB5AzbStALUTtrsq33jr
-	Wez9ZsGvSKGOliPoRrhDjeZ2dNOJY7bYkX6krY1EqIvChtZh91TIOioT7BWMj0J8vaRyy+FLvrG
-	2ZfUjH0eEdFF5VGSuawsKgDPbg6Zic9ng3K13mFau0XgJcATP++8ta96Ly3YFCgbWOhZaIGI4UN
-	7OfTmx8Q7J6skYyDq2H1uo8Lxa1tA5Evf0LWkq27k8H7zKYDkahSGxZiON9SSP+ST4PtFbe4BjL
-	L9cCoMBgP5JKtgPDsZglVUJr+rsQAZWxMZifRJ+Sb60prkwF4bgHRhreM4Ai7NoEY1hFSTGymeV
-	7nN
-X-Received: by 2002:a05:7301:fc09:b0:34e:e7f4:cc78 with SMTP id 5a478bee46e88-3619ed14879mr3861986eec.5.1792244786348;
-        Sat, 17 Oct 2026 06:46:26 -0700 (PDT)
-Received: from user ([2405:201:c052:b00b:be87:82b8:3e01:5e1e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3607ee0cab0sm20337821eec.3.2026.10.17.06.46.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 06:46:25 -0700 (PDT)
-Date: Sat, 17 Oct 2026 19:15:57 +0530
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: johan@kernel.org, vireshk@kernel.org, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH v4] staging: greybus: replace PTR_ERR() with %pe in error
- messages
-Message-ID: <atN8FallRb8IbXT0@user>
-References: <20261015082238.65187-1-pavankumaryalagada@gmail.com>
- <2026101707-routine-hatchback-4a35@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oPonUEIK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEAFE1F000C4;
+	Sat, 17 Oct 2026 19:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792266900;
+	bh=Xg+L2BjmZOn93PfKye6IFVgD9zpJXf084Rmymn+Z/fI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=oPonUEIK5refiWO1fLpt8guJsLqepKATrVIK0eA6zuqG/GZ+gblH/sEQtGVwlkYFM
+	 xiqerHPti+kq1aj7Pr5SL5HVZZwv7pjWByIUdFhgjPc6Sbgee8AIEzd7tufgvwEjZ3
+	 yv+/oe9OxqN/FhmSvrFDIKjzYIJj1ZFcWxj+L2JgDOIXr1nkZe5D8JzFSC6e4aT2VY
+	 AJSzoGFdJ74hm7nE6EsIybAV7hH5Z68f65VmZITzlX8iWuhTOr8MZe8HyObT5XH2Ug
+	 pd0Y4HfvjrTxQHqBQjzgUdhyYTjOoOuCOH7emGWic/cLOKsAiRxRWDN1cQIJqnJlg2
+	 USchpUyUaM0kw==
+Date: Sat, 17 Oct 2026 20:54:54 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Amir Atef via B4 Relay
+ <devnull+amiratefabdallah1122.gmail.com@kernel.org>
+Cc: amiratefabdallah1122@gmail.com, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>, Andy Shevchenko
+ <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: iio: frequency: ad9834: use guard(mutex)
+Message-ID: <20261017205454.0dda6c10@jic23-hlaptop>
+In-Reply-To: <179219435216.322.13409717511306957730.20261017-ad9834-guard-mutex-v2@gmail.com>
+References: <179219435216.322.13409717511306957730.20261017-ad9834-guard-mutex-v2@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026101707-routine-hatchback-4a35@gregkh>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Oct 17, 2026 at 01:20:39PM +0200, Greg KH wrote:
-> On Thu, Oct 15, 2026 at 01:52:38PM +0530, pavankumaryalagada@gmail.com wrote:
-> > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > 
-> > Use %pe to print error pointers directly and display their
-> > error names.
-> > 
-> > Keep PTR_ERR() calls when the numeric error value is needed
-> > for returning the error code.
-> > 
-> > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > ---
-> > v4:
-> > - Return error codes directly instead of storing them in ret,
-> >   as suggested by Julia Lawall.
-> > - Remove the unused ret variable.
+On Sat, 17 Oct 2026 02:45:52 +0300
+Amir Atef via B4 Relay <devnull+amiratefabdallah1122.gmail.com@kernel.org> wrote:
+
+> From: Amir Atef <amiratefabdallah1122@gmail.com>
 > 
+> Use guard(mutex) to manage the state lock in ad9834_write() and
+> ad9834_store_wavetype(). This simplifies error handling by allowing
+> early returns instead of setting the return code and breaking out of the
+> switch statement to manually unlock the mutex.
 > 
-> Hi,
-> 
-> This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-> a patch that has triggered this response.  He used to manually respond
-> to these common problems, but in order to save his sanity (he kept
-> writing the same thing over and over, yet to different people), I was
-> created.  Hopefully you will not take offence and will fix the problem
-> in your patch and resubmit it so that it can be accepted into the Linux
-> kernel tree.
-> 
-> You are receiving this message because of the following common error(s)
-> as indicated below:
-> 
-> - Your patch did not apply to any known trees that Greg is in control
->   of.  Possibly this is because you made it against Linus's tree, not
->   the linux-next tree, which is where all of the development for the
->   next version of the kernel is at.  Please refresh your patch against
->   the linux-next tree, or even better yet, the development tree
->   specified in the MAINTAINERS file for the subsystem you are submitting
->   a patch for, and resend it.
+> Signed-off-by: Amir Atef <amiratefabdallah1122@gmail.com>
+Hi Amir,
 
-This v4 patch did not apply because arche-apb-ctrl.c and arche-platform.c
-were removed by commit 2f75b2eac999.
-
-The fw-core.c changes from my earlier v1 patch present in staging/staging-next.
-
-Only the change to uart.c remains.
-
-Should i send a v5 containing only the remaining change in uart.c?
-
-Also, should i keep Alex Elder's Reviewed-by tag in v5?
+One small additional thing inline.
 
 Thanks,
-Pavan
 
+Jonathan
+
+> ---
+> Changes in v2:
+> - Add blank line after guard(mutex) in ad9834_write().
+> - Move 'int ret;' to the end of the variable declaration block in
+>   ad9834_store_wavetype().
+> - Drop redundant 'else' in ad9834_store_wavetype() case 1 by inverting
+>   the condition (kept 'else' in ad9834_write() and case 0 where they are
+>   part of if-else-if-else chains).
+> - Replace ternary return with explicit 'if (ret) return ret;' in
+>   ad9834_store_wavetype().
+> - Link to v1: https://lore.kernel.org/r/179214943270.333.5921549521929682753.20261016-ad9834-guard-mutex@gmail.com
 > 
-> If you wish to discuss this problem further, or you have questions about
-> how to resolve this issue, please feel free to respond to this email and
-> Greg will reply once he has dug out from the pending patches received
-> from other developers.
+>  drivers/staging/iio/frequency/ad9834.c | 50 ++++++++++++--------------
+>  1 file changed, 22 insertions(+), 28 deletions(-)
 > 
-> thanks,
-> 
-> greg k-h's patch email bot
+> diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+> index 0d20f796e0f0..c45bb388c998 100644
+> --- a/drivers/staging/iio/frequency/ad9834.c
+> +++ b/drivers/staging/iio/frequency/ad9834.c
+> @@ -6,6 +6,7 @@
+>   */
+>  
+>  #include <linux/bits.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/clk.h>
+>  #include <linux/dev_printk.h>
+>  #include <linux/err.h>
+> @@ -154,7 +155,8 @@ static ssize_t ad9834_write(struct device *dev,
+>  	if (ret)
+>  		return ret;
+>  
+> -	mutex_lock(&st->lock);
+> +	guard(mutex)(&st->lock);
+> +
+>  	switch ((u32)this_attr->address) {
+>  	case AD9834_REG_FREQ0:
+>  	case AD9834_REG_FREQ1:
+> @@ -165,10 +167,8 @@ static ssize_t ad9834_write(struct device *dev,
+>  		ret = ad9834_write_phase(st, this_attr->address, val);
+>  		break;
+>  	case AD9834_OPBITEN:
+> -		if (st->control & AD9834_MODE) {
+> -			ret = -EINVAL;  /* AD9834 reserved mode */
+> -			break;
+> -		}
+> +		if (st->control & AD9834_MODE)
+> +			return -EINVAL;  /* AD9834 reserved mode */
+>  
+>  		if (val)
+>  			st->control |= AD9834_OPBITEN;
+> @@ -194,8 +194,7 @@ static ssize_t ad9834_write(struct device *dev,
+>  			st->control |= this_attr->address;
+>  			st->control &= ~AD9834_PIN_SW;
+>  		} else {
+> -			ret = -EINVAL;
+> -			break;
+> +			return -EINVAL;
+>  		}
+>  		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
+>  		ret = spi_sync(st->spi, &st->msg);
+> @@ -210,9 +209,8 @@ static ssize_t ad9834_write(struct device *dev,
+>  		ret = spi_sync(st->spi, &st->msg);
+
+I'd rather see all error handled at point where they originate, rather
+than only some (with special case for the last call) so here and similar places, do 
+		if (ret)
+			return ret;
+
+		break;
+
+Or you could even do a return len; here if you prefer.
+
+>  		break;
+>  	default:
+> -		ret = -ENODEV;
+> +		return -ENODEV;
+>  	}
+> -	mutex_unlock(&st->lock);
+>  
+>  	return ret ? ret : len;
+>  }
+
