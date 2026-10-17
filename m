@@ -1,153 +1,260 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCD7377A80;
-	Sat, 17 Oct 2026 19:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABB3768EA;
+	Sat, 17 Oct 2026 21:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792266901; cv=none; b=MrFW8tQ39EMg6JIB0pxVsIYqfiOjXD0sPQEKaoygNjeKCBCbaUS9I/danbva9H/w1D9Uvz5KT201brct9CehGlSHYigZOgvUhc22kOKcHZB7iUaIBEGlntA2BL0OOP4fLAd4r5i+Ca+pkP6yYScVyJjn14sWLpdUudXobsjsQMY=
+	t=1792271584; cv=none; b=ocielNrssbMw9+asx26cFtD/YV0C8kbF4ifW+4QKKhgP1rM/THNvNBJc1rgEyw4xpZY/YOZn0EHQrl4CTyABlhGvieQ4vp6F0G8FamsbzHyLW1R40KJsa4l2gfQ4sRF7vKz3MhRkW/EVn3AXux+l+KaSnc41w6nbJr6cAwiBmo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792266901; c=relaxed/simple;
-	bh=0bT2+GHx7Y4WzsDkVAh94etRhRU792kGvbpMzUv9tEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Al8QXayv214jlE04iMwmJYoNJQTYTwBTPVjj2m5ff6HwUOzKzxKJu9xF6uxOVHA1RE5K4AtrvSJyZIoldyj+34NyuxIhmE0tlbf036xh2nFWOn+f53rfnjc9UGlpH50YaKpU3ao8Vb+s+46pPB6c5n8xJM7MnJsgULkYOmVg23Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oPonUEIK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792271584; c=relaxed/simple;
+	bh=O0UpyZbM6yMxY95Xih+M89PeTAtqrWGlsc1e1u9J54I=;
+	h=From:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type; b=DNYStx0Ful1SqL/TkZP9gUvkuB/CQWql+wHd/9vpQj63OBgLILLu2+TJxaMn4dj5AC/WQswJmPBi+TpW/DYN+0GZ+oeMYVVchs1AflOyeUHFIPyWhw7zS7vaitqzjTXMw2RyutE3DGbWDRlS1x7U0zEiFUN/MDXIhyU0j+FbYKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rm9/+Zh/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oPonUEIK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEAFE1F000C4;
-	Sat, 17 Oct 2026 19:54:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792266900;
-	bh=Xg+L2BjmZOn93PfKye6IFVgD9zpJXf084Rmymn+Z/fI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=oPonUEIK5refiWO1fLpt8guJsLqepKATrVIK0eA6zuqG/GZ+gblH/sEQtGVwlkYFM
-	 xiqerHPti+kq1aj7Pr5SL5HVZZwv7pjWByIUdFhgjPc6Sbgee8AIEzd7tufgvwEjZ3
-	 yv+/oe9OxqN/FhmSvrFDIKjzYIJj1ZFcWxj+L2JgDOIXr1nkZe5D8JzFSC6e4aT2VY
-	 AJSzoGFdJ74hm7nE6EsIybAV7hH5Z68f65VmZITzlX8iWuhTOr8MZe8HyObT5XH2Ug
-	 pd0Y4HfvjrTxQHqBQjzgUdhyYTjOoOuCOH7emGWic/cLOKsAiRxRWDN1cQIJqnJlg2
-	 USchpUyUaM0kw==
-Date: Sat, 17 Oct 2026 20:54:54 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Amir Atef via B4 Relay
- <devnull+amiratefabdallah1122.gmail.com@kernel.org>
-Cc: amiratefabdallah1122@gmail.com, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>, Andy Shevchenko
- <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: iio: frequency: ad9834: use guard(mutex)
-Message-ID: <20261017205454.0dda6c10@jic23-hlaptop>
-In-Reply-To: <179219435216.322.13409717511306957730.20261017-ad9834-guard-mutex-v2@gmail.com>
-References: <179219435216.322.13409717511306957730.20261017-ad9834-guard-mutex-v2@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rm9/+Zh/"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 50A22C2BCF5;
+	Sat, 17 Oct 2026 21:13:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1792271583;
+	bh=O0UpyZbM6yMxY95Xih+M89PeTAtqrWGlsc1e1u9J54I=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=rm9/+Zh/Ntolkrx3Dvx2thlFpqlGthq0lP22FnlaPzzcBsfiekkWem6SOqhB91vo9
+	 XyloNZqqTGOz7AelkN1jzBHFsbAMuCeof0zubUEhbCBmqGb4MxILkEKD4XDwuWuB89
+	 PT7hd1FgkHZ+yScgMSPqbNw3MgY3l0ZGxQrLGy9Gz02RNRn5HSqmeDstgiAHd28EYN
+	 jlC9Fd8BYnxbLIdqzW6AXW8e4BjVNv/+gv8jlDpJM6QP30yE4ch+a/7Wsw2TLhPn6H
+	 kGS4bawmCBisUqLLqq6FOq3HsyuynQml4SVu/veZ+0RM3HUFFht1yS1bU3fi3/wEOc
+	 lgHyKZCCwxuEw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28516CCF2CC;
+	Sat, 17 Oct 2026 21:13:03 +0000 (UTC)
+From: Amir Atef via B4 Relay <devnull+amiratefabdallah1122.gmail.com@kernel.org>
+Subject: [PATCH v3] staging: iio: frequency: ad9834: use guard(mutex)
+Date: Sun, 18 Oct 2026 00:12:54 +0300
+Message-Id: <179227157492.345.14305383480190541762.20261018-ad9834-guard-mutex-v3@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792271574; l=5594;
+ i=amiratefabdallah1122@gmail.com; s=20261016; h=from:subject:message-id;
+ bh=cmg3zId0FkdtcWpW+YuNWILFMdxVWIEd84BWrtcT1bk=;
+ b=0GBySzvOnw223ToFk3EOc+Ox2oARIexfrRZoYPxfScC9r2vX6o8mAMJwZ7TLIYseBPqk/JSL8
+ GYEeCcEgSw5BEFgcTTsrSg9fnOsfoJBbf7DV76+DkrydukzcyVg5tWL
+X-Developer-Key: i=amiratefabdallah1122@gmail.com; a=ed25519;
+ pk=FRhtQptjt3GSkQBUg7qfVL8eusorsJqHzciu3+ss11o=
+X-Endpoint-Received: by B4 Relay for
+ amiratefabdallah1122@gmail.com/20261016 with auth_id=1209
+X-Original-From: Amir Atef <amiratefabdallah1122@gmail.com>
+Reply-To: amiratefabdallah1122@gmail.com
 
-On Sat, 17 Oct 2026 02:45:52 +0300
-Amir Atef via B4 Relay <devnull+amiratefabdallah1122.gmail.com@kernel.org> wrote:
+From: Amir Atef <amiratefabdallah1122@gmail.com>
 
-> From: Amir Atef <amiratefabdallah1122@gmail.com>
-> 
-> Use guard(mutex) to manage the state lock in ad9834_write() and
-> ad9834_store_wavetype(). This simplifies error handling by allowing
-> early returns instead of setting the return code and breaking out of the
-> switch statement to manually unlock the mutex.
-> 
-> Signed-off-by: Amir Atef <amiratefabdallah1122@gmail.com>
-Hi Amir,
+Use guard(mutex) to manage the state lock in ad9834_write() and
+ad9834_store_wavetype(). This simplifies error handling by allowing
+early returns instead of setting the return code and breaking out of the
+switch statement to manually unlock the mutex.
 
-One small additional thing inline.
+Signed-off-by: Amir Atef <amiratefabdallah1122@gmail.com>
+---
+Changes in v3:
+- Check 'ret' and return early at each call site in ad9834_write(), and
+  replace the final ternary return with 'return len;'.
+- Link to v2: https://lore.kernel.org/r/179219435216.322.13409717511306957730.20261017-ad9834-guard-mutex-v2@gmail.com
 
-Thanks,
+Changes in v2:
+- Add blank line after guard(mutex) in ad9834_write().
+- Move 'int ret;' to the end of the variable declaration block in
+  ad9834_store_wavetype().
+- Drop redundant 'else' in ad9834_store_wavetype() case 1 by inverting
+  the condition (kept 'else' in ad9834_write() and case 0 where they are
+  part of if-else-if-else chains).
+- Replace ternary return with explicit 'if (ret) return ret;' in
+  ad9834_store_wavetype().
+- Link to v1: https://lore.kernel.org/r/179214943270.333.5921549521929682753.20261016-ad9834-guard-mutex@gmail.com
 
-Jonathan
+ drivers/staging/iio/frequency/ad9834.c | 70 +++++++++++++++-----------
+ 1 file changed, 41 insertions(+), 29 deletions(-)
 
-> ---
-> Changes in v2:
-> - Add blank line after guard(mutex) in ad9834_write().
-> - Move 'int ret;' to the end of the variable declaration block in
->   ad9834_store_wavetype().
-> - Drop redundant 'else' in ad9834_store_wavetype() case 1 by inverting
->   the condition (kept 'else' in ad9834_write() and case 0 where they are
->   part of if-else-if-else chains).
-> - Replace ternary return with explicit 'if (ret) return ret;' in
->   ad9834_store_wavetype().
-> - Link to v1: https://lore.kernel.org/r/179214943270.333.5921549521929682753.20261016-ad9834-guard-mutex@gmail.com
-> 
->  drivers/staging/iio/frequency/ad9834.c | 50 ++++++++++++--------------
->  1 file changed, 22 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-> index 0d20f796e0f0..c45bb388c998 100644
-> --- a/drivers/staging/iio/frequency/ad9834.c
-> +++ b/drivers/staging/iio/frequency/ad9834.c
-> @@ -6,6 +6,7 @@
->   */
->  
->  #include <linux/bits.h>
-> +#include <linux/cleanup.h>
->  #include <linux/clk.h>
->  #include <linux/dev_printk.h>
->  #include <linux/err.h>
-> @@ -154,7 +155,8 @@ static ssize_t ad9834_write(struct device *dev,
->  	if (ret)
->  		return ret;
->  
-> -	mutex_lock(&st->lock);
-> +	guard(mutex)(&st->lock);
-> +
->  	switch ((u32)this_attr->address) {
->  	case AD9834_REG_FREQ0:
->  	case AD9834_REG_FREQ1:
-> @@ -165,10 +167,8 @@ static ssize_t ad9834_write(struct device *dev,
->  		ret = ad9834_write_phase(st, this_attr->address, val);
->  		break;
->  	case AD9834_OPBITEN:
-> -		if (st->control & AD9834_MODE) {
-> -			ret = -EINVAL;  /* AD9834 reserved mode */
-> -			break;
-> -		}
-> +		if (st->control & AD9834_MODE)
-> +			return -EINVAL;  /* AD9834 reserved mode */
->  
->  		if (val)
->  			st->control |= AD9834_OPBITEN;
-> @@ -194,8 +194,7 @@ static ssize_t ad9834_write(struct device *dev,
->  			st->control |= this_attr->address;
->  			st->control &= ~AD9834_PIN_SW;
->  		} else {
-> -			ret = -EINVAL;
-> -			break;
-> +			return -EINVAL;
->  		}
->  		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
->  		ret = spi_sync(st->spi, &st->msg);
-> @@ -210,9 +209,8 @@ static ssize_t ad9834_write(struct device *dev,
->  		ret = spi_sync(st->spi, &st->msg);
+diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+index 0d20f796e0f0..8686a22f3fc1 100644
+--- a/drivers/staging/iio/frequency/ad9834.c
++++ b/drivers/staging/iio/frequency/ad9834.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/bits.h>
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/dev_printk.h>
+ #include <linux/err.h>
+@@ -154,21 +155,26 @@ static ssize_t ad9834_write(struct device *dev,
+ 	if (ret)
+ 		return ret;
+ 
+-	mutex_lock(&st->lock);
++	guard(mutex)(&st->lock);
++
+ 	switch ((u32)this_attr->address) {
+ 	case AD9834_REG_FREQ0:
+ 	case AD9834_REG_FREQ1:
+ 		ret = ad9834_write_frequency(st, this_attr->address, val);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9834_REG_PHASE0:
+ 	case AD9834_REG_PHASE1:
+ 		ret = ad9834_write_phase(st, this_attr->address, val);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9834_OPBITEN:
+-		if (st->control & AD9834_MODE) {
+-			ret = -EINVAL;  /* AD9834 reserved mode */
+-			break;
+-		}
++		if (st->control & AD9834_MODE)
++			return -EINVAL;  /* AD9834 reserved mode */
+ 
+ 		if (val)
+ 			st->control |= AD9834_OPBITEN;
+@@ -177,6 +183,9 @@ static ssize_t ad9834_write(struct device *dev,
+ 
+ 		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9834_PIN_SW:
+ 		if (val)
+@@ -185,6 +194,9 @@ static ssize_t ad9834_write(struct device *dev,
+ 			st->control &= ~AD9834_PIN_SW;
+ 		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9834_FSEL:
+ 	case AD9834_PSEL:
+@@ -194,11 +206,13 @@ static ssize_t ad9834_write(struct device *dev,
+ 			st->control |= this_attr->address;
+ 			st->control &= ~AD9834_PIN_SW;
+ 		} else {
+-			ret = -EINVAL;
+-			break;
++			return -EINVAL;
+ 		}
+ 		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9834_RESET:
+ 		if (val)
+@@ -208,13 +222,15 @@ static ssize_t ad9834_write(struct device *dev,
+ 
+ 		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	default:
+-		ret = -ENODEV;
++		return -ENODEV;
+ 	}
+-	mutex_unlock(&st->lock);
+ 
+-	return ret ? ret : len;
++	return len;
+ }
+ 
+ static ssize_t ad9834_store_wavetype(struct device *dev,
+@@ -225,10 +241,10 @@ static ssize_t ad9834_store_wavetype(struct device *dev,
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad9834_state *st = iio_priv(indio_dev);
+ 	struct iio_dev_attr *this_attr = to_iio_dev_attr(attr);
+-	int ret = 0;
+ 	bool is_ad9833_7 = (st->devid == ID_AD9833) || (st->devid == ID_AD9837);
++	int ret;
+ 
+-	mutex_lock(&st->lock);
++	guard(mutex)(&st->lock);
+ 
+ 	switch ((u32)this_attr->address) {
+ 	case 0:
+@@ -241,7 +257,7 @@ static ssize_t ad9834_store_wavetype(struct device *dev,
+ 				st->control &= ~AD9834_OPBITEN;
+ 				st->control |= AD9834_MODE;
+ 			} else if (st->control & AD9834_OPBITEN) {
+-				ret = -EINVAL;	/* AD9834 reserved mode */
++				return -EINVAL;	/* AD9834 reserved mode */
+ 			} else {
+ 				st->control |= AD9834_MODE;
+ 			}
+@@ -249,31 +265,27 @@ static ssize_t ad9834_store_wavetype(struct device *dev,
+ 			st->control &= ~AD9834_MODE;
+ 			st->control |= AD9834_OPBITEN;
+ 		} else {
+-			ret = -EINVAL;
++			return -EINVAL;
+ 		}
+ 
+ 		break;
+ 	case 1:
+-		if (sysfs_streq(buf, "square") &&
+-		    !(st->control & AD9834_MODE)) {
+-			st->control &= ~AD9834_MODE;
+-			st->control |= AD9834_OPBITEN;
+-		} else {
+-			ret = -EINVAL;
+-		}
++		if (!sysfs_streq(buf, "square") || (st->control & AD9834_MODE))
++			return -EINVAL;
++
++		st->control &= ~AD9834_MODE;
++		st->control |= AD9834_OPBITEN;
+ 		break;
+ 	default:
+-		ret = -EINVAL;
+-		break;
++		return -EINVAL;
+ 	}
+ 
+-	if (!ret) {
+-		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
+-		ret = spi_sync(st->spi, &st->msg);
+-	}
+-	mutex_unlock(&st->lock);
++	st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
++	ret = spi_sync(st->spi, &st->msg);
++	if (ret)
++		return ret;
+ 
+-	return ret ? ret : len;
++	return len;
+ }
+ 
+ static
+-- 
+2.51.0
 
-I'd rather see all error handled at point where they originate, rather
-than only some (with special case for the last call) so here and similar places, do 
-		if (ret)
-			return ret;
 
-		break;
-
-Or you could even do a return len; here if you prefer.
-
->  		break;
->  	default:
-> -		ret = -ENODEV;
-> +		return -ENODEV;
->  	}
-> -	mutex_unlock(&st->lock);
->  
->  	return ret ? ret : len;
->  }
 
