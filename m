@@ -1,124 +1,110 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E11F35C68C
-	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 21:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792360247; cv=pass; b=H0QxvFd74WS1nGtjcwz6XD+zKLbUDJ0arAMQFAppuQzFMWXEgSWeFP2/j42sbphIrzM4MYEsuRrim8CzA6BU5PB8LEL6Qz/R1PRAw3iDu/T+ww4UdboSbl8uiChF+Eri2Nq20W64VLxbRn2avXJW7AFvy6xOerpEk2shR4ugMKQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792360247; c=relaxed/simple;
-	bh=JsApNxqREUvCCfWYG4AGYT7TQ/2LL6l0vjt9rZikPwk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aWeWpjpUSOKqbbLNtTIoIfp13xJ7OTIr/oMULI/zJVC+tx/iwQZNvDbbQDlvKss7k9EVSvcR09+JyW+x7SjTAPPP2CWU9W2pCHUNR0XvaY7VHJRsUPoZGqPi6VAPW3CCK8q5lzitNHIRYz86TXgfKsOZ4UT7QwJ0H8gorEy6GiM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jYVSXpAa; arc=pass smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4F738236E
+	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 22:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792363370; cv=none; b=ex10J4GCP6INzCFwlOYQuMqNscrjsF9rXGSIAlzWGnUvOMnoPBGH73qTOZQFa2O2FLPJbsIEA7FzcUvjqYFb9j0ToEIgYtkEmSDFCk+YOJNUXI0Kr1NH1JckU+MmmoXNYTZcb/SOlhj5LzDPXASj3LS9NKNYDn/Z8L8xZxtWmQk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792363370; c=relaxed/simple;
+	bh=LLL8YnAyUQxPSK7+xdsfZLm9pB6HUgKQPfbKvkRhwDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QBKEucKOojX2kBhOvanUR+yTqYe/IimrUCPSVBJQD955k9xiKx1v5e1xIZ01WdyP42bFLnh1CljFh3uIb3it5wXnhsDa8ybeL8lBhkSuLhV4GNJLp9+u9KGIaeoP8XPSn1oRnLfOsaVUOkH57MrtefJ9y8hFRBE0KDDFPZapMsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PdyMfspR; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jYVSXpAa"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8ac8a2ac52bso14121827b3.0
-        for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 14:50:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792360245; cv=none;
-        d=google.com; s=arc-20260327;
-        b=q5AsJyucF7tTxrhBCDyWEebKeH3LMT+BIm6NHOJ3cM5uEqkoumvbXp5ao3vHEH7M9P
-         yXZ1lFRwNOSNv3bC0GGJRWb7z0pEnK0I84pqnLazZbWjFaT7FiYI7hLHCpM8CT1PVpR4
-         9D2cw+flauhCSqo6BlSC/MDc3do07buQ/t9D98ILj/fzmU7qY6TkvoNDEbyQKZUc8q9G
-         pX2K37J877cm9UQya7+tVJ4Sd8XKsXdhu13j41U5gbOOPkuOl64XfMNfvqlsRYj1cdOC
-         OGBL07VYgImmn+6Qoiovn4E3vUaWgeUkqj0sYqiBMu2ouRcmNnt1T6cIZ2bClMq7mZne
-         J0uA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yi4OcEVBleuTF2zelBND0PJXNDFdIaerPT1ALBRVIDA=;
-        fh=CjnD+8HR5fVWoXVyGFsoet30UjT1ZFw3vodma++EzLQ=;
-        b=Wx5uNS7TZAMLeYpKYmLGaT+2GeLmf/wIqJDPKyRbL85ELd8HQlW5WemZoGsxcTm3ZP
-         Gikd5aP6dc1MvdilrjVAsjldyuCFR22fHrS9/1KE7dnNBUqhtEgpVpKteXplAC8K5KwH
-         ASRoan59V4zqRQyHvvPLOjPyRNV/mP4vI22tDE8Ih0ZTwKFOYo1c8rvKbZgqkRIeRY+q
-         QNTCHM2gzAzBnhlD0omydwnud9eKQ9Ad7yWvY3agRifM08d5YngkUJl+gColkFBJtBjK
-         GxNWs1ckDT9X8U4Kq9jKGzK6q2LUyYDi9iQA5osnkuELd2AOMeIxLnszfKFNo3lTApML
-         yrmA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PdyMfspR"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a1635f7c89so15038995e9.2
+        for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 15:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792360245; x=1792965045; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yi4OcEVBleuTF2zelBND0PJXNDFdIaerPT1ALBRVIDA=;
-        b=jYVSXpAaAm9cz11g+l6sALl8O9Pr2PAaRxToA9bILXLxzUcB5MEfXDVtYVVerc60H4
-         3elHof+28BSxLCDUHgVequ0+XI8HM9If2IBxzGoYzGrk79qQq4KxYWTaBnUfIW7mQBrU
-         KcLriJajTMzSyAI+FUo5qnOaTy6qrwRdR4cWY0pAekObmyOY+91qlEWXr97dZb6ONt5m
-         UutTg0PEyNyqKpFCkQSQPC6WA9iiiFAppusSVHU6cINRr4+D0B1mB6P/PAjOUwIXd3K5
-         7cs4WTgBjRTGSF6f/FIpeokAV8xhb5pscAyLouxDg8w6sr49HA1dEyVzz1yrrbwMldwd
-         MJiQ==
+        d=gmail.com; s=20251104; t=1792363366; x=1792968166; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=m1qlXxPCKnyZBMqZS+UI2tKQ3hqkztlpBKb9IkUQpHc=;
+        b=PdyMfspRfTrtapIRztgcZ2MR21XQDuMZ/pRFA9NSiMJi6fNIAJffmc2nafSAYQb1KS
+         KYCZN9/Ndu0a4hXzEuAXk1AnB//eqWZuGjuLUS3103g1s77fbe3zULSZsjzY/d/ub1DF
+         6bQA13Mk6ry6j1z3kWYwiNbzg78PDdI6jNpBNLarXc0rvsChxwtibIk5e1wh2fbEGkBc
+         ssRwyMKoqFIpP+sA++mMgeaqaobn9H+z92yh/54S9ChnOo24AeHPVVaCdI8OjUjTC4y1
+         n6CXtO85/n3Ac5YnNcHVzrRDhnWlecuJijFEcXFwAeUFIgZxbedj57OY334YKFHfiWa/
+         DjMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792360245; x=1792965045;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yi4OcEVBleuTF2zelBND0PJXNDFdIaerPT1ALBRVIDA=;
-        b=wIkc5oFb0rjl2kTW9x+H/j1Y/E30tdUzaVaUpUCIknA2oq0sJmqeP1iIKvXlXie8OK
-         2Fxx6WlJ2zbf4V77EKSTTasigB1bf4WufJBOmWoz0Au+kBHoy2Vas52Lj8uG03mgdCKQ
-         FB/3Qh4AuJy+9dqHoxPwGNMMXyeaIz8b1XQ1kd8Zmuv+isRT9xZIBuT+nVBy7pBQWYyG
-         sArvwrNWkNgVjb+y9c1OPIr6fKqh1GSfGAm2gijfxZFqwHG2atEbxoguT8SFo9QcxOQh
-         ZvS4d54erhAc0wfylYqvAgNvs/QKftm1h9TvfC1yRpmC9FTlXZ+rOIwa86t0Tu8MSkNY
-         vM4Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzEhEEIwNK+vStOabeXHYBBWnmZgq+YFB7V6I97yzZcTRTfugVHmyfZx4BaRxHjr6J0/JJ23f3uaGnTZAr8@lists.linux.dev
-X-Gm-Message-State: AFq9FYIQ01VXlIvoIBktrB+qeg/MJteh+xfgi2TxkSQ9rkshiRw5gfXV
-	TNLU/FfdOOzTJfhpgB3Gh7rHI5Nn6F9Rf1za9orNzoZ1caazxFmhY31AjJ0tkNWI+UiMhNf6wtv
-	EJosa4e5WzSwQ8rrZl7JZQrbEzpI9BiQ=
-X-Gm-Gg: AYBFou3XH1xWbLCa1VvZLcSgiVN5QSzzzCQf9PHisv8ah4BDi2VWDK26oDXpfEMlZzY
-	Na63cKg+U99db3Snlz7I6za6tfK/OehW3s0Z/hXypYZQZjlhV+7+pSd/ikemj+2mPOsi2iiXgmN
-	SOOrT8bGnqiU7QMiCRVpvtYAH1YoFDyas0Gsfzv8pN/wqZbYk0wF9Ej/r+7dx80Vd5yYdRaGeCP
-	IbI7wbpB7cnWvuDLW5viG6mJ89HAcIydapem8rajZxV4KJm0bZcDEwMUh7imHw0whUVNh4RlQDT
-	nPTTcQ9CX6EeCE7PQfs2wfnJFFpz85ov8ygTRJ3hyiZBAR6Qx3pJMLjDTl1kFA1Yzwp24DLCpXE
-	n3Ave01SoKNjOpP4wRXcV4iL49DP18RHJPlYEdBhdfGDOXMxWORJx9lyDEr1YDoIenHAYKlKNJV
-	vZtrY37LzWsf24dgVyNvGG1tdr/JdACHCwoUYUfg==
-X-Received: by 2002:a05:690c:60c6:b0:8b0:56e6:54ff with SMTP id
- 00721157ae682-8b0f20f2b8fmr20435397b3.6.1792360245450; Sun, 18 Oct 2026
- 14:50:45 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792363366; x=1792968166;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=m1qlXxPCKnyZBMqZS+UI2tKQ3hqkztlpBKb9IkUQpHc=;
+        b=oeP2lkz2VfqiHowNjjB6XN0LXH6PavxjZoPnDRM9Hk+KCdHAwTytORhC7cfowS3wG7
+         mFXCMlFP3GI3SoPuCnD6kjft0WMq0y6DvDGlJsdAF+YyaDCHoPMnrM/XOiQMj1hurDk4
+         CVjXjzzZsopjHoYqqErwimDmxmVbl27SnTRvg1q+SCCwEqJjQ4dx1zinQyYmS/ZuuA/j
+         u/FFrm+KkjtMUrTpoVPMd9LgTY09TTTHnhTTZTRbW4X5JtX3Kzkua3mKuCCTACaYoKQU
+         XNR5f8vODMKOvSHPHSDb82JL4j1J5T86nQTo9H4bod5Nl6gIhlJLMolYfvluK+BQfoOL
+         buYQ==
+X-Forwarded-Encrypted: i=1; AKwUvByBvqe488aXD9WgzO3uWr78bGP6JdBbkROUrwlvOmAdoht4ODtkfbV3tJMab/iUY9/JOjw/zuvwsyvsDkfa@lists.linux.dev
+X-Gm-Message-State: AFq9FYKQGA4PIxPxfCOl/1FRamxJTMEdfUTnvlGFyHF5RV0BC5NGztfe
+	LmaBV96BGkRBgCwtdPFyNkeNCglT+Gv7SBCxQr42lHQZrzgZSaIcth1K
+X-Gm-Gg: AYBFou08KppQvvaF28hXNiW34GRjOL66+Suljqu7orGHouccu/FyhRvGQA2B5HxPtL5
+	IkD00E4Ra7p3a8ogFd6OPDnmcYeCsZVCC9j3AB+xEUuIm8fvADRq6XM3F+4GP201DDZelqRSmqu
+	yXDaIr/roIpR58F+ky9g7D1q9wVB0xACHoCbBIBJ35/JIVPK+CMUDa8ys12GC3PudcJvbVXmJKH
+	rG8NKwKVNq6/vWUG2ODYTg60/NkqxGotBDKF7nTsTNsE6NUEQRJtXRq1/fXVbfpr2/sM6Gus1Dz
+	TEhe7C0ZOTS3154ea7pa+bdkHE9T9iACdTa8YuRIoAM8QgStPgdJzSJxQ88k+XEtCSVGdeGt+Rw
+	96ZFMg4iWMBu4Ub555/6yUB2WBcGcthVSQAFGrPfB+mxbOhdAqxnMyiEN5/RzzeyqpHu3XnpRNq
+	XIJS8fpQ8WVagUZM4O5LUWJ/r9QctdRWpWos8XblJ6ORoiHsYOi4MHs0mn3UwR48trLA1NicSRo
+	77QU/jT+VtU5UJZRfEc718B67gNfYyXWj6invwTIJfKBgsljVaE6NkyH2iwdP4ejl+qf8/T7+73
+	ZHByWRmszXRglX8LLXrlWhNXx+vSiSm5usN6HBLQktfYtSbcOfS+E2mwjeliUQclrc6bD/Q1
+X-Received: by 2002:a05:600c:4f82:b0:4a1:df52:3e36 with SMTP id 5b1f17b1804b1-4a1df523fa5mr94086665e9.27.1792363366271;
+        Sun, 18 Oct 2026 15:42:46 -0700 (PDT)
+Received: from localhost.localdomain ([102.88.166.8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1df164777sm140396685e9.5.2026.10.18.15.42.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2026 15:42:45 -0700 (PDT)
+From: Okhuomon Ajayi <okhuomonajayi54@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Viresh Kumar <vireshk@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Okhuomon Ajayi <okhuomonajayi54@gmail.com>
+Subject: [PATCH] staging: greybus: fw-management: fix argument alignment
+Date: Sun, 18 Oct 2026 23:42:41 +0100
+Message-ID: <20261018224241.46011-1-okhuomonajayi54@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261015222735.89251-1-okhuomonajayi54@gmail.com>
- <fcdee571-d94c-a5ae-5ae5-b41977f22073@inria.fr> <2026101653-repeal-deploy-2aa5@gregkh>
-In-Reply-To: <2026101653-repeal-deploy-2aa5@gregkh>
-From: Okhuomon Ajayi <okhuomonajayi54@gmail.com>
-Date: Sun, 18 Oct 2026 22:50:34 +0100
-X-Gm-Features: AclHuK-ckhS_4r7IKrzFrVbhZJ4prq24_eCMG7slNkkX4fQeUlsVEZ3ToJ1oygE
-Message-ID: <CAFpMFfB4ssJ=YnLeDu16NUXJ2mTWK81+krJ40qzQueHOM4=GhA@mail.gmail.com>
-Subject: Re: [PATCH] staging: greybus: add blank lines after struct
- definitions in gbphy.h
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev, 
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 16, 2026 at 5:54=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Thu, Oct 15, 2026 at 10:17:35PM -0400, Julia Lawall wrote:
-> >
-> >
-> > On Thu, 15 Oct 2026, Okhuomon Ajayi wrote:
-> >
-> > > Add blank lines between the structure definitions and the
-> > > to_gbphy_dev() and to_gbphy_driver() macros to improve
-> > > readability. This fixes the following checkpatch warning:
-> >
-> > Thanks for the patch.  But I suspect that the lack of a newline was
-> > intentional, to show that the #define is closely associated with the
-> > previous structure declaration.
->
-> That is correct.
->
-> thanks,
+Align the arguments of the fw_mgmt_load_and_validate_operation()
+call with the opening parenthesis and split them across separate
+lines to avoid an overly long line.
 
+CHECK: Alignment should match open parenthesis
 
-Thank you i would drop the patch now
+Signed-off-by: Okhuomon Ajayi <okhuomonajayi54@gmail.com>
+---
+ drivers/staging/greybus/fw-management.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
+index 5d01da6b6eb9..e20e9136c106 100644
+--- a/drivers/staging/greybus/fw-management.c
++++ b/drivers/staging/greybus/fw-management.c
+@@ -434,7 +434,8 @@ static int fw_mgmt_ioctl(struct fw_mgmt *fw_mgmt, unsigned int cmd,
+ 			return -EFAULT;
+ 
+ 		ret = fw_mgmt_load_and_validate_operation(fw_mgmt,
+-				intf_load.load_method, intf_load.firmware_tag);
++							  intf_load.load_method,
++							  intf_load.firmware_tag);
+ 		if (ret)
+ 			return ret;
+ 
+-- 
+2.43.0
+
