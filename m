@@ -1,105 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BA6277026;
-	Sun, 18 Oct 2026 06:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06E82D1F77
+	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 08:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792305200; cv=none; b=Y0Uumt8OzhUukqUoDYra5NrrWVZAmp7ToLELZHUzwRmfkhDZWBNqRIQskdk41rrgvd5UECeDVnb5kaTe4lBWBZfgNfdk9PqzRJ4zE/dET9t0oxijmDjO1VMclewetq30dCbqvOSh8DN98LSBIT2bhalv5BADIYEpu1j1EIjNOH0=
+	t=1792313424; cv=none; b=g3MnNuXgxh40vkf/eytCn1eQZpfc3M76YKN9WaZ4wRkJhGRLMLSoqUaONKJV7CJk+9Ar9Jzn5mGaMG8SLWLAKA2YITkALHUhKAuBDEcg5m8GbEZyWFGzgCuNSixOx80Z5hrn4zo0DrGa059wG3y9QexIj3PJoO+J/aKHpI1h5ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792305200; c=relaxed/simple;
-	bh=fTQq3baiWMdYfx0Q8a21Yl4sPRMJBuSHVU1XC74vjWo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mFJaH3OX0MISui6OpXv1P4lTX25a8Td34+pDhOPx9zi8tQrGBEJRmg3OngvqrY1atnd5dNjwp9hHNOHY20jO0Xcvbq7foyBqMmbbbvHPVMtojOKpXtq0XS2PRUPSBEADJiqocUpk7f6sP8KwLRpXzMjoZya/YaKDO4MpYimSILs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uLqXj1hh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792313424; c=relaxed/simple;
+	bh=+f2w5tSysfWdjOMGNQyyeCgTvy5N0XJDSICe0CScJPM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WYAQK/YWSCIwzGs8+b9QH81vMYbMQmxjGFMud7HSg5W+lEGyukU7cd35kOVFS12k6sZ49yYst16HYphcAcdvSqTk4Ikow8vMTui9yqBgLC3rDblqDfzjkAv804Uu+Xp2I/AAUyKzfUye9xwS388qrzo1vXf5OCLl/VRDN9uTiMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fOZFHKUI; arc=none smtp.client-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uLqXj1hh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D0B01F000C4;
-	Sun, 18 Oct 2026 06:33:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792305199;
-	bh=UaRJmFERky/mo8yFBithcos+Bsd5rz1z03eXuI8Oq4s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=uLqXj1hhZYl8WkDkuCX2GP9wA1ZOv+YHBuqZN/zD/xQjP19+YsIjoKVzwAaGLCsqZ
-	 Oe7JJiCYdN5qj3BehHCSnqYnxnqe6ecl9fqn35+NNy3tIfOtGI3J781Jg0SVzec9pu
-	 leF6V7n/P/2uuUMvpNBpLk88LkencC2AUmCVho3s=
-Date: Sun, 18 Oct 2026 08:33:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-Cc: johan@kernel.org, vireshk@kernel.org, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH v4] staging: greybus: replace PTR_ERR() with %pe in error
- messages
-Message-ID: <2026101846-surfboard-fender-a3ce@gregkh>
-References: <20261015082238.65187-1-pavankumaryalagada@gmail.com>
- <2026101707-routine-hatchback-4a35@gregkh>
- <atN8FallRb8IbXT0@user>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOZFHKUI"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-3514b90bb89so3032012eec.1
+        for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 01:50:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792313422; x=1792918222; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1foRyEVgNVxrvVtoWJyDr59yXaxgx8M7G4qkdLHX8oI=;
+        b=fOZFHKUIskS8wWaCZdxiQxVJHHjRD6VNC41Cp665UDXeGtRuhy5DTASkSGcI3NnNA7
+         Np57y8YJRHVTf3O27B0+KKdXPUTfsA1a4bZrhFxrVBzpuhvEtoPuy8zxq6py7YDXL7YU
+         pNzGnzwhJTjg3TyUstRBv1dlgD8qzpiK6jsNy391BnSQDYVQfHDqrH41J7GDIcTbAVah
+         X+ATNEGTM43m4l4r7gxmGVoHXvK+Pa0KIlXHbiRXJPEOjK2n5+h92XlE40B+9My6S2SE
+         xKRG32SlLK2e5b0km2Ok3IrFK3o+nU5JrSTBPN37HJC/JywpFLFp0m8LwZn2EirotwDe
+         pX5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792313422; x=1792918222;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1foRyEVgNVxrvVtoWJyDr59yXaxgx8M7G4qkdLHX8oI=;
+        b=ls8ncNU9JOl5xRU7aqOwN0W89HVCEl+xJlCDf8LDFWO+pGy/o0VY2XA+LGRMR70HMm
+         WHNyvedzAbW2ySop6SCDgiO+wPKDsEFr4Gyx1y2vrpmriFpIyg0yX7r9mnAlZZvpd1mE
+         LZhHTW0/6B8CBl8u9oUvWA/FFtnn1rqcvXMVuxcuhNI9lXLWzMSVTstHrI12p6GUCv2F
+         f5Liw03C12p1wPwW+/1L9U4pxJaPH5suH+iEZPASgSSlJk7o17MBUettEI38XDm08c87
+         JsYhtjkDKks17w6oOSzGLoalixcRB8SuXvnHM/v+Lhv6TZMR2BGjiiAmtNAhv2Mr8hih
+         TuaQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwNUBrUFyAjerPTQ84DF3y5FVvDzQvB2JMJf4ZEP+uwC/BpvnVzyTLdEhH5HwAe6vtnKbxl5daL1tTVaf+6@lists.linux.dev
+X-Gm-Message-State: AFq9FYLtjCXn3FxTuZ+FUTqMai0cdCYVSudVATCuGjCi0r4Ua3p1uVzF
+	R9E2RJXsK7bxQKjcwKcOxv9oKFmR/o9E6C4SPWCUr7uIR5PTmW9G6BQb
+X-Gm-Gg: AYBFou336hOTQn5enDhSWHrJpN+FUi1EFixk2nTfaM0/tiRWXvbDwRNfPtxjWmYZXVo
+	ZQ0ApvvGIB0H+ZNs+ncANhskhz4UHrjO0MGAoLTJOIC6IheBeIWsAdRhbquWUs8cQKq/A0aptuz
+	KBN7XVy8GaGdqafc87pQ4EpNPV9ikqZyAx2PY51c5E/+hQOTRQphcGBCsZRZbNf+EjKRaiay+AL
+	iMeL65FHWT03woidIXVCfJZtSuRxdYoIVm0jv8gp5J9p9DFaaEs9g2ptLOwL30tKlmKKS+njSFi
+	Oqe65N74BgXtFJ6BQbVtpR8mjIDKsBCqGZSljkOB/SGQz2SwPszujvlU917gjwyCKlSTg4+jf7W
+	T2sVYPrTNRFpRF4n99vjoleJhfdI8Cryik1EFQaQmIH7HeHesVhVbKWqI0euIyli+vFB5WaK4tz
+	hSr2Qsz5/3YMcl6en2S7F/ITnynKdyXK76JN6tczpdANrFkjv2pLEbDeZg3ppbqYMAFHDDSsvoF
+	dWghQ==
+X-Received: by 2002:a05:701b:2608:b0:182:9071:3249 with SMTP id a92af1059eb24-185131076f4mr6206897c88.30.1792313421875;
+        Sun, 18 Oct 2026 01:50:21 -0700 (PDT)
+Received: from user.. ([2405:201:c052:b00b:1e01:b34a:8bb9:ed8b])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1831ca95700sm19342455c88.23.2026.10.18.01.50.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2026 01:50:21 -0700 (PDT)
+From: pavankumaryalagada@gmail.com
+To: gregkh@linuxfoundation.org,
+	outreachy@lists.linux.dev
+Cc: johan@kernel.org,
+	elder@kernel.org,
+	dtwlin@gmail.com,
+	vireshk@kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>,
+	Alex Elder <elder@riscstar.com>
+Subject: [PATCH v5] staging: greybus: use %pe in error messages
+Date: Sun, 18 Oct 2026 14:19:25 +0530
+Message-ID: <20261018084925.11793-1-pavankumaryalagada@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <atN8FallRb8IbXT0@user>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 17, 2026 at 07:15:57PM +0530, Yalagada Pavan Kumar wrote:
-> On Sat, Oct 17, 2026 at 01:20:39PM +0200, Greg KH wrote:
-> > On Thu, Oct 15, 2026 at 01:52:38PM +0530, pavankumaryalagada@gmail.com wrote:
-> > > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > > 
-> > > Use %pe to print error pointers directly and display their
-> > > error names.
-> > > 
-> > > Keep PTR_ERR() calls when the numeric error value is needed
-> > > for returning the error code.
-> > > 
-> > > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > > ---
-> > > v4:
-> > > - Return error codes directly instead of storing them in ret,
-> > >   as suggested by Julia Lawall.
-> > > - Remove the unused ret variable.
-> > 
-> > 
-> > Hi,
-> > 
-> > This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-> > a patch that has triggered this response.  He used to manually respond
-> > to these common problems, but in order to save his sanity (he kept
-> > writing the same thing over and over, yet to different people), I was
-> > created.  Hopefully you will not take offence and will fix the problem
-> > in your patch and resubmit it so that it can be accepted into the Linux
-> > kernel tree.
-> > 
-> > You are receiving this message because of the following common error(s)
-> > as indicated below:
-> > 
-> > - Your patch did not apply to any known trees that Greg is in control
-> >   of.  Possibly this is because you made it against Linus's tree, not
-> >   the linux-next tree, which is where all of the development for the
-> >   next version of the kernel is at.  Please refresh your patch against
-> >   the linux-next tree, or even better yet, the development tree
-> >   specified in the MAINTAINERS file for the subsystem you are submitting
-> >   a patch for, and resend it.
-> 
-> This v4 patch did not apply because arche-apb-ctrl.c and arche-platform.c
-> were removed by commit 2f75b2eac999.
-> 
-> The fw-core.c changes from my earlier v1 patch present in staging/staging-next.
-> 
-> Only the change to uart.c remains.
-> 
-> Should i send a v5 containing only the remaining change in uart.c?
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 
-If you wish to see this patch applied, yes.
+Use %pe to print the error pointer directly and display its
+error name.
 
-> Also, should i keep Alex Elder's Reviewed-by tag in v5?
+Keep PTR_ERR() calls when the numeric error value is needed
+for returning the error code.
 
-If the only change is removal of other parts of the patch, yes.
+Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+Reviewed-by: Alex Elder <elder@riscstar.com>
+---
+v5:
+- Drop arche-apb-ctrl.c and arche-platform.c changes because the
+  files were removed.
+- keep only the uart.c change, as the fw-core.c changes are already
+  present in staging/staging-next.
 
-thanks,
+v4:
+- Return error codes directly instead of storing them in ret,
+  as suggested by Julia Lawall.
+- Remove the unused ret variable.
 
-greg k-h
+v3:
+- Extend the %pe conversion throughout Greybus, as suggested by Alex Elder.
+
+v2:
+- Use %pe in the firmware management case, as suggested by Jeremy Clifton,
+  to match the other cases.
+
+v1: https://lore.kernel.org/outreachy/as0nhVbagZa8Birm@user/T/#t
+---
+ drivers/staging/greybus/uart.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index d47f00751e7a..74c9898c0eed 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -956,7 +956,7 @@ static int gb_tty_init(void)
+ 	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, TTY_DRIVER_REAL_RAW |
+ 					 TTY_DRIVER_DYNAMIC_DEV);
+ 	if (IS_ERR(gb_tty_driver)) {
+-		pr_err("Can not allocate tty driver\n");
++		pr_err("Can not allocate tty driver: %pe\n", gb_tty_driver);
+ 		retval = PTR_ERR(gb_tty_driver);
+ 		goto fail_unregister_dev;
+ 	}
+-- 
+2.43.0
+
