@@ -1,43 +1,38 @@
 Received: from mail.noirlang.tr (mail.noirlang.tr [217.18.210.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F13946DFF2
-	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 10:32:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200883E6DD9
+	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 10:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.18.210.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792319558; cv=none; b=NVNx6qdUqyQepfSzXObK2tNXWeF0hlj4r94ERHHuplcsWD/OeCJOzWZSBGtRP2z2lQGykhNYMd43/FKE62ems9hduKfvWxqC//AnemfQGZW+va+v32u3sOpc44ZhStS2ED3rXw+5Nw1sr0Jsa1YKTL5OFG9tde76XTVbl1sGs8w=
+	t=1792320150; cv=none; b=TlEmLYwn5ZaF8EAE/f7lbBAfXdHLgHlNQJC1SaPNqdcMvyaKG5sppi+GOFBQ3T0+8B/QSl5G3wjehDPi5uZatOmNUQQ4tT+hsgs3MnXgCpcwY67CQ1BPJ9SASANt+inYf+FL3T4Oa5qhKuYA9TBiKDc6HlkgTBTd0zBKm0zzQv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792319558; c=relaxed/simple;
-	bh=EW81mHSnECRyDkttSlVIQyg2dRwHKSHOpABalQKpu+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c/eWzwNHRQeGpoavvnf+nFfY6I7UfX5gaaZtF41nGNrZeDQkM5QLx6l1LVt15MIvWLep3OVm7HpVSoFz3GTUdaQ0VRO8k8Wh4sAhKdDHTW8bOxc23Ci6NCxQ6edJ0UFHilP5Hn96mQjQkXgXd0hNDyOXfsBvIe0f0eFmxJQWxTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=noirlang.tr; spf=pass smtp.mailfrom=noirlang.tr; dkim=pass (2048-bit key) header.d=noirlang.tr header.i=@noirlang.tr header.b=gdKzT3Lp; arc=none smtp.client-ip=217.18.210.29
+	s=arc-20240116; t=1792320150; c=relaxed/simple;
+	bh=fsQ/p1S6E+ZMDAQUaBeqCUjhO27/HQCkNXf7wPSEjiE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kS05WB59A2lfe/wN67RYF7o7f6bFtEu4VeeNdc3DqTl+AE9FR/+edBY/y8rESOLppa4OszoxcX4y8AU8wQR+Yef/zYmAzcpe417lHE+uKoGBFaFyeN1R/7z+G4tdAMY6HrufFlxH99xkwmUaer/3PLKaBS2d9x4Hip7TrhSVaXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=noirlang.tr; spf=pass smtp.mailfrom=noirlang.tr; dkim=pass (2048-bit key) header.d=noirlang.tr header.i=@noirlang.tr header.b=MGEsnsNn; arc=none smtp.client-ip=217.18.210.29
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=noirlang.tr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noirlang.tr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=noirlang.tr header.i=@noirlang.tr header.b="gdKzT3Lp"
+	dkim=pass (2048-bit key) header.d=noirlang.tr header.i=@noirlang.tr header.b="MGEsnsNn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=noirlang.tr; s=mail;
-	t=1792319166; bh=EW81mHSnECRyDkttSlVIQyg2dRwHKSHOpABalQKpu+A=;
+	t=1792320145; bh=fsQ/p1S6E+ZMDAQUaBeqCUjhO27/HQCkNXf7wPSEjiE=;
 	h=From:To:Cc:Subject:Date:From;
-	b=gdKzT3Lp8d9B7JiNa61Ep5EbsMkh6l7wKba7hgmLPgxS5bYLCeeYxrAumKTNjeKsT
-	 AdbQk8om6pEYpRwfWdsNh6jzx+j+S2mGxyn2O8OtKtzwFu/6G6dJlg9q0m4DJ5r+D8
-	 57ax2L0q4ee9TKxDRi2TKiBr06kzQJyG5ukZtsTJVYxQZFobx3OF4fXIA3xabpNW3L
-	 yqmEXvSZZE4GzdqkyhUs4SfFVA1+bnlpl9j8MbNPWwBxjXWbxqnNkuUZAJtTBUdwT2
-	 Dq/RGVkY+QGw6HPwYrh0N4+IZJGcYv7CiC6O7o0dM4iqgaHGImASQoZtfEPAiGDcir
-	 igPdnfncqtNdw==
+	b=MGEsnsNnKHGhvXxfTC9hnmm53FFnNFlZBVFYddOiOo4OyMYNX8PUjGwMSQrlGuM2u
+	 y6ZyFVmOpWDQaJf+4eEL/ELNIMw/eYDVEUDRPtySSFZS1b+DKZtwpmUBgksGnjd9fk
+	 l80iuelq2KLQKey1VRKfMFtsRs9TulyI6ne3HY7hCR7LBNfQ8cTpqlEMwANrQjWvpT
+	 4AXmS4vetkwToZXQgk+cN9VTgwvKS0QnUeZ2X/KZ8xtXWPsCercdLt/5FLzo9GiEUI
+	 SLlAKQzfsE/xFHnvshihelXyC+H6cqBKVYtteEix2+Davl3z7YTBnEkuD74+W/CIxv
+	 ySdK7V8VPkfpg==
 From: Melih Emik <melihemik@noirlang.tr>
-To: jic23@kernel.org,
-	gregkh@linuxfoundation.org,
-	nuno.sa@analog.com,
-	Michael.Hennerich@analog.com
-Cc: dlechner@baylibre.com,
-	andy@kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux@analog.com
-Subject: [PATCH] staging: iio: frequency: ad9832: use guard(mutex)
-Date: Sun, 18 Oct 2026 13:26:04 +0300
-Message-ID: <20261018102604.73380-1-melihemik@noirlang.tr>
+To: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: most: dim2: remove redundant dev_err() calls
+Date: Sun, 18 Oct 2026 13:42:23 +0300
+Message-ID: <20261018104223.164776-1-melihemik@noirlang.tr>
 X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -47,139 +42,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In ad9832_write(), manual mutex handling via mutex_lock() and
-mutex_unlock() necessitates error-exit trampolines (goto error_ret),
-intermediate variables, and deferred returns. This pattern is prone
-to unlock-omission bugs during refactoring and clutters the control
-flow.
+Since commit 55b48e23f5c4 ("genirq/devres: Add error handling in
+devm_request_*_irq()"), devm_request_threaded_irq() and
+devm_request_irq() automatically log detailed failure diagnostics
+including device name, IRQ number, handlers, and the error code via
+dev_err_probe().
 
-Modernize the locking by using guard(mutex) from <linux/cleanup.h>.
-Scope-based resource management automatically releases the lock upon
-exiting the lexical scope, which enables immediate error propagation
-at call sites, removes the error_ret label, and simplifies the control
-flow across all switch cases.
+Consequently, driver-specific dev_err() calls immediately following
+these requests produce duplicate error messages on failure and are
+redundant. Remove the redundant dev_err() calls in dim2_probe().
 
 Tested:
 - Compiled with W=1 on x86_64 with zero warnings.
 - Verified with lockdep and debug mutexes enabled
   (CONFIG_PROVE_LOCKING=y, CONFIG_DEBUG_MUTEXES=y).
 - Boot-tested full bzImage in QEMU with initcall_debug, confirming
-  successful driver initialization (ad9832_driver_init returned 0)
-  and zero lockdep warnings.
-- Disassembly inspected via objdump to ensure mutex_unlock on all
-  exit paths.
+  successful driver registration (dim2_driver_init returned 0) and
+  zero lockdep/kernel warnings.
 - Verified with scripts/checkpatch.pl (0 errors, 0 warnings).
 
 Signed-off-by: Melih Emik <melihemik@noirlang.tr>
 ---
- drivers/staging/iio/frequency/ad9832.c | 39 ++++++++++++++++++--------
- 1 file changed, 27 insertions(+), 12 deletions(-)
+ drivers/staging/most/dim2/dim2.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index a78249812b26..3ae5defec615 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -8,6 +8,7 @@
- #include <linux/array_size.h>
- #include <linux/bitfield.h>
- #include <linux/bitops.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/dev_printk.h>
- #include <linux/err.h>
-@@ -182,19 +183,26 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+index 0e2512d16632..d57e20d399c7 100644
+--- a/drivers/staging/most/dim2/dim2.c
++++ b/drivers/staging/most/dim2/dim2.c
+@@ -818,10 +818,8 @@ static int dim2_probe(struct platform_device *pdev)
  
- 	ret = kstrtoul(buf, 10, &val);
- 	if (ret)
--		goto error_ret;
-+		return ret;
-+
-+	guard(mutex)(&st->lock);
+ 	ret = devm_request_threaded_irq(&pdev->dev, irq, dim2_ahb_isr,
+ 					dim2_task_irq, 0, "dim2_ahb0_int", dev);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to request ahb0_int irq %d\n", irq);
++	if (ret)
+ 		goto err_shutdown_dim;
+-	}
  
--	mutex_lock(&st->lock);
- 	switch ((u32)this_attr->address) {
- 	case AD9832_FREQ0HM:
- 	case AD9832_FREQ1HM:
- 		ret = ad9832_write_frequency(st, this_attr->address, val);
-+		if (ret)
-+			return ret;
-+
- 		break;
- 	case AD9832_PHASE0H:
- 	case AD9832_PHASE1H:
- 	case AD9832_PHASE2H:
- 	case AD9832_PHASE3H:
- 		ret = ad9832_write_phase(st, this_attr->address, val);
-+		if (ret)
-+			return ret;
-+
- 		break;
- 	case AD9832_PINCTRL_EN:
- 		st->ctrl_ss &= ~AD9832_SELSRC;
-@@ -203,24 +211,27 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
- 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
- 						  st->ctrl_ss);
- 		ret = spi_sync(st->spi, &st->msg);
-+		if (ret)
-+			return ret;
-+
- 		break;
- 	case AD9832_FREQ_SYM:
- 		if (val == 1 || val == 0) {
- 			st->ctrl_fp &= ~AD9832_FREQ;
- 			st->ctrl_fp |= FIELD_PREP(AD9832_FREQ, val ? 1 : 0);
- 		} else {
--			ret = -EINVAL;
--			break;
-+			return -EINVAL;
- 		}
- 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
- 						  st->ctrl_fp);
- 		ret = spi_sync(st->spi, &st->msg);
-+		if (ret)
-+			return ret;
-+
- 		break;
- 	case AD9832_PHASE_SYM:
--		if (val > 3) {
--			ret = -EINVAL;
--			break;
--		}
-+		if (val > 3)
-+			return -EINVAL;
+ 	irq = platform_get_irq(pdev, MLB_INT_IDX);
+ 	if (irq < 0) {
+@@ -831,10 +829,8 @@ static int dim2_probe(struct platform_device *pdev)
  
- 		st->ctrl_fp &= ~AD9832_PHASE_MASK;
- 		st->ctrl_fp |= FIELD_PREP(AD9832_PHASE_MASK, val);
-@@ -228,6 +239,9 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
- 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
- 						  st->ctrl_fp);
- 		ret = spi_sync(st->spi, &st->msg);
-+		if (ret)
-+			return ret;
-+
- 		break;
- 	case AD9832_OUTPUT_EN:
- 		if (val)
-@@ -238,14 +252,15 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
- 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
- 						  st->ctrl_src);
- 		ret = spi_sync(st->spi, &st->msg);
-+		if (ret)
-+			return ret;
-+
- 		break;
- 	default:
--		ret = -ENODEV;
-+		return -ENODEV;
- 	}
--	mutex_unlock(&st->lock);
+ 	ret = devm_request_irq(&pdev->dev, irq, dim2_mlb_isr, 0,
+ 			       "dim2_mlb_int", dev);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to request mlb_int irq %d\n", irq);
++	if (ret)
+ 		goto err_shutdown_dim;
+-	}
  
--error_ret:
--	return ret ? ret : len;
-+	return len;
- }
- 
- /*
+ 	init_waitqueue_head(&dev->netinfo_waitq);
+ 	dev->deliver_netinfo = 0;
 -- 
 2.56.0
 
