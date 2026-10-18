@@ -1,37 +1,37 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04A23EDAB8;
-	Sun, 18 Oct 2026 17:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DFA1096F;
+	Sun, 18 Oct 2026 17:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792343403; cv=none; b=bv6wEy2FO+nxCxQHK4fdm/EldbbUNOBeyEiO4cdVUSwG+YACZjt4tLIKuhcaHwL1mhPu4pi3e+/Mcrck7E2YaEkCPGRyfhM+m/BqqPJrpQQByyhTVBL3MM8GVsL4HCgFNxw3nxDTpTY8eqnKj9e1ZXTrfBZYfTlD0gsrprYhQII=
+	t=1792343624; cv=none; b=lKJoC/U+g2NGCuKg1UCKKppzXMvp6eMut3GUkMwByWSVnZUUEhA4y9zlDTcanM/CVcXoKc5fNW/Gd1RQfUg9WzexUg10cQcnV3esArdmC5uBGfcvYOJLwGCbcFNRDO5jwKCP4HkudXdCGheyLCbEvjixJ9AAeFEKOljlkc8KMAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792343403; c=relaxed/simple;
-	bh=GOXkEtRBSU2bDZdcAcZTgql7Tet3D2LDvYLetDbaQcc=;
+	s=arc-20240116; t=1792343624; c=relaxed/simple;
+	bh=MCefos+uPSfRMOTgMQi8tub7CuOiIrCJzz5IRPrkhXI=;
 	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=OiVG2qarZ3JT4p7pfYVUUSyj5kKCTSY+CF4UAj8Pvp7yimRURqX6vK7EQy13P1j2BiBo1NsZvji35OCgoci5h/HbXS/Xl8B/4sjjYlYadwrp9K+pApvdIvIBku8+UGaiCr5hf91DekLKtQEl55O0VS1yd4d0uWkU61YwoC+a/+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=aGnJryxq; arc=none smtp.client-ip=192.134.164.104
+	 Cc:In-Reply-To:To; b=c/NOtqi/0LnJMk6bouVHD5y9OCM0dcPjWhmrKwdU6Qz+h+hPzCi3lO9pbuSP5UXXIlywaOLQxgr0eGxdmELYn41aZKVvgR+alWKmlo4DE+Dyywos6bqQr5xPznrnCLRkr4DoavQqkmomGLeK6zYwfbV413S2Lxy4BZ21yPZpvuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=V31ILwC3; arc=none smtp.client-ip=192.134.164.83
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="aGnJryxq"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="V31ILwC3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=content-transfer-encoding:from:mime-version:subject:date:
    message-id:references:cc:in-reply-to:to;
-  bh=GOXkEtRBSU2bDZdcAcZTgql7Tet3D2LDvYLetDbaQcc=;
-  b=aGnJryxqZIQsDv7PJlsr5gUjN59G85BFRWvYggL+hqs09yClQiU5BWbf
-   Kflzq6aJXJSk+ZJLOB29l+Gwyu/T4D5uATkHp6RGoTRKDpseztnsNwBZt
-   EqhUO8/zrCUsu8E40qkAv4zY15nscmUUFZMIuuFLUskeoU0Giy7A9gNKz
-   k=;
-X-CSE-ConnectionGUID: /bjn7IZVQVaLbObCVCDOQA==
-X-CSE-MsgGUID: XzvSWS9lS5Owq8TY7Pyusg==
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+  bh=VxYFoq6w3JF5VGhjkaIEI5pgRoKKWN0FgubIkPvv5Kw=;
+  b=V31ILwC3nq7OT8M3FAjzIZB3M9oZVOcHpit4DVxFFKCQVmrMAajQ2Z5O
+   SUWMOAC/kH3/lq5cJtf9pC3HnGBfU9a0rCZauBBVdVdt/8nhUIQKu7lp/
+   LMZpdVlCbW/hyZXYY/Ojv5VWPWuju409xN5PW/1uY6DeTWng5DKY8F32U
+   o=;
+X-CSE-ConnectionGUID: xtzEXlmmRMqmZrn1vPOJ4w==
+X-CSE-MsgGUID: PaNPnl2OQx+9NG6YHQVE+A==
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.27,166,1787004000"; 
-   d="scan'208";a="160154773"
+   d="scan'208";a="300751702"
 Received: from 37-169-1-171.coucou-networks.fr (HELO smtpclient.apple) ([37.169.1.171])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 19:09:55 +0200
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 19:13:38 +0200
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 From: Julia Lawall <Julia.Lawall@inria.fr>
@@ -41,48 +41,92 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] staging: comedi: comedi_fops: fix alignment to match open parenthesis
-Date: Sun, 18 Oct 2026 13:09:43 -0400
-Message-Id: <53D6A234-940A-4B29-89B2-7EB0E459F077@inria.fr>
-References: <8a960200525367f0fadca6b83ca57273e469f225.camel@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, abbotti@mev.co.uk,
- hsweeten@visionengravers.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-In-Reply-To: <8a960200525367f0fadca6b83ca57273e469f225.camel@gmail.com>
+Subject: Re: [PATCH] staging: fbtft: remove trailing semicolons from macro definitions
+Date: Sun, 18 Oct 2026 13:13:26 -0400
+Message-Id: <EB394A23-6480-4B3C-9260-5CCBA3BCB2A2@inria.fr>
+References: <atTnRr-JGIb9eLQR@ubuntu>
+Cc: gregkh@linuxfoundation.org, andy@kernel.org, outreachy@lists.linux.dev,
+ linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org
+In-Reply-To: <atTnRr-JGIb9eLQR@ubuntu>
 To: Comfort Oyewole <coyewole7@gmail.com>
 X-Mailer: iPhone Mail (23E261)
 
 
 
-> On 18 Oct 2026, at 10:18, Comfort Oyewole <coyewole7@gmail.com> wrote:
+> On 18 Oct 2026, at 11:38, Comfort Oyewole <coyewole7@gmail.com> wrote:
 >=20
-> =EF=BB=BF-----Original Message-----
-> From: Greg KH <gregkh@linuxfoundation.org>
-> To: Comfort Oyewole <coyewole7@gmail.com>
-> Cc: abbotti@mev.co.uk, hsweeten@visionengravers.com,
-> linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-> outreachy@lists.linux.dev
-> Subject: Re: [PATCH] staging: comedi: comedi_fops: fix alignment to
-> match open parenthesis
-> Date: 10/18/2026 02:30:05 PM
+> =EF=BB=BFRemove trailing semicolons from macro definitions to allow the
+> macros to be used where callers provide their own trailing semicolon
+
+It would be good for the log message to indicate that you have checked that t=
+he existing usage sites include their semicolons.
+
 >=20
->> On Sun, Oct 18, 2026 at 02:22:49PM +0100, Comfort Oyewole wrote:
->> Fix the alignment issue in order to adhere to kernel coding style
->>=20
->> Signed-off-by: Comfort Oyewole <coyewole7@gmail.com>
->> ---
->> drivers/comedi/comedi_fops.c | 4 +++-
->> 1 file changed, 3 insertions(+), 1 deletion(-)
+> Signed-off-by: Comfort Oyewole <coyewole7@gmail.com>
+> ---
+> drivers/staging/fbtft/fbtft.h | 12 ++++++------
+> 1 file changed, 6 insertions(+), 6 deletions(-)
 >=20
-> This is not a staging driver, why is staging in the subject line and the
-> cc list?
-> Sorry, I made a mistake while working on my first patch. I just realised t=
-he staging drivers are located under drivers/staging dir.
-> Is there anything I can do to correct this?
+> diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h=
 
-Just work on something else.
-
-Julia
-
+> index 40a7567df1eb..1ab1658e8321 100644
+> --- a/drivers/staging/fbtft/fbtft.h
+> +++ b/drivers/staging/fbtft/fbtft.h
+> @@ -277,7 +277,7 @@ static const struct of_device_id dt_ids[] =3D {       =
+             \
+>    { .compatible =3D _compatible },                        \
+>    {},                                    \
+> };                                        \
+> -MODULE_DEVICE_TABLE(of, dt_ids);
+> +MODULE_DEVICE_TABLE(of, dt_ids)
+>=20
+> #define FBTFT_SPI_DRIVER(_name, _compatible, _display, _spi_ids)        \
+>                                        \
+> @@ -301,7 +301,7 @@ static struct spi_driver fbtft_driver_spi_driver =3D {=
+                \
+>    .id_table =3D _spi_ids,                            \
+>    .probe =3D fbtft_driver_probe_spi,                    \
+>    .remove =3D fbtft_driver_remove_spi,                    \
+> -};
+> +}
+>=20
+> #define FBTFT_REGISTER_DRIVER(_name, _compatible, _display)               =
+ \
+>                                       \
+> @@ -350,8 +350,8 @@ static void __exit fbtft_driver_module_exit(void)     =
+                     \
+>    platform_driver_unregister(&fbtft_driver_platform_driver);         \
+> }                                                                         =
+ \
+>                                       \
+> -module_init(fbtft_driver_module_init);                                   =
+  \
+> -module_exit(fbtft_driver_module_exit);
+> +module_init(fbtft_driver_module_init)                                    =
+ \
+> +module_exit(fbtft_driver_module_exit)
+>=20
+> #define FBTFT_REGISTER_SPI_DRIVER(_name, _comp_vend, _comp_dev, _display) =
+   \
+>                                        \
+> @@ -361,11 +361,11 @@ static const struct spi_device_id spi_ids[] =3D {   =
+                 \
+>    { .name =3D _comp_dev },                            \
+>    {},                                    \
+> };                                        \
+> -MODULE_DEVICE_TABLE(spi, spi_ids);                        \
+> +MODULE_DEVICE_TABLE(spi, spi_ids)                        \
+>                                        \
+> FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)      =
+  \
+>                                        \
+> -module_spi_driver(fbtft_driver_spi_driver);
+> +module_spi_driver(fbtft_driver_spi_driver)
+>=20
+> /* Debug macros */
+>=20
+> --
+> 2.53.0
+>=20
 >=20
 
