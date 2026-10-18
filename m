@@ -1,104 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.noirlang.tr (mail.noirlang.tr [217.18.210.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D13F44F54D;
-	Sun, 18 Oct 2026 09:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F13946DFF2
+	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 10:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.18.210.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792317265; cv=none; b=D8sf8PoqIVah4BbjJrOkm8z/S6o1YqzDEDz61afm7dBmYRMzpu2dsyaSK1f8o/GtWe0XOKXdwfRf3JjJ7rdkyN0bW7ZEj/HGGG4Z0rs/o5lTtcSe1T4IuljMJH9ttLsNkHs9NyHe71vvOQDsFDYyBaQ4pyMGk3Kb2il8UXVBKG8=
+	t=1792319558; cv=none; b=NVNx6qdUqyQepfSzXObK2tNXWeF0hlj4r94ERHHuplcsWD/OeCJOzWZSBGtRP2z2lQGykhNYMd43/FKE62ems9hduKfvWxqC//AnemfQGZW+va+v32u3sOpc44ZhStS2ED3rXw+5Nw1sr0Jsa1YKTL5OFG9tde76XTVbl1sGs8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792317265; c=relaxed/simple;
-	bh=MLqth/e4rFIpzkL5FHtE8+XIOJfrTyehN/j8uYysZCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=auzOROtGEPK2NbrN6Awl/TopOjdMjOaXtdAStNoVQDNIAIJTlGHhcozZCKnvVBbUxJI+5gJ5Rcqdylo6xwWWYK5m8L0L6osYDWij+cCvfJH8aNYe3ga3kbUhprKXmLXoImJ6XZ++7cNkfTqFEwkOOussjnl8+7lnPUqI2HhI3L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lGcUpKDR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792319558; c=relaxed/simple;
+	bh=EW81mHSnECRyDkttSlVIQyg2dRwHKSHOpABalQKpu+A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c/eWzwNHRQeGpoavvnf+nFfY6I7UfX5gaaZtF41nGNrZeDQkM5QLx6l1LVt15MIvWLep3OVm7HpVSoFz3GTUdaQ0VRO8k8Wh4sAhKdDHTW8bOxc23Ci6NCxQ6edJ0UFHilP5Hn96mQjQkXgXd0hNDyOXfsBvIe0f0eFmxJQWxTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=noirlang.tr; spf=pass smtp.mailfrom=noirlang.tr; dkim=pass (2048-bit key) header.d=noirlang.tr header.i=@noirlang.tr header.b=gdKzT3Lp; arc=none smtp.client-ip=217.18.210.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=noirlang.tr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noirlang.tr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lGcUpKDR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15D921F000C4;
-	Sun, 18 Oct 2026 09:54:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792317263;
-	bh=RkARDx2vR9X8J4PDODQDscQy36I3hS0rn3lmtQ3+4Zw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lGcUpKDRDTRLK3tPkJPtntkv4AHO5huGNvl8Wfv60RmU1/FoW/D2F8IZ6q6U2V7ya
-	 07+3UpN7SiAGxFc5X5hRMLgVjrLrj4j4GUvEbMJ+05sHz/Vn853xl3zOxbzrpGLxd6
-	 EO8axFUbGdJKFxv0lRGgfEL9N76VtFrpgqwLdz6A=
-Date: Sun, 18 Oct 2026 11:54:19 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: wrmfwv@163.com
-Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, gtl-m <admin@micronull.cn>
-Subject: Re: [PATCH] staging: fbtft: fix syntax errors in macros
-Message-ID: <2026101807-trapped-removing-5494@gregkh>
-References: <20261018085345.17619-1-wrmfwv@163.com>
+	dkim=pass (2048-bit key) header.d=noirlang.tr header.i=@noirlang.tr header.b="gdKzT3Lp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=noirlang.tr; s=mail;
+	t=1792319166; bh=EW81mHSnECRyDkttSlVIQyg2dRwHKSHOpABalQKpu+A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=gdKzT3Lp8d9B7JiNa61Ep5EbsMkh6l7wKba7hgmLPgxS5bYLCeeYxrAumKTNjeKsT
+	 AdbQk8om6pEYpRwfWdsNh6jzx+j+S2mGxyn2O8OtKtzwFu/6G6dJlg9q0m4DJ5r+D8
+	 57ax2L0q4ee9TKxDRi2TKiBr06kzQJyG5ukZtsTJVYxQZFobx3OF4fXIA3xabpNW3L
+	 yqmEXvSZZE4GzdqkyhUs4SfFVA1+bnlpl9j8MbNPWwBxjXWbxqnNkuUZAJtTBUdwT2
+	 Dq/RGVkY+QGw6HPwYrh0N4+IZJGcYv7CiC6O7o0dM4iqgaHGImASQoZtfEPAiGDcir
+	 igPdnfncqtNdw==
+From: Melih Emik <melihemik@noirlang.tr>
+To: jic23@kernel.org,
+	gregkh@linuxfoundation.org,
+	nuno.sa@analog.com,
+	Michael.Hennerich@analog.com
+Cc: dlechner@baylibre.com,
+	andy@kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux@analog.com
+Subject: [PATCH] staging: iio: frequency: ad9832: use guard(mutex)
+Date: Sun, 18 Oct 2026 13:26:04 +0300
+Message-ID: <20261018102604.73380-1-melihemik@noirlang.tr>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261018085345.17619-1-wrmfwv@163.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Oct 18, 2026 at 04:53:45PM +0800, wrmfwv@163.com wrote:
-> From: gtl-m <admin@micronull.cn>
-> 
-> checkpatch.pl reported errors regarding unnecessary commas and spaces
-> before closing parentheses in the fbtft_write_reg macro definitions.
-> Remove them to strictly comply with the kernel coding style guidelines.
-> 
-> Signed-off-by: gtl-m <admin@micronull.cn>
-> ---
->  drivers/staging/fbtft/fbtft-bus.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-> index 30e436ff19e4..409770891c54 100644
-> --- a/drivers/staging/fbtft/fbtft-bus.c
-> +++ b/drivers/staging/fbtft/fbtft-bus.c
-> @@ -62,9 +62,9 @@ out:									      \
->  }                                                                             \
->  EXPORT_SYMBOL(func);
->  
-> -define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
-> +define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
->  define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
-> -define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
-> +define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
->  
->  void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
->  {
-> -- 
-> 2.25.1
-> 
-> 
+In ad9832_write(), manual mutex handling via mutex_lock() and
+mutex_unlock() necessitates error-exit trampolines (goto error_ret),
+intermediate variables, and deferred returns. This pattern is prone
+to unlock-omission bugs during refactoring and clutters the control
+flow.
 
-Hi,
+Modernize the locking by using guard(mutex) from <linux/cleanup.h>.
+Scope-based resource management automatically releases the lock upon
+exiting the lexical scope, which enables immediate error propagation
+at call sites, removes the error_ret label, and simplifies the control
+flow across all switch cases.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Tested:
+- Compiled with W=1 on x86_64 with zero warnings.
+- Verified with lockdep and debug mutexes enabled
+  (CONFIG_PROVE_LOCKING=y, CONFIG_DEBUG_MUTEXES=y).
+- Boot-tested full bzImage in QEMU with initcall_debug, confirming
+  successful driver initialization (ad9832_driver_init returned 0)
+  and zero lockdep warnings.
+- Disassembly inspected via objdump to ensure mutex_unlock on all
+  exit paths.
+- Verified with scripts/checkpatch.pl (0 errors, 0 warnings).
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Signed-off-by: Melih Emik <melihemik@noirlang.tr>
+---
+ drivers/staging/iio/frequency/ad9832.c | 39 ++++++++++++++++++--------
+ 1 file changed, 27 insertions(+), 12 deletions(-)
 
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
+diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+index a78249812b26..3ae5defec615 100644
+--- a/drivers/staging/iio/frequency/ad9832.c
++++ b/drivers/staging/iio/frequency/ad9832.c
+@@ -8,6 +8,7 @@
+ #include <linux/array_size.h>
+ #include <linux/bitfield.h>
+ #include <linux/bitops.h>
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/dev_printk.h>
+ #include <linux/err.h>
+@@ -182,19 +183,26 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+ 
+ 	ret = kstrtoul(buf, 10, &val);
+ 	if (ret)
+-		goto error_ret;
++		return ret;
++
++	guard(mutex)(&st->lock);
+ 
+-	mutex_lock(&st->lock);
+ 	switch ((u32)this_attr->address) {
+ 	case AD9832_FREQ0HM:
+ 	case AD9832_FREQ1HM:
+ 		ret = ad9832_write_frequency(st, this_attr->address, val);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9832_PHASE0H:
+ 	case AD9832_PHASE1H:
+ 	case AD9832_PHASE2H:
+ 	case AD9832_PHASE3H:
+ 		ret = ad9832_write_phase(st, this_attr->address, val);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9832_PINCTRL_EN:
+ 		st->ctrl_ss &= ~AD9832_SELSRC;
+@@ -203,24 +211,27 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+ 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
+ 						  st->ctrl_ss);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9832_FREQ_SYM:
+ 		if (val == 1 || val == 0) {
+ 			st->ctrl_fp &= ~AD9832_FREQ;
+ 			st->ctrl_fp |= FIELD_PREP(AD9832_FREQ, val ? 1 : 0);
+ 		} else {
+-			ret = -EINVAL;
+-			break;
++			return -EINVAL;
+ 		}
+ 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+ 						  st->ctrl_fp);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9832_PHASE_SYM:
+-		if (val > 3) {
+-			ret = -EINVAL;
+-			break;
+-		}
++		if (val > 3)
++			return -EINVAL;
+ 
+ 		st->ctrl_fp &= ~AD9832_PHASE_MASK;
+ 		st->ctrl_fp |= FIELD_PREP(AD9832_PHASE_MASK, val);
+@@ -228,6 +239,9 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+ 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+ 						  st->ctrl_fp);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9832_OUTPUT_EN:
+ 		if (val)
+@@ -238,14 +252,15 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+ 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
+ 						  st->ctrl_src);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	default:
+-		ret = -ENODEV;
++		return -ENODEV;
+ 	}
+-	mutex_unlock(&st->lock);
+ 
+-error_ret:
+-	return ret ? ret : len;
++	return len;
+ }
+ 
+ /*
+-- 
+2.56.0
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
 
-thanks,
-
-greg k-h's patch email bot
