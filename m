@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FE94AE101;
-	Sun, 18 Oct 2026 13:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFEE4C1506;
+	Sun, 18 Oct 2026 13:31:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792330235; cv=none; b=C1rDprMnazT5fxJPPV79WPo5vb8CatYUKTtj5aGx+v2Ni0ChpCISTJBSN3zIcdWKiyK7ItXkB5GCGxWzPYg2N+HSi2SbWOjzCra5J5pMLn9tvXia8bRwqWzOtQiIw9l3UrHHVP58mizyAyYovSc4AhLlfyYaqpxUjSlP0CH/pvQ=
+	t=1792330267; cv=none; b=qKDVT9XwpJvdKbMAzseGcJteIpbzEbN5caW5Ej49h0TsbHzikYUyvcraf4sR/90QOeoS2Hx2zaTqf1K+09UVt7GBw+WYTIR/+WvbaGOTLhHqG5EuAZfk//J9ZBwj/A7cP1bJG1arsPCKtm+aT4rzbUKUs2tZJI/f4ZsJ5zhXEwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792330235; c=relaxed/simple;
-	bh=LHfp2/1Vx9e7gHGnMLcPf1qW1mf9LgJgz2ZhvFyZIrg=;
+	s=arc-20240116; t=1792330267; c=relaxed/simple;
+	bh=KDZ+hyu6xuc/u17NzDeqMFngPZi/RlfYyQiHaBPdLzY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pbJ89DyTN8EcVl1Qs/BVy6kPfbENXdNiJuDX+yQKZYz8oijavZ7s/+b3j2RDUO79H7Lm69oXdAzT6Rys2SZNdT8/go2AWGBAlnBgeejsrazz43bEQSMkV4dj5wqXWIA0mLlVpHfPMwXUnsSceMBCNEUsJxzMdh4H9cy6kDjwziI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Nf8wavoi; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=UiPsCcL/puGyEBEkpDYCn/CPHO1oFYeYpc9kM5WygogyRfA9oUqB7RJ45D6XvWQRqlYkagWiaubbDVbrxmvXXvX3+ob8npf1OnP6yI7WY5+h3+x4UtfGUv7Ix76ins/udNinM5GElwKxWKR12OId3YdQqKVqODjGrdH72BIYPQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0KliaDxR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Nf8wavoi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A9AE1F000C4;
-	Sun, 18 Oct 2026 13:30:32 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0KliaDxR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 750721F000C6;
+	Sun, 18 Oct 2026 13:31:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792330233;
-	bh=Zcx7g051Y9D2bi5AQW9KP/qOf+uXholMlpOHhj0h72o=;
+	s=korg; t=1792330266;
+	bh=NxusC2ZkrRWNZg9kKmWEMlTgz182myS5LwkDwojrAfg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Nf8wavoiT3IzBEf05KkNg7ZESzDJ1OK1EMlvlN7bqoxTwqv7IFOne2TjsIbrOZwUL
-	 vbMxV5Hh9lHX2kW6PXOdTPwfXdaULyuHpUczRz1UmKdIVYGcirYh519PhG3xj9uwfU
-	 VwZhbel9CyeIt9a3lj+VnCYJnjscD5vEIKa4uH6g=
-Date: Sun, 18 Oct 2026 15:30:28 +0200
+	b=0KliaDxRdXf8rn0xkZtximAv2Z5u780620LtuBd/6LseJzUguoPNPL6SL4Cy+BoWb
+	 3if977qMG1Kx15HmC1qhnVKIKsRjrpnE/FDMVK0Uvzp4ynQb7uQ4nCqPIrv4VofBfS
+	 nrrs4RvW6rWJZNX2XNEVlLo/cRi4kq1SOa/k4bZY=
+Date: Sun, 18 Oct 2026 15:31:01 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Comfort Oyewole <coyewole7@gmail.com>
-Cc: abbotti@mev.co.uk, hsweeten@visiongravers.com,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: comedi: comedi_fops: fix alignment to match
- open parenthesis
-Message-ID: <2026101818-banish-scarf-eb6e@gregkh>
-References: <atTFT49xpaBEb7Wn@ubuntu>
+To: Bashirah Lawal <bashirahlawal017@gmail.com>
+Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: fbtft: Fix continuation line alignment
+Message-ID: <2026101834-gizzard-evaluator-3c7a@gregkh>
+References: <20261018123430.148379-1-bashirahlawal017@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,14 +40,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <atTFT49xpaBEb7Wn@ubuntu>
+In-Reply-To: <20261018123430.148379-1-bashirahlawal017@gmail.com>
 
-On Sun, Oct 18, 2026 at 02:10:39PM +0100, Comfort Oyewole wrote:
-> Fix the alignment issue in order to adhere to kernel coding style
-> 
-> Signed-off-by: Comfort Oyewole <coyewole7@gmail.com>
+On Sun, Oct 18, 2026 at 08:34:30AM -0400, Bashirah Lawal wrote:
+> Signed-off-by: Bashirah Lawal <bashirahlawal017@gmail.com>
 > ---
->  drivers/comedi/comedi_fops.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/staging/fbtft/fb_tinylcd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
+> index afa8f1c740c5..d58b1247262b 100644
+> --- a/drivers/staging/fbtft/fb_tinylcd.c
+> +++ b/drivers/staging/fbtft/fb_tinylcd.c
+> @@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
+>  	write_reg(par, 0xE5, 0x00);
+>  	write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
+>  	write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
+> -		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
+> +		  0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
 
-Why was this sent twice?
+
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
