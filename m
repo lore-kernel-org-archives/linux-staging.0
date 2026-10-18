@@ -1,87 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB45817B418;
-	Sun, 18 Oct 2026 00:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B4A38F947
+	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 03:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792281914; cv=none; b=X0oWjqxl8B0o9Y1M3TYC/68AMRgL5nFe6LJJ1Pgo0amQJlAx14Hv0Sf/t5rrpTFUGkKCwWdcPoz7WROlOQi4UZxu+Nd2ZIPU5kwVn/LlTvstFdmqA23tR0y6rN6nts4O9nSEJX7rDV09V/WVdVRZLq2Ad36YKVvP4JRz1NeoQGo=
+	t=1792294363; cv=none; b=tHunJ5sQWqAV1ZQAko1RKdfyxZgoYprSlMFWHW6n+fDkdqiLVRtqaMkpnEdnLVJs9QTNyoo/L41FaHOFkW9e3ghwEJThKfdiZjCdoMMg8bBwX3Xn5eTR3eWij/Y6CrO1RzuhXWVuKqn+6XHvArbsg3HjqUPREHbeemImZtlHids=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792281914; c=relaxed/simple;
-	bh=XBCbGYHKngI90KUpEVBPFI8SZiujdPN0RzokHMQin18=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rfE8NjRgAxvSiWdDwSqxrc8tP9ewCGDJrRGl/2zWOFTdM8wwzucEayEtPwgcWY96KO+tsM40LNZDyQmDSDJv29u3xuoi/wAcXh1VT1lvoO3cW/O8g8HbbMusdaGLR+ojJLuSK2kASzVAFTrGUQAxa0sgpSSBBzNAs8QVyZMbzw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bGy+8lIP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792294363; c=relaxed/simple;
+	bh=UvTEXTqw1lVFneCi4baLXWwmAJ0n7GhdLElXFhLHYX8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RG+0+zhh+Yh9PLGQZJFz2wfACmh7u/GczIYZmN1Y4OA60G7H7RwTb97HfbeC9H4DT0Tr+7+6wV4EZS9Gcmg+IqvMU3V40mrNMlvIJDOizKwvdfyer1izj5pi7NB0aaOAFzCn8UBAuGJ4DdPGMLcXdlqCvp1wnDSE1x6YmweDwxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WBGddG5Q; arc=none smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bGy+8lIP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C2E91F000C4;
-	Sun, 18 Oct 2026 00:05:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792281913;
-	bh=xMzD3gYMH9QJmtQljsNe5RN7lI1FbqX71rgxn6t17JY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=bGy+8lIPwd+6RFIf4HflZunjjiOYjxtSAj1T3Vtnplbp6RplMk1AZ853YcgiCvAFw
-	 TwPW4twDcZ3t6wgPWSpk8PSGHKEhvXgmfEP0HtoravWoqRv8A7LB+2ZbT2G28HnVnc
-	 0sWeiR8umXDzzrFYbngAVKZubZ7kGTcKCarbEKTm22zHcTseKNFIbIBTUxBE7eWvTO
-	 9UK9uxI+/VPmq9N0pQZusJlUmEwuYKgIzlb1aayRrxprVDVZZcGZxy7KMy1JOKYOFq
-	 h7Jku1rgDsyLKadxAmcdrlrD4DLdQevfdQ/XSyAT4U8NrLLFUOPuK2sgVPOdyRikmG
-	 bY02jfZDiKX+g==
-Date: Sun, 18 Oct 2026 01:05:07 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- raffaele.tranfaglia@gmail.com, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux@analog.com, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: addac: adt7316: use dev_err_probe() for
- ldac GPIO
-Message-ID: <20261018010507.5a7b89d6@jic23-hlaptop>
-In-Reply-To: <as1Qs5H5-SG3gik4@ashevche-desk.local>
-References: <20261011-adt7316-dev-err-probe-v1-1-27a4a8ac74f3@gmail.com>
-	<aszvaazebS2NISxS@nsa>
-	<as1Qs5H5-SG3gik4@ashevche-desk.local>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WBGddG5Q"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso2159326eec.0
+        for <linux-staging@lists.linux.dev>; Sat, 17 Oct 2026 20:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792294362; x=1792899162; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=O9jsrD/kdtezFUO00VsW4JeI4Jo/i5FLlkQ/PljGjWE=;
+        b=WBGddG5Q7aYphGlhtXP4TjJZ/HB6mqYO+LY4Ea0zWpVXFF3wR42i35KwLI8bRfH+jy
+         9/uCsQ5PBWHa6Tf83hQq+vuBcFNoj5o21uSkisnL6YAzI1Xs7jHAsDg4ofDt659PcQ4g
+         Ds8XkDIismJlWVSBoAodkDEINkd4gEFSolu27l3H0YsMRu0OGYoywYGKne6LSM/215PF
+         sfkn/dFS27hQA9UAo6uXtTQiaGlcBynInJlQJAj/zOcwnjUjJpg1jYrO5Sdnr+s4svlv
+         dZOBGV9c5HEEYFIZ+zYmQhoL6UZQ7q/+U/Cwoeg/m0KW27xbrH3fLTyQqlSIOB9y4BjB
+         IcNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792294362; x=1792899162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=O9jsrD/kdtezFUO00VsW4JeI4Jo/i5FLlkQ/PljGjWE=;
+        b=dEotDC9jKxRQaP/3cETwBJkvqmQvlYDaS1c/8OniluoHdRRRtnrCgufZKXaBabUVum
+         aWhH1KWmC/a4sBKRwxxwP6RMKDdFltL0kOU80VpRBZyJVmtXrl3OCjZUrCat2Hnu9enP
+         oIObWiJQ3KJwNEW9ajGafeVxwv0RqLhPSZ50rK0e6Ecrgq0DwfnkSMj0+7anxP104IJt
+         ftFi+McOGwjscQczXzmvoEjXaw81ZRmw1NWv7SlQzavaqGEmvTkSs9C6JDkLALFcJ76p
+         szMqX0japg6JdTThPF8Gfk/lmIHY5Q1vS5uXbfaghIPEt8UMDdSCPFHnXe/DN6lP0lLK
+         Crrw==
+X-Gm-Message-State: AFq9FYK+ArVPbvCtOE34sBTaqPRzAzZHvlhgCQ3tnripCA8wiIrt/mq4
+	GB2ZEQ97BYx4gxFJrPYAzWLvrT7g6DgjgBVB0S4cTUF1K72apIa7erGU
+X-Gm-Gg: AYBFou0w7I0WfRjIBcTeIv9/38yg7Zy5pcmB0kpKDhP3oKbrNK5Yw4Dp9xobupaEsIj
+	HgdQUz7Pe+NRPr4zkzR/vnM3ocK8LO/LpnIx/q6+FQFMmJAXkMo3L3yrl6YTgrTCT3pE3RtrCXl
+	Va3aXt03KMIOG7BLrD+TtoaFoCHLULRofoxTDLjYi9X9mzijNEutn+MGrqUZz4MFIr7z841PQVi
+	jVdMj9NwICd633zaA+2Di0H76r/8Yn30f3erWwBJzV74/3nMSpp2hInNedyQLoJLgUSx+SfHIcu
+	zVYQnNW5R+MxIhhQQbgoCAO6OsS1CYg3qszq4v8ICanCLJXY8E71c04FTS6ZBIJZfLbb3vYYm5N
+	V3UmTCpz7a1mxU4cNsa1NhgbvR1CWlcnIOkG4VxDSPeBi0LVTVgCji74Z33CkxoSIX1pjawC+UV
+	C1sN3hwTtZZIlINux1bkA+uqXC6EquE2npimimCLlsEfqgVjV1PAkEBmIy5NC0Ts+GM+pYfRyii
+	MW+FeWFJOXgz3p3bAZYUe0=
+X-Received: by 2002:a05:7300:ff4a:b0:351:f762:a10c with SMTP id 5a478bee46e88-3619b20edd9mr5915279eec.0.1792294361434;
+        Sat, 17 Oct 2026 20:32:41 -0700 (PDT)
+Received: from NithishVelan.localdomain ([152.57.87.120])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3607bc950f9sm22261572eec.0.2026.10.17.20.32.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Oct 2026 20:32:41 -0700 (PDT)
+From: Nithishvelan M <mnithishvelan@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jennifer Guo <guojy.bj@gmail.com>,
+	Nithishvelan M <mnithishvelan@gmail.com>
+Subject: [PATCH v1] staging: rtl8723bs: remove empty if branch in halbtc8723b1ant_RunSwCoexistMechanism
+Date: Sun, 18 Oct 2026 03:31:43 +0000
+Message-ID: <20261018033144.865-1-mnithishvelan@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, 13 Oct 2026 00:27:15 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+In halbtc8723b1ant_RunSwCoexistMechanism(), the if branch checking
+halbtc8723b1ant_IsCommonAction() is empty, leaving the assignment to
+preAlgorithm in the else branch. This triggers a checkpatch warning
+about unnecessary braces for single-statement blocks.
 
-> On Mon, Oct 12, 2026 at 03:35:30PM +0100, Nuno S=C3=A1 wrote:
-> > On Sun, Oct 11, 2026 at 07:56:22PM +0100, Raffaele Tranfaglia via B4 Re=
-lay wrote: =20
->=20
-> > > Use dev_err_probe() when requesting the ldac GPIO fails. This
-> > > avoids logging an error when the GPIO controller is not ready yet
-> > > and the request returns -EPROBE_DEFER, and records the deferral
-> > > reason. It also simplifies the error path. =20
->=20
-> > Not sure what's Jonathan policy in here (or don't remember :)).
-> > Personally, I don't see much benefit on this kind of patches. I'm aware
-> > you might be eager to have something upstream but for staging I guess
-> > the real value is in having someone willing to really cleanup the driver
-> > so that we can take it out of staging (naturally that also means having
-> > HW or someone willing to test it). =20
->=20
-> This is a real fix for a (rare enough) problem. Without this it's possible
-> to get your dmesg flooded with the messages instead of the useful logs, so
-> I'm definitely in favour of taking it.
->=20
+Invert the condition and eliminate the empty if branch and braces,
+simplifying the logic and resolving the checkpatch warning.
 
+Signed-off-by: Nithishvelan M <mnithishvelan@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Whilst I'd love someone to take this driver on properly, I also don't mind =
-taking
-minor cleanup like this one.  This is one of the few bits of the driver tha=
-t might
-survive such a cleanup!
-
-Jonathan
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+index 0613beaa37..dfe921033f 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+@@ -1903,11 +1903,8 @@ static void halbtc8723b1ant_RunSwCoexistMechanism(struct btc_coexist *pBtCoexist
+ 	algorithm = halbtc8723b1ant_ActionAlgorithm(pBtCoexist);
+ 	pCoexDm->curAlgorithm = algorithm;
+ 
+-	if (halbtc8723b1ant_IsCommonAction(pBtCoexist)) {
+-
+-	} else {
++	if (!halbtc8723b1ant_IsCommonAction(pBtCoexist))
+ 		pCoexDm->preAlgorithm = pCoexDm->curAlgorithm;
+-	}
+ }
+ 
+ static void halbtc8723b1ant_RunCoexistMechanism(struct btc_coexist *pBtCoexist)
+-- 
+2.53.0
 
