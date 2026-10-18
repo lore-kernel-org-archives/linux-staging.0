@@ -1,104 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8744949ED;
-	Sun, 18 Oct 2026 21:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792359741; cv=none; b=ixQs8WBlCAGcXamTXvEm4yy1Uk9Qe3jhpCr/Wzyed4mDvSQm5dtXT5zuA5NBQUUocRHMjqIJL+4vn23RJ9y+1Atvj2SaXQK+bse7MlfqP8MJLhEHnIx3WEGC8LaNU2Lv2CGAEkOFNeZ4B0fT53TuyfwIahl0ewqBEDbtdoKWvQ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792359741; c=relaxed/simple;
-	bh=KxlqlM08pSqbLCX75drsh8bl4LndMnKISQsj+OgCYyc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=d+9DcL+FD27xPo9WXzz8xiyx/b1Qgl4aHxORV7Pe9a4mpFwqh8oD8xUWyD+PJCOE92lEBzCmlMjb/uUki9IdmP599eT4waPePdhqKjLdFA7uGxV3IqP8lvuuTKwdiWHpAyv5KLvfCP/suzOmKVkB2BZQGeOqP5e73RTlD4BgTbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xp4SQVSw; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E11F35C68C
+	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 21:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792360247; cv=pass; b=H0QxvFd74WS1nGtjcwz6XD+zKLbUDJ0arAMQFAppuQzFMWXEgSWeFP2/j42sbphIrzM4MYEsuRrim8CzA6BU5PB8LEL6Qz/R1PRAw3iDu/T+ww4UdboSbl8uiChF+Eri2Nq20W64VLxbRn2avXJW7AFvy6xOerpEk2shR4ugMKQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792360247; c=relaxed/simple;
+	bh=JsApNxqREUvCCfWYG4AGYT7TQ/2LL6l0vjt9rZikPwk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aWeWpjpUSOKqbbLNtTIoIfp13xJ7OTIr/oMULI/zJVC+tx/iwQZNvDbbQDlvKss7k9EVSvcR09+JyW+x7SjTAPPP2CWU9W2pCHUNR0XvaY7VHJRsUPoZGqPi6VAPW3CCK8q5lzitNHIRYz86TXgfKsOZ4UT7QwJ0H8gorEy6GiM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jYVSXpAa; arc=pass smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xp4SQVSw"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5132BC2BCF7;
-	Sun, 18 Oct 2026 21:42:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792359741;
-	bh=KxlqlM08pSqbLCX75drsh8bl4LndMnKISQsj+OgCYyc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Xp4SQVSwoz11D6rPu40TPRVF4dEMVpzAPYM+XdtZDZCPNs3qlIoXTQ74maxexToZQ
-	 JzCBf7i/3burCtmi97SJKBTLB/8dAfXcD4LM1m3S5j3UZPD7jgL90QNBRtr0exEfrN
-	 /oZJUpV2onChZ64MwUV7CFvvThuuRH+izfLzlfsV2PhYUWrYGNvGgNaDnaLAWkzocN
-	 mYe6i5HVPaoosgmPxCZPqqZ7EgqIJmEuCxfl9eRMNFjhU9TDAz9KmVPsN3fkIrmUP5
-	 wizB+Y/1IXnoUGAcE95eKSu+EM9ync+SUizDlqtZw0tW7mNurF61jN89/8k19Vy63w
-	 9oLYQCdBJhGDA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32268CCF2C9;
-	Sun, 18 Oct 2026 21:42:21 +0000 (UTC)
-From: Raffaele Tranfaglia via B4 Relay <devnull+raffaele.tranfaglia.gmail.com@kernel.org>
-Date: Sun, 18 Oct 2026 22:41:51 +0100
-Subject: [PATCH 2/2] staging: iio: addac: adt7316: drop informational
- message in probe
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jYVSXpAa"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8ac8a2ac52bso14121827b3.0
+        for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 14:50:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792360245; cv=none;
+        d=google.com; s=arc-20260327;
+        b=q5AsJyucF7tTxrhBCDyWEebKeH3LMT+BIm6NHOJ3cM5uEqkoumvbXp5ao3vHEH7M9P
+         yXZ1lFRwNOSNv3bC0GGJRWb7z0pEnK0I84pqnLazZbWjFaT7FiYI7hLHCpM8CT1PVpR4
+         9D2cw+flauhCSqo6BlSC/MDc3do07buQ/t9D98ILj/fzmU7qY6TkvoNDEbyQKZUc8q9G
+         pX2K37J877cm9UQya7+tVJ4Sd8XKsXdhu13j41U5gbOOPkuOl64XfMNfvqlsRYj1cdOC
+         OGBL07VYgImmn+6Qoiovn4E3vUaWgeUkqj0sYqiBMu2ouRcmNnt1T6cIZ2bClMq7mZne
+         J0uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yi4OcEVBleuTF2zelBND0PJXNDFdIaerPT1ALBRVIDA=;
+        fh=CjnD+8HR5fVWoXVyGFsoet30UjT1ZFw3vodma++EzLQ=;
+        b=Wx5uNS7TZAMLeYpKYmLGaT+2GeLmf/wIqJDPKyRbL85ELd8HQlW5WemZoGsxcTm3ZP
+         Gikd5aP6dc1MvdilrjVAsjldyuCFR22fHrS9/1KE7dnNBUqhtEgpVpKteXplAC8K5KwH
+         ASRoan59V4zqRQyHvvPLOjPyRNV/mP4vI22tDE8Ih0ZTwKFOYo1c8rvKbZgqkRIeRY+q
+         QNTCHM2gzAzBnhlD0omydwnud9eKQ9Ad7yWvY3agRifM08d5YngkUJl+gColkFBJtBjK
+         GxNWs1ckDT9X8U4Kq9jKGzK6q2LUyYDi9iQA5osnkuELd2AOMeIxLnszfKFNo3lTApML
+         yrmA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792360245; x=1792965045; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yi4OcEVBleuTF2zelBND0PJXNDFdIaerPT1ALBRVIDA=;
+        b=jYVSXpAaAm9cz11g+l6sALl8O9Pr2PAaRxToA9bILXLxzUcB5MEfXDVtYVVerc60H4
+         3elHof+28BSxLCDUHgVequ0+XI8HM9If2IBxzGoYzGrk79qQq4KxYWTaBnUfIW7mQBrU
+         KcLriJajTMzSyAI+FUo5qnOaTy6qrwRdR4cWY0pAekObmyOY+91qlEWXr97dZb6ONt5m
+         UutTg0PEyNyqKpFCkQSQPC6WA9iiiFAppusSVHU6cINRr4+D0B1mB6P/PAjOUwIXd3K5
+         7cs4WTgBjRTGSF6f/FIpeokAV8xhb5pscAyLouxDg8w6sr49HA1dEyVzz1yrrbwMldwd
+         MJiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792360245; x=1792965045;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yi4OcEVBleuTF2zelBND0PJXNDFdIaerPT1ALBRVIDA=;
+        b=wIkc5oFb0rjl2kTW9x+H/j1Y/E30tdUzaVaUpUCIknA2oq0sJmqeP1iIKvXlXie8OK
+         2Fxx6WlJ2zbf4V77EKSTTasigB1bf4WufJBOmWoz0Au+kBHoy2Vas52Lj8uG03mgdCKQ
+         FB/3Qh4AuJy+9dqHoxPwGNMMXyeaIz8b1XQ1kd8Zmuv+isRT9xZIBuT+nVBy7pBQWYyG
+         sArvwrNWkNgVjb+y9c1OPIr6fKqh1GSfGAm2gijfxZFqwHG2atEbxoguT8SFo9QcxOQh
+         ZvS4d54erhAc0wfylYqvAgNvs/QKftm1h9TvfC1yRpmC9FTlXZ+rOIwa86t0Tu8MSkNY
+         vM4Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzEhEEIwNK+vStOabeXHYBBWnmZgq+YFB7V6I97yzZcTRTfugVHmyfZx4BaRxHjr6J0/JJ23f3uaGnTZAr8@lists.linux.dev
+X-Gm-Message-State: AFq9FYIQ01VXlIvoIBktrB+qeg/MJteh+xfgi2TxkSQ9rkshiRw5gfXV
+	TNLU/FfdOOzTJfhpgB3Gh7rHI5Nn6F9Rf1za9orNzoZ1caazxFmhY31AjJ0tkNWI+UiMhNf6wtv
+	EJosa4e5WzSwQ8rrZl7JZQrbEzpI9BiQ=
+X-Gm-Gg: AYBFou3XH1xWbLCa1VvZLcSgiVN5QSzzzCQf9PHisv8ah4BDi2VWDK26oDXpfEMlZzY
+	Na63cKg+U99db3Snlz7I6za6tfK/OehW3s0Z/hXypYZQZjlhV+7+pSd/ikemj+2mPOsi2iiXgmN
+	SOOrT8bGnqiU7QMiCRVpvtYAH1YoFDyas0Gsfzv8pN/wqZbYk0wF9Ej/r+7dx80Vd5yYdRaGeCP
+	IbI7wbpB7cnWvuDLW5viG6mJ89HAcIydapem8rajZxV4KJm0bZcDEwMUh7imHw0whUVNh4RlQDT
+	nPTTcQ9CX6EeCE7PQfs2wfnJFFpz85ov8ygTRJ3hyiZBAR6Qx3pJMLjDTl1kFA1Yzwp24DLCpXE
+	n3Ave01SoKNjOpP4wRXcV4iL49DP18RHJPlYEdBhdfGDOXMxWORJx9lyDEr1YDoIenHAYKlKNJV
+	vZtrY37LzWsf24dgVyNvGG1tdr/JdACHCwoUYUfg==
+X-Received: by 2002:a05:690c:60c6:b0:8b0:56e6:54ff with SMTP id
+ 00721157ae682-8b0f20f2b8fmr20435397b3.6.1792360245450; Sun, 18 Oct 2026
+ 14:50:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261018-adt7316-error-codes-v1-2-1970b7e242ac@gmail.com>
-References: <20261018-adt7316-error-codes-v1-0-1970b7e242ac@gmail.com>
-In-Reply-To: <20261018-adt7316-error-codes-v1-0-1970b7e242ac@gmail.com>
-To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
- Andy Shevchenko <andy@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux@analog.com, linux-iio@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792359739; l=1014;
- i=raffaele.tranfaglia@gmail.com; s=20261011; h=from:subject:message-id;
- bh=yKADDDdmBBCSlIewg1RBic2YWBgdqUnAFXf9g80Iw9I=;
- b=4bGHkl86lqoxO05oSI3aEhN7pTSr3znRkYLdnGHa5tl+v8u/1hhgxkY53SqCTXNQvRjAG97/T
- SIIxK1ggLhkBYiRG3n2F56kbRHssFz7YzWDmUg3etjbvsaPKvgf8a0J
-X-Developer-Key: i=raffaele.tranfaglia@gmail.com; a=ed25519;
- pk=mweuSGNM6vguCTdqa+aiHwMXdgk70suj2wolzCp6XGM=
-X-Endpoint-Received: by B4 Relay for raffaele.tranfaglia@gmail.com/20261011
- with auth_id=1160
-X-Original-From: Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
-Reply-To: raffaele.tranfaglia@gmail.com
+References: <20261015222735.89251-1-okhuomonajayi54@gmail.com>
+ <fcdee571-d94c-a5ae-5ae5-b41977f22073@inria.fr> <2026101653-repeal-deploy-2aa5@gregkh>
+In-Reply-To: <2026101653-repeal-deploy-2aa5@gregkh>
+From: Okhuomon Ajayi <okhuomonajayi54@gmail.com>
+Date: Sun, 18 Oct 2026 22:50:34 +0100
+X-Gm-Features: AclHuK-ckhS_4r7IKrzFrVbhZJ4prq24_eCMG7slNkkX4fQeUlsVEZ3ToJ1oygE
+Message-ID: <CAFpMFfB4ssJ=YnLeDu16NUXJ2mTWK81+krJ40qzQueHOM4=GhA@mail.gmail.com>
+Subject: Re: [PATCH] staging: greybus: add blank lines after struct
+ definitions in gbphy.h
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev, 
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
-
-A successful probe does not need to be announced in the kernel log;
-the device can be found in sysfs. Remove the dev_info() and return the
-result of devm_iio_device_register() directly.
-
-Assisted-by: LLM
-Signed-off-by: Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
----
- drivers/staging/iio/addac/adt7316.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-index d495032786db..9fcbb640b7a5 100644
---- a/drivers/staging/iio/addac/adt7316.c
-+++ b/drivers/staging/iio/addac/adt7316.c
-@@ -2178,14 +2178,7 @@ int adt7316_probe(struct device *dev, struct adt7316_bus *bus,
- 	if (ret)
- 		return ret;
- 
--	ret = devm_iio_device_register(dev, indio_dev);
--	if (ret)
--		return ret;
--
--	dev_info(dev, "%s temperature sensor, ADC and DAC registered.\n",
--		 indio_dev->name);
--
--	return 0;
-+	return devm_iio_device_register(dev, indio_dev);
- }
- EXPORT_SYMBOL(adt7316_probe);
- 
-
--- 
-2.56.0
+On Fri, Oct 16, 2026 at 5:54=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Oct 15, 2026 at 10:17:35PM -0400, Julia Lawall wrote:
+> >
+> >
+> > On Thu, 15 Oct 2026, Okhuomon Ajayi wrote:
+> >
+> > > Add blank lines between the structure definitions and the
+> > > to_gbphy_dev() and to_gbphy_driver() macros to improve
+> > > readability. This fixes the following checkpatch warning:
+> >
+> > Thanks for the patch.  But I suspect that the lack of a newline was
+> > intentional, to show that the #define is closely associated with the
+> > previous structure declaration.
+>
+> That is correct.
+>
+> thanks,
 
 
+Thank you i would drop the patch now
