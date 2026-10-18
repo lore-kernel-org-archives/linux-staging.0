@@ -1,117 +1,108 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270103911DD
-	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 15:56:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1246C3E410F
+	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 16:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792338970; cv=none; b=sSyg1NSfhvNtV+J5LfgashYmT++Bj0GrGwby27lZtBfiV4nrlXVAfJ0ZobK9dJPoXcKD2+n5msoTFpm9V/3SDpJ1f1lj/tFIgOdCkApGrF1Di8geZUJQtgVvIsETUywTWMoJtL+OPzfrrVSvZ0oYnqtFyhIDfQoumZ8FZPgwPqM=
+	t=1792341863; cv=none; b=meGnlCXtBHomBYNDZaxJuaS5jAA9oa/kMoX3jLkBZomeV8xGy1HBScEDw7V+29ACC6cFGEC4Y/vJpAhqxQcXosBN7vRdT4qnrBlOiwKmzZevptCHc3yE6nQ1na5XMq9S1U9xEg128+uA/3kpdpw7skyYFiCVVf76VqC6jUmddx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792338970; c=relaxed/simple;
-	bh=+kCuaqYvwXGbWkpGE6rk6i0yD5km7LI6frQMx6b77q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cqlQXKaLH9y4GZxIvdreEn601TZDr6G9jNSiOjUorf3aQx7XQc0nun2Jv/XtS9OZoFNZacREcH97G0JRJVNvl7B+f59yzBUIDCRDS0zEuTPv74ldGBQVX8f4rxN928E6yvkDZfS3aI3td99v+b9+Zxkyx59wPvn+a93GgiMlRjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=downLOlq; arc=none smtp.client-ip=209.85.218.49
+	s=arc-20240116; t=1792341863; c=relaxed/simple;
+	bh=Z0lznjmT2fklPYTx5yPcuTT3xhmNlgD0+HUS4nS1wCo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IkCuG85z21fbDA23mqFL5P7ga/yMwUZkDHIEMVmNc3ps41nAgkdItEolK0UM+ivUfXpCBANFopOurMnJIljXLd0QT+umlGR5SZylaKEWqlmu3uOx5JIroyM+hEXM7sDEljN1KhJzOjnjRd0j5AeWsCWUjqrS6UwuWULp4xS+3/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKv/coA4; arc=none smtp.client-ip=74.125.82.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="downLOlq"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c40e9aff12fso22316166b.3
-        for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 08:56:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKv/coA4"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-354ba08cfd1so2336180eec.1
+        for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 09:44:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792338967; x=1792943767; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6X5sTX/gBkk9ZMFX7ZUc3TThgaRf0NfvoIWKdsJ73bI=;
-        b=downLOlq6oqy+uTM7ogbjhvEULBlheSvwSGvcrxhlS2YiCyBx2Yk2WyWy+392jfxMd
-         B1UvrWNjHt22cnBRKvCp1YAQkQZ1J3RvYUTOg3qIJW4XW1zfCTABXRqVwjtFN0YdeLqf
-         SA+bM0ZDIJHI6IMaH+p+h/MDCmIoaYMtXNY41E4vrd3wztFGts8mASyUooES4Vly73If
-         zeakp4JjC64ivDjA6jDCpEJLR3UzJrLDmtVFMJnqtf2vDDjKScyrhayvZ+hRKiRtbSUR
-         /Wj3FlJcpedzKQDD6ezogbbET0DX1bJ3+TdQMZAmIW8JqAqR040zzxAI0wokhekCLskY
-         X8YA==
+        d=gmail.com; s=20251104; t=1792341860; x=1792946660; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JxESZ098zbjfzDcvUMgtVe2zTbr0dJel0R4trpg856Y=;
+        b=nKv/coA4JcyGxZxjt/JzQ/J5oYKF6abZWR+rOknr7R1IDqhp5+8xOtQiUQJ4Dzbbdc
+         OeaUZfnOFymMNjaFAnItMX9trVtrRsQ7lFxhhz7eay+dNuXh+HEHFVk/MS7JrxmHL88V
+         fSRZc/Fimuo9V4YoPpWoZeNRfnWZlT6n2uw6WpuJ8t70XE9qBp2d7iIYUvlWpJYt+uqa
+         UCrqayFREeix0LaDmDl9SoROnZ2bSZyIpY3DE1zYzP1Nl+KCmzYzI0QHyBkZXobpP+o+
+         5bl1kW/ZZd1leXJeueBXiBLiWvZ79WzyYAK5lf7QB7Fd33xWZaXhdVUXuoNyoxw3ohm/
+         ddYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792338967; x=1792943767;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6X5sTX/gBkk9ZMFX7ZUc3TThgaRf0NfvoIWKdsJ73bI=;
-        b=K5dVnQ5R3G6QNib5Y4nEA8kEciFcjf5XE0PDhqCT+Rg19KiMoPf1dXnnmxRbmjIVgx
-         5xrjeng1VIple6WadfgBkERL2pg3eRefZhtsAB5aEMNymaSYwxWRQTejUHB5+h3ITImx
-         pjAxaH60/dO6lgbARjiU/ty/TgqbfHDo2D8Ltsa1PqmdAo/S4i1wkrFG4sP065EGhhxa
-         KUp5qkHZTklIGytsjBvpsoBSoe78sGKFFsOYTtySnhkPfVHosBMwfdyTg+sEgQuLiaex
-         woXLm05aa4cjx6pO1L5pD8gfJEZ1Bca8/xI5+kxDIJG2BDgRBSQSMXdTNLW/owOMkd4q
-         Y6xA==
-X-Forwarded-Encrypted: i=1; AKwUvBwKLfCtWWRTSpLv7i129PyrHPDkxs4mmmqXipsMFPzcWTHCT5THhURzbe1oe5rSqQV5fcUdkE56zbajugrj@lists.linux.dev
-X-Gm-Message-State: AFq9FYKVYrDqrgmUjHGXyf4NxtAnvZnRrX+UbiPLUT/oIIR8kp4BHbOB
-	vI05ZCLBNvZR++G9uyXi9pNN6biWHcEbq1FTGY1coh27bna6eTFjpXbm
-X-Gm-Gg: AYBFou2rwNybY9uAUsP5LFOztOChuUv/tHBoAe7FS3ezLe9ulBXJ/+9VooU+Nit5AHe
-	ptB3A4lTRG2UfLOdbz5AFA1gOEyQezfnXerFDurav+XWGSSNw95/GTkgT86Zv42jDEXno6ChA7+
-	oMcwcHZVY0tZjYJXUdxqaduouavQ+DX2AhYGse7/JzbuL+iuSmstUU/ytK1GBDmeG5pjwPjt5g+
-	opJhSyz+ItsYnc9CngxHAlunSqglgwAmiUdGbzTagV44pRyj+adztfeYN91GnZSZgkSmmGdFQBJ
-	jloLK51n75e/+uqq3Fae7YRHVjks1Zv9K73udKPFvk74ppBNYWt9cPrO5q2nPZJ5xCJcQ78c2r2
-	+SzFYNlmY9hAwfE3X4P2+xCPHx8cdC88G3lq0pv4RDQiQlvs/CEqcO2Mx5GOrFacIMA0p9AesqV
-	KiN9nF4VgUwOQFZogJ3iMpq7rcGfe1m3h9Iu3yuBKCuVdT6DSuZzKV2lGLZKs7i5czny6BmDPvP
-	jpsPMtPl6AuDAUAw01Ci381BKZ20nvBSpwKIqNFURnFPkGvfuuSOwtpy2Kn+6VPGfd66L49h1wC
-	RAeJqcABokVQT5BKDcy6+oLDdqXpxoocPQdmHNy2TPMkgfAoVM881Ol4Pz5LQCwoQLWri8ftwKx
-	aoSCbZOYPGNraOo8XSTmRpAD9MD9hUXI3vhxSiLlM5Xz/lNebUmV94xNB+b2S2aXX
-X-Received: by 2002:a17:907:7213:b0:c40:6ed9:b962 with SMTP id a640c23a62f3a-c419ea3724emr380357266b.26.1792338967352;
-        Sun, 18 Oct 2026 08:56:07 -0700 (PDT)
-Received: from systembl0wer (brn-rj-tbond05.sa.cz. [185.94.55.134])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4091eb256csm277769866b.78.2026.10.18.08.56.04
+        d=1e100.net; s=20260707; t=1792341860; x=1792946660;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JxESZ098zbjfzDcvUMgtVe2zTbr0dJel0R4trpg856Y=;
+        b=2h4kPsWrmthu/+7TQKYIvpgPvWSjmT6h6FV18G12LPYpcxQedHHT3M9jG4S5TSAT8f
+         Wjls1DAwyFs0c4QKPbkxPa/OwN9/XILE8hVyFECU6eiy6GzkYqyE7BGjm0emti5p4WG+
+         MO6q/WA4icaoCH+OakCGMVhgtPkvIbNtMpg2euyjI4D3jyBvea/gqP7Zd93w7NOt7/YU
+         eQqbPjtkgvXZvxFZ5iKMrD26u89d0jmiJ4JBAZydD3aju2odC0otMOWXNDgJFaJHxnhi
+         IMfvU+8waO3qnf5QxzXP99KbRsTXds1KhdgASmwKlVSy12FqXE1YIImkZsdLlh62Yis0
+         X3hA==
+X-Gm-Message-State: AFq9FYIXxnDAKqCQBVXXdCAUZkg+Q5giHum/n1xvyJk+3swaUtO5qNSx
+	WG0GrBm8TXjctIXAcAaS68IcSEYzMa9MIp+gBSjaj1AKdTwPi9XO4/L9
+X-Gm-Gg: AYBFou2vEWwit2KHyYAXAPoYpbiYkyO8Yq4ZwpYlfkkZmdaaLv6ChTwztfQn6CysWJ1
+	+Yv5QbBtPm5SUls4nYSBIjHqv0jtDK7BclVsuBaTgHVN0+kQYuu63vhRxzgPXOBey8mNL+qOyK/
+	0fbobiCwBDA5a9sYn2iEqvWxPcWxuHylvmijmsDg1Y3zyCNKs9c7wdL9QQ8LNy2owEbjBmBJBeO
+	RDmuz98n5U+cQY7kkD1MpeABeieDeoAW9QEzjklnlEjLZzTw106D6ZnZwCmF6L8Zhicf2QPrquD
+	WiwGl+422N0RESHAw6eYUPgAblHDZ6FI09fNxCux3uc10EBJawXUfGqZCgmWDcOjzYNFBjpKoda
+	T3+Z91LszEutfgLUrR7AfYQ4tx50Yh5Y1TSgPCpF7KxS9iHd8dBVW0cTjGSlVlrhqNd7aScDuSk
+	XnJgwQtkubkFSjrPDxrqHjYh150u6Hpk2V728YZlhLRDEVAg/0U5bupoKDgX+PgmehzVfZjC07v
+	x5DTLizl7RiH5fKww==
+X-Received: by 2002:a05:7301:da84:b0:353:5b04:8d19 with SMTP id 5a478bee46e88-361a0e85f90mr8009309eec.9.1792341859895;
+        Sun, 18 Oct 2026 09:44:19 -0700 (PDT)
+Received: from Vicious.localdomain ([117.99.24.166])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3608258aa66sm31431363eec.20.2026.10.18.09.44.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 08:56:07 -0700 (PDT)
-Date: Sun, 18 Oct 2026 17:55:58 +0200
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-To: Melih Emik <melihemik@noirlang.tr>
-Cc: jic23@kernel.org, gregkh@linuxfoundation.org, nuno.sa@analog.com,
- Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux@analog.com
-Subject: Re: [PATCH] staging: iio: frequency: ad9832: use guard(mutex)
-Message-ID: <20261018175558.71739ebc@systembl0wer>
-In-Reply-To: <20261018102604.73380-1-melihemik@noirlang.tr>
-References: <20261018102604.73380-1-melihemik@noirlang.tr>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+        Sun, 18 Oct 2026 09:44:19 -0700 (PDT)
+From: Ashmit Kumar <work.ashmitkumar@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ashmit Kumar <work.ashmitkumar@gmail.com>
+Subject: [PATCH 0/3] staging: rtl8723bs: clean up SIZE_PTR usage and remove custom macro
+Date: Sun, 18 Oct 2026 16:43:59 +0000
+Message-ID: <20261018164403.14921-1-work.ashmitkumar@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 18 Oct 2026 13:26:04 +0300
-Melih Emik <melihemik@noirlang.tr> wrote:
+This patch series cleans up the custom macro SIZE_PTR (__kernel_size_t)
+across the rtl8723bs driver as part of addressing the TODO item to
+"convert any remaining unusual variable types".
 
-> In ad9832_write(), manual mutex handling via mutex_lock() and
-> mutex_unlock() necessitates error-exit trampolines (goto error_ret),
-> intermediate variables, and deferred returns. This pattern is prone
-> to unlock-omission bugs during refactoring and clutters the control
-> flow.
-> 
-> Modernize the locking by using guard(mutex) from <linux/cleanup.h>.
-> Scope-based resource management automatically releases the lock upon
-> exiting the lexical scope, which enables immediate error propagation
-> at call sites, removes the error_ret label, and simplifies the control
-> flow across all switch cases.
-> 
-> Tested:
-> - Compiled with W=1 on x86_64 with zero warnings.
-> - Verified with lockdep and debug mutexes enabled
->   (CONFIG_PROVE_LOCKING=y, CONFIG_DEBUG_MUTEXES=y).
-> - Boot-tested full bzImage in QEMU with initcall_debug, confirming
->   successful driver initialization (ad9832_driver_init returned 0)
->   and zero lockdep warnings.
-> - Disassembly inspected via objdump to ensure mutex_unlock on all
->   exit paths.
-> - Verified with scripts/checkpatch.pl (0 errors, 0 warnings).
+Instead of a mechanical substitution, each occurrence has been converted
+to its idiomatic kernel equivalent:
+1. Replace open-coded pointer alignments with the standard PTR_ALIGN()
+   macro, removing an unused variable left behind.
+2. Remove redundant pointer-to-integer casts where pointer arithmetic or
+   pointer arguments are already sufficient.
+3. Replace the remaining pointer-to-integer address casts with uintptr_t,
+   use size_t for alignment offsets, and delete the custom SIZE_PTR macro
+   definition entirely.
 
-The Tested: part goes under the ---, no need to preserve this info
-in the git log.
+Ashmit Kumar (3):
+  staging: rtl8723bs: use PTR_ALIGN() for pointer alignment
+  staging: rtl8723bs: remove unnecessary pointer-to-integer casts
+  staging: rtl8723bs: replace SIZE_PTR with uintptr_t and remove
+    definition
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c   |  8 ++++----
+ drivers/staging/rtl8723bs/core/rtw_security.c   |  6 +++---
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c    |  3 +--
+ drivers/staging/rtl8723bs/core/rtw_xmit.c       |  8 ++------
+ drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c  | 11 ++++++-----
+ drivers/staging/rtl8723bs/hal/sdio_ops.c        |  6 +++---
+ drivers/staging/rtl8723bs/include/basic_types.h |  2 --
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c   |  2 +-
+ 8 files changed, 20 insertions(+), 26 deletions(-)
 
 -- 
-Kind regards,
-Joshua Crofts
+2.43.0
+
