@@ -1,110 +1,72 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9395A4B923B
-	for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 14:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA424C10C5;
+	Sun, 18 Oct 2026 14:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792333078; cv=none; b=Cvv86uObpZ2+1fEE2F7xdD8biIPhwFBoHEaZVXyHl3ffuRyb/nVmkXK4MUDlXIPirMpDz2ONuN0Nc23Dcf1obR1Z6QBBDOL73EKKpBJ93nH+bJKomFQSPtcPHVfC9ZYPQjHtebHkHYrkpsgWeX50xHGT0LddV1wITzWsNYDpOok=
+	t=1792333475; cv=none; b=HVXJeOwnOVu+cneTcmHxF1/R7sCQMt9S91e7qBUzpUYUbv56uIixhMAQ0Pvs/umpaXwy4Nm5/oyQYdJzfe17qTVxE8mOPY1xCaFs0zYd5L21FmPDNGUb6OTnv/EqL3yYgNQnOFU6huQEtH/K5hIJztr+hbOlDZmnS9XNV7F6iEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792333078; c=relaxed/simple;
-	bh=sMAGYXfL6F+KPL2Dc1+aS/NnJ49VuStS3WCXoMwzeQw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LGjKEP8cvlVi/Ug0cspn/KgJeyiyOwx0DV9TBQvAphy182BpRuw4NXT951pGwoYXhD2VMDOcYcE/Fbz1peilIYFKAi7qvTMGgROg6kgqOMRooG6/qiSmwKHW/txBgFYOlsRpgJIh4A5Y/WaakeEJAVu7jEHbdVhlVZTxRtz/uwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C21bJfyj; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792333475; c=relaxed/simple;
+	bh=HdTlWCuN5mxA4kDV4+oAu0rp4stUqFqZbZ7iGah99N0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YBGnftZLNqPBZmUcaXIEOG+Fqh9W/TC+VTq8I8aVw1HsSZdtKN0ZIp+OXIO1ZwAPpSyXGuT46b+lvQuqZ8+KFjGFF6ZV6gNDaGu9pTh2H+FhbAznufDfqFqmxo0MFSc6zEWrJS9BWPalptn1aUoPVx5tF2HqLq/L0AnAnxaZ0ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=z+ySQzJ7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C21bJfyj"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a1e266fca2so2297485e9.3
-        for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 07:17:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792333074; x=1792937874; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=N5MgBRSHIYkyWj1heAuhLcTUma/UABuoBxMG8V8kVpc=;
-        b=C21bJfyj/w0+ssx5yDeDvBcpRd00k7XNLwFUwz364UoIJh65GS/NkZ/+hTPdnQnr2h
-         l5k1kPVnbKYdh/xDze2sdF0t9BbRnYdXXKOiqzD5Ip97PTS6mqYYigGngfDHQNDD+Qi8
-         vTAEQYt2t3vmbOsEyb8RCHnXDE46pYSpvsFFzwQfJObVmhneRW6v90uZi5in0nk2YpCh
-         V3lekkzdgiLR+8er5U/hRikl73/BDph7/8fnKYZ91P3Mbb6r0kJP3S9MJQ7dDe0ffP9p
-         Qxiav92w67Ype8+ix8wiYslwtvF/msVNkb9OyqM3XOkLUH9aIsEYfqxf+pUKW+GujUQ0
-         Cu6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792333074; x=1792937874;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=N5MgBRSHIYkyWj1heAuhLcTUma/UABuoBxMG8V8kVpc=;
-        b=EMgLdsoLR5mQt9r60rkz3ko43shWm0NoLDUdgqiKuREhaju/SodWuacbmeTLk7lScc
-         HtPPFCRt82B1Kqn0Bts3JxQuVm1cnG2ht7Feq4QufCPkRrVwL+3pltQuNH9KcyNW4ZZd
-         ss8uFA8UrTExNnZBAm+rP6haxxT8kBqyedXgAuq+Xi/jxIIMVOqAb6LUtZY9WEQU4nE4
-         M4N9BclSUFuBBe9f9M+009iYlLbhB9P2Lh0nmv71uvFHP6FdyLsMJuU/1kx6o12cfqCQ
-         XfRdwQVaZelF2V3SI1YnsyIGww3z4n9pWIEjbUgGS7PHayrH58kIJp8HwQfwdTLCf9Re
-         tFSQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxxQqPMN5Pgsxx/601VVNXwD1yPaX2dDnC07OiB3eiyWUCFh0i9Ow1ancQSE+eWT3J1hDlGQpABY4g08KIh@lists.linux.dev
-X-Gm-Message-State: AFq9FYIpURe8WdirGfZJEX/6PXV8nXnCyuwQTuEdnRCrAcJ6yq/E3tVc
-	SgOMXAWX8UYxiJQkLEkxrmoJmFguYnrX5ZRNACEOUhvQwnG3JJ6YkPKIKj4uAOfGQDfjP9AT
-X-Gm-Gg: AYBFou2ZXlGTAGuO3mZ2EPq6poL3PkuFq434buH5pilAFRYOk2y/NuMhPkG+svmrj6U
-	4+ym0Qpp7dw/ZEZ0Qjx+b74IL9yxFtPx3K7QaxPbbUR+xdMBehOU0+EG4vKPWQ3AdwDN0hAvhfh
-	8QxyZom477GChXVgzHWiYZMB104EbCcRj2mpPPhXrSp4qFPU2PLf1xKBMTr5BRuiYuYlYoZpL4o
-	Cq7tq8lXijiABgVvW7h83TadlK8Ak2LmMb0jrcKm5fVAWDyD61bLGL86dlTDjrnO0ytptnEfe8Y
-	Wrk4DN2dVVq50xjHmhJBrX13FjR/x7+Gd9j1DiWO/584nwU3whlcQGSlQmZBlC2coH8KhFa4DF9
-	2+jbSut+0ODTCfIjL7EELiXo+TyreSNcD9wtMqJ/WtZzstL4Lr4pyPEbWL53vhLVA4UViCOe+Zn
-	STFWq65RSR9LjO9P6OKXjDgak8paB/IO21yA1qMS3SujvUvX6boaNKRp+RRHb9aJIQ/d8jUob6g
-	w==
-X-Received: by 2002:a05:600c:3b1c:b0:4a1:71e5:9420 with SMTP id 5b1f17b1804b1-4a1d75f9857mr104356965e9.13.1792333074484;
-        Sun, 18 Oct 2026 07:17:54 -0700 (PDT)
-Received: from [192.168.0.50] ([102.91.104.190])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1df164777sm112503505e9.5.2026.10.18.07.17.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 07:17:54 -0700 (PDT)
-Message-ID: <8a960200525367f0fadca6b83ca57273e469f225.camel@gmail.com>
-Subject: Re: [PATCH] staging: comedi: comedi_fops: fix alignment to match
- open parenthesis
-From: Comfort Oyewole <coyewole7@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: abbotti@mev.co.uk, hsweeten@visionengravers.com, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy@lists.linux.dev
-Date: Sun, 18 Oct 2026 15:16:20 +0100
-In-Reply-To: <2026101838-factoid-filling-ce0d@gregkh>
-References: <atTIKehBxn93Lcix@ubuntu>
-	 <2026101838-factoid-filling-ce0d@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="z+ySQzJ7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 242AC1F000C4;
+	Sun, 18 Oct 2026 14:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792333473;
+	bh=ZfYJa03d83SpS0hjPsK06z1KJODHj9vH3bty8zkM5cw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=z+ySQzJ7EyDJTQrrJKB4V0BAbbLJS57cC8iisAcE0zjNDkOPnR734Ik6UlFb1hO2I
+	 cko5KBIVFDYyKcHbH4XBz2QrSEAvy1O4/+B7NMQx/iyqHlNs6x0HFBhBSsKdOyNowy
+	 PcvDgOgokbmLzHslYXi2BFp5DspEvQi7W85YA5WQ=
+Date: Sun, 18 Oct 2026 16:23:08 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Temitope obabi <obabitemitope765@gmail.com>
+Cc: outreachy@lists.linux.dev, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: Remove redundant zero assignments
+Message-ID: <2026101838-oaf-bobcat-efa0@gregkh>
+References: <20261018141519.10165-1-obabitemitope765@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261018141519.10165-1-obabitemitope765@gmail.com>
 
------Original Message-----
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Comfort Oyewole <coyewole7@gmail.com>
-Cc: abbotti@mev.co.uk, hsweeten@visionengravers.com,
-linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: comedi: comedi_fops: fix alignment to
-match open parenthesis
-Date: 10/18/2026 02:30:05 PM
-
-On Sun, Oct 18, 2026 at 02:22:49PM +0100, Comfort Oyewole wrote:
-> Fix the alignment issue in order to adhere to kernel coding style
->=20
-> Signed-off-by: Comfort Oyewole <coyewole7@gmail.com>
+On Sun, Oct 18, 2026 at 05:15:18PM +0300, Temitope obabi wrote:
+> The sm750_dev structure is allocated with devm_kzalloc() before
+> sm750fb_setup() is called, so the init_parm fields are already zero.
+> Remove the four assignments that set them to zero again.
+> 
+> Signed-off-by: Temitope obabi <obabitemitope765@gmail.com>
 > ---
->  drivers/comedi/comedi_fops.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/staging/sm750fb/sm750.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 8b93bfeb217b..21744a5a63fb 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -833,10 +833,6 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+>  
+>  	swap = 0;
+>  
+> -	sm750_dev->init_parm.chip_clock = 0;
+> -	sm750_dev->init_parm.mem_clock = 0;
+> -	sm750_dev->init_parm.master_clock = 0;
+> -	sm750_dev->init_parm.power_mode = 0;
 
-This is not a staging driver, why is staging in the subject line and the
-cc list?
-Sorry, I made a mistake while working on my first patch. I just realised th=
-e staging drivers are located under drivers/staging dir.
-Is there anything I can do to correct this?
+This is good to keep as it is explict what is happening, right?
 
 thanks,
 
