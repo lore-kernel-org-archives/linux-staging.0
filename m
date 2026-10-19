@@ -1,278 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0EC3F1074;
-	Mon, 19 Oct 2026 04:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2E746AA9B
+	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 05:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792382776; cv=none; b=TFm/GpYtfZTBm8yQhLM1k/5JFgmvkckKJcgbhUqBdhaI/RFiqOo0sQFXWZkmcE9WkU6PmD92ADmmzRQFxgileW99npIcet/4oQI0Nj5sgMjUEOKbw+nO/1U5IQLir9Qpse4x7aCKlyW7KzgGbZrUcp3BWy7UqcUJO8mOUkENgO4=
+	t=1792386438; cv=none; b=ZlB8AaQotHZxb/3JzN59GM6xlBcxx4s/yFCmj9fp981FZQ8L5aBjei1o05xrZkWs7uy08Rnw59Kns/EfpSQ+yzF1wo2LmByyItmMxiiWJ1fXsCUOO7MLW0CeKGUA9RUXkrUcLFYP9h8CF7QEuK03503VeD2+KLdjS3KqZggQKEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792382776; c=relaxed/simple;
-	bh=niuXczVw9UyuJfgM6O2yuJfHwKJsCyLBry0VcLEay0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WsLAPGdfYFZ09mnuZ07iacKLR0cIbHAmZqL7JtAlxehT856fuHvP2W73l0gr12D4QJWxVILhkiJG7axcNNQEh1q3AJTizhwJ66JnHkQuTWaj0P4VPd8cn02G8TqbFKE+nvFP7mvUMQTiPXJC6Btd9BTLgf022puVM38fn/7VAPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WHuoMhsC; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792386438; c=relaxed/simple;
+	bh=x9wpxUyL530Iiw6P0N+3kTeiF91l97A3dxOFL5oObNY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N26z2CBhXiz5MX/N5yLnt/OIDUD90F86Gm/nl/9i9bQPbu9N74Aglx2t/Bcq9DxcZuHMUBUgYHyK/c7OVqhcEcTsqIedmOW+zAdu6MmJc1fL3CZTo7mAFIdmCNfv3zDKeBSf1ykW2LuSCtKZ/ne5spnW2XZooe/mSgiuAKgtEF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yo0SJP/2; arc=none smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WHuoMhsC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792382775; x=1823918775;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=niuXczVw9UyuJfgM6O2yuJfHwKJsCyLBry0VcLEay0M=;
-  b=WHuoMhsCnX6mKnrTDADOMy5ylNRttcFrRf/z8y9TR/jPAFVfDQYlwOu0
-   mptlFftipQrDgfHvGkAn/aCp0mr/RaPFH7dj/tFqul1exVYuxLq5CxpZ9
-   wxfAITyjdCxB95y+OktJ0LI+NGUi/iY8O2fj+l3hJeOB8F/noZJQcZLHT
-   bCybUTYDhwLyx+alKjOCf3jl329q1/Zu1tIqabWd4sR6m1pQT2Judu6AK
-   BO2/v/x5ZzFelfXUM5hxBNxFCvGqJrUI4HqHUqny4OB/TmgP2xvcTkWTq
-   IDo59cQ2HvcjaxVZEqTOGc3HIjPf/FTrbEV9o4J4csja+HngcR5TSTiPZ
-   Q==;
-X-CSE-ConnectionGUID: eAIAfMzxTm2CDeZUBP9LYQ==
-X-CSE-MsgGUID: aYg//ONNT4Sw1auMePNZ9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1091868"
-X-IronPort-AV: E=Sophos;i="6.27,166,1787036400"; 
-   d="scan'208";a="1091868"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 21:06:14 -0700
-X-CSE-ConnectionGUID: 4MM7OqqDRKGoC+ydh0pWoA==
-X-CSE-MsgGUID: N+nYoWIHTRKs5XNqkme6uw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,166,1787036400"; 
-   d="scan'208";a="4183413"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 18 Oct 2026 21:06:11 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xIedV-00000000LFW-0pyl;
-	Mon, 19 Oct 2026 04:06:09 +0000
-Date: Mon, 19 Oct 2026 12:05:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Comfort Oyewole <coyewole7@gmail.com>, gregkh@linuxfoundation.org,
-	andy@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-fbdev@vger.kernel.org, Julia.Lawall@inria.fr
-Subject: Re: [PATCH v2] staging: fbtft: remove trailing semicolons from macro
- definitionsandy@kernel.org
-Message-ID: <202610191134.V2WS3LLd-lkp@intel.com>
-References: <atUG5LbCbePRNn5M@ubuntu>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yo0SJP/2"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso953663eec.0
+        for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 22:07:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792386432; x=1792991232; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Fva8zL+n1OCI0oMJodhd5ulLyrv34XE8ucuw+gfKNzI=;
+        b=Yo0SJP/270wYiqI9KmEx3tlQN5tEb92UfTwhtmu+naOUJfBUWM2Im94CkUtJMbquIZ
+         fVUfmFnj6APx6xPIKhVCCvIIVSbarFTQuKkdrkcPrmazDj5jmm1GsSUqTBpdqf2m3Zpw
+         Enj2GzN24R1aDIK1J0NUu4E4ds+7X4/yiUV99bSToHPMGBNn19J7MPTBujxgC0UiDq9B
+         gikj0DxER9hRWDGLYQLvfKZSkb+ucWIERiQGIa+ebNh/nIozbVU9G2GqoxbVcG2ggyZZ
+         PxkRAGVAg/DeG985jeuZHPg6qOBPfavDSPL/PyOsSwrNks7ZA4weFoEfGBsDyaySgFE/
+         IhTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792386432; x=1792991232;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Fva8zL+n1OCI0oMJodhd5ulLyrv34XE8ucuw+gfKNzI=;
+        b=1rmbTLzRWRM4L5npbS97MMX1gt1W4rQUHMbE8kAmDcBee1c1oe8zd4g73PqAL33f2w
+         HaqRy9aTpuH7xn1NkZ+g7aklxAknVwRc4hizqIbzGpbSJLkb3xCyDuNAIhvAsZ9WRI58
+         sHzqSJj/qQ0U4RInFY5uvARpiMAvBGMnLsy2cKdN+l6UwNV4gc+SiWM1Z0ZryFGsJG4J
+         3KANJAljEfLIFzSvjOJXzJeeujEsiLCiH91xbkwOYpt5y+hGr8kXip9HbkxI541FVbQP
+         ni8w7HvQ8tLXsZtSo1Jc9G36JxS0V3gOVGgT4Cu1EAy42yYvrXFF7JgGzyvG1n3pigO2
+         vAWg==
+X-Forwarded-Encrypted: i=1; AKwUvBwJOvG6LtUx81Jt0dTAUZHuyq3b4in6oFivyo1UDVotklTFn5XYbsuKld4XRB6VPeu/Jt+e33Q4o3ZgGRCm@lists.linux.dev
+X-Gm-Message-State: AFq9FYIIcQAIjiz7v1aFUqExF5rG7l+a/Hy5fugw+AijUQvczzSkazh6
+	HDjatZNZ2JOEsZdNLDslSC8NKigY5EfAB4S+qAGMVQI74qernbCCoURA9r2a4TRG
+X-Gm-Gg: AYBFou15Kr9mJ9525elbI0gK9ujqBeCQy0z6fGwQInxeBT8vYwlWW+oHKN/Op6SVrSz
+	JdhYo2NKEwnQCkvCSVUOc75dGZyqa+42tvcgkoKTEKKg3n1GoC3p0/l41X0mGTBxB69gIOR4jZa
+	OZUKTTba4S84+KJwQ561KFrkzZUAzzWnG7cLbL0Jd2tZVBBLizRnmGEMcDCNKmDrq+yHqJU939G
+	4j80FRfBX3JctL1+C1RI046Aoth6XlnDcF3p9/w7ZXJ1YyqdB/cq3ZGgSJ7zT19qjP77QAlfmJV
+	b/7x3ho9I5C1H3lK4r+kX1mrLscoYERweAA9LEL98jHwsktaTAlER68rV5bDrasNqt7mwdoSCgO
+	2Gs3si7Ts6R/0roXPFyyMjggs5ROe5WFz3Ff9KQHd6/JS5BqADhQuhpyMo6xr68YfZfi8WYvJq9
+	dOYSG3vsTFo5dcvG1o4fbolxXnsijhPCdb8mPdXLREJnSZkQKkrLUP7z0tK8hHLvArT+mCHL1mC
+	2n77s6IpqeiMXxqFh1xaw==
+X-Received: by 2002:a05:7022:302:b0:157:cbf6:89c4 with SMTP id a92af1059eb24-18514350f17mr15503005c88.26.1792386431972;
+        Sun, 18 Oct 2026 22:07:11 -0700 (PDT)
+Received: from NithishVelan.localdomain ([152.57.90.98])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-18314ef8ed8sm23760564c88.3.2026.10.18.22.07.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2026 22:07:11 -0700 (PDT)
+From: Nithishvelan M <mnithishvelan@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nithishvelan M <mnithishvelan@gmail.com>
+Subject: [PATCH v2] staging: iio: impedance-analyzer: ad5933: use guard(mutex) in ad5933_show()
+Date: Mon, 19 Oct 2026 05:07:02 +0000
+Message-ID: <20261019050702.419-1-mnithishvelan@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <atUG5LbCbePRNn5M@ubuntu>
+Content-Transfer-Encoding: 8bit
 
-Hi Comfort,
+Use guard(mutex) to automatically manage the state lock in
+ad5933_show(). This simplifies the function by allowing direct returns
+from each switch case, eliminating the mutable return variables and
+manual mutex_unlock() calls.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Nithishvelan M <mnithishvelan@gmail.com>
+---
+v2:
+ - Resend using git-send-email to preserve tabs and whitespace (v1 was
+   sent via Gmail web composer and had mangled whitespace).
+ - No code changes.
 
-[auto build test ERROR on staging/staging-testing]
+ .../staging/iio/impedance-analyzer/ad5933.c   | 38 ++++++++-----------
+ 1 file changed, 15 insertions(+), 23 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Comfort-Oyewole/staging-fbtft-remove-trailing-semicolons-from-macro-definitionsandy-kernel-org/20261018-185028
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/atUG5LbCbePRNn5M%40ubuntu
-patch subject: [PATCH v2] staging: fbtft: remove trailing semicolons from macro definitionsandy@kernel.org
-config: arm64-randconfig-1003-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191134.V2WS3LLd-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6719b9e31d6a93099612c474eec76d9f41d0275a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191134.V2WS3LLd-lkp@intel.com/reproduce)
+diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+index 798e62bae2..024c6b5a06 100644
+--- a/drivers/staging/iio/impedance-analyzer/ad5933.c
++++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/bits.h>
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -333,39 +334,30 @@ static ssize_t ad5933_show(struct device *dev,
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad5933_state *st = iio_priv(indio_dev);
+ 	struct iio_dev_attr *this_attr = to_iio_dev_attr(attr);
+-	int ret = 0, len = 0;
+ 
+-	mutex_lock(&st->lock);
++	guard(mutex)(&st->lock);
++
+ 	switch ((u32)this_attr->address) {
+ 	case AD5933_OUT_RANGE:
+-		len = sysfs_emit(buf, "%u\n",
+-				 st->range_avail[(st->ctrl_hb >> 1) & 0x3]);
+-		break;
++		return sysfs_emit(buf, "%u\n",
++				  st->range_avail[(st->ctrl_hb >> 1) & 0x3]);
+ 	case AD5933_OUT_RANGE_AVAIL:
+-		len = sysfs_emit(buf, "%u %u %u %u\n", st->range_avail[0],
+-				 st->range_avail[3], st->range_avail[2],
+-				 st->range_avail[1]);
+-		break;
++		return sysfs_emit(buf, "%u %u %u %u\n", st->range_avail[0],
++				  st->range_avail[3], st->range_avail[2],
++				  st->range_avail[1]);
+ 	case AD5933_OUT_SETTLING_CYCLES:
+-		len = sysfs_emit(buf, "%d\n", st->settling_cycles);
+-		break;
++		return sysfs_emit(buf, "%d\n", st->settling_cycles);
+ 	case AD5933_IN_PGA_GAIN:
+-		len = sysfs_emit(buf, "%s\n",
+-				 (st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1) ?
+-				 "1" : "0.2");
+-		break;
++		return sysfs_emit(buf, "%s\n",
++				  (st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1) ?
++				  "1" : "0.2");
+ 	case AD5933_IN_PGA_GAIN_AVAIL:
+-		len = sysfs_emit(buf, "1 0.2\n");
+-		break;
++		return sysfs_emit(buf, "1 0.2\n");
+ 	case AD5933_FREQ_POINTS:
+-		len = sysfs_emit(buf, "%d\n", st->freq_points);
+-		break;
++		return sysfs_emit(buf, "%d\n", st->freq_points);
+ 	default:
+-		ret = -EINVAL;
++		return -EINVAL;
+ 	}
+-
+-	mutex_unlock(&st->lock);
+-	return ret ? ret : len;
+ }
+ 
+ static ssize_t ad5933_store(struct device *dev,
+-- 
+2.53.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610191134.V2WS3LLd-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/staging/fbtft/fb_uc1611.c:325:1: error: expected ';' after top level declarator
-     325 | FBTFT_REGISTER_DRIVER(DRVNAME, "ultrachip,uc1611", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_uc1611.c:325:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
---
->> drivers/staging/fbtft/fb_ili9320.c:256:1: error: expected ';' after top level declarator
-     256 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9320", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_ili9320.c:256:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
---
->> drivers/staging/fbtft/fb_upd161704.c:175:1: error: expected ';' after top level declarator
-     175 | FBTFT_REGISTER_DRIVER(DRVNAME, "nec,upd161704", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_upd161704.c:175:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
---
->> drivers/staging/fbtft/fb_hx8347d.c:174:1: error: expected ';' after top level declarator
-     174 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8347d", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_hx8347d.c:174:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
---
->> drivers/staging/fbtft/fb_ssd1331.c:193:1: error: expected ';' after top level declarator
-     193 | FBTFT_REGISTER_DRIVER(DRVNAME, "solomon,ssd1331", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_ssd1331.c:193:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
---
->> drivers/staging/fbtft/fb_tinylcd.c:84:1: error: expected ';' after top level declarator
-      84 | FBTFT_REGISTER_DRIVER(DRVNAME, "neosec,tinylcd", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_tinylcd.c:84:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
---
->> drivers/staging/fbtft/fb_ili9163.c:251:1: error: expected ';' after top level declarator
-     251 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9163", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_ili9163.c:251:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
---
->> drivers/staging/fbtft/fb_ssd1351.c:230:1: error: expected ';' after top level declarator
-     230 | FBTFT_REGISTER_DRIVER(DRVNAME, "solomon,ssd1351", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_ssd1351.c:230:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
---
->> drivers/staging/fbtft/fb_hx8353d.c:126:1: error: expected ';' after top level declarator
-     126 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8353d", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_hx8353d.c:126:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
---
->> drivers/staging/fbtft/fb_ssd1305.c:198:1: error: expected ';' after top level declarator
-     198 | FBTFT_REGISTER_DRIVER(DRVNAME, "solomon,ssd1305", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_ssd1305.c:198:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
---
->> drivers/staging/fbtft/fb_st7735r.c:165:1: error: expected ';' after top level declarator
-     165 | FBTFT_REGISTER_DRIVER(DRVNAME, "sitronix,st7735r", &display);
-         | ^
-   drivers/staging/fbtft/fbtft.h:321:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     321 |                                                                            \
-         |                                                                            ^
-   drivers/staging/fbtft/fbtft.h:283:11: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     283 |                                                                                 \
-         |                                                                                 ^
->> drivers/staging/fbtft/fb_st7735r.c:165:1: error: expected ';' after top level declarator
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-   2 errors generated.
-..
-
-
-vim +325 drivers/staging/fbtft/fb_uc1611.c
-
-a1560f9bec8b927 Henri Chain 2015-07-14  324  
-a1560f9bec8b927 Henri Chain 2015-07-14 @325  FBTFT_REGISTER_DRIVER(DRVNAME, "ultrachip,uc1611", &display);
-a1560f9bec8b927 Henri Chain 2015-07-14  326  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
