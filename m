@@ -1,66 +1,66 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810C033B97D
-	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 01:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF43F343D9D
+	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 01:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792374712; cv=none; b=Ccus46F0AxlMMNaVdVjFdcZxo074vi+v+pbmSzcN1wQw2p/aigaMy6TJMFNvCiRbMDeWRySwIdGTnpDpgmZevA57IKgPJePAX9IulYOwDiqLLWjQdAYaAPZ3iCXufQKu/RR9hrHdP14ruUdjzeVDWhR7ZIgw3SywhNuy2PdAJxw=
+	t=1792375106; cv=none; b=qBjcLYAP0Z1g2CUsGG4fZhK5lYkY/k41ZQv45D8AXpUxiFYtNo53kGPemZRqJZ7ZrFfB/ZC6Jk/3wTXqBjC4burbtW83hZfTZ8rPrSSaB1tf/tI2ZUbsfUS1fGf64M4+NiWZ24I3im1Z47wIN27Ugv8qEP4woBzQgEUAEsTg8Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792374712; c=relaxed/simple;
-	bh=STCPiFVncmd0trs86+Lefpabg7jITOU//ioTqNGMZE4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=jhhohCvSdvptjRcG/i9idXPnpYrLCNbXSQgeXChFFTRFQF0gADt/evA0UvBghiACTWzjyEVsFL+h7h+Pod971LVlLo4D6NyWDoIFW/OT1rzt0LyVV4zCJAdC5WNjN+X3rgP09FRfTqXTReVL8aL1aOH/gLvMdJSZNw3QUvkGqO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wo7dmaLA; arc=none smtp.client-ip=74.125.224.43
+	s=arc-20240116; t=1792375106; c=relaxed/simple;
+	bh=kl8uHsKtcdd3+P1gKs83VfUWcS1UvEVB1ftqYP2i9GI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=ncAm3IOhHy9F9dB6v57WWKSpJpWtfXfx+s+uUZ4rziYxg2FVAZVZRwyyv+tuLXTP4WYiKxS6i6p40trVmc72sfty7QEebUfRlKlt0ho97pMbSkCP3na67SlHkfEM7sM6mPVkV31z9PXag7DG1MeJm7ZAEVHDuxJk071VZy86NUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VigkJnZv; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wo7dmaLA"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-679a2297c55so1045097d50.1
-        for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 18:51:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VigkJnZv"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b0f59a5fdaso8216737b3.3
+        for <linux-staging@lists.linux.dev>; Sun, 18 Oct 2026 18:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792374710; x=1792979510; darn=lists.linux.dev;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
+        d=gmail.com; s=20251104; t=1792375104; x=1792979904; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=STCPiFVncmd0trs86+Lefpabg7jITOU//ioTqNGMZE4=;
-        b=Wo7dmaLAVsh8TQ70P74lvQUdyPpuAqsDzFAiMLsff1lPjsKMlMt4NPPEKB0ZodPvQ8
-         RCZvOAm2OdSR7IdSc6Se1DMgW9GElx9G2NiPIUuDCZboSBY0FXKRSvrjKVlWxf7xlLfO
-         WoMNeSAT725/QKqcO2G5NzK3bjl5q1s1WbiV2KBuWtfm99B/hvMt/+pT3fety721GuSj
-         1tdExZtSgKXvX4tBwni1ZOciJ5+1QOeoEjkCiTI9/CNyjqk9pwX9pnpSgRmyF6Sj9pYS
-         e3rymFuaV7dbBm/0F/19ZWsIe2aADBPqSTkGJ+HqkY1VV51F8hzBDMWF6/sbQ3c5wRcF
-         wwTg==
+        bh=qiiLrBltsrNS/cDaqww/ZFhb64+tZsgZICIoZQIW4nE=;
+        b=VigkJnZvkyXY/3y4iOQ/7vyUivAXv4FxBbBvtfBxA0TINGQSBUxSuWNUyGTell3gCC
+         LkHn2g/Y4+IB8AUAjP23SfN7tLL4kEc+AG0hI6SqtekHsWrmeH4LpxXQoDbPNIvhXPdR
+         w60+ftlE3Qv5BZFKnPAc+7CQYHISuZnVQLgd3orBTiBp+ZZRrDHSuiv5V7E6Sv4B0TnM
+         FXQqZ6jTjj/W/O6SmEtuKlTw52rgUmxHzlHa0z8yEWv8f4BZJTC6kdeZsUghq3P5q/aY
+         hVb9YyZLCdjMdT4Y/zMqia+vJVPv+C3I31iFr2HXomusBWvtTB5YsvSyX4o7IR1UHZah
+         XhFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792374710; x=1792979510;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
+        d=1e100.net; s=20260707; t=1792375104; x=1792979904;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=STCPiFVncmd0trs86+Lefpabg7jITOU//ioTqNGMZE4=;
-        b=jh1xjsJh70Aavj1vnn3PHPFTPW6jy79sIUtZIKUedhUReRqH+GvsUI7CFASsTxzY0Q
-         nLGsWQAL68b5KfSx3wdRnWNn+IiD/oiXe+5f5QLa9Thn2kE5veSAsdF3W6nyQTSevQbk
-         B2VVmJfc0YTTbYkUgzuI8JWBKHRrzNDx/ZpnKAXSymfzpoYSd8H3INhev138dvcrDOzU
-         Ytmkjhuk5KyaoKndBLZfbaj1S28E6lLdyZoqKBy0u265/323ISCIr0S6KJ4SvMrDyAnW
-         XOTuceBgBg4aeBqTtraRRDr06BwA4VwNwyj7ws7Wt+/2w+c/IHdly2zaKV4Q9ST8PIAO
-         88zw==
-X-Forwarded-Encrypted: i=1; AKwUvBwhG9LUF2JPHOag+7IwxDAPvb3xGqC3f/nrT9KihurrRAgBg29uylU6sFzMCAaIMX+vttJkHkB6/lrkh+rr@lists.linux.dev
-X-Gm-Message-State: AFq9FYLo7RkNOntpQy4j3Mr9mSc+XQCKepquObuCYgIBLGrBI0jPJqpa
-	PyKYmRH2VxR4GMKQTEXxpkiEOm9/HaTEY6E49VLr8oro84K2jqDvfNx4
-X-Gm-Gg: AYBFou1Y2CnOFeOdNzOjQGYi1sVmdMQUwhiMWG//f03jifrTwyP29zvv5EZx0QmYgbB
-	tdeRp7iPGk6eiQ6OUkzWRDdmrzD7YoRMUd+SYdPhrrwBBWPZUKK9h4wWiApYqX2atRiKGoedhSW
-	vGrMS27y57cTs9tYMpDr8k8Jjen3dU+TYS5z/wvx+PEC6BrLSwH9u9hlPPhoL5afHuq2/jUNHIh
-	Dvmy7lQdzP4UDCe1YWr609JgiYwEJEIXgVzRtL5+3JR0Ngd6h+JGmf/URwRSNcgZLt3ZiHub3iW
-	d1HUQHl2B4qNPTGJjdwZinF2pPgEhTEleWCf04EohpzaQXGaRhvWPuZQ7pCjLIqSalTUzkn8ff8
-	wBfKkK/HiFuG/Ze1ilB+wU/+6uZV//ehUfvAxk6ZRmyN0a3CE64wqXy5HK6ws6L6N6cW2t5tXzq
-	y2a6gtraBrJ89b0rtI8oklLOJ08D+UgTowPtUMumdgbu+UHQaU7yyikFtsM+TmKWWyrD7Zet2Pa
-	O4yyjLYftguOBxuoMyWG4tk2F5yA/Og9b1QYYm29IPOaPrpjmtAC+v8jjZI48GrgYw1L0KRpCks
-	Xo0=
-X-Received: by 2002:a05:690e:14c5:b0:675:1102:ffa5 with SMTP id 956f58d0204a3-679ca4d4299mr2263242d50.3.1792374710494;
-        Sun, 18 Oct 2026 18:51:50 -0700 (PDT)
+        bh=qiiLrBltsrNS/cDaqww/ZFhb64+tZsgZICIoZQIW4nE=;
+        b=JnQlkjaLoPQ5n1KLGB4lg6P3ZRjyYRMDS4Lh3TeBXBn6tzdKEpvZRnFdbFMdag9SeA
+         pY5dN8kGvYN6iNUCkX3G4CTNPywCd1x5ejpXGYI+MCCgfV1Qv0FUsAXdL0qPJAeotxod
+         m1d9w+jHomQ9YssGVbtrMLC1IPLqLJ2SmOAeZxcqMBaeyKmn8iwek1ZXAfJiCvFm4bit
+         c/7ETyNQRrUiM8f2tDTzwnONr/wwWvVU29bgDWUw/F85NMBstOrjQy61imu7hXH17v0T
+         i+mFWHSvEyjT3BN8Ni8yHmEaw2+rtfM+tTpbPiynO3RRYczEvRhiXzV34tXUGBXzA/OV
+         iSLw==
+X-Forwarded-Encrypted: i=1; AKwUvBzXLHgl+vd9hKhUuE0Dqxe+5c/KsFGSePNSJfF92+9yTrLIEG9uyxpFFmJbfk5RishodLTxw89RSYWFVCYi@lists.linux.dev
+X-Gm-Message-State: AFq9FYKiN6AUpfKwtGI7zyvwHy/CvTPyxHB7+Hr4vTQGNJDQXX8pu0gw
+	JclUyGIrOc3vfdcq1w9MXAj3fbX3Zc3ga59yr/0sHnE9Jr9E+O1FDJKN
+X-Gm-Gg: AYBFou3pNpGH1HcLGfuJjChdF4oJksCqEI+6hcbyEzFeGF4D1+MTZc2C4GsRM9M5YN0
+	/J56viSIB+rFZ95Y6BkLJ+Cx9r60caXz7SL2v/w6pnZnEyDuLW65xwaWDVkI8zBR20W6JGQ+vE2
+	2jElNC6yrCsf7+oB+mABDr0q/x9v6p5uBiF9fzd3tDvO7y/9fis05zi452hRi3crenCoObCL8Pz
+	J/o1qkrwaqEfn/3Kxmu6qrX4+DMr59Wk0KMQ/SCMWXDTh7+MHrnn5yrW18Tgr+RO5zuawFArYYg
+	yEYRAmoJRGljmOOzgo36DkgssreSdtJfXi/VKg7APKiIOrt4hg18s6SI0LuOh2CZH2fGKyeowkj
+	VHHvZqtG2IoVK8IiX7dilAx5AL+PCkPDajxPmGdMfF1BI4kx587rddkWwvw2/JRNoA8JT51lv/5
+	Jcw+qVN3SocvRyHmGznYcacPsKNwv0lfq+XJ1IIPydDarsKE/hfe9wPBJ9m5jtzPKKjEVQZvh/V
+	nEu3gv6SJtMcRatBc7JHPsmogvrk59Mt0ZmpK1kXULO4a7xunZvoaiV/UBliQMvqmXHZoFrf+kt
+	imnY
+X-Received: by 2002:a05:690c:e3ef:b0:8ab:33d2:152a with SMTP id 00721157ae682-8b0f21c14f5mr21503857b3.52.1792375103747;
+        Sun, 18 Oct 2026 18:58:23 -0700 (PDT)
 Received: from localhost ([2601:7c0:c37c:135::8803])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b0e58dfb98sm35645197b3.24.2026.10.18.18.51.49
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b0e58af029sm35834427b3.19.2026.10.18.18.58.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Oct 2026 18:51:50 -0700 (PDT)
+        Sun, 18 Oct 2026 18:58:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,35 +69,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 18 Oct 2026 20:51:13 -0500
-Message-Id: <DM8FSLOD0H92.5QQ7U2N7KDZE@gmail.com>
-To: "Okhuomon Ajayi" <okhuomonajayi54@gmail.com>,
- <outreachy@lists.linux.dev>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+Date: Sun, 18 Oct 2026 20:57:44 -0500
+Message-Id: <DM8FXLI78NYT.1211XFYSRH5P7@gmail.com>
+Cc: <linux@analog.com>, <linux-iio@vger.kernel.org>,
  <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: octeon: remove unused cvm_oct_transmit_qos
- declaration
+Subject: Re: [PATCH 0/2] staging: iio: addac: adt7316: error code and probe
+ cleanups
 From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: <raffaele.tranfaglia@gmail.com>, =?utf-8?q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, "Michael Hennerich" <Michael.Hennerich@analog.com>,
+ "Jonathan Cameron" <jic23@kernel.org>, "David Lechner"
+ <dlechner@baylibre.com>, "Andy Shevchenko" <andy@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>
 X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
-References: <20261018231538.74139-1-okhuomonajayi54@gmail.com>
-In-Reply-To: <20261018231538.74139-1-okhuomonajayi54@gmail.com>
+References: <20261018-adt7316-error-codes-v1-0-1970b7e242ac@gmail.com>
+In-Reply-To: <20261018-adt7316-error-codes-v1-0-1970b7e242ac@gmail.com>
 
-On Sun Oct 18, 2026 at 6:15 PM CDT, Okhuomon Ajayi wrote:
-> The cvm_oct_transmit_qos() function was removed by commit
-> 6568a2343639 ("Staging: Octeon Ethernet: Remove unused code."),
-> but its declaration in ethernet-tx.h was left behind.
+On Sun Oct 18, 2026 at 4:41 PM CDT, Raffaele Tranfaglia via B4 Relay wrote:
+> Two small cleanups for the adt7316 driver.
 >
-> Remove the unused declaration.
+> Patch 1 makes the driver return the error codes reported by the bus
+> helpers instead of replacing them with -EIO, so callers see the
+> actual cause of a failure.
 >
-> Signed-off-by: Okhuomon Ajayi <okhuomonajayi54@gmail.com>
+> Patch 2 removes the dev_info() printed on successful probe, as
+> drivers that are working properly should be quiet (see
+> Documentation/process/coding-style.rst).
+>
+> Tested on arm64 QEMU, with i2c-stub providing the device:
+>
+>   insmod i2c-stub.ko chip_addr=3D0x48
+>   i2cset -y 0 0x48 0x4d 0x01
+>   echo adt7316 0x48 > /sys/bus/i2c/devices/i2c-0/new_device
+>
+> - probe succeeds and no longer prints a message
+> - device_id reads back the stub register value
+> - writing 0/1 to "enabled" updates CONFIG1 (0x18)
+>
+> Error path, instantiating the device where no stub chip exists:
+>
+>   echo adt7316 0x49 > /sys/bus/i2c/devices/i2c-0/new_device
+>
+>   before: probe with driver adt7316 failed with error -5
+>   after:  probe with driver adt7316 rejects match -19
+>
+> Signed-off-by: Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
+>
+> Signed-off-by: Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
 > ---
 
-LGTM.
-
-However, please wait atleast 24 hours in between submitting patches so
-the mailing list doesn't get cluttered, thanks.
-
-Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+This is the current policy regarding AI and staging [1].
 
 Thanks,
 ET
+
+[1] https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
