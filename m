@@ -1,65 +1,65 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179564E3EE1
-	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 12:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F974ED1BE
+	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 12:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792411786; cv=none; b=ddB5shjMRdnhZ3SsnjpBPyKSgAUMR6oCQi/gAI0b/i7WRcjcCnsvtsClCKiH9Go9rMx5HH8M19UlyeoUxXvGhinN2aDpQRlr8sqM3CMmHUrNBcNyZgTPoEzYwDBDFIWMIdEh6PRJZB2qnEY0LMtSlsNI9LgXdKwKVDczRW1rJHg=
+	t=1792412322; cv=none; b=lMReYZ8kVr0g19h4om1f6BHul7pXRWR/6ZmskyYS1sW7JJ4zlAKvxZ8ziPX0ZleKmXIc3Gb9N6aHv0h7l86YRbYpHh8dex4smSa7X6UqSQYCnSr98gmz3/OGKX0/WHiHAf48R1aV8hCj+tyS2mKrAxhxOagCqshvNArdDu8ZyIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792411786; c=relaxed/simple;
-	bh=nVoYwK6h+y+Te91/ACo26V6pW3by7vFNDYQmaVQSNIw=;
+	s=arc-20240116; t=1792412322; c=relaxed/simple;
+	bh=Dhz4EAB84K8YKVdaec8L7yXiD31Sa6yoCg3DwbxFBCY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gFDq4WdjuidxjiSTiZC7B8KT0H80qVdwiyAOfs7cp3YgPQLWpglK6JpibKooZdOxYS3djfUa8qcaTzq6lXT4ag5zd6jvGi5J+5/cXhRm0NzRdS/qG1ihUxTWqVTZV9JFdlDx8VOGKHdbGaoAw+qjZLsHDDhSWNAx8awr+E2DMZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=SvyHb/D+; arc=none smtp.client-ip=209.85.160.176
+	 In-Reply-To:Content-Type; b=cvIHUtsx67WgYt0OPRiFzikpFuuXA93PZnaycHUUaeozH7X0siXIbFNJv8KeOT3i6ua7ORJwwJrnpKIIDQPHrkwD/JM1KMfQjkFe6Jfv0g7yALfSS2BQMXJvre9Y3N6viVfpn4Qf5mmH6skP6753LFP8wgR3s3fbJsmki4NDYOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=FHXW1EkN; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="SvyHb/D+"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-53397554beaso24083641cf.3
-        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 05:09:40 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="FHXW1EkN"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-53644b28706so22112251cf.3
+        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 05:18:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1792411780; x=1793016580; darn=lists.linux.dev;
+        d=ieee.org; s=google; t=1792412320; x=1793017120; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uNC7zOFArXbnYHi9LwZ86fn2ykdanOuG0zEVBU7RnSA=;
-        b=SvyHb/D+BoBs+ARaafNgEo4xpE8wNc7eH/wtp/+IeEfI9Y/Bm5/5h5vyGBO5lfM8/w
-         ffQyhQLh8h83ulkzqd6gPHv9dVRvvhcWGxWanOHyIQsFOeRfNSk7Vp/19TDhDMLBDObl
-         TX0eDX6ly5MC4cSHey/13qErNcbTU4MtpBIWc=
+        bh=C3WD+05XQNdmEK1W1t9slgGmeAmpjGd1vFRCxbqLd94=;
+        b=FHXW1EkN83BO/UiMdlHWzWdqMTjkgc5JM6Dy2mNwxZjEm/X7lS991Vq7QtWvvi+MG5
+         VVkyYmY1C2XeYP4t8Q7swzNyv4QQBA6qM1OnFNQH4OL6u0KkXYf4jt0UmOqAVfjQBf6b
+         JjDj3+Rq0301nGRWoXETUcM3VPmzQdeNCda+k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792411780; x=1793016580;
+        d=1e100.net; s=20260707; t=1792412320; x=1793017120;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=uNC7zOFArXbnYHi9LwZ86fn2ykdanOuG0zEVBU7RnSA=;
-        b=ZmuRQPoVd5iGQTge2f8dGrsXtg8dqLGz28fsbnHITzLDzpzKKi1YVojPSCeCCHrTNM
-         mPZCeOvRJUxLVl9YeWssZHXVuqGxHBgHPJghr1uNE7FRVOKMGmQbTZLQ5nc4ivcHKxf8
-         1uFNi4SmNoQYlp54rGIXPxfaA8V9NSbd71goVjwDH+jUQzZMDqcoJvYuUGARB3oaznu5
-         wmozlGzNZVksS01OPyYxMC7yhKboGWUGLu/m0PYdRJGpsoYs3AiS/N/KNAUAKgSGy1Yi
-         JSnO/8mtkd/ajLPFZo3ZF5DmwDqzbsXvSkG+Xm/MJlnfe8ZXbTlJe8FvdhSXqNu1jPp1
-         6SHg==
-X-Forwarded-Encrypted: i=1; AKwUvBz+7VdS9eiDcP//WoTf/wJKwiReO6VK9X8DN25DVLhIkh/GVePSmR+PbUNKlwUBqwwZH9TzBgNhdLsl5V0x@lists.linux.dev
-X-Gm-Message-State: AFq9FYL2t0SMw1cqkMNNR/QPMO+elNA1vV3/ZQsOXbYtmaxGpIKD6opU
-	/M2vMs2bUUulRq6vzQ3h0StftGwSq0kpZbNao49x0kAZNO2YSiWmxlxt5fvZG1UHDg==
-X-Gm-Gg: AYBFou3XNkMZOTTWuKs9FHA1WvkwCWl9Mb9p3SsYilExy6O6Eg+J8IYEVP7+DP2qBiE
-	arBAeIJLMK7LeFPCExXfcn3VIoQwS2nChdRq91uhNY2ZNNRIBpuAFsKOVeQJnS/yhEirhOrcFMH
-	EOmpoFSxbEIU0E3HLihoTxojPDcw8kolaelUrLZZnYsjv13PO57K/OLp6oYEfLosyN57CKHAktY
-	N52+hJU0F6d/1y7r76jVcHOUrigSyTaQ41UxNXryoM2FuJetVWJOTZV7pd0YqmWEfggJj6F2HVj
-	fGDxG7x7O6uY8cKPoxEN/rfOtmxjRp4JNsVusz6WFrHToLik7XBiQXusYpAl/YVCZxZbGZLIA1Z
-	QjH3HBDa2/Zw78TDzkHkoL3MeQaVOyNxTzpct+yM1LNwPGXxkEb85m+SdDm+JviqIFDkiYc+XfU
-	/24IAPeHJpd4JF2qotR4cVRDSKP9GzwqxZ+Mo2jdaDaRLDTVP1ddrbMa9emyYhkEIcUsrcpEWWg
-	tpJ
-X-Received: by 2002:a05:622a:144e:b0:533:33ed:c39d with SMTP id d75a77b69052e-53645c1fa2cmr98728271cf.7.1792411779813;
-        Mon, 19 Oct 2026 05:09:39 -0700 (PDT)
+        bh=C3WD+05XQNdmEK1W1t9slgGmeAmpjGd1vFRCxbqLd94=;
+        b=x41yaS7HKcw1VTlubyFuIGsFAt0nZTssxIptZ19LMS+qj9Ivw5ZxJkcGhFWAEIEs+w
+         JGg7dMQJBsncFS7rsceLoSCps/HpkhbUrthyZi5wY4Tg4kACm0axtsCVTFf5QYGk4SHK
+         ycZG46hLRbKL8lKUQt4AERTaitXL441GzWUcY7uTsodETAdWMhgqwht2FgFzEk8SxD6c
+         7P9TrSkbdHnMvDn9iZXS4NRxUXT4HTMqJLC3xZxiaLIcxO8CMpIJKOmV4i1M2EmWSQdQ
+         21M8dZMOY24Z2GuWP4XhCxl+oZ+5RfVfT8CHCMTjUIYdX61l8Q+y6nVAVsAKH5oybdB3
+         Hu7Q==
+X-Forwarded-Encrypted: i=1; AKwUvByFGY/L5QJHqoi5PcfRK71HI7LbMV0fDd5vs9OihHFxG6TMZjheSdD3PdwCoXBzT3fHKYsdONj4Zyu98va6@lists.linux.dev
+X-Gm-Message-State: AFq9FYIRzeUufDlm2nhTo94GBO0tTgoM7X/EEDEtYxhvYnQqVErv8/Vw
+	WAlQDDi7GAODixqEKJMHAyMHmwGx4XyV9dL7LBaHbP2DQlmQeZRZwipfBA3eNRRXgQ==
+X-Gm-Gg: AYBFou0czpRXKxx5N5LeNUa1EIIPgQoLjvhjcSjkYBpJZ/d9zm+J/3A9FOXzbV+6PEb
+	f1sjC9Z/xSzU6+m1BIytea3WMglsq9WRbrPYHVIr2ONDUZwpWy38UYY32UeQrvldXdrQjRB9oNo
+	cI9uaWHm4qVPdpuXTWmP00gI+EhcvuCnJ0dnjzAW70IIfUlDZYlAB+Lz+sqy8kq4UBA/na4MSpj
+	Su4gsX8CiRzVsslLJPdOeSwLzZkcD/eqnVQAhsL68q9XcZgnIa7wAJhLQVbB7NN/q3rZZGRqpDM
+	OQlXIVUBt8YReRjGSdp63HV27/zPKmmwQ9TcIPdQW73Ij6AKIQ7iFnINrIZuLStGplaZA+bAvpr
+	AiO8846XaEhSkVGEceVSvTu7DoD7A63Zz7eu/ogzDGqxzoLuoeNbBpGRM57epFxsVk6oYwDyu1A
+	bzouir+ABnkM017Rz2WbhNhivPMNr5JyncoWU+QHlkRjgomDfBuQEyQqulQIBDgXN0dMwN4jZm3
+	BtU
+X-Received: by 2002:ac8:7f4c:0:b0:535:cd9e:c0c9 with SMTP id d75a77b69052e-5364611f857mr110473131cf.74.1792412319625;
+        Mon, 19 Oct 2026 05:18:39 -0700 (PDT)
 Received: from [172.22.22.28] ([73.62.185.64])
-        by smtp.googlemail.com with ESMTPSA id d75a77b69052e-536448b6ce6sm72242721cf.28.2026.10.19.05.09.38
+        by smtp.googlemail.com with ESMTPSA id d75a77b69052e-5367f9abab7sm2496911cf.1.2026.10.19.05.18.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 05:09:39 -0700 (PDT)
-Message-ID: <e24ea2a1-9fad-4990-8392-fa075217f3fe@ieee.org>
-Date: Mon, 19 Oct 2026 07:09:37 -0500
+        Mon, 19 Oct 2026 05:18:39 -0700 (PDT)
+Message-ID: <2977f214-00e1-43e5-b286-eecadffcab00@ieee.org>
+Date: Mon, 19 Oct 2026 07:18:37 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,77 +67,62 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] staging: greybus: use %pe in error messages
-To: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>,
- Johan Hovold <johan@kernel.org>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, elder@kernel.org,
- dtwlin@gmail.com, vireshk@kernel.org, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Elder <elder@riscstar.com>
-References: <20261018084925.11793-1-pavankumaryalagada@gmail.com>
- <atXDvg_u1hQAZiYX@hovoldconsulting.com> <atXgBFNsXG6w30EQ@user>
+Subject: Re: [PATCH] staging: greybus: fw-management: fix argument alignment
+To: Okhuomon Ajayi <okhuomonajayi54@gmail.com>, outreachy@lists.linux.dev
+Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20261018224241.46011-1-okhuomonajayi54@gmail.com>
 Content-Language: en-US
 From: Alex Elder <elder@ieee.org>
-In-Reply-To: <atXgBFNsXG6w30EQ@user>
+In-Reply-To: <20261018224241.46011-1-okhuomonajayi54@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/19/26 4:16 AM, Yalagada Pavan Kumar wrote:
-> On Mon, Oct 19, 2026 at 09:16:14AM +0200, Johan Hovold wrote:
->> On Sun, Oct 18, 2026 at 02:19:25PM +0530, pavankumaryalagada@gmail.com wrote:
->>> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
->>>
->>> Use %pe to print the error pointer directly and display its
->>> error name.
->>>
->>> Keep PTR_ERR() calls when the numeric error value is needed
->>> for returning the error code.
->>>
->>> Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
->>> Reviewed-by: Alex Elder <elder@riscstar.com>
->>> ---
->>> v5:
->>> - Drop arche-apb-ctrl.c and arche-platform.c changes because the
->>>    files were removed.
->>> - keep only the uart.c change, as the fw-core.c changes are already
->>>    present in staging/staging-next.
->>
->> The commit summary (Subject) is a bit misleading now.
->>
->>> diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
->>> index d47f00751e7a..74c9898c0eed 100644
->>> --- a/drivers/staging/greybus/uart.c
->>> +++ b/drivers/staging/greybus/uart.c
->>> @@ -956,7 +956,7 @@ static int gb_tty_init(void)
->>>   	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, TTY_DRIVER_REAL_RAW |
->>>   					 TTY_DRIVER_DYNAMIC_DEV);
->>>   	if (IS_ERR(gb_tty_driver)) {
->>> -		pr_err("Can not allocate tty driver\n");
->>> +		pr_err("Can not allocate tty driver: %pe\n", gb_tty_driver);
->>
->> There's really no need to print the errno here as it will always be
->> -ENOMEM if we ever hit it. You could even remove the error message
->> completely.
+On 10/18/26 5:42 PM, Okhuomon Ajayi wrote:
+> Align the arguments of the fw_mgmt_load_and_validate_operation()
+> call with the opening parenthesis and split them across separate
+> lines to avoid an overly long line.
 > 
-> Since the error message is no longer needed, I will remove it in a separate
-> patch rather than in this revision.
+> CHECK: Alignment should match open parenthesis
 
-So doesn't this mean that your original patch can change from
-adding %pe to a single spot, to removing the error message
-entirely?
+So this was found with "make C=1".  And the checker tool used
+was sparse?  If so, that bit of context for this message would
+be helpful to add.
 
-If so, I would prefer you just do version 6 of the patch that
-does exactly that.  And if you do that, you can preserve my
-Reviewed-by tag.
+Also, I tend to ask this a log on these small one-off patches:
+Are there any other instances you see of this particular
+warning?  I *know* not all of them can be fixed as neatly
+as this one, but are there cases where aligning arguments
+this way still preserves readability?  (Greybus code also
+generally fits within 80 columns.)
 
-					-Alex>
-> Thanks,
-> Pavan
+If there are, I think it would be good to fix them together
+(in one patch, or possibly in a series, one per file).
+
+Other than those comments, this change looks good to me.
+
+Reviewed-by: Alex Elder <elder@riscstar.com>
+
+> Signed-off-by: Okhuomon Ajayi <okhuomonajayi54@gmail.com>
+> ---
+>   drivers/staging/greybus/fw-management.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
->>
->>>   		retval = PTR_ERR(gb_tty_driver);
->>>   		goto fail_unregister_dev;
->>>   	}
->>
->> Johan
+> diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
+> index 5d01da6b6eb9..e20e9136c106 100644
+> --- a/drivers/staging/greybus/fw-management.c
+> +++ b/drivers/staging/greybus/fw-management.c
+> @@ -434,7 +434,8 @@ static int fw_mgmt_ioctl(struct fw_mgmt *fw_mgmt, unsigned int cmd,
+>   			return -EFAULT;
+>   
+>   		ret = fw_mgmt_load_and_validate_operation(fw_mgmt,
+> -				intf_load.load_method, intf_load.firmware_tag);
+> +							  intf_load.load_method,
+> +							  intf_load.firmware_tag);
+>   		if (ret)
+>   			return ret;
+>   
 
