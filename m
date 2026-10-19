@@ -1,44 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE1F39099C;
-	Mon, 19 Oct 2026 06:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27F6489FBE
+	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 07:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792392239; cv=none; b=FhiB6qPCmU4OoKqdPKvd3lcaqtJAc2/y6FQEkr7Y584lTM3IZH/LAVMkdbr9oN7/jEtlKmC10WnhMZfaQAr6BBJ0XNa79pHBpf9G32Erw+zbTLPjQ8UgxOgZcK0D8uzElbsG1mgNozldF04H7SIWlbnMAdQ+jV2KAbxBpIpOn3o=
+	t=1792394133; cv=none; b=WU7lKYkDOODUQBSDrTu4bAtxSNXqIcGCFDHmqAR6QqikGB2/mACO5pePVIbje2+H3LMR7/8mxb4C9fDXM2xlixDdmMe3Minr1SLbUdRC8Or7FhfnkV1iL+28DdAyuK9WATJxntn0xTW8DzzChJkcVLFvr7NjNb0Q6lO+jP/l+0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792392239; c=relaxed/simple;
-	bh=/vA/9kVrCwE0fqkyOOMo/OA17ASjGtUth1+dNiQ41XY=;
+	s=arc-20240116; t=1792394133; c=relaxed/simple;
+	bh=euPFOSxanSFPi2Zpw8qrz5T/8Lck+/AaQ85OLuB2GjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=auefFJlRm5gLxcirx/ftB5bBxKoejzFoJGnZkg6JRI9WeKpSW0A2LLvZcB70H1qViJstZpjWveN8AZK4zVSkB2f7kdNzzYjFPvHex6Gxwx1yWN/Dt1HPgdx0wDPabf+YJsUaVG5qjQM34oc/Sh9haM1cKzNYCJNX/fisrAH81h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FHPzZrBG; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=b+Vvhe2n+m9M4wG+45DMZ08E5yKe7PXUQz8QAA4fWl+ynVFg/p9CAJsLB++68V04QXFnT+pVruylhYLcx/hDLXIslUXXc6kC5fIORkMS1lKk2r4MjiCT1ZOyavXyyRtbpZ1+vNKxiU+MLGzD2GcGIzevoUzWjpbjGi5jX+4iAbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QAOV4fMd; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FHPzZrBG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 527291F000C4;
-	Mon, 19 Oct 2026 06:43:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792392238;
-	bh=mqOfvKIVgzwAuj39nA2GPRCbFTmqDzZMfWz8fB+0D0Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FHPzZrBGzAzJmEwxLevodGvwtiyw6wm4rC1+1TC6kFH5288WXxy2JoyRpx+Kg+DAn
-	 rxW9Asz1ludNlsW/kMkv4OHJXVZlIanPkZ8W4TNGz5iHrY3iasyM5RTMxM8xuwu9e3
-	 f2OHL+sMI/nbHurmj5FNe/zGA7VfxLY2zTfQR3aeUPb0o0Q3PnxyeqVpXwAzgzxGVL
-	 k7gssySDrk5O6/erpgshCFT/n3erUdfnEEr0Mtbrcft/jwryjP4wqxlZbv/ZYMHaH/
-	 EOeQE2WwsEqnPLgmFrIH8dBA/lrdSfp+/5lI3cuVyhW1oU1pTGRQFYK60kdFuvIwVG
-	 bDE84sE7rVvQA==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xIh6C-000000086Rc-1Lxt;
-	Mon, 19 Oct 2026 08:43:56 +0200
-Date: Mon, 19 Oct 2026 08:43:56 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Torra Sowmya <sowmyatorra@gmail.com>
-Cc: outreachy@lists.linux.dev, elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: fix loopback Kconfig help text
-Message-ID: <atW8LEl3lo5iS3Gv@hovoldconsulting.com>
-References: <20261018172711.8013-1-sowmyatorra@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QAOV4fMd"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a1d484b4a9so23678665e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 00:15:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792394130; x=1792998930; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Lh/rfye6OYmPn+uBQKUoMnQVrTTMgM/f0x7DqQdwTJE=;
+        b=QAOV4fMdD52nFi46sTyhgb/lLmJWy87DtdzighmzWU1kedNtxefLBjRbwAK6DYVD4M
+         DiFiiv9MGE5VxKMskHWYP5z4KCHBvDX8w8RqTgnlHihGelqFfaaf7KywdhqX35eMplbH
+         azRbSi25TXEdC+X8eAYrAZ9XdHrYOunBuHCOTEsqoUKCo+1Pv1UgJN8h/BBEeddWovli
+         R4obBhc4MJv5x4ksA2rm5qjD4+hzWGvxfGYDYgvNPIaVJTNJeVH6iiugECRl+oiHSPfM
+         BYF6UF4CJk/n2qnYh/6coxgXtB9Y5zuAiZ20v/ctu+M2wWwwSSRPfDC9AJPagU1ghH4w
+         S8Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792394130; x=1792998930;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Lh/rfye6OYmPn+uBQKUoMnQVrTTMgM/f0x7DqQdwTJE=;
+        b=CcvaDQYrseqtageweeTsg+XktJ1951uIgh/2lvdx//ix2lYezZADvr4N6NGm7EGHPx
+         eQ7Iy38lzIWHqTtRYFTvpjA9G54tH5+JXIofBclbEFQn1mkuWURw8P2z3Ain+JiZszBH
+         0rNG39g9obrV7PcHaGFVemd8+pQVWnyoy5DfwkYPNbPEu5yeh5AQfmQzKAhzty+4mp9C
+         kDlZPQYbNbkZIy38T0P90TYZ97CBW6mUVfGL5m2wyDqkL79vjkzHD4yzUE68fLpYhM4w
+         6NGZOsESQJUDXimKOBU04w5zeQkSv5c84LPYHJq3KiT4GD5kxE8zCSR9aqQ8m4guOV35
+         H7vw==
+X-Forwarded-Encrypted: i=1; AKwUvBy4zAl5nt1Hx5DjuUA+UWMAzVgutRpejtYQm2KD4B16+8vxIkmYnYud1R5xXNQZ/5TRi14ZjCoI0ErpBLCF@lists.linux.dev
+X-Gm-Message-State: AFq9FYKjempFGJS2vqLFMDdxWRileQnY5WNQz+KmTf+mqo+4EIQxemJ7
+	m+hz+3z+lmhMFzDqKCy/HU8qyJFv7+f0uoHDlNe4tpY8rX2UJHpg2eiV
+X-Gm-Gg: AYBFou1i+G7KF9nHSN40CX0IjFmH6LwA8gCO1Xj4CuDt2gXLde19dZBvJyREZAs9Gjs
+	J1ihAIfDJJbc9DEGMu8gV+ovML4Z0spvdlSTPfhetiMp5a9aIqw6j4Wb1MzhPxYmV0Y28BRZ9Hs
+	uJndBsCDoB9sx9V7EA8ovhSlleCqX4cxLYy9LrdQaKda3OVFgcdXEpDVno1Yhopbc6k2+RVuZFv
+	t7I2kWJOiTM114V44OGe7rcXZOvjjmfC74PAs4E47wpVNTLcDM0rzAtXjsNfMuuN9QokjxjrqRK
+	vdz8ncuhI+GdXaVhtTnmjiy0vJQAF9RsCN/0OSCVtg1FllbuEPnZq024weXTbquvcLYT1mx6qvL
+	+viwY/YEXEjTQwiyoW4PpEM4dnlHfwBGfkFQZB3XRrK/8alSJPoSp6lwqY+Iyn9K20yhNfDTVAg
+	cCIBYpTtNeQy/lL7wN4CVzsV8nGW03LRa+CQQbMOcE1s9vuNvSoHht/BMhBlymqgP7aA4=
+X-Received: by 2002:a05:600c:348f:b0:4a1:e774:370c with SMTP id 5b1f17b1804b1-4a1e7743940mr39926855e9.30.1792394129754;
+        Mon, 19 Oct 2026 00:15:29 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1cc642573sm208220875e9.2.2026.10.19.00.15.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 00:15:29 -0700 (PDT)
+Date: Mon, 19 Oct 2026 10:15:25 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Comfort Oyewole <coyewole7@gmail.com>
+Cc: gregkh@linuxfoundation.org, andy@kernel.org, outreachy@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: remove trailing semicolons from macro
+ definitions
+Message-ID: <atXDjUmhI38WQhaJ@stanley.mountain>
+References: <atTnRr-JGIb9eLQR@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,34 +76,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261018172711.8013-1-sowmyatorra@gmail.com>
+In-Reply-To: <atTnRr-JGIb9eLQR@ubuntu>
 
-On Sun, Oct 18, 2026 at 10:57:11PM +0530, Torra Sowmya wrote:
-> The GREYBUS_LOOPBACK help text incorrectly describes the Debug Log
-> Class and names gb-log.ko as the module. Correct the description to
-> refer to the Loopback Class and name gb-loopback.ko, matching the
-> driver and Makefile.
-
-Nice find!
-
-> Signed-off-by: Torra Sowmya <sowmyatorra@gmail.com>
-> ---
->  drivers/staging/greybus/Kconfig | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On Sun, Oct 18, 2026 at 04:35:34PM +0100, Comfort Oyewole wrote:
+> Remove trailing semicolons from macro definitions to allow the
+> macros to be used where callers provide their own trailing semicolon
 > 
-> diff --git a/drivers/staging/greybus/Kconfig b/drivers/staging/greybus/Kconfig
-> index e1d7ffdf4a6f..3ff47550081d 100644
-> --- a/drivers/staging/greybus/Kconfig
-> +++ b/drivers/staging/greybus/Kconfig
-> @@ -75,10 +75,10 @@ config GREYBUS_LOOPBACK
->  	tristate "Greybus Loopback Class driver"
->  	help
->  	  Select this option if you have a device that follows the
-> -	  Greybus Debug Log Class specification.
-> +	  Greybus Loopback Class specification.
->  
->  	  To compile this code as a module, chose M here: the module
-> -	  will be called gb-log.ko
-> +	  will be called gb-loopback.ko
 
-Reviewed-by: Johan Hovold <johan@kernel.org>
+This doesn't match what the patch does.  I'm surprised that this code
+compiles with all the semi-colons removed, honestly.  :P
+
+regards,
+dan carpenter
+
+
