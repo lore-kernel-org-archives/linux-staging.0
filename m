@@ -1,76 +1,58 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436DB4A8A3C
-	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 09:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2664F4A688E
+	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 09:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792401439; cv=none; b=sOdEFOh5dflzqZL8uoiLDtLj7X+d2yAaZo26s0xryE14+Ipbc2dQqD8pvmmj28mm29Kq9TW2Z0/be1o/1wJRyBeRYiHEo6y0UETTLRknKLFLWbUUoVqJajRlYDNa2T0l7x/PQlE+wtNcVOJvvTjNEcXjQNgA26qIoeWa0fh8Auo=
+	t=1792401658; cv=none; b=XduB0bhhLVL/XTewpKpCATGD6gU1LdQjqKpfTk1VR0vHYwGyH478BMr3N3eFbCaOLqHFE/QYu+baFNQP5XjSfSg64H9s4T+pLjfO1AVN9fe9Wv+B42vtNw/lMABsFnzRyYI35AjOhCqR4oi4zfxAPK1ZIbJU8CMG9EsI7TSwtoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792401439; c=relaxed/simple;
-	bh=JGCN14DSdkaYDz0L1wUcX1YfgAZpVl0MxngkUJepzpI=;
+	s=arc-20240116; t=1792401658; c=relaxed/simple;
+	bh=DcmCQr+wPZOsTvW7Bqt3y8moIQ64eG6w0LecBO0EAFA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LPNxqK3NsjZCFQglBGjkahKyZJE20e7Zows/zWLl0SChUu5Ub6pmABe/YtPQ1xDyPyNwa3ypMY3wumfysoZrdjUHAVKTm8ACZv7vO4woywc+W3xwNOb6JjrfSZvy/oxCgQhGyhfwriNIsOqYaqqbhLz/S1k4+z8+hThqR/1ymZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=igX51SSC; arc=none smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ueNgkHTPpb91OEkwM1rPczREdjzZG8J+c6Wk4bY23xHGWJPIXzjl6R25fMZp9gYkZ2cz0WMZ16Wh90m3O+DQuD73307YPkCVwrI9ftCKMM/5saBuMDoaaOwDQbNleBVFrVVx9jn62MO2wE7ZRfyyRDrgxtV4Oh9wGA2Qp0m2kXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RgRXW9iE; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="igX51SSC"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-3514b90bb89so4758675eec.1
-        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 02:17:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792401436; x=1793006236; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+GGRHuFuy9q3u8gF9aGqTkLAN78SoDlwfASLSUJHutQ=;
-        b=igX51SSCkKQvXTkwqrkcKVeQwfY1UsGJqb6K/mpIFRAtg4OuTYk6lwbn7hGqvJPV0f
-         /L0zntNF9+I0zoeh4qpI3TgHYEkdiyqwBGeEd5mPRQOMNnysJHAZeemy7ytBAk2HwITU
-         nPQLFP8e0siP2boGagJgFZgsFiFBwdN8/nSh+4AsvrL7DhWb4pnUj+psTOGQVj4hqvUj
-         p3PdgQasZqTHN3VVFUDVbec/yfZweRk/CgBcU+E5O+ozNVVhzBzNxfTgnPlZvplYzyB0
-         i1gYXwcybv4gKkl/RIUmb8OYDRVSrY2yDnxTTAnXhv36kr7771+KxOehEHv5tXvq9jRB
-         1dgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792401436; x=1793006236;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+GGRHuFuy9q3u8gF9aGqTkLAN78SoDlwfASLSUJHutQ=;
-        b=cl1VVkoSJCnK+MXguR3dUeQmfOj5Ci+ddiED/6lV7PnXDTMxCqnMyi6mae58e9sU6L
-         yJn4BlOsZn3ZxPjjt2U5u0R7J8veQu09J0aTVgzfqvNIxCltxrgGSHUtWTZBdD5BHp4A
-         b7evNJrI72EHDFpvDDv76IuKWaDnxouCoZLTD0FiBGtS6uleY2gekwzDda8zDTOpRO68
-         GM63Rn5ZWbqFrrbsDNJRCbLmEzDJ3lvsG9oNYUZ/yo64HJc2wJhvHByFWrx/qDAKv1OO
-         yJYoijTp172H9aR2dGgnq8jRDFg6pi1py93GX2flL0KL+XnmakzpwN6vYQUBk7QOfQHv
-         abUA==
-X-Forwarded-Encrypted: i=1; AKwUvBzkkeQXU25rpGadXMR2ml6SYAXlpT36SGt4wb2oNCxnPItiGIkDmvCY1hVFqx3n+qu1yw2IShWAAB4JJDTA@lists.linux.dev
-X-Gm-Message-State: AFq9FYL4Oucn+JdvOAkOzWlnMe84I5i18917fCb3iWE97fKv19n+Z3xg
-	6+dQ41QIN34Ryx49RvMPkLjHNgFjtW4kDQzgrYfB6vOfSjO5+5ud2nD1
-X-Gm-Gg: AYBFou0VgOmjfuImkR8XpihEaVl5iALc83Gh1q+Vmor8M0vYYvtnJxufrBSWW0aNcnb
-	kHa5L2Cg+YVIjrgSewaLWY+Z5WOc615Z2GU7TQFn+KPaAMkRdKrclej9BpgDbn1ZxsaG2/zGXAT
-	VDetm/oGto6Lj2OH1j28wH/A94/7DpENiX1CXhXKNOlGaNOgavy8UMBnKvWVM2J00dRWc503B3R
-	RWyG3CHtwdQmg831zlR3xOFVcxB2V7tPheUDHFMqW5zR/YrJsfwRBT5Ktx6VWvbZaBN2DAWdKXo
-	gpREFyA5mDzq/lcoIxCeuGuiw1HOIrhanTF195phcH21mU5a4AY/IIR/F6cwqLPs65wLrdbPdKp
-	27HS4+jxf9DNhhgPtVFC606kqDoC1GgWqJosUIxE5YpJRVTLmjwN2AzKzRVxdP5ScvGn4aUuV2e
-	JfD6Bdlt6i05myh9uw2uqJDac/TwzWwY5t/0FYdV1Osth1jznSGFmNzSvRw1wt42jRxDLyUfwx5
-	odikvEDPCT4emFh
-X-Received: by 2002:a05:7300:a9c:b0:353:5908:36fc with SMTP id 5a478bee46e88-361a1b517e8mr10639911eec.17.1792401436187;
-        Mon, 19 Oct 2026 02:17:16 -0700 (PDT)
-Received: from user ([2405:201:c052:b00b:3246:597c:c4cc:181c])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36081ea7e5csm29714408eec.15.2026.10.19.02.17.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 02:17:15 -0700 (PDT)
-Date: Mon, 19 Oct 2026 14:46:52 +0530
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, elder@kernel.org,
-	dtwlin@gmail.com, vireshk@kernel.org, greybus-dev@lists.linaro.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RgRXW9iE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792401656; x=1823937656;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DcmCQr+wPZOsTvW7Bqt3y8moIQ64eG6w0LecBO0EAFA=;
+  b=RgRXW9iEFYRwCgCMWgSq3vSQR+ZE1d6Qc4WpF8a/aByY/Ie3K7hL4bxc
+   Evr5pb+fBiaBFB51cwD227+t5WytYbxhrPJfBG8Wu929iIqvow+Crc/B3
+   gqOig1Z5mZTMnQi65S0hIWTjrdCCd6UGmNbfOSR8nT7oi6Ojia+jB27fm
+   Fpeg+hIVt8tTRtA3PC/rK7BMOEt3i5KjEuHl93UcxQMiwJPE2rr2JrohQ
+   uv7QEZYzFWy+PgJ1hZ+jakTUaF7iHraouSxQlNOi8W2upBEpzBlkWJwYG
+   pyxKX74PDBMuzpV76sLe3d0OQdYiStqxybC1TE5S9aOn2T7RcKK7Mugpe
+   w==;
+X-CSE-ConnectionGUID: XC/PytxHRWK+qPeRsKrQ4w==
+X-CSE-MsgGUID: zgZk/1aMQPqZiahpdbZFfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1089950"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="1089950"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 02:20:56 -0700
+X-CSE-ConnectionGUID: OEcLK07XT8CtbkY6p1I1lA==
+X-CSE-MsgGUID: kKuZ3vV3S+Cvly4mnFZsaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2909163"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 02:20:53 -0700
+Date: Mon, 19 Oct 2026 12:20:51 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: wrmfwv@163.com
+Cc: andy@kernel.org, gregkh@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Elder <elder@riscstar.com>
-Subject: Re: [PATCH v5] staging: greybus: use %pe in error messages
-Message-ID: <atXgBFNsXG6w30EQ@user>
-References: <20261018084925.11793-1-pavankumaryalagada@gmail.com>
- <atXDvg_u1hQAZiYX@hovoldconsulting.com>
+	gtl-m <admin@micronull.cn>
+Subject: Re: [PATCH] staging: fbtft: fix syntax errors in macros
+Message-ID: <atXg85m8ukjFuok_@ashevche-desk.local>
+References: <20261018085345.17619-1-wrmfwv@163.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,53 +61,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <atXDvg_u1hQAZiYX@hovoldconsulting.com>
+In-Reply-To: <20261018085345.17619-1-wrmfwv@163.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Oct 19, 2026 at 09:16:14AM +0200, Johan Hovold wrote:
-> On Sun, Oct 18, 2026 at 02:19:25PM +0530, pavankumaryalagada@gmail.com wrote:
-> > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > 
-> > Use %pe to print the error pointer directly and display its
-> > error name.
-> > 
-> > Keep PTR_ERR() calls when the numeric error value is needed
-> > for returning the error code.
-> > 
-> > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > Reviewed-by: Alex Elder <elder@riscstar.com>
-> > ---
-> > v5:
-> > - Drop arche-apb-ctrl.c and arche-platform.c changes because the
-> >   files were removed.
-> > - keep only the uart.c change, as the fw-core.c changes are already
-> >   present in staging/staging-next.
-> 
-> The commit summary (Subject) is a bit misleading now.
-> 
-> > diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-> > index d47f00751e7a..74c9898c0eed 100644
-> > --- a/drivers/staging/greybus/uart.c
-> > +++ b/drivers/staging/greybus/uart.c
-> > @@ -956,7 +956,7 @@ static int gb_tty_init(void)
-> >  	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, TTY_DRIVER_REAL_RAW |
-> >  					 TTY_DRIVER_DYNAMIC_DEV);
-> >  	if (IS_ERR(gb_tty_driver)) {
-> > -		pr_err("Can not allocate tty driver\n");
-> > +		pr_err("Can not allocate tty driver: %pe\n", gb_tty_driver);
-> 
-> There's really no need to print the errno here as it will always be
-> -ENOMEM if we ever hit it. You could even remove the error message
-> completely.
+On Sun, Oct 18, 2026 at 04:53:45PM +0800, wrmfwv@163.com wrote:
 
-Since the error message is no longer needed, I will remove it in a separate
-patch rather than in this revision.
+> checkpatch.pl reported errors regarding unnecessary commas and spaces
+> before closing parentheses in the fbtft_write_reg macro definitions.
+> Remove them to strictly comply with the kernel coding style guidelines.
 
-Thanks,
-Pavan
+NAK.
+It's your homework to understand why.
 
-> 
-> >  		retval = PTR_ERR(gb_tty_driver);
-> >  		goto fail_unregister_dev;
-> >  	}
-> 
-> Johan
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
