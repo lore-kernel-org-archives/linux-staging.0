@@ -1,96 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792422181;
-	b=BgWQm/nlDcppBdsq7IAeSNaYYMqBG48EwRwwvfi8ha0SViJ+uBk49EcYoYmH7wrXP1W+
-	 TfP2NmGC6XcXFTFxOsD8yYK6zMyWOC5DgMem64r3ZTjUHHKCJk5nUKQd8hSJ382va623D
-	 +EXPNTiHIPxVrhG/XGYasDECVhIKSa2cF7G4LPE2+ZiwJGQeA49OrkmQDT1t1Sdisq5xs
-	 zoSUrVSMVu2H+sYJZjWWDYCvDQc9HAwFd9CZMWiUWqrnQ+8wTS5FFtM0/mDgrupXeDw7b
-	 V2XKU9XFR1cGxP9+6iZbTWc3tTp9wRCsroc2O9XeUbrX3hcvPFkmZfLoxP+eG/7uXDQ==
+	t=1792436643;
+	b=uDSeq12bVby8FGF5RTnECizX8Ivs+8I4RjclLw7pNvMsltLGes34XttPKtBjHDhmLC+P
+	 efEoF71zDQBsaxwSQ9QVhFFfh5W7PC3EnP1zfHuQKxSRC0MxNaOaiAy/PdQPs59b+SN5X
+	 d7zNraf8WcJk6u/tlO/kNt/CyvZco6bMhJqsJZ5nvsu4V4EEK0EAERWKBpciYYNR5Sk2m
+	 nfV1FHN/6b7w5Wlzo+M4u+xMwEYBpe5VmGN0Vhc5T9SsWAq2fCvvs49PN51OZsYzVE8Wd
+	 RsFuCqeQFNHyXghXKUUxgGijI83wMShMsmNhv30tKpNUlMb95MabOG6Q1LHi388CNrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792422181;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=8ggX77WU3hUpk89gP84ckJ0nyPjIYp6mZHbVSorQiSI=;
-	b=r/A7PRDfLjuC3BH0PUHmD6rpOWNQMzwQBnfOsZ7al7Uxg/2QXJHDn3RHlGi9zkBYFKX5
-	 lZebCKB+Z/HVzERGRZtKwzyXXR2+8H6ljRpuVVo/z1brMyz8xJLC3+Xvykltw88w2YJjJ
-	 Yv/RMx2vnrdRyJ6I5PxvW4e8ctE4Za6WjhOpikuR/NRclBtj9HE2ev6MjH2QhVd81DSXU
-	 But75ElhKgE6z9zWJZL0sPKq+Wy5FLfvuZ4fMKsx3wcw0z89PdBH/PYJVKw8VMaumn0ax
-	 ABGAm3psjRkCNmpx04fSsjnivkaW53z975EA7dA8gPiR2jMwQhKUeKvVNmmrHBC218Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792436643;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=dL8ZGUobikYXfeavA/hCoH0m0XNsNI0h4JXi+H04Ge4=;
+	b=Dz1r0KVxeuzH1C99LS6VBw+8rUYrJLdeeAxEVeYvdtvcylvFUGCzBUDRG0/qylrLG2s2
+	 hDCNND6tNTLEFCFgBoGFjLZnGunqD4ns7uvL2RGUDonR4zuNJ4t1y28/v+tNMNyHpUmNO
+	 u/IpyFfjFDhLurxQSFFZreWH2+PqoQjKiIicBHKjqTGol7+9O4AlQPlWVI87C/pq/UdwX
+	 rc6mQ7kIAUJ8vJY35MXJUfLVxzWqIvLchvSPVeFwAsvSaqdmYf6l9jgBtAvs0ohGPU2f0
+	 SNyXnsoOZONjWetpndkFRmnc2H9MXb7qjPNBa2VSeuPBaZpvWRHo675Ol58UlZDLcXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ODyZcNZv;
-	arc=none smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S7HNhb1m;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD4D607D346
-	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 15:03:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFD4D607D346
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477BC606A31A
+	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 19:04:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 477BC606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ODyZcNZv
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-35aa0cf7c40so4497237eec.1
-        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 08:03:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792422180; x=1793026980; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8ggX77WU3hUpk89gP84ckJ0nyPjIYp6mZHbVSorQiSI=;
-        b=ODyZcNZvTL/vXsm55f10JM/G95ZxpmmLCOgB6t1PGbwFe1hMZyjBPRZlSt17AYdmsq
-         XPGNPvtOCmLfgXOZRZ5ypBE+tlV8pnMg42iekMs+FiP9E+dLFgf0fwegcOb9Y714eqR6
-         0K3amyxu0xge2SH8DlDvs0Gzq6Xn3jKJ4EoDFJJItZjlgXB7DVJlg5HVi97vabgcRgwQ
-         Y3AzooHZS9TZYHda8gWkpNhiNXfZYYNuhwol+Mb1LZeJcPgTxX5fLvE0FU9ybgQIST1k
-         y+psTcFWN+YhKrhc6mvlthNDleIs0/1Pqmn2hqws9lmA28pr3xRisBe5lO4W/3Pq8jyp
-         KXSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792422180; x=1793026980;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8ggX77WU3hUpk89gP84ckJ0nyPjIYp6mZHbVSorQiSI=;
-        b=PUtLVhvGmQBADFxFBgtj3WlPW5mPwo4fF+WAWvAg7TpBmVEvFo5hfwCnNfkNEbobK+
-         eQtGP+0MbKp0YfDT4YDuP82DT6zXzY/EXzOArdfbj97rIHdg6tGSAch/KUGOtS9mp5iQ
-         cjz9l8fA03kIPL2jnWKbjDYyD8GC+9f0o3tvIQw7Em6slPCpdxb1RKdqu8q5DE000m7q
-         zalQ1P86uN6hmg25xHwUV6kOIhtKCAz90c0hc+eAh9TugQ8iv9f6VYLA4/hFQ6m2UzjV
-         fLF1aAKO1AYfvUsgDpufqAQZRTnnfq+kZHi7EflBbqZ+mX3ns3xFWNn79O8bysgvufZO
-         JHNA==
-X-Forwarded-Encrypted: i=1; AKwUvBxlV5OKyCvL0FLCb3tVK5w0p9HGDQWASKu8F4g0eK1gOennJBpxcjZ9UHOqnN8qcYrDEdG4ZYRtSTAAHR5s@lists.linux.dev
-X-Gm-Message-State: AFq9FYIPIVt2p7ur3odjnPeghJ7C48WVyTTRCKV00A37Unn2fX0K6JP+
-	jINejFOP5K1RIofO+lYz7by/h58BfCglbeofXDJxY7ZFhnPKwtwFJdJ+
-X-Gm-Gg: AYBFou1U4S5rioVy9bl9ZA9twKSXa58aHFg/BefAV99MRw1pwO20OfdaMkMIm5ClzPr
-	bM+NZQtrbdLB24C9B/dnwXxSYbfSvKGebOQLbF7KNnWFJqLeVPxdEc51CPEmF9+zUfMfJfQQrqX
-	m0jG5nut+Dw8OpCyZQgNkTVirJYaPQawuBghoGWm8pD9EX8LYxwrR85GDGOWb9FpXm0Nvky2Ot4
-	4OtveR36RWo+TaAEa7GZJrVag8Zhknz1MyUxGaBiFirN/cmcht+LqOSg/qBHLcu7CUX5FBxn35+
-	H94N5vH3A0KRxRcyj63KtGFMtDhKKL/nC1LbTA7XhuU2rWkM67/SKDMNhTOXFnWirGhB+jaGpM1
-	NASBSYvOhHrjbg2aH4xue+WEOVOaveJcrJZsR4iEFUu+1BIw+GuSviJ2nTm8QgPadv+aL85nS6/
-	7GPoWAYQsxDoQagv2f3sQ0XOb0LiIclhtS3eo3tRSftWX7yMH2H7ixSnucAVBXNCwod6avrTo+M
-	XrEewrLusU5mEN0We6bug==
-X-Received: by 2002:a05:7301:6497:b0:35e:5f8f:9665 with SMTP id 5a478bee46e88-361a254373dmr12519563eec.29.1792422179073;
-        Mon, 19 Oct 2026 08:02:59 -0700 (PDT)
-Received: from NithishVelan.localdomain ([152.57.90.98])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3608258aa66sm41480843eec.20.2026.10.19.08.02.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 08:02:58 -0700 (PDT)
-From: Nithishvelan M <mnithishvelan@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Nuno Sa <nuno.sa@analog.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=S7HNhb1m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792436642; x=1823972642;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J+FWQwTwrvLkVXTmczbs/r9eIiKcg2wlsFRu0rFmGOA=;
+  b=S7HNhb1mwVzDQgKftNNE9OVHF32RY5yXwO7ouYijRQ8YEeL0d3YCl9e6
+   XHmy6zqw8JbmZrGqkhu+XjgKHNpAGr+p7dYwbmGDFuFrT0UefNnWZUtzq
+   9gDWGJV6hebOGNfj0WdPBFjTZ2KaKYk1zlmZP291NTbrYrBuuH9eI/o4d
+   bOzF9KCIXasVu8XE8Nm3MFmMo4JeP3QHsRtdeJM1bRekWytCYGyeaEs8m
+   1RlHelS36BgPX1b1xjbJOFC18Z4WODbiozkfFZlN9hiJ02N6uQz9kgl9N
+   TGtWXuQGIeHrGLVoyPMgLdiRiL3hjgOfUFHk5LdM+casrckXK+cpaX/gd
+   g==;
+X-CSE-ConnectionGUID: c3XFhdHpTymEdi73ijKR/Q==
+X-CSE-MsgGUID: BlE9E3roSK2dYxoHg1ISlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1009428"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="1009428"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 12:03:45 -0700
+X-CSE-ConnectionGUID: DaLQB0JGQtiDRU5HnhCXig==
+X-CSE-MsgGUID: Ty9MtHA9QCqcz04CqgeBSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2619666"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 12:03:42 -0700
+Date: Mon, 19 Oct 2026 22:03:40 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: amiratefabdallah1122@gmail.com
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
 	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
+	David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Nithishvelan M <mnithishvelan@gmail.com>
-Subject: [PATCH v2] staging: iio: impedance-analyzer: ad5933: use guard(mutex) in ad5933_show()
-Date: Mon, 19 Oct 2026 15:02:48 +0000
-Message-ID: <20261019150248.416-1-mnithishvelan@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: iio: frequency: ad9834: use guard(mutex)
+Message-ID: <atZpjGgTBcdVMtQJ@ashevche-desk.local>
+References: <179241934543.347.7026859519510388428.20261019-ad9834-guard-mutex-v3@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -100,91 +84,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179241934543.347.7026859519510388428.20261019-ad9834-guard-mutex-v3@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Use guard(mutex) to automatically manage the state lock in
-ad5933_show(). This simplifies the function by allowing direct returns
-from each switch case, eliminating the mutable return variables and
-manual mutex_unlock() calls.
+On Mon, Oct 19, 2026 at 05:15:45PM +0300, Amir Atef via B4 Relay wrote:
 
-Signed-off-by: Nithishvelan M <mnithishvelan@gmail.com>
----
-Changes in v2:
- - Extract range index into local variable 'ridx' to prevent static
-   analysis warnings (Andy Shevchenko)
- - Keep short return sysfs_emit() call on a single line (Andy Shevchenko)
- - Split AD5933_OUT_RANGE_AVAIL arguments logically across lines (Andy Shevchenko)
- - Remove redundant parentheses in AD5933_IN_PGA_GAIN ternary (Andy Shevchenko)
+> Use guard(mutex) to manage the state lock in ad9834_write() and
+> ad9834_store_wavetype(). This simplifies error handling by allowing
+> early returns instead of setting the return code and breaking out of the
+> switch statement to manually unlock the mutex.
 
- .../staging/iio/impedance-analyzer/ad5933.c   | 38 ++++++++-----------
- 1 file changed, 15 insertions(+), 23 deletions(-)
+If you want to continue improving the code, you can research the use of
+sysfs_match_string() and rather use it as an outer check.
 
-diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-index 798e62bae2..7c3af47e0c 100644
---- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-+++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include <linux/bits.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/device.h>
-@@ -333,39 +334,30 @@ static ssize_t ad5933_show(struct device *dev,
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad5933_state *st = iio_priv(indio_dev);
- 	struct iio_dev_attr *this_attr = to_iio_dev_attr(attr);
--	int ret = 0, len = 0;
-+	unsigned int ridx;
-+
-+	guard(mutex)(&st->lock);
- 
--	mutex_lock(&st->lock);
- 	switch ((u32)this_attr->address) {
- 	case AD5933_OUT_RANGE:
--		len = sysfs_emit(buf, "%u\n",
--				 st->range_avail[(st->ctrl_hb >> 1) & 0x3]);
--		break;
-+		ridx = (st->ctrl_hb >> 1) & 0x03;
-+		return sysfs_emit(buf, "%u\n", st->range_avail[ridx]);
- 	case AD5933_OUT_RANGE_AVAIL:
--		len = sysfs_emit(buf, "%u %u %u %u\n", st->range_avail[0],
--				 st->range_avail[3], st->range_avail[2],
--				 st->range_avail[1]);
--		break;
-+		return sysfs_emit(buf, "%u %u %u %u\n",
-+				  st->range_avail[0], st->range_avail[3],
-+				  st->range_avail[2], st->range_avail[1]);
- 	case AD5933_OUT_SETTLING_CYCLES:
--		len = sysfs_emit(buf, "%d\n", st->settling_cycles);
--		break;
-+		return sysfs_emit(buf, "%d\n", st->settling_cycles);
- 	case AD5933_IN_PGA_GAIN:
--		len = sysfs_emit(buf, "%s\n",
--				 (st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1) ?
--				 "1" : "0.2");
--		break;
-+		return sysfs_emit(buf, "%s\n",
-+				  st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1 ? "1" : "0.2");
- 	case AD5933_IN_PGA_GAIN_AVAIL:
--		len = sysfs_emit(buf, "1 0.2\n");
--		break;
-+		return sysfs_emit(buf, "1 0.2\n");
- 	case AD5933_FREQ_POINTS:
--		len = sysfs_emit(buf, "%d\n", st->freq_points);
--		break;
-+		return sysfs_emit(buf, "%d\n", st->freq_points);
- 	default:
--		ret = -EINVAL;
-+		return -EINVAL;
- 	}
--
--	mutex_unlock(&st->lock);
--	return ret ? ret : len;
- }
- 
- static ssize_t ad5933_store(struct device *dev,
+static const char * const wavetypes[] = { "sine", "triangle", "square" };
+
+	int wavetype;
+	...
+	wavetype = sysfs_match_string(wavetypes);
+	if (wavetype < 0)
+		return wavetype;
+
+but it might be actually worse than existing. Again, it needs a research to be
+conducted.
+
+As for this change, it's good enough.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
+
 
