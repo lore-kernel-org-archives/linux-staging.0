@@ -1,73 +1,64 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEDEC489867
-	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 07:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE4336921E
+	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 07:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792394194; cv=none; b=F9INAb91T9yE5WoQl9OLpASz5gsyk88xsS4YYAEqlATr4kr1AkBYYIatnB5l3ABopIuy8KCzruz62W8pq16OQXdJOfERizS58m9prCZJTYRR2lvOUYoPHKTNK2OOnt9/2zsT4lfWWYod3V3MIGCeDL35/iIwomMCz3AUet+1s1M=
+	t=1792395789; cv=none; b=aXUNCIzTQiUDYjbOGfOs7REZESYbuNBQv1s50z2yf0OSxFxiae4EHHS4+N1j/+4+nL1M4Pu5dFxDBCvSPIcWRdv4Zv1sqBXL8IGX2/VO/PHaemTDJ/bQyqGFs4nTLRlvx2gNIH5B4DdknbmuxBcOp5mmhypyYf+NG0d1H7LrLDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792394194; c=relaxed/simple;
-	bh=Ib/0Jiq2CTtAN56Lsm/P1GvxUcXEmvLrLBBKb9p6EyI=;
+	s=arc-20240116; t=1792395789; c=relaxed/simple;
+	bh=1MEWIqY1iEmJajy/pMiPMozqoMRw6oshocyeG+HxxdY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D5KcyOzi7xwh14J8kGnyfFtxAvKvwJ+wAhXteNykgnxU4UZ0r/3YoTgxBaSoQ/bcD4p1omYEHT81F1fLvZM77JY5Qv08Ik4SJ/tinv+hsYYxK3yWlJlPEqbbpBqPRKKFyFluuIxtjtkZ9KNJubg/KO1pShE4SeWLhYspvzZm9wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nRdJoUVS; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qwcS3a6Qcfyn+pYsZ+Goy2EW67OSTJ7D2Njh2pKobH7c/7uesKUBIYKeKKedb3oYk8nFOx63m0fBJziHj4BYi5ZDxfFP6+rMEFrxBNWibWDm6zMdpFyuM5uJdlwWTCw3MHk/mRKica51wZNn6OQTSCYbVd7hyji42JQBZwcN4rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nG1/QM9U; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nRdJoUVS"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a018dc1f98so11975655e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 00:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792394191; x=1792998991; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=K8UC1h33uTXAmEsOd21N1W9UrPJgvJpD5tf5yIkoy5E=;
-        b=nRdJoUVSQS8u85tfIiom4cr5btHak3OaZb8IFoLFmV7lflqW66uZuqItAwInVvKh3J
-         v5ch6MXiovfYxzI8vmhYEN3CurhwL3jQIc+Zwu2CJvZsTG0LspxqNzPLyUU6a+IFuTn3
-         9Y7fkVTkH79mgJna2adu4fWfZO8NMOzjOC2+yq0emPmZed2MJ1zhI3g4JNnUh3xKOxxo
-         kn+v80j6FcpbllUJkkg/TBh6Qnr0g136FrpAgHvmz0DVARi6jLiyu3Yik1vZQqPzDyUm
-         +LlOFgzYWyT9xJP4/uBcnFyqIMCdGsQRNYvNNaXeBO31xreSfW0R8GN1W/Ruzs3LllgE
-         YH3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792394191; x=1792998991;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=K8UC1h33uTXAmEsOd21N1W9UrPJgvJpD5tf5yIkoy5E=;
-        b=i2lLVD5/JJWNp9WYYUBMZKlsGXDRg9v5nd+2/iT6JGCwdCTw56g4pOh/zq2tEDYkDB
-         Q1W6vg+o81kQeDYynGKuaORzd37uHw2/oTQUstlB18Zee/1L3swB5Rhv+QoA71XmpG1u
-         Gu3fz2+9Z6ccyI58GDDR7lfs07oYoz7l4QfkU8xwKCOWAwXoMz7oHyzThbiCF0gdDyd7
-         msPtroATv0z7pAfonYvFGlOLcC8IFJ1WupISlvWhor8YdyZhZaLbrIUBsXwdrDn4pw+u
-         eBW06F5hkiTraKV/ZgKf4DP5lk4v71Ui1Ti8WRiMAwu4miSZjrFF+TdEZm3YJCAlmYj4
-         r4JQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwdRe35wC0pYxXEIbvS1ILnoun3cTcw1EJbCxWseTAbjDCkBKOAm+7oqMByDs+bXx/vZ9RZ/eNbH1Y+sxID@lists.linux.dev
-X-Gm-Message-State: AFq9FYIDqx7mgaTUJzoc0Rr7I0ooQ19/mESWYfHbWaG4uNimh2SfNRkC
-	P0aS/9ryhLSPePWZCw/IMW7TsnXaWkywQLKFV2auYIGf0wajzeAmsPQqFfRd9CiWaLHhLXFf
-X-Gm-Gg: AYBFou1i+nn0y8Bou5hvRbpyDcumQFlQIhW2tzQZkbNKyMAAvljgw58J0NbUwX44xtW
-	RWw4sEE5vCqnkw7pQiy/RscDv2ky62+0Ox+E54amUjD4Ho/Wm60ed+vD7c0oizdRNgRU3gAKwqI
-	OmFguZXuzZSlRp1ApylRScLVxbNFK+uoEQKUWtFFMsHFvFlGlkl5hWn29RzYIqT+vWMI49Ousfp
-	E//XWKSJonvF/h42YTH1Cr5bkZASoNbxHIouaEaXIWt0dlr9524MVXvjUwjtYRvN830b+UXVjkL
-	RYQeMVVPvoXt5OHYp2XT3raW0L41BYK3L7trUj1XglPjHjGBDi7TVNfaxmelBoNoTQIuzXw+ICr
-	5yOaXxQtDmizWz1M3qlrhEdoehNHPWNaYpn8KjXxt5A/gWDe0sFLBQWhShtgSEwu4/vYyY2PZvS
-	HEyQ90kq80uqJM50t3Ne2hjzBiu6pnwnhpUOB0ky5GIlVsDyKA8JWM+2YDUyVlN9VRKxU=
-X-Received: by 2002:a05:600c:4e8a:b0:49f:cbf3:551c with SMTP id 5b1f17b1804b1-4a1d75f8399mr148752645e9.12.1792394190220;
-        Mon, 19 Oct 2026 00:16:30 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd91c55bsm303395445e9.0.2026.10.19.00.16.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 00:16:29 -0700 (PDT)
-Date: Mon, 19 Oct 2026 10:16:26 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Ashmit Kumar <work.ashmitkumar@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] staging: rtl8723bs: clean up SIZE_PTR usage and
- remove custom macro
-Message-ID: <atXDyq4nVUb3ODKu@stanley.mountain>
-References: <20261018164403.14921-1-work.ashmitkumar@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nG1/QM9U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792395787; x=1823931787;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1MEWIqY1iEmJajy/pMiPMozqoMRw6oshocyeG+HxxdY=;
+  b=nG1/QM9U4IInlOOke1FVss/KrFdLFt1kQ2IJZlihmEh131I8Vt3yBPY5
+   Jqp6u6w4q5/O28WRrN4bbAcj6y/k/0d3fomdFIcbWmsPFgBJQaE8ufp8F
+   bhnWbQvZMH9aRezOC0eb0ghRehHVAC56m21WMS1EVCs+fefZqJ6TkBM/s
+   IG+aew6oB4zTKGXEwECWXG01RU91WIx5aU4619BnI4U+9MCEz0AlXOaes
+   OkaRSABb88MBcBqIKK/BsZkSgR9xxUO30CnUQcTK/PowvxSqlH6cse662
+   OEbkE5nNEekbekinOW60C/jg7VuYHSU8nfvW5fwQ/acEqU489x+l27fjw
+   g==;
+X-CSE-ConnectionGUID: ydGDAeUXSvCLewFzZot2sw==
+X-CSE-MsgGUID: 2M3aHihSTSCGbRCyCWX/ew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1095297"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="1095297"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 00:43:06 -0700
+X-CSE-ConnectionGUID: KMwFm/jRS16F7rZDaAxL9w==
+X-CSE-MsgGUID: 3a051f4XT/e1b3pSCj0B8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2414449"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 00:43:04 -0700
+Date: Mon, 19 Oct 2026 10:43:01 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Amir Atef via B4 Relay <devnull+amiratefabdallah1122.gmail.com@kernel.org>,
+	amiratefabdallah1122@gmail.com,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: iio: frequency: ad9834: use guard(mutex)
+Message-ID: <atXKBfDxumHGUh8M@ashevche-desk.local>
+References: <179219435216.322.13409717511306957730.20261017-ad9834-guard-mutex-v2@gmail.com>
+ <20261017205454.0dda6c10@jic23-hlaptop>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,31 +67,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261018164403.14921-1-work.ashmitkumar@gmail.com>
+In-Reply-To: <20261017205454.0dda6c10@jic23-hlaptop>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, Oct 18, 2026 at 04:43:59PM +0000, Ashmit Kumar wrote:
-> This patch series cleans up the custom macro SIZE_PTR (__kernel_size_t)
-> across the rtl8723bs driver as part of addressing the TODO item to
-> "convert any remaining unusual variable types".
+On Sat, Oct 17, 2026 at 08:54:54PM +0100, Jonathan Cameron wrote:
+> On Sat, 17 Oct 2026 02:45:52 +0300
+> Amir Atef via B4 Relay <devnull+amiratefabdallah1122.gmail.com@kernel.org> wrote:
+
+...
+
+> >  		ret = spi_sync(st->spi, &st->msg);
 > 
-> Instead of a mechanical substitution, each occurrence has been converted
-> to its idiomatic kernel equivalent:
-> 1. Replace open-coded pointer alignments with the standard PTR_ALIGN()
->    macro, removing an unused variable left behind.
-> 2. Remove redundant pointer-to-integer casts where pointer arithmetic or
->    pointer arguments are already sufficient.
-> 3. Replace the remaining pointer-to-integer address casts with uintptr_t,
->    use size_t for alignment offsets, and delete the custom SIZE_PTR macro
->    definition entirely.
+> I'd rather see all error handled at point where they originate, rather
+> than only some (with special case for the last call) so here and similar places, do 
+> 		if (ret)
+> 			return ret;
 > 
-> Ashmit Kumar (3):
->   staging: rtl8723bs: use PTR_ALIGN() for pointer alignment
->   staging: rtl8723bs: remove unnecessary pointer-to-integer casts
->   staging: rtl8723bs: replace SIZE_PTR with uintptr_t and remove
->     definition
+> 		break;
+> 
+> Or you could even do a return len; here if you prefer.
 
-This driver has been deleted in linux-next.
+I'm definitely against this. return len is a common non-error case, that's
+better to be at one place.
 
-regards,
-dan carpenter
+> >  		break;
+> >  	default:
+> > -		ret = -ENODEV;
+> > +		return -ENODEV;
+> >  	}
+> > -	mutex_unlock(&st->lock);
+> >  
+> >  	return ret ? ret : len;
+
+So, if got the above way, use
+
+	return len;
+
+here at the end, and 'break;' statements in the respective cases.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
