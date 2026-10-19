@@ -1,58 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792437496;
-	b=i1/6xx/3xWu9N34iS1glxHpq1lwqxVUI3K8pOK4Chn3q/044A1zcqPuNchadEpPRtfL1
-	 OdZfKPld8d38XyErajY0HkCKTOi3iIDL4/081uQSyksbEznlgeCWdBt5sr6/NDxH/QEZy
-	 7yQgbZ7Zb48MXh4oHF+xu+5mVGclawsU5X4SaJKxWdUculF+xvgzdmFmrL/Nu2aPR4iZh
-	 Qb2zCxyjmEXy/VrHROG7/MKh5HOeIwMui10n/qCrmjXM+XVH0mB7mZhV614Mw79DnDixf
-	 gVoAp+Q8YWWWyTsQmAnMgVlSHZ0pf2PUqZmTiUNKNMhbrPpGCg7LwItItY0s03vKlVw==
+	t=1792441287;
+	b=1rmPBGgwlapdYMsRjgORtd3+xYtJ1U9znijkdCPnUg2ppktAd9EFQoAtR9nUQGTfBON/
+	 Pf9EQzrv4YNJ7PxfHKoe6mdsnPZ+q1ZO6LhKBGAPCtvvC6iuGU3bIFGaUT5pO6y0j1DBE
+	 wcLZb2Tf+hwbtj5vPTVOQrDBcWxgf9IUNMhUB9CzKDfdxCrTUVkxOVUqtAUq3RlyZMR46
+	 NvEhE2aNFGyp6kWI7I8MfjA9VrlL9a1TVpxFBEIOD6mDhaeoWrH99cXDcIOTPiqsu93NK
+	 WmSzlSSYo03M5IUlMFWTK9NwrdFWbeqoxx9TEmpiYErk8HCNSF4meBWPt9re+yPJaRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792437496;
-	h=DMARC-Filter:DKIM-Signature:X-UI-Sender-Class:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Content-Language:From:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:
-	 UI-OutboundReport;
-	bh=BUTIn5r4eoMH2MaHTZixGcFVAOua3PtHQ2DlH/jQniI=;
-	b=wJqNFfyK4vcr+yM7onNriL73BwcctcqLpgY/Gg9oNNSeeYZ8itdgj6y2+JeUwKl8HnRF
-	 EGNtm2tkPdbyUa/dZJ+6K53quSM4cZuR8TwsHvhDR4x3Z6LXDjIutFWMREKYdm8oUTBaN
-	 fTslBfEcAGDOX1mudjduOjIQAs6HwlWTXGob1eeu1n5jtn3x6dCBq/L4qat6D/hxeWKo6
-	 zaV1O1oKwOFSwuM6J3iNlSqTczU9EbKoigCcLNzvEITDWQo0aP5TqVwj5XV5iMcysEsaZ
-	 OY9zIcgsw4Ese2wz70/NIPyTMRwOehvG93vi27dVIBy8TdgNye1vQ+0qZLJwCQ6ZODQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792441287;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=5SGe5k/sxuefMjqMn88o6FMTCheBSXX/pG7tZNOtng0=;
+	b=VwDhbwwvhZZpcHCwkeRLNXmqoTZoaMTfwk+Ua708n3vOfh9Z4jrCX6+VRr2O7RADnfSa
+	 NuoLihtL6dhWYavzST27M/Rw8QFM6sGRCT0xkhoN2EZ81AEpUbQSwRRHL2EBzJlaSbDg8
+	 MSmHFDYcj6QcBNmeD7Ek9c5l0BAPjZ6J5wL192W6co5lq4+gJin+vQLIMMJGvKFgapwfT
+	 Hu9orbXHZs0B2aAjwfFONQgfnJMz15iiIxu2LdfwZze6OHAmbV+an6h7fqPI6BpLU4Ej/
+	 ZoJAHWKItTG4UX9NJGtS5OeEaCAjuh+dIX7mkVSxQI0KmGF3K4BBqWZW2H87H+b0NUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmx.com;
-	spf=pass smtp.mailfrom=gmx.com;
-	dkim=pass header.d=gmx.com header.i=krause.markus@gmx.com header.a=rsa-sha256 header.s=s31663417 header.b=QkLLiFGg;
-	arc=none smtp.remote-ip=212.227.17.22
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Lv6vZ0VU;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A11606A31E
-	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 19:18:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7A11606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FE7606A321
+	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 20:21:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1FE7606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmx.com header.i=krause.markus@gmx.com header.a=rsa-sha256 header.s=s31663417 header.b=QkLLiFGg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1792437491; x=1793042291; i=krause.markus@gmx.com;
-	bh=BUTIn5r4eoMH2MaHTZixGcFVAOua3PtHQ2DlH/jQniI=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:From:Subject:To:
-	 Cc:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=QkLLiFGgYQkEFA+Dprv7fwymTwAsTnUPmxQQbIYPw91J5wuNIoBtrpWACP8P/NJT
-	 alngMnmwOfRiCYDQH77K22DaKnysxZ+q//yi51REE3XU7BtqDPF8TDxxalRN2FiP7
-	 KMNYeFexApDragkI4Ids9WNUXT9xhy83mSQQwaeI0oAnPdNRPvGjaZ3QLZE4Cez9v
-	 bGklZyUfWpSPXMGxVqHgYWXJtrtPasqd+6f1YjezuQN2V731bG3lUV/d8zF8r5ilM
-	 FDBsKbEPoffxSVYKsJIQb3K67jxOwBESSaNbaR8Iil0v2EL/x5YUCYe2su2ESyfDR
-	 mlV4ZhGoiclO+7ydSQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MBUqF-1xSSqa2eAp-004nzs; Mon, 19
- Oct 2026 21:18:11 +0200
-Message-ID: <eec6c986-3d59-4471-a867-9cf77db1fc27@gmx.com>
-Date: Mon, 19 Oct 2026 21:18:09 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Lv6vZ0VU
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a0e1b0681bso17815445e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 13:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792441284; x=1793046084; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5SGe5k/sxuefMjqMn88o6FMTCheBSXX/pG7tZNOtng0=;
+        b=Lv6vZ0VUNnB6umXYcQbgtEwYfSeWCSDPuh3wTha9ONuU3sOxG7ebves6+PuexYLeJe
+         qfSByl/P4Dne/ao+RuPkq2+wTWzW2F983iEy9sxw5hqb9Wn6auWIsFMZaASpa6joy9ey
+         WdwuN428CwqmaNekjJuh1FV1zEs4ZcQcBmNumZ/Phk/tMulTzBP/+NLysht6JlvAvqZu
+         pHkZMjIe+vwyHR9OJzK2+VSsnaaDyZttaSw9nzG8iISI4UOWOYtPN9MQCYzmcMMRODAx
+         z1eGZE6pfl/NbaSZU0C6U8WoxEFjVXGEstvMnsoxVnx9iKwz5FVh5mvisOdp42awrSI7
+         8zIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792441284; x=1793046084;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5SGe5k/sxuefMjqMn88o6FMTCheBSXX/pG7tZNOtng0=;
+        b=VM4OzhXMBWigvCDnUzYIs6pFSjAbGAmBiJvJN9i6Bc/Iw5mHokz4Ud2WBZUmOVYzxh
+         +VLJCe4bMhDyt+kVbbvS6N/fXsIryubhAbppw+0C8K74SlVqLWOD7rbVh3aXI0yMUVOt
+         XwqOKl5KtN+3RGjUNY5k00hMI4lmxod+yE9dJneP2ghaNfDdpdPGCVYex8HcBtvX42Wn
+         wxH9Wkz76gPX16Mof9ICf3Se2c0Kx4GymbABzJwgaI8hw2kZ3dDZM0DPLe/Q33JpwN/x
+         stNdNDO3Cpfx2IJAAAoSfT7KXNmzFt0eW8J4UVZG89z3KF6SGzmXDDmMOGny4JzYm7DA
+         zrlw==
+X-Forwarded-Encrypted: i=1; AKwUvBwq653n9ziKkn1Dx35tMFL6n+ih1b26zxRszGgL/ZyL2R6rlr0rUKN9l1n5jBbRwfEDZ6U0+YvstZSJI0iO@lists.linux.dev
+X-Gm-Message-State: AFq9FYJrLXzx7kvAtFUofPBGq+NuZ50zZjiULLXBMoaeydvGilJKhh+A
+	dhqzuEBqHusCmfDMDCsrS+Fo+wCklSH/PxXg926dC8u/4hpHRJEwMyaY
+X-Gm-Gg: AYBFou3ZXrNEnLrUpuzcTkLVlQt6Qbsxm/TnEMun31PELsHRSUaXGvvuCnYrLAuvncE
+	MdNyXfm71UHktI31/qNfex/z4Pc0VRE0sAr4rhVeas8tdcX4lwd94N6vPLPlVUQrTGqicPC+hyT
+	Fk6nyrQmlqujumaBeFUPCiTjGXuTJUaj8hlwxHjxaDV5rS4k7IxVjAdmun25LfQipfpgx35XYhQ
+	0oRxHQVS5PCASWwQeKI5htf3lV8w3Lo1r5a6sK4bnms59qmRdlYnYnDY+7XGif2n8XnTDggmJO2
+	AAkk8geAULsrmrulQfJLSMZFUE7qQmdfEYhrJt79Y+50dNh0Ol+fqUlDTROo2zXM4+iMz9BCUmR
+	OmB5kUCxz/bEDsSZskxdIjC15vG/ygfxGwwTpffKeoVfg5dzD3JxN2P1vO0+dURC3GyFmlak28e
+	JZQW+wQKJDJd3HMo1tIr1UrqKojlqqEaX9CWvvDvM5G5doNsYsI0BOqLtxOSI/JQJ9PtEe8IDN8
+	roki4KHhaGTjYl1P2kegc92Mos=
+X-Received: by 2002:a05:600c:4f06:b0:4a1:e69d:90e8 with SMTP id 5b1f17b1804b1-4a1e69d931cmr119638455e9.22.1792441284070;
+        Mon, 19 Oct 2026 13:21:24 -0700 (PDT)
+Received: from DESKTOP-0KSTGNI.localdomain ([156.213.131.39])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d817d8bsm943142f8f.24.2026.10.19.13.21.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 13:21:23 -0700 (PDT)
+From: Temitope obabi <obabitemitope765@gmail.com>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	julia.lawall@inria.fr,
+	Temitope obabi <obabitemitope765@gmail.com>
+Subject: [PATCH v2] staging: sm750fb: Remove redundant NULL and zero assignments in probe
+Date: Mon, 19 Oct 2026 23:20:15 +0300
+Message-ID: <20261019202015.1724-1-obabitemitope765@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -62,192 +99,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: Markus Krause <krause.markus@gmx.com>
-Subject: [RFC] staging: octeon: upstream suitability of CN50xx forwarding
- acceleration
-To: linux-staging@lists.linux.dev, netdev@vger.kernel.org
-Cc: pablo@netfilter.org, netfilter-devel@vger.kernel.org,
- andrew+netdev@lunn.ch, gregkh@linuxfoundation.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8NS51a3XuiDrZr3MC/dLvFD1A0qghRSSRzKDM74H5fUglKjo2aS
- eShw4vOSQt1EOmW8d/wNau2wbCN+4nGLZeFq6NnD1pwfb5jLgZXpA192IAOOVVC81xLLoxB
- AAfeWNnrSQBekAWW3tV2gWLmf0EGzqE2TbUfBIVaE83rY0i7ohg7Bj/nxsHPXfNPzGiQmGd
- eB7KEbKmJuPOqO4TNLMxA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:XwvMDXifAJQ=;z/AVZaJdmmyP5tTlOXkj5GGHIlf
- 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
- GI4j88HQ==
+Content-Transfer-Encoding: 8bit
 
-Hello all,
+The sm750_dev structure is allocated with devm_kzalloc() just above,
+so its memory is already zeroed. Remove the explicit NULL assignments
+to fbinfo[0] and fbinfo[1] and the zero assignment to mtrr.vram, which
+only set fields that are already zero.
 
-I have worked on and privately tested packet forwarding acceleration for=
-=20
-the Cavium Octeon CN5020 SoC
-used in the Ubiquiti UniFi USG-3P and EdgeRouter Lite. The changes
-are currently submitted for OpenWRT review, where I was asked to probe=20
-the prospects
-of this being upstreamed into the Kernel.
-I was sceptical as this is essentially a discontinued SoC - but there=20
-are many devices
-with it out there and I felt this work might be useful to the community=20
-considering
-Unifi is dropping their controller support for them and otherwise they=20
-become e-waste.
+Signed-off-by: Temitope obabi <obabitemitope765@gmail.com>
 
-Main motivation is that without this hw offloading, achieving actual=20
-Gigabit line rate is impossible on these devices.
+---
+Changes in v2:
+- Remove an accidental duplicate of the note at the end of the patch.
+  No code changes.
 
-Before preparing an upstream patch series, I would appreciate
-guidance on whether the approach is suitable for the Linux Kernel and whic=
-h
-tree and review process should be used. (I have - ZERO - Kernel contributi=
-on
-experience and hence I am a bit intimidated by this^^)
+Note: Greg replied to my earlier sm750fb patch that keeping the
+explicit zero assignments is good because it is clear what is
+happening. In that patch the allocation was in a different function.
+Here the assignments are in lynxfb_pci_probe(), just after the
+devm_kzalloc() call and its NULL check, so I think removing them may
+still be useful.
 
-The routed path integrates with Netfilter hardware flowtable
-callbacks. It caches established TCP/UDP flows and performs the
-required header rewrites in the Octeon driver's receive path,
-reusing the receive buffer and existing hardware PKO transmit path.
 
-The CN5020 has no autonomous NAT engine: lookup and rewriting still
-run on the CPU. The implementation supports IPv4/IPv6, NAT, PPPoE
-and a single VLAN tag, with unsupported packets falling back to
-the normal stack. This should cover the most critical use-cases,
-especially also PPPoE with encapsulated VLAN which is something used
-by many ISPs (e.g. famously Telekom with VLAN7 for DSL).
+ drivers/staging/sm750fb/sm750.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-On the USG, single-stream plain-NAT throughput improved from
-approximately 560=E2=80=93600 Mbit/s with software flow offload to
-930=E2=80=93940 Mbit/s. PPPoE over VLAN 7 also reaches approximately
-930 Mbit/s. The implementation and benchmark details are here:
-
-https://github.com/openwrt/openwrt/pull/25645
-
-There is also a companion bridge forwarding shortcut using
-switchdev FDB notifications, which could be discussed here or separately:
-
-https://github.com/openwrt/openwrt/pull/25823
-
-This essentially takes care of same-subnet switching, e.g. on the USG=20
-that would
-be the case if the third port is used as a second LAN port. It also=20
-supports VLANs.
-(basically everything that does not terminate on the USG like a VPN=20
-connection and has
-no fw table entry)
-
-My main questions are:
-
-- Is this driver-local forwarding approach acceptable in principle,
- =C2=A0 including its use of the hardware-flowtable interface?
-- Would you require a different integration or work toward moving
- =C2=A0 the driver out of staging first?
-- Which tree should an RFC implementation target, and who else
- =C2=A0 should be included in the review?
-
-I can provide the code as an inline RFC patch series if requested.
-Benchmarks are available at the linked Github PR.
-
-The bottom line is that this is what allows devices to operate at=20
-Gigabit line rate. Without
-making use of the SoCs hardware-accelerated buffers and transmit-paths
-it's essentially impossible to saturate the Link and maximum packet count =
-is
-also very limited.
-
-Thank you,
-Markus Krause
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 8b93bfeb217b..8702f6313f78 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -969,13 +969,10 @@ static int lynxfb_pci_probe(struct pci_dev *pdev,
+ 	if (!sm750_dev)
+ 		return err;
+ 
+-	sm750_dev->fbinfo[0] = NULL;
+-	sm750_dev->fbinfo[1] = NULL;
+ 	sm750_dev->devid = pdev->device;
+ 	sm750_dev->revid = pdev->revision;
+ 	sm750_dev->pdev = pdev;
+ 	sm750_dev->mtrr_off = g_nomtrr;
+-	sm750_dev->mtrr.vram = 0;
+ 	sm750_dev->accel_off = g_noaccel;
+ 	spin_lock_init(&sm750_dev->slock);
+ 
+-- 
+2.53.0
 
