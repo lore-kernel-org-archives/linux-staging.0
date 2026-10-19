@@ -1,125 +1,153 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B654B7A3C
-	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 09:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADF94A4F0B
+	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 09:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792403358; cv=none; b=fPhXQuAsjr6NyU+mNGXoYSeGQ0IZyBT8iSmIOhMtzg/ZNeUGLAbHnYoUzJT/z+sOjh0XQShrq089I8CLKnd6z3qS6HEw5DOhMbMqAxK66E956trYl6Ul8lP982NjJqV8PmMQxfEg22lrHo6p2lbj50AZrlcDvkj2e1OiBTaewfY=
+	t=1792403620; cv=none; b=VzvRvBdUtL+zZBGEi7Aki916GhVl58G5sLCF/7+yxSInS8YEhvhf4Vf7Ty3T79CanObPi49J4Y4OJQg9yy0iIAMj3wG1tpS1ThkKzebt6k1bhMKm2mMbR7qwzUPKI1LVqelsKRG6ofme1oduI/Wfb3DvpfTBV9P0lkGAVED5pbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792403358; c=relaxed/simple;
-	bh=Djw+CAa4TdmdhY24d0q7OhDkmwT0mOBOFc45rC3up0k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V1m5HIPA7rwUqHjnPeL6eLHQjIKU0xzqJ2BWK4xslH0hWW/eWN30NATYorruH3cCkCZAgCSfh3U7vdM1ePFo18AAQFX4XvR54FXUm3DLC+DfjCQkQRjSrHPy/D+il9hUBovk/2M1kySA7Hkiji/IvrYlwBySb0/paA8//K7X/n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hK8z1EHH; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792403620; c=relaxed/simple;
+	bh=UAvQEyO7YcF5XflKLEHcE1A94egeQEcAvUo8vH2B5p8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EACyGIP17l5gGpeDzhJTUakkXNfWfrMHrVMSNBegPWul5f7zwlBp88bkS1lXH3AOEQa//52rw+ztR+TKMB5viNGPPiD/2bwgpMK/dpKLA8yz2JkfxPyxpm7P6l8tW4h/4QJplKzbEPTA/9GpSOD9s+nOcz5kBBkPO44W2AVWD/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lpxB26FN; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hK8z1EHH"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so14010885e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 02:49:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792403355; x=1793008155; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wVwmmSqI00v46zZ18N04BUiAXDw2jjv5hFhr+um5J7s=;
-        b=hK8z1EHHuujBCmTv3BzxFtL8Kc6v71GrTIpGJDTdI05D5+c04kZ8qPMMlBMdX6jPrz
-         lwgtqmV0JubUOtvDl960PAuKVoA1kbAfwc7Al9SixsRCYQjV5BgXQTDKLDNfJ6QOsuiT
-         Iaf6KbTiAM/WfgaULCZfl3xXedsu+SLWm6qQN9pqEjU4l0cwmDICgsaaOl8IV5NphEwA
-         MzpVVGTCX5iIRxC7zcJEFX74CuknFfEj8fKRpVqUIjA9ypGvh6zYgbuukx3tLHux7gwe
-         Ecb0R62JoUCkgUeBXgilTH+TJO4uC/WNAefoL65oAm4Bk7nZSKPtDvLiDI3MX8szuthO
-         QFVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792403355; x=1793008155;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wVwmmSqI00v46zZ18N04BUiAXDw2jjv5hFhr+um5J7s=;
-        b=l0UHtTwT//OrCleXMNrFXm/aSaLNlnv32U3+EwJCI7P0DaldWf/1943JBVfx7hLv75
-         SGY0KxnDIeHe1dvcn+WMI6I2VYEvIHgvFfIy6qKNnmzH3JSJerLC5k5nQ0ht/BuBecrD
-         dNbp5xUnk8hximxivj1aosGmfVHykJcrRoDjkCBhYrf8//Yvu925kx7MD+HnRKNJ5rjk
-         Z8dvtxuejCnvPBQyWH38xmg4TH+coBFhaRAIaS0WTTUwNRyXZfABKJ6fY9+dUvn16TJ5
-         ezzKYw+SJC3a6RBoVwxwoY/r7wwkmtQ3Wy8OodzSFB5/EBx52Omt1CRNm8orhi+jNf1H
-         S1/A==
-X-Forwarded-Encrypted: i=1; AKwUvBztv5DNH1IYEn6MmSVLnNOTV+7tFhtaG9YVE+J5kwKyvSWA/0RIWhH2Pr2S/IGUu+Q78Xr1TE/NxjJ2nxtn@lists.linux.dev
-X-Gm-Message-State: AFq9FYIJCYQJV/p2u8uLG6kPbmpz+s5v5PF/IWYCCsGuQTv7yjqCnqwW
-	i9uvHST/irY1tn1ZmZuBAzuUuEYeaE9/LhannrBt4a7ZMRAF3gTRihjx
-X-Gm-Gg: AYBFou0GChCPfCBCs5Y+jp1U/p4F5vxIPq1a6Hionh//7qU5rwRes5cwOwuOnWtx2fk
-	0T0AJa0/NdWyi4N2SKdZUOkx9CUeV6ZjYLpDhHearbZ4ZGt31D+19rolHqA3lAf6AXWvABc6nOo
-	lzo/Qyxjbd/L54F1MVdtcnPC9QMcrxxqGvkZ9HF02dVJBNA1e96vGski+xLITPH+z9e7AWGe02U
-	Iq5Kt8fWrIETVa2n13k/5a3WvGvvu/Zw6WomFyoFODtD9O8yQJ5xpogQBK8HNAKVIZ7Zqb9jkWq
-	6uyEToNy6D3qzEvSMt1h8kS63pAIgGZT6vl04ukEJmwizcPZehFwdGgTawUGIZ0ecR/WvhvvonB
-	tEwMLa9/b1rRzZCZpUjdGH/M/HSjWcOhbaOTZ/emJT6NpHX8yigt3rfEJTOHFQjOv5jK5kd0+U0
-	aB2rgyOFDi2T0Qev2yu3Sw78bp3qRwzvEcVaUEYIQ6zh0BDHwJyg8UL0FyYn2ha39amh0s8y30l
-	l8O3hfPSNYu6g26kimnqnJ4GrI=
-X-Received: by 2002:a05:600c:3b1c:b0:4a1:c646:3edc with SMTP id 5b1f17b1804b1-4a1d75f2aedmr149554645e9.11.1792403354550;
-        Mon, 19 Oct 2026 02:49:14 -0700 (PDT)
-Received: from DESKTOP-0KSTGNI.localdomain ([156.213.131.39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1ce02d619sm177669655e9.3.2026.10.19.02.49.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 02:49:14 -0700 (PDT)
-From: Temitope obabi <obabitemitope765@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	julia.lawall@inria.fr,
-	Temitope obabi <obabitemitope765@gmail.com>
-Subject: [PATCH] staging: sm750fb: Remove redundant NULL and zero assignments in probe
-Date: Mon, 19 Oct 2026 12:48:35 +0300
-Message-ID: <20261019094835.1343-1-obabitemitope765@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lpxB26FN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792403619; x=1823939619;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UAvQEyO7YcF5XflKLEHcE1A94egeQEcAvUo8vH2B5p8=;
+  b=lpxB26FNf9h2MdNf0QRlvLzA9Ag3UxWx7UlvSOcshLPUMqD/BbClw4Cb
+   Fde4L8CXhElJSDHdJk8IuIWxPVEI7eEOAjHdJoW/72ZqhFQTiI7HMC0lw
+   1Ne0GELkUhtHpVvByXPoRSvf9FwLOKjEp82YBqax7FJVB8j6O8v3UKHSL
+   L36H8wrWcqKfrbmFMN5Ne2BbQpA4LYqCi0F+MnYLK0wlxHvC793/Oh42v
+   eFeQNEcetl9ifGtZdJmDh0F1qlGPBX/God6wjiLhw8ajPa1e/gSiKtUdU
+   ybmbR94/PsDL8fomNBck1Ts/VAYEFZhcAyNVPq/POhD3v7+FbXctpIma+
+   A==;
+X-CSE-ConnectionGUID: f2xpXc/QSBWDwCwiR1Bl5g==
+X-CSE-MsgGUID: FvwEE9/AQZqEXrfa+OjiGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1102567"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="1102567"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 02:53:38 -0700
+X-CSE-ConnectionGUID: 0seK9oIfTPqgkhf51t4w/Q==
+X-CSE-MsgGUID: V3lz7EfPRzG6GAcDkbzy+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2873703"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 02:53:36 -0700
+Date: Mon, 19 Oct 2026 12:53:33 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Nithishvelan M <mnithishvelan@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: impedance-analyzer: ad5933: use
+ guard(mutex) in ad5933_show()
+Message-ID: <atXoncij2_IrGjZZ@ashevche-desk.local>
+References: <20261018200128.642-1-mnithishvelan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261018200128.642-1-mnithishvelan@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-The sm750_dev structure is allocated with devm_kzalloc() just above,
-so its memory is already zeroed. Remove the explicit NULL assignments
-to fbinfo[0] and fbinfo[1] and the zero assignment to mtrr.vram, which
-only set fields that are already zero.
+On Sun, Oct 18, 2026 at 08:01:27PM +0000, Nithishvelan M wrote:
+> Use guard(mutex) to automatically manage the state lock in
+> ad5933_show(). This simplifies the function by allowing direct returns
+> from each switch case, eliminating the mutable return variables and
+> manual mutex_unlock() calls.
 
-Signed-off-by: Temitope obabi <obabitemitope765@gmail.com>
----
-Note: Greg replied to my earlier sm750fb patch that keeping the
-explicit zero assignments is good because it is clear what is
-happening. In that patch the allocation was in a different function.
-Here the assignments are in lynxfb_pci_probe(), just after the
-devm_kzalloc() call and its NULL check, so I think removing them may
-still be useful.
+...
 
- drivers/staging/sm750fb/sm750.c | 3 ---
- 1 file changed, 3 deletions(-)
+>  	switch ((u32)this_attr->address) {
+>  	case AD5933_OUT_RANGE:
+> -		len = sysfs_emit(buf, "%u\n",
+> -				 st->range_avail[(st->ctrl_hb >> 1) & 0x3]);
+> -		break;
+> +		return sysfs_emit(buf, "%u\n",
+> +				  st->range_avail[(st->ctrl_hb >> 1) & 0x3]);
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 8b93bfeb217b..8702f6313f78 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -969,13 +969,10 @@ static int lynxfb_pci_probe(struct pci_dev *pdev,
- 	if (!sm750_dev)
- 		return err;
- 
--	sm750_dev->fbinfo[0] = NULL;
--	sm750_dev->fbinfo[1] = NULL;
- 	sm750_dev->devid = pdev->device;
- 	sm750_dev->revid = pdev->revision;
- 	sm750_dev->pdev = pdev;
- 	sm750_dev->mtrr_off = g_nomtrr;
--	sm750_dev->mtrr.vram = 0;
- 	sm750_dev->accel_off = g_noaccel;
- 	spin_lock_init(&sm750_dev->slock);
- 
+Keep it on a single (not so long) line.
+
+		return sysfs_emit(buf, "%u\n", st->range_avail[(st->ctrl_hb >> 1) & 0x3]);
+
+Most likely Sashiko might warn of use ctrl_hb variable as an index without
+checking. So it might make sense to be prepared for that by adding a local
+variable:
+
+		unsigned int ridx = (st->ctrl_hb >> 1) & 0x03;
+
+		return sysfs_emit(buf, "%u\n", st->range_avail[ridx]);
+
+
+>  	case AD5933_OUT_RANGE_AVAIL:
+> -		len = sysfs_emit(buf, "%u %u %u %u\n", st->range_avail[0],
+> -				 st->range_avail[3], st->range_avail[2],
+> -				 st->range_avail[1]);
+> -		break;
+> +		return sysfs_emit(buf, "%u %u %u %u\n", st->range_avail[0],
+> +				  st->range_avail[3], st->range_avail[2],
+> +				  st->range_avail[1]);
+
+Split logically
+
+		return sysfs_emit(buf, "%u %u %u %u\n",
+				  st->range_avail[0], st->range_avail[3],
+				  st->range_avail[2], st->range_avail[1]);
+
+>  	case AD5933_OUT_SETTLING_CYCLES:
+> -		len = sysfs_emit(buf, "%d\n", st->settling_cycles);
+> -		break;
+> +		return sysfs_emit(buf, "%d\n", st->settling_cycles);
+>  	case AD5933_IN_PGA_GAIN:
+> -		len = sysfs_emit(buf, "%s\n",
+> -				 (st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1) ?
+> -				 "1" : "0.2");
+> -		break;
+> +		return sysfs_emit(buf, "%s\n",
+
+> +				  (st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1) ?
+> +				  "1" : "0.2");
+
+A single line
+
+				  (st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1) ?  "1" : "0.2");
+
+and, IIRC the operator precedences, the parentheses can be dropped.
+
+>  	case AD5933_IN_PGA_GAIN_AVAIL:
+> -		len = sysfs_emit(buf, "1 0.2\n");
+> -		break;
+> +		return sysfs_emit(buf, "1 0.2\n");
+>  	case AD5933_FREQ_POINTS:
+> -		len = sysfs_emit(buf, "%d\n", st->freq_points);
+> -		break;
+> +		return sysfs_emit(buf, "%d\n", st->freq_points);
+>  	default:
+> -		ret = -EINVAL;
+> +		return -EINVAL;
+>  	}
+
 -- 
-2.53.0
-Note: Greg replied to my earlier sm750fb patch that keeping the
-explicit zero assignments is good because it is clear what is
-happening. In that patch the allocation was in a different function.
-Here the assignments are in lynxfb_pci_probe(), just after the
-devm_kzalloc() call and its NULL check, so I think removing them may
-still be useful
+With Best Regards,
+Andy Shevchenko
+
 
