@@ -1,66 +1,77 @@
-Received: from mail-gw01.astralinux.ru (mail-gw01.astralinux.ru [37.230.196.243])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E40C4F390F
-	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 13:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.230.196.243
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508434FFA5F
+	for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 13:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792417190; cv=none; b=QxfuLaSP8EMsAi6X7LawB9/JCgYhtWtHlzFFkfoce+x11tpzcdWaXVzaTnLtTgSlNycqYqNVEc7d1pHLhWlJ4j+EPCJMV8IIHY6YEFoXUjLbDPNi/T0mDCCLJ/fqKQDBxJeeZZtuYUNVJxE6mmUNfvypBSGedP1y3jYigoVc1+Y=
+	t=1792418253; cv=none; b=j9DXdrZfy2pzOvHBDCoHLKjEuQFDf5Z9FYoQqvoQvO/XKsIOregtTOrt1XzpsAEqftwLAjeW9DQvhbr/jK1vVJeSqvPrHstyWc6jF7KMrEQJYFrfm4yfbVcovYYRSpv+PSDP2C7tSoRVyhthWJPlH007jbvGWz+t9ifqtm0NiJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792417190; c=relaxed/simple;
-	bh=rfPbKhCA+A6vIjorseDK6y7DZlhxJ9AuGFP0jPmcowI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lJCawyT7p29VxgziRT5XyB+LIYmHNhMFGJHIQ2Ds5KXfGDYx3VXZTopZtHVheJsb2VjHreueQtnOQRXR7s4VCzz1eJefg6X7EXCF+xlaET4goubkSWb6j569pC9LsCINwFQkNiE1WEPtlxIFCPpjfTdpir4Lhec96R5smxHoIX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=wUxq30uE; arc=none smtp.client-ip=37.230.196.243
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
+	s=arc-20240116; t=1792418253; c=relaxed/simple;
+	bh=fjvAi9gBmKMfVEEh1GwhVjdVvjqeXeo/SssrFZSAIlk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F/gnFAoNX7miaAsmHP0Awefg+8FDo+RTlOpdmT1VVDtsXkqE3dzDb2I5k7AQ5g/0QC6Qg37QPNG01O33yRRgoIJjiqB1pMC9FfstwKZ13vy6nlD1NAEIsnUjjG2cKYznCWqhV0gfk4ciqZzYnlZxmqr7FKln+KrvCf4pQmgSyTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZAvcLZ5E; arc=none smtp.client-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="wUxq30uE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
-	s=mail; t=1792417181;
-	bh=rfPbKhCA+A6vIjorseDK6y7DZlhxJ9AuGFP0jPmcowI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=wUxq30uEEq+6qBHxxCpiLpx3FStes43U0QMsamzMCIbi/kBQP4xebe9S+3nB4MDKs
-	 jPZ0Uxo5UmIgmJ0rQenUh8dWeIYQAJ9hO45ipZYqrfk3aBb7wmMA18dVmhb1D0XS3Q
-	 s/Jc9uocR2m+cM91mj6fGXLkvK2f4WNJosId0RgXROb3aOSRvCM0lwB3SNirKhB53v
-	 UJuyXLB4Jz4pYT+Lbo8nXGv1epz+GxbUZkdhwkkCsUbwHZIkIFmbTwzgP6pWFuzEvd
-	 MgLZO4AD6+Yp43xn5X9skQn3Cvp3actzMrVV3ZxQTgBQMD558+XI1pyhUjOQbxDZ2p
-	 2i/JjACnymXFw==
-Received: from gca-sc-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
-	by mail-gw01.astralinux.ru (Postfix) with ESMTP id 1A09F25871;
-	Mon, 19 Oct 2026 16:39:41 +0300 (MSK)
-Received: from new-mail.astralinux.ru (unknown [10.205.207.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail-gw01.astralinux.ru (Postfix) with ESMTPS;
-	Mon, 19 Oct 2026 16:39:40 +0300 (MSK)
-Received: from DESKTOP-D46TNHI (unknown [10.198.51.9])
-	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4j7c971tNmzqSH;
-	Mon, 19 Oct 2026 16:39:39 +0300 (MSK)
-From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
-	Sasha Levin <sashal@kernel.org>,
-	Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>,
-	Andrei Khomenkov <khomenkov@mailbox.org>,
-	Michael Huang <tehsiu.huang@gmail.com>,
-	Jinke Wu <coolbeaner@126.com>,
-	Nikolay Kulikov <nikolayof23@gmail.com>,
-	William Hansen-Baird <william.hansen.baird@gmail.com>,
-	Serhat Kumral <serhatkumral1@gmail.com>,
-	Nazar Kletskii <nazar.kletskii@gmail.com>,
-	Jennifer Guo <guojy.bj@gmail.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZAvcLZ5E"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-354ba08cfd1so3874690eec.1
+        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 06:57:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792418249; x=1793023049; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qHmwVRXgo6cTlOspH9FWDod09fxFDoidqai/OyNIW7c=;
+        b=ZAvcLZ5E7dZIw8GXOXZEvUJYejGCxlYorZomf041S6JytZ8lRTsrpJiButwSFyEsMV
+         D62Ba6fvtaaWYLX3eLACEJDVN+IuxmJ6pJrtDrrnIjGfACEVHdoKTL5/VvJcZF49tkZV
+         kSTaJPlUhHnx2k9tb5orqdi5Idyte4FtxfUYORd/LQWf9nvVnJNBLEw4dG1C2IOqYxs+
+         a/XBB227xh8oYeBjr/EbKPiHqtlPqbX2Lg1cs6AUBIM/JdPtGq9W7aksWzb+LBn4RiSc
+         1AJKuilVMSvBKLkCQEcYcn/E7WgXFAnWQEnDDf/PbSYS0md/u072dVoTLAmd+MPIYRyS
+         9oCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792418249; x=1793023049;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qHmwVRXgo6cTlOspH9FWDod09fxFDoidqai/OyNIW7c=;
+        b=SIEt/1yD4bWFMSE0dslK1eQVbM2bbnVzZSgZWc4zxPFvj2lt2aD+MC7+m/wupcVEJp
+         8DHQAk6U38Vto9yIxO25KEUhsaBcBxr/gHMi6Uls7YvNQoYjeBSi/FQ1txOiKbHB5/dt
+         dt/CHACa1lD1BBT6k0rGJ9hyiIOPVg4PyfPo1bLQYOLZMuOuqCwLGRyKdQBGtFs6gvLm
+         99MCUHs87CWvgkVjfnbrMYMLpW6641Bn10Ql62LmEtZHpOb/k1FuCHEMfyucpwoEobjJ
+         /RF4Dqy3SRXxiyWv/crBc6XT98QE2XT22ZqRpT04IZfyNLjPuwIBIalW46D3d2a/uqrG
+         oL1A==
+X-Forwarded-Encrypted: i=1; AKwUvBwCm/m2VfOCY9QoZndoWsfRCD0gvxc8DUf1kKX3McXYblfdSn+f3wi+YbbyuqtsEKfEr7oIY4Gyi3ok7+5A@lists.linux.dev
+X-Gm-Message-State: AFq9FYLtY5KaUZnG93ggLSD4lmWt0gY3pxBVkw+DNQljxGxMJa/n9ItW
+	ZUkPFKsfweJOuSpMYlYlo6QKiwey+MGUpAaOgD/3k2N/mIzOXWhRp9cn
+X-Gm-Gg: AYBFou2kvvCY5IxHjDehTufqdDv3ukzhtZwfyrRo7nylZrkZQn6GiRv0PoD/16pRIAy
+	Bemd4Ga2zRq5f1RBg7QThbreA7yAZybVjmcbxjqlcUL4IRYDgvPiQmsRlqFGPOaX+ExiN71DXUm
+	r5PjHOmfpiMmM28/stqNjk2EXSP0AvviKSkLkmsoPrIUpW05rUka7B589jxm/LPK+LBSIKoYsZe
+	9irpKVK7D0smxhuXGeEtvjOl77g9+CAcL/vjM9Lqsc2UxeLJZbdWTqn4k22VSA4pfAjp3wubk32
+	KVI7I/x3/XP3Ca0DTgisLDHpSxcRgSWrG0Kg4LJNjz6C0Z0kYhETfoHAokuBY1cLLuMOjO7Jero
+	qRxsGTWQvWwQS3LBRcbTjNBI3BhDA9ixT5XSJY1ZULp7fFGt82vEqnWK2fN8LO6EPpileODYBda
+	lwXcCJhBoLqrIe4FKkSDPqTfFUBR50yY81gVBU09wrNPX/6oi2IIYInKBTcEsehXWo8QuS8o6iA
+	BOEEds=
+X-Received: by 2002:a05:701b:4559:20b0:144:eb46:c31 with SMTP id a92af1059eb24-185120abebbmr10668293c88.17.1792418249139;
+        Mon, 19 Oct 2026 06:57:29 -0700 (PDT)
+Received: from user.. ([2405:201:c052:b00b:5c3b:b91a:15d0:4481])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1831acba710sm39831494c88.13.2026.10.19.06.57.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 06:57:27 -0700 (PDT)
+From: pavankumaryalagada@gmail.com
+To: gregkh@linuxfoundation.org,
+	outreachy@lists.linux.dev
+Cc: dtwlin@gmail.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	stable <stable@kernel.org>
-Subject: [PATCH 5.10] staging: rtl8723bs: fix missing shared-key auth challenge length check
-Date: Mon, 19 Oct 2026 16:35:34 +0300
-Message-ID: <20261019133535.1940-1-mdmitrichenko@astralinux.ru>
-X-Mailer: git-send-email 2.54.0.windows.1
+	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>,
+	Alex Elder <elder@riscstar.com>
+Subject: [PATCH v6] staging: greybus: remove redundant error message
+Date: Mon, 19 Oct 2026 19:27:17 +0530
+Message-ID: <20261019135717.40979-1-pavankumaryalagada@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,69 +79,53 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-KSMG-AntiPhishing: NotDetected, bases: 2026/10/19 12:18:00
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
-X-KSMG-AntiSpam-Info: LuaCore: 127 0.3.127 0884f7b061fa529b810563f359267cd65d2ec05c, {Tracking_one_susp_tld}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, astralinux.ru:7.1.1;new-mail.astralinux.ru:7.1.1;patch.msgid.link:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2, FromAlignment: s
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 206796 [Oct 19 2026]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.27
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/10/19 08:59:00 #28702808
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected, bases: 2026/10/19 12:18:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 1
 
-From: Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 
-commit 2c56ef658ac8c6bca36bc5574715e8f717207c6c upstream.
+Remove the error message, as tty_alloc_driver() returns -ENOMEM
+when it fails, so printing the message is unnecessary.
 
-The WEP shared-key authentication handler uses the challenge-text
-element's attacker-controlled length without checking it against the
-fixed 128-byte chg_txt buffer.
-
-In OnAuthClient() the length from rtw_get_ie() - up to 255 - is used
-to perform memcpy() into the 128-byte pmlmeinfo->chg_txt, so a
-malicious AP sending a malformed WLAN_EID_CHALLENGE element can
-overflow/underfill chg_txt by up to 127 bytes. It is reachable over the
-air, before association, during shared-key authentication. In the case
-of an overflow, the driver can write out of bounds. In the case of an
-underfill, the driver can echo stale buffer memory.
-
-The challenge text is defined to be exactly 128 octets, which is
-already provided as the WLAN_AUTH_CHALLENGE_LEN define; require the
-element to be exactly that length before use.
-
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable <stable@kernel.org>
-Signed-off-by: Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>
-Link: https://patch.msgid.link/20260720082409.168379-1-npetrakopoulos2003@gmail.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-[ mdmitrichenko: in 5.10 the challenge element is still looked up as
-  _CHLGETXT_IE_ and the NULL check is the braced "p == NULL" form, so
-  the length check is added to that condition. ]
-Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+Reviewed-by: Alex Elder <elder@riscstar.com>
 ---
-Backport fix for CVE-2026-74649
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v6:
+- Remove the redundant error message, as suggested by Johan Hovold
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 46ce8ca12c02..eb1dab9c735c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1116,7 +1116,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
- 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_, _CHLGETXT_IE_, (int *)&len,
- 				pkt_len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_);
- 
--			if (p == NULL) {
-+			if (p == NULL || len != WLAN_AUTH_CHALLENGE_LEN) {
- 				/* DBG_871X("marc: no challenge text?\n"); */
- 				goto authclnt_fail;
- 			}
+v5:
+- Drop arche-apb-ctrl.c and arche-platform.c changes because the
+  files were removed.
+- keep only the uart.c change, as the fw-core.c changes are already
+  present in staging/staging-next.
+
+v4:
+- Return error codes directly instead of storing them in ret,
+  as suggested by Julia Lawall.
+- Remove the unused ret variable.
+
+v3:
+- Extend the %pe conversion throughout Greybus, as suggested by Alex Elder.
+
+v2:
+- Use %pe in the firmware management case, as suggested by Jeremy Clifton,
+  to match the other cases.
+
+v1: https://lore.kernel.org/outreachy/as0nhVbagZa8Birm@user/T/#t
+---
+ drivers/staging/greybus/uart.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index d47f00751e7a..4de61fca6725 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -956,7 +956,6 @@ static int gb_tty_init(void)
+ 	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, TTY_DRIVER_REAL_RAW |
+ 					 TTY_DRIVER_DYNAMIC_DEV);
+ 	if (IS_ERR(gb_tty_driver)) {
+-		pr_err("Can not allocate tty driver\n");
+ 		retval = PTR_ERR(gb_tty_driver);
+ 		goto fail_unregister_dev;
+ 	}
 -- 
 2.43.0
 
