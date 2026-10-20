@@ -1,87 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.44
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792462838;
-	b=LJEPdCPk9dEkGglNXJGJjXY+UCZmQ5IjLMGK1atPnhSOPHLspDJr3LIJfY0vp7RlNZwB
-	 HEfTKMbGIZjZTRKOn3iOR0Lm8Pul/8COIjPKGzX0hfTuWZNzlGDEe6FjyIUjewSylwq3M
-	 Sc2iv2zde14K8UnkN2cypRo6GTwgS4RnyfY7pfsZXNuGsYg0nrs0oYnUsxUN7OjUd0c6v
-	 ktDl0a2psDMugl7koT/XmSpcJgvLDI/qTBokQddqSlKZ/95x3pg0vRXD5s8EpVaucv4HQ
-	 itBMKOTRj43xsZhkPbzzqQ9/LPzbXuDyQyS8LxoV/X3kLKiijKB+pS4wRYJWVaisc6g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792462838;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.174
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792472389;
+	b=J605DhFyam00z12F80q8j57sfgfVzsGDKLfCskmzwFG51PV9JjQ9cRNCDN9p9sp8T3ZR
+	 PECcon2RW4eAGHZFROUd/ugnwAQwQz/YmL8x4pgqRJ6WLTwqOdQaBFG94S9oxVQyNjCpi
+	 1FWI9XfQypk+WvU3j0XySpKrZUwBef/A78HG1iqTu7ZQI1sQFy2yMsIxAg/eZhpG85Djk
+	 x8PrSq2g0pCCzXoWMgpB8Yqn5cFXZ7EbWfOQCqkIs8DGa89HjPEMT0aNp78Gd32uNepaA
+	 S2JhHfT9HcY2QnBX7RMUGjhK+Pz+WKEqQAFp2p0c/qK0H4fKC6UgqmUQUOi+XZ4ssVg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792472389;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ov1JQi2JjMl24yFAFJ2MUTE1RthNQLp4XwRk7/4yijY=;
-	b=ZYXGjeHiAtOQXzK5Yr3RQmBvzXP57XETqSglBlGKogVK5q1gGoKllh1HzY61IMPBEwtj
-	 SQcebp8dky2RCqQmWWKBhHkQFt2iMbe+QnbFLsKu3QKkIlY83PgiRAVEBp/E8M/bETpfO
-	 FDmaaIeofy2to/uX7mRr4uKWj06ZUCLfuwf+F2y7LNChNXs9cZNBKvoNUrjHJ4NDMJb5t
-	 S5YnIH76uoyogFUTavU8aEXbmBt2S+MuYAhLhR+L2joDZ84VCpUKdeq54cKB0A5ufPePO
-	 x5lVD+aAda7uYoEEhQZR5PvVRncTIiG+JmRY+Iz2Ih35gyKi0JrbuICN7HsuXnGbX1A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:From:
+	 MIME-Version:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=ErKYrIFCZ/79R1M9O6pYO8KYt0U4vYvu3GosSii+BMc=;
+	b=wugyhdt/zPC2BWF4wLbN7WELGM37JsG10g5+itoXyccYOiOrulVJtfTQMl1zGcLRLhRO
+	 0PDCQf4/cKmW7YOgl+2YGgD37Dexo+Mk9q5LyD6xOTwBuXnm69AebIP9xRB/YLzqGV2Yl
+	 /slgj0L7i7OSqX6lUDew70HTUMFJiaNG3u4XTEnuPUlSYAUsMF+xoEofVG/Mak7DZDLt1
+	 Zo6y7Kpxpj0fqbEWTFQN4oBtT0T7v2Xl5hIYovm1dzUxizUwpaXYMtX4T2PF1ckdVLYQ1
+	 dazQu3D2l2bJt5Hjw8qlJEOP1rv+BAlHKMKwgD9FvHCK5q2opCD8Z25DeSlqDVMEFDg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=j+5sHtAQ;
-	arc=none smtp.remote-ip=209.85.161.44
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=RYY6gFIW;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.174
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84261606A31A
-	for <linux-staging@lists.linux.dev>; Tue, 20 Oct 2026 02:20:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84261606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E673606A319
+	for <linux-staging@lists.linux.dev>; Tue, 20 Oct 2026 04:59:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E673606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=j+5sHtAQ
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6dd4f3f696aso1662927eaf.1
-        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 19:20:37 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=RYY6gFIW
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso3681500eec.0
+        for <linux-staging@lists.linux.dev>; Mon, 19 Oct 2026 21:59:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792472388; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rnIBjk7DHQT16MczvVWHP/5xuLnKJf/+tUJsXRIy73SkBvtz3cwLEKD1ufhDyK/lrZ
+         kPaVIrRkrWSqUSDnBqKN8F3Q9ThUzh43WDeOJZ63+vSndfTQMAkDIZNulNeLnkJ6kKsk
+         +s2XaL6O9vbp8jnvU2ROyEhWcYRp1Z6wpBXVDQz0Fy68+bjgTe+S286Ny1jrocHJe91c
+         TkiJoYP53OdPlEr0JjcJASdcBrtzkEjCEdWyXh3+FXFqw2hgBrm5N0iBMMCIrWOFzgWU
+         jFPl3rp3+Og5WFfrWWblPw/W6oN9M7RG9gX4exXkDKL9Mp2r5EJSCFpTCnSBwMqp2qaD
+         SVDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
+        bh=ErKYrIFCZ/79R1M9O6pYO8KYt0U4vYvu3GosSii+BMc=;
+        fh=2lTWXfXeL8nR2xv8wUm6hrYiY/pFMvZvlMlF8hMSbh0=;
+        b=aamBP9VmhaGT+IU4hS7fMJtrp763U2cuJELNutLBWt9IsKlbNWvC9ofUj/9Vzysbms
+         LkUgJHJRGJewtP/JJEZyTfc5XQq3SRiVDTi1zYelSz9RQsBHxLraZUNFj6lQb/3jDZp0
+         5MLBnQAsFeEuUPDZkCUoqjLuB0c0kKAS0DfWAgeHtDpX1np1xgqNDlcQEo09BJp3HGAh
+         QL1uWYxc1KGQnZuTJoEiWmaMLeNdNhlxoP23wTmpiVN3Et7fNFWyhDnV+37K3KMx1sq9
+         IC+EcDvVmRCoJsnPV5Rgmu8gerbH1s4XsuJAO95zm9c86hjdZKLh5M3fTm9uETmuaiAJ
+         H3Bg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792462836; x=1793067636; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ov1JQi2JjMl24yFAFJ2MUTE1RthNQLp4XwRk7/4yijY=;
-        b=j+5sHtAQpyZ+B2BGjUyPDuH4iLlNjYzUpTtJJy4X1fYF9OKwWcOnfcYCAEN0JinXTb
-         kQaKMDFaBuGTrTCfqREetTQzQDNWOj3Us4NOiQZncL7jkzqsaU3HuWw0NksDcgoHs3d9
-         E757f7Ww55XzHvrEYvgRtz+pqNEsOt2RwTorjI9VVgbvE5zBlkQ0b19K5vgzLDYj2SjR
-         LuO5ATxG9ZjvO+7XXOM6RC36aJmY671SndeV4L2KdWaYdlVy4g+hIt82B51y5Q1RHIUd
-         E2vkgBRQtV2io9eHhp+vZnEFi5B3GKz9yg2JDfmn1I4WIV33QQKQX28NMDuGnesG26AS
-         maYg==
+        d=gmail.com; s=20251104; t=1792472388; x=1793077188; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ErKYrIFCZ/79R1M9O6pYO8KYt0U4vYvu3GosSii+BMc=;
+        b=RYY6gFIW1BjPbYOo4q/1lFoDikEmL7+5e+W1FF7UJ8g8iEOD0a5o47ts6V+0JY/ZMi
+         Qma5PpLSdLpl5TfH6yfnvK0rA0OpVbJmjNIyvmlLHh4fv4vFuJ4FUBTIYVqj+jIuesnL
+         oEq787gaA3bcEMV65gzym/8KfUTZZnkgNi3yZItdKIokuB87LHhBY5vn95O8TwE+WH4z
+         W/gm75jd7BGfqWQCDNRiELUZW7+uG49cB1E6n84VfF4KQZbinkqj36Rqj5LN/QLpndn3
+         mbMsasRu9IErGkqlxkrS/dqgNmEnbolWBXD2v3GowoDXa7dMC2L/O9/Ab5oWfyGNomzI
+         RygA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792462836; x=1793067636;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ov1JQi2JjMl24yFAFJ2MUTE1RthNQLp4XwRk7/4yijY=;
-        b=wsEnNeo125dGqYgzsg24yM5QOgb69XmumKtt8o9wyg96F1M9eOjWV1RRPApCvFLPmB
-         ht3DM/oSbkhcYmxXdcIglkjm/JGkGcpSUYIBjdNAN3CZp/Fe7iPowwKIpT6uFvmwLoKd
-         AjcK8/de8HfCA3p7N4Joy3Wc5kjjI2kJEKoa/WO/kjdLxIgIo46ap+XNBKRf3riaklLV
-         RbfoIceLysmqJuC9gAPxecgettPsvTpyzy4/DCACU2zP7+jOydVQ5m+yUqyMbkWGF4HY
-         BZi9EusHaaQ4NfLNFVGvx9Nrjj1qIq2vwGuPppk71I7YjHEbyVNXt/2u+KwlpYfnRavU
-         8QHA==
-X-Forwarded-Encrypted: i=1; AKwUvBykL7fodg1all9vDudByYb3gOe1e8jDUO4B8cOqwuOySmf+vpYHwPK+muavbcddRft4Mk0Cu8o4mn1W8Xxc@lists.linux.dev
-X-Gm-Message-State: AFq9FYK/C+Q/kdhAxrklS2ZAWvlCecBd5ofY6lx/gVHbjcZRBqKsSy+q
-	prP1mZzDCkPl5iZH9kx+bUiurpLsBgjdRJcfSXTc5TNLyMxpSBu47wYG
-X-Gm-Gg: AYBFou2I0+jy96080TEYQYzB2g6+kYmyxG5tg41SlwPAroiJYN5VJI0btWFCsBOEiIN
-	nCBAgJvbNWrwYeRoiEdW+BMDC5cvl/19SV6//qcoLtayZlDYddGVyo41oEEcse9s3LjfNekTlN0
-	LAdEe17htL4cL9NK0oux64B5o9UoEY8a8eGKYnHcwBRwQPfSdKbk5S/8tXpYINUoRDPBgmoARFa
-	FHvROCEh3ODPels4Yjbzsb9VEIQYaVlo7IaBq30/fMvqueEicT/XdYDrIyjgTQ44i7vwdfzs3oe
-	V358X6eMY67NFB+/NkM8zyP2flo8ZbgdCdjFc4rY0g5ol8oUNVmLUepHVA5bvpEee5Uiacijr9f
-	cBi6JqzR5zbuCg4shezWZQbFIvC9aqFOMKp+GiU0AaulWS+tWR1oHtXw7zrrxmqloDA03OmHSso
-	h0ZrDHcUZfhtNLxAz1AZZD8/bkIeo1oABE+UG0mklVxjWc7rDbsnhBjwJm4jXE1O/xIZ1oX1hPv
-	1tNhYfj7aIAGYEfUE+VXsAcnAbda/mxtt+nnhOLqJw=
-X-Received: by 2002:a05:6820:82c:b0:6f8:3d45:b465 with SMTP id 006d021491bc7-70352783f61mr5261958eaf.11.1792462836179;
-        Mon, 19 Oct 2026 19:20:36 -0700 (PDT)
-Received: from [172.20.5.89] ([65.141.20.21])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-842a0f284d1sm10247392a34.2.2026.10.19.19.20.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 19:20:34 -0700 (PDT)
-Message-ID: <cdcaf727-4433-4f8c-8e33-42094efcc6d8@gmail.com>
-Date: Mon, 19 Oct 2026 20:20:33 -0600
+        d=1e100.net; s=20260707; t=1792472388; x=1793077188;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ErKYrIFCZ/79R1M9O6pYO8KYt0U4vYvu3GosSii+BMc=;
+        b=VYo/KcM3CQII8RuRhEOrIrvd9cpN+H2RbwsGr5kS7t6PTRHIxqPaIP+zZJohAnDi8J
+         w7IK3vfMk4pQxjUSeT5TJyS/wOr3J4zXGQTxthVMEj29cR0tErS2r4ybvdJ0xo7gQUQt
+         7AFeXPsfirGUW+ol98wp8bHrHkZg70wd7G2X9YNySXGc/7StJtbdmnJ7D4qv5HqTYeCp
+         yCE3LyjHw0zPTzvODFwYjQuTCUz3yOO0fMHn7E9DGieMSoc+VP+xVMmnaY2hFQKFxaCe
+         PYFReLq6ePrFVMNNnYGZohRfueavXxCR1U7YjCk0lky7CjVsXD/0CTWRuCJOI4IyW7lh
+         L9tw==
+X-Gm-Message-State: AFq9FYK4PWEwnfWejhzDd6jpmR+1xRWSgxH2gwDI8d3PMMubn46da8AR
+	ZXvli0+Ao1n8LQre+t61tlXWVQ1jMc5elGYW3zgngUs8fENWN0ZFz7kz5w33w6fHh6QbXQVr/zP
+	cdeemDbJ5Yc4k9h7PkLW1YzUt30LOlOI=
+X-Gm-Gg: AYBFou2iGlZQsWkD+l7y3u/C5y8ABGlmixDy5N44Bfs9jrhpx4d2urYk/MtcYLo4aU1
+	haCTLGo38J6u760KQJTNJs3JZw+idDEu4fizM4Az0vPscYV3u5XUlC53Y33ea/huXQQsBNky0/e
+	mzV4YHBlsfwFea//9/wX1wZoT/rGdJS8B0YArzrP+ic20PmmBtn03gDFdV7MjYALVWITp/w34+S
+	IPB9PjDPYMZnJ9P65uRqf6WVej/YyBX6sixBR2Weig+6oIiI6Z7JO7ynCMfdNH28sXTZqXZaPlP
+	kfK4r4oojJdvvKe1uIIvp8EjzpdpwgKEwXHbujvTJodB2A/LRv3FyH1dUugylM2KCLSUY6PeiFV
+	zpC5lXlMz9tKx9L62qXcKh7oXKwqJesTM7bI=
+X-Received: by 2002:a05:7022:f511:b0:186:5b49:90d8 with SMTP id
+ a92af1059eb24-1865b499174mr11078616c88.4.1792472387864; Mon, 19 Oct 2026
+ 21:59:47 -0700 (PDT)
+Received: from 138594053405 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 20 Oct 2026 00:59:47 -0400
+Received: from 138594053405 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 20 Oct 2026 00:59:47 -0400
+From: sarbansah151@gmail.com
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -91,77 +105,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: comedi: comedi_fops: fix alignment to match open
- parenthesis
-To: Comfort Oyewole <coyewole7@gmail.com>
-Cc: abbotti@mev.co.uk, hsweeten@visionengravers.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- outreachy@lists.linux.dev
-References: <8a960200525367f0fadca6b83ca57273e469f225.camel@gmail.com>
- <53D6A234-940A-4B29-89B2-7EB0E459F077@inria.fr>
-Content-Language: en-US
-From: Jeremy Dean Clifton <gservice341@gmail.com>
-In-Reply-To: <53D6A234-940A-4B29-89B2-7EB0E459F077@inria.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Tue, 20 Oct 2026 00:59:47 -0400
+X-Gm-Features: AclHuK8u_B4VBr2VoSmI-Sj9vq-BYKM0E1Ql1kGuGmd5hYv2n25yCYb4wkgN62M
+Message-ID: <CADyAg8dZO9PfT+wkj-qDAEAgBOs8AK0fjs5ma4q3qAT+BKxOBw@mail.gmail.com>
+Subject: [PATCH] staging: rtl8723bs: replace yield() with usleep_range() and cond_resched()
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/18/26 11:09 AM, Julia Lawall wrote:
-> 
-> 
->> On 18 Oct 2026, at 10:18, Comfort Oyewole <coyewole7@gmail.com> wrote:
->>
->> ﻿-----Original Message-----
->> From: Greg KH <gregkh@linuxfoundation.org>
->> To: Comfort Oyewole <coyewole7@gmail.com>
->> Cc: abbotti@mev.co.uk, hsweeten@visionengravers.com,
->> linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
->> outreachy@lists.linux.dev
->> Subject: Re: [PATCH] staging: comedi: comedi_fops: fix alignment to
->> match open parenthesis
->> Date: 10/18/2026 02:30:05 PM
->>
->>> On Sun, Oct 18, 2026 at 02:22:49PM +0100, Comfort Oyewole wrote:
->>> Fix the alignment issue in order to adhere to kernel coding style
->>>
->>> Signed-off-by: Comfort Oyewole <coyewole7@gmail.com>
->>> ---
->>> drivers/comedi/comedi_fops.c | 4 +++-
->>> 1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> This is not a staging driver, why is staging in the subject line and the
->> cc list?
->> Sorry, I made a mistake while working on my first patch. I just realised the staging drivers are located under drivers/staging dir.
->> Is there anything I can do to correct this?
-> 
-> Just work on something else.
-> 
-Comfort,
+yield() merely reschedules the calling task and does not sleep, so
+using it in hardware poll loops spins the CPU while waiting on the
+device. checkpatch.pl flags this class of bug ("Using yield() is
+generally wrong", see yield() kernel-doc in sched/core.c).
 
-The comedi driver isn't part of staging. You can see who looks after it 
-in the MAINTAINERS file
-or with:
+In the firmware download poll loops the git history shows a
+commented-out mdelay(10) at these sites, which indicates a ~10ms
+delay was intended; restore it with usleep_range(10000, 20000), the
+correct idiom for sub-20ms sleeps. In the firmware checksum/ready
+poll loops use usleep_range(1000, 2000) to rate-limit register
+polling.
 
-   ./scripts/get_maintainer.pl -f drivers/comedi/comedi_fops.c
+In the TX path there is an explicit comment that sleeping even 1ms
+causes throughput loss, so use cond_resched() there instead: it
+yields the CPU only when the scheduler actually wants to run
+something else.
 
-That lists Ian Abbott and H Hartley Sweeten as maintainers, with
-linux-kernel@vger.kernel.org as the list.
+Signed-off-by: Sarban Sah <sarbansah151@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c      | 4 ++--
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 4 ++--
+ drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-There's no dedicated patchwork for comedi. Some subsystems do have one.
-https://patchwork.kernel.org/
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -634,7 +634,7 @@
+ 			rtl8723b_set_FwRsvdPagePkt(padapter, 0);
+ 			DLBcnCount++;
+ 			do {
+-				yield();
++				usleep_range(10000, 20000);
+ 				/*  check rsvd page download OK. */
+ 				rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, (u8 *)(&bcn_valid));
+ 				poll++;
+@@ -893,7 +893,7 @@
+ 		SetFwRsvdPagePkt_BTCoex(padapter);
+ 		DLBcnCount++;
+ 		do {
+-			yield();
++			usleep_range(10000, 20000);
+ 			/*  check rsvd page download OK. */
+ 			rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, &bcn_valid);
+ 			poll++;
 
-Drivers outside staging have different
-expectations. A clean-up style fix may not warrant a change.
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -192,7 +192,7 @@
+ 		if (value32 & FWDL_ChkSum_rpt || adapter->bSurpriseRemoved ||
+ 		    adapter->driver_stopped)
+ 			break;
+-		yield();
++		usleep_range(1000, 2000);
+ 	} while (jiffies_to_msecs(jiffies-start) < timeout_ms || cnt < min_cnt);
 
-You can still send it if you'd like to see that change in the driver, 
-but I think it could be separate from Outreachy and staging.
+ 	if (!(value32 & FWDL_ChkSum_rpt))
+@@ -232,7 +232,7 @@
+ 		value32 = rtw_read32(adapter, REG_MCUFWDL);
+ 		if (value32 & WINTINI_RDY || adapter->bSurpriseRemoved ||
+adapter->driver_stopped)
+ 			break;
+-		yield();
++		usleep_range(1000, 2000);
+ 	} while (jiffies_to_msecs(jiffies - start) < timeout_ms || cnt < min_cnt);
 
-Good luck with your next patch.
+ 	if (!(value32 & WINTINI_RDY))
 
-Jeremy
-
-> Julia
-> 
->>
-> 
-
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -328,7 +328,7 @@
+ 				rtw_free_xmitframe(pxmitpriv, pframe);
+ 				pxmitbuf->priv_data = NULL;
+ 				enqueue_pending_xmitbuf(pxmitpriv, pxmitbuf);
+-				yield();
++				cond_resched();
+ 			} else
+ 				rtw_free_xmitbuf(pxmitpriv, pxmitbuf);
+ 			pxmitbuf = NULL;
+@@ -383,7 +383,7 @@
+ 		if (padapter->registrypriv.wifi_spec)
+ 			msleep(1);
+ 		else
+-			yield();
++			cond_resched();
+ 		goto next;
+ 	}
