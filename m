@@ -1,94 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792499627;
-	b=IV5P+GBTIil/SY9jG9lw3fD8K2DtYh3Giq2lLJkk6AEU6JZU1djzjSmDttFgbsnWylh1
-	 aSiFlSPM4ExmaJUez4xVUIEpjK7X1U+hDl/9Gjtv4zeqNwRJpkwD7BhxiOgliTdgzYoVv
-	 OvPQYYNxD2Kot6Cs7zE7e8J8VcG1GI6CEHeVV+FJnbNvTZ4gi9Z4K/yrIaMz2GGdnVl3L
-	 +PI25On9LWnkxnPe7kxupSByCpUEkq7I1nSCRdjp39alNdZ+Td2f5hxyLKKeOG2voadYp
-	 QwbOpi3ke5D61ZZ/qy97jIzm8ZTrOd/xq+aZZbggFoQkTLgCVema1z9TJ1pZ0M8mIog==
+	t=1792502432;
+	b=ZpSiihQaMczzjp8RlghhQb6VenViXqC507l+NRv3DwlnN4doszf2iz0Z2tK0upP+ljkA
+	 7NWaWC359/GU2wV4UiPRm8bjyC8LufLMLrdqIf8jVS3cZENdOj/Pmovr5zEdnEh3Rk5lN
+	 oNcAHsjPW44AT/CosDtBRT+qKWlhUoD3aJmL6+hVZ9+xc3NhePuFwoEKpv8aES2d11yan
+	 AD0hsHcivaQBdg4W2cplxuV1o+pKmsEfgWb9gzC3ftFlyvgQn58SvtxuEXurOgVqd+Pmi
+	 YFlHsAx1nzzWzWxaYJ5c0ZAx0VEDVHTt7AFEqjn2RDxqIgPfffaiY0xEIcVb+TADPGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792499627;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=jg+L8Blu5EuqH3+tb0kLb6K4c36LfIR58PtQ8yEr2DU=;
-	b=mkFkxuTeQcbz5BHkv8XKyl5SOhNr6A5K/Q1A/ISV45otuIAxx7bTwFCh0AVQ411qSTiK
-	 9d0YcsUVNlgRdvNku0LbKMha1Pqu0ekfqxHMV0RHXVyEKXae03MEEyUkuXOZ4J4izf+YF
-	 g/7HML6NMEHlghBwWJTPY2AdFDCRjAmpVVRvJykIrZLJ3+ZpVeJmJZ6doUNbuGbXi2WNQ
-	 rbJ9x+I/NLtbfSdzvd+iMCaT7o6kHhYZsR1nLeirFoNne66YgPodM6fVB9KTMluifTd14
-	 dm+ULuftfJFTzQYjUz7mB3GcyeB3iwkJi0iAY+PXzvVSwU9eDUxS3HMFNkhYG7PgQAw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792502432;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=HT30sp3tP45KqVAVlJk+Ve9kV8F+vAkrhPjIisPzUrM=;
+	b=moB5URsyHXYKcc6nBoYRcYs0kyZg5KLMjiXL/5ecAf7VOKcHphJ3hgvQPmJWP40y4bbM
+	 K3Bs7rZLA3PMxwCFcYLwvwwW+obZo0RyPp+6bNayrranHwojENQDQamcT0yQmPI17Vf98
+	 kM0JgTXWJf9j442m2GEgOjhezvUbXhW6zmFvxXB4u4a7ftZUXF/ez8iaS+QAHT2FN78oM
+	 HxYrR5Eh4VWTTZ/nD1iueyW2ZjFAyxutFvAPDVsUT0e+IPmHG4eK3gPi3UIB0Xz6RLzo4
+	 xeJa53mwkzLRAr9PdLx4Htp1ULiWG2WwUodPgh02dU6ViaaGDepux14hejXR30v957Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=j6qxaBgE;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=EjUqhy51;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE82606A31E
-	for <linux-staging@lists.linux.dev>; Tue, 20 Oct 2026 12:33:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BE82606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4CB606A328;
+	Tue, 20 Oct 2026 13:20:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=j6qxaBgE
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48c4d870d54so2117774f8f.2
-        for <linux-staging@lists.linux.dev>; Tue, 20 Oct 2026 05:33:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792499626; x=1793104426; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jg+L8Blu5EuqH3+tb0kLb6K4c36LfIR58PtQ8yEr2DU=;
-        b=j6qxaBgEUIDhezrjIhYW8tVCHOZK3d888PR+S/jhw3c9pqxfH4c62ZDx6r1ys+zSC6
-         Ag/CQhB9ag54zscovKC/t7z2dx36wz5i7npPdn3+sUjmjcGbLMSJN1iXUS3QG6MXYLq1
-         sUuwyE2jQLDb4SZtPVk5TipQElUhCYRNB18Y1h6R1V9cjYagmoyerVplewYVkKM5yrFm
-         i/th7w6PT4sf8eV4SP09deQoyddPqS3mFkyDAhlBynEkncm15/HK84SB8bLi7eE2TXpP
-         pV9cyG9+ZMP2x9PLe69sPPX3uVW6xo+xa1EZB2Q5M0F6o4JiL3ueoOwvITniZISJ4n1r
-         7xKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792499626; x=1793104426;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jg+L8Blu5EuqH3+tb0kLb6K4c36LfIR58PtQ8yEr2DU=;
-        b=A6u/cgBzedr1ZOUWGKhCjfXY1VWvfyNefOsQb/I2IGKCu/SZTJ/3XniOymbHgYmsES
-         FpNApyYRCXxfxNYjuR1oxi+UeFkC1ldolkP9gi5JGqtVh4wctEWNF8qFcda3wRK6UUcN
-         8t1cwY1elQITj0tD7dJUebuUL1APGDmVYlPYGPSP7tF2WIwM2dnscE95yW5F0uufo0BU
-         W3h2Fj/aswMomk7zHoJ9+Ql9ph1/inO6OeN9uPACagQtBWS7uqQR5cABKmDUaDzBU8tC
-         9yqawcF5ggxpFbOo9Omb2xF7culi9RG85vaIcLmOfCmNMFlSiSsUJV6MzjoFVVLuBwrf
-         4ZWg==
-X-Forwarded-Encrypted: i=1; AKwUvBzlpxv6UyDjOYC/8lF6d/psWloK9jg0nsGTddK10YLySLaI/FaoLDemI/Xrn+/BXgm44GPRuO1KkxVTLsi1@lists.linux.dev
-X-Gm-Message-State: AFq9FYIJzY9OEs/ChByXCcuBL4sOZOXwkyP6I5Jkb3eE2LLGqwyANfE3
-	DRtiN09zmskqJKDieXICrRhmfpp4sNRflg6f1rIOFun3RUeCENi1WZR6
-X-Gm-Gg: AYBFou22xmQyoZys9bz4tn8B9OtgFUSBUhnEIfVOrB1E0E0Hmqj5vDbEw1zywMj0Kvp
-	QONMf79/6CZ1Zp0XPctEQudO/pSPPaEmJmVFlFn+hKFBumnlXNqYv0iOJzZc1Z2SUA1twCTPA8I
-	llgYD/UGRCuUeqDupSd+6MzO8e28g4NTgtbBV6cLlhqKrgI04xsnhAhio/zbodcz3UYnHp9CoJ2
-	bOz9BdNdaxZ78C0AM/5bG6EoTzWQ/I2vbao/N5+TDuWObhaS8z+E8KFnDSLkoO7zkUPZwPX58M+
-	yT7iq31G6mMOYV8nx79PRhZQVn9wJ/GkPqJrATDxSaccZ5mI1XWIw6aa8ullwRVUNoHAu6lWQw2
-	WGbfDIE7wTPeYCNZCmOP62St5PzrYjYEcx7SN5t5vYGXiwvlZpGND0qVG14BiJwmBV2CsqNG4oZ
-	4hfh7WXKHLZLOScipv053yrGt9SN3LrmwaviZtnOoieVl8ho/Bv9/5Nnxr9uLjOV54RzLhysf98
-	sBHZiQN9ABcC7NYfa3nM9fx3qXWBaVByBcj
-X-Received: by 2002:a5d:60cc:0:b0:48d:f14a:9177 with SMTP id ffacd0b85a97d-48e07fb9180mr15932300f8f.56.1792499625481;
-        Tue, 20 Oct 2026 05:33:45 -0700 (PDT)
-Received: from Ubuntu-vm ([154.192.10.208])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d830e91sm5981575f8f.54.2026.10.20.05.33.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 05:33:44 -0700 (PDT)
-From: Haasham Khan <haasham93@gmail.com>
-To: pure.logic@nexus-software.ie,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Haasham Khan <haasham93@gmail.com>
-Subject: [PATCH 1/1] staging: greybus: remove unnecessary goto
-Date: Tue, 20 Oct 2026 12:33:10 +0000
-Message-ID: <20261020123310.5625-1-haasham93@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=EjUqhy51
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EF501F000C4;
+	Tue, 20 Oct 2026 13:20:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792502431;
+	bh=HT30sp3tP45KqVAVlJk+Ve9kV8F+vAkrhPjIisPzUrM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EjUqhy51xNeABJf1R7U9Ac48krDJHEDy/+YAaTlyqAb3xuauQmOyi79CT7piSP31D
+	 WTQD5d2k/0tJXxAk8rZEKgkhdldoZmQe6S2y7eI3gr1XoVO/RtInpxHPDBjwV79ZGQ
+	 /NJm50cCY7sB96mIZrVXkTBbgmsJAuNK1rp8uL9U=
+Date: Tue, 20 Oct 2026 15:20:27 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Haasham Khan <haasham93@gmail.com>
+Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] staging: greybus: remove unnecessary goto
+Message-ID: <2026102011-snap-unequal-51b0@gregkh>
+References: <20261020123310.5625-1-haasham93@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -98,28 +54,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261020123310.5625-1-haasham93@gmail.com>
 
-Signed-off-by: Haasham Khan <haasham93@gmail.com>
----
- drivers/staging/greybus/loopback.c | 4 ----
- 1 file changed, 4 deletions(-)
+On Tue, Oct 20, 2026 at 12:33:10PM +0000, Haasham Khan wrote:
+> Signed-off-by: Haasham Khan <haasham93@gmail.com>
+> ---
+>  drivers/staging/greybus/loopback.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+> index efc69c10cffe..284935fded12 100644
+> --- a/drivers/staging/greybus/loopback.c
+> +++ b/drivers/staging/greybus/loopback.c
+> @@ -609,10 +609,6 @@ static int gb_loopback_async_transfer(struct gb_loopback *gb, u32 len)
+>  					     request, len + sizeof(*request),
+>  					     len + response_len,
+>  					     gb_loopback_async_transfer_complete);
+> -	if (retval)
+> -		goto gb_error;
+> -
+> -gb_error:
+>  	kfree(request);
+>  	return retval;
+>  }
+> -- 
+> 2.53.0
+> 
 
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index efc69c10cffe..284935fded12 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -609,10 +609,6 @@ static int gb_loopback_async_transfer(struct gb_loopback *gb, u32 len)
- 					     request, len + sizeof(*request),
- 					     len + response_len,
- 					     gb_loopback_async_transfer_complete);
--	if (retval)
--		goto gb_error;
--
--gb_error:
- 	kfree(request);
- 	return retval;
- }
--- 
-2.53.0
+Hi,
 
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
