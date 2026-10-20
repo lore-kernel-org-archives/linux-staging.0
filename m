@@ -1,72 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.250.56.165
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792509200;
-	b=rIebdEhuqfxnWLLZKjJztDtLh+7TRxp0oyY1Ab76kRQJNZrVLpMXt6LpvojRMjuLeVWX
-	 MQbO+ZKK3RVM7Y+GDjqIyJjlHegEyIwbElDsBuHHAZWyGDc24q7QFkzln6ECShVcFLoJl
-	 yLkHIU5BRVWO8A3gSEa4B67yh8T2YJq42GAxRZc08L2QkvKcebAbDdxsSe2jVWbBawUra
-	 quuqK5dUo2UfmDSS2/EqWQk3bfkkVBgqAzfpnkXHAAAEYWlImTvP6kFYNaYR5X2Vav7wU
-	 h1OgoSD4DTED0OzUybmdlt3rD78GJ6QZZkrIteK+Yl5ZSlHjjX/vuUCmFwHJw4gjgJw==
+	t=1792510915;
+	b=hWVtFCMV3hjJHrVA3NX6wIYb9ICBJGKke/szdzusblSLUwuv+jFq08ZqXsKT6c4E0ozs
+	 XdDZJIVcSr0cUqcwPIOaC1XWrvb8gZo1QiHDVeFSDPVyEG1tZf0O4LVALXVXEzMWnQJ+9
+	 2Ds5M2HK7iSo4yaMl4WdN2DP7/x4eC7HnTBoHjfkykAEskAqFD+pLKhZOj9YAIgS29Kh0
+	 rQ61TTc3aVQLRwtqkc0oy4bvYXcomKZ7TZW5KnNpw+ailb+YYJ99+6KFewECwKag7kdVq
+	 zVi1PCwvdhCq10zRqax78IdRp8W/zurZtWCFiOFOiSucJlv1nl7rfOCMLi0xDwP5TcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792509200;
-	h=DMARC-Filter:Received:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792510915;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=H2h3v76gfHtVHikUOLXmKivfl8RgxeQZwE9oswtNVR0=;
-	b=SonD9aYv64tif31pYFeTMtzUBf+8NFk5UuiM/7z12tvRPwmwTvYd22WobapD7paJgapl
-	 az41UMmDi1IgslHvsx+YrQBbkWuTEXQWarDPzOlhHvci2KRNdJnS3aYab7O99N0flLYTJ
-	 jEHdd3nHfrmS7hhmUPJi2LVfPz0jmDKtKsk9YyTmg9HzjCPst4d04QIcb/hQzn5Mq40cv
-	 sA9gpR3J8k5DgCXJy2vSvKxf/uSwSmTrdylMgVwCz+LJB2M2aDYJIVyx64M3rH592IRqz
-	 gCtWCgxyZGW3NrjF19aV99oyMSM7j8/JcGOAkTovG+TKh8/9ftu5PY4H10D3kQp2R5g==
+	bh=OBYiHwgIBS5v/Omj8VoRqqRhhqFMxkEFOvedrOWQXyc=;
+	b=0B9gcf70cIUj9PtvfYv6MpsHjlrW3+riNmk8xEbgp0g8wV0J2c9UcPtYVF/coL4ORBVP
+	 Ksn2jjSjSutuODQMebWxyTIci0FLpVdLGrzja7CJb1BBxmDolJTDUdCJtjPlRRSPEPJPi
+	 eXiMTnPr3wnoHOM8TLLdxqlahnwos2JC37T1zzudpIsB9LcQ41lnL8AUO5ZXhyZBMuA0g
+	 jXP8Hs0GoYZD8za3kwI5LIZz34JMRGdg50NEdHXY476aQ/+46bLsoD29ZJ514Y15BKT9J
+	 5mPdUyaLjQ47jGUCkVafPVECWQd6rhCzZzfXR5JERgfBokjmWeRcgXFEleGZMc80W7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideco.ru;
-	spf=pass smtp.mailfrom=ideco.ru;
-	dkim=pass header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=RQX8OWOy;
-	arc=none smtp.remote-ip=51.250.56.165
-Received: from smtp.ideco.ru (smtp.ideco.ru [51.250.56.165])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Ov7ayh0V;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037C260A2605
-	for <linux-staging@lists.linux.dev>; Tue, 20 Oct 2026 15:13:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 037C260A2605
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideco.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideco.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12612606A324
+	for <linux-staging@lists.linux.dev>; Tue, 20 Oct 2026 15:41:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12612606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=RQX8OWOy
-Received: from [169.254.254.254] (localhost [127.0.0.1])
-	by smtp.ideco.ru (Postfix) with ESMTP id 680542031C0A;
-	Tue, 20 Oct 2026 20:13:10 +0500 (+05)
-Received: from laptop-ak (unknown [5.189.116.195])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.ideco.ru (Postfix) with ESMTPSA id EDECF203157F;
-	Tue, 20 Oct 2026 20:13:04 +0500 (+05)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.ideco.ru EDECF203157F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ideco.ru; s=ics;
-	t=1792509189; bh=H2h3v76gfHtVHikUOLXmKivfl8RgxeQZwE9oswtNVR0=;
-	h=From:To:Cc:Subject:Date;
-	b=RQX8OWOyxWLmonu5khKxQSQZ+jAWUJ2qGVYzhGH85gCU/ShSpDEaJda1TtTxcNa38
-	 MVZFTOUWocZudu7fT17eJANgMdWQb3v1+8zg6yHodm7J3RHN+wjYMz4IK+cMbXi1PZ
-	 gQgxkKo7p8KvgVWSijjKEA3b/GZEyHrbikrWb/9L+a+VapKk8Go7/1z7e0ThBTLqx9
-	 RKTbWiCKnRLduzf8A8peTUwICuZA93ccVWAWMy+FRZ1SaLm+M/l5hjdf1OF+l5atan
-	 m/QDtJkuL5Q+jDcKcQPJ8/Svnotavt/UXHODofZY21rfohQ5yWz1U30k1KvjZyfCr2
-	 5f/WLwNtpyMTw==
-From: Andrey Karelin <a.karelin@ideco.ru>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Andrey Karelin <a.karelin@ideco.ru>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH] media: atomisp: check load_copy_binary() result in load_advanced_binaries()
-Date: Tue, 20 Oct 2026 20:12:43 +0500
-Message-ID: <20261020151247.441124-1-a.karelin@ideco.ru>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Ov7ayh0V
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e00eee27dso2020062f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 20 Oct 2026 08:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792510913; x=1793115713; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OBYiHwgIBS5v/Omj8VoRqqRhhqFMxkEFOvedrOWQXyc=;
+        b=Ov7ayh0VRfZAU2w8fReeQfe62ydERGGItGolAkI8IllMwG3+9m5Y2q3YE6rSC/3l/T
+         OrXhoMEQ2GKVB4Q4WjqhvDd3Vt4ZCBVvmoZXFAvm6l1pZplzLPVQa4LyAD/GGGEZ7HpA
+         Q3tFcrkOvZ0r75XGCdWHRbw2oCC+zjqzwXi99FIzvUJwV+BNdsV8SuvdVrSKkxp4lnbh
+         lwACTTQjk5Tggi5Y7HIJCAbzxOUV3XkRRHcPahVsJasZz9SfRpO0TEF1V8lsGlBqfkCQ
+         S1RDGxPA/+45CY5TbjvCg4YHornj4Yww+nhmXC5ixna1aEleCWWr5eY5z1iDKTn4y84D
+         Kg2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792510913; x=1793115713;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OBYiHwgIBS5v/Omj8VoRqqRhhqFMxkEFOvedrOWQXyc=;
+        b=oRTIEN+coYlMPlB6Y5XF46zpWIE5jisXvd+zKuEVl/QfqRnxm29eT/gK9bYLFVkJXC
+         EkcLz4GK/DMrCe7XxaeJjpmAOFJB8BXfPWbWyk4tMancHmDUYC+NrvwjpK1kvgp22aWq
+         7yhZtddYUkazvmlCAIBwvSJtwudeWompyV9+uHc0yNe1lmTYJzXCbuGp1KsYzFuaroAX
+         I8vOyktnjTlQ0p/W31H3EmDYHbOP9Rze9gSU6FAkTfIZGvTwPUZZcYG9tTT8pEDnzipN
+         XLPPEb6NR7nVSGt5jZeiX4agjGqLOHhww5DdopkphWPXumwuazvD/A5A9qDmsVFRqzIn
+         +Yrw==
+X-Forwarded-Encrypted: i=1; AKwUvBwP4mKFTBbtIHTp4gjVIrZm95XHHBDMRuALwycsK3E+VottnxoX/jj/oYAdTxPQU8eTY7Twpn0o/0D1cB8D@lists.linux.dev
+X-Gm-Message-State: AFq9FYJEQNSl+UIpeI3T52vVVgR5jSnzfi2loLYdp1/+kCcWygsWkTDH
+	XX5Ci0/kgoTkNuCEJ4+03h35T+oQdUzkwsyrY9YILz12+EAO6x0yVzRW
+X-Gm-Gg: AYBFou3y7U1WMPR8qrAwkr1fyJ/YXLAgAb52YT9SIUCQCFfYPw45l2VgVhqL1sjBLHV
+	iKFxfr5KPnQWCFnSCRBeC8OL3suTG8a8SybWsIdrNlS+OkqG4MFEmzigRm7XhTTFF7QgbhUDMiR
+	xbXRRGcX3ujHZiPh4UAIxMY4vNT36E3ZQQu46pn9GvfNN14ZJMphdO3gzcIMyb0DtNPo9LXocpc
+	mdQtIapbdlsOZQsoQsIQfcCV4LLpdvRCHnN7sst4yufrZ+DjP+WVSZWSzk4PSqcDYyi3KbSC+on
+	SNWDy9wlPj9e5/wcFlUGUSoRJDaFpoFjNT6qHIfRblY7Mug1aqdgOJEB/IimGy4KD2C2w0SFeWl
+	LJDdvR56LsnZQYohRK2o6LmTi9rDdaU8p2F1y3pX+G2WNdgqGjcTmRkCpJCweXJvTeBCm/Bipus
+	5E7DvJxF5A3BEcpgVCaBF4RVWyuLEA52G3KAhVBeFG7sPB0gHUt1jS+aTJJ64J9tiCIRPsfPUIK
+	doJQl7W666kwYY0sVUlv7m9AAENLWBjwXbtL3Q=
+X-Received: by 2002:a05:6000:46dc:b0:48d:ee59:3a30 with SMTP id ffacd0b85a97d-48e07f9d2damr16530082f8f.22.1792510913111;
+        Tue, 20 Oct 2026 08:41:53 -0700 (PDT)
+Received: from [10.5.0.2] ([187.14.227.39])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d80fdbbsm7488238f8f.17.2026.10.20.08.41.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Oct 2026 08:41:52 -0700 (PDT)
+Message-ID: <f8b282fc-34b5-4ffe-806a-fcf525012064@gmail.com>
+Date: Tue, 20 Oct 2026 09:41:48 -0600
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -76,45 +91,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] staging: greybus: remove unnecessary goto
+To: Haasham Khan <haasham93@gmail.com>, pure.logic@nexus-software.ie,
+ johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+References: <20261020131913.5171-1-haasham93@gmail.com>
+Content-Language: en-US
+From: Jeremy Dean Clifton <gservice341@gmail.com>
+In-Reply-To: <20261020131913.5171-1-haasham93@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-load_advanced_binaries() ignores the return value of load_copy_binary(),
-unlike all other callers of this function. If no suitable ISP copy
-binary is found, the error is lost, the copy binary stays unloaded and
-the capture pipeline is created without the copy stage although it is
-required (always on ISP2400, for direct sensor input on ISP2401).
+On 10/20/26 7:19 AM, Haasham Khan wrote:
+> Signed-off-by: Haasham Khan<haasham93@gmail.com>
+> ---
+>   drivers/staging/greybus/loopback.c | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+> index efc69c10cffe..284935fded12 100644
+> --- a/drivers/staging/greybus/loopback.c
+> +++ b/drivers/staging/greybus/loopback.c
+> @@ -609,10 +609,6 @@ static int gb_loopback_async_transfer(struct gb_loopback *gb, u32 len)
+>   					     request, len + sizeof(*request),
+>   					     len + response_len,
+>   					     gb_loopback_async_transfer_complete);
+> -	if (retval)
+> -		goto gb_error;
+> -
+> -gb_error:
+>   	kfree(request);
+>   	return retval;
+>   }
+> -- 2.53.0
 
-Propagate the error to the caller as the other binary loading steps in
-this function already do.
+A few things here:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+You don't have a commit message explaining anything. You need something 
+there explaining what your changing and why.
 
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Andrey Karelin <a.karelin@ideco.ru>
----
- drivers/staging/media/atomisp/pci/sh_css.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Also, it looks like you're starting a series ("1/1"). That is not needed.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 4a182dc384ca..3f3671ceca59 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -5459,9 +5459,9 @@ static int load_advanced_binaries(struct ia_css_pipe *pipe)
- 		need_isp_copy = pipe->stream->config.mode == IA_CSS_INPUT_MODE_SENSOR;
- 
- 	if (need_isp_copy)
--		load_copy_binary(pipe,
--				 &pipe->pipe_settings.capture.copy_binary,
--				 &pipe->pipe_settings.capture.pre_isp_binary);
-+		err = load_copy_binary(pipe,
-+				       &pipe->pipe_settings.capture.copy_binary,
-+				       &pipe->pipe_settings.capture.pre_isp_binary);
- 
- 	return err;
- }
+I'm not sure the why you have a series here, but the big thing missing 
+here is your commit message.
 
-base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
--- 
-2.56.0
-
-
+Jeremy Dean Clifton
