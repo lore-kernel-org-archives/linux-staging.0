@@ -1,75 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.252
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.58.216
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792553182;
-	b=Gjv8TohdF99P9iePE/V37OhbS3t/6D5wHS4XKghyi/n92Ed0LSIAP6QKYUOHdOn1+w4q
-	 E7I5BthtJ7XkCJiV2uODuxmzYYb10uv2XFF9Lt5XacCbY+y3YuWuIl2gENfMIQKfvGXlJ
-	 FdBpVndd4xgZPonN9+oEmDrIvxJBT3/yvkS3uxG5Td6Mb0mOgGu28l4f2AGVvFONkur8/
-	 WxZD81SkLwgdcB6EeDv49/49dne5ro7ggUw1J9cwG+sH4pve8OtDslx1fXD2G9oBsk1r9
-	 grJDkhy4ccHguJThPJt/IG/ahi4XoxNXQZSpRv06XNwqcyD6bhcnNIRqsamHXPRP7fw==
+	t=1792553707;
+	b=exOtpJMDJRxsD4+irlH8qlBj9ydYuS+nNjbqnRbhNmDHFGHmuQvQfhxHtg+Idpxv1NG6
+	 YkdstkzD0DIjLsFLLgLDg8JIY1FziLP+3vmNFdN08XuJ+OfYJW5uTqpBRL3K2/A+IURt7
+	 BaTsMesII9TtkZVvv3jKQferthci+rVUeU6diiCH6AxBTKLSleCwazC0GFEHFQmDgJMr1
+	 IshK2INejOGzRYkoTp3HE66YRT+BPfZvSrXJIcZ6ZvcWba0OAypOxU72yD5LjYnjx5J5e
+	 fcShWci86SMlRNS3Xu7g0++Clce15uPI455YDEwJk5xyI3Hlwd8U6reE3UbR2OOn53g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792553182;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792553707;
 	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
 	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
 	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=G+Ehm9l8Xv95Bx6oKmHAdogDlKOh7ugIKpG8hkUh+Qg=;
-	b=1iIxYfpjlm6yuA0ouVjusyzyx8g9nhuVQEkRHPLlhnZiKx/PL5rwiA7RC38LFebz/Dns
-	 inNzAfOBi1sn9xZ02c2jpZzHBAr7fOvyC+J0gOial7C1iZdJQNwu5mfpcZSXRXjazG6n6
-	 e5wY57UVve1ReSDksJpZ9TsF8NAUEmMPTfjq+HfyZPejxiqrqC+0hrbDYk3SHWaeAibbE
-	 viRsOdE8tEuNMsHVb8wJAF5+SH/QYaocy8Bpo+RL7kjCPp/DeMU6LJP3/De2xPqVxgx4s
-	 mtnoWDA4XWWp4l840WAYJ4i/07Z4TXlY2yYb1KALa5v4Tuz2tqmM7ld9I9UExU//2ng==
+	bh=E1DNLfQwy0cDFHoOZobs3LOUZcf0v3kN59C4dk7YFoc=;
+	b=hLjWB2T48dkq0q4y8GPiiwzdXYt+P87C4J7m49ALHbRJIlf9szcgi93ixCEpOc7ihvns
+	 3jFfvjRe05rjH5KxtrgEFxnxph01nHbfknk6lxtO8CLd0iYFyewxIAPuOqr4Z3dMuzeE/
+	 0+HL77xwkmJYGMfQkgddyoNLMrLSSjDI5dhbY92/gPBZhGPAJpoB0t6fXJssFKi2MoTs4
+	 U04o9Kfu3ioaRReYZmlXFBUI+ajyZr8GIdaLvGGF1BKC4Rr9nKhN5+AydWjIlfZIUEWeI
+	 9kzdot3HlaQhRWjMyxsWsZ9zyM2Wba6kBpqJ1x6l4Tq/vxKbXKenDf/wSJLXo5uWStg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=qq.com;
 	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b="X+gN1MV/";
-	arc=none smtp.remote-ip=162.62.57.252
-Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b="IJkQ/lkf";
+	arc=none smtp.remote-ip=162.62.58.216
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A183D606E847
-	for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 03:26:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A183D606E847
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B84D606A31C
+	for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 03:35:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B84D606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=X+gN1MV/
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=IJkQ/lkf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792553176; bh=G+Ehm9l8Xv95Bx6oKmHAdogDlKOh7ugIKpG8hkUh+Qg=;
+	t=1792553701; bh=E1DNLfQwy0cDFHoOZobs3LOUZcf0v3kN59C4dk7YFoc=;
 	h=From:To:Cc:Subject:Date;
-	b=X+gN1MV/62tdQSIKs5RCr+dGrVb3dKBUUwzcOI7ZNWR0srYEDNTPBNiQWlelf2d1Q
-	 cXD8K4ENETT/Wq01CkmqWvfWRCy+IJto8FIlvwqQRxZSeiDxX705dxzi12UD+e0KmX
-	 VY0UBYWmHLv9OCGlZg2Wxf12Dgrt3lU/gRRqn87c=
-Received: from Liujunyuan.. ([218.106.117.235])
-	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
-	id 68994661; Wed, 21 Oct 2026 11:26:09 +0800
-X-QQ-mid: xmsmtpt1792553169tykol0mr5
-Message-ID: <tencent_FFC8FA1142CEF600BDEBE1EDF4EC27C39005@qq.com>
-X-QQ-XMAILINFO: OVFdYp27KdlJ9jpRfuEWKcN4czwvt/COfC8g6UlvEKtVZGfio2W3eSYLdQ3Tey
-	 7eZgUuFSxQFyO0YtRWNaRFpGuyTjn7Z28BQ8Ot6nxwuWp1mtWSlS0MM75YoungkdChUSqXZvt5WD
-	 UuBsXAQbebrZW5ubeFUfcFIaQGTjf9HUBQI6d9O44Ae+BaSnNXsmuX2ccwrBvWntQrNljnexPucH
-	 +sxMbPDou9fstgEPiStjVR+6hIsarEP9ytp8MRZnPYMSMCJJK+zHgBzIx3fo5z6ByTO/Kx7JrA9r
-	 tZi70WkGWP/q/wXM3OslVFY5c9hXRxgl/NogrjsRGO4AtmhQu4teoY3QQWSUnqUqfBQaByUsDOnf
-	 mwFw2zLAh3SwuBGpz4tTkKvZVgMFcrC2znmHNqpVgJA4xMCaaXGLexavxDhKV/AsFwV6SkJLaCYc
-	 QDl2IxCPMp0HnRt/t7oHjwbVZJO2RISYJzIUSH3T4UwBy2DoRW1ReSVra1cI6Njh+8W1F1X4Wa1Z
-	 p7jVYv02yUnQoDIg71PWBgSvj3JOKjqGtMKvDdMXPnfwFR4EMwIXaLaYYGN4ul1X0SmKllkLu+BX
-	 DSaGhodP43SH7hhJWakIvISpv5WMMye5fHOBKKA76+aDGA9uuRtvnrJbQwvIcvFq+6dDx9TNkxAe
-	 aWvdVyojZRI/FCtgtL9ueI+ZKMX1eOKJ6O763LA4BW/YgFeMalG9uPgc1Z9+V8OhbDoaKtw5Dbwe
-	 Ub/5AKiYonVw4CpRYUIRJ7EXMyLK89PqBwJcgcZZLdB8Tug130nWUq5Eihc33xPERXjGCsGcSmEm
-	 uzJ9JwUIwOVOWQ+vovL50Neio/lssWy2NeAgznIPSaXwzRIZtGVmCbTs+jysGcDh7SdHflBHGRJL
-	 1oHVBJfoHTC1MbJIAhz/y0//VBDYYgVYuOYAFBcb0KmIrrkgmESqv+WenHsyIJOVGkpcH9/OckWw
-	 yvzCORre0xWewHkuOyOWq+m7CKaRF1W9i2sUrDSiOgjbUVp79v82hD/6bC01QMQYzDGDYjNgi4lv
-	 biPnp9ukldQhrdlHPZ0aVCkzinkr6nlL5U30Qh57E1dW4PTgru
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+	b=IJkQ/lkf7patQJ5PVoaGXx9s2g2pBXaRqNbK5qQCBdJ9vb9YDd3CKCHt8q07JP7g6
+	 NyFYMBGUVyiISKJ3A+dJoVjVYxOZdd0v8/ma18zXDzrN2ggS21WzV0Ezq+vv8zdA7t
+	 pD/XLj/vlt0UG4Ins8S0cSb/s5ucmrnMA9Q6UTdQ=
+Received: from Liujunyuan.. ([58.19.27.181])
+	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
+	id 849A0A09; Wed, 21 Oct 2026 11:33:09 +0800
+X-QQ-mid: xmsmtpt1792553589tkvi6ks7p
+Message-ID: <tencent_8D0F8B2180750F84AF2D147AC203FEA9F406@qq.com>
+X-QQ-XMAILINFO: MRMtjO3A6C9XMVxXvcIPYs5ML3PhM7pE6Ezlq/N7hbcZlBNIasXX4c3yaDeL2D
+	 Y+LExGMQuPdbw2Nv0d02aYWFnRwQD1qXYuTel2L1N7F/lkCejpvNgx5Daeiok39/y7i08lFC3enL
+	 jRy5lyT0cVyuBxihz1MuAYbWeP5t4DAm52ZpWzkhoqHjTiov6rZGclOKXGJarbteJutvsWZdiao9
+	 tTbB6wn+k+6x7muJnCSUbDgPAYliO+O0cPZo0G8X7xy7p4EpRAw/M6kgIOLgZT7fuhMHhB3lot6L
+	 9Hg/EGoBIoOoM/rcm759HGZShOLlXpifuRY6ifUv+5zYCM37K8Q/EcrlFqoC5Kq0m8yXK6E3Qbzv
+	 PjQglDqL8QCAQk6duawoaKPdUupaBFGt0Z/ambB2CMuu5fzdo11CqC7qSceXfCxIr4SLSZvGyXTc
+	 NmhTURqtTSvMeAlSdYQkI122+KTnbfyg7D6VFzCb7ZISqzcFQ6YtHbLXC58FVHV4vyO8IGrXGdB7
+	 M8i1rWR151cdjtLG8pbNskmikhk/M/w1ldGkKGwJduo8E82YRq2Z6nW6zHXqGrp0/cPE+ji5ZEXf
+	 UNzq+D7cu2rMrvtiqnoNHbsAEtWZTRqU+IROUIwH9u1GbEpDs31IMQ9IysxL14qiglMfhCYr8BNf
+	 CF5r1XxJtuylOG4ktXRzhGNx0WZuCFbMMfwTYhlWLrj0uTPRGDq5VKdXglCbJALn/60EKu2liPE0
+	 dTqc7kCjRsr4ovuUYNbgJ66yftwpDFR/3QL6tCKYphHzDKc9UHeUqWSc7qyEKZX+t/oA1hIOrGVz
+	 yzMl1zoAYN32OMBeYFsZopbZ7296HG5WLINZ95vQJukSJJEVwRlm2zJRwUvPx97dogccPr1xIvia
+	 TmV9dto8+kheP9IzRgnFSGQVGXRJNQ6an7xTvfSCz+YFyn62uWuoKNtVsGQbn+ALDRyU45P6wkpJ
+	 tJYCgM9vwW65jvV5JbjJJ0ktHvMLKpA7Ghzbnu+PoqtpBnOC/+jS81tWdk/fn+96wZxpF1056aYx
+	 skbsh9gzRY05SWt3VGESuoaoP1K/o=
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
 From: LiuJunyuan <2058432396@qq.com>
-To: andy@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	LiuJunyuan <2058432396@qq.com>
-Subject: [PATCH] staging: fbtft: use scnprintf for fixed-size text buffers
-Date: Wed, 21 Oct 2026 11:22:08 +0800
-X-OQ-MSGID: <20261021032208.12827-1-2058432396@qq.com>
+Subject: [PATCH] staging: axis-fifo: fix tx_fifo_depth underflow in write
+Date: Wed, 21 Oct 2026 11:29:08 +0800
+X-OQ-MSGID: <20261021032908.13693-1-2058432396@qq.com>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,34 +79,28 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace sprintf() with scnprintf() when formatting the framebuffer
-description strings into fixed-size buffers.
+Check fifo->tx_fifo_depth before subtracting four words to avoid an
+unsigned underflow when the device tree provides an invalid depth.
 
 Signed-off-by: LiuJunyuan <2058432396@qq.com>
 ---
- drivers/staging/fbtft/fbtft-core.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 7925d974de80..f7751b972a52 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -785,10 +785,12 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
- 	fbtft_sysfs_init(par);
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 7bb35e11d1dd..178514a71734 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -228,7 +228,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 	 * raised, which requires a reset of the TX circuit to recover.
+ 	 */
+ 	if (!words_to_write || (len % sizeof(u32)) ||
+-	    (words_to_write > (fifo->tx_fifo_depth - 4)))
++	    (fifo->tx_fifo_depth <= 4) ||
++	    (words_to_write > fifo->tx_fifo_depth - 4))
+ 		return -EINVAL;
  
- 	if (par->txbuf.buf && par->txbuf.len >= 1024)
--		sprintf(text1, ", %zu KiB buffer memory", par->txbuf.len >> 10);
-+		scnprintf(text1, sizeof(text1), ", %zu KiB buffer memory",
-+			  par->txbuf.len >> 10);
- 	if (spi)
--		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
--			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
-+		scnprintf(text2, sizeof(text2), ", spi%d.%d at %d MHz",
-+			  spi->controller->bus_num, spi_get_chipselect(spi, 0),
-+			  spi->max_speed_hz / 1000000);
- 	fb_dbg(fb_info,
- 	       "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
- 	       fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+ 	if (f->f_flags & O_NONBLOCK) {
 -- 
 2.43.0
 
