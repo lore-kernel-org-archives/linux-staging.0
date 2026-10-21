@@ -1,88 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792615613;
-	b=vEJji0Z68V5R4ZINRONtV5Y5XEhsb4UW2SXVeKM3w0E+SH9hEpCeiWxO/cA/AzIVjbK7
-	 UJpbHjt0uretiB0qdC8z0enloHZDai0KzFCa6u383B90QpbSXy+jhbqfWfQ+7PytE1Okw
-	 66LEhNhRoZqsXQU9hrr8Ce8C0Ob9NLE8Dds+KOWe+CPOAx4nt/FyIpNmi101lhKBSbzEu
-	 baG7L8MJc+ikJ2B035xb/EkBHxivDTLNeHPyQzhl878EPx8KHPMeHR8olDkaau2lFcNhU
-	 Tjbx0mIvwCeDanpz9n+go/WdpaP2dqqgh+r99DAusiKnT042vW6C2se5pPUaQVr+Xpw==
+	t=1792626015;
+	b=WlwYqWgeZVaPfwfUoi19ydudlSUCPZFYOUYjQSXB5WvyMxWi16m//wwrh6KPKihD65V5
+	 3dc/rLIZw6f/rHCLTeZf3nxtzVPfAfXYooREOZ7NdrAsIO9J491R8x14cM8dkFmXjTZtM
+	 KjgLQNirBcEKW0n/IHVBfPBSOIXcht61JinamozzKrLdlNgo8DAZGqi6bqaBKt9Ut3IC1
+	 TUlK80hyk6MW+C3s4WaUEcdDfyQJDOrEvHlZSoxSb5buRVgNZlILtUZb3SddstALv9Tht
+	 tx6ri8S0rvUBwEPKaKK5Y7P8je7ulFYkCXAC2hZah7LwNsECdc+5cQY9uEn7xVzQDHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792615613;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792626015;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=Rbjtzs9OvRd9HXNbE5Zvedk5qsEPAbwIpjYzhOy+A7c=;
-	b=T7N3+BlV83v+ZhqrrFYBxOhWZqb/u4KHC4hQY8gIYVwZ7X6PSUi73Yb4eyH1DP476BiX
-	 +UtrHsPrNyFZhLZ01PpN95jJZa5y+iRazREhBof7/QCqhVqG4Y71G9osm7lj7D3zxZhOq
-	 I2goP0Ib+NJf91eCqM0A+3aFRqoecj+/jtRqmncxoHJ1ihlNWFv2QLTWs4YeIIMQEeLII
-	 9i+tZW2SDTb6lvzlJAFvh/I5aFh8cq206yR5RHT8hlL7MENH1Rx+JDX+N4QjNdh1+zPj0
-	 eIqbWW+EKeEauXfQzev5rvbQEv3EYsE9SeLGZd5qXI3Ue1kpqHtFj3NdO6Z2FnAe0nA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=1C2y4om8UpFxtjwdgCkugcPQMS+rCYwcCuBwVT+Sbvo=;
+	b=gphlsYlSU8xjWBtn88T8YaAfd0+vmj3AHQl5jY2l7HvVFb0otiadiQ8yqMkXiWTdE5EX
+	 BzMB3+iqWs6jfK7mFrev8JfqSfVnxyl/ne9zb8xgwyKoZYqqCEFcRa/gU2ZjW+ecUUkAc
+	 cJlxjDbtL4ODAKzQTt5g9kqSU9pSbk5CV/Lm5LuXV5O0zm6KwvOugLd1I6LtkGLEuYJ7z
+	 uuc/nE/jkjbVh5s2djgt1zZD+bJwBqmDZU9yZUIBD9G+B/gpkpj/86q+n8IER33/KGW3F
+	 FARELgCCcsTPI3S5XYoUtZ03DREp41XCyfqzgF3gXqwFtqLZMREnR4mdfpnzayxpkLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FDtwFAWa;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BsJ6Jbir;
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08019606A31A
-	for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 20:46:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08019606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A68606A320
+	for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 23:40:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08A68606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FDtwFAWa
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48e00eee27dso901073f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 13:46:52 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BsJ6Jbir
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48e1d0e5dafso245573f8f.1
+        for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 16:40:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792615611; x=1793220411; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792626013; x=1793230813; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Rbjtzs9OvRd9HXNbE5Zvedk5qsEPAbwIpjYzhOy+A7c=;
-        b=FDtwFAWaMcv5EPSnepPINhfKbM2gFZOH0VKzrE45el5KeQsEGaRTkylPDEReuCyKhk
-         P/HCwTVQAmXi19t+iAHcCQP8bPj6bhKd+LS073Ogr2BCMSlAduiLmkOb9Kr3TY/GFilj
-         mL/DXWouU7w7QMi6IgTKvN6OYprouZGlHegGlA8UPLucFubvAQQIzt132B1K86bnKCw1
-         9JqgzDnaN5NAYkklWSbn1S413Wyyqo23Bg1hdCyNSL2FPZq/5EOvn4eNQ8Ks4zxeY4ST
-         +Db2Je2PHkaGooorNy+EGaHsQONTuQuhJp1nOnxT38n/NSMg9rIQB+SHTkeNXgHzSdbl
-         Ra4A==
+        bh=1C2y4om8UpFxtjwdgCkugcPQMS+rCYwcCuBwVT+Sbvo=;
+        b=BsJ6JbirjzizYSK/9jM9q5nJDQMSu97/9xZyJGuiCktxvJesE5H2/Pu+ZT26v+o59Z
+         1Z+c/cvsxtBiEHshayHEnFtva10uFiBBbKnOGa4geGH142EklutAntehHONRNXuQkAUN
+         Vpvq2TCnUBsWdWd2NDXS1Od1ug0g22oEuUkUrcvC8btAMnAzPMk220bYKaEZTvGQMk3g
+         rU/Z5Dmp19jLZM5p2TmB34BqD8xqmj3Ygm5bFpkkNAHtiZK+og/UX9apUHk/cXvWF8No
+         P8IB5OuRss0N0qFbcECvliRltjOoXgCgw4h6n8jjS5KhdH6BNC/E1td6OLv4adlo6plc
+         aJsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792615611; x=1793220411;
+        d=1e100.net; s=20260707; t=1792626013; x=1793230813;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Rbjtzs9OvRd9HXNbE5Zvedk5qsEPAbwIpjYzhOy+A7c=;
-        b=Zkz+7ZCYwixP4bHRloq/yTxhtUSs+mwTMl7VLGnfyKNz4i8gJbCw9iFB3Qedqyo/Fy
-         HVG7j93fa9we5eB0u+l/9afURrYlNvmOxEZl2C+jgoJ/NgMFNOQ3FNDh8qatbVBH6beJ
-         f/UJemRGna1aZnrFeJUz4GfE80dtT756a9R5r3vj3pM0vIvYBHhtY7Z5H3+QlB819G3/
-         lOANeY0Qg0NiKnSqCqriN96KIq1pCWJp3uu9KAWF9xiPzBfog41//PgVeeXTIRXlIqE6
-         M8zMgs+Q8DxLmrV2S+V+MVM6lql35dCjdvgNyWwqAW2s/EzqxmSaNDnZwWWNPK1va7Pv
-         uzHQ==
-X-Gm-Message-State: AFq9FYJ1oqSERrQTj/0fgE3BelF20jvyP86uBor+Y3GIdV/QA9zv0Sgu
-	L1NgLJ7TqvSX2qudBpgXGkE4h21bsRzV14dsLWhX6cNlkR0mIQuQsPvJ
-X-Gm-Gg: AYBFou1KNiAOhg9HP3wNydz/E2OlrGKJj9qJB9BVbSUjw/sRTVs0tcaDHoi4Q7kW+m7
-	4avFRpPX/hbItdyh3nlrteMunXlaXw2HovImRJur6ASrm1zucAba40R9ueD6e4LEziQu+fMGTba
-	ICqp2MFpphpWk8Cvew1HYp0+6eG3+XOC57SiR0Ki0pb7IXLbMakcAQQ5RxdffqCbBbDHTVnWBQd
-	XOZgfjtKk9Pi301Qjbq75IzBSkLtfcbhSeL9NjdIUvj+ERpkooQvbBqW2gkBaFEYmUQ1PgqAPrS
-	Qln6vZSDUngk7Vi5T6LjptHy2dce15Av3IIDtpd90hdpcYoPdtd8YQ3g3NC3KYS/dPx+l1DLFto
-	/E8fnIoQvuhM7IdvD+tuqj8EOXfxKdsWCzAA+0uHQ6Y5bZnQpZTOwfE+3DSeIZg6p/IoSxvcA9c
-	E+UJr8IMdyl9Z2zXqOvlMiAnBe8LjAWyf1tFfeMabGeXkuJyWF2dT8lHfMOZ9xcKZ2kKA7v3JDi
-	jKbVJRAt9qsxMiUn//pBSci4J3dx7YMRlvPYhQINN5RlQSHCDRzxX/rOqPP6XSxxfUp2uoyUMSg
-	w2SMIM3rAaBHd5oTE9x5d8tPTRR957K41AOUkk7exgOueg==
-X-Received: by 2002:a05:6000:2d06:b0:48d:ff0d:cfa5 with SMTP id ffacd0b85a97d-48e264e1407mr4953487f8f.47.1792615611105;
-        Wed, 21 Oct 2026 13:46:51 -0700 (PDT)
-Received: from localhost.localdomain ([2001:4bc9:b029:b141:6192:5529:fb1b:7124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e25835b1dsm8623779f8f.40.2026.10.21.13.46.49
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 21 Oct 2026 13:46:50 -0700 (PDT)
-From: Yaroslav Shevchenko <yros22776@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
+        bh=1C2y4om8UpFxtjwdgCkugcPQMS+rCYwcCuBwVT+Sbvo=;
+        b=FNQxwzNZVe2ym6sswXJ1F2a3gEc+0hgRVquGE0KF4WTeJmTClqAd8NWuW3rrt9LHnh
+         taKlBKeixJ6Lb2gtJERuA9WyWH1mBvK2VV1YnV3DeYsz7EnwXDxVny2FcTtnThXZRMbY
+         tQuCyox/yjpjJZReACYXTbA0lEeeJNEpqGgp0s0nzdt9YsEO1LoYZrN0jIPaMfpdasiF
+         yblA/5qB+tYyvyy/DDu/MBBDpltQOXNHFSFnW/VTldQns3X1SKJE1Rl9GODw6PS5scEX
+         II+4adfdrUCJ0un4a9ao2+p56JBQeanV/IASjxmG9ts170WlmYqg+aiy7eMZSZlj5kpL
+         ueMg==
+X-Forwarded-Encrypted: i=1; AKwUvBz1Zno6J24KOh2d56/YB/gtzPlgo8Pu1apRLXto+WJtzELIV0P0NXx35dOZ0CvnnzmKE+K3S1LVgyPBGeg1@lists.linux.dev
+X-Gm-Message-State: AFq9FYKFzI69/UC9NtiHFrOmrQOhtG786q2lmlM5cDD29PgiMlM2Ffeh
+	TtV+5493h8orY6d7kFfHQ2xvrxaXUvGp6fjDWFgdXVEfJhkEQ4a4mP68
+X-Gm-Gg: AYBFou01TUcVkdDAHMXoQBIXK4emNKICKTLqSrxEYDv+XDw2vSg/hpoYb6vQ3l5eI2J
+	QsoSOoAish7XF2q7KjFuvHYUMLreii/qCMCCMe8l91ejc3syr8WDJ5X25lKcaU5SE0lly0Zy40V
+	wMGN12nLmtBKemsQZDQxtiPEQfivxAcVt16TY7NzrDuK9GQxbWVm/hCCI2lErQHvUYVUgDB8pkv
+	iyTZzbtmtUELvkXLO5DTkXur2WP6x7CzAhqya7dM3JX0B+uWOxPNS23lCg6iCuPEiKDOatIhFwC
+	XJjQ29kdcEo8wljdyEhcjtYLnkuD4dkMJFLYLWaxU7aFedDyzslVV3Z3GvUCJeiHc75/6ihs3tw
+	j33gocPacSkYkD3H66+oWK9qEEgilM+UE4Y5IsN1B+1PFDaDM+hqCRrcLGoIwsp539qgCAH1DUP
+	SKVhl5BTCoe5YEIrCQkw7liHEhHNvFO0l1tg+GpfR4LVRp61xevxI6/9GQ1gtDzNSEOroUgbby8
+	fwhJ07L/UR5SRilDVPJTtFXFcMpUlNxMpYJkP8lBgNOmRzDOh5gAgw39diF1pwI2bgjTuGxJXyS
+	1lDng9c=
+X-Received: by 2002:a05:6000:2f8a:b0:48d:f160:efad with SMTP id ffacd0b85a97d-48e2d27f5ffmr1860341f8f.30.1792626013218;
+        Wed, 21 Oct 2026 16:40:13 -0700 (PDT)
+Received: from DESKTOP-0KSTGNI.localdomain ([197.52.179.68])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e25828e2esm8167370f8f.30.2026.10.21.16.40.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 16:40:12 -0700 (PDT)
+From: Temitope obabi <obabitemitope765@gmail.com>
+To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: remove unused macros from wifi.h
-Date: Wed, 21 Oct 2026 22:46:33 +0200
-Message-Id: <20261021204633.33067-1-yros22776@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Cc: Temitope obabi <obabitemitope765@gmail.com>
+Subject: [PATCH] staging: greybus: audio_manager_module: add newline to sysfs output
+Date: Thu, 22 Oct 2026 02:38:42 +0300
+Message-ID: <20261021233845.15295-1-obabitemitope765@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -94,83 +102,78 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-SetFrameType(), SetFragNum(), GetOrderBit(), ACT_CAT_VENDOR,
-_IEEE8021X_MGT_ and _IEEE8021X_PSK_ are defined in wifi.h but have no
-users anywhere in the tree.
+sysfs attribute output is expected to end with a newline. The show
+functions in this file return values without a trailing newline,
+which checkpatch reports as a warning.
 
-Three of them are also broken. GetOrderBit() duplicates GetOrder(),
-which is used by rtw_recv.c, but casts the frame header to
-"unsigned short" instead of __le16 while masking it against a
-cpu_to_le16() value. SetFrameType() has the same type confusion,
-whereas the SetFrameSubType() macro next to it casts to __le16 as it
-should. SetFragNum() passes a constant mask through le16_to_cpu()
-where cpu_to_le16() is needed.
+Add the missing "\n" to the sysfs_emit() format strings of the
+name, vid, pid, intf_id, ip_devices and op_devices attributes.
 
-Since these macros are never expanded, neither the compiler nor sparse
-flags any of this, so the first user of them would inherit the bugs.
-Drop them rather than fix dead code.
+Compile-tested only.
 
-No functional change intended. Built for arm64 with W=1, no new
-warnings.
-
-Signed-off-by: Yaroslav Shevchenko <yros22776@gmail.com>
-Assisted-by: LLM
+Signed-off-by: Temitope obabi <obabitemitope765@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/wifi.h | 20 --------------------
- 1 file changed, 20 deletions(-)
+ drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
-index 93cb83488..719a1ea34 100644
---- a/drivers/staging/rtl8723bs/include/wifi.h
-+++ b/drivers/staging/rtl8723bs/include/wifi.h
-@@ -123,12 +123,6 @@ enum {
- #define GetFrameType(pbuf)				\
- 	(le16_to_cpu(*(__le16 *)(pbuf)) & (BIT(3) | BIT(2)))
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index dc90cc2d2308..5737f2a32f5a 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
+ static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
+ 					 struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%s", module->desc.name);
++	return sysfs_emit(buf, "%s\n", module->desc.name);
+ }
  
--#define SetFrameType(pbuf, type)	\
--	do {	\
--		*(unsigned short *)(pbuf) &= cpu_to_le16(~(BIT(3) | BIT(2))); \
--		*(unsigned short *)(pbuf) |= cpu_to_le16(type); \
--	} while (0)
--
- #define GetFrameSubType(pbuf)	(le16_to_cpu(*(__le16 *)(pbuf)) & (BIT(7) |\
- 	 BIT(6) | BIT(5) | BIT(4) | BIT(3) | BIT(2)))
+ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+ static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.vid);
++	return sysfs_emit(buf, "%d\n", module->desc.vid);
+ }
  
-@@ -145,14 +139,6 @@ enum {
- #define GetFragNum(pbuf)			\
- 	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 22)) & 0x0f)
+ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+ static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.pid);
++	return sysfs_emit(buf, "%d\n", module->desc.pid);
+ }
  
--#define SetFragNum(pbuf, num) \
--	do {    \
--		*(unsigned short *)((size_t)(pbuf) + 22) = \
--			((*(unsigned short *)((size_t)(pbuf) + 22)) &	\
--			le16_to_cpu(~(0x000f))) | \
--			cpu_to_le16(0x0f & (num));     \
--	} while (0)
--
- #define SetSeqNum(pbuf, num) \
- 	do {    \
- 		*(__le16 *)((size_t)(pbuf) + 22) = \
-@@ -306,9 +292,6 @@ static inline int IsFrameTypeCtrl(unsigned char *pframe)
- /*-----------------------------------------------------------------------------
- 				Below is the definition for 802.11i / 802.1x
- ------------------------------------------------------------------------------*/
--#define _IEEE8021X_MGT_			1		/*  WPA */
--#define _IEEE8021X_PSK_			2		/*  WPA with pre-shared key */
--
- #define _MME_IE_LENGTH_  18
- /*-----------------------------------------------------------------------------
- 				Below is the definition for WMM
-@@ -318,9 +301,6 @@ static inline int IsFrameTypeCtrl(unsigned char *pframe)
- /*-----------------------------------------------------------------------------
- 				Below is the definition for 802.11n
- ------------------------------------------------------------------------------*/
--#define GetOrderBit(pbuf)	(((*(unsigned short *)(pbuf)) & cpu_to_le16(_ORDER_)) != 0)
--
--#define ACT_CAT_VENDOR				0x7F/* 127 */
+ static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
+ 					    struct gb_audio_manager_module_attribute *attr,
+ 					    char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.intf_id);
++	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
+ }
  
- /**
-  * struct rtw_ieee80211_ht_cap - HT additional information
+ static struct gb_audio_manager_module_attribute
+@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
 -- 
-2.47.3
+2.53.0
 
