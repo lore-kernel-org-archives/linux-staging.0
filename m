@@ -1,71 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.252
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792552025;
-	b=y+JL+7+gkvkDu5tsmYSVPuqqWMgAgp5qPGCvdmSZZb7sOCWJRbTZBqcXzFqOfy1mf7xN
-	 tjsDQFjY/qFQCt1d1dHZH9Lr80FJwlm8DfaE9Fvyx3IIXuqnTPQqQaVX1PCTIzNc31TDX
-	 9j+iZvyNyNtKPSuq+4guMkDTzBHukzJo8iogm9U4QPCikXYqN/sMuzBzCVvlfkYsNidBo
-	 bQab9dbZeS0eDFViNNp8p1pweXFdyXwKLGCEUZT4K0QyZpf/t7GbhM1t7LMbERBNbMpD0
-	 wHKgwr3aylwUmSlizJTQ6/HTvRmddIvhHZjwp/ETO/sbmFVuC1nE1Fc9XMRm2rrhZ5g==
+	t=1792552702;
+	b=wuksiEkNTJzbIcgwMr7eSya91Ujfum7eHtQDgDOUl9jYmSyvnv6183b+K3sbsD9HiQIs
+	 hOfHJcAvxuTZl8XTctZPhAtcdF2IGvRuNIy8LFUeFmnb8ARJRGvjr9QvK7/Wg52N0gwO0
+	 vZ+rkmQUU3rw+WfoEqXhIMlPgwgPQXOSv0O/OpUJHBya585Ml7HFtpRh2VBiadDha1Nx4
+	 H4oF+dvNVyvvFQYotRigYnquXnedAJrVvQ2wgpauVih2rCmT4zti6zzYp76M0mv4HhFlg
+	 Cfu1P1Yd+QsOXLlwqQfyl0oH6mZmy+MKJeiiC+9cn24Dw4Mjlwpv0mgJBZQaT3s2yuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792552025;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792552702;
 	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
 	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
 	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=rWcH7O1dVVpCue3OT6GAmSMPhUAxqwVm/mnSp190qbM=;
-	b=sjnaWDj0GZdaKhhwFZKt77UCd/QLRvEBAlCVhADIdoYnSBeQOqKWox6toHY+aC2QiAuY
-	 SKXfG7AEr30gnRkbq4TZykAMwxPaBnwigDPyAWB6aaS2hIWCssSdDLlN56jkpJmbbgbFV
-	 7d9jyXoEqkKM3ZptKreoSTOGhqQ8abDscr6NRrVRCDwU6SR4PkWcMyne9++KAlS947E9K
-	 zJTgj71QaA34BZSyDaD0Rs2EZzIvsxylfu02jajVUteuvi6z46QAwClB4tMmCTOac8ucJ
-	 vLZLzIPUc+/Cp1ftxDnfPhU3Ut8KLASoQwEtBTUy7lUwkWEr5R4fVwCEm54CIw6mnMQ==
+	bh=3dUKeUJaBb46mcxQmFWqIVt8obdNVy5Sq3YwSGh8/aA=;
+	b=T7yrbEYDdiK9DgXt0AAdqQUFP3egYK7hDceliZzfOGVigcO1bjOA1ne1LJD+DQ0T5Nlu
+	 y04baMB3T24f23M0D+EPKAWoPyW8Yr3njxRF3ie+c5yewkY5XqIfHZYwP1Y66DVaer/9I
+	 o/tg8EA0IswnBlNvl1uCpke7UvzxkT7VN16KF5eQ89oRs3PvhvBH4gOgW4QhtHxp4fxDh
+	 Tv0Aby/b+JuvSPaNlJQVO9vAYup8mZ2PDtEzxxH9twcPst3rJ3Jac49xkcLYfm2rC9Blb
+	 aTita/p2bzvHmkhcLHEfBkrBeYV4FcqxWk7pQzqe/xAh1Ujq/86NeYAOs6FjwHhbhVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=qq.com;
 	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=SNQx+er9;
-	arc=none smtp.remote-ip=162.62.57.64
-Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=N05n60Io;
+	arc=none smtp.remote-ip=162.62.57.252
+Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7DB606A319
-	for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 03:07:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD7DB606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F7B607E651
+	for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 03:18:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51F7B607E651
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=SNQx+er9
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=N05n60Io
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792552019; bh=rWcH7O1dVVpCue3OT6GAmSMPhUAxqwVm/mnSp190qbM=;
+	t=1792552696; bh=3dUKeUJaBb46mcxQmFWqIVt8obdNVy5Sq3YwSGh8/aA=;
 	h=From:To:Cc:Subject:Date;
-	b=SNQx+er99IIDDcEur2HnBm8cqmH3L3didtpjNAoWXVsz+XWlaNLZOJRAg+TxA63cr
-	 wQYF8w4RbcYk4eWaD/7gzAXO10lqS4ORfBwZj2CAEmz0NifM3q1sdwZSUlrp0aqtrx
-	 TYaK7iATmIU5lqfNnv7B1Mm1DfGC8eJrhv6eBWR0=
-Received: from Liujunyuan.. ([58.19.27.181])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id 1982A857; Wed, 21 Oct 2026 11:06:24 +0800
-X-QQ-mid: xmsmtpt1792551984tbwbf64nv
-Message-ID: <tencent_A9C3CCA9DE8FBE61A3F51944B22D1E7AC606@qq.com>
-X-QQ-XMAILINFO: MIB/1UGyXKa7bSKZDGWaPw28EBP1PVpkBDI8rxOixBAyfMaWvlwCOd5+7TC+Pk
-	 UdhoaUNWyzc4s5y4BmugnUvlV7r1Fk3e3lQ6UxCPc6CwtIIMK2ZsIq9RqtxDiU7ps101DH8UD74t
-	 YxIVAr/kbWpruJOiTK43ZUFx/L0F7ki7NJd3neb+UmcuOQo7ZV7l1PdMCCZ5bDvZpiqteh46ULd9
-	 9/vr4hlzqgVULAlHlx8+05gxYYxRPE9VOrnoZqEEooWn98SAmtLsDgAdZJOemIEtc7NqYn0xDJgz
-	 kLEZ78gxONO3ZuZR/qsZpcE9GkGZUwUDm3eKEWtaVt9NRzmmuJ8tzDRzfnZB9koe/KDe7p0TC+Kv
-	 Sr/yMMheZu2mYrapsPj3tzSfwpF7KxTOOzNrNjbUtCgBq9VcWetCKsEv1FS9+RpBYZjvursC6KKA
-	 TZgsZMGuaoUw8zlWgxqYyWYMuV2jvOsNgDvlJ/wpWqWG3ZBfHtmVE+mrAdgVZNNRnRSD4HsNeP32
-	 YBWz/8PGPvPzuLDRZtO0wBsOmqtDiqgTzuwgPZ5bLjEahlSkBqezdazi+JdZ+Cp7MLlfZOQwaKoS
-	 VL+L/iEPK4gJC0R9UPPklzjiQBEFXNUwsRIKWd/exMxk0M/+A0zcbScucgwNnWXx/ULvfvTpTsrc
-	 6z2RcHcSdG0HExM6//1V3D9eSW5juDMrDqG0kVhJh/IDMam/2lWZr90HpAnqEDTxxWj24Gkaymg2
-	 NikRpj4xX9K3yj7/kfm6vY/7Y2h/a9KzarY2gcwsjqmRPZkLqAoNtz1rxSRZkJn1My5wHGGLRY1G
-	 6dRZ+A9kDASomvVB8+cg/hHiwd1T07ubut3FzA/CUydLP1fHS+fZTAeovDge6u0l4zYaoA5a+rPN
-	 4G1IKiPKT7ikQkY4437BGCy3in/ekYjpS4KJzgO7E1jkmSOtKo/8iQb+IbxkhNfmJj5tDbx21c//
-	 5GHlL0cTVzjelMyZSNgkZGzGtttGVlmDGwqqX6FJhac9eEYUVUqDqBj4pluaHd2nske+Fxe5U=
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+	b=N05n60Ioo8MBbJj0RH5DIUEFQr+jYu1myP5x3tdVvkoLWISJsVx6a4OaBwqnQy1MG
+	 nSNhI1n7BKUgfcW7KJd4YB8G+6L3imuMYa93D782FJ1eoXh1cnkNnH27DPumQV+3iR
+	 NdxHn8iG5J2TGoVKExFdS4m9NLArAFFLaca5iPr4=
+Received: from Liujunyuan.. ([218.106.117.235])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id 4721E4DA; Wed, 21 Oct 2026 11:17:50 +0800
+X-QQ-mid: xmsmtpt1792552670th5xmavys
+Message-ID: <tencent_F5EEA06B3CD49F9EFF5C185259BF4134DA0A@qq.com>
+X-QQ-XMAILINFO: MRMtjO3A6C9X1TGriRphkRdqjRfBHIYS51Kq1RtSpLS515hoa0TfK15D8MQt0r
+	 /yQP1NO9rf5sABfUosnDZrpe7JWr/6aagRWorAAdYgq9LEln1MV32p96AajwjX31ga8rTIEdAHnx
+	 5VBPJkZmF02BRVb6jc64QOpjb1RYaNZxinomX2YNAMdxDy0eGsQ24IbpM8N0WsFsG6Hy7eQ/EpRi
+	 eiuT8c564FkvjRp7neG6Qnoom7npv0FicS/ToedpLwYm9VViNTYxbLGpNDkxR6gFXes1WA+5haL4
+	 fvtybIMdjPtZXy9G/O8NMYuACE5WgWqPuAm/F8hnGsS8aSoM0H/0ejN3irShQ/Y4iY69v6pOTe2A
+	 xU44FEYF1UHWHEshVxdccGQQRGSlBKMvjrMVcqxpfiXWaq07OiW3RygkMqBnPUkSHiNPi7FYmu+9
+	 HIc8yLWcVWo/AQq/Jen/3EtZvnYLVshn6LQcxNe9m6Zybm1pbe4hrTJPcKECPUNner+MHmxIQVZv
+	 Q1uZL2i9/2MbywdaPvslyMQ6JPYmJpVvGYbVoj8K5frHXJD2bbFql+mwIJzjFkqBzI+0SzQObpno
+	 Ilq/Nk5sywvL4af49FpqZ78AJ8pD5+TndbPOBFtwzkHLaf7djJSCiXvyl3n/a8yPHHvOkoQGZ9C+
+	 c/IX7xya9MVggIBUxUyyFqNKuvxmiCkGtEqBe6cfBzuTAy1qy+3VTDTiNEouS+/8qLQC8h56XcNE
+	 AgvvQzkesj0o+f5++UmD2vg8Wd/f6KYeLMnKd0tydBcbUJUbS8X6A/GCkRAa8fZMzdns8GYV+Yn1
+	 YtdZhuvEFqpnjP3jx7zFvjqa87Mx1SicnC0lhBolxTPJJlQqDRmNR0bP2QWrs7M/POwHVow+feFs
+	 vcvPTFb8WszrUX3Ce1rFWayAE+ZaUEeeUUMHnyD1/hoGRvKDeCzs85VYUIGQ3wte/SWwFTBLTal9
+	 yzxzOKTnYCQn3RBI4AJtu/6/2TstXyvn0fg/Sjtf3o+Ni+apymOwOvgHGFBqgT5nZbt3xLzlZAg4
+	 Wzs73xH8gW+bQ/lNeDSWim3GUaA9LYBg0d45DNDVdSTyX548tz8TK5Mn2eGzAlLP3kvtuRH+YQLC
+	 wm+55shNa6xwFYWNA=
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
 From: LiuJunyuan <2058432396@qq.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	LiuJunyuan <2058432396@qq.com>
-Subject: [PATCH] staging: vme_user: fix crcsr_bus assignment on allocation failure
-Date: Wed, 21 Oct 2026 11:02:22 +0800
-X-OQ-MSGID: <20261021030222.10552-1-2058432396@qq.com>
+Subject: [PATCH] staging: vme_user: use scnprintf in tsi148_alloc_resource
+Date: Wed, 21 Oct 2026 11:13:49 +0800
+X-OQ-MSGID: <20261021031349.11825-1-2058432396@qq.com>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,29 +80,29 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Assign bridge->crcsr_bus only after bridge->crcsr_kernel has been
-successfully allocated.
+Replace sprintf() with scnprintf() when formatting the resource name.
 
 Signed-off-by: LiuJunyuan <2058432396@qq.com>
 ---
- drivers/staging/vme_user/vme_fake.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/vme_user/vme_tsi148.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-index 434cf760ade6..5a4e61d20479 100644
---- a/drivers/staging/vme_user/vme_fake.c
-+++ b/drivers/staging/vme_user/vme_fake.c
-@@ -1029,9 +1029,9 @@ static int fake_crcsr_init(struct vme_bridge *fake_bridge)
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index 9447c00bc013..a0a7c8341995 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -745,8 +745,8 @@ static int tsi148_alloc_resource(struct vme_master_resource *image,
+ 		}
+ 	}
  
- 	/* Allocate mem for CR/CSR image */
- 	bridge->crcsr_kernel = kzalloc(VME_CRCSR_BUF_SIZE, GFP_KERNEL);
--	bridge->crcsr_bus = fake_ptr_to_pci(bridge->crcsr_kernel);
- 	if (!bridge->crcsr_kernel)
- 		return -ENOMEM;
-+	bridge->crcsr_bus = fake_ptr_to_pci(bridge->crcsr_kernel);
+-	sprintf((char *)image->bus_resource.name, "%s.%d", tsi148_bridge->name,
+-		image->number);
++	scnprintf(image->bus_resource.name, VMENAMSIZ + 3, "%s.%d",
++		  tsi148_bridge->name, image->number);
  
- 	vstat = fake_slot_get(fake_bridge);
- 
+ 	image->bus_resource.start = 0;
+ 	image->bus_resource.end = (unsigned long)size;
 -- 
 2.43.0
+
 
