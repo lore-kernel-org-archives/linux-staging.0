@@ -1,73 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792554354;
-	b=V9Fn6Oa89h9WMh3s+mwrCDquFsWrOhI36SF4HlcpNXNJ1uqzOW3akI/nceeFsz7EmEOt
-	 dgF1RGXzj4tKWv50YOZ3eIeMMjZfRjeeOJ14z4GaDe7tyStioiC+GXGPi3Pti2aATSf1a
-	 fEzRDvzWOslrfrbEl222FnufL/ST5gW/g/LPYhTdS1/7XhzpOzgwSMOI+2MyU9QQYL45N
-	 FDdbsVucuisbTbTgonUcPenjq9U3V3+luCmrSP9Na4KzfsXblQwpui2XMnma1VR6j9Qum
-	 VsTJT23JzY23LwHiwhCTotSjuSXJ91BZst0KvesHmPa6/dTT/gA1fdckl46ve7cO1iA==
+	t=1792556419;
+	b=Omm8gqVmjTpvluc+nBaoCcBdKOjnsxoz0SdqE3vaH59JwX/ZShGM36OyaZEGpJj74MLD
+	 /vkJZnU/oici0XaI2/a/QLIn//u6W9VTcZwr1OVR3SzUfEjPo2oB/1hHLyP26eUY6ziWY
+	 QnjqXQ/DQ+eL3aYAPRuEiN21aMpwAIujpR9AAp8B6Ww5TxTmNehwtaxSrcELQ8AOJ1zix
+	 ah4BJv/I1qiH+YP4XJvtTeLjeL7GHGw2agoJN4g48C3hkJNailcPKmAOlPQymuJ/YYxnv
+	 lWJI/WB0CosDO1b+ZpX1vfukQJ12Zqmfb9WWIXfk8R3IVHrA0L3ZRVaZigYlkWUphBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792554354;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=pvmV7Nb3hIaOqh9siBveei2J+IXn32DOfBJ3bIJBeT4=;
-	b=Jmcc1zy9R2S+hF3oc+CU2QoT7TO6v8XDxIZaO24hpxVzMN5AoJksLIPbf3lkftZRUVyu
-	 qVkWwmKOGMx9xM5PamRsY2XLamTq80+dIe19l2GN0YeHXDV9uIZNX7RGaqzTLNYqGF+ZP
-	 c32oCO9F5WWfYcbhezR9RB++ebtgYx3/XH7JPgO0Gvx33KOR+/HQXotaGa13FvMGZzsOP
-	 FsrTxnyTuat4TzMblK+enT1resBM89oG7Z40BuRtJ0SMjW60HU0KxP2g4+IjCcgVJfX5e
-	 w0kIidq0HeQllqgghWARd50j7UyU+6nOJ9JTUF30dSVF50xFSFVsDvzQ2HmZO9F0bhA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792556419;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=F6nqS7mcyLguqD1PJrlyheTLjJilKtOGHy8lXcshPXw=;
+	b=Jl+bP4w0Mj/au3VUh96h77pImCnFSGVE5P+HLc4UqKlOrGSYwygkOxrwEy2wA8UvFc4g
+	 snOTVAzNdj+X1gCtiGWeJ9/QvTPTQukJbsDeozdWhImy+J/YaSEg9hR8o1u+vVvtWW58y
+	 i0rDRXrAiIXxprSwCGo24ZhVune0DDqSLwwRFwLD3CcKrPBxbmz7icS4kmvtsLwS/9lBS
+	 /CKstWIlbfjAKwACC2NWfsR5qRFXDepi6BMQhtNOkTYiRWHffcFMvA/9NovPomf4IJSwS
+	 zhQ3Qbh7kFmJk7tgtUA7qDsh/KTrzBGQbS9BRruEEatTRCC5gSzGWr1hsomOVVzzJmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=YauFBGyZ;
-	arc=none smtp.remote-ip=162.62.58.216
-Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JYUMFB4I;
+	arc=none smtp.remote-ip=74.125.82.170
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F2B606A319
-	for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 03:45:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48F2B606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBE2606A31B
+	for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 04:20:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EBE2606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=YauFBGyZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792554349; bh=pvmV7Nb3hIaOqh9siBveei2J+IXn32DOfBJ3bIJBeT4=;
-	h=From:To:Cc:Subject:Date;
-	b=YauFBGyZ4PlnhOlb6g5n7gTrkbYk4MvPXuGcc1HC2nYBWvFXG5cJz9GzCQufFoWp2
-	 7A/e2pS7Mk+wQP7ILOmf/dPQ6Jww+Z7TsnlKoWl7aWuTz3DcnENXSEFiwFuV2ityO5
-	 QO7WcKEfBCb0oSCHCPlGqXV265tZ+JLNRUCcyR0g=
-Received: from Liujunyuan.. ([183.95.73.181])
-	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
-	id B67BB832; Wed, 21 Oct 2026 11:45:39 +0800
-X-QQ-mid: xmsmtpt1792554339tdm1xcpfz
-Message-ID: <tencent_FE0C25ACDF20A06CBFD0651E7C4ECD7E5009@qq.com>
-X-QQ-XMAILINFO: MFkgsonL4eTuewEom+dEv5zIIb5SSGFcmfTxZjVvVx4fnnbLzdlmWEyi7ID2fL
-	 CG9PV+6zVkHvxk2LGIyOUP9OeoKEEONu2HqWHYttGkiR/LD2IpspyUytET+eBv6hxFgedE74yxQl
-	 2CiNTk2ITAMDo+1zUjNsMtkeHM8r0vmi58L17ap4//OLGw5q5o2s49iDE80C8lbF/ErNJlVKgvfm
-	 AZwf+KZE9fgdM41qK5lu1fy4nm4uSD7MssFHTZvuJuX3xVcyHzt1yX5OPX5ncq+Sb591tz9opbmp
-	 YtOtgJSCO1b2xlqSI3pST+JybU6tlSRrH8W3Xh4NssDNrZrihF85tsQD510u0v29WzEPBz3C0V/h
-	 V+X8j3PJIhwe6LSFnIHCGIHkE0W5qJvPHy4k9v9+KvZ6zz/xGlXMTwWIf4CPPb+13ei5z5Sq4HDS
-	 6MRW6PjbO/eHuXmOPVub7pWOMjdqWec9ceDpszcDY/gnLsKwbFRDmrhPGcj3Q8Ds8gKOj3fn8lzu
-	 dmoJR7Fp4oMY5FFkt0LRXoP15Ck3nJb/2505X6M+ovWXKss8ztwfpMggThPNYGhWDyYPqyApSg4O
-	 gVAT+x5wVYkw36S4K4uqeW2dDMX8CGhou5H4rnFEk7NEgY+V/weZNSUGk4FBqFgbxi1TugzSBXzp
-	 F84hqhayfIE3X9BGvSEbC0kkBW5nf5DSoonLjQiay2pi+ctn7PMokLlL2XRyiw5C76cv/rPKkLf5
-	 bBiZvqniMpc0sYSMqe8vKw+9XVFiyLo2dFapEwDQHI1orliMX9otJdBOFpXeVFkHXEFpOzkO8eQu
-	 iCTbMRUn/CvdB7Nv3sq8aZObWEmTWwaObXws+quTLCqID4QMI9thyc1V0P+9z80N3x6uPtx+w3cH
-	 nmHWssGN1y6coyYt0lGxqfpVL3RKn2W4itrwpdAEpAuRUM9DqE6R8QyQ7XmI4wmBoyz9G5sIdC8Q
-	 k7xJQsZuVHLbxK7hXuVIEJBZn9Cp/YRpPm1k14XOszJaXaiI23vHp1qGa+4oEK0tB6Rz7Oa/1+j7
-	 Ng/r+xqcaeClotIdQcgpvuagfV6is=
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-From: LiuJunyuan <2058432396@qq.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	LiuJunyuan <2058432396@qq.com>
-Subject: [PATCH] staging: vme_user: handle zero image size in read/write
-Date: Wed, 21 Oct 2026 11:41:38 +0800
-X-OQ-MSGID: <20261021034138.14525-1-2058432396@qq.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JYUMFB4I
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-3535a54bed9so358885eec.1
+        for <linux-staging@lists.linux.dev>; Tue, 20 Oct 2026 21:20:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792556417; x=1793161217; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=F6nqS7mcyLguqD1PJrlyheTLjJilKtOGHy8lXcshPXw=;
+        b=JYUMFB4ID9zEdHOwXmDIXu69mFaxLBRP9aT7AsgIxvyg2gFKASoovSDIgS8LPAM8HR
+         RCxulgC23yAYOvBVT549fL4Z/Snm1h+2MWa0omclb4sbxVxuz/8+fnJZMdq21KicFrpf
+         vl1Ydvn5H17V0jzRrM36Z+DTEa1xFEUaCCEq9brrevohwhH6jVohF6G85cW2oATx4cCM
+         3dw2VX8dXVGtqVW4jZVjR4pbNnXGwigLgH+r5roZGWM8PjniD71648C/cmxaRTSXzA+7
+         aa7cicmpwBXahHhGl7eXvuLCBoxl+CCPG5J6LWO9/UjNyS4jnGnYGzhss2M0jlZaNPGp
+         we+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792556417; x=1793161217;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=F6nqS7mcyLguqD1PJrlyheTLjJilKtOGHy8lXcshPXw=;
+        b=HGhKLW5eLGV7jCIh4wCPWX2zMfL6GkdOe9hhWpcIqdtMPaNX6rlF9QMRVqgqFf2m+z
+         UywaJ6IEYoiIh1IYbm+Tk50hoWtfFWwP3kDO40MbkZ4gdosM3tcpB3nvdPKwfdD2V7rx
+         HzaLl21lJxB2BvUy9JVY8tXWtphObIJrPBcmXpDKU6LToq/+FdkRw9YtNOy5LAB06OYJ
+         RQ49Nr6jPhHq4+HYKWXR9tpvewc0ZXtLVAodgFdfBdUJnTRGSA9rIPhItJnFbmvQw5E+
+         ps17NGIvJBot8NCIJAU+Wx0cr/3plTiRi8SxMTgLhfry6xHYe3Jw6f1brZG8zEKOOqVk
+         0MuA==
+X-Forwarded-Encrypted: i=1; AKwUvBwVENC51FoIyjELhOSfAltMvTTIdBzZEObVmCFKSKuivqmdtRhbAtvhsdY6iKjOwqOLqRjeEIWEZ0L3ZiD3@lists.linux.dev
+X-Gm-Message-State: AFq9FYI2SkCRyHu+eeDMEMd3Q+kgJwzAusNEtoP/54PQ7Bu/kLTL+5xJ
+	6eR6uz3zB8UqF0O9/dWrnqHCR+d2HcT5OowtJjT51J1aWsphSzKnhxRU
+X-Gm-Gg: AYBFou0zpl982e/+KlQswQJyKj10QcBQVqilxdZ9Xrtm7CR3IyhDFpycmJJVg43/Q+P
+	sxpk4+89D/J9YALt7ZR0lCGy0r+sahh9HZR0ad0A6EO8NVgvO9ry5KAdYB4POAg6hJs38dNth2X
+	8OYVf8avbgQ2nALpbH+d8/SEKOC5EAvRxKzhqizH2zkWSPrr9x3faVJa7h7Pxb0K3CMJ4Uhdzb9
+	9HocNFg6Da4iWjUFZbSXhMv3T0V5LQjKBzC049fylMwNjoQIpCk7Ve1oRAjCbQ/TpeIoEz8luth
+	5zmJTIx9MNGfFhlER4AK6r5REKViLQJx9ibhmBmdSAcQ8ep6mL1EReRrJ16c8PEHrmAmvxKAHG9
+	JXmhXoD+eCgf5w9sQeuztJZAjvcecX3QTXdUSzOWOZGhl3aldwyN2XOkcZBLE68gzeee8VkNJyy
+	qfNVgYOlHbFR3ncbMGcXuAYw3nraqk329IAY43ygCRMLtFvm/n1nwDpKy8OmL86ftf/9KzN78lu
+	fg03uDaTmLaEcAG/Mmasyyhf7/P1h5bNtgpe3PVXGIP4UrhQHJxUp/l40H7
+X-Received: by 2002:a05:7301:db83:b0:35b:cb8a:8d0e with SMTP id 5a478bee46e88-3674cb387admr1757579eec.16.1792556417222;
+        Tue, 20 Oct 2026 21:20:17 -0700 (PDT)
+Received: from user ([2405:201:c052:b00b:2b85:4f59:7505:fbbf])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-367405ed2absm3682269eec.5.2026.10.20.21.20.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2026 21:20:16 -0700 (PDT)
+Date: Wed, 21 Oct 2026 09:49:51 +0530
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+To: Alex Elder <elder@ieee.org>
+Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
+	pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+	rmfrfs@gmail.com, vireshk@kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	ethantidmore06@gmail.com
+Subject: Re: [PATCH v2] staging: greybus: Align function arguments
+Message-ID: <atg9Zwie6-Dva-Xb@user>
+References: <20261017084441.12123-1-pavankumaryalagada@gmail.com>
+ <7e71d57b-f3c7-48b7-bcdf-75254ee87cdd@ieee.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -77,40 +99,98 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7e71d57b-f3c7-48b7-bcdf-75254ee87cdd@ieee.org>
 
-vme_get_size() can return zero for an unallocated image. The existing
-image_size - 1 checks underflow in that case and can allow an invalid
-position to proceed, wrapping the subsequent count calculation. Check
-image_size and *ppos directly instead.
+On Tue, Oct 20, 2026 at 09:00:03AM -0500, Alex Elder wrote:
+> On 10/17/26 3:44 AM, pavankumaryalagada@gmail.com wrote:
+> > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> > 
+> > Align the function arguments to follow the coding style and
+> > improve readability, addressing the alignment warning reported by
+> > checkpatch.pl
+> > 
+> > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> 
+> This patch is OK, and it's a good kind of thing to do for
+> getting your feet wet with sending out patches for review.
 
-Signed-off-by: LiuJunyuan <2058432396@qq.com>
----
- drivers/staging/vme_user/vme_user.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thank you for reviewing my patch.
 
-diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
-index a472a38ef613..58566c01003a 100644
---- a/drivers/staging/vme_user/vme_user.c
-+++ b/drivers/staging/vme_user/vme_user.c
-@@ -213,7 +213,7 @@ static ssize_t vme_user_read(struct file *file, char __user *buf, size_t count,
- 	image_size = vme_get_size(image[minor].resource);
- 
- 	/* Ensure we are starting at a valid location */
--	if ((*ppos < 0) || (*ppos > (image_size - 1))) {
-+	if (*ppos < 0 || image_size == 0 || *ppos >= image_size) {
- 		mutex_unlock(&image[minor].mutex);
- 		return 0;
- 	}
-@@ -255,7 +255,7 @@ static ssize_t vme_user_write(struct file *file, const char __user *buf,
- 	image_size = vme_get_size(image[minor].resource);
- 
- 	/* Ensure we are starting at a valid location */
--	if ((*ppos < 0) || (*ppos > (image_size - 1))) {
-+	if (*ppos < 0 || image_size == 0 || *ppos >= image_size) {
- 		mutex_unlock(&image[minor].mutex);
- 		return 0;
- 	}
--- 
-2.43.0
+> 
+> But I encourage you to try to really *read* and understand
+> the code, and see if you can find anything you think is wrong,
+> or some bit of code or comments that you think could be more
+> clear.
+> 
 
+I will try to understand the code better and look for ways to
+improve it.
+
+> I just scanned through "loopback.c" and one minor change (to
+> *code*) you could try is using fsleep() in one place that
+> uses other functions to delay.
+
+I will look into this and work on it.
+
+> 
+> Another thing you could look for is printf-style format
+> specifiers.  I see more than one place where an unsigned
+> value uses %d (which, for large values, produce misleading
+> results).
+
+I will also check the format specifiers and make sure they
+match the variable types.
+
+> 
+> These suggestions aren't especially complex, but my hope
+> is they lead you further into understanding the code and
+> not relying heavily on checkpatch.pl to find things.
+
+I will keep these suggestions in mind when working on future
+patches.
+
+Thanks,
+Pavan
+
+> 
+> Anyway, this change looks fine to me.
+> 
+> Reviewed-by: Alex Elder <elder@riscstar.com>
+> > ---
+> > v2:
+> >   - Rebased onto staging-next.
+> > v1: https://lore.kernel.org/outreachy/C560A15E-6F28-4FC8-8BE2-277B503340AD@inria.fr/T/#t
+> > 
+> >   drivers/staging/greybus/loopback.c | 3 ++-
+> >   drivers/staging/greybus/spilib.c   | 3 ++-
+> >   2 files changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+> > index fe48a687377a..efc69c10cffe 100644
+> > --- a/drivers/staging/greybus/loopback.c
+> > +++ b/drivers/staging/greybus/loopback.c
+> > @@ -652,7 +652,8 @@ static int gb_loopback_request_handler(struct gb_operation *operation)
+> >   		}
+> >   		if (!gb_operation_response_alloc(operation,
+> > -						 len + sizeof(*response), GFP_KERNEL)) {
+> > +						 len + sizeof(*response),
+> > +						 GFP_KERNEL)) {
+> >   			dev_err(dev, "error allocating response\n");
+> >   			return -ENOMEM;
+> >   		}
+> > diff --git a/drivers/staging/greybus/spilib.c b/drivers/staging/greybus/spilib.c
+> > index e4d1ae8308aa..c1982f3fb931 100644
+> > --- a/drivers/staging/greybus/spilib.c
+> > +++ b/drivers/staging/greybus/spilib.c
+> > @@ -160,7 +160,8 @@ static struct spi_transfer *get_next_xfer(struct spi_transfer *xfer,
+> >   /* Routines to transfer data */
+> >   static struct gb_operation *gb_spi_operation_create(struct gb_spilib *spi,
+> > -		struct gb_connection *connection, struct spi_message *msg)
+> > +						    struct gb_connection *connection,
+> > +						    struct spi_message *msg)
+> >   {
+> >   	struct gb_spi_transfer_request *request;
+> >   	struct spi_device *dev = msg->spi;
+> 
