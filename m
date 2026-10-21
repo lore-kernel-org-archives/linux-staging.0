@@ -1,48 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792563344;
-	b=yH7v+PFeYPRtMssMTFyNOD2zDxahYhmdhCZfaOJQAL6+cYNE7A//+gAJ28FFrBcLMyqR
-	 l21ueO06YS78aIeoMJiHDungPJdE9z7x09rawt13AGTXyI1VGKPaH945weeTFWeAiQGCt
-	 CpHfIlu1loa2Eio5HWc6cW0bXSS/MHL7QZW1eywWJA+5NrfyxLapQJhkebduJ1AEXP5Lh
-	 XgaSlTdGj2C4t1+V5bk2GTpO7EV3+MFz+vDeoyVcXXalJS43SXWO9eMoWM3l6BZqKlz24
-	 OYUVmYYbJJpQY9+WQmTs6ibJJgeIEMYDq2b4GhX3sjMQOr93F/NFrdVPqhVFXtYnJWQ==
+	t=1792563378;
+	b=aHtAsiRM4SmtHnoW7872ybpuy1liyH9s4Pe2JZzq1IwW4onJHE+0ZDDPzngYV1DvW8z9
+	 NcU8rk3mwOst65rcOTyVu3IFJGgOfWsLaFXTC+29RpLs8++32+9Z4S5jShcrrMgjEbEMA
+	 MmByMnomPLXjevLlQzOPgWwnuhXXdduTQLIigBVOls/RF3lWFkvkK0zudDMXug+6ObkgJ
+	 imKgvWpaSLqKesI+LF8PIePrKhdZD3Dw9K3OE/aZs5/jw3INAlQbafoIolELCcqQc5qRk
+	 z8thDyMzCfIPyPKzVd/G+i6MgtK/yG9w3L4WzRyxQxLSItkjE+DjpoNw/Y9o0hqPEZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792563344;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792563378;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=fB0b8NJZoMpWF8abgjJlyikhaeYEgHqEJZNWJDbK+sw=;
-	b=2oy514ov8be6iVhzmteyUnFcldl4XWYt+2NeJlc5c/TXDOoJcfU6pEHju6JmyyGqskP7
-	 4yTPnoAuPFy8HrzJhgmO80X9eS3aFtKeDSpBRedPa9BILGEmcBU8/lkm+9EZrSSSBz5V8
-	 TZENWk4E7zs2WPWvKlHLVZ/iEBOjg9n0QGcAGt7G7cxknDzbGvs/3IB7dMuA34CzKAdeb
-	 KZuLdlkpwuR+9brStaCnEixUnJzmosGzxwndS0eleskyV6QFaoy2/t//2vsV257IZJO0s
-	 IEBs6c+Sqvz2unqBf+6bWMDZjkO3aoa4EtJnKMFbxl/fPMb6go8BEa47RE22ecsoGUA==
+	bh=bHQZ6Gdd9GlRNtc5Wo+sABNCVJYly8QqpFJP74IKXIs=;
+	b=eGy+4d0c7PkUPzxs89zKc168nwi8/0KihDNpUtUrX9nV3vhHEjuGGlIKy8b/FkOBZr7d
+	 PsqFrgG4/uQziaWC9brMCM1fGKyWL74BoyBIPLqTzWy4U/xNyAcgMaD+2bDdF77SEGG3B
+	 GUks5aN53vENUvFQ13P6rftLZ62TiOPPBQFIdUt3P41kKrx+N887vQIXpb3YwT59yFXYJ
+	 3zrEmVKvNPqLVG53I/l6DvpJBdf1BIwM/PxrNBXRkwqdReSmzuBS7rPZopqjcpVv2u4EP
+	 pDO0NUG6z5Wc0/GcF93GP5zgMbhnhHRpxc1frBsrEul61ZifFY49Z2HG+3qw+j1VrDQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=PUfPtUQ8;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=KYcWVhrl;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AACC606A319;
-	Wed, 21 Oct 2026 06:15:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58B6606A31B;
+	Wed, 21 Oct 2026 06:16:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=PUfPtUQ8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A5C21F000C9;
-	Wed, 21 Oct 2026 06:15:42 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=KYcWVhrl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E390E1F000CC;
+	Wed, 21 Oct 2026 06:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792563343;
-	bh=fB0b8NJZoMpWF8abgjJlyikhaeYEgHqEJZNWJDbK+sw=;
+	s=korg; t=1792563377;
+	bh=bHQZ6Gdd9GlRNtc5Wo+sABNCVJYly8QqpFJP74IKXIs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PUfPtUQ8FbvPZ9syPju5obBpBQQ6xaRz0GiGciwNRR4V06DTYzzGyz1ocHeVJvJbH
-	 8ZTnWTQzA5ZtF+IKeGtHyRxMqZYjRnibRUcrrJanElnBswcQSbLDDQ28xevf9I7INc
-	 Kfdx5+zmSPydCXgH7ZWPlSPIJ+42vPKCL2GCCzik=
-Date: Wed, 21 Oct 2026 08:15:40 +0200
+	b=KYcWVhrlJ0FVUEPWqE04oBMUoV4Au5DdDD8m/GpNawdyPF3BWMXvOBJNVJgTgIkrw
+	 3uSu89Hbsj2pyeR0UOJ6vg4wwHsjxqVCEw3Htgd0n61eUflbzjoYW9RKkWSkuqFY0k
+	 C79JI+WYPbUyEZRE1DnliCX/p7pbKcAEjuY9qRXU=
+Date: Wed, 21 Oct 2026 08:16:15 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: LiuJunyuan <2058432396@qq.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vme_user: use scnprintf in tsi148_alloc_resource
-Message-ID: <2026102114-overstock-omnivore-d5b3@gregkh>
-References: <tencent_F5EEA06B3CD49F9EFF5C185259BF4134DA0A@qq.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: LiuJunyuan <2058432396@qq.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vme_user: handle zero image size in read/write
+Message-ID: <2026102154-osmosis-cubical-0695@gregkh>
+References: <tencent_FE0C25ACDF20A06CBFD0651E7C4ECD7E5009@qq.com>
+ <athV4vUa3aZDDlAX@stanley.mountain>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -54,12 +56,19 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_F5EEA06B3CD49F9EFF5C185259BF4134DA0A@qq.com>
+In-Reply-To: <athV4vUa3aZDDlAX@stanley.mountain>
 
-On Wed, Oct 21, 2026 at 11:13:49AM +0800, LiuJunyuan wrote:
-> Replace sprintf() with scnprintf() when formatting the resource name.
+On Wed, Oct 21, 2026 at 09:04:18AM +0300, Dan Carpenter wrote:
+> We removed the requirement that AI patches need to a special tag.
+> 
+> Generally, staging is just for practice writing code so it doesn't
+> make sense to use AI, but I was asking Greg to merge AI security fixes
+> like this so we'll see how persuasive I was.  :)  The vme_user code is
+> full of way more serious security issues and probably we should just
+> delete it.
 
-Why?  That's a requirement for your changelog text.
+I agree, we should just delete it at this point in time.  I'll gladly
+take a patch for that.
 
 thanks,
 
