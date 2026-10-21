@@ -1,72 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.58.216
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792553707;
-	b=exOtpJMDJRxsD4+irlH8qlBj9ydYuS+nNjbqnRbhNmDHFGHmuQvQfhxHtg+Idpxv1NG6
-	 YkdstkzD0DIjLsFLLgLDg8JIY1FziLP+3vmNFdN08XuJ+OfYJW5uTqpBRL3K2/A+IURt7
-	 BaTsMesII9TtkZVvv3jKQferthci+rVUeU6diiCH6AxBTKLSleCwazC0GFEHFQmDgJMr1
-	 IshK2INejOGzRYkoTp3HE66YRT+BPfZvSrXJIcZ6ZvcWba0OAypOxU72yD5LjYnjx5J5e
-	 fcShWci86SMlRNS3Xu7g0++Clce15uPI455YDEwJk5xyI3Hlwd8U6reE3UbR2OOn53g==
+	t=1792554354;
+	b=V9Fn6Oa89h9WMh3s+mwrCDquFsWrOhI36SF4HlcpNXNJ1uqzOW3akI/nceeFsz7EmEOt
+	 dgF1RGXzj4tKWv50YOZ3eIeMMjZfRjeeOJ14z4GaDe7tyStioiC+GXGPi3Pti2aATSf1a
+	 fEzRDvzWOslrfrbEl222FnufL/ST5gW/g/LPYhTdS1/7XhzpOzgwSMOI+2MyU9QQYL45N
+	 FDdbsVucuisbTbTgonUcPenjq9U3V3+luCmrSP9Na4KzfsXblQwpui2XMnma1VR6j9Qum
+	 VsTJT23JzY23LwHiwhCTotSjuSXJ91BZst0KvesHmPa6/dTT/gA1fdckl46ve7cO1iA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792553707;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792554354;
 	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
 	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
 	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=E1DNLfQwy0cDFHoOZobs3LOUZcf0v3kN59C4dk7YFoc=;
-	b=hLjWB2T48dkq0q4y8GPiiwzdXYt+P87C4J7m49ALHbRJIlf9szcgi93ixCEpOc7ihvns
-	 3jFfvjRe05rjH5KxtrgEFxnxph01nHbfknk6lxtO8CLd0iYFyewxIAPuOqr4Z3dMuzeE/
-	 0+HL77xwkmJYGMfQkgddyoNLMrLSSjDI5dhbY92/gPBZhGPAJpoB0t6fXJssFKi2MoTs4
-	 U04o9Kfu3ioaRReYZmlXFBUI+ajyZr8GIdaLvGGF1BKC4Rr9nKhN5+AydWjIlfZIUEWeI
-	 9kzdot3HlaQhRWjMyxsWsZ9zyM2Wba6kBpqJ1x6l4Tq/vxKbXKenDf/wSJLXo5uWStg==
+	bh=pvmV7Nb3hIaOqh9siBveei2J+IXn32DOfBJ3bIJBeT4=;
+	b=Jmcc1zy9R2S+hF3oc+CU2QoT7TO6v8XDxIZaO24hpxVzMN5AoJksLIPbf3lkftZRUVyu
+	 qVkWwmKOGMx9xM5PamRsY2XLamTq80+dIe19l2GN0YeHXDV9uIZNX7RGaqzTLNYqGF+ZP
+	 c32oCO9F5WWfYcbhezR9RB++ebtgYx3/XH7JPgO0Gvx33KOR+/HQXotaGa13FvMGZzsOP
+	 FsrTxnyTuat4TzMblK+enT1resBM89oG7Z40BuRtJ0SMjW60HU0KxP2g4+IjCcgVJfX5e
+	 w0kIidq0HeQllqgghWARd50j7UyU+6nOJ9JTUF30dSVF50xFSFVsDvzQ2HmZO9F0bhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=qq.com;
 	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b="IJkQ/lkf";
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=YauFBGyZ;
 	arc=none smtp.remote-ip=162.62.58.216
 Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B84D606A31C
-	for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 03:35:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B84D606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F2B606A319
+	for <linux-staging@lists.linux.dev>; Wed, 21 Oct 2026 03:45:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48F2B606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=IJkQ/lkf
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=YauFBGyZ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792553701; bh=E1DNLfQwy0cDFHoOZobs3LOUZcf0v3kN59C4dk7YFoc=;
+	t=1792554349; bh=pvmV7Nb3hIaOqh9siBveei2J+IXn32DOfBJ3bIJBeT4=;
 	h=From:To:Cc:Subject:Date;
-	b=IJkQ/lkf7patQJ5PVoaGXx9s2g2pBXaRqNbK5qQCBdJ9vb9YDd3CKCHt8q07JP7g6
-	 NyFYMBGUVyiISKJ3A+dJoVjVYxOZdd0v8/ma18zXDzrN2ggS21WzV0Ezq+vv8zdA7t
-	 pD/XLj/vlt0UG4Ins8S0cSb/s5ucmrnMA9Q6UTdQ=
-Received: from Liujunyuan.. ([58.19.27.181])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id 849A0A09; Wed, 21 Oct 2026 11:33:09 +0800
-X-QQ-mid: xmsmtpt1792553589tkvi6ks7p
-Message-ID: <tencent_8D0F8B2180750F84AF2D147AC203FEA9F406@qq.com>
-X-QQ-XMAILINFO: MRMtjO3A6C9XMVxXvcIPYs5ML3PhM7pE6Ezlq/N7hbcZlBNIasXX4c3yaDeL2D
-	 Y+LExGMQuPdbw2Nv0d02aYWFnRwQD1qXYuTel2L1N7F/lkCejpvNgx5Daeiok39/y7i08lFC3enL
-	 jRy5lyT0cVyuBxihz1MuAYbWeP5t4DAm52ZpWzkhoqHjTiov6rZGclOKXGJarbteJutvsWZdiao9
-	 tTbB6wn+k+6x7muJnCSUbDgPAYliO+O0cPZo0G8X7xy7p4EpRAw/M6kgIOLgZT7fuhMHhB3lot6L
-	 9Hg/EGoBIoOoM/rcm759HGZShOLlXpifuRY6ifUv+5zYCM37K8Q/EcrlFqoC5Kq0m8yXK6E3Qbzv
-	 PjQglDqL8QCAQk6duawoaKPdUupaBFGt0Z/ambB2CMuu5fzdo11CqC7qSceXfCxIr4SLSZvGyXTc
-	 NmhTURqtTSvMeAlSdYQkI122+KTnbfyg7D6VFzCb7ZISqzcFQ6YtHbLXC58FVHV4vyO8IGrXGdB7
-	 M8i1rWR151cdjtLG8pbNskmikhk/M/w1ldGkKGwJduo8E82YRq2Z6nW6zHXqGrp0/cPE+ji5ZEXf
-	 UNzq+D7cu2rMrvtiqnoNHbsAEtWZTRqU+IROUIwH9u1GbEpDs31IMQ9IysxL14qiglMfhCYr8BNf
-	 CF5r1XxJtuylOG4ktXRzhGNx0WZuCFbMMfwTYhlWLrj0uTPRGDq5VKdXglCbJALn/60EKu2liPE0
-	 dTqc7kCjRsr4ovuUYNbgJ66yftwpDFR/3QL6tCKYphHzDKc9UHeUqWSc7qyEKZX+t/oA1hIOrGVz
-	 yzMl1zoAYN32OMBeYFsZopbZ7296HG5WLINZ95vQJukSJJEVwRlm2zJRwUvPx97dogccPr1xIvia
-	 TmV9dto8+kheP9IzRgnFSGQVGXRJNQ6an7xTvfSCz+YFyn62uWuoKNtVsGQbn+ALDRyU45P6wkpJ
-	 tJYCgM9vwW65jvV5JbjJJ0ktHvMLKpA7Ghzbnu+PoqtpBnOC/+jS81tWdk/fn+96wZxpF1056aYx
-	 skbsh9gzRY05SWt3VGESuoaoP1K/o=
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+	b=YauFBGyZ4PlnhOlb6g5n7gTrkbYk4MvPXuGcc1HC2nYBWvFXG5cJz9GzCQufFoWp2
+	 7A/e2pS7Mk+wQP7ILOmf/dPQ6Jww+Z7TsnlKoWl7aWuTz3DcnENXSEFiwFuV2ityO5
+	 QO7WcKEfBCb0oSCHCPlGqXV265tZ+JLNRUCcyR0g=
+Received: from Liujunyuan.. ([183.95.73.181])
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id B67BB832; Wed, 21 Oct 2026 11:45:39 +0800
+X-QQ-mid: xmsmtpt1792554339tdm1xcpfz
+Message-ID: <tencent_FE0C25ACDF20A06CBFD0651E7C4ECD7E5009@qq.com>
+X-QQ-XMAILINFO: MFkgsonL4eTuewEom+dEv5zIIb5SSGFcmfTxZjVvVx4fnnbLzdlmWEyi7ID2fL
+	 CG9PV+6zVkHvxk2LGIyOUP9OeoKEEONu2HqWHYttGkiR/LD2IpspyUytET+eBv6hxFgedE74yxQl
+	 2CiNTk2ITAMDo+1zUjNsMtkeHM8r0vmi58L17ap4//OLGw5q5o2s49iDE80C8lbF/ErNJlVKgvfm
+	 AZwf+KZE9fgdM41qK5lu1fy4nm4uSD7MssFHTZvuJuX3xVcyHzt1yX5OPX5ncq+Sb591tz9opbmp
+	 YtOtgJSCO1b2xlqSI3pST+JybU6tlSRrH8W3Xh4NssDNrZrihF85tsQD510u0v29WzEPBz3C0V/h
+	 V+X8j3PJIhwe6LSFnIHCGIHkE0W5qJvPHy4k9v9+KvZ6zz/xGlXMTwWIf4CPPb+13ei5z5Sq4HDS
+	 6MRW6PjbO/eHuXmOPVub7pWOMjdqWec9ceDpszcDY/gnLsKwbFRDmrhPGcj3Q8Ds8gKOj3fn8lzu
+	 dmoJR7Fp4oMY5FFkt0LRXoP15Ck3nJb/2505X6M+ovWXKss8ztwfpMggThPNYGhWDyYPqyApSg4O
+	 gVAT+x5wVYkw36S4K4uqeW2dDMX8CGhou5H4rnFEk7NEgY+V/weZNSUGk4FBqFgbxi1TugzSBXzp
+	 F84hqhayfIE3X9BGvSEbC0kkBW5nf5DSoonLjQiay2pi+ctn7PMokLlL2XRyiw5C76cv/rPKkLf5
+	 bBiZvqniMpc0sYSMqe8vKw+9XVFiyLo2dFapEwDQHI1orliMX9otJdBOFpXeVFkHXEFpOzkO8eQu
+	 iCTbMRUn/CvdB7Nv3sq8aZObWEmTWwaObXws+quTLCqID4QMI9thyc1V0P+9z80N3x6uPtx+w3cH
+	 nmHWssGN1y6coyYt0lGxqfpVL3RKn2W4itrwpdAEpAuRUM9DqE6R8QyQ7XmI4wmBoyz9G5sIdC8Q
+	 k7xJQsZuVHLbxK7hXuVIEJBZn9Cp/YRpPm1k14XOszJaXaiI23vHp1qGa+4oEK0tB6Rz7Oa/1+j7
+	 Ng/r+xqcaeClotIdQcgpvuagfV6is=
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
 From: LiuJunyuan <2058432396@qq.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	LiuJunyuan <2058432396@qq.com>
-Subject: [PATCH] staging: axis-fifo: fix tx_fifo_depth underflow in write
-Date: Wed, 21 Oct 2026 11:29:08 +0800
-X-OQ-MSGID: <20261021032908.13693-1-2058432396@qq.com>
+Subject: [PATCH] staging: vme_user: handle zero image size in read/write
+Date: Wed, 21 Oct 2026 11:41:38 +0800
+X-OQ-MSGID: <20261021034138.14525-1-2058432396@qq.com>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,28 +79,38 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Check fifo->tx_fifo_depth before subtracting four words to avoid an
-unsigned underflow when the device tree provides an invalid depth.
+vme_get_size() can return zero for an unallocated image. The existing
+image_size - 1 checks underflow in that case and can allow an invalid
+position to proceed, wrapping the subsequent count calculation. Check
+image_size and *ppos directly instead.
 
 Signed-off-by: LiuJunyuan <2058432396@qq.com>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/vme_user/vme_user.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 7bb35e11d1dd..178514a71734 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -228,7 +228,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 	 * raised, which requires a reset of the TX circuit to recover.
- 	 */
- 	if (!words_to_write || (len % sizeof(u32)) ||
--	    (words_to_write > (fifo->tx_fifo_depth - 4)))
-+	    (fifo->tx_fifo_depth <= 4) ||
-+	    (words_to_write > fifo->tx_fifo_depth - 4))
- 		return -EINVAL;
+diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
+index a472a38ef613..58566c01003a 100644
+--- a/drivers/staging/vme_user/vme_user.c
++++ b/drivers/staging/vme_user/vme_user.c
+@@ -213,7 +213,7 @@ static ssize_t vme_user_read(struct file *file, char __user *buf, size_t count,
+ 	image_size = vme_get_size(image[minor].resource);
  
- 	if (f->f_flags & O_NONBLOCK) {
+ 	/* Ensure we are starting at a valid location */
+-	if ((*ppos < 0) || (*ppos > (image_size - 1))) {
++	if (*ppos < 0 || image_size == 0 || *ppos >= image_size) {
+ 		mutex_unlock(&image[minor].mutex);
+ 		return 0;
+ 	}
+@@ -255,7 +255,7 @@ static ssize_t vme_user_write(struct file *file, const char __user *buf,
+ 	image_size = vme_get_size(image[minor].resource);
+ 
+ 	/* Ensure we are starting at a valid location */
+-	if ((*ppos < 0) || (*ppos > (image_size - 1))) {
++	if (*ppos < 0 || image_size == 0 || *ppos >= image_size) {
+ 		mutex_unlock(&image[minor].mutex);
+ 		return 0;
+ 	}
 -- 
 2.43.0
 
