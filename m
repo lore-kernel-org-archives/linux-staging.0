@@ -1,65 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792676759;
-	b=UZkZrdekch4Wpsntq08qfT0OnMiEBQoacAl5oKfbKMJNyyxEScgpV5lkoxvXuaZ+ptjM
-	 50vc7hgiHL9NJSBk8oLc0FirhD5M4Om8u/gxfFd9/BdvDYtqvmMb0diZ70aWcgJ0Nsupc
-	 PECvlsGMCTbqKQ/wX1KoSfe84AfkIRZBJ8Y1eTN/YigDecPhRl8fJSe05r0TqbjuUiZkJ
-	 f5KaJ5MCa67u8x1x8MbvYvPOW0N6qyJH35wEUzCKVIebIR561rulK6QZBKzrQS/Ep3H7E
-	 tWBHf/3Il2NvbU9DwVv64bvfDJyDdMeCjpvT0SneU3PNG0Qza36ewnyKcm6UhbjG3xQ==
+	t=1792677165;
+	b=oqqQUtvxDopPn6LGKblgWObe5K3Cw5sGzu0dWyjTYZFfQIyRV1vAlgJAk9TGA4x3rG8H
+	 YwPBmcWes/zTC633k9cagBcpYxYhNRLdfaPTfT0mqy6DdB1wIN9Z+VZOo20/Y7RiB7aZt
+	 B74PL68WWNP9FTPJ0PQt8wIVfiuZLuJuvf78hacvkNilk9e2jz98LQzHHsCxv+nRorWUj
+	 a9l/jkQdXSdSLZJVLy9X8ZNkgA+dpDCS+wtl41y1pOJr5Tn4e10gr4HEtocXEuIk6G2Fd
+	 ukrAX+8BWlepLQP4918gXflBAqBZ3XRdQb+PDjpPWvMGb5et2xjRl5kcNCpRsbjkrZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792676759;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Date:From:To:cc:Subject:In-Reply-To:Message-ID:
-	 References:MIME-Version:Content-Type;
-	bh=pYCXYRMYM3w50/3+sv6Tzrn/zeXy4fAad/KXHO/jW5I=;
-	b=wS50pOuWKH7HnuvdwP98pns5EcpdGu0uGDtt1ikXSzHObageci8B7nZBAzX/vvqcLOyw
-	 2WwO208N5GJ4K7yb/ne9LZI4wXh13jFhIS5HdQ5Mni+TYnYR9HCX06T6IpbFYmpUfqRkv
-	 5s6MK0SXUNkWpGkt16XxSOir4EWn5e4YydeqKezrDvijkD33u53MNsT+apRenSN2xPILB
-	 wubhpwQlnHJuXbfbwSgiTWxwqN+mUp4hlclmsn/jd1TE2NweWcNLIpCvKPvJ85uelh+Lr
-	 RI6taN4U9VSJEa65AMDvMB85UIkd4UdpuWxxcqDQjeR9ThpwiDusuzERusQj5EgJAew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792677165;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=4UJXl/niMVZl0CeunjxO5V5+JucB08q7SmqsbPUUWt8=;
+	b=Rl02YiUjPEIcyGa7o0+YB8rN4cPbmb/1Lgbntvo5EeQeEtYQp8EBIfjdDqAf7ihDw2uL
+	 FlU3cKFR7CAUhR6ISOuslW4gYhCLprsHDvBY5WbS6DWhM8n8FgpegYn7/FN5+zXjFBJKQ
+	 AiGTsiQrlQbXOJxKZ4Cv9nX3455od7nafQmiGRG0PtE2FzJtitRinqLeu2s3OZfO+lv7W
+	 QwArfpYZ4cKqVUAFfgesJISON26yscFfbsbbvVrwBt9Xl17BQksYEA9suKG3hwfLXfAEV
+	 cZhXyuCcTKxCeGf2OEq6uWFReUh0HXKd0HiNO8701oMhd+faxhRjXwx4kEm2BqQuKOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inria.fr;
-	spf=pass smtp.mailfrom=inria.fr;
-	dkim=pass header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=S3VvHWEF;
-	arc=none smtp.remote-ip=192.134.164.104
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=STQ9WQxF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C8A60A6F72;
-	Thu, 22 Oct 2026 13:45:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58C8A60A6F72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72D8606A31A;
+	Thu, 22 Oct 2026 13:52:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=S3VvHWEF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=pYCXYRMYM3w50/3+sv6Tzrn/zeXy4fAad/KXHO/jW5I=;
-  b=S3VvHWEFbQ4JHO71UZiuZc2mtcDnN8EolGxtDlVfUVekcCAmGO1j8gBh
-   Flxhld7Q8L7ug4fae6xqgfL/KHU+1JcrQ3pBDMuLdoVmQ2ONQVfIzDNTY
-   RMQ2MS1E6JJmXeBQqUn7CUmh2qwTEuG/Tn0Mq7pXnIEeM2thO8LXM1c/9
-   E=;
-X-CSE-ConnectionGUID: kxJgW2CDRPiiIeEGms4YgA==
-X-CSE-MsgGUID: tBF8NsKiQbSWuYgpbOvpSQ==
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.27,172,1787004000"; 
-   d="scan'208";a="160606352"
-Received: from c-76-123-3-53.hsd1.va.comcast.net (HELO hadrien) ([76.123.3.53])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 15:45:53 +0200
-Date: Thu, 22 Oct 2026 09:45:51 -0400 (EDT)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Alex Elder <elder@ieee.org>
-cc: pavankumaryalagada@gmail.com, greybus-dev@lists.linaro.org, 
-    linux-staging@lists.linux.dev, outreachy@lists.linux.dev, johan@kernel.org, 
-    elder@kernel.org, gregkh@linuxfoundation.org, vaibhav.sr@gmail.com, 
-    mgreer@animalcreek.com, vireshk@kernel.org, rmfrfs@gmail.com, 
-    dtwlin@gmail.com, linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=STQ9WQxF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C2501F000C1;
+	Thu, 22 Oct 2026 13:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792677164;
+	bh=4UJXl/niMVZl0CeunjxO5V5+JucB08q7SmqsbPUUWt8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=STQ9WQxFxSTQrMiNc6K1oZg5u8cSJCGFgVj3DXnrq9XWS1zUaQ3etft68rCuaoSKJ
+	 zn2zKqJ2i4P0HJw23IPxb36JP4uZQxVtqhGxVdTiDw+eO/VO1g1ZsObvruiF4K9rub
+	 P268vlJu1/Y5sg7qfW/cBMylvSFoPPE2UzRenrtCbNegRWCEf6Hw+vV/9cgs0r8S20
+	 SubedeKvP+LbUoh+GeTqStlqFdWYWSI63tOLFpO4u5oBtQE5ATqJsPgK+xA8U7Hpfa
+	 tWaCyxhqYJ4HtKSwJ6MuG5pI8lRlN/DWxIQNbQVs8f3kuNL6h6RXzyDcTWQdL1noqQ
+	 c8bqtsunMSr+g==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xJtDl-00000000ODl-3Zy5;
+	Thu, 22 Oct 2026 15:52:41 +0200
+Date: Thu, 22 Oct 2026 15:52:41 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Julia Lawall <julia.lawall@inria.fr>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Alex Elder <elder@ieee.org>, pavankumaryalagada@gmail.com,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev, elder@kernel.org,
+	gregkh@linuxfoundation.org, vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com, vireshk@kernel.org, rmfrfs@gmail.com,
+	dtwlin@gmail.com, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: greybus: Replace format specifiers
-In-Reply-To: <4c393ce3-41ae-4f4e-9af0-4eb7cf1c425a@ieee.org>
-Message-ID: <6b5a87f-3ca-ddc4-1ea8-f3ee7f45d83@inria.fr>
-References: <20261021163437.280930-1-pavankumaryalagada@gmail.com> <3433f922-bffb-4f1c-8e06-a7a87f5dbcaf@ieee.org> <d0a4a257-1ec9-7096-11db-5ff4b3244bac@inria.fr> <4c393ce3-41ae-4f4e-9af0-4eb7cf1c425a@ieee.org>
+Message-ID: <atoVKX09VDnak7EZ@hovoldconsulting.com>
+References: <20261021163437.280930-1-pavankumaryalagada@gmail.com>
+ <3433f922-bffb-4f1c-8e06-a7a87f5dbcaf@ieee.org>
+ <d0a4a257-1ec9-7096-11db-5ff4b3244bac@inria.fr>
+ <4c393ce3-41ae-4f4e-9af0-4eb7cf1c425a@ieee.org>
+ <6b5a87f-3ca-ddc4-1ea8-f3ee7f45d83@inria.fr>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -69,141 +69,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6b5a87f-3ca-ddc4-1ea8-f3ee7f45d83@inria.fr>
 
+On Thu, Oct 22, 2026 at 09:45:51AM -0400, Julia Lawall wrote:
+> On Thu, 22 Oct 2026, Alex Elder wrote:
+> > On 10/22/26 8:35 AM, Julia Lawall wrote:
+> > > Does anyone on the greybus list know anything about this person:
+> > >
+> > > Bryan O'Donoghue <pure.logic@nexus-software.ie>
+> > >
+> > > The email address is not valid, which is somewhat tiresome...
+> >
+> > Bryan was on the Greybus kernel team.  Remove that address from
+> > the list.  I'll let him know that e-mail is bouncing so he can
+> > add himself back.
+> 
+> Actually, the email comes from the MAINTAINERS file.
 
+Hmm. I haven't seen any such bounces (and I CC:ed that address a couple
+of hours ago).
 
-On Thu, 22 Oct 2026, Alex Elder wrote:
+Bryan, is your nexus-software address still valid?
 
-> On 10/22/26 8:35 AM, Julia Lawall wrote:
-> > Does anyone on the greybus list know anything about this person:
-> >
-> > Bryan O'Donoghue <pure.logic@nexus-software.ie>
-> >
-> > The email address is not valid, which is somewhat tiresome...
->
-> Bryan was on the Greybus kernel team.  Remove that address from
-> the list.  I'll let him know that e-mail is bouncing so he can
-> add himself back.
-
-Actually, the email comes from the MAINTAINERS file.
-
-julia
-
->
-> 					-Alex
->
-> >
-> > julia
-> >
-> >
-> >
-> > On Thu, 22 Oct 2026, Alex Elder wrote:
-> >
-> > > On 10/21/26 11:34 AM, pavankumaryalagada@gmail.com wrote:
-> > > > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > > >
-> > > > Unsigned variables are printed using %d.
-> > > > Replace them with %u to match their types.
-> > > >
-> > > > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > >
-> > > I have reviewed every one of these and they look good.  Quite a few
-> > > of them--because the size of the value being formatted is less than
-> > > 32 bits--would print correctly no matter what their value.  But I
-> > > think it at least does no harm to convert the format specifier to
-> > > unsigned in all of these cases.
-> > >
-> > > I have highlighted below an existing bug that should be fixed.  It
-> > > gives an example of something to look for when you do this sort of
-> > > activity.  Please arrange to get that bug fixed.
-> > >
-> > > I also pointed out one other observation for you to think about.
-> > >
-> > > Thanks for sending this.  I didn't check to find any other instances
-> > > you might have missed, but you seem to have found quite a few.
-> > >
-> > > Reviewed-by: Alex Elder <elder@riscstar.com>
-> > >
-> > > > ---
-> > > >    drivers/staging/greybus/audio_codec.c    | 20 ++++++++--------
-> > > >    drivers/staging/greybus/audio_topology.c | 30
-> > > > ++++++++++++------------
-> > > >    drivers/staging/greybus/bootrom.c        |  2 +-
-> > > >    drivers/staging/greybus/fw-download.c    |  2 +-
-> > > >    drivers/staging/greybus/fw-management.c  |  2 +-
-> > > >    drivers/staging/greybus/gpio.c           |  2 +-
-> > > >    drivers/staging/greybus/light.c          |  2 +-
-> > > >    drivers/staging/greybus/log.c            |  4 ++--
-> > > >    drivers/staging/greybus/loopback.c       |  4 ++--
-> > > >    drivers/staging/greybus/power_supply.c   |  2 +-
-> > > >    drivers/staging/greybus/raw.c            |  2 +-
-> > > >    drivers/staging/greybus/sdio.c           |  4 ++--
-> > > >    drivers/staging/greybus/spilib.c         |  2 +-
-> > > >    drivers/staging/greybus/uart.c           |  4 ++--
-> > > >    14 files changed, 41 insertions(+), 41 deletions(-)
-> > > >
-> > >
-> > > . . .
-> > >
-> > > > diff --git a/drivers/staging/greybus/bootrom.c
-> > > > b/drivers/staging/greybus/bootrom.c
-> > > > index 83921d90c322..fb1fbd3f7b99 100644
-> > > > --- a/drivers/staging/greybus/bootrom.c
-> > > > +++ b/drivers/staging/greybus/bootrom.c
-> > > > @@ -222,7 +222,7 @@ static int gb_bootrom_firmware_size_request(struct
-> > > > gb_operation *op)
-> > > >    	size_response = op->response->payload;
-> > > >    	size_response->size = cpu_to_le32(bootrom->fw->size);
-> > > >    -	dev_dbg(dev, "%s: firmware size %d bytes\n",
-> > > > +	dev_dbg(dev, "%s: firmware size %u bytes\n",
-> > > >    		__func__, size_response->size);
-> > >
-> > > This line actually contains an error (and it was there before).
-> > >
-> > > The type of gb_bootrom_firmware_size_response->size is __le32.
-> > > So the value being formatted needs to be converted into CPU
-> > > byte order before being used.  That could be done this way:
-> > > 	le32_to_cpu(size_response->size)
-> > > or just use this, which is known from a few lines above to
-> > > have the proper value and byte order:
-> > > 	bootrom->fw->size
-> > >
-> > > Please add this to your list of things to fix, and submit it
-> > > as a separate patch.  This would be a bug fix, which would
-> > > also give you a little bit of a new experience.
-> > >
-> > > >      unlock:
-> > >
-> > > . . .
-> > >
-> > > > diff --git a/drivers/staging/greybus/raw.c
-> > > > b/drivers/staging/greybus/raw.c
-> > > > index 4f1b3f4db404..2314496a858a 100644
-> > > > --- a/drivers/staging/greybus/raw.c
-> > > > +++ b/drivers/staging/greybus/raw.c
-> > > > @@ -112,7 +112,7 @@ static int gb_raw_request_handler(struct
-> > > > gb_operation
-> > > > *op)
-> > > >    	receive = op->request->payload;
-> > > >    	len = le32_to_cpu(receive->len);
-> > > >    	if (len != (int)(op->request->payload_size - sizeof(__le32)))
-> > > > {
-> > > > -		dev_err(dev, "raw receive request wrong size %d vs %d\n", len,
-> > > > +		dev_err(dev, "raw receive request wrong size %u vs %d\n", len,
-> > > >    			(int)(op->request->payload_size -
-> > > > sizeof(__le32)));
-> > >
-> > > The above size calculation was done somewhere else without the
-> > > (int) cast, and the format specifier was %zu in that case.
-> > > I don't think this needs to be changed necessarily, but it's
-> > > something inconsistent across the Greybus code.  Consistency
-> > > helps readability and maintainability.
-> > >   >   		return -EINVAL;
-> > > >    	}
-> > >
-> > > . . .
-> > >
-> > >
->
->
+Johan
