@@ -1,58 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792668488;
-	b=pIuqj5G3wbqRVubnqDsxjxDLIkXX1l+cQgt4muWQmv341BjHQ9TK2AieagTsU1iC1/tw
-	 yO24PYITw7eJty8j3RcXbksoTr04a2sGZMgJF91oxhz7CIqkRl1FeYBv3mw/VwtKyd8FA
-	 yJ37NrsSC0K7i2w1Iv1uDtl5yHil3eOPvxqiStwEQAbbinmOvTGdiwKrQB7QkQxu0nmcS
-	 w598DwpN9qcvOTjAcI9nLoS53BqowVMGw128Aq3soXZ0vHJyVyicqD1YzQyeBHg77JGxQ
-	 orx1WzJXcHHoIrXtw4ki4pdKoYMUrj9adcjd12cB+MPK+f0FB4lAjCbOoFoRJejFsOA==
+	t=1792671804;
+	b=zkAkljJll6fXbaDux4uoxBuQXM4FTRtVo4ibTr1xyf6mDwYbbpz9EfYrnFeXWHbtdq+E
+	 AhpYLPFGU7XHP1eilUaMjKpYEGqgwzx7sTEUgCtbFvtNX3FGjMLnoNsK7yJvbBtkQAKwR
+	 QeEHnJz7CAn55fTkeuNhuddNkqagmtOMgj7SFEUn5/60HQXxPWEL8pj4u/l1cRylsr840
+	 9q9OuJUG42YplyTcQSDvhNtv8KXmTMgRBFYbrQXbBkmtmR2QrNnOidtWacOVbl6S6ZLAo
+	 fN7MiM14yXdYm+m3DzEAwYwg0CQ0W+SbLiy0ui3PFtHdqjW7z7MuLDD0gAIJaRYJwQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792668488;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=f52TmhXKW09tvCxy8WBiWvrY1u6Qfmc4NU8BV8wdBzQ=;
-	b=eSp7VZbKRlgcbYF9fUGWXhQx+aU0HPu+tRZEdJI0C+FUghneVUvkqoYGjaW3t/NzJNhs
-	 bGFyl8bXFyvuIiHWHFZHGy6qSh8Mh2DrtdicbTlQUbLlw0rZarC1ib3xhDxc0yYyNKUrZ
-	 e7iE0SjsQP4BC8DBMtAstDNrcWzCTBFWMETEpKW8Sdfao1A/kcX7aTZobjKNVeE+bCmtZ
-	 QbqP9p6bXhmvYzmJ+m3fr9BUgZrKOz1Izs9co7XS6cL+dmrjWYJisrwXJLFSaDPaPGNY6
-	 U2pOqg86/MP+0M5RUJCQ76TBABgT+6oTsrIayd1cPXKbAXNahD9CICYi/KzcF9UVRwg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792671804;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=fJgprVGDWF0poiYwsa71a9OD44gaDa4G8wp7yZTVF1U=;
+	b=sA1BGtpG8MQg1hC47tzlH9FFN08ACHEwHVr4za5eIaalDmVlTvsA656ZIvrewjR5c+xy
+	 BK4C+6UrJRNGGwzBHNfmbCp8fG4nukCEyZVNoAEYH1O4ukNzgx6O24JuoHKWZwwrDgTDo
+	 lyK37IibLcSfC+ZZIE40XQJTMZnV68aMarGRKEXACG+aoxvfWKWnDcnAStEDSvDeOXYex
+	 8ctS4l5+9Ne323jn8gnVcdgWYLguRaQRoN99vh0d5LGokFHew5gLWFl3/SpJbqZNM4raz
+	 2XMmII97BK+/CCY/Pq3JsoGeGs8Z8jvHi8RK/AB3USOl0qlAnvvzX4bvwurD5T5HTig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="oX7/f53D";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=eA++yMj5;
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B94606A31F;
-	Thu, 22 Oct 2026 11:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7748F606A31B
+	for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 12:23:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7748F606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oX7/f53D
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE8C01F000C1;
-	Thu, 22 Oct 2026 11:28:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792668487;
-	bh=f52TmhXKW09tvCxy8WBiWvrY1u6Qfmc4NU8BV8wdBzQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oX7/f53DtgngH2ONZPVZnmzBWgB5QsnyCUzGfVCXakeEhXW+7kdifoKRRB9dGWLik
-	 fphJgeyxElpR7xKkGPv+rZOVlunSXcG8jK15uWRXUDM/s/HBDLWgHtC9LDCWCu2+KL
-	 vGVarcsN7c8XD/unl3WfRaY8x5QlqvutYtpbbiaB0LHOinfe2SR0R3vrSgRD5x6FQG
-	 Jqj2icMXEXwKbq5JP5i+7tC+emWwUv01uH/qn6Y3hZkDRWVX9Y3ETrm5WBrSAAgW1a
-	 eYjho8a7PsLwd4Yt4dMh1bRZWve7jTXP4scoKhNNrUY8B17g3qfzpry6Jds7nxw92j
-	 t31tfrcIoec3Q==
-Received: from johan by theta with local (Exim 4.100.1)
-	(envelope-from <johan@kernel.org>)
-	id 1xJqxo-0000000097w-1p8u;
-	Thu, 22 Oct 2026 13:28:04 +0200
-Date: Thu, 22 Oct 2026 13:28:04 +0200
-From: Johan Hovold <johan@kernel.org>
-To: pavankumaryalagada@gmail.com
-Cc: greybus-dev@lists.linaro.org, outreachy@lists.linux.dev,
-	pure.logic@nexus-software.ie, elder@kernel.org,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Alex Elder <elder@riscstar.com>
-Subject: Re: [PATCH] staging: greybus: Use fsleep() for delay
-Message-ID: <atnzREwGJkuxqQ2_@hovoldconsulting.com>
-References: <20261022110238.38824-1-pavankumaryalagada@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=eA++yMj5
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48df4f540ebso1153920f8f.3
+        for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 05:23:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792671803; x=1793276603; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fJgprVGDWF0poiYwsa71a9OD44gaDa4G8wp7yZTVF1U=;
+        b=eA++yMj57x73qRVdm+7q1BWij6Qpq8ldBWGAe4Z0BxeC7ZLcsMVxjkgiRqTf2QxSxR
+         moOPUYH3R7uTYWGde8aZHw+M7dpjv36zfhWomLY/IacY4YszHvrLawJyDtqc6u7HKOuj
+         yAdYMCTXt0uLEa7IUmqpoQt1Gl7mAFIDJM1kvQa4eOzA8VVUXCyc4KMc0wYbc41Pn1Mh
+         yFt8jE7WFxa55wWN6nD7Q0U4co5QTcRCJkjr9/YB5GgxzMmmjSbu5EBvMu6Wr3+ROZuF
+         18llTE7GzKGUyMEkb/r3ArSLyhhIHO8igd3wG38VUWT0Vtc5qxJcOri9s8OVMMPeIyhr
+         r0Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792671803; x=1793276603;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fJgprVGDWF0poiYwsa71a9OD44gaDa4G8wp7yZTVF1U=;
+        b=PEKla0WDkSQVf7zz7T0MonMZ27q2RY1APbO/I7Y8G97OK0ty/rXDcFB4ln1P8OnqaG
+         MaExlrMQ7HIqb80BvYuUCU6Ranf7dFzdLYDHq4WC1hXXhXDd8+wwl+SvT4FCtNhGFvqY
+         kqRTt10ttNVCngCmSFZ7pakEQ2Wa1vvT4kT3MvPod5pQv9xfw6SXu1oJm2WeGV2sR+4w
+         wxd22vMjggkP57Q+4f6StD0LWf3j/wpTUMsRnLOz4KP8Hwqj5Axw7ZLpCkLen3D3DNzk
+         Ig7RIXnPhWPihnvzTPkuPULqfrDGjABElGHHl+hSJf+KLtb9T6reKaMAXnVHnBQZC3L8
+         mUMA==
+X-Gm-Message-State: AFq9FYIJobEfbrfEOZoKWgCwOZmTZ3lrbTq20z7eEIv9RT//RnDefUQ/
+	u9uH1eTj1yJRaJhU+ZPQi+NG9q+YLTEi3WIggbmELw8b1oPBuEhVT7sK
+X-Gm-Gg: AYBFou2UjCavte3pmw2I2nS6xfb697lgxtSbFUL/lO5Jktlt9sDkHUbKUkjpx6K9mqn
+	M+9FTIlOWnf5iXCBPTti37n93p5oAgOCrGgi7csrmihnihaiKFXZfXFVlCYVmpD5m0+q/nesvuP
+	VklBbaq9HN2F/HedOPMlrkBnnbZhCCdbDhpGExu6AeCU8fFvmEJfgrrRh/Vflkhw9gorehMSo0P
+	IXfzL+h5bY/4UaVG/wtolKSJ8cMQE3pENT9xg4ScePD0gBlxFXyDgcQ3jFwF9ajcSIWkbFLda5O
+	Yu7nVruFwlaAU9emAcZtwkT9UCmTAV9xX8XneWOUkI/uI8fkkpMKjyaT7Bf8a49OIDnVsSvU+sT
+	Kh4769ryPAcmDmej4ZxVfjnRNF9ohMSct/mM4h2xrN6h+OgHt8Xh1cQxFITr1Eb50PGhnDlbdHQ
+	GbY1/vmXvtK7cKELhWoev1FKQHX3rQHY1HJQ74X1WghInVYNY0CApsNQvOebK+xahtSxGsUm9l/
+	EHlfEeezTwn5WantEAmhdE6XQTWJOdA4CNnOjFOCpOv3m3/uEk6XxDFbkuA
+X-Received: by 2002:a5d:6a4d:0:b0:487:1256:ab80 with SMTP id ffacd0b85a97d-48e264f2c50mr8284125f8f.57.1792671802341;
+        Thu, 22 Oct 2026 05:23:22 -0700 (PDT)
+Received: from localhost ([147.161.188.190])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e254ef1casm9458499f8f.7.2026.10.22.05.23.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 05:23:22 -0700 (PDT)
+From: Linus Probert <linus.probert@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Linus Probert <linus.probert@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: rename rtw_setstaKey_cmdrsp_callback()
+Date: Thu, 22 Oct 2026 14:22:34 +0200
+Message-ID: <20261022122234.443631-1-linus.probert@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -62,29 +92,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261022110238.38824-1-pavankumaryalagada@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 22, 2026 at 04:32:38PM +0530, pavankumaryalagada@gmail.com wrote:
-> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> 
-> In the loopback function, usleep_range() is used for short delays
-> and msleep() for longer delays. This requires choosing the delay
-> function based on the requested time and converting microseconds
-> to milliseconds when using msleep().
+Renames rtw_setstaKey_cmdrsp_callback to rtw_setstakey_cmdrsp_callback
+in order to conform to kernel code style.
 
-Please include the module in Subject since this is not a subsystem wide
-change:
+Found using checkpatch.pl
 
-	staging: greybus: loopback: ...
+Signed-off-by: Linus Probert <linus.probert@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c    | 4 ++--
+ drivers/staging/rtl8723bs/include/rtw_cmd.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 9fc62cb1ae01..81aef5ffe685 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -34,7 +34,7 @@ static struct _cmd_callback rtw_cmd_callback[] = {
+ 	{SET_AUTH_CMD, NULL},
  
-> Replace both functions with fsleep(), which selects a suitable
-> delay method based on the requested time. This avoids the need
-> to choose the delay function and convert the time manually.
+ 	{SET_KEY_CMD, NULL},	/*20*/
+-	{SET_STA_KEY_CMD, &rtw_setstaKey_cmdrsp_callback},
++	{SET_STA_KEY_CMD, &rtw_setstakey_cmdrsp_callback},
+ 	{SET_ASSOC_STA_CMD, &rtw_setassocsta_cmdrsp_callback},
+ 	{DEL_ASSOC_STA_CMD, NULL},
+ 	{SET_STA_PWR_STATE_CMD, NULL},
+@@ -1876,7 +1876,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ 	rtw_free_cmd_obj(pcmd);
+ }
+ 
+-void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
++void rtw_setstakey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+ {
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct set_stakey_rsp *psetstakey_rsp = (struct set_stakey_rsp *)(pcmd->rsp);
+diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+index 75a774f8c4f3..9b801a61b69b 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
++++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+@@ -593,7 +593,7 @@ void rtw_joinbss_cmd_callback(struct adapter  *padapter, struct cmd_obj *pcmd);
+ void rtw_createbss_cmd_callback(struct adapter  *padapter, struct cmd_obj *pcmd);
+ void rtw_getbbrfreg_cmdrsp_callback(struct adapter  *padapter, struct cmd_obj *pcmd);
+ 
+-void rtw_setstaKey_cmdrsp_callback(struct adapter  *padapter,  struct cmd_obj *pcmd);
++void rtw_setstakey_cmdrsp_callback(struct adapter  *padapter,  struct cmd_obj *pcmd);
+ void rtw_setassocsta_cmdrsp_callback(struct adapter  *padapter,  struct cmd_obj *pcmd);
+ void rtw_getrttbl_cmdrsp_callback(struct adapter  *padapter,  struct cmd_obj *pcmd);
+ 
+-- 
+2.56.0
 
-It probably doesn't matter here, but I think you should mentioned that
-fsleep() will likely make short sleeps longer (25% instead of 100 us
-slack).
-
-Johan
