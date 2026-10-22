@@ -1,94 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792696472;
-	b=EJP6GgCuxfGmavC2QgQrJdaEeIu09d23vyec171ZYe/rrmrk9jlbojPbikLbTde9OTr7
-	 rks/vrPfLN2qeULmVMtq4snFeByzDe3fBvCQH1rq9PCjPhqVD+yxIVPDrCZLS4/Nc3vzP
-	 E+i2oUyHIlr2+NRVb6fEupDvoRic4w9kgsWTl5BDpd+8jWry0I4Ewka4BcZeNzZInbmba
-	 M6ZZ5k5+3J4UzDdV0C6hIFkvvl4asdkKNPclHzMib9hCZUxrabo7dC0gr+WF1Y9b4j7MR
-	 g15hwX9PyDExcJLCrI2lB3ahWg2iLRrsE8HKXYpSU1qxnvqOrG7L2APh4Igum5niEQg==
+	t=1792697373;
+	b=DPkzMSyRhJvL/AfZ4PP0xnObhFMy+/0CrS8se1GZTZEviReY+BjiZCcLN5PX7jlNNw+X
+	 7M84O8/J4yKM4t+DQogVqSEKOryBePUoJmzXLTTN3WGIfyhrym8SCHjVaAc81BdwSnSAd
+	 fnOyoX9JL+2sz23X3IKjOtHfSOh/ptx8uR6Xyc9bFHp3AgdWUvWT7RBa97e3Lna2hGD4r
+	 PYNDIWonUnwfIEJGUBgFtPnQO9oSZnNmMWzhUDrIqQ9R2IxSM5m4HuPN02s9/TYRN6BRN
+	 H7yCsxAW2SsqMh9/TMk4vuNFBaxMGI7qTO61Q0ofn7+PVCxzbANgV899oyXNIVbaAzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792696472;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792697373;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=u6kKdaF5AxgzpiROVhZ0qUCFn2LlsDmJ9V904EQhkRI=;
-	b=IVSLdXV8WYVIo9krydHKmUP3/0Y/3LZTs7sG9Goc0GbhBojmHQIzLSbaotDudSIaZECe
-	 XzfYIJDuD9lclrA2nmtxj8IQyJiJ9C0hlP69Ez9A9x9z8pKWUZDnpHs+MImjqeRIT8M5K
-	 TosC0eI6L7QySwRQlpOR1lV6ACJiOKrnLYGmroMkweJM6PPMXu18JppmulkQ0dgu8pAcH
-	 hdMfZiuHloyFpdWTKbNmXWHywLiuFovesTfycPQaikc0jEvusSQfjA3N1DsQJLDr8xAyB
-	 jt2U7RmaSbxw5vD75AkkZjN2TUF0FlqHSUGIurbV9WyG6ULgMsI2VjLICL9oh+KWv8w==
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=dtIDxskl9CL4u3HCClPUlqLnyLEWtYjRFUBbhD8dpoA=;
+	b=vMbRPCYWFCcpUygDWOmciCd7pM7w5+yP0PyWlx7/evvBNsTMQMB8PLbgotdtklwr23Rx
+	 B9YT/rkS3DQPqtv4myFQOkRtUUUxFvOu0QGi2DWZsThCw7LMzw/h7hnmBfK1adXH4yGIm
+	 JuwT7JzKtxIQtNyh0yQyXNKXn0JUK1JnL6oUZAUstUTpo+qjOGR3Bsk7LJZa4BjffPW5E
+	 SE6nP6iv/SqvbmHFON2CWlBD1HkAJkw97Q+jIpB0tKmeJ2G3fpGT3HZ5QUOwhCZWg9LS/
+	 i+WsRihMWWatJEkFWx1a1Eb5spuaEcpFHR3CxETyGdE7SkiHA8D80ROvHSZ8aYf2VCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=sE+JTic8;
-	arc=none smtp.remote-ip=74.125.82.45
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	dmarc=pass header.from=riscstar.com;
+	spf=pass smtp.mailfrom=riscstar.com;
+	dkim=pass header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=KP9t27Jk;
+	arc=none smtp.remote-ip=209.85.161.41
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4090606A319
-	for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 19:14:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4090606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE434606A319
+	for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 19:29:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE434606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=sE+JTic8
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1517bda04a0so129310c88.0
-        for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 12:14:31 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=KP9t27Jk
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-6d7e06dbcccso93717eaf.3
+        for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 12:29:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792696471; x=1793301271; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=u6kKdaF5AxgzpiROVhZ0qUCFn2LlsDmJ9V904EQhkRI=;
-        b=sE+JTic86YKkNJNBMlIOUOwQpOUlLawVLKkk62apCvrsmcWZnXynQWNj/EZFvGJmQI
-         uXgwmtGgfBD3qrTd+DeBoOUQ8kjT66ZSHxAV6Z0SmleWskDxFBw7I9C7qru+8Xr0lpeG
-         +jolhSvbTC56DoqvovfgGYmjokOBy0CCBr8rBc2UtKKMcE8GLU3r5DD51bDIpLDSFwiH
-         yGD+NrkUCorIqz7c+p6BecB9/UeTskrd0biCRf7qh6+N3k0Dy8qj625pKmsbVscoX5uB
-         Lx3/VZ2gKNZBOQnYwajPaXHPVJhFuB+TeWpj7hbAFwcnOSx9lToYZ9o38pxrLJjijBxL
-         7QCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792696471; x=1793301271;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1792697371; x=1793302171; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=u6kKdaF5AxgzpiROVhZ0qUCFn2LlsDmJ9V904EQhkRI=;
-        b=dpyv0Y5uLAkt1rbZqtuVXcYJOchAdAao+agOCPk52/x0uPiJN7w5Fstf6Lm4zs/pGe
-         SDIkUey1J6/IJq4Fdtr0yTxGoKG9nYtlh5Ju9SxN6gFN5nvQME+gB5b1WkfHaGlTNT0W
-         fAP78VfEKnD1rWqODF1s4BJQHKxmvyMMQFmLxiRbjbL2JWYN22j/2xJaEmtZ+x0n3Mr5
-         zcCc/9AXF+gAtVqIYMy6xCKuKZ3GP6FgX+vTz2gX5Igm/8vOJJo6HU/NCGaqhBe570Ip
-         gLkwtGNu1h8jRBVXEXMrJSlo4g10rslBSvLS+tvxJF7z99ede4ol+fyg3s7sO55v2T61
-         Jm9A==
-X-Forwarded-Encrypted: i=1; AKwUvBwTsUwYx8pVSe6BAEI3VD1uG3LI1OWRx0Z+AcZA38cEeevC9ntaPjV993WElnBMMv6xhWqJV+W0toH7Ot77@lists.linux.dev
-X-Gm-Message-State: AFq9FYJwxj8Bws9qieBzHqd5+A5N5PvDHE6KRhzqKSfF0mcc1vtp1MDi
-	6B2qt9p/Ly6g+Z66yYFPi8pfpp30Mz1ZzS3K/XFw2a+4RtM+Rvp34iLf
-X-Gm-Gg: AYBFou15v3wkx7YLmWi0wFuU1C45Hr4LWF+uTlDLnuYa/6Ct0eWAdlJhtJBvUkkvBDy
-	v+ULiEziSBc1/xDlgD8x8oAgcwjPyTeovSpg/6r6OFjTPEBaTH70lIYVCT7yZ/Xy1mtdYKAxb3Y
-	iI1u3lsnsRUCbeVc/MbASE4Tw2LDSrIzu/ny+SDunAWeP7N0bGh6+jftKxr2AxgPpoRogOK2eTw
-	5SJY+SNDeUVSyqxSFZJX1EY4F3JWGUdx9Xd9E+eMXk/HMG36PAyowvhNbCd5k/g6cXqekdQXEvc
-	riNFYqApmfaXmdZTf/27ZSvCNJ/30JvOHKqtEzbdnDfk+g+HWOVygQInuacG+yHLgijjO5LIjYt
-	IV6DfXmwCeP5UILxepGnu4sXMuQcJdMsRIoKxcCAft6G9gcyMUjl9FeftRkiKLUTKZZbAUtYS34
-	YamwTtTwF8U6X6ypeVee/bBZ9h4K8jdvtB90pK0gfYycmIufHW6Ic/Q3edXU6p372o/MvThUldm
-	NJjhZh2P/Vk/IAg9wcwqYI4BPEw74Mm2zrQNcpmg1D1n5Y2/HritiwZKh+7
-X-Received: by 2002:a05:701b:42cc:10b0:14a:5284:1bf5 with SMTP id a92af1059eb24-195c4f4ef96mr212310c88.13.1792696470556;
-        Thu, 22 Oct 2026 12:14:30 -0700 (PDT)
-Received: from user ([2405:201:c052:b00b:5e95:3be4:ff57:f0a5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369d8f8eaf9sm220483eec.16.2026.10.22.12.14.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 12:14:29 -0700 (PDT)
-Date: Fri, 23 Oct 2026 00:44:08 +0530
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-To: Alex Elder <elder@riscstar.com>
-Cc: greybus-dev@lists.linaro.org, outreachy@lists.linux.dev,
-	pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: Use fsleep() for delay
-Message-ID: <atpggBthwjZIFwXR@user>
-References: <20261022110238.38824-1-pavankumaryalagada@gmail.com>
- <6d683673-39de-4986-a593-68a5a495e764@riscstar.com>
+        bh=dtIDxskl9CL4u3HCClPUlqLnyLEWtYjRFUBbhD8dpoA=;
+        b=KP9t27JkAG99PBb2YVhqZ28WkcJX0oIwPkDG+rIgi+K5uSs6m+v8u42qmwrQ9temnw
+         lx6jjbVpntShY8ibt9k5q933B+BixD4mqFmTBX5n1MVVCtrHd5b/nEmzCtYlBbSGQDI/
+         B4BaLyTvhIyVMGmhrGR6v5D4YwCUy7uZCE7HUpzDi9SKd+38c9wbBUyakXOljsesUT0Y
+         B/ZkPSQxDbMuc3EOUiDXexGvAJfAL/Dz0UrXx546ur7ZJSkLNAZGZ6DXHSUFx50rs/gL
+         BnO58FtygIQT10ZlQB/yCf3V84Z1hpWcTT81RRGtqkAcH2YdvuMLvsrNUCBqJo9TqmaZ
+         7YEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792697371; x=1793302171;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dtIDxskl9CL4u3HCClPUlqLnyLEWtYjRFUBbhD8dpoA=;
+        b=jW0iazEBT+ZcNClqyqe/4B20xKHy5Tmg+mg4X7NLJZVkbO2cVG1z59nAJ+2YkpTaQJ
+         aYnFvnxG1V75ozMsUbBHpYtPzmc3i5GG/bd3s4sSDjFHdrg9rSPGWsL0eT/0DEbJoeVe
+         HVKrcckVOb0rPnk+mZCLdJgkoveG03Xl0Hi99t9YevPrWOoBAoXZmbvNwvUu+ANsIi5M
+         jR627+F363PLYw65NgTQCpSGPCJU+nRucoKFAE0JetIy40d0M+cUX47biQngye/LQssD
+         PDrPqsE1Z9aBwLDytFyU9jy7YPqaAyjkuCYTwo5mO0b7gWhbx0x+RYZUlmfHQ4E+ycvY
+         qppQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwCFf5k68woBE6J7hBp4DU5B1bhTBf6eN0rZLEAvye9E9uU+do5IaScPD83JyXis1Gt8S+VgPS3HzUdq/np@lists.linux.dev
+X-Gm-Message-State: AFq9FYKZSjnNe1iT6XnFLIRmM0y8Cyz1tNbeeGST64CHZ46Y9r7JiBvB
+	2JqB9S8+UzNPbXTIBt3hOtMlh1zDjDARLxjlDexlTEpNBe/UlPMGca0XmoYPq/6Nt5o=
+X-Gm-Gg: AYBFou2BLSLf6IQYVwIeunMup6JVSorBaV5l+CSvA5hC3E8rcI7Do15tM2XsiH+VnO1
+	vCB2Tr5Ds6mq3+H/SPy9yoMmE59ZJVh8Fkq+brbuvTrCHJu1r/rcprGFzMrpvUx+Esw/3J9lkhQ
+	ls8HmkChyN4XGlXG1YlnT9o63+IMQyNtmH1La2SOo7HvFzj02dQ1E65SHpUKQH17c9bP7pnUffM
+	pe5V591USNQypUjkB7JAd0fg/RT2Ga6FdJMsRU/jqByc3ru1ixrkYjQ/fTiCmuXSeLNZh6sinSq
+	oUumKSCnKWsIr/XZdapKNWcmUTFnBK9uWyWvDpW6TKxGoYny39VpHMjJTi6F6/3LdiRrjid+Btc
+	XhltCscc3xSJoNhmTG8tLjmosFnp2xppXGxTPMuAEDiOCgT432Vb31UP+/jhhQ/QYBxf4ZvrUvv
+	8g13xGan4PPzQhe11b6EEEI8sUQE1GDY1WYGCmZTiuAVaf8HWDxkFEJdAvn4Hbw7D9Cwgi4O9tO
+	/d62W8o3lc4YkBjexcb4qZG2oGFPafnZnaPupXAKeETJHgacNsiG1f8
+X-Received: by 2002:a05:6820:5611:b0:6f6:b13f:5d2d with SMTP id 006d021491bc7-70b8884d3acmr221772eaf.12.1792697371436;
+        Thu, 22 Oct 2026 12:29:31 -0700 (PDT)
+Received: from [172.22.22.28] ([73.62.185.64])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-70b8b266f0bsm19815eaf.6.2026.10.22.12.29.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Oct 2026 12:29:31 -0700 (PDT)
+Message-ID: <c482704b-903e-413d-ba7b-5bf31c0a6104@riscstar.com>
+Date: Thu, 22 Oct 2026 14:29:29 -0500
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -98,103 +91,143 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6d683673-39de-4986-a593-68a5a495e764@riscstar.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: Use fsleep() for delay
+To: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+Cc: greybus-dev@lists.linaro.org, outreachy@lists.linux.dev,
+ pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+ gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20261022110238.38824-1-pavankumaryalagada@gmail.com>
+ <6d683673-39de-4986-a593-68a5a495e764@riscstar.com> <atpggBthwjZIFwXR@user>
+Content-Language: en-US
+From: Alex Elder <elder@riscstar.com>
+In-Reply-To: <atpggBthwjZIFwXR@user>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 22, 2026 at 08:28:23AM -0500, Alex Elder wrote:
-> On 10/22/26 6:02 AM, pavankumaryalagada@gmail.com wrote:
-> > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > 
-> > In the loopback function, usleep_range() is used for short delays
-> > and msleep() for longer delays. This requires choosing the delay
-> > function based on the requested time and converting microseconds
-> > to milliseconds when using msleep().
-> > 
-> > Replace both functions with fsleep(), which selects a suitable
-> > delay method based on the requested time. This avoids the need
-> > to choose the delay function and convert the time manually.
-> > 
-> > Suggested-by: Alex Elder <elder@riscstar.com>
-> > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+On 10/22/26 2:14 PM, Yalagada Pavan Kumar wrote:
+> On Thu, Oct 22, 2026 at 08:28:23AM -0500, Alex Elder wrote:
+>> On 10/22/26 6:02 AM, pavankumaryalagada@gmail.com wrote:
+>>> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+>>>
+>>> In the loopback function, usleep_range() is used for short delays
+>>> and msleep() for longer delays. This requires choosing the delay
+>>> function based on the requested time and converting microseconds
+>>> to milliseconds when using msleep().
+>>>
+>>> Replace both functions with fsleep(), which selects a suitable
+>>> delay method based on the requested time. This avoids the need
+>>> to choose the delay function and convert the time manually.
+>>>
+>>> Suggested-by: Alex Elder <elder@riscstar.com>
+>>> Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+>>
+>> Your description above is pretty good, but I agree with
+>> Johan's comment.  In fact, you should think about and
+>> understand exactly how that behavior changes with the
+>> switch to using fsleep().
+>> - When would the delay be different from before?
+>> - When it differs--by how much does it differ?
+
+FYI, I was not really looking for a response here
+(other than you sending a new version of the patch
+that provides some additional information).  I was
+simply suggesting the way you should approach
+making a change like this.
+
+> The current code uses usleep_range() for delays below 20
+> milliseconds and msleep() for longer delays. When using
+> msleep(), it converts microseconds to milliseconds by
+> rounding down, which can make the delay shorter than
+> requested.
 > 
-> Your description above is pretty good, but I agree with
-> Johan's comment.  In fact, you should think about and
-> understand exactly how that behavior changes with the
-> switch to using fsleep().
-> - When would the delay be different from before?
-> - When it differs--by how much does it differ?
-
-The current code uses usleep_range() for delays below 20
-milliseconds and msleep() for longer delays. When using
-msleep(), it converts microseconds to milliseconds by
-rounding down, which can make the delay shorter than
-requested.
-
-For example, a requested delay of 20,500 microseconds
-becomes msleep(20), which requests a 20 millisecond
-sleep.
-
-With fsleep(), the kernel selects the delay method
-based on the requested time. For a 1000 microsecond
-delay, the current code allows 100 microseconds of
-extra time, while fsleep() allows up to 250 microseconds.
-
-> - Is this amount significant?
-> And the third question gets at exactly what Johan was
-> saying should be included in the patch description.
+> For example, a requested delay of 20,500 microseconds
+> becomes msleep(20), which requests a 20 millisecond
+> sleep.
 > 
-> We want to know not just the mechanics of the change,
-> but at a higher level, what is its effect?
+> With fsleep(), the kernel selects the delay method
+> based on the requested time. For a 1000 microsecond
+> delay, the current code allows 100 microseconds of
+> extra time, while fsleep() allows up to 250 microseconds.
 
-The change may affect the time between loopback operations
-and the reported performance. The code does not seem to
-need an exact delay, so i think using fsleep() is reasonable.
-However, testing is needed to confirm its actual effect.
+Well it depends on the value of HZ, but I think it's
+typically 1000.
 
-I do not have Greybus hardware to test the driver at runtime,
-so my assessment is based on reviewing the code and fsleep()
-implementation.
+>> - Is this amount significant?
+>> And the third question gets at exactly what Johan was
+>> saying should be included in the patch description.
+>>
+>> We want to know not just the mechanics of the change,
+>> but at a higher level, what is its effect?
+> 
+> The change may affect the time between loopback operations
+> and the reported performance. The code does not seem to
+> need an exact delay, so i think using fsleep() is reasonable.
+> However, testing is needed to confirm its actual effect.
 
-If possible, could you please check the runtime behavior or
-and let me know if you find any issues with this change?
+This is technically right, but you have already shown
+a little intuition about what the change does.  And
+my point was that you should approach making changes
+to the code with this kind of analysis in mind.
 
-Thanks,
-Pavan
+Simple fixups like this are great, but ideally they
+should produce *zero* change in behavior.  In this
+particular case, there *is* a change, and you should
+make sure you understand it, and as Johan suggested,
+make a comment on it.
 
+> I do not have Greybus hardware to test the driver at runtime,
+> so my assessment is based on reviewing the code and fsleep()
+> implementation.
 > 
-> You don't need to provide a super high level of detail
-> in this particular change, but you should demonstrate
-> somehow that you've thought about these things.
+> If possible, could you please check the runtime behavior or
+> and let me know if you find any issues with this change?
+
+I am not set up to do any testing like this either.
+I don't think you strictly need to test this (other
+than doing compile testing and things like checkpatch).
+I'm just trying to suggest good practice for you to
+follow when proposing changes.
+
+					-Alex>
+> Thanks,
+> Pavan
 > 
-> Please submit a new version of the patch and reword
-> the description a bit to concisely capture why it
-> makes sense to make the change, and why you believe
-> that the change in behavior is likely harmless.
-> 
-> Thanks.
-> 
-> 					-Alex
-> 
-> > ---
-> >   drivers/staging/greybus/loopback.c | 8 ++------
-> >   1 file changed, 2 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> > index efc69c10cffe..2fe845eaef29 100644
-> > --- a/drivers/staging/greybus/loopback.c
-> > +++ b/drivers/staging/greybus/loopback.c
-> > @@ -898,12 +898,8 @@ static int gb_loopback_fn(void *data)
-> >   		gb->send_count++;
-> >   		mutex_unlock(&gb->mutex);
-> > -		if (us_wait) {
-> > -			if (us_wait < 20000)
-> > -				usleep_range(us_wait, us_wait + 100);
-> > -			else
-> > -				msleep(us_wait / 1000);
-> > -		}
-> > +		if (us_wait)
-> > +			fsleep(us_wait);
-> >   	}
-> >   	gb_pm_runtime_put_autosuspend(bundle);
-> 
+>>
+>> You don't need to provide a super high level of detail
+>> in this particular change, but you should demonstrate
+>> somehow that you've thought about these things.
+>>
+>> Please submit a new version of the patch and reword
+>> the description a bit to concisely capture why it
+>> makes sense to make the change, and why you believe
+>> that the change in behavior is likely harmless.
+>>
+>> Thanks.
+>>
+>> 					-Alex
+>>
+>>> ---
+>>>    drivers/staging/greybus/loopback.c | 8 ++------
+>>>    1 file changed, 2 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+>>> index efc69c10cffe..2fe845eaef29 100644
+>>> --- a/drivers/staging/greybus/loopback.c
+>>> +++ b/drivers/staging/greybus/loopback.c
+>>> @@ -898,12 +898,8 @@ static int gb_loopback_fn(void *data)
+>>>    		gb->send_count++;
+>>>    		mutex_unlock(&gb->mutex);
+>>> -		if (us_wait) {
+>>> -			if (us_wait < 20000)
+>>> -				usleep_range(us_wait, us_wait + 100);
+>>> -			else
+>>> -				msleep(us_wait / 1000);
+>>> -		}
+>>> +		if (us_wait)
+>>> +			fsleep(us_wait);
+>>>    	}
+>>>    	gb_pm_runtime_put_autosuspend(bundle);
+>>
+
