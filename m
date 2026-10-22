@@ -1,84 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792675006;
-	b=PrnV6SDj1O+6cRXkWeZRbUYwIWVBl6ZoedHbhqQpgR8cEqQzgkP4923Px2PD5rB6leP8
-	 vYKJRztwZq4cun3ujNfwkLJl2j/ASYq1esN6pzycxYeUP90j3UjsdxJH1sVRCbev3NmLL
-	 tXxRB+l38xsV8XOwbINYNS2cJn/NRcg5w8iQ1wM6twiEpt/Usj8m0YF0YLKCONW10p7WC
-	 0NUyuIESJlypalyrJoRUg3OdzyEL7i4KuEIagpWKMtceTh2ArIjndUNSUWV+/TgULgfar
-	 6XBM18BmXNv+3EGjC9NppMyqwLZXGBjUl/KsMlJMnnhK0rnwiJQICdZLA+IOSCIfM8Q==
+	t=1792675707;
+	b=FTaiQ6sBG+97yfC0kR2wvHgzO7sSfwlXW9/KJA7RMKTzH1JjERaPr7nVJ7MOBR4hz+ag
+	 1MewheEv2+gxg+VuM9uLb3xT+YBXvKuhR/sRHB/8E8MhhpdOyJpXZMfGdhGv3KCyCusgH
+	 osG8IlMWgLGBpj1FZ+VJ0wzu6I2FMYCP5RW5DRbMl4omzmNaIw70vlo9cgsYPp7tPt6au
+	 xi4ynkiMDtUdE3/QfVefWv/8Ug5wJ2EtBmQr6/yCeV47IlBr6Pj5rcKcttZ4zZHHQyrRx
+	 inQB1ydBxW8OOG8nYYxNMUiGBhHGXXQAGOu5r+L3o+aJLnxd2knVJZCwUQpIi7AeP7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792675006;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792675707;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=qndGYIabhOTOnIxX+m/6QHAEddG4IB6/QCy41KbLtAc=;
-	b=0i8s84pH7gmKImi5rbKu1dlnGeOI1YJk0M6GNv1hZqykQVLMMvhgO/S8MQgy04f/q4Fv
-	 BJFJB6yMaaqPcCpywVw7j7D+ruFeI/YK3mTerHjeZqI/2DI/0eCBJGhevj9fiv9CL6GTF
-	 IBdY7YvgbzkJJAQQsNTMFY2nsdqWJZh36tJlGzI4D9bUJirATAHEziqL+L3LLz7c/9xA1
-	 0lySp4c0xVpKhiCZ5gVCLwFzKyziTPGPiLZnMoFdCQSSRgo6KeAALe8j+Oc9AVBfy8GP4
-	 yPGfcCG+pZRYszpavjwlTq8cxLU+80Ev0dnSkOhxv30MtVkhakefEXOqKN97kGlbMcg==
+	bh=LcT+KP9K464dUVVNerb9of+gGfIt5gtSXv2jKmAZWX0=;
+	b=qynnWAcnd3hrahIF2U6pMmxJG12+psEdHT9KHzdQcLBoV2gofeEbOI4WnmR0O+E/Y1od
+	 JK2ShyKiIalfbi6vTJR7jQFjcVGUc5nidGorwzOZFLFLgxq4urB8HXKVBufA43+WGgE+Y
+	 yAE+pl5Dd5AMak6Uj162BiB/+XLRfP6zg0jyk8PwIIXY91MnskThid1y4P38PsevLj/kk
+	 uEaMLr1jchyUWVsfUUShAB6eGsx/+Ti+9M+WXJEwiGdpHKqQeyfb/rCWkO5HhDmBaZC5H
+	 kwEU0K3yUjvgt1L2IJXDPNX7O/YOFhN3CtJYcK493EwwrrninmXAu14F9bJ84CsXTCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ieee.org;
-	spf=pass smtp.mailfrom=ieee.org;
-	dkim=pass header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=WdcALzU9;
-	arc=none smtp.remote-ip=209.85.222.181
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	dmarc=pass header.from=riscstar.com;
+	spf=pass smtp.mailfrom=riscstar.com;
+	dkim=pass header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=l50oXEsB;
+	arc=none smtp.remote-ip=209.85.167.171
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F35F606A31A
-	for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 13:16:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F35F606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9AA560A2611
+	for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 13:28:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9AA560A2611
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=WdcALzU9
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-93f1cf92c9eso186580485a.0
-        for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 06:16:44 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=l50oXEsB
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4b1fcd3b1a9so705502b6e.0
+        for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 06:28:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1792675003; x=1793279803; darn=lists.linux.dev;
+        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1792675706; x=1793280506; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=qndGYIabhOTOnIxX+m/6QHAEddG4IB6/QCy41KbLtAc=;
-        b=WdcALzU9inTYP3VunAnr0nk/n2brxtJ5cKc1kXJi0fgVigahRb2bNWW3yDkwgtZG1U
-         iKJu++qRGFbn/iv6PbD8v+WoruXQT8X09jgh7gI9gV4kCa85bqByE4xaHHI34tQOpUT4
-         ChQYu2HojM6P71B00yFs5fUlYH6KJXyANO6f0=
+        bh=LcT+KP9K464dUVVNerb9of+gGfIt5gtSXv2jKmAZWX0=;
+        b=l50oXEsB+FhKLzvQE5uILa2W1IoqjHL/ixBmZSd6d6llmtd/8X3IUZdMo5vLLg5ZdI
+         cx64dxotfn6SnxJrY2W+6eP8EYjqbY9Kbqy482DDK/AEcNMda8RzWkANFQcO/lP8oqX5
+         A0c2Yysfg6viMUZp0+aSK6P8xCVwuaiu/EUU+cysFGUnm0dR/dLcuVAj2lvC5/5H+UhA
+         1DX5Ph1auCQpH00tqRcnFRNwVlBxr7LfLuBktXeAdNHly0CpmC3TQYqRscsCf5ATIHk9
+         okkkHpHNx594sRIvhWTaE4JyYO3a2xbZplNH59ouqiwTPGp5P8NDG11iniH76fJ1KvjK
+         P1ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792675003; x=1793279803;
+        d=1e100.net; s=20260707; t=1792675706; x=1793280506;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=qndGYIabhOTOnIxX+m/6QHAEddG4IB6/QCy41KbLtAc=;
-        b=e1YqDCe/g1m49kfRhU3giZR3/a0zjXo14o7pvzKrQrDXpr0iHG+Tr5+TTj+JfsUhrZ
-         zANrx7aB/B4M7Cj3mFPB8nipm1WJOHs40nBQzsFzQliq4VvD+dIkV2w+gnKeUXKJjb0/
-         pINps77TE6afk9hNAf56JRQcBIRprsjVFr7HI8jzd42L1MhoIgUgDqV2vd/HZGwaffCA
-         jHsG5Wfu3JIGBxyYASw6g6G/J/5mjSmNFtHE8EcmdrJMm/5XEX+RFbl1qP8lVJ68TEKM
-         56VgAIjmBvu3kWf+nKjR2La1X7ZNMHe7G+mZzcXpHDyc+f/A7O8E+2jXgT6YKRI1nYnk
-         Twgw==
-X-Forwarded-Encrypted: i=1; AKwUvBwjMHR2BzF/bI2q5JYV62RSARCI1/CZ5t+y06vnD0d+Q+frlYAbIl/0x4jO8sEzqYgyckvsEo5LTwgTBuIY@lists.linux.dev
-X-Gm-Message-State: AFq9FYLcj/0UlIe3JhrGiJ24RViV92FGlznNOHl6FkLdsUXnOg70W8Pg
-	jlgdkNaUBn1/Omh3gJym/VsxBZO6gYBo5FSGmQPKI1S3gTY2UWh2LnMKWvRfIaWILA==
-X-Gm-Gg: AYBFou3o1+EIYMSxa17In90Smaa7pOfs0GeQGM9iIJtjdD/fvsD5n5tv7IY0ZSMGiNl
-	m0ekB492EdhJNpCJFyrQpkPe0fMCkRj10h7yPxmO3fIjmedThGrlop7iFIbSKzUgfikrqkCy0Gs
-	axyWecyLtUs4jkc2d2Hvz56p9phWNBX5cYby/YY0d4Zh9XF/vfAD4dlHNjOIKfkdaems69iCSKs
-	daZSWYEYyFUkhv/K3+NnzGRsT+9ebvKVma05vvf1Yccar9rkW+Vt+zTOzsdZ4UV2jK64n07oOBW
-	Pig17quQTDeLMVJd87yoPM5Wwp+YxYf5b4U0FSQY4DXaK68dUGheHoSfxgVkpnXt1QIylbnauDh
-	Pmja4Up3XDcwlVHd+LDGuFWgIeUfWpecC2SNX/ltEG/MvC3GUIiRvCOhcDl2Nkez8Rgh5V086qv
-	elv/0Rf1AkYNheP96ou9w/tT3RqY71MitBTVpN2rN2QH+3mNajMjUAVULDJUyEFkh647vs9/3pw
-	y6F5dtKG28gT+9T5869R5KtwMEJXwnZ6IlTQaWEXHCQDBOoTyY=
-X-Received: by 2002:a05:620a:7105:b0:93e:c12c:f12f with SMTP id af79cd13be357-93f5800dc62mr810116685a.74.1792675003270;
-        Thu, 22 Oct 2026 06:16:43 -0700 (PDT)
+        bh=LcT+KP9K464dUVVNerb9of+gGfIt5gtSXv2jKmAZWX0=;
+        b=ZhG0+SCTTpPu2lbEyKL80aZU4/wD35V6QMj4h/4LsZQQy1OnNWugUj41HCmPq/wJL8
+         cRE6AKAs+gxNL6qJQfig46CMCkw8gZUg4p4s2t8dJxesb+bIPVTW1c3BUwUbuosow8ol
+         RE8MlltABavp7EvFMOlOMfZLg1lIY9ptT1PIOEerW7OI4L5UAbBafZKWwe9B9DzRONJh
+         /YFGZw5GDUA+mcSoEO6Q7CI8ASaHT+O3vDWC8cKQyCo3d5IluurlBMHq3GIIABAgmQwo
+         oLTw+qJtHa3/8GbJpYNeM1gwbVW7fKhBV1imxG+RVBekMl6D+t05QEMiwialIuvfanJ4
+         lx+g==
+X-Forwarded-Encrypted: i=1; AKwUvBxAjeit8aZhTtHn4P2NjhZutWy40SNjlzReI7RjpUOKqj7+FS20vFEwt2rWfk0TPMQuCRr1JwF2317YGDhW@lists.linux.dev
+X-Gm-Message-State: AFq9FYKRmoqKl5AjigTuQcDtH72xCKL/471Qf0EvJjPTnDl3zcnSXNaj
+	exblKFLoZEbUE3jbTXFpYthgDdldWR3WtCxztECtoTOYiCsBVK0l241ZsJ6tGCa5N+I=
+X-Gm-Gg: AYBFou3Gt8Rxm+T+mYjKt5kZwx9NRkDF59XQuQDC467jshAm4rWySz26r6Wpp1rxnow
+	E2i5ujbWykRebSgtLwleBAYKoBfnjERqgLJxSxUw+pQcewlgv+SoA+tDYFAg/CWwtVPux5tfo1X
+	d99xArR2o0Q4P1oIvQDHupCuaSVQUbqLhMdfOiKxPP2slmnZ0zV1BZKg87TKaJwrXF5ij65o161
+	gF7EHpM0NPUGxV4xO2pLvumJnP/x2igt5Hmn9OfCjMkJnfhWe07Ezbi7Ra/sJ7txbEoSlETh1hm
+	zbIy6ytbVzWN1Gep1dRCclW6lWT7Pr8XMfcAefafytzwOcPHck7qWCDdXvbqH7bcDjjscZKKRgw
+	ublBbncQKzzJrrdOexuws+/oapjOmFn8Qy3UZ//2wLCR2ykMzJpYm4IU/rKC3l6IwUX/8JKO5so
+	avyKq8ruXgduVn4p+vWEgJrIb1LnOtO+jUPea3wIJ/I14Coz8fGivBqOlj//9/SAZ0r83bjUSf+
+	Cb7fzbJBoJpKycvFtbkPV0oEj2PEE6uLYlNgZDLAQb7kGjIVvY/1wz3
+X-Received: by 2002:a05:6808:4482:b0:4d3:9029:5ab3 with SMTP id 5614622812f47-553585760c1mr3346235b6e.35.1792675705007;
+        Thu, 22 Oct 2026 06:28:25 -0700 (PDT)
 Received: from [172.22.22.28] ([73.62.185.64])
-        by smtp.googlemail.com with ESMTPSA id af79cd13be357-93f56c70057sm513651785a.5.2026.10.22.06.16.41
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-552b745f968sm4259064b6e.14.2026.10.22.06.28.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Oct 2026 06:16:42 -0700 (PDT)
-Message-ID: <3433f922-bffb-4f1c-8e06-a7a87f5dbcaf@ieee.org>
-Date: Thu, 22 Oct 2026 08:16:40 -0500
+        Thu, 22 Oct 2026 06:28:24 -0700 (PDT)
+Message-ID: <6d683673-39de-4986-a593-68a5a495e764@riscstar.com>
+Date: Thu, 22 Oct 2026 08:28:23 -0500
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -89,114 +92,81 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: Replace format specifiers
+Subject: Re: [PATCH] staging: greybus: Use fsleep() for delay
 To: pavankumaryalagada@gmail.com, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
- vaibhav.sr@gmail.com, mgreer@animalcreek.com, vireshk@kernel.org,
- rmfrfs@gmail.com, dtwlin@gmail.com, pure.logic@nexus-software.ie,
+ outreachy@lists.linux.dev
+Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+ gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-References: <20261021163437.280930-1-pavankumaryalagada@gmail.com>
+References: <20261022110238.38824-1-pavankumaryalagada@gmail.com>
 Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <20261021163437.280930-1-pavankumaryalagada@gmail.com>
+From: Alex Elder <elder@riscstar.com>
+In-Reply-To: <20261022110238.38824-1-pavankumaryalagada@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/21/26 11:34 AM, pavankumaryalagada@gmail.com wrote:
+On 10/22/26 6:02 AM, pavankumaryalagada@gmail.com wrote:
 > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 > 
-> Unsigned variables are printed using %d.
-> Replace them with %u to match their types.
+> In the loopback function, usleep_range() is used for short delays
+> and msleep() for longer delays. This requires choosing the delay
+> function based on the requested time and converting microseconds
+> to milliseconds when using msleep().
 > 
+> Replace both functions with fsleep(), which selects a suitable
+> delay method based on the requested time. This avoids the need
+> to choose the delay function and convert the time manually.
+> 
+> Suggested-by: Alex Elder <elder@riscstar.com>
 > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 
-I have reviewed every one of these and they look good.  Quite a few
-of them--because the size of the value being formatted is less than
-32 bits--would print correctly no matter what their value.  But I
-think it at least does no harm to convert the format specifier to
-unsigned in all of these cases.
+Your description above is pretty good, but I agree with
+Johan's comment.  In fact, you should think about and
+understand exactly how that behavior changes with the
+switch to using fsleep().
+- When would the delay be different from before?
+- When it differs--by how much does it differ?
+- Is this amount significant?
+And the third question gets at exactly what Johan was
+saying should be included in the patch description.
 
-I have highlighted below an existing bug that should be fixed.  It
-gives an example of something to look for when you do this sort of
-activity.  Please arrange to get that bug fixed.
+We want to know not just the mechanics of the change,
+but at a higher level, what is its effect?
 
-I also pointed out one other observation for you to think about.
+You don't need to provide a super high level of detail
+in this particular change, but you should demonstrate
+somehow that you've thought about these things.
 
-Thanks for sending this.  I didn't check to find any other instances
-you might have missed, but you seem to have found quite a few.
+Please submit a new version of the patch and reword
+the description a bit to concisely capture why it
+makes sense to make the change, and why you believe
+that the change in behavior is likely harmless.
 
-Reviewed-by: Alex Elder <elder@riscstar.com>
+Thanks.
+
+					-Alex
 
 > ---
->   drivers/staging/greybus/audio_codec.c    | 20 ++++++++--------
->   drivers/staging/greybus/audio_topology.c | 30 ++++++++++++------------
->   drivers/staging/greybus/bootrom.c        |  2 +-
->   drivers/staging/greybus/fw-download.c    |  2 +-
->   drivers/staging/greybus/fw-management.c  |  2 +-
->   drivers/staging/greybus/gpio.c           |  2 +-
->   drivers/staging/greybus/light.c          |  2 +-
->   drivers/staging/greybus/log.c            |  4 ++--
->   drivers/staging/greybus/loopback.c       |  4 ++--
->   drivers/staging/greybus/power_supply.c   |  2 +-
->   drivers/staging/greybus/raw.c            |  2 +-
->   drivers/staging/greybus/sdio.c           |  4 ++--
->   drivers/staging/greybus/spilib.c         |  2 +-
->   drivers/staging/greybus/uart.c           |  4 ++--
->   14 files changed, 41 insertions(+), 41 deletions(-)
+>   drivers/staging/greybus/loopback.c | 8 ++------
+>   1 file changed, 2 insertions(+), 6 deletions(-)
 > 
-
-. . .
-
-> diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
-> index 83921d90c322..fb1fbd3f7b99 100644
-> --- a/drivers/staging/greybus/bootrom.c
-> +++ b/drivers/staging/greybus/bootrom.c
-> @@ -222,7 +222,7 @@ static int gb_bootrom_firmware_size_request(struct gb_operation *op)
->   	size_response = op->response->payload;
->   	size_response->size = cpu_to_le32(bootrom->fw->size);
+> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+> index efc69c10cffe..2fe845eaef29 100644
+> --- a/drivers/staging/greybus/loopback.c
+> +++ b/drivers/staging/greybus/loopback.c
+> @@ -898,12 +898,8 @@ static int gb_loopback_fn(void *data)
+>   		gb->send_count++;
+>   		mutex_unlock(&gb->mutex);
 >   
-> -	dev_dbg(dev, "%s: firmware size %d bytes\n",
-> +	dev_dbg(dev, "%s: firmware size %u bytes\n",
->   		__func__, size_response->size);
-
-This line actually contains an error (and it was there before).
-
-The type of gb_bootrom_firmware_size_response->size is __le32.
-So the value being formatted needs to be converted into CPU
-byte order before being used.  That could be done this way:
-	le32_to_cpu(size_response->size)
-or just use this, which is known from a few lines above to
-have the proper value and byte order:
-	bootrom->fw->size
-
-Please add this to your list of things to fix, and submit it
-as a separate patch.  This would be a bug fix, which would
-also give you a little bit of a new experience.
-
->   
->   unlock:
-
-. . .
-
-> diff --git a/drivers/staging/greybus/raw.c b/drivers/staging/greybus/raw.c
-> index 4f1b3f4db404..2314496a858a 100644
-> --- a/drivers/staging/greybus/raw.c
-> +++ b/drivers/staging/greybus/raw.c
-> @@ -112,7 +112,7 @@ static int gb_raw_request_handler(struct gb_operation *op)
->   	receive = op->request->payload;
->   	len = le32_to_cpu(receive->len);
->   	if (len != (int)(op->request->payload_size - sizeof(__le32))) {
-> -		dev_err(dev, "raw receive request wrong size %d vs %d\n", len,
-> +		dev_err(dev, "raw receive request wrong size %u vs %d\n", len,
->   			(int)(op->request->payload_size - sizeof(__le32)));
-
-The above size calculation was done somewhere else without the
-(int) cast, and the format specifier was %zu in that case.
-I don't think this needs to be changed necessarily, but it's
-something inconsistent across the Greybus code.  Consistency
-helps readability and maintainability.
-  >   		return -EINVAL;
+> -		if (us_wait) {
+> -			if (us_wait < 20000)
+> -				usleep_range(us_wait, us_wait + 100);
+> -			else
+> -				msleep(us_wait / 1000);
+> -		}
+> +		if (us_wait)
+> +			fsleep(us_wait);
 >   	}
+>   
+>   	gb_pm_runtime_put_autosuspend(bundle);
 
-. . .
