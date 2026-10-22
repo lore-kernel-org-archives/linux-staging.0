@@ -1,49 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792677184;
-	b=Go6AYTLeaoJ+PKr76Z1UmjZXlxM3Yir9HfHJsed7Gf4hRP3cSJ5No0WOkSZsXK7uSXYA
-	 g8l/5trY6Z4Llgp1LOMXfkL2T4QUdFYjobgo4c3OQp3dpO0Z6jpCEW/8LENrDcXNQJZAR
-	 +55T+o37SvzVSRdgyQFEwFOa1Pw5rydGbK3uruVAmVEChUqOGIbr06DsLktCqrpaBaxP+
-	 EXC74EU32QzyplPQm+wQIQySEHGn6LchpUhYlWLlNDlrSbBFZUjvdrBS0X54jL+NkO2BT
-	 rN59zTK1e80bn7+AmmOGAZ3Ye9VbZpm4KQ2lnxlkLFErl/6h6wB45DRtpK2n/xddUxw==
+	t=1792696472;
+	b=EJP6GgCuxfGmavC2QgQrJdaEeIu09d23vyec171ZYe/rrmrk9jlbojPbikLbTde9OTr7
+	 rks/vrPfLN2qeULmVMtq4snFeByzDe3fBvCQH1rq9PCjPhqVD+yxIVPDrCZLS4/Nc3vzP
+	 E+i2oUyHIlr2+NRVb6fEupDvoRic4w9kgsWTl5BDpd+8jWry0I4Ewka4BcZeNzZInbmba
+	 M6ZZ5k5+3J4UzDdV0C6hIFkvvl4asdkKNPclHzMib9hCZUxrabo7dC0gr+WF1Y9b4j7MR
+	 g15hwX9PyDExcJLCrI2lB3ahWg2iLRrsE8HKXYpSU1qxnvqOrG7L2APh4Igum5niEQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792677184;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding;
-	bh=2FM3uj61+Ni8BLhGtFb0V45ZpJiq8UU9qvJcGre1ZMI=;
-	b=OJmofIiTmsnhg76WoFogn+EdmN39QF+WrtgDIU4TAlZ6W6dQZIxvsItvkaPE+AzCw3JL
-	 nOJGBEUkpVDHxnI0RjGJjrjOvqXtmHUtwsfl5l5GB7HpEoyqZigx1tncle2Y5iLNnFYxk
-	 aqrP1e9WP6xyjJLRrQrOo0+XrL/TcTXz1OyZPuV1bw4EEXkku4SC5MTXeZWoDnauyO6a5
-	 xLwEB4myyfef2X72ct3tZOz5djy5DintCQZcVWCh0vhutWZI3zbFz1m9ZDqCn82ZIq6qj
-	 A5eV4Yy/vUz1MzyPKIL28aU3pN7a0V5pftmRMgpo7NqvXy2E4ivaLL5AM8uzPw/Ladw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792696472;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=u6kKdaF5AxgzpiROVhZ0qUCFn2LlsDmJ9V904EQhkRI=;
+	b=IVSLdXV8WYVIo9krydHKmUP3/0Y/3LZTs7sG9Goc0GbhBojmHQIzLSbaotDudSIaZECe
+	 XzfYIJDuD9lclrA2nmtxj8IQyJiJ9C0hlP69Ez9A9x9z8pKWUZDnpHs+MImjqeRIT8M5K
+	 TosC0eI6L7QySwRQlpOR1lV6ACJiOKrnLYGmroMkweJM6PPMXu18JppmulkQ0dgu8pAcH
+	 hdMfZiuHloyFpdWTKbNmXWHywLiuFovesTfycPQaikc0jEvusSQfjA3N1DsQJLDr8xAyB
+	 jt2U7RmaSbxw5vD75AkkZjN2TUF0FlqHSUGIurbV9WyG6ULgMsI2VjLICL9oh+KWv8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qsB6SGVW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=sE+JTic8;
+	arc=none smtp.remote-ip=74.125.82.45
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBF0606A31A;
-	Thu, 22 Oct 2026 13:53:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4090606A319
+	for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 19:14:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4090606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qsB6SGVW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE0D11F000C2;
-	Thu, 22 Oct 2026 13:53:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792677183;
-	bh=2FM3uj61+Ni8BLhGtFb0V45ZpJiq8UU9qvJcGre1ZMI=;
-	h=Date:From:To:Cc:Subject;
-	b=qsB6SGVWgcaoOfEaZdVOnjNAK024h0LH+VW0bTpwb5qbyVT6zpMHkzY2w8x4YyxE1
-	 V1qram1IEr1RNEGE+6ZQhoXG97esVwXmOPOtT9C1NCXsWeB1QjoFPPQ+MCbXflsk46
-	 GTNUx7ZzI0xiytSaO4EIBDa0O41TejGD3vclzJJk=
-Date: Thu, 22 Oct 2026 15:49:45 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging driver updates for 7.4-rc1
-Message-ID: <atoUedBI3u813dYW@kroah.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=sE+JTic8
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1517bda04a0so129310c88.0
+        for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 12:14:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792696471; x=1793301271; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=u6kKdaF5AxgzpiROVhZ0qUCFn2LlsDmJ9V904EQhkRI=;
+        b=sE+JTic86YKkNJNBMlIOUOwQpOUlLawVLKkk62apCvrsmcWZnXynQWNj/EZFvGJmQI
+         uXgwmtGgfBD3qrTd+DeBoOUQ8kjT66ZSHxAV6Z0SmleWskDxFBw7I9C7qru+8Xr0lpeG
+         +jolhSvbTC56DoqvovfgGYmjokOBy0CCBr8rBc2UtKKMcE8GLU3r5DD51bDIpLDSFwiH
+         yGD+NrkUCorIqz7c+p6BecB9/UeTskrd0biCRf7qh6+N3k0Dy8qj625pKmsbVscoX5uB
+         Lx3/VZ2gKNZBOQnYwajPaXHPVJhFuB+TeWpj7hbAFwcnOSx9lToYZ9o38pxrLJjijBxL
+         7QCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792696471; x=1793301271;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=u6kKdaF5AxgzpiROVhZ0qUCFn2LlsDmJ9V904EQhkRI=;
+        b=dpyv0Y5uLAkt1rbZqtuVXcYJOchAdAao+agOCPk52/x0uPiJN7w5Fstf6Lm4zs/pGe
+         SDIkUey1J6/IJq4Fdtr0yTxGoKG9nYtlh5Ju9SxN6gFN5nvQME+gB5b1WkfHaGlTNT0W
+         fAP78VfEKnD1rWqODF1s4BJQHKxmvyMMQFmLxiRbjbL2JWYN22j/2xJaEmtZ+x0n3Mr5
+         zcCc/9AXF+gAtVqIYMy6xCKuKZ3GP6FgX+vTz2gX5Igm/8vOJJo6HU/NCGaqhBe570Ip
+         gLkwtGNu1h8jRBVXEXMrJSlo4g10rslBSvLS+tvxJF7z99ede4ol+fyg3s7sO55v2T61
+         Jm9A==
+X-Forwarded-Encrypted: i=1; AKwUvBwTsUwYx8pVSe6BAEI3VD1uG3LI1OWRx0Z+AcZA38cEeevC9ntaPjV993WElnBMMv6xhWqJV+W0toH7Ot77@lists.linux.dev
+X-Gm-Message-State: AFq9FYJwxj8Bws9qieBzHqd5+A5N5PvDHE6KRhzqKSfF0mcc1vtp1MDi
+	6B2qt9p/Ly6g+Z66yYFPi8pfpp30Mz1ZzS3K/XFw2a+4RtM+Rvp34iLf
+X-Gm-Gg: AYBFou15v3wkx7YLmWi0wFuU1C45Hr4LWF+uTlDLnuYa/6Ct0eWAdlJhtJBvUkkvBDy
+	v+ULiEziSBc1/xDlgD8x8oAgcwjPyTeovSpg/6r6OFjTPEBaTH70lIYVCT7yZ/Xy1mtdYKAxb3Y
+	iI1u3lsnsRUCbeVc/MbASE4Tw2LDSrIzu/ny+SDunAWeP7N0bGh6+jftKxr2AxgPpoRogOK2eTw
+	5SJY+SNDeUVSyqxSFZJX1EY4F3JWGUdx9Xd9E+eMXk/HMG36PAyowvhNbCd5k/g6cXqekdQXEvc
+	riNFYqApmfaXmdZTf/27ZSvCNJ/30JvOHKqtEzbdnDfk+g+HWOVygQInuacG+yHLgijjO5LIjYt
+	IV6DfXmwCeP5UILxepGnu4sXMuQcJdMsRIoKxcCAft6G9gcyMUjl9FeftRkiKLUTKZZbAUtYS34
+	YamwTtTwF8U6X6ypeVee/bBZ9h4K8jdvtB90pK0gfYycmIufHW6Ic/Q3edXU6p372o/MvThUldm
+	NJjhZh2P/Vk/IAg9wcwqYI4BPEw74Mm2zrQNcpmg1D1n5Y2/HritiwZKh+7
+X-Received: by 2002:a05:701b:42cc:10b0:14a:5284:1bf5 with SMTP id a92af1059eb24-195c4f4ef96mr212310c88.13.1792696470556;
+        Thu, 22 Oct 2026 12:14:30 -0700 (PDT)
+Received: from user ([2405:201:c052:b00b:5e95:3be4:ff57:f0a5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369d8f8eaf9sm220483eec.16.2026.10.22.12.14.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 12:14:29 -0700 (PDT)
+Date: Fri, 23 Oct 2026 00:44:08 +0530
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+To: Alex Elder <elder@riscstar.com>
+Cc: greybus-dev@lists.linaro.org, outreachy@lists.linux.dev,
+	pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: Use fsleep() for delay
+Message-ID: <atpggBthwjZIFwXR@user>
+References: <20261022110238.38824-1-pavankumaryalagada@gmail.com>
+ <6d683673-39de-4986-a593-68a5a495e764@riscstar.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -53,453 +98,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-The following changes since commit df2908090cda368b01ff43709f51890076c56157:
-
-  Linux 7.3-rc2 (2026-09-06 15:07:20 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-7.4-rc1
-
-for you to fetch changes up to 4a177d5e688e8e82113f7a32d6f75f0bab9658c4:
-
-  staging: rtl8723bs: remove unnecessary parentheses (2026-10-17 13:24:01 +0200)
-
-----------------------------------------------------------------
-Staging driver updates for 7.4-rc1
-
-Here is the big set of staging driver updates for 7.4-rc1.
-
-The huge majority of changes in here were to the rtl8723bs driver, which
-ended up being deleted entirely through the wifi driver tree, so while
-the work here was nice to have done to get experience by people, the
-overall goal was achieved in that we have a solid working and sane
-driver in the real part of the tree now.
-
-Other than that, included in here are:
-  - some greybus driver removal of broken drivers that no one ever used
-  - minor coding style cleanups for other staging drivers
-
-All of these have been in linux-next with no reported issues, other than
-the merge conflict of the driver being removed, but that's an obvious
-one to resolve :)
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Adriano Cordova (4):
-      staging: rtl8723bs: remove dead beamforming code
-      staging: rtl8723bs: remove unused chip-type enums and defines
-      staging: rtl8723bs: remove unused AMPDU burst mode
-      staging: rtl8723bs: remove unused field in false alarm statistics
-
-Alexis Buttler (1):
-      rtl8723bs: Remove redundant macro in basic_types.h
-
-AmirHossein HajiMohammadi (1):
-      staging: rtl8723bs: remove unused monitor interface name
-
-Andrej Dusanic (1):
-      staging: rtl8723bs: remove duplicate blank line in sdio_ops.h
-
-Ashmit Kumar (1):
-      staging: rtl8723bs: rtw_ap: remove unnecessary parentheses from return
-
-Brian Norris (1):
-      greybus: Discard pm_runtime_put_autosuspend() return value
-
-Cen Zhang (Microsoft) (4):
-      staging: rtl8723bs: hal: fix a multi-line comment in hal_btcoex.c
-      staging: fbtft: update outdated struct fbtft_ops comment
-      staging: nvec: fix GPIO descriptor documentation
-      staging: octeon: fix misuse of kernel-doc comment
-
-Dalvin-Ehinoma Noah Aiguobas (12):
-      staging: rtl8723bs: renaming variable pbuf in rtw_mlme.c
-      staging: rtl8723bs: renaming variable pmlmepriv in rtw_mlme.c
-      staging: rtl8723bs: renaming variable pdev_network in rtw_mlme.c
-      staging: rtl8723bs: renaming variable pibss in rtw_mlme.c
-      staging: rtl8723bs: renaming variable padapter in rtw_mlme.c
-      staging: rtl8723bs: renaming variable phtpriv in rtw_mlme.c
-      staging: rtl8723bs: renaming variable pregistrypriv in rtw_mlme.c
-      staging: rtl8723bs: renaming variable bHwLDPCSupport in rtw_mlme.c
-      staging: rtl8723bs: renaming variable bHwSTBCSupport in rtw_mlme.c
-      staging: rtl8723bs: renaming variable bHwSupportBeamformer in rtw_mlme.c
-      staging: rtl8723bs: renaming variable bHwSupportBeamformee in rtw_mlme.c
-      staging: rtl8723bs: Removing unnecessary whitespaces
-
-Dhanush Muralidharan (1):
-      staging: rtl8723bs: remove extern from function declarations in header files
-
-Dipesh Chaudhary (1):
-      staging: rtl8723bs: remove unused EF2Byte and EF4Byte definitions
-
-Ethan Nelson-Moore (3):
-      staging: greybus: remove empty TODO file
-      staging: greybus: remove driver depending on nonexistent config option
-      staging: greybus: remove camera driver marked as broken since 2016
-
-Feiyu Wang (3):
-      staging: rtl8723bs: fix logical continuation style
-      staging: rtl8723bs: remove multiple blank lines
-      staging: rtl8723bs: rename CamelCase variable wRxSeqInitialValue
-
-Franco Hector Hugo Montenegro (1):
-      Staging: rtl8723bs: fixed camel case coding style issue.
-
-Gabriel Changamire (1):
-      staging: sm750fb: fix kernel-doc comments in sm750_accel.h
-
-Gabriel Windlin (1):
-      staging: rtl8723bs: remove unused SSIZE_PTR definition
-
-Gowtham S Bhushan (1):
-      staging: rtl8723bs: rename dot118021x_UncstKey to dot118021x_uncst_key
-
-Greg Kroah-Hartman (1):
-      Merge 7.3-rc2 into staging-next
-
-Hank Yang (2):
-      staging: rtl8723bs: shorten long lines in update_network()
-      staging: rtl8723bs: rename CamelCase variables in rtw_mlme.c
-
-Hungyu Lin (9):
-      staging: rtl8723bs: convert mgmt xmit coalesce to errno
-      staging: rtl8723bs: propagate errno handling for mgmt xmit
-      staging: rtl8723bs: make dump_mgntframe_and_wait() return void
-      staging: rtl8723bs: simplify rtw_free_xmitframe()
-      staging: rtl8723bs: make rtw_free_xmitbuf_ext() return void
-      staging: rtl8723bs: make rtw_free_xmitbuf() return void
-      staging: rtl8723bs: make xmitframe_swencrypt() return void
-      staging: rtl8723bs: make rtl8723_dequeue_writeport() return bool
-      staging: rtl8723bs: use errno in rtw_register_tx_alive()
-
-Isaac Aneek Sarker (1):
-      staging: rtl8723bs: rename CamelCase variables in function paramater
-
-Ivy Lopez (2):
-      staging: rtl8723bs: define EEPROM_DEFAULT_DIFF as -2 directly
-      staging: rtl8723bs: use kfree_sensitive() for key material in rtw_set_key()
-
-Iñaki Sobera Sotomayor (3):
-      staging: rtl8723bs: remove unused NDIS association and auth defines
-      staging: rtl8723bs: remove unused EEPROM definitions
-      staging: rtl8723bs: remove unused PCI ASPM OSC definitions
-
-Jennifer Guo (17):
-      staging: rtl8723bs: remove commented-out code in HalPhyRf_8723B.c
-      staging: rtl8723bs: remove commented-out code in HalPhyRf.c
-      staging: rtl8723bs: remove commented-out code in hal/ header file
-      staging: rtl8723bs: remove commented-out code in include/ files
-      staging: rtl8723bs: remove commented out code in rtw_recv.c
-      staging: rtl8723bs: remove commented out code in os_dep/ files
-      staging: rtl8723bs: remove commented out code in hal/ files
-      staging: rtl8723bs: remove commented out code in rtw_mlme_ext.c
-      staging: rtl8723bs: remove commented out code in core/ files.
-      staging: rtl8723bs: delete empty comment lines in core/ files
-      staging: rtl8723bs: delete empty comment lines in hal_com_reg.h
-      staging: rtl8723bs: delete empty comment lines in rtl8723b_*.h files
-      staging: rtl8723bs: delete empty comment lines in header files
-      staging: rtl8723bs: remove comment after function closing brace
-      staging: rtl8723bs: cleanup comments in rtl8723b_rf6052.c
-      staging: rtl8723bs: delete empty comment lines in hal/ header files
-      staging: rtl8723bs: delete empty comment lines in source files
-
-Jeremy Dean Clifton (2):
-      staging: greybus: Remove unused function 'to_fw_mgmt_connection'
-      staging: greybus: Remove unused header declaration to_fw_mgmt_connection
-
-Johan Hovold (1):
-      staging: greybus: uart: fix racy TIOCMIWAIT implementation
-
-Jonggeun Park (1):
-      staging: rtl8723bs: fix stale file name references in comments
-
-JunHyeok Seo (1):
-      staging: rtl8723bs: align AES function parameters with open parenthesis
-
-Kirill Repin (1):
-      staging: rtl8723bs: remove spaces before tabs in hal_com_reg.h
-
-Leonardo Martins Martins (7):
-      staging: rtl8723bs: replace N_BYTE_ALIGMENT() with PTR_ALIGN()
-      staging: rtl8723bs: remove unused macro N_BYTE_ALIGMENT()
-      staging: rtl8723bs: remove invariant parameters from issue_probereq_ex()
-      staging: rtl8723bs: change issue_probereq return types to void
-      staging: rtl8723bs: remove invariant parameters from _issue_probereq()
-      staging: rtl8723bs: coalesce issue_probereq functions into a single one
-      staging: rtl8723bs: rename PHY_ConvertTxPowerLimitToPowerIndex()
-
-Luca Hernandez (1):
-      staging: rtl8723bs: remove unused driver_stopped pointer from HAL
-
-Lucas Costa (1):
-      staging: sm750fb: free cmap on framebuffer release
-
-Lucas Jeffrey (1):
-      staging: axis-fifo: use size_t for write size calculations
-
-Malathi A (2):
-      staging: rtl8723bs: remove unused NDIS_802_11 typedefs
-      staging: rtl8723bs: remove unusual 'NDIS_802_11_RATES_EX' type
-
-Marinela Tatiana Selseth (3):
-      staging: rtl8723bs: Eliminate dead enum hal_status abstraction
-      staging: rtl8723bs: condense NDIS encryption status enum
-      staging: rtl8723bs: remove dead antenna diversity infrastructure (FAT/SWAT)
-
-Matheus Alves de Almeida (3):
-      staging: rtl8723bs: use bool for rtw_endofpktfile
-      staging: rtl8723bs: remove reduntant externs in rtw_xmit.h
-      staging: rtl8723bs: return bool from check_pending_xmitbuf
-
-Maxim Codita (1):
-      staging: sm750fb/sm750.c: mark g_def_fbmode as const pointer
-
-Miguel Garcia (1):
-      staging: rtl8723bs: remove unused phal variable
-
-Mirza Ishan Beg (1):
-      staging: rtl8723bs: refactor traffic_stat access in collect_traffic_statistics
-
-Mohammed Momin (1):
-      staging: rtl8723bs: remove unnecessary braces
-
-Mohammed Sohail (2):
-      staging: rtl8723bs: remove comparisons to true/false in rtw_mlme_ext.c
-      staging: rtl8723bs: remove extern from recv and sta_info prototypes
-
-Muhammad Israr (1):
-      staging: rtl8723bs: add braces on all arms of if/else in rtw_mlme_ext.c
-
-Myeonghun Pak (1):
-      staging: rtl8723bs: disable SDIO function on block size failure
-
-Nawar Alsafadi (1):
-      staging: most: video: Remove unnecessary blank line
-
-Nikolay Kulikov (2):
-      staging: rtl8723bs: remove unused 'pwrdown' from struct hal_com_data
-      staging: rtl8723bs: remove static HalDetectPwrDownMode() function
-
-Okhuomon Ajayi (1):
-      staging: greybus: uart: fix argument alignment
-
-Olivier Tanoh (1):
-      staging: rtl8723bs: rename mBratesOS to avoid CamelCase
-
-Orgad Shaneh (1):
-      staging: octeon: schedule the TX cleanup tasklet every 1024th packet
-
-Park Tae-sun (1):
-      staging: greybus: gbphy: use sysfs_emit() instead of sprintf()
-
-Pedro Amorim (1):
-      staging: greybus: fix checkpatch alignment warnings in loopback.c
-
-Philip Nielsen (1):
-      staging: rtl8723bs: avoid CamelCase in rtw_efuse
-
-Pranav Desai (6):
-      staging: rtl8723bs: use explicit types for lengths in rtw_security.c
-      staging: rtl8723bs: use bool for flags in rtw_security.c
-      staging: rtl8723bs: use u8 for frame types in rtw_security.c
-      staging: rtl8723bs: use explicit types for math variables and iterators
-      staging: rtl8723bs: use u32 for payload_length in rtw_security.c
-      staging: rtl8723bs: use u32 for length variables in rtw_BIP_verify()
-
-Preetish Amballi (1):
-      staging: fbtft: Fix wrong controller name in fb_bd663474
-
-Rahul Rao (1):
-      staging: rtl8723bs: align arguments with open parenthesis
-
-Rareș-Mihai Vladu (1):
-      staging: rtl8723bs: fix lines exceeding 100 columns in rtw_security.c
-
-Riccardo Oliva (1):
-      staging: vme_user: avoid iterator variable access outside list loop
-
-Rishik Yechuri (3):
-      staging: rtl8723bs: align function parameters in aes_decipher
-      staging: rtl8723bs: remove unnecessary parentheses around prframe->u.hdr.list
-      staging: rtl8723bs: remove unused BoardType field and its parser
-
-Romeu Gomes (1):
-      staging: rtl8723bs: remove unnecessary parentheses in ioctl_cfg80211.c
-
-Shyam Sunder Reddy Padira (1):
-      staging: rtl8723bs: Remove redundant else block
-
-Siho Kim (1):
-      staging: rtl8723bs: fix block comment style
-
-Souag-Ahmed-El-fatih (1):
-      staging: rtl8723bs: fix comparison to true in dequeue_xmitframes_to_sleeping_queue
-
-Steven Sierra (1):
-      staging: rtl8723bs: remove multiple blank lines in rtw_recv.h
-
-Svyatoslav Nikolenko (2):
-      staging: vme_user: Use str_enabled_disabled() helper
-      staging: rtl8723bs: Remove manual ifname allocation
-
-Tiago Panizio Gottardo (1):
-      staging: rtl8723bs: use bool for PMKSA flags
-
-Tianchu Chen (2):
-      staging: rtl8723bs: fix protected RX frame validation in decrypt path
-      staging: rtl8723bs: fix RX buffer OOB write from device-reported length
-
-Timo Joannin (1):
-      staging: rtl8723bs: rename phy_status_rpt_8192cd_t to rtl8723bs_phy_status_rpt.
-
-Tomasz Unger (1):
-      staging: sm750fb: fix typo in comment
-
-Triet Hoang (1):
-      staging: sm750: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-
-Wang Yibo (4):
-      staging: rtl8723bs: remove unused defines in HalBtcOutSrc.h
-      staging: rtl8723bs: remove commented out code in hal/ files
-      staging: rtl8723bs: remove unused defines in odm.h
-      staging: most: fix typo in driver_usage.txt
-
-Yalagada Pavan Kumar (3):
-      staging: greybus: replace PTR_ERR() with %pe in error messages
-      staging: greybus: Align function arguments
-      staging: rtl8723bs: remove unnecessary parentheses
-
- CREDITS                                            |    4 +
- MAINTAINERS                                        |    7 -
- drivers/staging/axis-fifo/axis-fifo.c              |    6 +-
- drivers/staging/fbtft/fb_bd663474.c                |    4 +-
- drivers/staging/fbtft/fbtft.h                      |    3 +-
- drivers/staging/greybus/Kconfig                    |   19 -
- drivers/staging/greybus/Makefile                   |    8 -
- drivers/staging/greybus/TODO                       |    0
- drivers/staging/greybus/arche-apb-ctrl.c           |  490 -------
- drivers/staging/greybus/arche-platform.c           |  653 ----------
- drivers/staging/greybus/arche_platform.h           |   28 -
- drivers/staging/greybus/camera.c                   | 1367 --------------------
- drivers/staging/greybus/firmware.h                 |    1 -
- drivers/staging/greybus/fw-core.c                  |   23 +-
- drivers/staging/greybus/gb-camera.h                |  127 --
- drivers/staging/greybus/gbphy.c                    |    2 +-
- drivers/staging/greybus/loopback.c                 |    6 +-
- drivers/staging/greybus/power_supply.c             |    8 +-
- drivers/staging/greybus/spilib.c                   |    3 +-
- drivers/staging/greybus/uart.c                     |   34 +-
- .../staging/most/Documentation/driver_usage.txt    |    2 +-
- drivers/staging/most/video/video.c                 |    1 -
- drivers/staging/nvec/nvec.h                        |    2 +-
- drivers/staging/octeon/ethernet-tx.c               |    2 +-
- drivers/staging/octeon/octeon-ethernet.h           |    2 +-
- drivers/staging/rtl8723bs/core/rtw_ap.c            |   10 +-
- drivers/staging/rtl8723bs/core/rtw_cmd.c           |   50 +-
- drivers/staging/rtl8723bs/core/rtw_efuse.c         |  150 +--
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c     |   14 +-
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c     |   21 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c          | 1028 ++++++++-------
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c      |  224 +---
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c       |   16 +-
- drivers/staging/rtl8723bs/core/rtw_recv.c          |  166 +--
- drivers/staging/rtl8723bs/core/rtw_security.c      |  167 ++-
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c       |   36 +-
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c     |   23 +-
- drivers/staging/rtl8723bs/core/rtw_xmit.c          |   79 +-
- drivers/staging/rtl8723bs/hal/Hal8723BReg.h        |   17 +-
- drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c    |   16 -
- drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h    |    2 -
- drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c    |    8 -
- drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h    |    2 -
- drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h       |   23 +-
- drivers/staging/rtl8723bs/hal/HalPhyRf.c           |   11 +-
- drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c     |   77 --
- drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.h     |    6 +-
- drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c       |    6 -
- drivers/staging/rtl8723bs/hal/hal_btcoex.c         |   59 +-
- drivers/staging/rtl8723bs/hal/hal_com.c            |    6 +-
- drivers/staging/rtl8723bs/hal/hal_com_phycfg.c     |   10 +-
- drivers/staging/rtl8723bs/hal/hal_intf.c           |   15 +-
- drivers/staging/rtl8723bs/hal/odm.c                |   72 +-
- drivers/staging/rtl8723bs/hal/odm.h                |  153 +--
- drivers/staging/rtl8723bs/hal/odm_DIG.c            |   16 +-
- drivers/staging/rtl8723bs/hal/odm_DIG.h            |    1 -
- drivers/staging/rtl8723bs/hal/odm_DynamicTxPower.h |    1 -
- drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c |    4 +-
- drivers/staging/rtl8723bs/hal/odm_HWConfig.c       |   26 +-
- drivers/staging/rtl8723bs/hal/odm_HWConfig.h       |   20 +-
- drivers/staging/rtl8723bs/hal/odm_precomp.h        |    1 -
- drivers/staging/rtl8723bs/hal/odm_types.h          |    5 -
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c       |    2 -
- drivers/staging/rtl8723bs/hal/rtl8723b_dm.c        |   14 -
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c  |   76 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c    |   36 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c    |   30 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c    |   13 +-
- drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c     |   16 +-
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c     |   31 +-
- drivers/staging/rtl8723bs/hal/sdio_halinit.c       |   74 --
- drivers/staging/rtl8723bs/hal/sdio_ops.c           |   24 +-
- drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h   |    2 -
- drivers/staging/rtl8723bs/include/basic_types.h    |   15 +-
- drivers/staging/rtl8723bs/include/cmd_osdep.h      |    6 +-
- drivers/staging/rtl8723bs/include/drv_types.h      |    6 -
- drivers/staging/rtl8723bs/include/hal_com.h        |    7 +-
- drivers/staging/rtl8723bs/include/hal_com_h2c.h    |    2 -
- drivers/staging/rtl8723bs/include/hal_com_phycfg.h |    2 +-
- drivers/staging/rtl8723bs/include/hal_com_reg.h    |  148 +--
- drivers/staging/rtl8723bs/include/hal_data.h       |   25 -
- drivers/staging/rtl8723bs/include/hal_intf.h       |    4 +-
- drivers/staging/rtl8723bs/include/hal_pg.h         |    2 +-
- drivers/staging/rtl8723bs/include/hal_phy.h        |   19 +-
- drivers/staging/rtl8723bs/include/ieee80211.h      |   10 -
- drivers/staging/rtl8723bs/include/ioctl_cfg80211.h |    1 -
- drivers/staging/rtl8723bs/include/osdep_intf.h     |    1 -
- drivers/staging/rtl8723bs/include/osdep_service.h  |    4 +-
- .../rtl8723bs/include/osdep_service_linux.h        |    2 +-
- drivers/staging/rtl8723bs/include/rtl8723b_cmd.h   |    9 +-
- drivers/staging/rtl8723bs/include/rtl8723b_dm.h    |   10 +-
- drivers/staging/rtl8723bs/include/rtl8723b_hal.h   |    6 +-
- drivers/staging/rtl8723bs/include/rtl8723b_spec.h  |   72 +-
- drivers/staging/rtl8723bs/include/rtl8723b_xmit.h  |   12 +-
- drivers/staging/rtl8723bs/include/rtw_ap.h         |    1 -
- drivers/staging/rtl8723bs/include/rtw_cmd.h        |  463 ++++---
- drivers/staging/rtl8723bs/include/rtw_eeprom.h     |   14 -
- drivers/staging/rtl8723bs/include/rtw_efuse.h      |    9 +-
- drivers/staging/rtl8723bs/include/rtw_ht.h         |    2 -
- drivers/staging/rtl8723bs/include/rtw_io.h         |   14 +-
- drivers/staging/rtl8723bs/include/rtw_ioctl_set.h  |    2 -
- drivers/staging/rtl8723bs/include/rtw_mlme.h       |   89 +-
- drivers/staging/rtl8723bs/include/rtw_mlme_ext.h   |   46 +-
- drivers/staging/rtl8723bs/include/rtw_pwrctrl.h    |   26 +-
- drivers/staging/rtl8723bs/include/rtw_recv.h       |  107 +-
- drivers/staging/rtl8723bs/include/rtw_security.h   |    3 +-
- drivers/staging/rtl8723bs/include/rtw_xmit.h       |   62 +-
- drivers/staging/rtl8723bs/include/sdio_ops.h       |   23 +-
- drivers/staging/rtl8723bs/include/sta_info.h       |  108 +-
- drivers/staging/rtl8723bs/include/wlan_bssdef.h    |   42 +-
- drivers/staging/rtl8723bs/include/xmit_osdep.h     |   14 +-
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c  |  213 ++-
- drivers/staging/rtl8723bs/os_dep/os_intfs.c        |   63 +-
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c       |    7 +-
- drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c  |    1 -
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c      |    3 +-
- drivers/staging/sm750fb/sm750.c                    |   22 +-
- drivers/staging/sm750fb/sm750_accel.h              |    4 +-
- drivers/staging/vme_user/vme.c                     |   24 +-
- drivers/staging/vme_user/vme_tsi148.c              |    3 +-
- include/linux/greybus/bundle.h                     |   12 +-
- 121 files changed, 1597 insertions(+), 5804 deletions(-)
- delete mode 100644 drivers/staging/greybus/TODO
- delete mode 100644 drivers/staging/greybus/arche-apb-ctrl.c
- delete mode 100644 drivers/staging/greybus/arche-platform.c
- delete mode 100644 drivers/staging/greybus/arche_platform.h
- delete mode 100644 drivers/staging/greybus/camera.c
- delete mode 100644 drivers/staging/greybus/gb-camera.h
+In-Reply-To: <6d683673-39de-4986-a593-68a5a495e764@riscstar.com>
+
+On Thu, Oct 22, 2026 at 08:28:23AM -0500, Alex Elder wrote:
+> On 10/22/26 6:02 AM, pavankumaryalagada@gmail.com wrote:
+> > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> > 
+> > In the loopback function, usleep_range() is used for short delays
+> > and msleep() for longer delays. This requires choosing the delay
+> > function based on the requested time and converting microseconds
+> > to milliseconds when using msleep().
+> > 
+> > Replace both functions with fsleep(), which selects a suitable
+> > delay method based on the requested time. This avoids the need
+> > to choose the delay function and convert the time manually.
+> > 
+> > Suggested-by: Alex Elder <elder@riscstar.com>
+> > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> 
+> Your description above is pretty good, but I agree with
+> Johan's comment.  In fact, you should think about and
+> understand exactly how that behavior changes with the
+> switch to using fsleep().
+> - When would the delay be different from before?
+> - When it differs--by how much does it differ?
+
+The current code uses usleep_range() for delays below 20
+milliseconds and msleep() for longer delays. When using
+msleep(), it converts microseconds to milliseconds by
+rounding down, which can make the delay shorter than
+requested.
+
+For example, a requested delay of 20,500 microseconds
+becomes msleep(20), which requests a 20 millisecond
+sleep.
+
+With fsleep(), the kernel selects the delay method
+based on the requested time. For a 1000 microsecond
+delay, the current code allows 100 microseconds of
+extra time, while fsleep() allows up to 250 microseconds.
+
+> - Is this amount significant?
+> And the third question gets at exactly what Johan was
+> saying should be included in the patch description.
+> 
+> We want to know not just the mechanics of the change,
+> but at a higher level, what is its effect?
+
+The change may affect the time between loopback operations
+and the reported performance. The code does not seem to
+need an exact delay, so i think using fsleep() is reasonable.
+However, testing is needed to confirm its actual effect.
+
+I do not have Greybus hardware to test the driver at runtime,
+so my assessment is based on reviewing the code and fsleep()
+implementation.
+
+If possible, could you please check the runtime behavior or
+and let me know if you find any issues with this change?
+
+Thanks,
+Pavan
+
+> 
+> You don't need to provide a super high level of detail
+> in this particular change, but you should demonstrate
+> somehow that you've thought about these things.
+> 
+> Please submit a new version of the patch and reword
+> the description a bit to concisely capture why it
+> makes sense to make the change, and why you believe
+> that the change in behavior is likely harmless.
+> 
+> Thanks.
+> 
+> 					-Alex
+> 
+> > ---
+> >   drivers/staging/greybus/loopback.c | 8 ++------
+> >   1 file changed, 2 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+> > index efc69c10cffe..2fe845eaef29 100644
+> > --- a/drivers/staging/greybus/loopback.c
+> > +++ b/drivers/staging/greybus/loopback.c
+> > @@ -898,12 +898,8 @@ static int gb_loopback_fn(void *data)
+> >   		gb->send_count++;
+> >   		mutex_unlock(&gb->mutex);
+> > -		if (us_wait) {
+> > -			if (us_wait < 20000)
+> > -				usleep_range(us_wait, us_wait + 100);
+> > -			else
+> > -				msleep(us_wait / 1000);
+> > -		}
+> > +		if (us_wait)
+> > +			fsleep(us_wait);
+> >   	}
+> >   	gb_pm_runtime_put_autosuspend(bundle);
+> 
