@@ -1,82 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792764759;
-	b=Rc+ZzFolMLlYsM3O1DBUZDom891X5BI2BuuksXtf0nVAaSwbHk2CddbLfYjHsD8l3RVg
-	 kVEokI/Vf9H5VX8NlUmFiZAxAvHwZspL6q6QXydh2lZ5DgyPD7Qk8B+rntLmyPsM3+YOv
-	 6KfiJC3eOqUBmRRgaT8+OyTKCMu9q/TtWqdrIk4ycPYbrpdBmjcAJMYDyfGQnbdm4RBZY
-	 0ke7gdrLC1F04JgGomfuggRGPj3CdubsxUg6H0ER8Oo85aSpnn3QTOCxEUFwD8WStMjwE
-	 Vyd5fj9JncXKK1BqEXqd7jugSaoG8P87QyyxUWoiWeRmhY02C0GKi/inmJlNHtpwm1g==
+	t=1792764929;
+	b=QzbA8CzVXYC5bLvgNuvHbyxRGe+dScDvSK6+wkLwVHzCuTVMPUasyo0SVTXqdnuPyG/O
+	 JrKvGdorKGTiNc84HltE5Itb2uB9ZFjQZJtJZjuhPOmC8J1UaALZ75h79F2WNfVjM2hqD
+	 19agq7CvAsqvPW2Wi8J99yJm6t2CmMA2ma20MiBBGkizqu0/PxECr1+QTIQcE6Lap8u7O
+	 zVT4ifdw2JS34qbL0KjkKMZLjLrayajUvxLIdC0aFhXL42I5Ei0knMR4aqXZpsXODEqlo
+	 Z87NvzlT6/iXJJQ+AtrM1I1uR9BIdmdxrfxKxBKxOYRMBJTZEAKE+sHdx5CRnf5OH0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792764759;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 Organization;
-	bh=Ab8RHstOOGsiaRRPvys5lJ6PezymvXrBWNKqeo/lvPM=;
-	b=ALIiV2j2icq4RYe7vxNAUvG2IZVPE+ejiyX/KVis6OGwmpjZNeqr4CXOEYxHGuDYQ58p
-	 IWio38WI2SDWib55RLulsVQEQngItTTUe30ZkXMIB95IWMjyFxKyPmZJqr7doFbVWdEyf
-	 Eo/8m9SF7wook8Fb/o8j7QkoXOSsaZMMvYY+w1M+Z+Q/yauR7skrCsvCfI8GngAg897bg
-	 Y51yCKAdOaWf62L29KsKp54/LG1iz/4fEHv4rkAoYEn6bk90h/XvbJHHyPtB87n3hePom
-	 uiKY4T4jy+CQJ71cQXcKQJMA1UNz6bzsSiozmPzCFD2muTitLnWCo5jJZkIyaqtmSMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792764929;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=Tm/cpYxqrKZTkvEJNBnPzr85AedjzKo9UBMwFMFE+xU=;
+	b=ouf/54ojxSNAbirPTmHSyOER87STo2w8YK7JUO66PGpX/CxP3fxpvTZmrSiSrD/mbRPm
+	 Jy3X53FBlKv98A5oZ/gn1y5xyp4Gihe9OGY5cmwkvPMUNnCu4XFcaktxEW5Qw4Mx7NxYJ
+	 Yb/znzQqlbkPrEokwroEhtKThi6j6lfbDJfIjsTwVUZWzP7W8Kso9SJwXP5K82szWiaDg
+	 Ih9xxfCa8XYGXojGptMhIz4W0ni0neAn9UIi4oEkch3bXau0eA8DnxAcO8LWK2MU085Yt
+	 g3JT0tv5ryJAE/56TOTIPYmMrLdNf7/yDnWeMrHMl2g52m+M27PMc1Gzw9BszCg9kVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aEvvqQY4;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EF23W7wN;
+	arc=none smtp.remote-ip=209.85.216.52
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5558C606A31B
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:12:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5558C606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21521606A334
+	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:15:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21521606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aEvvqQY4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792764758; x=1824300758;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=KqznkMmYbL6qu9UlIb3UJC6Y5I0wTV0+qWfGZcx0rlU=;
-  b=aEvvqQY4S4xkfxuYdCu1FggD0ix86Ua3iGW+WiOjElM3bbqVCESpt+7x
-   hHlBwisf8ZEwRURuJvllEivE1ynZ8KMae7AukSSfy59m0YtiKskJOot9Z
-   mQv3y0cnfILTHxzLJui9ejogE8jN6qUfw1JOtyxLEJvT8FQx0kEyDo1Id
-   IKp4NL+LwgAEchBTPm5uZPjRyXo8NGpDbraT3Y0DuSXbGTkI9CKd5xWGx
-   1Fw63IL7RGc7zJt4xyj6KWXc4mGt0tY1Uhd49e/RIl3Z8CQwlRBP5SqfA
-   X+0LcLcUHFoyd9X73SCb6IqQFA8lEazpkesys4Rx95q+svuYZMIza/3v8
-   A==;
-X-CSE-ConnectionGUID: 1i3Jky3aQs6KNAZWDv9YUQ==
-X-CSE-MsgGUID: 8cpkapaPSHuKUVhwQyN17g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1399878"
-X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="1399878"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 07:12:37 -0700
-X-CSE-ConnectionGUID: ZTLF/PFATMOEfFXfHp7sUg==
-X-CSE-MsgGUID: ErS4g7JXQcCIbTofzgeKww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="4142845"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.100])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 07:12:35 -0700
-Date: Fri, 23 Oct 2026 17:12:32 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: =?utf-8?Q?Rare=C8=99-Mihai?= Vladu <vladurares@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EF23W7wN
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3ad41b47541so662454a91.1
+        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 07:15:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792764928; x=1793369728; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Tm/cpYxqrKZTkvEJNBnPzr85AedjzKo9UBMwFMFE+xU=;
+        b=EF23W7wNl1FWecDOBqACRo1K+JJBAWkC3PdB4rnURNZL0UApk3040AYJPZ9yatSJBe
+         Dy7oZD5FrqNhOcIVdfK+M9ZZbTlPkZxrQ9ShqyfnqZF+9bH9UqDJ5liaENX6GCzd45B7
+         Rl6RXYEChVMmWmrdk4NtdJH7lL4nY9d0UDB2lKFtgZ0Fa8hZ4uu7Te9zYdXkVqp3OA/V
+         i+c+GBhd5af/kkRZqkFUP2MzeUNNnqb0orUhLve2b2YKss5MRQNIwBAf+033mvUIy6oQ
+         UOMmI6JwnEsSJ4ZD5k22ZDPXE7heTPHcMNubSIp4DVhSkGIhUcVgwX2QHj1OHN6dwdHT
+         DvYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792764928; x=1793369728;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Tm/cpYxqrKZTkvEJNBnPzr85AedjzKo9UBMwFMFE+xU=;
+        b=FC7fJHrDjdbYcgjbc/nPhQyggggINfa4/xUFX6J30bKcPyxPJrK1bgHUlCbAWlNY0H
+         w00rjvH3ujZjVj0VrOq+53MmiXtzTJYf97gmvLr7skIqfGeoNRnd0yJXDebGeFT+gqhB
+         qDo2I+0tR3nVoZSmHDr9N4L4GlMUwpe68Dp/6gjJHfUFeDR41sJKGFyIySVXpEUYWo6W
+         EsU85oWALpUW+yhEVG/ssCq6SeirHh1AJYgWHRueWnWo63pRA9LcnINuSbB7Sn0xwZFe
+         TECWJ1yxNPIbGZrZsjIvgzJ+gDnQmztvwO1Qx9RUfPenUNmOnI2LlG1Sw/134u0uEfd6
+         N6lA==
+X-Forwarded-Encrypted: i=1; AKwUvBw3ktO76c3Oz2nyPC1axuxeghReU4D4l9VlYekF5LZNl7zgCHt0GGjpg07HJIAD2p+bCRo0FUJwTXzscuzK@lists.linux.dev
+X-Gm-Message-State: AFq9FYIFjJITVoCvLPiD3719cuCsM5xUO88Py3MIHxC7x7xUM7IvWCGj
+	FYGpAyGSN9SED8i7HzqCH5tjKUQZzQVbmkLiN6knoRcS8eyL8ziH/yKM
+X-Gm-Gg: AYBFou1X+W/esB/wReAJtSTDlUpWtyGf2lLeWhH/uFDJZjRMBvaCYh4ejBka84GybAg
+	uHD94nYgDGJmJK6grAw/uj/1SC0qFk0Lk/5Q3G8hsanWAO6JFAZhN4ev759h98xSBByhSGhqzU5
+	4X3dqXv6gxRftAo3d16NNToiZxeu6K+aqLMPE+LVnwGNlfAADUseWd6ZGitKW16eB6PM1hxL+Xw
+	zTNHZsg8ny70uUuHc+bp7iSDL4gY2hMoLzouhBDOWV7BmQyDD+Xo6rfaQy/X3h7Gt/M7826yu6j
+	ETW1PSG1I7PI2dkNM3vHFtvzlzzKAbKOpUmzvJEOp/egzYyI8YyaF9qC7R/GABFH7EfNoue7yNJ
+	L8F0KCa3G+7hK9ndsjBOYcwqMpAKJwbfaRefkynUJNGAGiruShPKt38/lpjNpQeXqa4ulFhmElj
+	zzGjX7uPxXGiXOvzgbSx6wg0MN2iANdYmXeXDy4xmSZi+Rt9U2961hlw2evXhpRvNVBJd8u8mzv
+	MFfA3JQw/tTU/CadkcuyPzZNod8O/KaIfFlh3TNgcirx2KP0G4nK4honWXo
+X-Received: by 2002:a17:90b:3c8b:b0:3a8:185:cf40 with SMTP id 98e67ed59e1d1-3adcdfaab13mr2265897a91.10.1792764928355;
+        Fri, 23 Oct 2026 07:15:28 -0700 (PDT)
+Received: from user ([2405:201:c052:b00b:4145:da00:43b2:a151])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3addeb56578sm360792a91.11.2026.10.23.07.15.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 07:15:27 -0700 (PDT)
+Date: Fri, 23 Oct 2026 19:44:47 +0530
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+To: Alex Elder <elder@riscstar.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org,
+	outreachy@lists.linux.dev, pure.logic@nexus-software.ie,
+	johan@kernel.org, elder@kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] media: atomisp: queue: remove unused local queue
- support
-Message-ID: <attrUN_9ilg9W8ah@ashevche-desk.local>
-References: <20261014111213.1967452-1-vladurares@gmail.com>
- <20261014111213.1967452-3-vladurares@gmail.com>
+Subject: Re: [PATCH v2] staging: greybus: loopback: Use fsleep() for delay
+Message-ID: <attr11CuxTty7rPn@user>
+References: <20261022202455.104142-1-pavankumaryalagada@gmail.com>
+ <a411ee0e-22c4-4797-9fdc-3ac11fa20d60@riscstar.com>
+ <2026102338-rack-garland-2a29@gregkh>
+ <fc3a1fb9-181d-4994-9bf2-45272dafc86e@riscstar.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -86,82 +100,89 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261014111213.1967452-3-vladurares@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <fc3a1fb9-181d-4994-9bf2-45272dafc86e@riscstar.com>
 
-On Wed, Oct 14, 2026 at 11:12:11AM +0000, Rareș-Mihai Vladu wrote:
-> ia_css_queue_local_init() has no callers, so no queue is ever created
-> as local. ia_css_queue_uninit() only handles local queues and has no
-> callers either.
+On Fri, Oct 23, 2026 at 08:18:04AM -0500, Alex Elder wrote:
+> On 10/23/26 8:04 AM, Greg KH wrote:
+> > On Fri, Oct 23, 2026 at 07:48:54AM -0500, Alex Elder wrote:
+> > > On 10/22/26 3:24 PM, pavankumaryalagada@gmail.com wrote:
+> > > > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> > > > 
+> > > > In the loopback function, usleep_range() is used for short delays
+> > > > and msleep() for longer delays. This requires choosing the delay
+> > > > function based on the requested time and converting microseconds
+> > > > to milliseconds when using msleep().
+> > > > 
+> > > > Replace both functions with fsleep(), which chooses a delay
+> > > > delay method based on the requested time. For short delays,
+> > > 
+> > > s/delay delay/delay/
+> > > 
+> > > I think "checkpatch.pl" would have caught this.
+> > > 
+> > > Maybe Greg can fix this up.
+> > 
+> > Nope, not for staging patches, this is for "learning" :)
 > 
-> All queue handles are in the static css_queues in bufq.c, and
-> ia_css_bufq_init() sets up each of them with ia_css_queue_remote_init().
-> This happens in ia_css_start_sp(), before the host sets
-> host_sp_queues_initialized for the firmware, and css_queues is not
-> cleared afterwards. Before that, the old code would have taken the local
-> path with a NULL cb_local.desc and hit OP___assert(), so the handles do
-> not seem to be used before initialization.
+> Sounds good.
 > 
-> With only remote queues left, the queue type no longer serves a purpose.
-> Remove the local queue code together with IA_CSS_QUEUE_TYPE_REMOTE, the
-> type field and the type checks.
+> Please provide version 3.  And given that, I'll add one more
+> suggestion.
+
+Yes, sure. I will send version 3.
+
 > 
-> struct ia_css_queue appears to be host-only: it is not copied to SP or
-> ISP memory, and the firmware uses struct host_sp_queues, whose addresses
-> the handle stores. Removing the union member keeps the struct size on
-> 32-bit and reduces it on 64-bit, where cb_local held two pointers.
+> You don't provide the *reason* for making this change in your
+> description.  You say that fsleep() does roughly the same thing
+> as the existing code.  But... why make the change?
 
+Understood, I will make the reason for this change clearer in the
+commit message.
 
-I'm wondering if you use --histogram diff algo when preparing patches.
-If not, use it next time.
+> 
+> The answer is roughly that fsleep() is a common or "standard"
+> function, and it's better to use those where available.  I can
+> think of at least three reasons:
+> - It's better to use a well-known common function where available,
+>   because reviewers will already be familiar with what it does
+> - A common function might get optimizations and improvements that
+>   your code would otherwise not benefit from
+> - It might (slightly) reduce code size
+> 
+> I am not suggesting you include all that, but you should
+> understand it.  My point is that you should be clear on
+> the reason for the suggested change in your patch header.
+> 
+> Even something like:
+>   Replace this block of code with a simple call to fsleep(),
+>   which does the same thing.
+> is enough to explain *why*.
 
-...
+Yes, I understand.
 
-> -int ia_css_queue_uninit(ia_css_queue_t *qhandle)
-> +int ia_css_queue_enqueue(ia_css_queue_t *qhandle, uint32_t item)
+Thank you for explaining the reasons behind this change.
+I will update the commit message accordingly.
 
-This change is hard to read. Can you make an intermediate patch to just move
-the "remote" branches to the helper functions first and in this patch actually
-kill the local case altogether? Try to make it so that the ± statistics is
-minimum for the changed lines. It means that create new helpers as they should
-appear after this patch alone (just with different names). Example (ideal case):
+> 
+> Also, before sending *any* patch for review, please *always*
+> re-run checkpatch.pl so it can find trivial problems for you.
 
-// AFTER the mentioned intermediate change
+I did run checkpatch.pl before sending v2, but it didn't catch
+the duplicate word. I should have checked the commit message
+more carefully myself. I will be more careful with future
+patches.
 
-static ia_css_queue_enqueue_remote()
-{
-	...
-}
+Thanks for your guidance.
 
-// in old function
-static ia_css_queue_enqueue()
-{
-	if (LOCAL) {
-		...
-		return ...
-	}
+Pavan
 
-	ia_css_queue_enqueue_remote()
-}
-
-// In THIS change
-
--static ia_css_queue_enqueue_remote()
-+static ia_css_queue_enqueue()
-...
--static ia_css_queue_enqueue()
--{
--...
--}
-
-Repeat the same for all affected functions.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> 
+> 					-Alex
+> 
+> > 
+> > thanks.
+> > 
+> > greg k-h
+> 
