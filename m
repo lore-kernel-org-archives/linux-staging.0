@@ -1,96 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792758740;
-	b=M6WaHlAJ6bXwuKGOuOWWKA8NYKEDQuoNv57aNqlIIqjHHi8PSPpzw4vQPROJrptt7ey1
-	 1SJn7xaREHb2NIr1h/pW4hG5B2WUFj67tBVay5cVhMGgKYPQqFjJ+AIiUAwfImTUbZZjT
-	 03pDsMM4qZ9w2gPxzOlY7Swy8pLS3UpqFZNC4BHx2yQ0CVgePla40G/TkDeH+KiVo9fxV
-	 375TfU0b5RD/sc8pidAE8e/seBcb9kU9/voYsXn7Lsyz1SlT056F5Mypg2KADQLcPA7Yh
-	 j1SPw4EPbRBO1qttZQ2Y/NRceiyF9vnw3tFBrEucC3svjEYeaYzX49alX1vxLuC0ZGw==
+	t=1792759737;
+	b=YLXjr+qVFqtLFR6SrXoS/4L7FYuDjUUKu6pXH8SUUMwoHlfWj70w0Kww5SaP/A0ilWp8
+	 10q0jRjpyTlL3/3snTqgaZ4UbgwO4+ENRNFVQfEywaOitERPHER5l6W4nKGz0agXo3vGf
+	 3O/blP5bZYAMXUy1WblaWirw0VLP2C0XyabobRTqb+WucMQrpldy2awk/SWttYjc1BX8Z
+	 Q7dehmGyNBANVNDUlk5Hc+6aqweIgZ0jsz63ogKlnL9jaMHhm6D/Pqcx49LGCQVy8HkXD
+	 3lDp3+cqqtezLPY1W9hB7tu2jGHRlGcqUQZEAdiYuEPrJsKXAAJgQIjp2iy1arAGBbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792758740;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792759737;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=scUqe+m2AaEqm0y3/EgjFb3VXYqdf50pvfoJjsmh5EY=;
-	b=KLQ4Wegva3XD+IaFbnb638BcKbhZ5OUHmCaw5Z/ddnKKnNpurzO6bftbLVdUGJyEw4Cs
-	 eN/wFKO34YTgkXZjhGTfl7Pdtv2+c/a2QkblVjIr9r1kzki3T92DcgInUmHtT2SWZOoxO
-	 DTCcCvPwzH2/mi8OXyjtuuPFP+ZlcML1gzVVj282V0TaDp94smN8o+Ip0unyGqgP4s1bk
-	 VWylhEuuLDALOEC+tHRSRkcCgy1jx+HxAIhCUguv1HiAKYmOSxz/su16XREhIw88UKxZ2
-	 5FOOc7ld7JMc3MTHMOyexZ7wnoGDRjcA3XXWc4gGRSJ88C1nKYrSOc6KTiUqEnwjJKg==
+	bh=AauMIhJF1QGD9945xyHgO/hlfJd5Li+gb8s1bXigGyc=;
+	b=hTd10fWyqYvR4wOmnWjd0VoWw31aFIdCxsqjVsdpPbEQtkVkNiLA+AqTQlfGrUi8Jbp+
+	 3TX13RHAS0xsKTDZ/9oMWyKmnD4vZuueHMpXQECAUaUbzyofem8UWAEOGP5bHwnXvvGpF
+	 KJqPiuEE6ZMM4dun8PznJT1xDGnU3emlb455rNy3+MOudtb8o8GSJR662/5mEnIVMaeWI
+	 Bks8cOZLTDfvnp4deOSC/gfuJ9zM2sYI85TYy4aJKGhdMnHtV++iv3z63umBI9SGCPo6o
+	 UhiFJAaoHJ9wJ8O5ZRkrwkYZGbg5Pxk+VpWpy/OrgsqIoUigc+aUzbXYyy5KYcQcJ8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IvslCOSK;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	dmarc=pass header.from=riscstar.com;
+	spf=pass smtp.mailfrom=riscstar.com;
+	dkim=pass header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=BaQM0NBu;
+	arc=none smtp.remote-ip=209.85.210.44
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678AC606A31A
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 12:32:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 678AC606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D45D606A31D
+	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 12:48:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D45D606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IvslCOSK
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a0286c981dso8561455e9.2
-        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 05:32:19 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=BaQM0NBu
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-81b54d0cb17so771873a34.1
+        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 05:48:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792758738; x=1793363538; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=scUqe+m2AaEqm0y3/EgjFb3VXYqdf50pvfoJjsmh5EY=;
-        b=IvslCOSKsuiRpHgUhCoW2PrAPvoXvJvuBfZRt+Rj5FRSyGFFIdz+6lRFEfWsI2LnMf
-         nZiUeTM7dUOjU4JwfZCDkLlGw+XaxrtxleJuqZq43POc0x+jIhCUODXB0eaYPoMNPdL4
-         CIh1cv9rkMnvKa7F0zPeSrKq6byXxdkKY3t4SrWa9zUmdOtFFmKd7bKkGQV+yLjefE1H
-         yQcr079vb82qJtsZeNDch5qWnAu3r/Ieqq7rmijaH7pOECwFpkzT690zFeTU+idMxy5s
-         X/oiWZwm4YOtCaJaSvX7FP2UvWy5IRNvSxJih5AP857tiVmFE7OgRt66hLvnffA9vNSK
-         0VvA==
+        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1792759736; x=1793364536; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AauMIhJF1QGD9945xyHgO/hlfJd5Li+gb8s1bXigGyc=;
+        b=BaQM0NBuFlAUgCaiWa6udwcOV4/krxkJt8kb4AaA8u7PPB3rVSwOPhnnxlsVV18m11
+         U+WQTE6Zf025qe7FoHItRTX1OQm61R8yRmweODuDJsuDOHbcQmYhcgBTpRBftTwnWpEM
+         QSWIt13+SfsFDcH/uS78qFIDGdGOhK3YimDvNJnhC2SWIj2M7+Ua4YBVu1f5mc1Dc+QI
+         wZTA1zbk+8pnriixs/nXazF9rqQKIVSbtwx08cssjTEM/S+aRyOTfg9+jYWnBoArJGRL
+         QfeX68QFfmED0ksMaCFQ4dTWDFVS4WIUvJkd1uLjWBVvXRlM3vyKAvjOdfEsnIoF1BRG
+         v2uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792758738; x=1793363538;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1792759736; x=1793364536;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=scUqe+m2AaEqm0y3/EgjFb3VXYqdf50pvfoJjsmh5EY=;
-        b=ZVIXcrCxQ0ldc2y2+aZo/7l5nXBY1jwFSZYA4i/ulbsIowz0Hjj0r2g+9NLowH6m0n
-         S3cByyT2erLbvfZTWRy/XcLOC9fUTzW38IiWfYB20aa6OcqkQAPQKRgA1EeTej89qir4
-         H+sagZ++ssucZjfOG91CHGjntaOqw0CJzQkLHdcMhT3GUFEaVIuOGNfm2VSqLry5e7Fo
-         uqcl5friM08AUwBYbkkUjCflPOHWQNeuzvAZQBGomZbM4ovqkQuIg00Xc18zRfSlbqQG
-         JD7AmCFEdJFMzj6GkUM8FZCvKcTFHnHlsaqK0jzpu12NS4CjcRBSi7zW81TkdZA/uW9W
-         nJZA==
-X-Forwarded-Encrypted: i=1; AKwUvBz+1IDHbRHv9TodVX1bobuYAPXg17rpLH8A2aGeNPuEZMTyOTqoxDGe8kEEabzFb7Fo76QXvIV51PAYu13n@lists.linux.dev
-X-Gm-Message-State: AFq9FYKHrtfMdziiXskBWU88e8x1DUYbwe+ju7zlEj1Ehf94RojDu2es
-	q7k6VODoEkZphAgS6WR153NiPdzvnvizF3wMeZKZ2lYbSkwcxY7GYrfD
-X-Gm-Gg: AYBFou04WK9zbNyJoDGRZZB0lqNJdu+PNtEJjNgB+eF/3GfOijTk3HHaIFSlgFXfS4D
-	336h1wAj40q4oMoD235/rX9zs5cVCmgbK/FJIXd75EWvsFgWUPQuQC6dy0bGt46bGvTGLz2nmFP
-	g0ml0VZ2oyNPBxjAXxKp0fyRpTkd6dbZueCh/gDnW1n5tBbE8K718cnB3aDCBeFRkBNqiamtnXh
-	iS2X1Jjjg45p4aQeoRRDeqZILyyUVwQsEauuJDnBMLJKKwMdEgYVpiIso4RzX1c2kgcOJuArG0u
-	KCFHNk8R6ZU8gyQjz0unW95GEmqzYu56wzMc3KMDK3bJBSs3uZOVcVGHCEh38geXI0MidBdgZk+
-	b/3QHdxDhl5g4FzoeyjV9g6K53fYCzb0Dt34FDthLqHGgNFNP/6zei/QzNhb5fxcW0NqGh0PwXW
-	oCEnwmFJS/S3oslXThs9VCClC4uAFBRqbHX3pyq0jFUrgIvj5CdtsixF3b+R8VdjYw9xP6LetC7
-	qwpWBCR/Kp6RS22wHtGzt0+CrmJcC4lM6cckgbJa5kktvWduPrSmYo=
-X-Received: by 2002:a05:600c:1911:b0:4a2:74f:46c1 with SMTP id 5b1f17b1804b1-4a211c9de53mr35206875e9.8.1792758737396;
-        Fri, 23 Oct 2026 05:32:17 -0700 (PDT)
-Received: from salem.. ([141.85.144.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a2b064084esm646595e9.9.2026.10.23.05.32.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 05:32:13 -0700 (PDT)
-From: Lorena Tanase <tanaselorena3@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Lorena Tanase <tanaselorena3@gmail.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>
-Subject: [PATCH] staging: media: atomisp: Fix double blank line
-Date: Fri, 23 Oct 2026 15:31:58 +0300
-Message-ID: <20261023123158.6176-1-tanaselorena3@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=AauMIhJF1QGD9945xyHgO/hlfJd5Li+gb8s1bXigGyc=;
+        b=ZF0psLoT261vLzNqdFQHwdAq+qOsWVajFYCnFdbI1hSa7oKf1qcf3qvMLas0rsgHsp
+         tCuX0T/7w8G3Igc9q7RRGW0x6n2a79Kh7VfpNrU8G0mCHPJJzHnqTszv6jLVJRdsJxHr
+         qsWXJI2h5F9vaP5lHFtcVYSGMDWa+Z3E2SeHlF1xT8Ot2ok7bmaXBu5TMbcDiEMAtdpa
+         cNTxqV+3xyyO61EpsJHnblaYpl8u+vMEXeELQSHvUaFc5xnTOlzuLfe1DN9XGM6SZ2d4
+         ZBUB8osxKGv82WcXdDvyaHhWo6A3C+ctipAKlR6sD+Ea/uuYkThC1fTwInQQCKEHwTEi
+         j3jQ==
+X-Forwarded-Encrypted: i=1; AKwUvByO741aFHgWJ06borTtAI9q80mEXQQAJ+G9AKyJej8tRMqPeFiq4+1LwxXVl2k2if7dfJJwK8jlxCaZBip2@lists.linux.dev
+X-Gm-Message-State: AFq9FYIuHuppx1f+Zaw3awSgvrXM2nGa5vvv/pH40fkzPSV0Ht94TX0x
+	82UeVHweuAgW2mtfyYWyoKC/zCcPHyn3SNw5VN2dBvAF6LmwXxaZlr20ZK+p5iUR1Bo=
+X-Gm-Gg: AYBFou3VTxuVDbgT7u6YjPg6J6/qnpIdmhxrSziX7ydGJOt8K6i0Qg41UiYMx8AD3Ec
+	Wd6Xb7OpxpG1Pi945tz4DhgR5laWQsXEWYSQHixXTKsJK2e2hbobgFWSN1fsS9SclYW6QmUWons
+	z8oIoucztEO2o9eh+GQZ4HKNBALMswPz+M5QXdWgkr2nZvn/H6leimRkJ8yDFXGtAdtRhLQMNTc
+	wxKNo4S7PIveeXGRjVesenOpuUTn74j3LxERXcSFfj5VgVjdTWokGQWEfUd5XU8AR20rC41NybP
+	JxMewff6Cyes6ZrZJdBMZpP5GhpsCpu2xu/zUTfv0MZOG6Z4b+h12cvkgL/4ts20Iec/CXwd+Kw
+	/SqROLoAToqNyVGllEX+jW1z1Bxs6QkeuKFWS28lmtU0YrUypak2XkG4s7BP9aS7CfO5d7Z7ICW
+	y+An6K+rI1zVH3caqY00Ej579nC8SvdDuY18dSA8Hmw3jzxrX3lYL6G/o3jqZsT+vBtsZp0erVV
+	sFSI7FSL/gLC+5klglmd2tnuOLVhUejSALKjWaxUsRpmr2keRG4d7szNF/kw4HdxD9vliw+pyXD
+	oGQ=
+X-Received: by 2002:a05:6830:264a:b0:819:1804:d208 with SMTP id 46e09a7af769-84fb2906f38mr1294739a34.13.1792759736186;
+        Fri, 23 Oct 2026 05:48:56 -0700 (PDT)
+Received: from [172.22.22.28] ([73.62.185.64])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-84fbe66cab7sm1910704a34.23.2026.10.23.05.48.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Oct 2026 05:48:55 -0700 (PDT)
+Message-ID: <a411ee0e-22c4-4797-9fdc-3ac11fa20d60@riscstar.com>
+Date: Fri, 23 Oct 2026 07:48:54 -0500
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -100,29 +92,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: greybus: loopback: Use fsleep() for delay
+To: pavankumaryalagada@gmail.com, greybus-dev@lists.linaro.org,
+ outreachy@lists.linux.dev
+Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+ gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20261022202455.104142-1-pavankumaryalagada@gmail.com>
+Content-Language: en-US
+From: Alex Elder <elder@riscstar.com>
+In-Reply-To: <20261022202455.104142-1-pavankumaryalagada@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Removed blank line to ensure linux kernel coding style. Found using
-checkpatch.pl script.
+On 10/22/26 3:24 PM, pavankumaryalagada@gmail.com wrote:
+> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+> 
+> In the loopback function, usleep_range() is used for short delays
+> and msleep() for longer delays. This requires choosing the delay
+> function based on the requested time and converting microseconds
+> to milliseconds when using msleep().
+> 
+> Replace both functions with fsleep(), which chooses a delay
+> delay method based on the requested time. For short delays,
 
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
-Signed-off-by: Lorena Tanase <tanaselorena3@gmail.com>
----
- .../media/atomisp/pci/hive_isp_css_common/host/input_system.c    | 1 -
- 1 file changed, 1 deletion(-)
+s/delay delay/delay/
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-index 68b0ad27615d..66311ab4880a 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-@@ -6,7 +6,6 @@
- 
- #include "system_global.h"
- 
--
- #include "input_system.h"
- #include <type_support.h>
- #include "gp_device.h"
--- 
-2.43.0
+I think "checkpatch.pl" would have caught this.
+
+Maybe Greg can fix this up.
+
+
+> fsleep() allows up to 25% extra time instead of the fixed 100
+> microseconds. For longer delays, the old code rounds the
+> requested time down to whole milliseconds, while fsleep() rounds
+> it up when using msleep().
+> 
+> These changes may affect time between loopback operations and
+> the reported performance.
+> 
+> Suggested-by: Alex Elder <elder@riscstar.com>
+> Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+
+Looks good to me.  Nice job.
+
+Reviewed-by: Alex Elder <elder@riscstar.com>
+
+> ---
+> v2:
+> - Add more details about how fsleep() affects delays.
+> - Update the subject to include the loopback module.
+> 
+> v1: https://lore.kernel.org/outreachy/c482704b-903e-413d-ba7b-5bf31c0a6104@riscstar.com/T/#t
+> ---
+>   drivers/staging/greybus/loopback.c | 8 ++------
+>   1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+> index efc69c10cffe..2fe845eaef29 100644
+> --- a/drivers/staging/greybus/loopback.c
+> +++ b/drivers/staging/greybus/loopback.c
+> @@ -898,12 +898,8 @@ static int gb_loopback_fn(void *data)
+>   		gb->send_count++;
+>   		mutex_unlock(&gb->mutex);
+>   
+> -		if (us_wait) {
+> -			if (us_wait < 20000)
+> -				usleep_range(us_wait, us_wait + 100);
+> -			else
+> -				msleep(us_wait / 1000);
+> -		}
+> +		if (us_wait)
+> +			fsleep(us_wait);
+>   	}
+>   
+>   	gb_pm_runtime_put_autosuspend(bundle);
 
