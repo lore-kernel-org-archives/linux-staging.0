@@ -1,97 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792762884;
-	b=Mo0AkFPnCgiL3MhhzhQbqgEVkz7IkU7AL0Eu1+41op+PWRYqoL9CXimOiCmxE/8XaL33
-	 WrB1rjbZ/ZzH4JuVcJJ2fWtlJAVJIPtoBUKJI/uNuGzEaZ+SOSYt7PaI2mXwuIPB9l5Nv
-	 mZFnmK89iHSFK5SVrEy73a1i4Yd/3yVEDQJQWFIGNXoRW58hQsZFn70cKXTrpaddySfda
-	 D8QZs1/hXWVo9OIw77MDH67q4EP9VHYoHsG5fnkio9jhYV7hNcWm1xKzqBbg/DxjpAe4/
-	 lTGRi3D7UVVoPDPieqit+m9sSalb7sqVO3x7qpfxkaUaOodvbfwM2WYv7HGeEolkZZg==
+	t=1792763739;
+	b=EiK5jsnw1E9TTc9ZSgADmUKkWlBkTBBiBxi46ZzOu0I3fsd4Z/E07oCOaJguS6j0S+Vj
+	 YYcYLy87DqpZTH28pzzBDA/dnnXVm9zonJm1aAIT7fvYwR66lrYWlgU0rog4Lp6gthiCX
+	 /GF97YwFss3dHIEcmHmttKXn1jmkO5Xz7ul9ESGrigWM1eb6hFj+DO4TsvTMG1ho0hxot
+	 yI8Ha/dqRBgiALYA7Dj5+PVylTwX0xkSY2nn7LnlNrWFhGrUyV7SBF9SsvEs4Mkhx6FpD
+	 +l9c08akXJ/wwBQZ2fCm6RTNY6hNS1IIFSd5NSV32y7b7C+hxNH3k5nY75F4wdEDuWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792762884;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=phqTuEqnO8394NIPr/NdZ5rgqT1yFhgq/z9vwQO+5D8=;
-	b=sdt0Ph3AXn5vqv47pGUeJWgLlIEU3eZWqIO8SNsERVsW3Vnh3PLjC/+Mr/sRcLGsmIGQ
-	 by0JawqtjQPlvK8CyHNY9/escx74DBlkDot22rn+FdeLDb+hF4kHjbE/YU/RRT24HMSIY
-	 gH6annt70Tr5kncxG4+O3p2U1FBZgJqjJjerlFhUwl/Q0t0EPnrLcWoqlVWHmwE+AHCh+
-	 ZtbbEtm7nocXAj1d0or3N/q2lFuPhva4QQE6xhuH6qbX6+LFnxoPFkUpzgfrDKdGi2s+A
-	 s8L23KSoCPou75RLBR1Dj4k+EUQfxKZI8EsLtZS7NxZWKoQUafBmBeeqWiJz5Xr8qbA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792763739;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=Ufbwdy3tcu5w/NiYngE4mrieI3bOTwOle0zORVQS+fA=;
+	b=LbTqS0iDf/G9xRCxy0wJ2TRX/x9jWwx69noWck0CWhzDHWJ88Kjwz1QPGYTFsWA3p7Ff
+	 z9Q+wtjlKmsxCkGeqxeu8yFRcbd6MfUXNfFdH2GHc26mG05hVw1e8sKLSesWvr/49wViP
+	 CAXV/2vMKdsevo+TWHWT57p7+i4iVBDdJllJD28fN48ETUhZ8SsPvd6DNrMMrqAlDXHQQ
+	 tue5+nRZ76i9A1aK2D3aTvgPqdbLW/xtUFD+lwpFPFfE82+9FZmha5rbEJ41zW/11cHC1
+	 ESrXh+nYKGIb4UiWJTilz6clWrAfARYtF1rBUrLcQJ+01WJTodLA2y6ykQCL83gUoCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=kobN2e1b;
-	arc=none smtp.remote-ip=74.125.82.42
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nrx7+HVz;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE09606A320
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 13:41:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EE09606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBEB6606A31B
+	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 13:55:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DBEB6606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=kobN2e1b
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-188406bb948so709388c88.1
-        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 06:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792762883; x=1793367683; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=phqTuEqnO8394NIPr/NdZ5rgqT1yFhgq/z9vwQO+5D8=;
-        b=kobN2e1bUxY44ctXeeuQhlTx1kSdfpLgPOIcc3pj4x0uNMdgBorBm3eg9WGW2+7uJw
-         mdBywkE3vOQ1tyivnG80iAO97svHNYc3az0G/a46cxVRFJnzFqv8NHnPlqkOEOZDJB7G
-         wIDDUxkKZFo6LnKKl04Bqg/u3MClOlibnT/2XY5nY6STyfwWrU6afLKCylgqFkTSAztE
-         qH0u9XI3PJtonDHo/SPrkvj+ehDlcmdCfIfy5XQm1ukWx79SQnSDw2Lx3gNovfjBopJa
-         eK4cqESQr4ayu/wyrYVVyuc1HHWsyoFZlNUIFpgXAcEQU3LtRaEGUKce5ybRdEPhpaJw
-         sG9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792762883; x=1793367683;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=phqTuEqnO8394NIPr/NdZ5rgqT1yFhgq/z9vwQO+5D8=;
-        b=vVh13f+3J5IGccQQuZsw287a2rCw/ADD16Ar9g35A5szcKilrczang8C+J+1UJetu5
-         kJbbBRCchN9BUbwNV8l1DP2ZgMfjeiIgjFy+3jveHT16jveh7muDYugi1FmfEW4BtaeB
-         3kNIzF4DjeVVja3Krq+Y1ucAEPyKcBFxspDrH5GOgmq020L44IUTYOC0MA2GvuVD5C7p
-         UVsv3y8CJxiHjDwTwq2P0Eq1FXdIkESRyCYU76/GhtY3tqxT0U8mdUjjYANSECEBLAQ7
-         FDMBAR4OAc9dH0PzgkuCMDf0Gc822FhZ5bNj+UVfPIMrjkQy7vRqS5tCtPeHO8Wkf4sh
-         TaPA==
-X-Forwarded-Encrypted: i=1; AKwUvBxAX+E61ayNNyv7TssDr3Za+1WWNt1V9RQNkLoA10NbXHjv0uPOCDMH7f8E5jPa6hLbsTqxoMNlxnEOBA5m@lists.linux.dev
-X-Gm-Message-State: AFq9FYLJGdyd8aiq+Z+hglGMA3xgSoVzDNHo75rf0PIgCLXRvQUtGsA0
-	aRb+aSs5XbBss7pC2sv2bmBp23vRIAM9aGwT/JodzPcKtWiVUIQ7V0BT
-X-Gm-Gg: AYBFou0bEvuyfmvpvynhZIjJ45/HswxBT55CDPuJiWS0HiHgMj8VBIIbBwPgUWXIsfi
-	8Ti9SCgglwwByGc12KaBkDkgJzC7i7Op+5c6Znn0gF/drrPKTd0s3M/fhTEboSJsWF2C9iwwppe
-	mnKG7H8s4rNknsZ2QDHPFPiDiSQQNKPuw0bS0T4YLgML/B5eFqhYUchW2dKXcS3twnOdAXq1lyw
-	I5OPu34PDIWY17luSiho+D7BDTvvbGGWJl2SN/TY+x1+HF0Yx1SNpZcNXB51ayg8GJG+f/hi6tJ
-	qGsiHFaq668Gj5cA+tJ/9H1v52FoQWRHdRWrBz8ZaXhpu7B4Nyfu8RGZTXklTTmgTFL90MMqKEt
-	I0ONF6l2haES0cZuiGfoYN458gcOjBWE+yJSFvP7y4ngGA2jhu0dQt9GZmO8WL2HGHEoDXovYOv
-	mZ7AvNBtdcm8zxjL9Sgi1k69A5kf4E77EZWuC9yb9fVDjsoUfUY17iFodU5xkgSK/iFeitmNYig
-	SmQKET4rfvL+oOYb1QZ/Pc5ozKq7gSGkSWDbxOlY6CmL3m2ykgzM0DrhEvl59Kqbi842umL6gek
-	PiVLk+cwmuljqeqqA59oO9X8aHZdGfJxzDDYDq5MqleVJ9MZ6wa+JrySlkLLfwqlYelUhKxhgg=
-	=
-X-Received: by 2002:a05:701a:c96d:b0:14d:c7ae:85df with SMTP id a92af1059eb24-195c4f4f87amr2459003c88.12.1792762883170;
-        Fri, 23 Oct 2026 06:41:23 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40f0:d0:6f0d:26f5:851c:4268:6984])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-197ecb65989sm222494c88.18.2026.10.23.06.41.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 06:41:22 -0700 (PDT)
-From: Torra Sowmya <sowmyatorra@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nrx7+HVz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792763739; x=1824299739;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qv8AF4lwgT1ErZ8+l3VO25ckzipNEu6QDynTlTcjddQ=;
+  b=nrx7+HVzg0TML5zp3PZady78EXR0bcRhNTEpGl9Cymnw6NkvcQtk8Uzu
+   9sjc2U5gEJVN96KtfTTkKvel8SgZMJy6Tlo7NpgqgP3ojzMMuYCpt9ytT
+   I3+mbVB+0UvI6g+mzgLBAvTUZXIPQgFNiXa4ydF9LVPuaXBlRdPzO1cOb
+   NFkEMJ49hAXgTjsC7PhHaGjUfZrHE6h6SsFKybDN82B1w2jCMBSu776jb
+   jUbJwhfX6xpUapG6Eh0bvX/9XCA2+dJrMCvXjnIDcvlvNOx9xFXocqfX5
+   Y7qeTSR7tgpwek3eumqvLuS4SRVLUirTLYr5j4JN3BtZxL7x1pMYKAFEF
+   A==;
+X-CSE-ConnectionGUID: dJhwSPMbT+2CCAg+wkXCBA==
+X-CSE-MsgGUID: wVhSqiRDQf+pOpldaO3GLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1629516"
+X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
+   d="scan'208";a="1629516"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 06:55:38 -0700
+X-CSE-ConnectionGUID: J4hxzMhLTFqhafqYiP/9EA==
+X-CSE-MsgGUID: Jyv2X9VUTCq27V97pDfkvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
+   d="scan'208";a="3594844"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.100])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 06:55:36 -0700
+Date: Fri, 23 Oct 2026 16:55:33 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Lorena Tanase <tanaselorena3@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: greybus: Use GFP_KERNEL for audio manager allocation
-Date: Fri, 23 Oct 2026 19:10:46 +0530
-Message-ID: <20261023134046.9678-1-sowmyatorra@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	Daniel Baluta <daniel.baluta@nxp.com>
+Subject: Re: [PATCH] staging: media: atomisp: Fix double blank line
+Message-ID: <attnVU9A2GvgYuy9@ashevche-desk.local>
+References: <20261023123158.6176-1-tanaselorena3@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -101,35 +81,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023123158.6176-1-tanaselorena3@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-The audio manager module is created in a context that permits
-sleeping. Its caller, gb_audio_manager_add(), already uses
-GFP_KERNEL through ida_alloc(), and module creation subsequently
-calls kobject_init_and_add().
+On Fri, Oct 23, 2026 at 03:31:58PM +0300, Lorena Tanase wrote:
+> Removed blank line to ensure linux kernel coding style. Found using
+> checkpatch.pl script.
 
-GFP_ATOMIC is unnecessary in this context and restricts memory
-reclaim. Remove the explicit flag to use the default GFP_KERNEL
-allocation.
+Cool, but is this the only problem in the driver?
 
-Signed-off-by: Torra Sowmya <sowmyatorra@gmail.com>
----
- drivers/staging/greybus/audio_manager_module.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Cc: Daniel Baluta <daniel.baluta@nxp.com>
 
-diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-index dc90cc2d2308..8a9f7e7d1766 100644
---- a/drivers/staging/greybus/audio_manager_module.c
-+++ b/drivers/staging/greybus/audio_manager_module.c
-@@ -187,7 +187,7 @@ int gb_audio_manager_module_create(struct gb_audio_manager_module **module,
- 	int err;
- 	struct gb_audio_manager_module *m;
- 
--	m = kzalloc_obj(*m, GFP_ATOMIC);
-+	m = kzalloc_obj(*m);
- 	if (!m)
- 		return -ENOMEM;
- 
+Please, put the Cc list after the '---' line, so it won't pollute commit
+message.
+
+> Signed-off-by: Lorena Tanase <tanaselorena3@gmail.com>
+> ---
+
 -- 
-2.47.3
+With Best Regards,
+Andy Shevchenko
+
 
