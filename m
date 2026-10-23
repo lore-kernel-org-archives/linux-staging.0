@@ -1,80 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.242
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792764736;
-	b=jcpDjVrzpkymmoo2uHKieSqBtrlhF6fX0Dz5N0K6ziHZSc1meeZjn6bfIoN3hhXJ6gix
-	 K8Vyo8cxfLFiOJUicbNBQsaspKC4+yL8ItOb+HM+4G3mThME+cplIE4jxjVSU1bua8oHT
-	 jV0QG7/3LBJl9bxy6e6HolCC/eoqH4pN9++V9us+U1wKR2gELMRLWy6XBmokOrMeIunco
-	 +7NjWbN3CYVMWbrWG04LExpvLH+UBbR3sTV9bDIf9L67iy7LjcA2cHpuQt2rMNINiqAl7
-	 MMTn7wusKNLkteeWMvMatW+nJc4/qUO0jKYB/UqfU1xVKx0zPSMlNkkIIfB4j+ITMeA==
+	t=1792764759;
+	b=Rc+ZzFolMLlYsM3O1DBUZDom891X5BI2BuuksXtf0nVAaSwbHk2CddbLfYjHsD8l3RVg
+	 kVEokI/Vf9H5VX8NlUmFiZAxAvHwZspL6q6QXydh2lZ5DgyPD7Qk8B+rntLmyPsM3+YOv
+	 6KfiJC3eOqUBmRRgaT8+OyTKCMu9q/TtWqdrIk4ycPYbrpdBmjcAJMYDyfGQnbdm4RBZY
+	 0ke7gdrLC1F04JgGomfuggRGPj3CdubsxUg6H0ER8Oo85aSpnn3QTOCxEUFwD8WStMjwE
+	 Vyd5fj9JncXKK1BqEXqd7jugSaoG8P87QyyxUWoiWeRmhY02C0GKi/inmJlNHtpwm1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792764736;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=GLgMio00KvgF13eWshGvS36uF/6/dz1Oxrnq8ImnAuo=;
-	b=pHMGO48rVHzAzVnM3QGmMvtRZikO6IYa22IBea5VASDaxEzUzPt6LfhVWt5q41CbAMJz
-	 +JyEhWDQ+mQgOCYpq94d4/9yzppVQ8XkvdgV19ZxgGxdUtUJpW+V8R0wwuXI4nF6jcSHq
-	 3ZHtgjykJZdTERAdUxw+8ovQ2MhnlP2SII0ZynVkE3ZOoriHkL88Fs/bkKLWoYVYd0Y/k
-	 nU0UrrEX0L+mmLEpHGUdK2w2G98NY3qPz/Hs+S2H+T66JiHT23P/CEUL6hGyOiPo3egf8
-	 P9rwL/ARP2Fp7Yc3qna2lge4jmQZnm1D3bjG+qknUOKKMVjkFXnwE5om4V+0dKfwlKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792764759;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 Organization;
+	bh=Ab8RHstOOGsiaRRPvys5lJ6PezymvXrBWNKqeo/lvPM=;
+	b=ALIiV2j2icq4RYe7vxNAUvG2IZVPE+ejiyX/KVis6OGwmpjZNeqr4CXOEYxHGuDYQ58p
+	 IWio38WI2SDWib55RLulsVQEQngItTTUe30ZkXMIB95IWMjyFxKyPmZJqr7doFbVWdEyf
+	 Eo/8m9SF7wook8Fb/o8j7QkoXOSsaZMMvYY+w1M+Z+Q/yauR7skrCsvCfI8GngAg897bg
+	 Y51yCKAdOaWf62L29KsKp54/LG1iz/4fEHv4rkAoYEn6bk90h/XvbJHHyPtB87n3hePom
+	 uiKY4T4jy+CQJ71cQXcKQJMA1UNz6bzsSiozmPzCFD2muTitLnWCo5jJZkIyaqtmSMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=OsLg9sXL;
-	arc=none smtp.remote-ip=203.205.221.242
-Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aEvvqQY4;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0CF606A320
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:12:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C0CF606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5558C606A31B
+	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:12:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5558C606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=OsLg9sXL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792764707; bh=GLgMio00KvgF13eWshGvS36uF/6/dz1Oxrnq8ImnAuo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=OsLg9sXL7h2KWiz0TKsFJ9ldrw0q4E1gcu2+mCNfp2W9Z031Q6jxFM2NdRmJAMzMa
-	 Ngf7YLWlrpW2GZFnpkDnWebw0j3CNnj3XM0HDa0tTVvLvIO2OffegNjoL7ecJ8Fbah
-	 qO5hofEr0hNIMpPqE6XUsylMYfEw5C9xOKYU1pPc=
-Received: from shuai-VMware-Virtual-Platform.localdomain ([223.88.55.50])
-	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
-	id 2EB9A4DB; Fri, 23 Oct 2026 22:11:43 +0800
-X-QQ-mid: xmsmtpt1792764705tfmdai096
-Message-ID: <tencent_6CA7B248C9B3374DE2DA88094C98BB5F4B0A@qq.com>
-X-QQ-XMAILINFO: M1rD3f8svNzn7ixNlKX0nX+QcOpWvfmtudXEjt+OvSpMkvM8FTDJ0FA1yDKVFj
-	 t98BvqNiA382SUta9SehvI2c9CqWu0VAAAfqHHGeNd8xZS5lvK0Jixg/kpi70gdA80yr7Md/iiue
-	 cQq6qZT0b7oCKsKMvFP6WSwNaeuoO1KecxWDr3rItyAB/10MfE5oafmr1QmzvPsa9S8VZQ/jGkcH
-	 UWWMz+6R41OiKxUdvXkCZXSp0vNv/TStfC0PLPbw/2s5tc2DW8AMXa00HmhEj8c9enPFdorcv60P
-	 DproLvGbRnXBoAjS2xROIicmgrjKG/3a1s5gEAFl6AsEYZ/e0S6nRUjCykKHne9MnWd69wn50Jzz
-	 W3xJVuninSQDEJ3+ANSNqq03v36chzhYDfwC2jCQlf4EHV6c6ksqv/CMBohfLVLrbSIeKo1sVAHd
-	 SvMwFkXup5jwtJ1KjtYsR9kwrOkbCFmLw48NKG5sz9voyXsjDXQWbMaU1r/EOe0cHGAWSklex+eD
-	 hJHrrppob4CjYIV+y1yfbFlAZMFWWOufbAHNHbD1KPWeEqc4wq/xNz0amPCzegB6f+KJlMsTSI1k
-	 pjRoKOg/e50+oGW9eJol5jLCcunM/XrNlqRW5H758KtQE+XvKM7S34XSFSP0HuIO/3fwXgcVPR98
-	 nd57aXJ3IVNNu2N+1eXQwcWSs0ls3CGrmXLO/ewsSROwVLkIi6hCWEoHxkvRSz0nP9iDuW76FqMT
-	 9uaQwPtEF2KDQjwtfyYtxR0VVpgX+cRDVMxSxHY6Q943A4OYKcOu9pj6PWvuCdBxovMbQpe4p4V3
-	 ypU1AUtShQj+u3CVIHqqopK8FYuCdXIaGJFnh/1tKQPkY7PLpLU7+eszHdeflbVQFKAEfcroIUna
-	 EBiborrkeIznNq+fGZDo2IQIeNiz6rXKcbuQx+//9W5etBcDQ4CP6zS/K+tWTzAi4SXy4in3jkd3
-	 47yCjsaNjHfLXYTyso+x2kSt6QGk6rz5IaYmFaNVx8vcud+rT0wDQrzHtEvhDqQ47r4tRM3Y4xbp
-	 YhlPCTqyBp8fReBNaPoRRssOYPtgfY9Uy9nouGv23gUliPQw22k0HNdLmvd+8X+z0Qm8cu48iQaM
-	 6kuhMDFgwRiaRAJzm4YjNEo/ZeEUbqWmHl2mHcavfFa5QZnyuGWbmB530/IMvsfex1c5Ob
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-From: Shuai Liu <847807867@qq.com>
-To: SudipMukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev
-Cc: linux-fbdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shuai Liu <847807867@qq.com>
-Subject: [PATCH 2/3] staging: sm750fb: remove unused macros in sm750_accel.h
-Date: Fri, 23 Oct 2026 22:11:42 +0800
-X-OQ-MSGID: <20261023141143.183061-2-847807867@qq.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261023141143.183061-1-847807867@qq.com>
-References: <20261023141143.183061-1-847807867@qq.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aEvvqQY4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792764758; x=1824300758;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=KqznkMmYbL6qu9UlIb3UJC6Y5I0wTV0+qWfGZcx0rlU=;
+  b=aEvvqQY4S4xkfxuYdCu1FggD0ix86Ua3iGW+WiOjElM3bbqVCESpt+7x
+   hHlBwisf8ZEwRURuJvllEivE1ynZ8KMae7AukSSfy59m0YtiKskJOot9Z
+   mQv3y0cnfILTHxzLJui9ejogE8jN6qUfw1JOtyxLEJvT8FQx0kEyDo1Id
+   IKp4NL+LwgAEchBTPm5uZPjRyXo8NGpDbraT3Y0DuSXbGTkI9CKd5xWGx
+   1Fw63IL7RGc7zJt4xyj6KWXc4mGt0tY1Uhd49e/RIl3Z8CQwlRBP5SqfA
+   X+0LcLcUHFoyd9X73SCb6IqQFA8lEazpkesys4Rx95q+svuYZMIza/3v8
+   A==;
+X-CSE-ConnectionGUID: 1i3Jky3aQs6KNAZWDv9YUQ==
+X-CSE-MsgGUID: 8cpkapaPSHuKUVhwQyN17g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1399878"
+X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
+   d="scan'208";a="1399878"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 07:12:37 -0700
+X-CSE-ConnectionGUID: ZTLF/PFATMOEfFXfHp7sUg==
+X-CSE-MsgGUID: ErS4g7JXQcCIbTofzgeKww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
+   d="scan'208";a="4142845"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.100])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 07:12:35 -0700
+Date: Fri, 23 Oct 2026 17:12:32 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: =?utf-8?Q?Rare=C8=99-Mihai?= Vladu <vladurares@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] media: atomisp: queue: remove unused local queue
+ support
+Message-ID: <attrUN_9ilg9W8ah@ashevche-desk.local>
+References: <20261014111213.1967452-1-vladurares@gmail.com>
+ <20261014111213.1967452-3-vladurares@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,191 +86,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261014111213.1967452-3-vladurares@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-These macros are not referenced anywhere in the tree. This is part of
-the TODO item 'refine the code and remove unused code'.
+On Wed, Oct 14, 2026 at 11:12:11AM +0000, Rareș-Mihai Vladu wrote:
+> ia_css_queue_local_init() has no callers, so no queue is ever created
+> as local. ia_css_queue_uninit() only handles local queues and has no
+> callers either.
+> 
+> All queue handles are in the static css_queues in bufq.c, and
+> ia_css_bufq_init() sets up each of them with ia_css_queue_remote_init().
+> This happens in ia_css_start_sp(), before the host sets
+> host_sp_queues_initialized for the firmware, and css_queues is not
+> cleared afterwards. Before that, the old code would have taken the local
+> path with a NULL cb_local.desc and hit OP___assert(), so the handles do
+> not seem to be used before initialization.
+> 
+> With only remote queues left, the queue type no longer serves a purpose.
+> Remove the local queue code together with IA_CSS_QUEUE_TYPE_REMOTE, the
+> type field and the type checks.
+> 
+> struct ia_css_queue appears to be host-only: it is not copied to SP or
+> ISP memory, and the firmware uses struct host_sp_queues, whose addresses
+> the handle stores. Removing the union member keeps the struct size on
+> 32-bit and reduces it on 64-bit, where cb_local held two pointers.
 
-Signed-off-by: Shuai Liu <847807867@qq.com>
----
- drivers/staging/sm750fb/sm750_accel.h | 93 ---------------------------
- 1 file changed, 93 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750_accel.h b/drivers/staging/sm750fb/sm750_accel.h
-index efceefaaafb0..5a403f93e362 100644
---- a/drivers/staging/sm750fb/sm750_accel.h
-+++ b/drivers/staging/sm750fb/sm750_accel.h
-@@ -10,26 +10,20 @@
- /* for sm718/750/502 de_base is at mmreg_1mb */
- #define DE_BASE_ADDR_TYPE1 0x100000
- /* for sm712,de_base is at mmreg_32kb */
--#define DE_BASE_ADDR_TYPE2  0x8000
- /* for sm722,de_base is at mmreg_0 */
--#define DE_BASE_ADDR_TYPE3 0
- 
- /* type1 data port address is at mmreg_0x110000 */
- #define DE_PORT_ADDR_TYPE1 0x110000
- /* for sm712,data port address is at mmreg_0 */
--#define DE_PORT_ADDR_TYPE2 0x100000
- /* for sm722,data port address is at mmreg_1mb */
--#define DE_PORT_ADDR_TYPE3 0x100000
- 
- #define DE_SOURCE                                       0x0
--#define DE_SOURCE_WRAP                                  BIT(31)
- #define DE_SOURCE_X_K1_SHIFT                            16
- #define DE_SOURCE_X_K1_MASK                             (0x3fff << 16)
- #define DE_SOURCE_X_K1_MONO_MASK                        (0x1f << 16)
- #define DE_SOURCE_Y_K2_MASK                             0xffff
- 
- #define DE_DESTINATION                                  0x4
--#define DE_DESTINATION_WRAP                             BIT(31)
- #define DE_DESTINATION_X_SHIFT                          16
- #define DE_DESTINATION_X_MASK                           (0x1fff << 16)
- #define DE_DESTINATION_Y_MASK                           0xffff
-@@ -41,41 +35,13 @@
- 
- #define DE_CONTROL                                      0xC
- #define DE_CONTROL_STATUS                               BIT(31)
--#define DE_CONTROL_PATTERN                              BIT(30)
--#define DE_CONTROL_UPDATE_DESTINATION_X                 BIT(29)
--#define DE_CONTROL_QUICK_START                          BIT(28)
- #define DE_CONTROL_DIRECTION                            BIT(27)
--#define DE_CONTROL_MAJOR                                BIT(26)
--#define DE_CONTROL_STEP_X                               BIT(25)
--#define DE_CONTROL_STEP_Y                               BIT(24)
--#define DE_CONTROL_STRETCH                              BIT(23)
- #define DE_CONTROL_HOST                                 BIT(22)
- #define DE_CONTROL_LAST_PIXEL                           BIT(21)
--#define DE_CONTROL_COMMAND_SHIFT                        16
--#define DE_CONTROL_COMMAND_MASK                         (0x1f << 16)
- #define DE_CONTROL_COMMAND_BITBLT                       (0x0 << 16)
- #define DE_CONTROL_COMMAND_RECTANGLE_FILL               (0x1 << 16)
--#define DE_CONTROL_COMMAND_DE_TILE                      (0x2 << 16)
--#define DE_CONTROL_COMMAND_TRAPEZOID_FILL               (0x3 << 16)
--#define DE_CONTROL_COMMAND_ALPHA_BLEND                  (0x4 << 16)
--#define DE_CONTROL_COMMAND_RLE_STRIP                    (0x5 << 16)
--#define DE_CONTROL_COMMAND_SHORT_STROKE                 (0x6 << 16)
--#define DE_CONTROL_COMMAND_LINE_DRAW                    (0x7 << 16)
- #define DE_CONTROL_COMMAND_HOST_WRITE                   (0x8 << 16)
--#define DE_CONTROL_COMMAND_HOST_READ                    (0x9 << 16)
--#define DE_CONTROL_COMMAND_HOST_WRITE_BOTTOM_UP         (0xa << 16)
--#define DE_CONTROL_COMMAND_ROTATE                       (0xb << 16)
--#define DE_CONTROL_COMMAND_FONT                         (0xc << 16)
--#define DE_CONTROL_COMMAND_TEXTURE_LOAD                 (0xe << 16)
- #define DE_CONTROL_ROP_SELECT                           BIT(15)
--#define DE_CONTROL_ROP2_SOURCE                          BIT(14)
--#define DE_CONTROL_MONO_DATA_SHIFT                      12
--#define DE_CONTROL_MONO_DATA_MASK                       (0x3 << 12)
--#define DE_CONTROL_MONO_DATA_NOT_PACKED                 (0x0 << 12)
--#define DE_CONTROL_MONO_DATA_8_PACKED                   (0x1 << 12)
--#define DE_CONTROL_MONO_DATA_16_PACKED                  (0x2 << 12)
--#define DE_CONTROL_MONO_DATA_32_PACKED                  (0x3 << 12)
--#define DE_CONTROL_REPEAT_ROTATE                        BIT(11)
- #define DE_CONTROL_TRANSPARENCY_MATCH                   BIT(10)
- #define DE_CONTROL_TRANSPARENCY_SELECT                  BIT(9)
- #define DE_CONTROL_TRANSPARENCY                         BIT(8)
-@@ -83,75 +49,33 @@
- 
- /* Pseudo fields. */
- 
--#define DE_CONTROL_SHORT_STROKE_DIR_MASK                (0xf << 24)
--#define DE_CONTROL_SHORT_STROKE_DIR_225                 (0x0 << 24)
--#define DE_CONTROL_SHORT_STROKE_DIR_135                 (0x1 << 24)
--#define DE_CONTROL_SHORT_STROKE_DIR_315                 (0x2 << 24)
--#define DE_CONTROL_SHORT_STROKE_DIR_45                  (0x3 << 24)
--#define DE_CONTROL_SHORT_STROKE_DIR_270                 (0x4 << 24)
--#define DE_CONTROL_SHORT_STROKE_DIR_90                  (0x5 << 24)
--#define DE_CONTROL_SHORT_STROKE_DIR_180                 (0x8 << 24)
--#define DE_CONTROL_SHORT_STROKE_DIR_0                   (0xa << 24)
--#define DE_CONTROL_ROTATION_MASK                        (0x3 << 24)
--#define DE_CONTROL_ROTATION_0                           (0x0 << 24)
--#define DE_CONTROL_ROTATION_270                         (0x1 << 24)
--#define DE_CONTROL_ROTATION_90                          (0x2 << 24)
--#define DE_CONTROL_ROTATION_180                         (0x3 << 24)
--
- #define DE_PITCH                                        0x000010
- #define DE_PITCH_DESTINATION_SHIFT                      16
- #define DE_PITCH_DESTINATION_MASK                       (0x1fff << 16)
- #define DE_PITCH_SOURCE_MASK                            0x1fff
- 
- #define DE_FOREGROUND                                   0x000014
--#define DE_FOREGROUND_COLOR_MASK                        0xffffffff
- 
- #define DE_BACKGROUND                                   0x000018
--#define DE_BACKGROUND_COLOR_MASK                        0xffffffff
- 
- #define DE_STRETCH_FORMAT                               0x00001C
- #define DE_STRETCH_FORMAT_PATTERN_XY                    BIT(30)
--#define DE_STRETCH_FORMAT_PATTERN_Y_SHIFT               27
- #define DE_STRETCH_FORMAT_PATTERN_Y_MASK                (0x7 << 27)
--#define DE_STRETCH_FORMAT_PATTERN_X_SHIFT               23
- #define DE_STRETCH_FORMAT_PATTERN_X_MASK                (0x7 << 23)
- #define DE_STRETCH_FORMAT_PIXEL_FORMAT_SHIFT            20
- #define DE_STRETCH_FORMAT_PIXEL_FORMAT_MASK             (0x3 << 20)
--#define DE_STRETCH_FORMAT_PIXEL_FORMAT_8                (0x0 << 20)
--#define DE_STRETCH_FORMAT_PIXEL_FORMAT_16               (0x1 << 20)
--#define DE_STRETCH_FORMAT_PIXEL_FORMAT_32               (0x2 << 20)
--#define DE_STRETCH_FORMAT_PIXEL_FORMAT_24               (0x3 << 20)
--#define DE_STRETCH_FORMAT_ADDRESSING_SHIFT              16
- #define DE_STRETCH_FORMAT_ADDRESSING_MASK               (0xf << 16)
--#define DE_STRETCH_FORMAT_ADDRESSING_XY                 (0x0 << 16)
--#define DE_STRETCH_FORMAT_ADDRESSING_LINEAR             (0xf << 16)
- #define DE_STRETCH_FORMAT_SOURCE_HEIGHT_MASK            0xfff
- 
- #define DE_COLOR_COMPARE                                0x000020
--#define DE_COLOR_COMPARE_COLOR_MASK                     0xffffff
- 
- #define DE_COLOR_COMPARE_MASK                           0x000024
--#define DE_COLOR_COMPARE_MASK_MASK                      0xffffff
- 
- #define DE_MASKS                                        0x000028
--#define DE_MASKS_BYTE_MASK                              (0xffff << 16)
--#define DE_MASKS_BIT_MASK                               0xffff
- 
- #define DE_CLIP_TL                                      0x00002C
--#define DE_CLIP_TL_TOP_MASK                             (0xffff << 16)
--#define DE_CLIP_TL_STATUS                               BIT(13)
--#define DE_CLIP_TL_INHIBIT                              BIT(12)
--#define DE_CLIP_TL_LEFT_MASK                            0xfff
- 
- #define DE_CLIP_BR                                      0x000030
--#define DE_CLIP_BR_BOTTOM_MASK                          (0xffff << 16)
--#define DE_CLIP_BR_RIGHT_MASK                           0x1fff
--
--#define DE_MONO_PATTERN_LOW                             0x000034
--#define DE_MONO_PATTERN_LOW_PATTERN_MASK                0xffffffff
--
--#define DE_MONO_PATTERN_HIGH                            0x000038
--#define DE_MONO_PATTERN_HIGH_PATTERN_MASK               0xffffffff
- 
- #define DE_WINDOW_WIDTH                                 0x00003C
- #define DE_WINDOW_WIDTH_DST_SHIFT                       16
-@@ -159,25 +83,8 @@
- #define DE_WINDOW_WIDTH_SRC_MASK                        0x1fff
- 
- #define DE_WINDOW_SOURCE_BASE                           0x000040
--#define DE_WINDOW_SOURCE_BASE_EXT                       BIT(27)
--#define DE_WINDOW_SOURCE_BASE_CS                        BIT(26)
--#define DE_WINDOW_SOURCE_BASE_ADDRESS_MASK              0x3ffffff
- 
- #define DE_WINDOW_DESTINATION_BASE                      0x000044
--#define DE_WINDOW_DESTINATION_BASE_EXT                  BIT(27)
--#define DE_WINDOW_DESTINATION_BASE_CS                   BIT(26)
--#define DE_WINDOW_DESTINATION_BASE_ADDRESS_MASK         0x3ffffff
--
--#define DE_ALPHA                                        0x000048
--#define DE_ALPHA_VALUE_MASK                             0xff
--
--#define DE_WRAP                                         0x00004C
--#define DE_WRAP_X_MASK                                  (0xffff << 16)
--#define DE_WRAP_Y_MASK                                  0xffff
--
--#define DE_STATUS                                       0x000050
--#define DE_STATUS_CSC                                   BIT(1)
--#define DE_STATUS_2D                                    BIT(0)
- 
- /* blt direction */
- #define TOP_TO_BOTTOM 0
+I'm wondering if you use --histogram diff algo when preparing patches.
+If not, use it next time.
+
+...
+
+> -int ia_css_queue_uninit(ia_css_queue_t *qhandle)
+> +int ia_css_queue_enqueue(ia_css_queue_t *qhandle, uint32_t item)
+
+This change is hard to read. Can you make an intermediate patch to just move
+the "remote" branches to the helper functions first and in this patch actually
+kill the local case altogether? Try to make it so that the ± statistics is
+minimum for the changed lines. It means that create new helpers as they should
+appear after this patch alone (just with different names). Example (ideal case):
+
+// AFTER the mentioned intermediate change
+
+static ia_css_queue_enqueue_remote()
+{
+	...
+}
+
+// in old function
+static ia_css_queue_enqueue()
+{
+	if (LOCAL) {
+		...
+		return ...
+	}
+
+	ia_css_queue_enqueue_remote()
+}
+
+// In THIS change
+
+-static ia_css_queue_enqueue_remote()
++static ia_css_queue_enqueue()
+...
+-static ia_css_queue_enqueue()
+-{
+-...
+-}
+
+Repeat the same for all affected functions.
+
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
+
 
