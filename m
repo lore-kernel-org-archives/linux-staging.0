@@ -1,96 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792764929;
-	b=QzbA8CzVXYC5bLvgNuvHbyxRGe+dScDvSK6+wkLwVHzCuTVMPUasyo0SVTXqdnuPyG/O
-	 JrKvGdorKGTiNc84HltE5Itb2uB9ZFjQZJtJZjuhPOmC8J1UaALZ75h79F2WNfVjM2hqD
-	 19agq7CvAsqvPW2Wi8J99yJm6t2CmMA2ma20MiBBGkizqu0/PxECr1+QTIQcE6Lap8u7O
-	 zVT4ifdw2JS34qbL0KjkKMZLjLrayajUvxLIdC0aFhXL42I5Ei0knMR4aqXZpsXODEqlo
-	 Z87NvzlT6/iXJJQ+AtrM1I1uR9BIdmdxrfxKxBKxOYRMBJTZEAKE+sHdx5CRnf5OH0w==
+	t=1792766943;
+	b=Z7OYcjZ51rl4RiMw3VbPLbfq4TMfHgkJGUUuwJn6IJ2Q2Uulxq768r1/bTIw0TB572uq
+	 eZeAN4gnNCXuceZpfQEzO5EuYoR51mdAzc5NJHmXCg7JyabmosEIVcL7xa5gmLgLSAxij
+	 84arKf4RoXtxt70kCkj8YRYyMR/m77g2mFfWRvMCLx2H9v8somXhCM1GdUKeYKwtJPlMC
+	 fgfr3F22iA1jdph498PAYK7bp7NWz/dGxQGS3dJsM88F2wbepMUFw7eJ7/sJyWhBelBZJ
+	 W/LJQOyNmU/4zisqXS4wPhHa7TgeNW46OmNnE70/EcFlGOqYOJuljrOFAvWWE5MvQrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792764929;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792766943;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Tm/cpYxqrKZTkvEJNBnPzr85AedjzKo9UBMwFMFE+xU=;
-	b=ouf/54ojxSNAbirPTmHSyOER87STo2w8YK7JUO66PGpX/CxP3fxpvTZmrSiSrD/mbRPm
-	 Jy3X53FBlKv98A5oZ/gn1y5xyp4Gihe9OGY5cmwkvPMUNnCu4XFcaktxEW5Qw4Mx7NxYJ
-	 Yb/znzQqlbkPrEokwroEhtKThi6j6lfbDJfIjsTwVUZWzP7W8Kso9SJwXP5K82szWiaDg
-	 Ih9xxfCa8XYGXojGptMhIz4W0ni0neAn9UIi4oEkch3bXau0eA8DnxAcO8LWK2MU085Yt
-	 g3JT0tv5ryJAE/56TOTIPYmMrLdNf7/yDnWeMrHMl2g52m+M27PMc1Gzw9BszCg9kVA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=IdkYUYs5y4Iem1sFLDu3Lx/OAa6FaPFzLzgcEXfMeNg=;
+	b=kA4Hpn12MaTJgnWu2UQrW1Tlzkp9BWq5S74w2ctZqu4Bpcatyiy72lxH6eutY9pKRE4z
+	 Yn0BZ/NcD8ixTdWmcw05jlIps+aELicia8NaMdLDySuSXrBOET3gvVi4FWHL4l4q5FkJv
+	 /HCfDBYCZosBWGj9xRMDMY1Ni9MzQovpKpYiE54l8+59/0kWwB+xd3u99rG5i42uRzkFz
+	 6xM9ipjBcyb/iJnkgxklKwN452ktLsovUhzKlZ5htmEYO03SMMOh5GC3jvSGfLB5hlo6k
+	 7Mv4RVtxIqYbzPBdtmVsmDE2VRC+oO/IW9eIN0oNvGwmxJYDUpF71gLg3NiUqoxA4NA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EF23W7wN;
-	arc=none smtp.remote-ip=209.85.216.52
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=cm11sDsS;
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21521606A334
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:15:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21521606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B53606A31D
+	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:49:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65B53606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EF23W7wN
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3ad41b47541so662454a91.1
-        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 07:15:28 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=cm11sDsS
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-35ef6b49813so1390134eec.0
+        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 07:49:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792764928; x=1793369728; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Tm/cpYxqrKZTkvEJNBnPzr85AedjzKo9UBMwFMFE+xU=;
-        b=EF23W7wNl1FWecDOBqACRo1K+JJBAWkC3PdB4rnURNZL0UApk3040AYJPZ9yatSJBe
-         Dy7oZD5FrqNhOcIVdfK+M9ZZbTlPkZxrQ9ShqyfnqZF+9bH9UqDJ5liaENX6GCzd45B7
-         Rl6RXYEChVMmWmrdk4NtdJH7lL4nY9d0UDB2lKFtgZ0Fa8hZ4uu7Te9zYdXkVqp3OA/V
-         i+c+GBhd5af/kkRZqkFUP2MzeUNNnqb0orUhLve2b2YKss5MRQNIwBAf+033mvUIy6oQ
-         UOMmI6JwnEsSJ4ZD5k22ZDPXE7heTPHcMNubSIp4DVhSkGIhUcVgwX2QHj1OHN6dwdHT
-         DvYw==
+        d=gmail.com; s=20251104; t=1792766942; x=1793371742; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IdkYUYs5y4Iem1sFLDu3Lx/OAa6FaPFzLzgcEXfMeNg=;
+        b=cm11sDsS4sgWBMBhXsM/5+5pswWpyMT1y77kDbvbVfnZE1vdjr4eOzrjYEVfixaeTa
+         6cdIFpYb2zeqdBvrIKA9zh/b+pa/IGFYdanXS4AzkfJlJvA/GphGzaVyZoUUAPsHB+ms
+         9l5iZqGXiW+sloshxhwJVpsF5yh9l2avHxmWZN57YSfd17ngE9MnhiDhCEUBJHvc62D9
+         mgGbyIXAkMTmGGY0YwQERya7Ko3YKFuw/JiD/+YD8DmBSEcPttlZG9vouaiM6MSVXTTS
+         YqVXeW7UOe+OtiqERQ5lu5MWd1sLemB9dQ9VePsboZCeCZREuBNnW12u+D1qJJ/xJHeY
+         u9LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792764928; x=1793369728;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Tm/cpYxqrKZTkvEJNBnPzr85AedjzKo9UBMwFMFE+xU=;
-        b=FC7fJHrDjdbYcgjbc/nPhQyggggINfa4/xUFX6J30bKcPyxPJrK1bgHUlCbAWlNY0H
-         w00rjvH3ujZjVj0VrOq+53MmiXtzTJYf97gmvLr7skIqfGeoNRnd0yJXDebGeFT+gqhB
-         qDo2I+0tR3nVoZSmHDr9N4L4GlMUwpe68Dp/6gjJHfUFeDR41sJKGFyIySVXpEUYWo6W
-         EsU85oWALpUW+yhEVG/ssCq6SeirHh1AJYgWHRueWnWo63pRA9LcnINuSbB7Sn0xwZFe
-         TECWJ1yxNPIbGZrZsjIvgzJ+gDnQmztvwO1Qx9RUfPenUNmOnI2LlG1Sw/134u0uEfd6
-         N6lA==
-X-Forwarded-Encrypted: i=1; AKwUvBw3ktO76c3Oz2nyPC1axuxeghReU4D4l9VlYekF5LZNl7zgCHt0GGjpg07HJIAD2p+bCRo0FUJwTXzscuzK@lists.linux.dev
-X-Gm-Message-State: AFq9FYIFjJITVoCvLPiD3719cuCsM5xUO88Py3MIHxC7x7xUM7IvWCGj
-	FYGpAyGSN9SED8i7HzqCH5tjKUQZzQVbmkLiN6knoRcS8eyL8ziH/yKM
-X-Gm-Gg: AYBFou1X+W/esB/wReAJtSTDlUpWtyGf2lLeWhH/uFDJZjRMBvaCYh4ejBka84GybAg
-	uHD94nYgDGJmJK6grAw/uj/1SC0qFk0Lk/5Q3G8hsanWAO6JFAZhN4ev759h98xSBByhSGhqzU5
-	4X3dqXv6gxRftAo3d16NNToiZxeu6K+aqLMPE+LVnwGNlfAADUseWd6ZGitKW16eB6PM1hxL+Xw
-	zTNHZsg8ny70uUuHc+bp7iSDL4gY2hMoLzouhBDOWV7BmQyDD+Xo6rfaQy/X3h7Gt/M7826yu6j
-	ETW1PSG1I7PI2dkNM3vHFtvzlzzKAbKOpUmzvJEOp/egzYyI8YyaF9qC7R/GABFH7EfNoue7yNJ
-	L8F0KCa3G+7hK9ndsjBOYcwqMpAKJwbfaRefkynUJNGAGiruShPKt38/lpjNpQeXqa4ulFhmElj
-	zzGjX7uPxXGiXOvzgbSx6wg0MN2iANdYmXeXDy4xmSZi+Rt9U2961hlw2evXhpRvNVBJd8u8mzv
-	MFfA3JQw/tTU/CadkcuyPzZNod8O/KaIfFlh3TNgcirx2KP0G4nK4honWXo
-X-Received: by 2002:a17:90b:3c8b:b0:3a8:185:cf40 with SMTP id 98e67ed59e1d1-3adcdfaab13mr2265897a91.10.1792764928355;
-        Fri, 23 Oct 2026 07:15:28 -0700 (PDT)
-Received: from user ([2405:201:c052:b00b:4145:da00:43b2:a151])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3addeb56578sm360792a91.11.2026.10.23.07.15.23
+        d=1e100.net; s=20260707; t=1792766942; x=1793371742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IdkYUYs5y4Iem1sFLDu3Lx/OAa6FaPFzLzgcEXfMeNg=;
+        b=EPhp5Ir1vE5dgFtx1GmaDRA8hzrwnHPccqHuZi9B9tMEAYI+80w1I8iFcOJYO6pV8Z
+         A60NP2z1sMms03DuvijOiYyH4bS4SqewwC71S4+FmVySvDRF253/XyC5bAr8vzgzcmUb
+         CjHSqgu+RMHStNKD0yDhEuoitN/NRxeA0F6ko1sE+iztydKamOQ1nzkGkXMA3KCN1WXA
+         tHH74cEHbOht+NDEOikqflkt06HJfy/RAxrecQ5wMQDuQ84nhufFYGWOY6S0jAkma++/
+         UUYyxTZJZeAijTAsjt/WucvisnV2kLWv5txAXQ1WrbZxoZ4br6YOXpRtdIEJwQNvGLO3
+         mcoQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwoyTCuLvDKFQjIBI4loeQJ6Yfwt7qAS0phOBGGHMom5mJPdYK7MB83Lg1bgJJten7StskGMoF5U49H1Kt8@lists.linux.dev
+X-Gm-Message-State: AFq9FYKb81KVPNVumwv1Zc6gYSF8kHN5/BDEknVrkQ8zuvxpx4dkV8wL
+	AZPkj/F2fI1LDuQk2bOt+u5OYD7Qw5H5Ulc99jTEa8IB6R7OzKY9ryV3
+X-Gm-Gg: AYBFou2XV6fHVSdaBt3DWWj1q3jjU7O48gbqJrShZ+nLgW1GG3LDsomIum+4Z5byCon
+	M5HCqnswyWMliCUj/ehAIV3tyQTll0svUV48m5NUA1I+lEm1DdO5yeZarQNBWwGwNOhN6inbl7K
+	WVOKP5VKDSmyccnST7q25zKMgINP4JNzFV1YhVw3ho4M3Cd186nx/Nh0eLXn7HRLC6NklwKu4mK
+	LzssIY7pbk3oxvapuGwFMe665xxldeF/mh6Zid98BwyKuwcbj7W2co6rk/2xCakLUV+Hx7N6GSJ
+	RS+qEJe24E6WjzAGGSUaGawPe447RKdM81orNPbR0Px2QFSNy1xER0RYvTyNROgbgw5i5mpRXtn
+	wTA6cRHzkjoMIoQG3amfXEKSDUsnPGg1s0GsFjUm8u3IzmUvlWWVtgLnoz4G3XTFPVMHQd/g6Xz
+	LNBepugMXtLJ6QdnK5EHHxmVmSWIh0OeOPsIXubr8BBCjseeu7G3P067qqo+fGR8fOy+pSFXAFR
+	NoR8YPADcx2qyXlGEiQohg8A5597xO5QpEukoIT6hbPXojlyulMUiZhuto0IBMtyH1XCz2dPlQb
+	cbC1kB5FwQ==
+X-Received: by 2002:a05:693c:811a:b0:35c:7d45:c6ea with SMTP id 5a478bee46e88-369d973b2cbmr3142150eec.19.1792766942375;
+        Fri, 23 Oct 2026 07:49:02 -0700 (PDT)
+Received: from user.. ([2405:201:c052:b00b:4145:da00:43b2:a151])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e6db0d87sm338792eec.4.2026.10.23.07.48.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 07:15:27 -0700 (PDT)
-Date: Fri, 23 Oct 2026 19:44:47 +0530
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-To: Alex Elder <elder@riscstar.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org,
-	outreachy@lists.linux.dev, pure.logic@nexus-software.ie,
-	johan@kernel.org, elder@kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: greybus: loopback: Use fsleep() for delay
-Message-ID: <attr11CuxTty7rPn@user>
-References: <20261022202455.104142-1-pavankumaryalagada@gmail.com>
- <a411ee0e-22c4-4797-9fdc-3ac11fa20d60@riscstar.com>
- <2026102338-rack-garland-2a29@gregkh>
- <fc3a1fb9-181d-4994-9bf2-45272dafc86e@riscstar.com>
+        Fri, 23 Oct 2026 07:49:01 -0700 (PDT)
+From: pavankumaryalagada@gmail.com
+To: greybus-dev@lists.linaro.org,
+	outreachy@lists.linux.dev
+Cc: pure.logic@nexus-software.ie,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>,
+	Alex Elder <elder@riscstar.com>
+Subject: [PATCH v3] staging: greybus: loopback: Use fsleep() for delay
+Date: Fri, 23 Oct 2026 20:18:51 +0530
+Message-ID: <20261023144851.51019-1-pavankumaryalagada@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -100,89 +101,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fc3a1fb9-181d-4994-9bf2-45272dafc86e@riscstar.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 23, 2026 at 08:18:04AM -0500, Alex Elder wrote:
-> On 10/23/26 8:04 AM, Greg KH wrote:
-> > On Fri, Oct 23, 2026 at 07:48:54AM -0500, Alex Elder wrote:
-> > > On 10/22/26 3:24 PM, pavankumaryalagada@gmail.com wrote:
-> > > > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > > > 
-> > > > In the loopback function, usleep_range() is used for short delays
-> > > > and msleep() for longer delays. This requires choosing the delay
-> > > > function based on the requested time and converting microseconds
-> > > > to milliseconds when using msleep().
-> > > > 
-> > > > Replace both functions with fsleep(), which chooses a delay
-> > > > delay method based on the requested time. For short delays,
-> > > 
-> > > s/delay delay/delay/
-> > > 
-> > > I think "checkpatch.pl" would have caught this.
-> > > 
-> > > Maybe Greg can fix this up.
-> > 
-> > Nope, not for staging patches, this is for "learning" :)
-> 
-> Sounds good.
-> 
-> Please provide version 3.  And given that, I'll add one more
-> suggestion.
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 
-Yes, sure. I will send version 3.
+Replace the existing usleep_range() and msleep() calls with
+a single call to fsleep(), simplifying the code and letting
+fsleep() select the appropriate delay method based on the
+requested time.
 
-> 
-> You don't provide the *reason* for making this change in your
-> description.  You say that fsleep() does roughly the same thing
-> as the existing code.  But... why make the change?
+For short delays, fsleep() allows up to 25% extra time instead
+of the fixed 100 microseconds. For longer delays, the old code
+rounds the requested time down to whole milliseconds, while
+fsleep() rounds it up when using msleep().
 
-Understood, I will make the reason for this change clearer in the
-commit message.
+These changes may affect the time between loopback operations
+and the reported performance.
 
-> 
-> The answer is roughly that fsleep() is a common or "standard"
-> function, and it's better to use those where available.  I can
-> think of at least three reasons:
-> - It's better to use a well-known common function where available,
->   because reviewers will already be familiar with what it does
-> - A common function might get optimizations and improvements that
->   your code would otherwise not benefit from
-> - It might (slightly) reduce code size
-> 
-> I am not suggesting you include all that, but you should
-> understand it.  My point is that you should be clear on
-> the reason for the suggested change in your patch header.
-> 
-> Even something like:
->   Replace this block of code with a simple call to fsleep(),
->   which does the same thing.
-> is enough to explain *why*.
+Suggested-by: Alex Elder <elder@riscstar.com>
+Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+Reviewed-by: Alex Elder <elder@riscstar.com>
+---
+v3:
+- Clarify the reason for using fsleep() in the commit message
 
-Yes, I understand.
+v2:
+- Add more details about how fsleep() affects delays.
+- Update the subject to include the loopback module.
 
-Thank you for explaining the reasons behind this change.
-I will update the commit message accordingly.
+v1: https://lore.kernel.org/outreachy/c482704b-903e-413d-ba7b-5bf31c0a6104@riscstar.com/T/#t
+---
+ drivers/staging/greybus/loopback.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-> 
-> Also, before sending *any* patch for review, please *always*
-> re-run checkpatch.pl so it can find trivial problems for you.
+diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+index efc69c10cffe..2fe845eaef29 100644
+--- a/drivers/staging/greybus/loopback.c
++++ b/drivers/staging/greybus/loopback.c
+@@ -898,12 +898,8 @@ static int gb_loopback_fn(void *data)
+ 		gb->send_count++;
+ 		mutex_unlock(&gb->mutex);
+ 
+-		if (us_wait) {
+-			if (us_wait < 20000)
+-				usleep_range(us_wait, us_wait + 100);
+-			else
+-				msleep(us_wait / 1000);
+-		}
++		if (us_wait)
++			fsleep(us_wait);
+ 	}
+ 
+ 	gb_pm_runtime_put_autosuspend(bundle);
+-- 
+2.43.0
 
-I did run checkpatch.pl before sending v2, but it didn't catch
-the duplicate word. I should have checked the commit message
-more carefully myself. I will be more careful with future
-patches.
-
-Thanks for your guidance.
-
-Pavan
-
-> 
-> 					-Alex
-> 
-> > 
-> > thanks.
-> > 
-> > greg k-h
-> 
