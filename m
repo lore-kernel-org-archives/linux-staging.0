@@ -1,85 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=43.163.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792764441;
-	b=HWP8H5JjZ2XfWgnALQT5QoORg6Pm7wDKTlEDvRsdBIFyU8GFLbEY10cu4ICEeIg27EpR
-	 eelDpjJY2BF4HastJsDCDSEvdhceFaN8fHLHPjB6efpuE41WUGR3waLx1otFLiDyL2BOl
-	 N0d6IKZrU5uyFMLSytzCvwjzjzZSh4zLAQYN6TimQIo1nF7AJ7Pnu8+Zk3PtUpcBprQAK
-	 vNWISsPRjcaksasBF1aIEDwRgQcH3X2d+vvAMZOzRfyo6q7wJdJFXxCNe8OpTsk5B3FF8
-	 YEsMZn65fre89DX34TnzJnEXBwX+mg/QXQX5zeh5WtsmXV6CZhR2E0UW80FMCm9ncQw==
+	t=1792764715;
+	b=iQ5rwz86iyfpFQoUgZ24IMqg5qdF+7qbpivb7mgUUDP9a0Boc6LV/jNJQFbM1ERcjdvz
+	 9yrN5hl8wjX6DEMLWqJWnqPcqIrgc+n574/Y+5GW3wwpTn36ACgLrHDmmk09SdruEFubO
+	 Bf/c8wiH+7sO5pylbxSL0BnTQBvJEYp7s8FEmmjTnp1SWLd5YUxqMhobNnRh5wdDvNnxP
+	 Wkenpgww08syZuTLeHiR7uhbNOOTeBeljyrGgC+blHzjlwU4fEYQu0aCxWfXpgg7fdH4t
+	 RrmYvc8LGT89hs/nURsaKXR5FFWD6KaCv1wwRKO7o0VLkdzpjtdx9IBSgjc3oGRVnWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792764441;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=HjNlJvrpXlnAC6x8kLspVEYpzuPQTChgZH754Hl21gE=;
-	b=miVg2LbSCW/QRWBMeqA0TS88R86TpO3qFDHnZa0Wi6VWnEf0qiW1s6sdqJyqMtSqqhcC
-	 5Ehq1k7MF6pHHe2VLx5SeOnCZ3Wx3jXtPPVRg8aSF4/CsCmKT0j6oEDYCajN9sye+10W5
-	 U90K4DP9+38goHZBIPYjZZ1t+D724TndRm+e6x0my4GNNTIdfmBmS7lARwasDDWKHLZtt
-	 gX3h9Focs9OJ154jsrVRdUValNPbFWjhdMLTJH63lvoWLdQveL4u4WwN+3cuv7+SGYSGv
-	 2D6/EJJ4dWJ0TbvWG17uCDd23N28qk2HqTZTvLfT3HSBcDIovr3l24UdKO3mcTNOqcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792764715;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=rXPPl7lB2R2i1WkyTB9sGHV8QF0hiesETUsWnIMsNEQ=;
+	b=LbMqElQnfYCuxqQsWPcm+NHbgH5qPRBkHqWOAeprbcscbD/q2aqUuKBhlHLeWE7nAuRO
+	 UwviKRlBTuFuJhbAKNxhJ4Cb39WCSmdhmoPg+2rIjBR1xEO62FO0/zXMvT5zTBmxiy8dD
+	 kOdFzwozV5z3Di5SAgcW0szmEaBHDhNR2ht7+eq/DORJ7Fk6HF/eqwr+F78x9ZwDvlftI
+	 jBbQTgERH863WJ1jrIdtwlTqQIf07GCKeDoPEUW7ML7MDdcc/+XDfFxGAQzLTqbwmpsIh
+	 UP7JAPSNUddFi0/haMLBxG7tNnA8AQQHjpnOGmXUKaMonYoJmdC5QjRMjFzgdFbZcOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ieee.org;
-	spf=pass smtp.mailfrom=ieee.org;
-	dkim=pass header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=X+hU7Vpf;
-	arc=none smtp.remote-ip=209.85.161.45
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=zMx8727E;
+	arc=none smtp.remote-ip=43.163.128.43
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.43])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629E8606A327
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:07:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 629E8606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBA8606A31B
+	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:11:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDBA8606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=X+hU7Vpf
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6f5a0893610so576167eaf.1
-        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 07:07:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1792764439; x=1793369239; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HjNlJvrpXlnAC6x8kLspVEYpzuPQTChgZH754Hl21gE=;
-        b=X+hU7VpfuE7F1SfF2nopdmblIETrbK90cbTgxdnlcoVyjqHr6ZZn0JQZlxYXcJzn3z
-         zBPyn+PRb1a/Si363qLqf8QeYSbEkGqcbUs+CH5nVlHJkRbnAZiFV4iwEKKFdShQfF+n
-         u/0shS+jo9mr4ozakF3E573cXLzsqDofLK1i4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792764439; x=1793369239;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HjNlJvrpXlnAC6x8kLspVEYpzuPQTChgZH754Hl21gE=;
-        b=dQQRxlZEAzNIWkTkt4EKwVVSaaMfcdTCR3uq1d7yy7r8ue2QMgu5Dzp1xST1i1CE9o
-         WYJWNytLJqnLLOacH3wVG5plAjqdbTz+d5e2+za+uutUZsQ45OIFacse4TT1GYXDjKeW
-         nz3SxLSjnb4L3qYydKz6y10LBZ1A/5nZ2YJJbX+XLsNvTTchC1bCn8pwOAkynT8EHM2A
-         BrJHrFiAgHYikjdv8MVnbJ6l1YIh8xhtZAmTmDpLA9RchqOqxawUGQfN7Wm7hVU1RlSr
-         7L5x5pHY9GgMr16HAC0X6m5M8x5VkMrwAQPKZutbIHBi3IDEMa7I0kdstVqmEJM1Z7s1
-         hQnA==
-X-Forwarded-Encrypted: i=1; AKwUvBypMVBeOrazyJ4rgvvU9jKZ8En4iKHBD+1N7mqXJ9dJT3giO6lqbFVmCCuFGcLOFwG5kG7iiV6j0TGzo2eX@lists.linux.dev
-X-Gm-Message-State: AFq9FYKjWQQeTtuk2CskyBtODwccF+ySxjEzeiBeDqILlEm/SQeVOjGU
-	Kepc62DfVruz4PHkA89qqo+xUFCHOJNsMgLJ6RnXJfn1ADb8rQOc+3xBbyYbrocoWEWH9Syy06m
-	YrbeLaA==
-X-Gm-Gg: AYBFou0DPQgAJoDCDUFA/uJedRlL9C5+xvcaNK9Mc2nQuzNUvn9ByhZtC2DZq2v2GD4
-	fGbm00kr38831dKEZ+SeaGnsGo8w+ep1Uhn0ffqevMc2IWIozKrZfim4RgVKbEaKx3/VM9TakX6
-	x5giVoj+RsD+0cKx+RnvmK1EHAL3H/ifmnbYL01AKg4bL14OSnwLp3bN+m7j4GLvxCQ4MYlIyYH
-	MYWydy1x81FVjycTvI7rGiEzd+ohbCzCBVx2mKIQVql8GvpOOcwEBt1MLPtSNvU4D39YnPpg/l5
-	4qhSmws8Qhb+oKRhdUScAtJGv9XPa/kNMkXYjJjoPpZ6gExSuoM3AlK4B5l0pnWhhh10V5BRtEJ
-	wZU4YuJYJJjpd6Zc0bKRwfWrD/G5BanEHwxZpynjfdhJNUd7NKkfIpmFM9rdCkQbEIuEJJOof2g
-	H0neR6VvcKd9z8gNigLwT28xt/Brt3t5BVjuZk++nyc6YcE1FhVie2ldD0XDv6S8BOQ86Ab18+e
-	MtUs3qMqSz9/TKZTuXN+Yd1SKBm7Zi+wQvFd+9lCf1mj72RUHw=
-X-Received: by 2002:a05:6820:824:b0:6f7:9b00:9c54 with SMTP id 006d021491bc7-70b889f75e3mr1649158eaf.34.1792764439178;
-        Fri, 23 Oct 2026 07:07:19 -0700 (PDT)
-Received: from [172.22.22.28] ([73.62.185.64])
-        by smtp.googlemail.com with ESMTPSA id 006d021491bc7-70b9ad1c706sm155065eaf.1.2026.10.23.07.07.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Oct 2026 07:07:18 -0700 (PDT)
-Message-ID: <0f4649ba-f731-4f19-ad3e-2d82b641c0a3@ieee.org>
-Date: Fri, 23 Oct 2026 09:07:17 -0500
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=zMx8727E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1792764706; bh=rXPPl7lB2R2i1WkyTB9sGHV8QF0hiesETUsWnIMsNEQ=;
+	h=From:To:Cc:Subject:Date;
+	b=zMx8727ErpkCvqfPWDVNrWKtpArWIe57sHK9zU9+6mn+oIVNTPELDzSsCQbx/onvc
+	 SIrqd1zhf5IQ+0oZuvMoy+xwOuJcqJeBPmULNtCXL0vYu9YkRwC2pI1SpWmT+4KyLW
+	 vW1qJey1su39VC7TtG5eJit2FEYgl2DMKbFTaOQA=
+Received: from shuai-VMware-Virtual-Platform.localdomain ([223.88.55.50])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id 2EB9A4DB; Fri, 23 Oct 2026 22:11:43 +0800
+X-QQ-mid: xmsmtpt1792764703tmljcyd4z
+Message-ID: <tencent_968494FB97743E0BB87C77D318AEA118F606@qq.com>
+X-QQ-XMAILINFO: MDJWyUmJdVqKygtk9b/8RBPTmJ4w5khvrZ2z+fO8jS305/pS07REO+J0i1LzTk
+	 42rONfGX/s76nG5EwOozDku95Esw8ayfGXCJz8kivuJAsxQXQY2pxmhjsGqgAvPqqMKK+qAGlIuh
+	 p9a0zluw+HoWHuZE3O1yxfyCmdh5jVBQipJZjJP+soJ7PPaQMxdny9AiINlSdX+DRLLFopE7ViYd
+	 Cn5fo1iLvTFbTXJVuGcZOlvvQGPJzKezXOggMA4TImy6FWBSNRRjc/hOFPMpGga0HLqDRPLCsR6X
+	 hThrHVUjSZ3HQBf2WEK0G9j5kOva6LDsmyBCHVA4u+Hc2jvXv5dz37D5EhtKOJvgFoEYO6UM3i8Y
+	 CGTskjq31uVqwGj9ZIbWvuXfbFPTJWnsLcPIyvGDcqli+SHdNfHMEGltgWDKm9R9nmN4aULO99qE
+	 AVoHC3/cBrY8QLpxBIWc0DUfoSHwjR283y44c7xO6CmmWGUC3LxW2cZKuUIpooEWpbn2z/u6JfWi
+	 JY/5FFw+UOi8nFSlnu1/4HX4eNgtimG7z+UizzDDXC5RhOMKrj1DoL8TBjPtpbF3L4fiIf6JSfg1
+	 oddhZJX2EXwvHt9iowLQ2PYQOPlBB0eCQwlTKrx8MZz6/mTtzqubvhbLi4b4lc/2b3SoLaImKNY+
+	 EoN2R6fAHWfP6+tx/soIVrmgEvU1lQVJ8ul/D70Mazi33QYAAocR26qKD01f+8CehM1pUQGiP5tv
+	 Vg8SQ+sXzpbiAEE8MympLmoLLFI9Z2tNP+d0f3MRy3mOuBhQZe2Y4wgOtGEJUD+eid5o2YnmWqjb
+	 b4ggiJcjB2xijPz3NP8KqRg4MPZlNdFh7PKY8Kf4lFFGXQ3/+8EeH0SbZavEficWDcdS9dy2Bqmg
+	 yxloQ2WAgqKlgW0k/PlF1N6c70vB0HeyiNbl5wBCOyB29GKOYiDniWEc4shzk2RH5vhW/qOVT1X2
+	 lDRV4Hdh+Dbf0NoCXhudJlQ9I10ev4FiUASgp0pWbYbujZhUbml7iqzHaSiMDIl5EUIi/1/TyJBu
+	 kemTrPDlVbkER51nnA7bW27nuYQX3aKEmAwp/mS9dozdbyz0DJvh0glOER+An1+06+URIGcqZ6Vr
+	 gOAqHM4UOkmmOcQvMrZj4OiZc8/ZWcrXxB3wd7aSBlLMYdXQ5HVWmwiTOp9yCFor3Yq9Ig
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+From: Shuai Liu <847807867@qq.com>
+To: SudipMukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shuai Liu <847807867@qq.com>
+Subject: [PATCH 1/3] staging: sm750fb: remove unused macros in ddk750_display.h
+Date: Fri, 23 Oct 2026 22:11:41 +0800
+X-OQ-MSGID: <20261023141143.183061-1-847807867@qq.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -89,52 +81,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: Use GFP_KERNEL for audio manager
- allocation
-To: Torra Sowmya <sowmyatorra@gmail.com>, outreachy@lists.linux.dev
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
- elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20261023134046.9678-1-sowmyatorra@gmail.com>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <20261023134046.9678-1-sowmyatorra@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/23/26 8:40 AM, Torra Sowmya wrote:
-> The audio manager module is created in a context that permits
-> sleeping. Its caller, gb_audio_manager_add(), already uses
-> GFP_KERNEL through ida_alloc(), and module creation subsequently
-> calls kobject_init_and_add().
-> 
-> GFP_ATOMIC is unnecessary in this context and restricts memory
-> reclaim. Remove the explicit flag to use the default GFP_KERNEL
-> allocation.
-> 
-> Signed-off-by: Torra Sowmya <sowmyatorra@gmail.com>
+These macros are not referenced anywhere in the tree. This is part of
+the TODO item 'refine the code and remove unused code'.
 
-Looks good to me.
+Signed-off-by: Shuai Liu <847807867@qq.com>
+---
+ drivers/staging/sm750fb/ddk750_display.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-Reviewed-by: Alex Elder <elder@riscstar.com>
+diff --git a/drivers/staging/sm750fb/ddk750_display.h b/drivers/staging/sm750fb/ddk750_display.h
+index 7f713906dc16..097ecdfa6e79 100644
+--- a/drivers/staging/sm750fb/ddk750_display.h
++++ b/drivers/staging/sm750fb/ddk750_display.h
+@@ -22,7 +22,6 @@
+ #define PRI_TP_MASK BIT(PRI_TP_OFFSET)
+ #define PRI_TP_USAGE (PRI_TP_MASK << 16)
+ #define PRI_TP_ON ((0x1 << PRI_TP_OFFSET) | PRI_TP_USAGE)
+-#define PRI_TP_OFF ((0x0 << PRI_TP_OFFSET) | PRI_TP_USAGE)
+ 
+ /*
+  * panel sequency status
+@@ -32,7 +31,6 @@
+ #define PNL_SEQ_MASK BIT(PNL_SEQ_OFFSET)
+ #define PNL_SEQ_USAGE (PNL_SEQ_MASK << 16)
+ #define PNL_SEQ_ON (BIT(PNL_SEQ_OFFSET) | PNL_SEQ_USAGE)
+-#define PNL_SEQ_OFF ((0 << PNL_SEQ_OFFSET) | PNL_SEQ_USAGE)
+ 
+ /*
+  * dual digital output
+@@ -42,7 +40,6 @@
+ #define DUAL_TFT_MASK BIT(DUAL_TFT_OFFSET)
+ #define DUAL_TFT_USAGE (DUAL_TFT_MASK << 16)
+ #define DUAL_TFT_ON (BIT(DUAL_TFT_OFFSET) | DUAL_TFT_USAGE)
+-#define DUAL_TFT_OFF ((0 << DUAL_TFT_OFFSET) | DUAL_TFT_USAGE)
+ 
+ /*
+  * secondary timing & plane enable bit
+@@ -53,7 +50,6 @@
+ #define SEC_TP_MASK BIT(SEC_TP_OFFSET)
+ #define SEC_TP_USAGE (SEC_TP_MASK << 16)
+ #define SEC_TP_ON  ((0x1 << SEC_TP_OFFSET) | SEC_TP_USAGE)
+-#define SEC_TP_OFF ((0x0 << SEC_TP_OFFSET) | SEC_TP_USAGE)
+ 
+ /*
+  * crt path select
+@@ -73,7 +69,6 @@
+ #define DAC_MASK BIT(DAC_OFFSET)
+ #define DAC_USAGE (DAC_MASK << 16)
+ #define DAC_ON ((0x0 << DAC_OFFSET) | DAC_USAGE)
+-#define DAC_OFF ((0x1 << DAC_OFFSET) | DAC_USAGE)
+ 
+ /*
+  * DPMS only affect D-SUB head
+-- 
+2.53.0
 
-
-> ---
->   drivers/staging/greybus/audio_manager_module.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-> index dc90cc2d2308..8a9f7e7d1766 100644
-> --- a/drivers/staging/greybus/audio_manager_module.c
-> +++ b/drivers/staging/greybus/audio_manager_module.c
-> @@ -187,7 +187,7 @@ int gb_audio_manager_module_create(struct gb_audio_manager_module **module,
->   	int err;
->   	struct gb_audio_manager_module *m;
->   
-> -	m = kzalloc_obj(*m, GFP_ATOMIC);
-> +	m = kzalloc_obj(*m);
->   	if (!m)
->   		return -ENOMEM;
->   
 
