@@ -1,96 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.66
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792764373;
-	b=WWLRCdme+unDl0tIaEnlPfM+rEkXTZJvsZCRu6yYONau0eDCdQt8htPitOEDP1okF8YQ
-	 oXS5EQkZ7AG2f0kujATlnpWvlPLCAzgX+WuPk5HefE/YVgvIYno/biFxtwbUvyh4zW8ks
-	 Hkkyr/lM7wIGORpKktXeOtrSmxAh34bNE+SZE/7KnoILKsNutUdnvCJagH427krfUNFJh
-	 Dbzwc7F0p7WNdGBlrduZ0mjSWvgbGWGCie3eYd0+Yb5uXoya4QXtPMgpSJtRTM6H4x9rK
-	 AwCubpFl1fMHFsdseNSfDLqbqLG0nG9YPL7jO2Lsm2W9kd48x8meo5sO09s8YiSa6Ew==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792764373;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=j87Wrx291QISLc/nEmobwNIWhxB6IG5f9z5/EUmc1ME=;
-	b=mCJWji9dCvfJv0d4sMi2DOha2/aK3Y3Hh0fklvUJlXvgJAFyD1S2D0hlKlL6YgDmxkck
-	 v+6iEpcl20M0u/cPWeAxy9BaynSU/W68uL65eOOA5Qx3FvV3ri+1l0u3YBlrxwtZ+xSss
-	 EqAGAl/oy9dNWoG2XZgNcoqPffr4wcltKZSFPRH4piZCdDEIvfJY3EjqJTQyiiqQEzfLX
-	 mpu+1bXjRGzEoOKUmHu3T4TGFktKPhuC31re1HKZ3KBq/9ZoyPzApWvFt2UMfFmXGTASh
-	 jiJEj+jkW+PqgsaO0TKZwrEPY58IrrNpvrOXuLjBNketm3iayhx8K0JDxa5Qt2tRIfQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nxp.com;
-	spf=pass smtp.mailfrom=nxp.com;
-	dkim=pass header.d=nxp.com header.i=@nxp.com header.a=rsa-sha256 header.s=selector1 header.b=UJyZRBTE;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.66
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012066.outbound.protection.outlook.com [52.101.66.66])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.45
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792764441;
+	b=HWP8H5JjZ2XfWgnALQT5QoORg6Pm7wDKTlEDvRsdBIFyU8GFLbEY10cu4ICEeIg27EpR
+	 eelDpjJY2BF4HastJsDCDSEvdhceFaN8fHLHPjB6efpuE41WUGR3waLx1otFLiDyL2BOl
+	 N0d6IKZrU5uyFMLSytzCvwjzjzZSh4zLAQYN6TimQIo1nF7AJ7Pnu8+Zk3PtUpcBprQAK
+	 vNWISsPRjcaksasBF1aIEDwRgQcH3X2d+vvAMZOzRfyo6q7wJdJFXxCNe8OpTsk5B3FF8
+	 YEsMZn65fre89DX34TnzJnEXBwX+mg/QXQX5zeh5WtsmXV6CZhR2E0UW80FMCm9ncQw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792764441;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=HjNlJvrpXlnAC6x8kLspVEYpzuPQTChgZH754Hl21gE=;
+	b=miVg2LbSCW/QRWBMeqA0TS88R86TpO3qFDHnZa0Wi6VWnEf0qiW1s6sdqJyqMtSqqhcC
+	 5Ehq1k7MF6pHHe2VLx5SeOnCZ3Wx3jXtPPVRg8aSF4/CsCmKT0j6oEDYCajN9sye+10W5
+	 U90K4DP9+38goHZBIPYjZZ1t+D724TndRm+e6x0my4GNNTIdfmBmS7lARwasDDWKHLZtt
+	 gX3h9Focs9OJ154jsrVRdUValNPbFWjhdMLTJH63lvoWLdQveL4u4WwN+3cuv7+SGYSGv
+	 2D6/EJJ4dWJ0TbvWG17uCDd23N28qk2HqTZTvLfT3HSBcDIovr3l24UdKO3mcTNOqcQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=ieee.org;
+	spf=pass smtp.mailfrom=ieee.org;
+	dkim=pass header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=X+hU7Vpf;
+	arc=none smtp.remote-ip=209.85.161.45
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BEC606A31F
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:06:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42BEC606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629E8606A327
+	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:07:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 629E8606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nxp.com header.i=@nxp.com header.a=rsa-sha256 header.s=selector1 header.b=UJyZRBTE
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cFjoBYx8WccvlLbVZWAp4hOkhGzi5VI1DYS65Dr0Nn2sbzs8ac6z/D0Vo638jI/l2nV3hGCGpmr2opkUTI2G5HpbW3FnqIqfHKGf86wgu+1MKdW14Qm1QWNDeCCM8Shp+Y+Ak1dQczizk/PxsmG+3YgM91T0Jwh9ewoCjqqzNqt6MCYCspDGOTcC8iGUuXZ2cG5EQiwzab2tssNckIA7rHEXLkVKX+syde61af8X+PHUJQkxDWnWcg5dX2HzYWejnGr2aagFR7QjPcj29PV8JGYcTCechz25q9l6I/Csw74ro7dTJOBpN9Ay96jfsDGUi7zily/pxHaJJk5kEL8TQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j87Wrx291QISLc/nEmobwNIWhxB6IG5f9z5/EUmc1ME=;
- b=efE6rPWj2wja7R0SjBIJGcoS4RdMV8+JLAY2pEp/X06OKnQAzp9UlJ2a/5klGtvBanxkgaqY829t4adWW0b4tjIsp2D/S6Sy/jOVg9K3zFCSFxbr02gI+DbiPKQz2U6o+nUk323/dfYsbXU14YhLRojY2PqOP/jzcn3pIZsJWbOuXDuNJ8+sMVF4TvDRVlis2zzeCCkNIkq/l+qQ6kyK1mRhi74pVgApQh/Pl+gkmV0qJvw2a5wwjhJUnwpODQuNy+A2despkt9/5QNh71k0kiq2Ox70zh+qDMEDzVIgzutgfqG5O2Dov1FkmI5ubr3zxwr4IF5XK+CTexlyK4VELw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j87Wrx291QISLc/nEmobwNIWhxB6IG5f9z5/EUmc1ME=;
- b=UJyZRBTE8qzcGF+mH+LU9bQR/tf2EaeoMAwrY7V6zLe02ekm4vhwGMwPFuCwKMS2/9owJuwimmxcK96hvo89alS1zng7jp8rVDsLnpF9Xbd7Ro00Z0ffjonnjgGeVTgRUV0kbI1gT0hjzthGTzeY3nAGQqmxxCxcXVcZcLQXOV/AZcNsk0tkrqGpna8AYz7pHt1vtprueTjz6wz+3vGDWgGDnGiezwlOs+Pzk5vuHtza6nJTnQSdVfhZX/neISmHUfzxwY8pIn2WB6Px231iIHmPzuz1+oHU8nkCuuEPd5kiZ6fBDLhIaogUW+dpcz80f1eS1bs/Y8pqNJLzljyTqg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from GVXPR04MB12316.eurprd04.prod.outlook.com (2603:10a6:150:2c6::8)
- by AS8PR04MB8561.eurprd04.prod.outlook.com (2603:10a6:20b:420::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.18; Fri, 23 Oct
- 2026 14:06:10 +0000
-Received: from GVXPR04MB12316.eurprd04.prod.outlook.com
- ([fe80::fc6e:ca22:f065:def4]) by GVXPR04MB12316.eurprd04.prod.outlook.com
- ([fe80::fc6e:ca22:f065:def4%5]) with mapi id 15.21.0546.012; Fri, 23 Oct 2026
- 14:06:10 +0000
-Message-ID: <09d70600-10cb-4626-88ab-f9e10f4dcdf7@nxp.com>
-Date: Fri, 23 Oct 2026 17:09:55 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: media: atomisp: Fix double blank line
-To: Andy Shevchenko <andriy.shevchenko@intel.com>,
- Lorena Tanase <tanaselorena3@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
- gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20261023123158.6176-1-tanaselorena3@gmail.com>
- <attnVU9A2GvgYuy9@ashevche-desk.local>
-Content-Language: en-US
-From: Daniel Baluta <daniel.baluta@nxp.com>
-In-Reply-To: <attnVU9A2GvgYuy9@ashevche-desk.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR5P281CA0038.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f3::8) To GVXPR04MB12316.eurprd04.prod.outlook.com
- (2603:10a6:150:2c6::8)
+	dkim=pass (1024-bit key, unprotected) header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=X+hU7Vpf
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6f5a0893610so576167eaf.1
+        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 07:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1792764439; x=1793369239; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HjNlJvrpXlnAC6x8kLspVEYpzuPQTChgZH754Hl21gE=;
+        b=X+hU7VpfuE7F1SfF2nopdmblIETrbK90cbTgxdnlcoVyjqHr6ZZn0JQZlxYXcJzn3z
+         zBPyn+PRb1a/Si363qLqf8QeYSbEkGqcbUs+CH5nVlHJkRbnAZiFV4iwEKKFdShQfF+n
+         u/0shS+jo9mr4ozakF3E573cXLzsqDofLK1i4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792764439; x=1793369239;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HjNlJvrpXlnAC6x8kLspVEYpzuPQTChgZH754Hl21gE=;
+        b=dQQRxlZEAzNIWkTkt4EKwVVSaaMfcdTCR3uq1d7yy7r8ue2QMgu5Dzp1xST1i1CE9o
+         WYJWNytLJqnLLOacH3wVG5plAjqdbTz+d5e2+za+uutUZsQ45OIFacse4TT1GYXDjKeW
+         nz3SxLSjnb4L3qYydKz6y10LBZ1A/5nZ2YJJbX+XLsNvTTchC1bCn8pwOAkynT8EHM2A
+         BrJHrFiAgHYikjdv8MVnbJ6l1YIh8xhtZAmTmDpLA9RchqOqxawUGQfN7Wm7hVU1RlSr
+         7L5x5pHY9GgMr16HAC0X6m5M8x5VkMrwAQPKZutbIHBi3IDEMa7I0kdstVqmEJM1Z7s1
+         hQnA==
+X-Forwarded-Encrypted: i=1; AKwUvBypMVBeOrazyJ4rgvvU9jKZ8En4iKHBD+1N7mqXJ9dJT3giO6lqbFVmCCuFGcLOFwG5kG7iiV6j0TGzo2eX@lists.linux.dev
+X-Gm-Message-State: AFq9FYKjWQQeTtuk2CskyBtODwccF+ySxjEzeiBeDqILlEm/SQeVOjGU
+	Kepc62DfVruz4PHkA89qqo+xUFCHOJNsMgLJ6RnXJfn1ADb8rQOc+3xBbyYbrocoWEWH9Syy06m
+	YrbeLaA==
+X-Gm-Gg: AYBFou0DPQgAJoDCDUFA/uJedRlL9C5+xvcaNK9Mc2nQuzNUvn9ByhZtC2DZq2v2GD4
+	fGbm00kr38831dKEZ+SeaGnsGo8w+ep1Uhn0ffqevMc2IWIozKrZfim4RgVKbEaKx3/VM9TakX6
+	x5giVoj+RsD+0cKx+RnvmK1EHAL3H/ifmnbYL01AKg4bL14OSnwLp3bN+m7j4GLvxCQ4MYlIyYH
+	MYWydy1x81FVjycTvI7rGiEzd+ohbCzCBVx2mKIQVql8GvpOOcwEBt1MLPtSNvU4D39YnPpg/l5
+	4qhSmws8Qhb+oKRhdUScAtJGv9XPa/kNMkXYjJjoPpZ6gExSuoM3AlK4B5l0pnWhhh10V5BRtEJ
+	wZU4YuJYJJjpd6Zc0bKRwfWrD/G5BanEHwxZpynjfdhJNUd7NKkfIpmFM9rdCkQbEIuEJJOof2g
+	H0neR6VvcKd9z8gNigLwT28xt/Brt3t5BVjuZk++nyc6YcE1FhVie2ldD0XDv6S8BOQ86Ab18+e
+	MtUs3qMqSz9/TKZTuXN+Yd1SKBm7Zi+wQvFd+9lCf1mj72RUHw=
+X-Received: by 2002:a05:6820:824:b0:6f7:9b00:9c54 with SMTP id 006d021491bc7-70b889f75e3mr1649158eaf.34.1792764439178;
+        Fri, 23 Oct 2026 07:07:19 -0700 (PDT)
+Received: from [172.22.22.28] ([73.62.185.64])
+        by smtp.googlemail.com with ESMTPSA id 006d021491bc7-70b9ad1c706sm155065eaf.1.2026.10.23.07.07.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Oct 2026 07:07:18 -0700 (PDT)
+Message-ID: <0f4649ba-f731-4f19-ad3e-2d82b641c0a3@ieee.org>
+Date: Fri, 23 Oct 2026 09:07:17 -0500
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -100,93 +89,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12316:EE_|AS8PR04MB8561:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbe198c3-f021-4132-3620-08df310eca53
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|19092799006|56012099006|4143699003|11063799006|261022105027099003|18002099003|22082099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	Dqgyw0q/hdL6RD1TZfIU7OL04ovtSU768iNuyd3l2ylS5X8UnMcF/Astwo3AbjLmWpjuyJXjc/rCmRyHR23ELL4i77JE8cPoD5Js8alqd73OW+gJcp/Sml/Knut8C2RSIjhw9trZP9yQk29avmUFbZPRjqLoet+rTG5ADfIkXqMYCEuYMOAxJ5QkVspEHenESXbnTBShUu0ysBcCNRBlgOmzEaSXikOgGJ6K7VplOmQgtaQbprzzzmzdtlJwF1htDeIuDQsY0ko4QgKhgKMK5ev+64u+Ww22q5XP4/eBdR2XUTdWupGnB130kcvY5S5nTEJxwdjXWwiLs+zu/LvtdyzeLB2tItrH2lUo/5m4ezwdZteAAXB66IpkPOvZCp8ar2+TeujRAn4bodW/vgEYelKlr0zYg1TU2ABvz4R5UxgxRZHkTbIr6/wig/iNndSa3D16RY6voWmuWMU2GbEJNERkwiOLQywTl2vMelWnaZhT+56AAC5QU7FVuRNOaD/FmiAjEis44zHeGmkl4F9jCX7ISiDjwcVnDrK2IweYfJLiEaJwtoVmo5vH6fhY5oEKsD1Aq7DtZHOdPCT4ocdRa+8vao9HxD50Sf/ii9SuXvqFS7j3ykEXZmrqZG6GXI/aWKGuTm6zgdDYuMUS6helNQ6T7ppUQAp6Jszbpus/P+M=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12316.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(19092799006)(56012099006)(4143699003)(11063799006)(261022105027099003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Yk0xMGpaK1h0VW9FWGs0dTRwb1JwQXBObk1EUjlSaHFON1lwYmpmeFJjK3ZQ?=
- =?utf-8?B?VUVWYmF1dEx6dWdrNDN6TEJXdElvTVJIVjJFU3krTXRRakN4VithZW1EaTF1?=
- =?utf-8?B?aFA2UWlPY25vd1RFbzNlUzNkaTN6VGhKVFFzNm1UNTREUFZsTUV2Lzh6d0pa?=
- =?utf-8?B?WFZjcldoM0hGd3d0U1B1WFNCYy8rbzdwVVIwWFFCQkM2V281ZzN0NWpFeTF0?=
- =?utf-8?B?NGg1OHo5MmR5RTlwMVBVdDVlZVN6Z0VxTTY1QVhzYXRzN1FWaHl5WVlITDBD?=
- =?utf-8?B?RHozZXRSdFZLaFJla3Zud2RHaGdpcEI2NEhBNlhjM3JkQ0tMTWZOek85ekhB?=
- =?utf-8?B?ZHYzbm9zdGZOcTREVU0rcUlRaTdFbU5vVmx3ZXM5N2p4NnZWMkRHZ3JzbzVK?=
- =?utf-8?B?RUR3bFpTbitDUmlRa0VvRkJESFExTHkzcFFCcHphUnFDZTRxMjYxSHQvUDF5?=
- =?utf-8?B?SGJ2SzF5YmdEenRESjdSTGkvQzJCaGhUTEh0Y1dWVDd4Rm4yMDN6WW5HdzM3?=
- =?utf-8?B?aS83SEFoeVVCQjdiOThjM3B4RXp6OGtTb1NobkZiMGU2V2dnNldveENLYWFL?=
- =?utf-8?B?STZ5QnV5aDdSOHEzUkpiS3AxUm9GNWtzRWJ2YUhkc0x0WmYxS0pEWGdSdVNi?=
- =?utf-8?B?WElBUERzKy9Yc3hYY05QaWZ0eXROV1luVHlKczF2b1dyaWVtRi9mU0VXZjZS?=
- =?utf-8?B?S2VkczYvTkNsTkpoSFhyZklqc0sxWFVMWjh0bUtYWjVoOExwbUEyNU1Kb1BY?=
- =?utf-8?B?VkNEVmg1SERnaEhHYjVWaU0yWXN0ZUFuNUF0RnF4YTQ4N2wyWWlMV0pPM3di?=
- =?utf-8?B?ZGpRcDVOcEtmc0xvemt5OTRJZUdCVGNsWXA1OFhPMllLNjZPMVFERVNubjI5?=
- =?utf-8?B?L2pIbW5zZ0ZBdCtmaVZwb2pDaVBXbjduS2I3R2R2VkRBK2E5ejNHVFF2RjBV?=
- =?utf-8?B?U3BYOGFCeFdEWGc5enFTajRDd1VFblRTNTFGRUFnU0d0bUFRUi9rRytxdzZy?=
- =?utf-8?B?N3FSSDdaQ1RUYUN3KzhBdks0bFhmNjVxa0hFTmowT1VFOVcyVzBySjlWOUdI?=
- =?utf-8?B?cEx5THdGQlNUa1JadVNsbGdDZmNLVWhweHdTdFRmam95Z09id3QvMkhkS04y?=
- =?utf-8?B?NmZpenRDalBpUHFjOEp2NkMzRTVhaDlkaFczMGdySGFhUG95UkMrQWtmZENY?=
- =?utf-8?B?Wk9QTzk5Q1VicTl1eHNYbHhOYUdwUmlPTW9RR3hDK05xdlpnKzdHc2NxSXFF?=
- =?utf-8?B?dTBiTHZiaVpEZlBjdDBKU0I2TFQ4akdnL3RHZEZGVjAra3VuTitwZFZGZkNT?=
- =?utf-8?B?QlVGaFdVQVUyQ0VYbXFSK0JPelV4ZEpXNE9lTlVVOHJvWmxxdkJMU2loR3J6?=
- =?utf-8?B?S0w1RzlBM1FVeGNtcldIUzhQYjVLYjdYVmJmVkNHMnMyWTRYZGxKM1Y0RHB0?=
- =?utf-8?B?aGsvaFhCNGxJVGFqZHFRU3l6THZBeHE3QUFEOXo0UHAwbCtuaitEMXBSVktm?=
- =?utf-8?B?TnNJMU4rSEcxWFR1MWxnbjhIUWo0ZkR2SmZoUDJlQzVXU3FRNDlZVTRHVHg4?=
- =?utf-8?B?MkZMRVNjY1YxTFpQdmNqaTY1cjk5RUdUcWRwckJuV2VyMFpXcUVUWXcyZ2JQ?=
- =?utf-8?B?cDFXcGs5NXB5bHJ1ejBjbDN6di9ReVFnbXBTSzlzVXRna0dhWmRWS0Vsb2c1?=
- =?utf-8?B?eGlNREs3Q2N5Z1hScU90WFdzdDlmMUs4YUdNTWF5WmZEUWZ0NmFSSThZY29U?=
- =?utf-8?B?TFhsTzA0MFRGVmlCT3U1aVZ3dDRvU3lUZjVEQmVPa3MzM29vOUM3OFMzUUtN?=
- =?utf-8?B?a1VUeGZQcDRaNGVBVTNScGxiR3NxRnJlSUMzbExpcWxUdW12bG9qNEo2aFBK?=
- =?utf-8?B?cHl5cFNia0hDa2FHMDY1WFQ5elphVE9DUU8rZ2xyZEZwNlVCdGZzSEQ0TnYy?=
- =?utf-8?B?Y0ZUcE9Xd0FFUzI3VGxYZGVTVFhIRWpreWRwYnVGNVV6bjFwUllwZVNveUhG?=
- =?utf-8?B?R0JPQTJYeWhsMWpiVyt6NWN3bW9TSnJUZmZrSWthOWVFNFhjWG41bTh1bllW?=
- =?utf-8?B?WUd0KzNML0gxc1l4S2ZhRXJKNHlnOWl0TFBMVlAxKzdScHAvSENoR1dBeEVv?=
- =?utf-8?B?M0s0UGlUVlJ0elhDYjExcjR2Qk5QS2FxbHBKNFlXWDlBVk85dmhYTEtTOERE?=
- =?utf-8?B?UzJmZUlZQ3VtNnBndy95SWozR0FTNmh5UlQzdGtEM3pZL3FVaDU3REZQcHQx?=
- =?utf-8?B?OS9yTjZmVVJDbGFidGdEcVdrVEZzV3R3WHdZWWlucjVTcFdhdG0xUTlCUnEv?=
- =?utf-8?B?WDdvQ2tTZm13OVBob2s0Syt2WFYvV2tnMDhhSS8vTnVFRVkyUXkzdz09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbe198c3-f021-4132-3620-08df310eca53
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12316.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2026 14:06:10.4817
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5ZYPDcOlnNXJEBOxig4x1vwwY9GFgpP9kHxZf2fYmY1c+hrCXjA/N3nNj0CrM1eQ++2xgHOYNomA7YJ/YVNe0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8561
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: Use GFP_KERNEL for audio manager
+ allocation
+To: Torra Sowmya <sowmyatorra@gmail.com>, outreachy@lists.linux.dev
+Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
+ elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20261023134046.9678-1-sowmyatorra@gmail.com>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20261023134046.9678-1-sowmyatorra@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 10/23/26 16:55, Andy Shevchenko wrote:
-> On Fri, Oct 23, 2026 at 03:31:58PM +0300, Lorena Tanase wrote:
->> Removed blank line to ensure linux kernel coding style. Found using
->> checkpatch.pl script.
+On 10/23/26 8:40 AM, Torra Sowmya wrote:
+> The audio manager module is created in a context that permits
+> sleeping. Its caller, gb_audio_manager_add(), already uses
+> GFP_KERNEL through ida_alloc(), and module creation subsequently
+> calls kobject_init_and_add().
 > 
-> Cool, but is this the only problem in the driver?
-
-Not the only problem but as a first patch for a newcomer we want
-to learn the process of submitting a simple patch so we keep it simple.
-
-Then will expand to send patchseries. 
-
+> GFP_ATOMIC is unnecessary in this context and restricts memory
+> reclaim. Remove the explicit flag to use the default GFP_KERNEL
+> allocation.
 > 
->> Cc: Daniel Baluta <daniel.baluta@nxp.com>
-> 
-> Please, put the Cc list after the '---' line, so it won't pollute commit
-> message.
+> Signed-off-by: Torra Sowmya <sowmyatorra@gmail.com>
 
-Didn't know about this rule, there are thousands of patches in the Linux kernel log
-with the Cc field added there. 
+Looks good to me.
 
+Reviewed-by: Alex Elder <elder@riscstar.com>
+
+
+> ---
+>   drivers/staging/greybus/audio_manager_module.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->> Signed-off-by: Lorena Tanase <tanaselorena3@gmail.com>
->> ---
-> 
+> diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+> index dc90cc2d2308..8a9f7e7d1766 100644
+> --- a/drivers/staging/greybus/audio_manager_module.c
+> +++ b/drivers/staging/greybus/audio_manager_module.c
+> @@ -187,7 +187,7 @@ int gb_audio_manager_module_create(struct gb_audio_manager_module **module,
+>   	int err;
+>   	struct gb_audio_manager_module *m;
+>   
+> -	m = kzalloc_obj(*m, GFP_ATOMIC);
+> +	m = kzalloc_obj(*m);
+>   	if (!m)
+>   		return -ENOMEM;
+>   
 
