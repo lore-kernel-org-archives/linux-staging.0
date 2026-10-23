@@ -1,96 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792772233;
-	b=yuiyOyADDbMKzmxzNn/IwXz7EKDX2BOTFPfsRpzpvHxu7GbE/dM0Xsy6MTJ5krEYg91o
-	 3H9xrq9BTCRv3WDI2qO9W/3ipIrZojdcgwfZ6PrbtlpGSU+cribSTBCmoTMvb0s7EM/Wg
-	 JSsSgGIRDEh4HufnCbSfMmfDLPlHXlIeZ1wTjLLVI4slqItT7TIy1it0SgkN9sCS1tjEf
-	 zDcSEYEVH7vsoymf6pgF48/L4pjDbV/djm/BhOMtuy7sMFChqVBDpqCqAABo0Jlij15dY
-	 VejleKLIkioh0uzTzL8PqJnyfaYt4bNPw9zq9TdF86CuICO5lnxy5JnEyw3a6urSrNg==
+	t=1792772302;
+	b=vo7qvrlK4+YD4P5xq/wONn5TiGbdQ4LCgU5mFEcq0qiiCTeoL8qpDaRjFu6qxYCggt9W
+	 DjTQlli17GZ1oaF8toO/Fcnxv1N77J84ZD2Nv2itVFPiZUMQZw3RxQiL6AUdrbRCfeEpR
+	 bzvzld3zqEaA8fhwVN1iVZ6ZMCiyJ3OCMrcmpVr3J17g622BXXrQsWlTMes5TqGp1CRX4
+	 XqoLQIbZPKHDtuG9T5YxpBI5Er6mI+rjVqotNFYU0OJvYyN4IRdcJaSTEo6kufGvZ1vjL
+	 ckwxESezkAcgnqStuvfs8mNb6/KRe9aAFTWygRsCEcBwQzGkFYXUvPMTCVNo1ZdNtyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792772233;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792772302;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=BzEMw2qyVRDMO4EXZ9qN4crrCxVYQEBm0VZTnBXODc4=;
-	b=xdywHdeO94qkbWu172ykd4MXuGkWg2sGNNt6NCRPTlQOy92bridcfbu9PUEFDDfetqIR
-	 oqoq08xCFpaMk0FO2hUq3ooNAz6DD3l8lC/YUZK8QRGKFJLUBjQAS29aVn/slzSB6Hr8q
-	 qFxWHefgdVZjWxWhccr5CDnfBOklXFckvM4V0KJtixVvHRfBVlNewWI0wOnVXigLoVIvy
-	 ZeAwtrrohNBGce/uWb+we5tGQoCBpd9V0BBf5ZPUkVCNvByD8QHE/+EdHL133iJvGKlUP
-	 Yc0qiixa9FWYsifWo15ZpIhUA0EWa39BJ48672eSsuZtfNv5xhX4sy3h8Cqc5YHynGg==
+	bh=QP7Z5nq9f3M+wzua4Vt0AE8lDl1n5BDSlA4IpFM8kg0=;
+	b=4uzj+edDq2XVpQLYfFaqvDZVGX3HWCbpYIRGvgZyY5Rpknebttnmb5msPCMJ0bM8w0fT
+	 qHqORtp1Z3P5ZfP6bPg3Q4VXf9dER2p22L65bAH4wvc0vXllVSCpZl/1KGyZLKzgAhJHW
+	 kOrKEGNOmpYmx1GKk5oYYRY5cVtoBkIlc52evNw3ypRTJ3/ZeKYJW2cZBhLvJZFYL7o0A
+	 hiEEPXWiPyxrD13EqDACDlkS2cSs3r97H/DoxdPEhVqVxZAwutLsdb4oK7Qrc4XjBaWPl
+	 04egFoSmE/Q71rd7lc4i5j6vEF0xzW1bD6vpqXblwFls0Z4Vvz7UxR8fA/2aGGsU0sQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="DmJ/RXN3";
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ZCmIWuOD;
+	arc=none smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8204606A31B
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 16:17:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8204606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64227606A31A
+	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 16:18:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64227606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DmJ/RXN3
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a1df146015so7760855e9.0
-        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 09:17:12 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ZCmIWuOD
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48df4f540ebso635268f8f.3
+        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 09:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792772231; x=1793377031; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792772301; x=1793377101; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=BzEMw2qyVRDMO4EXZ9qN4crrCxVYQEBm0VZTnBXODc4=;
-        b=DmJ/RXN3+BcwI2ofcddm+iDXhWTi61UtUmX0TL0Zi9xLRnf+pqc69rYydj+Nx6nL1F
-         mvulVjVUGw2VkLSXPLa05eVXfLArjoxxc137c2hQ78RctxoO4nGtsU29MLpqQ1YLzzRE
-         r222mPyHMjvVVEi3CtIF+/MWx/NIlkUUEgZ1O1zofaxD25vg3Fgx1wyiI88/+1BlF444
-         nB2I/pSDhDUbWTMWbAsvHs3pI8Juweu9CK4ObbpO/W19VYSPpU4RtOKHpQ8rHVBM0lKU
-         D9EVPQSHNVTXxi2BEaKPmra3WtmRuhpXH6ZzLPuL63og7BXlEE5JnVbSiYwkxR1KwIBG
-         E6Gg==
+        bh=QP7Z5nq9f3M+wzua4Vt0AE8lDl1n5BDSlA4IpFM8kg0=;
+        b=ZCmIWuODC33GV/1MI3QEIhOJBDUYEe0+kSFZij0MAYnXd7ALFiDIjrwf16ERFuEtsF
+         8eiboD8i+s7pS0xPQX6AITjt3DgJ0V950hZ8dZF9RTtRQeCZP46WXgj1lPx5HzaDGL3I
+         tDdduBlpB+ub/USsqug8FWIMBnEOFGbxo7rIV1J6kcu/piLqOAVg2FH8YuWr9jDIGAmb
+         6yA2ApOytwu6JAIGwH5sQJaIO4CyGCiA2skNrpnZQKERkfokmL7VOTSDJr5aKQ0kosvQ
+         zW00+g9rLq6eK7U7ZYPTYAwn2+jaPbuk+qRUvVshTfYTaKq83JD3+Bk71pao84HPxlBo
+         GpCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792772231; x=1793377031;
+        d=1e100.net; s=20260707; t=1792772301; x=1793377101;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BzEMw2qyVRDMO4EXZ9qN4crrCxVYQEBm0VZTnBXODc4=;
-        b=sMW7of5xAeSmi6QQBzsf7vNJGh5eiXKJbVr0avUiPGC6k8VYtSpvOqG1rfVl+3cyLm
-         cUUEvG+EBtz0aXAw/nslFH3wNzoEkY2zi1baQwr2jbycnrzuvj7Ra8OGIEOOK8QDilG1
-         +axaEw55Rcv9/pbcDwmtiilQlzLjcfG7x8vg3w26Q4eP85YP0uVKw1LV46ALOISXWZHq
-         Z2vDVN3/xJ+p3XCVpFxLvSjeCYtaDmRP9wQ2eS/JDLGkNMKe9xsnpXNM+bPdSFH9cA0t
-         UE3HoAsTrpNH2at5xwRXIQcgM0HGX5oqJ51FI9MXnRiI+6JbQAyAIiEs/TskY0VA+p02
-         fYXQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz9mGbBlzSEvem9HybiDvzdCbrfCZceWP+1BXeIZwptZn1xxlZlUoMvH+yzSS2jObFRxbE+nWGRRree5R+0@lists.linux.dev
-X-Gm-Message-State: AFq9FYIJPvAn/EW3ltoRwkFON459toxEAVow4Lc9NeNIL/6KJJouydnx
-	UU8oGb0FyzUeMTp7+Pb6rk/ZouVW+RelcddLdCTXQkCI1kfU5fF69ryY
-X-Gm-Gg: AYBFou0jRMq+IG1QhPO+lJOuXwDtgPMAlKJi9jNmVGd8eIyTV4qnwqGNgs4xmCiZ6in
-	d03e2pykd/I76oWFLztA9ChqCfo89cVe+5/R91T6euML4n/TnAE4Ap2C201pM3MJkN4i++Ap7hk
-	zpK9CvQDxlEbYWrif0FC87V/roEg3qTlvPwc60UHsQ6nAUfg98HwI5XJ0qus5lgrw647M2fvY3t
-	qlGOc0qa3Y/+oPdzEk3u0I/LveW1zDiQhV/g2PycSFPXrUbjOqkE8bkl7G2fLTwIr/EAZBm9Vc/
-	H7HI9JUnM/arJYTyJ1qFmxdndzHB+Dd9F7D6B1WvPGjB3j3GgGRyBDVmYypH9RzKRAOORluPivL
-	jN2yCU2aAKauPnEgwKP/dxBgh+wWKdMZOFCEwe/fDn/kvkdEAm4BSDr3Mtvc+GTjD4HhSPOHs6M
-	W5cDWRP/mmZdJVf+TU3ZRHUKSnW+gU2TfyFNPggFK3AlnuHn9i42GQteZGVtE6K7QZ+HEl21W7R
-	jochwsTc7B3xzYRWqXvNcKKUZDVJMHAPN3UjpmfhZZZWV2J3ovP
-X-Received: by 2002:a05:600c:1d07:b0:4a2:267:25b3 with SMTP id 5b1f17b1804b1-4a211ecec0emr46659165e9.35.1792772230469;
-        Fri, 23 Oct 2026 09:17:10 -0700 (PDT)
+        bh=QP7Z5nq9f3M+wzua4Vt0AE8lDl1n5BDSlA4IpFM8kg0=;
+        b=cadZ4aDeGlNuDPEjZ3k1LD79WTCQ91Fdo8LjiFpy2IMSfzH9ltLe7Bwp0O4bPx/4vu
+         QIUHwqITrOabJ+4Y5E3AuktB0fnsNAcfb7CkoeTnCwxgL/vASZNY9d8hGnXMtLjVKGnP
+         +89bi/wZN3lrFp8QuhDQSbS3R/OZdLd0BCdAzeScwHpH7aVoiPfUIRBI9Yup8eYs8kqb
+         VEKcDGiYrjgiqWA8JgNDdsO0et+FVjrRH/c7csvgvBdbYuP9yonGA1sxfiDaMfH/vY0e
+         oVSSWmBDzuK4dMXsRnxaaywIjUHDiDoBAFAQ4RIe2SpcktWtKaoRDy+o14JtxogStKPG
+         Y7KA==
+X-Forwarded-Encrypted: i=1; AKwUvBxbS+eY440DwRbt5qNqV+xtKu1ooAx0BcsmRYLPjxixUht/IJkqrpiSZPd0VGBDOJCZDHh6vsU0lTVAKVB3@lists.linux.dev
+X-Gm-Message-State: AFq9FYJj30KR+xynZuWVDCt1wQyqnwAgITNOp2M8DAE8ZjitMrVQTg5z
+	efzW2QA/XwWX/DUf2Iu6LqMi/r23C6afbCEpTx1lENq4z2P8Pb6B3Jaz
+X-Gm-Gg: AYBFou3dm2W61Lmg8AsOgLb9gZaHy7aRa1UCS9ypBQT2qMOcbiJzARTIEwZhZyRhCZm
+	DsMlM+tJIFufcma7rCLLNyHeCUtp0zGdh+JtrDvSlcwhc0CZ5kV2T9MhYojqmGKaA5PnK4pVjEO
+	+8gqH+uwB8nAxW6CFA3aukAZafm1aPsmgXSkIuz7/wQrRRswq/LUAchcVONzmJM9d9stdupF4KH
+	Mv6O8L/WHQr+193ZL7dA0bYY14KXdiY8pi03iO1BJ9jtJHzpwvGdGKrBS4XQa0SFHuSb1ATrNh9
+	YVERmeM3BGNPDnKzKxlFywkz5FFg5m9rPBcqAA5t4RDJBLAKte4d2vHxRTa+ep5IQP/dm92uoL/
+	8WBzR0jbFBHxVt1TSylzRShmykkU1YVh1jgcCeDkbhZe0UZ8Anl6W39J7IBYgBpqPcXNjsKYq31
+	s3F94oLkDmYCZ0NUx9G2fYhoCQT8nTufhetrRzoaglLXnPM4YztsIyXJhqoBosGATHYFXWxxQK0
+	1VwAGbQZDLunB8obnviqOmXXZag/XClL3oM2Rg/KSdALyAqv0fn
+X-Received: by 2002:a05:6000:2005:b0:48e:a13:7c8d with SMTP id ffacd0b85a97d-48e385ae732mr5020513f8f.49.1792772300560;
+        Fri, 23 Oct 2026 09:18:20 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a2958bf25dsm20075165e9.2.2026.10.23.09.17.08
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d421f65sm738672f8f.48.2026.10.23.09.18.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 09:17:09 -0700 (PDT)
-Date: Fri, 23 Oct 2026 19:17:06 +0300
+        Fri, 23 Oct 2026 09:18:19 -0700 (PDT)
+Date: Fri, 23 Oct 2026 19:18:15 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Daniel Baluta <daniel.baluta@nxp.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Lorena Tanase <tanaselorena3@gmail.com>, hansg@kernel.org,
-	mchehab@kernel.org, andy@kernel.org, gregkh@linuxfoundation.org,
-	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: Fix double blank line
-Message-ID: <atuIgtYbgUsmfgkp@stanley.mountain>
-References: <20261023123158.6176-1-tanaselorena3@gmail.com>
- <attnVU9A2GvgYuy9@ashevche-desk.local>
- <09d70600-10cb-4626-88ab-f9e10f4dcdf7@nxp.com>
+To: Shuai Liu <847807867@qq.com>
+Cc: SudipMukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] staging: sm750fb: remove unused macros in
+ sm750_accel.h
+Message-ID: <atuIxyy427lxFwag@stanley.mountain>
+References: <20261023141143.183061-1-847807867@qq.com>
+ <tencent_6CA7B248C9B3374DE2DA88094C98BB5F4B0A@qq.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -102,32 +100,17 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <09d70600-10cb-4626-88ab-f9e10f4dcdf7@nxp.com>
+In-Reply-To: <tencent_6CA7B248C9B3374DE2DA88094C98BB5F4B0A@qq.com>
 
-On Fri, Oct 23, 2026 at 05:09:55PM +0300, Daniel Baluta wrote:
-> On 10/23/26 16:55, Andy Shevchenko wrote:
-> > On Fri, Oct 23, 2026 at 03:31:58PM +0300, Lorena Tanase wrote:
-> >> Removed blank line to ensure linux kernel coding style. Found using
-> >> checkpatch.pl script.
-> > 
-> > Cool, but is this the only problem in the driver?
+On Fri, Oct 23, 2026 at 10:11:42PM +0800, Shuai Liu wrote:
+> These macros are not referenced anywhere in the tree. This is part of
+> the TODO item 'refine the code and remove unused code'.
 > 
-> Not the only problem but as a first patch for a newcomer we want
-> to learn the process of submitting a simple patch so we keep it simple.
-> 
-> Then will expand to send patchseries. 
-> 
-> > 
-> >> Cc: Daniel Baluta <daniel.baluta@nxp.com>
-> > 
-> > Please, put the Cc list after the '---' line, so it won't pollute commit
-> > message.
-> 
-> Didn't know about this rule, there are thousands of patches in the Linux kernel log
-> with the Cc field added there. 
+> Signed-off-by: Shuai Liu <847807867@qq.com>
+> ---
 
-It's the more modern trend.  It's was never clear to me what the Cc tag
-was there fore...
+These are macros which describe the hardware and they're useful as
+documentation.
 
 regards,
 dan carpenter
