@@ -1,97 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792766943;
-	b=Z7OYcjZ51rl4RiMw3VbPLbfq4TMfHgkJGUUuwJn6IJ2Q2Uulxq768r1/bTIw0TB572uq
-	 eZeAN4gnNCXuceZpfQEzO5EuYoR51mdAzc5NJHmXCg7JyabmosEIVcL7xa5gmLgLSAxij
-	 84arKf4RoXtxt70kCkj8YRYyMR/m77g2mFfWRvMCLx2H9v8somXhCM1GdUKeYKwtJPlMC
-	 fgfr3F22iA1jdph498PAYK7bp7NWz/dGxQGS3dJsM88F2wbepMUFw7eJ7/sJyWhBelBZJ
-	 W/LJQOyNmU/4zisqXS4wPhHa7TgeNW46OmNnE70/EcFlGOqYOJuljrOFAvWWE5MvQrQ==
+	t=1792769577;
+	b=Tdn409s7ibAbdyeslhHW4fRkC05/F9OKgdTin7UcNq8M+W20ugl13sRC862gkN1FAs7+
+	 WyEINNg0pAc8YBxUoRuy/0YC5f0PB3RyXIXKTy3T/bd4oBeQSORffDxwDYlT72InptG/r
+	 +TeME+BjpFg1UFccZ9yvKDaXU0hZQNvEBbNBgiVvQB311lrnYVosh5bwxy8eiM2msQTiy
+	 DNrMr30/WPpRqMm3UJuLTzOSHXxsYXSO62nTFU27bIEy1rXZA9N1qKEFEoOX+ve9U8l35
+	 e4QBzjl2Fxz6hWqrF8BdfeCnd90uom8vQUZmpmvICmEQfFgN3irM6ceE/RcmbIMXVYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792766943;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=IdkYUYs5y4Iem1sFLDu3Lx/OAa6FaPFzLzgcEXfMeNg=;
-	b=kA4Hpn12MaTJgnWu2UQrW1Tlzkp9BWq5S74w2ctZqu4Bpcatyiy72lxH6eutY9pKRE4z
-	 Yn0BZ/NcD8ixTdWmcw05jlIps+aELicia8NaMdLDySuSXrBOET3gvVi4FWHL4l4q5FkJv
-	 /HCfDBYCZosBWGj9xRMDMY1Ni9MzQovpKpYiE54l8+59/0kWwB+xd3u99rG5i42uRzkFz
-	 6xM9ipjBcyb/iJnkgxklKwN452ktLsovUhzKlZ5htmEYO03SMMOh5GC3jvSGfLB5hlo6k
-	 7Mv4RVtxIqYbzPBdtmVsmDE2VRC+oO/IW9eIN0oNvGwmxJYDUpF71gLg3NiUqoxA4NA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792769577;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=fcMKTHoL8dxDwv3xwX21weZukB7/62Cej5Walq9QroA=;
+	b=fKBcfnofn6l6PzDZA3jJD4QtIN3LZObv7roo7Pit2/pyHdgWrbHVq2+I/6425zcPsU+6
+	 mt46jEStXavccXsBqJDXvO4Qh0ECW9LflgbPqRXTqyT7Uxu95fnXQVWldIiaAkk+JzO6v
+	 WF0AKApWYJgeHl8UCur+UWry86bjfT3KDD7x7kdn7PyCW6TIsUxs1/nZvK7zl38u8IQn8
+	 dCcmPn1rR9PEq9q7W0XV+/kgu1EFYDwPuQxULY6NB8c0Zi03TFSDisNg1YCrKRMPwa4BH
+	 SvQVPunQ7UecUQ0Prgk+Xt1kGG26RQQkq90aIKCA19flfxGuW+OCU3Ox/lXAn42j2fw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=cm11sDsS;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=vfphiLYF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B53606A31D
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 14:49:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65B53606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83EFE606A31B;
+	Fri, 23 Oct 2026 15:32:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=cm11sDsS
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-35ef6b49813so1390134eec.0
-        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 07:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792766942; x=1793371742; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IdkYUYs5y4Iem1sFLDu3Lx/OAa6FaPFzLzgcEXfMeNg=;
-        b=cm11sDsS4sgWBMBhXsM/5+5pswWpyMT1y77kDbvbVfnZE1vdjr4eOzrjYEVfixaeTa
-         6cdIFpYb2zeqdBvrIKA9zh/b+pa/IGFYdanXS4AzkfJlJvA/GphGzaVyZoUUAPsHB+ms
-         9l5iZqGXiW+sloshxhwJVpsF5yh9l2avHxmWZN57YSfd17ngE9MnhiDhCEUBJHvc62D9
-         mgGbyIXAkMTmGGY0YwQERya7Ko3YKFuw/JiD/+YD8DmBSEcPttlZG9vouaiM6MSVXTTS
-         YqVXeW7UOe+OtiqERQ5lu5MWd1sLemB9dQ9VePsboZCeCZREuBNnW12u+D1qJJ/xJHeY
-         u9LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792766942; x=1793371742;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IdkYUYs5y4Iem1sFLDu3Lx/OAa6FaPFzLzgcEXfMeNg=;
-        b=EPhp5Ir1vE5dgFtx1GmaDRA8hzrwnHPccqHuZi9B9tMEAYI+80w1I8iFcOJYO6pV8Z
-         A60NP2z1sMms03DuvijOiYyH4bS4SqewwC71S4+FmVySvDRF253/XyC5bAr8vzgzcmUb
-         CjHSqgu+RMHStNKD0yDhEuoitN/NRxeA0F6ko1sE+iztydKamOQ1nzkGkXMA3KCN1WXA
-         tHH74cEHbOht+NDEOikqflkt06HJfy/RAxrecQ5wMQDuQ84nhufFYGWOY6S0jAkma++/
-         UUYyxTZJZeAijTAsjt/WucvisnV2kLWv5txAXQ1WrbZxoZ4br6YOXpRtdIEJwQNvGLO3
-         mcoQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwoyTCuLvDKFQjIBI4loeQJ6Yfwt7qAS0phOBGGHMom5mJPdYK7MB83Lg1bgJJten7StskGMoF5U49H1Kt8@lists.linux.dev
-X-Gm-Message-State: AFq9FYKb81KVPNVumwv1Zc6gYSF8kHN5/BDEknVrkQ8zuvxpx4dkV8wL
-	AZPkj/F2fI1LDuQk2bOt+u5OYD7Qw5H5Ulc99jTEa8IB6R7OzKY9ryV3
-X-Gm-Gg: AYBFou2XV6fHVSdaBt3DWWj1q3jjU7O48gbqJrShZ+nLgW1GG3LDsomIum+4Z5byCon
-	M5HCqnswyWMliCUj/ehAIV3tyQTll0svUV48m5NUA1I+lEm1DdO5yeZarQNBWwGwNOhN6inbl7K
-	WVOKP5VKDSmyccnST7q25zKMgINP4JNzFV1YhVw3ho4M3Cd186nx/Nh0eLXn7HRLC6NklwKu4mK
-	LzssIY7pbk3oxvapuGwFMe665xxldeF/mh6Zid98BwyKuwcbj7W2co6rk/2xCakLUV+Hx7N6GSJ
-	RS+qEJe24E6WjzAGGSUaGawPe447RKdM81orNPbR0Px2QFSNy1xER0RYvTyNROgbgw5i5mpRXtn
-	wTA6cRHzkjoMIoQG3amfXEKSDUsnPGg1s0GsFjUm8u3IzmUvlWWVtgLnoz4G3XTFPVMHQd/g6Xz
-	LNBepugMXtLJ6QdnK5EHHxmVmSWIh0OeOPsIXubr8BBCjseeu7G3P067qqo+fGR8fOy+pSFXAFR
-	NoR8YPADcx2qyXlGEiQohg8A5597xO5QpEukoIT6hbPXojlyulMUiZhuto0IBMtyH1XCz2dPlQb
-	cbC1kB5FwQ==
-X-Received: by 2002:a05:693c:811a:b0:35c:7d45:c6ea with SMTP id 5a478bee46e88-369d973b2cbmr3142150eec.19.1792766942375;
-        Fri, 23 Oct 2026 07:49:02 -0700 (PDT)
-Received: from user.. ([2405:201:c052:b00b:4145:da00:43b2:a151])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e6db0d87sm338792eec.4.2026.10.23.07.48.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 07:49:01 -0700 (PDT)
-From: pavankumaryalagada@gmail.com
-To: greybus-dev@lists.linaro.org,
-	outreachy@lists.linux.dev
-Cc: pure.logic@nexus-software.ie,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>,
-	Alex Elder <elder@riscstar.com>
-Subject: [PATCH v3] staging: greybus: loopback: Use fsleep() for delay
-Date: Fri, 23 Oct 2026 20:18:51 +0530
-Message-ID: <20261023144851.51019-1-pavankumaryalagada@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=vfphiLYF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97FF11F01828;
+	Fri, 23 Oct 2026 15:32:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792769576;
+	bh=fcMKTHoL8dxDwv3xwX21weZukB7/62Cej5Walq9QroA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=vfphiLYF4PmZ4uCL3RAcq7VK/4g8hyRiny1fSU678HdKI0plRqeTlv1qrgzDMDWjo
+	 4qHuoc1GFN21cZLy9EM46bUVLYkK1fkKmvSz5j1XyzOQIF5Qdz1odaoYlp0ZS3j2fq
+	 lAepqiIpjQmfwnZu+K6Zn1ZTGiJGayicQySwRyJM=
+Date: Fri, 23 Oct 2026 15:36:18 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: himanshu bakshi <himanshu.bakshi478@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: Simplify M2XCLK divisor encoding
+Message-ID: <2026102332-siberian-escapist-cf1c@gregkh>
+References: <20261018092651.49924-1-himanshu.bakshi478@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -101,58 +54,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261018092651.49924-1-himanshu.bakshi478@gmail.com>
 
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+On Sun, Oct 18, 2026 at 02:56:51PM +0530, himanshu bakshi wrote:
+> Replace the switch statement with a macro to encode the M2XCLK
+> divisor in the corresponding register bits.
 
-Replace the existing usleep_range() and msleep() calls with
-a single call to fsleep(), simplifying the code and letting
-fsleep() select the appropriate delay method based on the
-requested time.
+Why?
 
-For short delays, fsleep() allows up to 25% extra time instead
-of the fixed 100 microseconds. For longer delays, the old code
-rounds the requested time down to whole milliseconds, while
-fsleep() rounds it up when using msleep().
+> This is my first Linux kernel patch.
 
-These changes may affect the time between loopback operations
-and the reported performance.
+Great, but that doesn't need to be in the changelog :)
 
-Suggested-by: Alex Elder <elder@riscstar.com>
-Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-Reviewed-by: Alex Elder <elder@riscstar.com>
----
-v3:
-- Clarify the reason for using fsleep() in the commit message
+> Signed-off-by: himanshu bakshi <himanshu.bakshi478@gmail.com>
 
-v2:
-- Add more details about how fsleep() affects delays.
-- Update the subject to include the loopback module.
+Capital letters please.
 
-v1: https://lore.kernel.org/outreachy/c482704b-903e-413d-ba7b-5bf31c0a6104@riscstar.com/T/#t
----
- drivers/staging/greybus/loopback.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+> ---
+>  drivers/staging/sm750fb/ddk750_chip.c | 18 +++---------------
+>  drivers/staging/sm750fb/ddk750_reg.h  |  5 +----
+>  2 files changed, 4 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750fb/ddk750_chip.c
+> index aa78d0bc1..2cb849dea 100644
+> --- a/drivers/staging/sm750fb/ddk750_chip.c
+> +++ b/drivers/staging/sm750fb/ddk750_chip.c
+> @@ -109,21 +109,9 @@ static void set_memory_clock(unsigned int frequency)
+>  
+>  	/* Set the corresponding divisor in the register. */
+>  	reg = peek32(CURRENT_GATE) & ~CURRENT_GATE_M2XCLK_MASK;
+> -	switch (divisor) {
+> -	default:
+> -	case 1:
+> -		reg |= CURRENT_GATE_M2XCLK_DIV_1;
+> -		break;
+> -	case 2:
+> -		reg |= CURRENT_GATE_M2XCLK_DIV_2;
+> -		break;
+> -	case 3:
+> -		reg |= CURRENT_GATE_M2XCLK_DIV_3;
+> -		break;
+> -	case 4:
+> -		reg |= CURRENT_GATE_M2XCLK_DIV_4;
+> -		break;
+> -	}
+> +	if (divisor == 0 || divisor > 4)
+> +		divisor = 1;
+> +	reg |= CURRENT_GATE_M2XCLK_DIV(divisor);
+>  
+>  	sm750_set_current_gate(reg);
+>  }
+> diff --git a/drivers/staging/sm750fb/ddk750_reg.h b/drivers/staging/sm750fb/ddk750_reg.h
+> index fe412ead7..b796e32ab 100644
+> --- a/drivers/staging/sm750fb/ddk750_reg.h
+> +++ b/drivers/staging/sm750fb/ddk750_reg.h
+> @@ -312,10 +312,7 @@
+>      #define CURRENT_GATE_M2XCLK_112MHZ                (0x2 << 12)
+>      #define CURRENT_GATE_M2XCLK_84MHZ                 (0x3 << 12)
+>  #else
+> -    #define CURRENT_GATE_M2XCLK_DIV_1                 (0x0 << 12)
+> -    #define CURRENT_GATE_M2XCLK_DIV_2                 (0x1 << 12)
+> -    #define CURRENT_GATE_M2XCLK_DIV_3                 (0x2 << 12)
+> -    #define CURRENT_GATE_M2XCLK_DIV_4                 (0x3 << 12)
+> +    #define CURRENT_GATE_M2XCLK_DIV(divisor)          (((divisor) - 1) << 12)
 
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index efc69c10cffe..2fe845eaef29 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -898,12 +898,8 @@ static int gb_loopback_fn(void *data)
- 		gb->send_count++;
- 		mutex_unlock(&gb->mutex);
- 
--		if (us_wait) {
--			if (us_wait < 20000)
--				usleep_range(us_wait, us_wait + 100);
--			else
--				msleep(us_wait / 1000);
--		}
-+		if (us_wait)
-+			fsleep(us_wait);
- 	}
- 
- 	gb_pm_runtime_put_autosuspend(bundle);
--- 
-2.43.0
+The original is more descriptive of the hardware data sheet, right?
 
+thanks,
+
+greg k-h
