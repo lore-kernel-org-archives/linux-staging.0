@@ -1,76 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.250.56.165
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792761591;
-	b=aEY6BUHxbN2ovfO5GwNViGljOE01rFuB+WCofm/QTgZBWHi5eGMeducre9v13N15m3Sj
-	 uU1Gv8JcFb5/0fRIBRZ/wBzQOGHgOs+2yWn0Gmpys+o/MtUz0MSaAXSIz/04gpRo4t9FD
-	 7h2QD20kwD8NYJo28FgqM9vzXZu5DC116yO1Vu0IRuiBgq/TOlwSxpNrcb5MCx5YjqH1/
-	 DMu0szPN8DtCXovahFmY47Y12k9NcAXqckcjz+VrQfMjf0jJMRsQQajQ1H04X8YvRk37T
-	 gxtluPtxQi4PpNx1Jzgnd9VlcO7cnyI6PdOZsnOibNrWuXMOfklM3tvFofmzHwPYk8Q==
+	t=1792762766;
+	b=v9HYfSwkge8LeiczT5dkKhqO8VImcw0PKmgOtYQyNCx6GVo0xTB0XsspRUBHQnpsBT7Q
+	 gMWmIpWqx2szP3szY6RunzJyITJglaUEO8CJyzLeUIsN+V9Y/DzxsJ7b6SJjYMTrkcRy2
+	 wdoQJDhw1SsfWB2YT1KVTOCJyS9Pu61O4zkKoG38wnCmZmU9ig3dHE2KznDY1Ku8ZvLkT
+	 BqRa0IVcirxfZSKnCkur3I84pRM4hz3eHrnrB6c/ZhwA7XazbnOSLA768d3qAlQMcfBh6
+	 t2hv9zAYLol2a09NZqJ8bdjjYBHIXEbNuR80mxd2qP/Cccgm0qEp6QFTy1Tpr5NXQVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792761591;
-	h=DMARC-Filter:Received:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=HHzMsJF9k+4VDbAqBeFrm1tYK+OTd3TiwEcV01FAU2Q=;
-	b=Dumsuh7UMRd90I3/BSIOiyyxV3ch1ISpSQWKNtRABAq+bFLtlDWlj4cfCwtIUPeaULOO
-	 Mlhgq45PYq5SwTS3D6/XKbhMiCMKXeJ2aW+ziBsBTKkTXF6w8wD6Z0NehYNiiE9wdCKQe
-	 qD9XdfLFuf24P/DHEW6NObQ8xU2LJKN+3xhCuBWQ/vQtFQMn7FTZMs+qBhTRzYOcfdGw3
-	 E5H6QUZDNB9KLRv+4bD3bdBp4ZYyngExcIuERv2eULbOebT7yhYBIJV8q3JHHFw1tazC/
-	 1x99V4zIaym+PkKczNVj8EHtQsCyY4FjkHMyrheos+ogmuKCyr+O0cNmQcbz9sJzFug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792762766;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=OMvMgSarJalS/dnNNgLfRrzbKrygmABuyVhylEY9KzU=;
+	b=oGJIrIfQ3qHoRt9m2yqW1sHF5o8EDWElYYDCUi9dTwPshdVDtW6S3u4UYMRSRgMntlRH
+	 SlWURd91MMOq0BA3J+z4/KBZ/sG6h1OSUvIri5Rrqi0YzCcG1X8QsFN6JjFBoLEqyKUVI
+	 vF9HX76vtOcaxNlMWSvJCWzZYtHGfo6Lfhj69iBwKW4Nw1XrEB6xeVlKtVsYcFFNOeXRz
+	 1U+9/jYRfQOsnSionz1kjTNMiFIaCMrP203/Hn2N8TJEjx6/G8FHV+swgBPVee6VbGSGH
+	 RFucY8igs2XlfNXIhW+hsWPbZHdyDOJ0iRXZ4sIbB6zDOOqMxbiAeNeC5UMRTmYhvbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideco.ru;
-	spf=pass smtp.mailfrom=ideco.ru;
-	dkim=pass header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=hzbNQsxN;
-	arc=none smtp.remote-ip=51.250.56.165
-Received: from smtp.ideco.ru (smtp.ideco.ru [51.250.56.165])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=pXfPuUcm;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566C1606A31A
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 13:19:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 566C1606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideco.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideco.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBAAD606A32C;
+	Fri, 23 Oct 2026 13:39:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=hzbNQsxN
-Received: from [169.254.254.254] (localhost [127.0.0.1])
-	by smtp.ideco.ru (Postfix) with ESMTP id 22849197A3;
-	Fri, 23 Oct 2026 18:19:47 +0500 (+05)
-Received: from fedora (5cfcac1b.dynamic.mv.ru [92.252.172.27])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.ideco.ru (Postfix) with ESMTPSA id 1716E18C5E;
-	Fri, 23 Oct 2026 18:19:19 +0500 (+05)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.ideco.ru 1716E18C5E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ideco.ru; s=ics;
-	t=1792761586; bh=HHzMsJF9k+4VDbAqBeFrm1tYK+OTd3TiwEcV01FAU2Q=;
-	h=From:To:Cc:Subject:Date;
-	b=hzbNQsxNPWeKZVw1AVxN7X4/T6UWnbisKdc5tGgmorz8wyqNvIOjw8kTAAvJjCueZ
-	 DTNictk5sERsOzco/0fltSVrwZLOgXjm2rZKV6xLuw0t+0z9wdDwbcK+oA0NTWRWm7
-	 AWyV75kxt6kslS2d04xrLxx3XaW55isZe4RrUPDkXD4QLDCJ9cHLih/cM41hoBBVD2
-	 Ms++EvppuZDhWf8qJjUoGJCvE5Yj/CN8nh1xkg8WKnTTrn+d7mlvCM1BjFxbcVUhML
-	 5w1o36LdNzacxTLTrIsd+x7R6jBZZ/olI1ksqE000k3R6TCJ2DzolbZPn0pO39eo3E
-	 V5qEtsIATESXA==
-From: Alex Kazinsky <a.kazinsky@ideco.ru>
-To: Thierry Reding <thierry.reding@kernel.org>
-Cc: Alex Kazinsky <a.kazinsky@ideco.ru>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	stable@vger.kernel.org
-Subject: [PATCH] media: tegra-video: Check CSI subdev before error recovery
-Date: Fri, 23 Oct 2026 17:18:50 +0400
-Message-ID: <20261023131859.95819-1-a.kazinsky@ideco.ru>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=pXfPuUcm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F2C1F01829;
+	Fri, 23 Oct 2026 13:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792762765;
+	bh=OMvMgSarJalS/dnNNgLfRrzbKrygmABuyVhylEY9KzU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=pXfPuUcmBdkkrmWZjtDZWQg8OfJcvpxIL8f4bfQj/wSmXNO27dzh1Brm2vF/dGs1a
+	 EY867D0xuLpDYNHqesFPNhcq4rWIE1DPI0fXjp39tLm+5qOg+y5mg5pEIj2g2av/Pk
+	 1+PXZepD++u63d5rfTIxvUbEv5l3sQUNTwqkClck=
+Date: Fri, 23 Oct 2026 15:31:17 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Breno Rodrigues Alves <breno3011alves@gmail.com>
+Cc: Dan Carpenter <error27@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: axis-fifo: remove unused r_mem local variable
+Message-ID: <2026102319-qualifier-closable-a65b@gregkh>
+References: <2026102337-headroom-shun-9d45@gregkh>
+ <20261023103943.20995-1-breno3011alves@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -80,46 +54,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023103943.20995-1-breno3011alves@gmail.com>
 
-tegra_channel_get_remote_csi_subdev() can return NULL when no remote
-pad is found or the remote subdevice is not a Tegra CSI subdevice.
-Passing NULL to tegra_csi_error_recover() would cause an invalid
-memory access through to_csi_chan().
+On Fri, Oct 23, 2026 at 07:39:43AM -0300, Breno Rodrigues Alves wrote:
+> Remove 'struct resource *r_mem' from axis_fifo_probe().  It is filled
+> in by devm_platform_get_and_ioremap_resource() but never read; pass
+> NULL instead.
+> 
+> This is v2 of a three-change series.  The debugfs_create_dir() check
+> was dropped because debugfs has handled ERR_PTR parents gracefully
+> since 2019 (thanks Greg and Dan for the correction).  The
+> -EINVAL -> -ENOBUFS change was dropped as well, after Dan Carpenter
+> noted that -EINVAL is the common errno for this path and that he
+> would leave the choice to the author.
+> 
+> Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
+> ---
+>  drivers/staging/axis-fifo/axis-fifo.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index 3d358f919..464368e04 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -428,7 +428,6 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+>  
+>  static int axis_fifo_probe(struct platform_device *pdev)
+>  {
+> -	struct resource *r_mem;
+>  	struct device *dev = &pdev->dev;
+>  	struct axis_fifo *fifo = NULL;
+>  	int rc = 0; /* error return value */
+> @@ -447,7 +446,7 @@ static int axis_fifo_probe(struct platform_device *pdev)
+>  	mutex_init(&fifo->read_lock);
+>  	mutex_init(&fifo->write_lock);
+>  
+> -	fifo->base_addr = devm_platform_get_and_ioremap_resource(pdev, 0, &r_mem);
+> +	fifo->base_addr = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
 
-Check the lookup result before attempting CSI recovery. This keeps
-the recovery path consistent with the helper's nullable return value
-and allows VI recovery to complete without accessing an absent CSI
-subdevice.
+This doesn't make sense, if r_mem is really not needed, then call the
+proper function instead (exercise left to the reader to determine what
+that is...)
 
-This defensive check addresses a potential invalid memory access
-identified by source code analysis. No runtime failure has been
-reproduced.
+And how was this found?
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+How was this tested?
 
-Fixes: 1ebaeb09830f ("media: tegra-video: Add support for external sensor capture")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alex Kazinsky <a.kazinsky@ideco.ru>
----
- drivers/staging/media/tegra-video/tegra210.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+thanks,
 
-diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
-index a6606768fa03..82d054c9c34c 100644
---- a/drivers/staging/media/tegra-video/tegra210.c
-+++ b/drivers/staging/media/tegra-video/tegra210.c
-@@ -346,7 +346,8 @@ static void tegra_channel_capture_error_recover(struct tegra_vi_channel *chan,
- 
- 	/* recover CSI block */
- 	subdev = tegra_channel_get_remote_csi_subdev(chan);
--	tegra_csi_error_recover(subdev);
-+	if (subdev)
-+		tegra_csi_error_recover(subdev);
- }
- 
- static struct tegra_channel_buffer *
--- 
-2.56.0
-
-
+greg k-h
