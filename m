@@ -1,89 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792706051;
-	b=fb20/mVb3OCLORhHZOxiOesbcRUjHLAaeCpQBsvh+sE7m0Nim02z9ZliINRWrLv5kO+n
-	 bLXx8YPZ+Eh0YTZR0RLp1GIP3t//JG1QPFcc+jgvRV/g4qoTcuHGA+5KhaEG7JGaer4Sj
-	 AWv7TQHi0IgUbS41PgxbVjS45yRFUz0gXZ6PlT7GOk9S7werDaEyhXT/4Uh271Hr8iS+h
-	 jXvN8s9y3YZukqUvv54PSN//+BRGcvRyuUxaD/jgwXyYX3SJGhuU65myb12jGPXo9RgAS
-	 fMBSqwJBjtcA/bue/ogFmRJvYlfD1wp5kMoYbYvdLNesJVBOSx81G8zRak/bkSfGtCg==
+	t=1792722604;
+	b=G8Z0Aj65HoFe/wb2nhvMUQ/zWvegJTjnuifLbV4/9ruMtANBpUQy9UTJLkpYx0HOP3nQ
+	 NxSSIBJDEL6UoDOhryWLv6mhZj7N87l4kJH4RK8mpMmRH7bUtmziwPTKjp5zBX5zp91JZ
+	 0qqx0miL9up/UJPrPdLtD/sfYGKlQFq1NY+2U8vK/1YMhZN+0DliN/T6RrqUUKKZ1OUDk
+	 BWtsrGhwf6Gg6UCFKY4HLHJKinFs7XoXyfOU4m2d5MTNExhASm9DY7xI63qWguG4DHKSi
+	 84Hf5pwyTkh4yoMjwsWDVz7H7XoOQ9YolJY3hzdlvSr9m07Z1wSDXfvJDJ0NBxR2f7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792706051;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792722604;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=DdQj1OJsqke15LiuITwTZ1lLiXe/9jhrUAiWS1KivmE=;
-	b=H5f+fD5P6Qy2Wi3+AouHn7kRm5zkEu6yqhaYlG+hNWxiWqkPnjv1EG8cyFOuLP8Mm5cg
-	 4/lySUnXRF+NpOU3v6+pAEOEfpWOR1Av+j0rme6O7D3jANpKCjUfrp9amGfHADFicRZfa
-	 VKTGpZ9UbkpRbGg7xgksKsF4AQnUxhhGWWYSLiq4Si5KWGkt7wMik+9S8noM2oQV0EeVd
-	 J8n8AWX/NZWnEk6gHLlFPz/DDUUiXy4cKgHgaixYBJJRQrLllN1ZgKy+0/n9YC038/JMl
-	 P8wOTUIcHnMJBFFfLWnuCNpA/J88gf+OAWoZoY5mG6FVa1KtX4oZLzcMmnkZPE0bWqA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=PdL9lRrDABEAZ0rJfjxtsf4RmpFyqkToBsIy06Xtq1c=;
+	b=qGPQwf/YTrIRsdyJe0GfAlmqWFGF4CgL25Y6moBW5H6JhlpVz6FuT/WVqTjiBL9tLW0+
+	 J0fB8cuWmvOlJb/QPQe+X4qYwu96GtpkKlc2wlumTWRlHzGL88VraY+rREdbNKBAdzMfz
+	 5mzNDwdZ4Gdv5KwvxLvck95ixZtxBV/sZpl5aAtsTMfcVXhqZgvuSKVCUnW/lsMPRUzl5
+	 gnFMoakxqlkIZRjB84yaE8scLkqYyWoRlzhwYwWAyY9H1wGx2q38QL4LAAwkBwV/Dao6h
+	 6REvV3XUbOJZQKTzxjtN0zkceZ/iIGqSJhv8AVHyGYLWsrmIOIVXKKxw82PhpwDcuAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="dX6Mp/rb";
-	arc=none smtp.remote-ip=209.85.222.43
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=b5KhIckr;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04D4606A31D
-	for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 21:54:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B04D4606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10452606A31B
+	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 02:30:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10452606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=dX6Mp/rb
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-98fea7e52b7so205608241.0
-        for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 14:54:10 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=b5KhIckr
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a1df4c0966so1593185e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 22 Oct 2026 19:30:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792706050; x=1793310850; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DdQj1OJsqke15LiuITwTZ1lLiXe/9jhrUAiWS1KivmE=;
-        b=dX6Mp/rbM9+j9eXphyyBOKu2oQv+H8bDoFy/Ck1neYKDssl2YuUpmkvrfPpNTJvV9e
-         3w1dsXHIEYJjTS7fpaa38n8IC8wbO/peKmmvQHEXxtAabJgHnc7aZ3zJxQNi4ieq109F
-         4N7ucX8EINT8qIRB4/ioKX3AwPxNYK8lBmL2ZDWeAKMrkc6X6lkOpyb/U+TMwO+VwiOO
-         KXS+fkp2tpgVNUpwNMFaHQ9POff8ddsDaknvHijcIfKSkoaOZXhGwOusGTEfJ2Pt0ZRg
-         +KLArqZOCqsvUJEcuoE9/yNR6QOwlwM1qZCjtRh1jJIE+XD2AYSx+ZfHguyOuPp0doKU
-         5pCw==
+        d=linaro.org; s=google; t=1792722602; x=1793327402; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PdL9lRrDABEAZ0rJfjxtsf4RmpFyqkToBsIy06Xtq1c=;
+        b=b5KhIckrpYa0gotRpbo75CQRla2FN6dXY6DlxL1XqRh2XaD+euYVCksMmk11DJkWzf
+         ohc3PaXVv4tZxU6J1hNh9O0RHD8iiFqeGxstrR96QC8V9fjCg5cjzEBESK4D+XCIieII
+         gGj5MVVLRH3FOyR/z4ngyd1KnKzp+c0C8/ZbZmSiULBBqI3WiSVONd4NItt84hgjWAad
+         EpR/fuQVEcsqbNyKEPOQieS7zWnOvMLCgxqK6EW8zL6UMvZwpXhz3pZEf3a00HxYGu8l
+         wANsJ9bBiVJm4+1YM+eEGDJOj3P/zCgyZeGZ97DSXqoa7AiNkoliuTq0LC+aU8Cjkmtj
+         +T4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792706050; x=1793310850;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1792722602; x=1793327402;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DdQj1OJsqke15LiuITwTZ1lLiXe/9jhrUAiWS1KivmE=;
-        b=ndfh3t7InEXhwEBKQGbPO9EmuJIgpSVMJdCxYLupegYU/ewp1tTl/ag1sccPLYi+1x
-         uxHPSRm3X6R0pi92LrYG28S7fbYWWEF56LPt2MUs6w3yARTkW85UCq5tgnlRR1m4VJrx
-         LP4tbADjtkvDrLk7n5SRiJzNtstheDii74IAMIUWPGbAYshh6nC87SghFh+9MZ9gedMu
-         qkkthYVF1LjYERSmWiA76TCgsT/+3WBcBthJmdpRlz9XIyVklX+6B+LZRx+4AYgTQ1lx
-         KEHnq4YwdAu8NS+8b39ILuuXy1HRUG3YzyY9CDhy1G/YjnnJnKhssi56iHKl2Tt7f9Cg
-         tpcw==
-X-Gm-Message-State: AFq9FYKB3us3FNhHIzCeJ1K+73Te87Vy/5PfjjfjotFpM8RtB0UZafne
-	YE1ftiHyqdFIIapGkteyypAe57S98TH9xMEEWNNtjBBU4VHJdnczbY6U
-X-Gm-Gg: AYBFou06PEphd9Ev9Dvk/wIZTHOcjF3Foa6OMfvkVMXqNG7/2vx1KDYV3tFY05vDKib
-	3hyvNteWoUfnhBG7/M53syaM5o/thg+pvM1QBK5uearLxgJrIetVMbt2cjHxM63B3Gr/qXW0YDw
-	Fry2CXtJyTHokJYXu+vAmmwpCvAPUXeJcjzG81L6P7W4H2RV998vw/2DZwBFsuKom0Jr+RTh/ib
-	PHiK6olNfvngQMGWY6fv4uTPjpd9C+f/3pmzQupHu0+uqsbtAuAOYQm8mVs4azuBrNgGWmjMOoA
-	GQ12KADxiE9Sd20TdATegZ9ygBC+jm/GbsbNfpT+KCaprMV3B1o7GxjrLRO+hgD0pPsrfmgNvUL
-	2lAIKUgyI0nLAYsa3Qfd7jtOawVpq4UYKqErDjjzUBiFSktvflO9RZh6SnRa0H+COOhyv2llKvz
-	QuZAAL4VE9qbfF61PStZGeM49AP0LHZSlXX9OeLikeQaqWWyrGjzgxr3MLvFI65nO0P/NJbAh3k
-	CLsNtfjjjaiLazlktMGG/g/+P6/adhpuDMO9Cxo+vWLSBBczHcXL2TdRUATaxiRvHyBJSyiwmVT
-	14WvnX2iMZt8Gei1+bJ+Xw==
-X-Received: by 2002:a05:6102:6f08:b0:7c3:9982:67d7 with SMTP id ada2fe7eead31-7ccc32180c3mr272610137.16.1792706049491;
-        Thu, 22 Oct 2026 14:54:09 -0700 (PDT)
-Received: from Biostar-A520MT ([187.94.15.233])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec13eab957sm434761e0c.6.2026.10.22.14.54.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 14:54:09 -0700 (PDT)
-From: Breno Rodrigues Alves <breno3011alves@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Breno Rodrigues Alves <breno3011alves@gmail.com>
-Subject: [PATCH] staging: axis-fifo: Fix three real issues
-Date: Thu, 22 Oct 2026 18:53:49 -0300
-Message-ID: <20261022215349.87471-1-breno3011alves@gmail.com>
-X-Mailer: git-send-email 2.56.0
+        bh=PdL9lRrDABEAZ0rJfjxtsf4RmpFyqkToBsIy06Xtq1c=;
+        b=sOSeyGm4toem7vFHYHwjFhjjujZ+ib0Zrx8AvC1nbJY7Gi7fYiHURBQEAbLB75bQfs
+         gBEUDzLUqVYfD2zS0gkxZE0J78xEMAGPKsxjNahnTY4QIvLQEX6Kqznh91nfVCrLaqtd
+         0PmjIA0u+5WkzjFTvuBfe7xOBaALEW42FxAmF24/Fn/nZbxF2f5+JeUauOz/u2ue8Vif
+         i2Jg70hdA1s1tWfv7WBtsza/2K4+OQ17xfx5inyMTG2EA46JAZSNqR3UffQMqGUF/VCA
+         6d7ulSehAPNXE/s+b2zdIBqF7zyVEvMpplsrDPTITa89YITVj2e0GCl3SG/3+BsNNS+K
+         WUvg==
+X-Forwarded-Encrypted: i=1; AKwUvBwB7iZ7Ah4OCQcD2cXZ+PIDNEEj0IWIOqrqm/kN97LksJ78StSRDvbSl63NY5GYMWlWwZ2TcX6l7Nx0uMik@lists.linux.dev
+X-Gm-Message-State: AFq9FYIuynCEoFTBS9j2ib+9X46tzkxe/NhlzKDMBFH1nNm/F+D8w6NY
+	uxAJe4sndie7hLEIaj8pGDvQNNXl+t1pssns25HT3WjfOUsuCqMCblOPUQrKSuQqBC0=
+X-Gm-Gg: AYBFou1oE/Nocw0v5QVuhJXxxLYZkMurbvQo+QWqYEspMhGclqKdl4IbvJc5toHKyAk
+	1JMGiQHewL8wSqncTxkhoRYl+Sme0b68hWuBk9WkMxwOwiu5J/10wfQYTk3Wt1H5EWeG+aFJEFh
+	PwtBav6VsF7fT7ti8U0QQ3RLWymbYeokMbpNQIqXTgf1wv4oD9ecpYP5kzlSWCrsAtVfNmXVFuZ
+	UbBeiPH6hF1FITPw+gmFXFJxEOZVNc9sKl4Os4SQ/nFI8xV9j652fnaQt1CLnJvEs2Q6yPK3ycj
+	HelFrtP0CnrDpG41JqU+khTPaY054Gsb5GdhQE9O3k2uk7AxsJ5kH+6RxuNAJqHo/xqFfMbe7w1
+	6M60J2yjwJUqVowjuDL/z7NEkVT9St7g8ekuGp9noXW0EelRZRUH5YOS6tVbwxGxfd8VUWl/Ajl
+	/ppTe/lvsNxqu9PUy79HtQ5Ha8rwCns4Y1dCslOLDQEGGtuqnRNIpL2UydHLMHr714Jw2UCfDCl
+	UDQLNET4xY9oJoC1jitBjSZNBybk9jmxCvNxjWqM76g1XSEl6S8IupUHIt1Hd33ZFX29fvjDwSt
+	Id1N0zHC0zYB
+X-Received: by 2002:a05:600c:3542:b0:4a2:b73:d15c with SMTP id 5b1f17b1804b1-4a211c51a9bmr12422005e9.3.1792722602389;
+        Thu, 22 Oct 2026 19:30:02 -0700 (PDT)
+Received: from [192.168.0.167] ([51.37.82.204])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a211bba03esm20901525e9.9.2026.10.22.19.30.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Oct 2026 19:30:01 -0700 (PDT)
+Message-ID: <237b20f5-3354-49d7-add8-71170d450306@linaro.org>
+Date: Fri, 23 Oct 2026 03:30:00 +0100
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -93,70 +90,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: Replace format specifiers
+To: Johan Hovold <johan@kernel.org>, Julia Lawall <julia.lawall@inria.fr>
+Cc: Alex Elder <elder@ieee.org>, pavankumaryalagada@gmail.com,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ outreachy@lists.linux.dev, elder@kernel.org, gregkh@linuxfoundation.org,
+ vaibhav.sr@gmail.com, mgreer@animalcreek.com, vireshk@kernel.org,
+ rmfrfs@gmail.com, dtwlin@gmail.com, linux-kernel@vger.kernel.org
+References: <20261021163437.280930-1-pavankumaryalagada@gmail.com>
+ <3433f922-bffb-4f1c-8e06-a7a87f5dbcaf@ieee.org>
+ <d0a4a257-1ec9-7096-11db-5ff4b3244bac@inria.fr>
+ <4c393ce3-41ae-4f4e-9af0-4eb7cf1c425a@ieee.org>
+ <6b5a87f-3ca-ddc4-1ea8-f3ee7f45d83@inria.fr>
+ <atoVKX09VDnak7EZ@hovoldconsulting.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-GB
+In-Reply-To: <atoVKX09VDnak7EZ@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix three issues in the Xilinx AXI-Stream FIFO driver:
+On 22/10/2026 14:52, Johan Hovold wrote:
+> On Thu, Oct 22, 2026 at 09:45:51AM -0400, Julia Lawall wrote:
+>> On Thu, 22 Oct 2026, Alex Elder wrote:
+>>> On 10/22/26 8:35 AM, Julia Lawall wrote:
+>>>> Does anyone on the greybus list know anything about this person:
+>>>>
+>>>> Bryan O'Donoghue <pure.logic@nexus-software.ie>
+>>>>
+>>>> The email address is not valid, which is somewhat tiresome...
+>>>
+>>> Bryan was on the Greybus kernel team.  Remove that address from
+>>> the list.  I'll let him know that e-mail is bouncing so he can
+>>> add himself back.
+>>
+>> Actually, the email comes from the MAINTAINERS file.
+> 
+> Hmm. I haven't seen any such bounces (and I CC:ed that address a couple
+> of hours ago).
+> 
+> Bryan, is your nexus-software address still valid?
+> 
+> Johan
 
-  1. axis_fifo_debugfs_init() did not check the return value of
-     debugfs_create_dir().  When CONFIG_DEBUG_FS=n, the function
-     returns ERR_PTR(-ENODEV); passing it as a parent to
-     debugfs_create_file() triggers a WARN in the kernel debugfs
-     core.  Bail out early if the directory was not created.
+Not at all.
 
-  2. axis_fifo_read() returned -EINVAL when the user buffer was
-     smaller than the available data.  The user argument is not
-     invalid - it is just too small - so return -ENOBUFS, which is
-     the canonical errno for that situation (see recv(2)).
+20261023022913.3763777-1-bod@kernel.org
 
-  3. axis_fifo_probe() filled in a 'struct resource *r_mem' pointer
-     that is never read.  Pass NULL instead.
-
-No functional change for the normal path.
-
-Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 3d358f919..c19cb68de 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -148,7 +148,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 	words_available = bytes_available / sizeof(u32);
- 
- 	if (bytes_available > len) {
--		ret = -EINVAL;
-+		ret = -ENOBUFS;
- 		goto err_flush_rx;
- 	}
- 
-@@ -378,6 +378,8 @@ DEFINE_SHOW_ATTRIBUTE(axis_fifo_debugfs_regs);
- static void axis_fifo_debugfs_init(struct axis_fifo *fifo)
- {
- 	fifo->debugfs_dir = debugfs_create_dir(dev_name(fifo->dt_device), NULL);
-+	if (IS_ERR_OR_NULL(fifo->debugfs_dir))
-+		return;
- 
- 	debugfs_create_file("regs", 0444, fifo->debugfs_dir, fifo,
- 			    &axis_fifo_debugfs_regs_fops);
-@@ -428,7 +430,6 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
- 
- static int axis_fifo_probe(struct platform_device *pdev)
- {
--	struct resource *r_mem;
- 	struct device *dev = &pdev->dev;
- 	struct axis_fifo *fifo = NULL;
- 	int rc = 0; /* error return value */
-@@ -447,7 +448,7 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 	mutex_init(&fifo->read_lock);
- 	mutex_init(&fifo->write_lock);
- 
--	fifo->base_addr = devm_platform_get_and_ioremap_resource(pdev, 0, &r_mem);
-+	fifo->base_addr = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
- 	if (IS_ERR(fifo->base_addr))
- 		return PTR_ERR(fifo->base_addr);
- 
--- 
-2.56.0
-
+bod
