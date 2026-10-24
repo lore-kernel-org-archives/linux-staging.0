@@ -1,96 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.218.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1792855945;
-	b=Qf3D+2Y3HAH+4xSDBpPsVcPT+L9ubmM5/HYf0ByCauUPxHdj35GzzAcUKkUVrklfI+B4
-	 l+YCFGSd0Ygi+mVPNdpJd6K0ppZAkXb/0wfgJABJyvi0SddkCozb0kFPlKgB52WsICRJo
-	 QjL7mAnklG91LkITMRGqMVfgVTFOzzgcFfusCnprx5LnBcpFe5gEzxgH33gWdauZwODlS
-	 oYiLhh8uv3OtX0Mp2jVkjml5mMxJuu+ID+1vSk7SgVAdOyUsRyjvV1pK4TNKh9ruBH01x
-	 1ZVqUobnHn5fjVjzi8HpyFxxW2bECw99xRZ8+90Cyvdw/qOu6BukPCSQRb709qZuM9A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792855945;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792863903;
+	b=L4InSeJseOdAEmAOu+EzytRAuEgN7Tij7bROJqLimIJdoe5trSg0/dq49U2GJndRmwCu
+	 BYax1Z/Q5/sg+2tvzDFEsoTOPOaiMDLDqhSVeVCzMq9oRiEdIX7IYVSjwVf5U8m372s09
+	 211azDsB+qZxeZw/E3N983b2LdtkKuxUcpvV/w8N0S22oBghY6RDpZAMJztqY/6dNzAqa
+	 qqMezuDAIAd1/iYlVbqZREaDg15ar9dsNsdDzlHKW95SAyQnCGuVXgD9oDUbwu/XjMKYW
+	 N+1/PC6lrMpT+E6MCjtmBGBdf/LuNN4JUEMkna30Un52QXCZj+NBgoyoT5qIKqORcjA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792863903;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=Pq5TTBQpf3VwcXoGs4pN0FqJDNE4MP0bsbNANOOcrSQ=;
-	b=JUtqgCSEaiq/5SP11hPk8usB9CzKlfBeaPx0UiRON2V8XppnHLHPxQQ3h9Y1hUZw+iuU
-	 c28HXKMFYS4QSF0QEG3ZSbakJZDAl0b34fEek8mAcT8mPOxHFaHV9Y6CqSv2fQTv3DwoV
-	 d7A21cj281Vn/t+4F50gdOdHvLEAVf+U3JiJnihi6ardNyjcfDztHSI7UG8bxr8l1JACb
-	 vQmFgauWwAG0KS3KvmulCxbxA9jWsGof6mQ0FYWWls4tCwaPlyAjXrLvhkstJaztBuJKM
-	 6c20lYSju3nDT6CV79/tYt4A3kULGsuwWfeZVkcAWNHa7zttRDvWo33g1w++UtMnKpA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=nn33RrLK2jP6yegXcMbyk7CADovV75ox65AHlodMd48=;
+	b=DdtnWfgKXNx9uv62T8/F9odoCpOJDFz0gYRr38SPYAPuwntC9okuLe+sQaVKAhwKPHC4
+	 npjwdPBtHhQRpnJj5HxQ/XiKLifDpvU4MCFz5OVkrXi3UxDoBjR4eDQcpEZNSV33lOXWx
+	 DrJh05GpguQcowziBY2m8uc+Kzws3qMvtfwXjlHnkXXnMpGdr8Xta9rOJ/DVlEEpWJnsq
+	 VbIpTAMTBkL7IJVzxMX9TpwVnyBKpEzHWmsIN1fitBK/HMPNZxyRfTvLfcR7VygcKL+9D
+	 dS1VIAH3iBWjzJNOM1+7HzU7LFXiZFLhT7VY1Qbntwa67mTyLb+6uGXLuxTlkS1MbVg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=LqcKfIbf;
-	arc=fail smtp.remote-ip=209.85.218.45
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EXIq6mjn;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDCB606A31B
-	for <linux-staging@lists.linux.dev>; Sat, 24 Oct 2026 15:32:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CDCB606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE123606A325
+	for <linux-staging@lists.linux.dev>; Sat, 24 Oct 2026 17:45:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE123606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=LqcKfIbf
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4697404c2bso223979366b.2
-        for <linux-staging@lists.linux.dev>; Sat, 24 Oct 2026 08:32:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792855943; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WX8XKvXjk5A7a0L8Qwxp9e4ftj3SKLOlcmy0NnzG460mKljmecq2Xm6EgYAkzv/Trz
-         qTzaNsBe+f7LFc9+h5R7mrkxH0uKOpzcKV587AGJlJRRDuhKNQyKK324k1sfWMnNxybx
-         vwgaMWFpRSNgpg+EyXkm+YiFVJO94b/x2Sa99Jd6JVX4uyDq8LOzPlUB/smej+CxO5od
-         KjBjhKwckA8RJc3C+YjdUVdpuPYSva8mGcc8EpCyOeiaEsNhGgYIFY3uOVr3a53NqZYv
-         WLCkq9DNnCZeszZNVVzdYiAfavKK8xHZDqM2AgKKsNbQLuIE/5dc8FLhA4eOeGy4kIei
-         Pc6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=Pq5TTBQpf3VwcXoGs4pN0FqJDNE4MP0bsbNANOOcrSQ=;
-        fh=75uz3KLQNrjELz2G26g2/v2DOmTy9+rmzYQYCZrQAPk=;
-        b=MHCf+L07Elm4RS4VEjK2cgrQUg9ViJuDRXee0iloOL9d4Qlf2kE4rAbTfGm/lrh4y7
-         bHPG9p59c0KwTU8HRE1bOdLfxnPaPTMriyiY7vN+SxsZoLljN4dTf7eTvAWPgIFFAAAP
-         DQfZCWko+SETzmctPeFgQYsOMsDcUgb306AijFEMe5wCznsjnquzsU0QlBVzRxzdQsG3
-         nTXfP3PTFNPFNsoW7K2bwqWl+6vwcUPx3y0qBYkodev4Ao8zipAHtl4sKJZveA9VT0oz
-         OhH7opCFsf2fYTzOqhETN26BpujCCat9NUDtH8glNxC+w9TdDyj2xCU/6Xi6V6RPAwp0
-         1bdw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EXIq6mjn
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48df8fe8513so1657317f8f.0
+        for <linux-staging@lists.linux.dev>; Sat, 24 Oct 2026 10:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792855943; x=1793460743; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Pq5TTBQpf3VwcXoGs4pN0FqJDNE4MP0bsbNANOOcrSQ=;
-        b=LqcKfIbfr2bYJGzWJ6A3QaxZes24GxQtE+8s11/J2Qq/HyeGl2Ri0pYdyRk3Nre6HR
-         1L2EDYaa4d2k/GBDXluHaiX/7xqj1LVNJhF/RYD6XDCA0yq0xJxLjRn5IuIZs6KeYtyl
-         b4bxXUy7apoiIO4EVd2Yv0ayND1KRQdszswYU2WI7ZZnYLZOgHZorxdy8In/Dco/8amJ
-         +t7hvj+41NWwN2Mc81qS/ypAIAaORAJURatFDAVQMruHv9NipT3frDwUNY0IJkE/JIk4
-         ut/JG9XQXIbDjAjT59Lx/biF2WHHC7c8oyGV3GZ75Fz4R3vXEkgyt/nm+1I03cyqw1iQ
-         eRYg==
+        d=gmail.com; s=20251104; t=1792863901; x=1793468701; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nn33RrLK2jP6yegXcMbyk7CADovV75ox65AHlodMd48=;
+        b=EXIq6mjnkWa8EHUEOOLjDQhjdUwAjsm0dVEGb35rx5MsCovKWmQg4lw7iHICqdMQr0
+         +HMIeBtpGTG5/s1oexwXU60h1dniQHYmDVASyb22AvAsh+U4TA0q1yfvN66EAlyI0X4H
+         rBl6Hm0IyQjBJlbgoxLGNasI/EijgFRkmy3W7LeJZ4ctl4rLPgxL4Q0ARJjUDJM0Wx0i
+         20gNnzGC+TEOznbe/44c1goyItVijzABLuin3qUSk/sPDtDNHafsAXv6vHluc7dLPy/z
+         PrI5bwADwWN842tab615dhLeInNIjsoHUElD48qU3wwM0JIVjDd5d6VaaI2vagUgDENZ
+         y3lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792855943; x=1793460743;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Pq5TTBQpf3VwcXoGs4pN0FqJDNE4MP0bsbNANOOcrSQ=;
-        b=Xs2aduoRhheq/Gdaehxtp4E6ExNl/GNNw34CmE+dl6LlPsyYih0+7TAwY426j1n4gy
-         vs9TJqlQrGJVJPk0qLKADHywYu6NHjeF9JdVi3/7/eD7SUZlUYv1qxyZifVfAlFSE2LT
-         oIAySweymQNOsvgOV5SF+YrUVxmAgBVMdgY+ZAj+g3KKP1wmB+YLY5UQVp9NkokSeLwp
-         INzdEMwxeWnLsYa04GKX4EGFPdiKQgSw1CBfWtNaED9ie7MAffb4FtsApOi/Ab52JWT4
-         E/fVXg95NapDVcB0UBD+0qs4voOv8f+35PlyQxkdLwHRRGN9cJp+ENGyV12cZYlM/927
-         svPA==
-X-Gm-Message-State: AFq9FYIOUJzoWichxkfh8mdKXM96TvO5NyPyxG9+adlbnk8o7HjvigLh
-	haDqu41nx0Lp7dCZvPr1vPwd3S88F3WdXcQpxJWkT5TyKtdMKrfaVYVfG0v+uRgDF3BTrmSURKx
-	zOH+nDGxxhPzLYeV2VdH2hZlhsspcfdk=
-X-Gm-Gg: AYBFou3R1X5FAZbP8I/lHTgqMGhLec+jtwJTOmertM8Llgcgsyyf4wndwf/QD18i3Ti
-	yqq/5lwo+LQXJEL1FNwR4yRfSTyKsMG7wtIesTYRhUNOJZrrxsKr3HgA2Xgd2Q/iJqG1Kd5fsDr
-	Yx3A88s+6QRrczAyvx/kbTNiaVCXSIuJ9kFYUSwwSH7QvGkP5y0CnLc5EGiE5hfyYRgyidBTBtq
-	b05ZfHcSdYXeNV0suj4Qm60w2FILIoCVPvQREKG2G1cM90mxQJG/yAu494S/5O9PkF8mCy6U0Gm
-	e9GKqiy0UueYdUAUP/+2uu3CfyxxMJp0/EAZ/CntF0/Caj2tZUMIN6LHEYt+DUjuz8pdDHNH6Ip
-	pk/1D47oYxgPt37Lzgoe73kddrZZ/Acv94UU5Row+1ks0wB9+efbYvZLGbYtXQ2+0YCERqN43TJ
-	0K5pXvu9psiout3xM=
-X-Received: by 2002:a17:907:930a:b0:c40:4965:72cb with SMTP id
- a640c23a62f3a-c46bde1c9acmr252909566b.21.1792855943476; Sat, 24 Oct 2026
- 08:32:23 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792863901; x=1793468701;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nn33RrLK2jP6yegXcMbyk7CADovV75ox65AHlodMd48=;
+        b=aR6pKXOZ74rzl2QVJKDZlcDoRmFT2HCIxjLboUkliBfJaPg4xqL2ULSMm5leUy2g40
+         6dAeEQf5xcJJZ73cHlAEqGQ00nWesVh4qBPIVHSPcJwAyEmSlp5SsuTGN/aUFuFmgaPa
+         ju7UzZQPS1EMLkF41A3KZLeXdNbtM/EIKS3jNS0SAqHVCoB4SIS5Bm6QPnyGLLPv+caE
+         Fn64NjNy+73EhKWC2AoVRHb7VM2mDcS37fND8He7U9RXl5l1/Si28IEQC335pxgRJYJH
+         u4RP3EvFKrA+A51XZ8n5ggMpAjwA+2q01jfG6RVQW83YEwQ/ob0+Yy4gEX+3IlzueeyM
+         /Nwg==
+X-Forwarded-Encrypted: i=1; AKwUvBwbHyCMoaCGS5ZLuPD/tf5IYpH2Q43zTNMPEOJvPGUa7VRWOTPg+dxvHqixf+JU1dADJpoXCatFXsNRcQFw@lists.linux.dev
+X-Gm-Message-State: AFq9FYINFsYu+YzVSP5JjojKP7mnQOTDSJcGLssONtx2MgOj0vXCzaoY
+	hlOuebUDhysHMlJcSGuyibsXcyOkujVHyRQsPVueAQ9Y43jxPv5YaYFM
+X-Gm-Gg: AYBFou0YMADnJbSpwuF5fRSA9tFp7fdaUR+TMz5QVaLe8yLdPdQb7bwOiMSGAi2ykxc
+	ZcrBpwahy5s0LeMJ8fLSRlGjLn58PPEf9zmKHIP0gaT85bpThawXpz/XgEjOxiqP3g3YTijpW+I
+	08sCCgqaasUItz0oiAlPd/7vjodCHxWnIsK2gbqNkrIw/fbmr1OG397FdmLvpP7Tsm6seoteZK7
+	ID66TzZkVdZm6UKEVlV3xv0Gto0V2bfSBGdTs1wOY3NWWjSnGNgkCVrnNIK2/uBkB+yulKSv5cz
+	4PQov50pWUaj3Aw/OTWdW1TkbQDwefWvjn9ZUYr1Y/ipfRvIfJyax6uRuLMwqMlAqjuHFHiVGnF
+	UtR6p1ipgwN2td+PxugRQRMFXLMk7WEFUUwcJuJ2VIiNRtOUESmcvlltFVO1Blk5uICSZX5DX9+
+	w69AG6p1s1WJ1yBaSpLaM/jMGp6TMw222/1xg1G7H8Uga0fOPwTb5LM2xxAbBmGKFKApHmtJNkD
+	MpyLzqh9pUb2Go66Ck8h/6hXlSkwVUjyXuKp4OP7Hk9n+yQbGzf+IwHDfDKvnqC1VVhpTzEisX1
+	jmV6tGiQLe8DlO7P3eqv9AsPh00=
+X-Received: by 2002:a05:6000:178d:b0:48e:75f:477d with SMTP id ffacd0b85a97d-48e3eb262f0mr3872646f8f.7.1792863900975;
+        Sat, 24 Oct 2026 10:45:00 -0700 (PDT)
+Received: from john-desktop.station ([93.107.83.127])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb8d5sm5748244f8f.28.2026.10.24.10.44.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Oct 2026 10:45:00 -0700 (PDT)
+From: John O'Callaghan <johnocallaghan@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] media: meson: vdec: reset the VLD before H.264 decoding
+Date: Sat, 24 Oct 2026 18:44:36 +0100
+Message-ID: <20261024174436.1835068-1-johnocallaghan@gmail.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -100,79 +103,95 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-From: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
-Date: Sat, 24 Oct 2026 16:32:11 +0100
-X-Gm-Features: AclHuK9TU3AwsoiPULkfHVkczTh8p5LJGwDjkZKuc4re9S6dugKLiYK4K0vrngU
-Message-ID: <CAHxSwT8=ZA2sFqXNjfX2=Bf369+gNRLfCO+VtVmmWiTzenLwWQ@mail.gmail.com>
-Subject: staging: fbtft: fb_upd161704: Replace udelay() with usleep_range()
-To: andy@kernel.org, gregkh@linuxfoundation.org, outreachy@lists.linux.dev
-Cc: linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000a53d1b065e97cd84"
+Content-Transfer-Encoding: 8bit
 
---000000000000a53d1b065e97cd84
-Content-Type: text/plain; charset="UTF-8"
+The H.264 decoder outputs wrong luma until the second IDR picture of a
+stream. Chroma is correct. The top-left macroblocks of the first IDR
+picture hold garbage that is different on each run. Intra prediction
+spreads the error over the picture, and inter prediction carries it to
+the following pictures.
 
-Hi Andy and Greg,
+vdec_1_start() resets the VDEC1 blocks with DOS_SW_RESET0 before it
+powers on the VDEC memories with DOS_MEM_PD_VDEC. The VLD then starts
+in an undefined state. The vendor driver resets the VLD, IQIDCT and MC
+again in vh264_prot_init(), after the memories are on. This driver
+does not.
 
-Please find attached the patch that replaces non-atomic udelay()
-instances with appropriate usleep_range() bounds in
-drivers/staging/fbtft/fb_upd161704.c.
+Reset the VLD (DOS_SW_RESET0 bit 4) in codec_h264_start(). The VLD
+reset alone fixes the corruption. The other resets that the vendor
+driver does (IQIDCT, MC, DBLK, PIC_DC) make no difference.
 
-Thanks,
+On G12A, every decode session is affected. On GXBB, only the first
+session after power-on is affected.
 
-Abubakar Musa Samaila
+Fixes: d7647e7c90f5 ("media: meson: vdec: add H.264 decoding support")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: John O'Callaghan <johnocallaghan@gmail.com>
+---
+How this patch was made: the bug was found and the fix written with an
+LLM coding assistant (Claude Code). I reviewed the fix and ran every
+test below on my boards. checkpatch is clean; W=1 and sparse give no
+new warnings.
 
---000000000000a53d1b065e97cd84
-Content-Type: application/octet-stream; 
-	name="0001-staging-fbtft-fb_upd161704-Replace-udelay-with-uslee.patch"
-Content-Disposition: attachment; 
-	filename="0001-staging-fbtft-fb_upd161704-Replace-udelay-with-uslee.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mvmk3skb0>
-X-Attachment-Id: f_mvmk3skb0
+Users see this bug in normal playback. On G12A, every H.264 video plays
+with the wrong brightness until the second IDR picture: the first
+8 seconds of my test clip, with a band 72 levels too bright on the left.
 
-RnJvbSA3NzgwMzBhYTkyOTFlM2E3ZDQwZmZiMDNiMTllNjg3NzA0MWNkZGM4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBBYnViYWthciBNdXNhIFNhbWFpbGEgPGFidWJha2FybXVzYXNh
-bWFpbGFAZ21haWwuY29tPgpEYXRlOiBTYXQsIDI0IE9jdCAyMDI2IDEyOjAyOjI1ICswMTAwClN1
-YmplY3Q6IFtQQVRDSF0gc3RhZ2luZzogZmJ0ZnQ6IGZiX3VwZDE2MTcwNDogUmVwbGFjZSB1ZGVs
-YXkoKSB3aXRoCiB1c2xlZXBfcmFuZ2UoKQoKU2lnbmVkLW9mZi1ieTogQWJ1YmFrYXIgTXVzYSBT
-YW1haWxhIDxhYnViYWthcm11c2FzYW1haWxhQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL3N0YWdp
-bmcvZmJ0ZnQvZmJfdXBkMTYxNzA0LmMgfCAxOCArKysrKysrKystLS0tLS0tLS0KIDEgZmlsZSBj
-aGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9zdGFnaW5nL2ZidGZ0L2ZiX3VwZDE2MTcwNC5jIGIvZHJpdmVycy9zdGFnaW5nL2ZidGZ0
-L2ZiX3VwZDE2MTcwNC5jCmluZGV4IDcyODgxNDBlNy4uOTRhZTViYmYwIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL3N0YWdpbmcvZmJ0ZnQvZmJfdXBkMTYxNzA0LmMKKysrIGIvZHJpdmVycy9zdGFnaW5n
-L2ZidGZ0L2ZiX3VwZDE2MTcwNC5jCkBAIC0zMiwyNyArMzIsMjcgQEAgc3RhdGljIGludCBpbml0
-X2Rpc3BsYXkoc3RydWN0IGZidGZ0X3BhciAqcGFyKQogCiAJLyogb3NjaWxsYXRvciBzdGFydCAq
-LwogCXdyaXRlX3JlZyhwYXIsIDB4MDAzQSwgMHgwMDAxKTsJLypPc2NpbGxhdG9yIDA6IHN0b3As
-IDE6IG9wZXJhdGlvbiAqLwotCXVkZWxheSgxMDApOworCXVzbGVlcF9yYW5nZSgxMDAsIDE1MCk7
-CiAKIAkvKiB5LXNldHRpbmcgKi8KIAl3cml0ZV9yZWcocGFyLCAweDAwMjQsIDB4MDA3Qik7CS8q
-IGFtcGxpdHVkZSBzZXR0aW5nICovCi0JdWRlbGF5KDEwKTsKKwl1c2xlZXBfcmFuZ2UoMTAsIDIw
-KTsKIAl3cml0ZV9yZWcocGFyLCAweDAwMjUsIDB4MDAzQik7CS8qIGFtcGxpdHVkZSBzZXR0aW5n
-ICovCiAJd3JpdGVfcmVnKHBhciwgMHgwMDI2LCAweDAwMzQpOwkvKiBhbXBsaXR1ZGUgc2V0dGlu
-ZyAqLwotCXVkZWxheSgxMCk7CisJdXNsZWVwX3JhbmdlKDEwLCAyMCk7CiAJd3JpdGVfcmVnKHBh
-ciwgMHgwMDI3LCAweDAwMDQpOwkvKiBhbXBsaXR1ZGUgc2V0dGluZyAqLwogCXdyaXRlX3JlZyhw
-YXIsIDB4MDA1MiwgMHgwMDI1KTsJLyogY2lyY3VpdCBzZXR0aW5nIDEgKi8KLQl1ZGVsYXkoMTAp
-OworCXVzbGVlcF9yYW5nZSgxMCwgMjApOwogCXdyaXRlX3JlZyhwYXIsIDB4MDA1MywgMHgwMDMz
-KTsJLyogY2lyY3VpdCBzZXR0aW5nIDIgKi8KIAl3cml0ZV9yZWcocGFyLCAweDAwNjEsIDB4MDAx
-Qyk7CS8qIGFkanVzdG1lbnQgVjEwIHBvc2l0aXZlIHBvbGFyaXR5ICovCi0JdWRlbGF5KDEwKTsK
-Kwl1c2xlZXBfcmFuZ2UoMTAsIDIwKTsKIAl3cml0ZV9yZWcocGFyLCAweDAwNjIsIDB4MDAyQyk7
-CS8qIGFkanVzdG1lbnQgVjkgbmVnYXRpdmUgcG9sYXJpdHkgKi8KIAl3cml0ZV9yZWcocGFyLCAw
-eDAwNjMsIDB4MDAyMik7CS8qIGFkanVzdG1lbnQgVjM0IHBvc2l0aXZlIHBvbGFyaXR5ICovCi0J
-dWRlbGF5KDEwKTsKKwl1c2xlZXBfcmFuZ2UoMTAsIDIwKTsKIAl3cml0ZV9yZWcocGFyLCAweDAw
-NjQsIDB4MDAyNyk7CS8qIGFkanVzdG1lbnQgVjMxIG5lZ2F0aXZlIHBvbGFyaXR5ICovCi0JdWRl
-bGF5KDEwKTsKKwl1c2xlZXBfcmFuZ2UoMTAsIDIwKTsKIAl3cml0ZV9yZWcocGFyLCAweDAwNjUs
-IDB4MDAxNCk7CS8qIGFkanVzdG1lbnQgVjYxIG5lZ2F0aXZlIHBvbGFyaXR5ICovCi0JdWRlbGF5
-KDEwKTsKKwl1c2xlZXBfcmFuZ2UoMTAsIDIwKTsKIAl3cml0ZV9yZWcocGFyLCAweDAwNjYsIDB4
-MDAxMCk7CS8qIGFkanVzdG1lbnQgVjYxIG5lZ2F0aXZlIHBvbGFyaXR5ICovCiAKIAkvKiBCYXNp
-Y2FsIGNsb2NrIGZvciAxIGxpbmUgKEJBU0VDT1VOVFs3OjBdKSBudW1iZXIgc3BlY2lmaWVkICov
-CkBAIC02MCw3ICs2MCw3IEBAIHN0YXRpYyBpbnQgaW5pdF9kaXNwbGF5KHN0cnVjdCBmYnRmdF9w
-YXIgKnBhcikKIAogCS8qIFBvd2VyIHN1cHBseSBzZXR0aW5nICovCiAJd3JpdGVfcmVnKHBhciwg
-MHgwMDE5LCAweDAwMDApOwkvKiBEQy9EQyBvdXRwdXQgc2V0dGluZyAqLwotCXVkZWxheSgyMDAp
-OworCXVzbGVlcF9yYW5nZSgyMDAsIDI1MCk7CiAJd3JpdGVfcmVnKHBhciwgMHgwMDFBLCAweDEw
-MDApOwkvKiBEQy9EQyBmcmVxdWVuY3kgc2V0dGluZyAqLwogCXdyaXRlX3JlZyhwYXIsIDB4MDAx
-QiwgMHgwMDIzKTsJLyogREMvREMgcmlzaW5nIHNldHRpbmcgKi8KIAl3cml0ZV9yZWcocGFyLCAw
-eDAwMUMsIDB4MEMwMSk7CS8qIFJlZ3VsYXRvciB2b2x0YWdlIHNldHRpbmcgKi8KLS0gCjIuMzQu
-MQoK
---000000000000a53d1b065e97cd84--
+Tested with H.264 High profile clips (1080p and 720p, 600 frames, IDR
+every 250 frames), GStreamer 1.26 (v4l2h264dec) and FFmpeg 7.1
+(h264_v4l2m2m). Every decoded frame was compared by MD5 with the FFmpeg
+software decoder.
+
+Radxa Zero (S905Y2, G12A), Armbian kernels 6.18.45 and 7.3, staging
+vdec with Armbian's patches:
+- before: frames 0-249 wrong in every run (10 of 10)
+- after:  all 600 frames bit-exact (32 of 32 runs)
+
+Odroid C2 (S905, GXBB), Armbian kernel 6.18.44:
+- before: frames 0-249 wrong in the first decode after power-on,
+  later decodes bit-exact
+- after:  bit-exact, including the first decode after power-on
+
+Odroid C2, plain v7.3 (no out-of-tree vdec patches), GStreamer:
+- before: frames 0-249 wrong in the first decode after power-on
+- after:  bit-exact. Two GStreamer starts failed first with the known
+  poll() start race, so the decoder had already run before this decode.
+(v7.3 also drops the second-to-last frame at the end of the stream.
+That is a separate bug and is not addressed here.)
+
+The DOS_SW_RESET0 bits were tested one at a time: only bit 4 (VLD)
+changes the result.
+
+Not tested: GXL, GXLX, GXM, SM1, interlaced streams, 4K. On G12A the
+tests ran on Armbian kernels; their vdec patches do not touch
+codec_h264_start().
+
+The same fix is in Armbian:
+https://github.com/armbian/build/pull/11098
+
+ drivers/staging/media/meson/vdec/codec_h264.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/staging/media/meson/vdec/codec_h264.c b/drivers/staging/media/meson/vdec/codec_h264.c
+index a6074de15..497fbada6 100644
+--- a/drivers/staging/media/meson/vdec/codec_h264.c
++++ b/drivers/staging/media/meson/vdec/codec_h264.c
+@@ -182,6 +182,14 @@ static int codec_h264_start(struct amvdec_session *sess)
+ 	if (!h264->sei_vaddr)
+ 		return -ENOMEM;
+ 
++	/*
++	 * vdec_1_start() resets the VLD before the VDEC memories are powered
++	 * on. Reset it again, or the luma of the first pictures is corrupt.
++	 */
++	amvdec_write_dos(core, DOS_SW_RESET0, BIT(4));
++	amvdec_write_dos(core, DOS_SW_RESET0, 0);
++	amvdec_read_dos(core, DOS_SW_RESET0);
++
+ 	amvdec_write_dos_bits(core, POWER_CTL_VLD, BIT(9) | BIT(6));
+ 
+ 	workspace_offset = h264->workspace_paddr - WORKSPACE_BUF_OFFSET;
+-- 
+2.50.1
+
