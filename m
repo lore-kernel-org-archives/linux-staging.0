@@ -1,97 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792776312;
-	b=M+pGPGIfG7HEk5cuvxejhhvQ6oNj5tCqk/kcSbSJ60lTEl811LVD4k2tE2e8lnhupEYO
-	 t0S1fDjlgglVXqUmlP94uK8s0uwZT4iKHB3z+taYIMszg+TJOkmho7/mV1RuCznWNC1M9
-	 4TJm0RdrF2DePn7uvuKA1vZEmpnuvZhgr/u5kqfLybaTQ0xotAFfdsTXDisVTM7IRxN7A
-	 d8B/x6nWClgAZzBI+P3gmsbSl8pfKv8G/d++8ER2ScGjOLKQi//Lyh/fNx+luBVHNsCs3
-	 l4gR4iViUqkQzBAPgwTu4cdaKgTDkYVX86aHzVsMOx1L0sPi+uBserPUjhsIy76+yjQ==
+	t=1792808747;
+	b=Z10OfpPnQBqUhc1R+kqLEAqCr+m6FVqS6qVx+Dah1wOkV4WdafFzyP/b8DIxpAoUfx7A
+	 xTaOw7T/11a6RHwxVGZrgidNLScCIwo/txjrMS2dwRQ4fvfCsm8nEl+2eSATedRxbVfCw
+	 TFYYpwUPVKOO25TUOHqkwGRmXrdLwkIDHWk3RFjNRBeUlOyftkd8XfORcEis+GPrPgIIs
+	 qDay2D1RB1UPa1qBXf4tCvejWuwbsRAaRFlaPyX/mHs69Pq5Mf4sG4vJW6t5TWjbfNokU
+	 QeMbLD5Yemr2G+n0w/i2BRPwdxR5YPYia+08r+iwU1DwDv0kFpy73jMH2htu1au42mA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792776312;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=RO+LOoJIbW5iZ7RHeBPtINL9e1shP4vPoVIK7G9kRv0=;
-	b=puma4yObMUye/QmYrttjq8q1FftNykhv1MAVQloksSE/kTF5iZn8iHCl8/lSAcB0C3rc
-	 3/mWfvY4v0DFmHwff260QFPsJ7H9KLRskDrlfsIKtmfeQ8ySyC6eX37uaCOGENno9FHEu
-	 RbujczQOmAJIHOw/LHDroqK6jZ9JB0JVzJxomUqdYLQNqZicAr/mKpnrQ2hRdPXBa9Kx5
-	 D7AUgQxPAT1oLJd7glM98TUw2RCBcGh4SzrR6F5nDVtGL+UwldSR3twsWVnRSSA5pt2If
-	 MyGim3/4ug2KvO+sis37DYNASJr0/PPC2AqMawevxwZ7kIWRug8Yycl9cz7x1e2K+Og==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792808747;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=dPWbmLr59T8e+2TlBRacI+IgQsnfj+U97VaVYm40bRM=;
+	b=xWmQPa5xdbtzuWgKz0w5CQfD9evVwZEUrcvq/Ll2AIsAFjIjA/qbG4Mxw4+FScKyomYl
+	 dl1El4usLy/fxS9EVIjrq4Eh5jx1VLzDREbX+RhVCuZdmydp92xG2O/iddxNXFjGxz0wt
+	 gpMIw5iln++o0FdZv+r9NzcRZLJZF091brTws2mgMhhpz/e35P9Cd+Po6ChLiTjHCngkL
+	 Cx0U2nJ2/POOdStrM1ABlupGdfzLrEDMhcAfcnLOIueXfZ6Fh+OYBwZCafJwQrWVK4+R9
+	 rUAXHFjSzk/xlDN2JJwyB2iV4ZESaGTRmCrkHzJv6chUQv3d8FXEH2cEnJV84yFV77w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=hKfTJFsY;
-	arc=none smtp.remote-ip=74.125.82.44
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YxQfB+j4;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1E2606A31B
-	for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 17:25:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD1E2606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D51D606A31A;
+	Sat, 24 Oct 2026 02:25:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D51D606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=hKfTJFsY
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-1931ff67a29so1281642c88.1
-        for <linux-staging@lists.linux.dev>; Fri, 23 Oct 2026 10:25:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792776311; x=1793381111; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RO+LOoJIbW5iZ7RHeBPtINL9e1shP4vPoVIK7G9kRv0=;
-        b=hKfTJFsYWbOJDFSe0TdCWYG+QxFNpGp+pf60PixUgnRaJIjH1KhtQ/3nj+98FwRXhx
-         AJKBCowOoGUeH7YsBSZ1zWjughhaLQIA60ssJhoC+ckVzF3Nb9QfMXoxk8yBfM55HoZ5
-         2hw8iLz/isGXMWKjOlWJUxLGSRg7zVLqQRHrHjf9w0+KdnuHjMZJbMRvmQYjDoha3Rx9
-         MM54Hq4vPNocVUDOl7EupOHqZG9IVhn7sw3VUoxd4ijVpPdQMVvDv3V+6nHRom7DLTot
-         QNA8YSd2NUKDsrDO5VQ4NWITU9QjaoK+WnTk7CYZJkx5oFattmw5y5dEhb1WC83J2FYn
-         FAgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792776311; x=1793381111;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RO+LOoJIbW5iZ7RHeBPtINL9e1shP4vPoVIK7G9kRv0=;
-        b=V4QelOScYaHG5/2b9RaRiwNrG6NySvPAdFQ75KSL3evB0rxadOByL8YbfC8P+XVbBl
-         KTXC2MXviFz6mbh/uOvS33xa29n1/7wuv5Ll97J8ZUpbeAxUYAxVa66euhWmxwVeVdcn
-         2jNKLxRD9vFKhdPSdOUsRLGj+zIiXi8sFTQ3+BYUJWSpYjn7wMRTDxtt5RNPiqKCl98n
-         t6ll1GA6c86RM2gv/vYoeMiT6krANc2bAfA60TZdCTT9iiHMhuWDO3BgnUJjxgrqheDC
-         AP8/8BuCotbWgC0fGq9DZB2ALXzOAhFKzbm0j0acQ5ltsCH1uEHc8slH6Vj113F/NnhB
-         vw+A==
-X-Forwarded-Encrypted: i=1; AKwUvBwpDDG1qvS0tjwurijJAAdTqHMOilih5eqzm8IhBaGboD4I+qz22cTtHeG90lNffHCqOER0R/rF7Uk954pW@lists.linux.dev
-X-Gm-Message-State: AFq9FYKcLKxqJStS6Do9lMMVFkkONxclIuO2IyFQ526jV4eOKEIz/fqy
-	JoAUgUwfxNT682M9ypkHn7nLYHWVbiTfzRcjkrQdsfRW88vi45yCMAF1
-X-Gm-Gg: AYBFou1UvzdQNYj41p/W1/wMX7Gb1uFppkyjQfAdslM+xdkcN+SzgkrRTdT9+Hq2cGZ
-	8aJs6wORZpp6GmD4DED+yUUrWk24p7rNUQRGkXHkPAYkg5xvuFtrBXUkZlU8FvOVIDARUfutZcf
-	HTrWYfyDQigHpruwgDDctZ/zGgoUhiMS1/qMDYc3H4hVoewj2IEpxLwbk4HB0+h1RdSTgSq7arq
-	e0VUgoItdDVdILA6P/Qnf1yJA2AG5kiDAznNLcBuou2l+DadR3zhoEklIrUT1qW2ggdGWA1dLZA
-	ZUkEBx+YGPVS+tWsQj8uqGELYYCy5gIWU4kv8vv1N+YoLxz/tLTnZf9A/MUbwAuEmZXDgzOpuGk
-	LGeT+QPQvsnC1dN7gXZdlZ3erucPWo1gfHaPh0d8S5TTEgVbdaPyfyd4d5+l2iYZUzV8UXFX2K6
-	ELwQSHnaLRe9fCVhA5rURKtWT7MRj/D+Z3Gwcl8DLsh+9CPMrQm9OxADBHfJa74SQDqj8DZAe1V
-	Qzo07IbFHO9THxlz828bL/f0tsXX4sWxKkoWX11uCl3EqHEdmBZreaoUhJn4g==
-X-Received: by 2002:a05:7022:6606:b0:185:6b47:dcf with SMTP id a92af1059eb24-195a074d885mr4595312c88.36.1792776310587;
-        Fri, 23 Oct 2026 10:25:10 -0700 (PDT)
-Received: from user ([2405:201:c052:b00b:4145:da00:43b2:a151])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e6dadb7dsm1039145eec.6.2026.10.23.10.25.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 10:25:09 -0700 (PDT)
-Date: Fri, 23 Oct 2026 22:54:42 +0530
-From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Alex Elder <elder@ieee.org>, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, outreachy@lists.linux.dev,
-	johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
-	vaibhav.sr@gmail.com, mgreer@animalcreek.com, vireshk@kernel.org,
-	rmfrfs@gmail.com, dtwlin@gmail.com, pure.logic@nexus-software.ie,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: Replace format specifiers
-Message-ID: <atuYWuWeqvEG6j4B@user>
-References: <20261021163437.280930-1-pavankumaryalagada@gmail.com>
- <3433f922-bffb-4f1c-8e06-a7a87f5dbcaf@ieee.org>
- <77adf02-43a9-7621-a94-9da41f8c5a56@inria.fr>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YxQfB+j4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792808746; x=1824344746;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9z7fk9knGX9sKiE2em0bX9/7uTbHHQ6pMQxcxugWRJw=;
+  b=YxQfB+j4bibEB6n/9/nc8B6xjtOSws4vkmI3RJ0mhL3q8qdttxKEygiw
+   WmWgNUPCQpW68WakV7WCrZGxRfGdtDyt51N0L9rdDJPRbAX+5Mn2soitl
+   dmtta4aorM+TN8I8KJJYcB/UTJrRJjhtU65fwnOE5SSF0AeZvwqmvoQM/
+   Q/8UitJU6MQoy0VTOsK0/ENE4sfUYtZkV/aV9JEn4NAh/nu2lW4smna7h
+   W0oOdSB97h0fFg3SRZEbDroy6JDLftM/L26sp8eot7XPeADM5nqxOTXQQ
+   x6Yz0mxNNICvqxYgf3DOPRmvglI+sBmO8hyeKNruySyOF/x0ekdt6syDQ
+   Q==;
+X-CSE-ConnectionGUID: 6lW9Eh7VSheVWuzLCiwiaQ==
+X-CSE-MsgGUID: kfb5FTS0RCi38QRpODuUuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1576282"
+X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
+   d="scan'208";a="1576282"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 19:25:45 -0700
+X-CSE-ConnectionGUID: bwDFRVyvTIqLgv5zlBPxfw==
+X-CSE-MsgGUID: cw796wBmQwiZz7NYZxg7JQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
+   d="scan'208";a="5635668"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa011.fm.intel.com with ESMTP; 23 Oct 2026 19:25:44 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xKRS1-00000000TVa-3ZAO;
+	Sat, 24 Oct 2026 02:25:41 +0000
+Date: Sat, 24 Oct 2026 10:25:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: LiuJunyuan <2058432396@qq.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, LiuJunyuan <2058432396@qq.com>
+Subject: Re: [PATCH] staging: vme_user: use scnprintf in tsi148_alloc_resource
+Message-ID: <202610241010.ezQcs5lj-lkp@intel.com>
+References: <tencent_F5EEA06B3CD49F9EFF5C185259BF4134DA0A@qq.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -103,127 +84,136 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <77adf02-43a9-7621-a94-9da41f8c5a56@inria.fr>
+In-Reply-To: <tencent_F5EEA06B3CD49F9EFF5C185259BF4134DA0A@qq.com>
 
-On Thu, Oct 22, 2026 at 09:30:26AM -0400, Julia Lawall wrote:
-> 
-> 
-> On Thu, 22 Oct 2026, Alex Elder wrote:
-> 
-> > On 10/21/26 11:34 AM, pavankumaryalagada@gmail.com wrote:
-> > > From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> > >
-> > > Unsigned variables are printed using %d.
-> > > Replace them with %u to match their types.
-> > >
-> > > Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> >
-> > I have reviewed every one of these and they look good.  Quite a few
-> > of them--because the size of the value being formatted is less than
-> > 32 bits--would print correctly no matter what their value.  But I
-> > think it at least does no harm to convert the format specifier to
-> > unsigned in all of these cases.
-> 
-> I was suprised the compiler doesn't complain about this.  It seems to
-> complain a lot about type-related format specifiers.  Yalagada maybe it
-> could be worth adding something clearly invalid in one of the argument
-> lists to see if the code is actually getting compiled, or if you need to
-> set some config option to make that happen.
+Hi LiuJunyuan,
 
-The files compiled sucessfully with the normal build settings. I also
-enabled -Wformat-signedness to check for format mismatchse, as this check
-is not enabled by default. It revealed a few more issues, which i'll look
-into as well.
+kernel test robot noticed the following build warnings:
 
-Pavan
+[auto build test WARNING on staging/staging-testing]
 
-> 
-> julia
-> 
-> >
-> > I have highlighted below an existing bug that should be fixed.  It
-> > gives an example of something to look for when you do this sort of
-> > activity.  Please arrange to get that bug fixed.
-> >
-> > I also pointed out one other observation for you to think about.
-> >
-> > Thanks for sending this.  I didn't check to find any other instances
-> > you might have missed, but you seem to have found quite a few.
-> >
-> > Reviewed-by: Alex Elder <elder@riscstar.com>
-> >
-> > > ---
-> > >   drivers/staging/greybus/audio_codec.c    | 20 ++++++++--------
-> > >   drivers/staging/greybus/audio_topology.c | 30 ++++++++++++------------
-> > >   drivers/staging/greybus/bootrom.c        |  2 +-
-> > >   drivers/staging/greybus/fw-download.c    |  2 +-
-> > >   drivers/staging/greybus/fw-management.c  |  2 +-
-> > >   drivers/staging/greybus/gpio.c           |  2 +-
-> > >   drivers/staging/greybus/light.c          |  2 +-
-> > >   drivers/staging/greybus/log.c            |  4 ++--
-> > >   drivers/staging/greybus/loopback.c       |  4 ++--
-> > >   drivers/staging/greybus/power_supply.c   |  2 +-
-> > >   drivers/staging/greybus/raw.c            |  2 +-
-> > >   drivers/staging/greybus/sdio.c           |  4 ++--
-> > >   drivers/staging/greybus/spilib.c         |  2 +-
-> > >   drivers/staging/greybus/uart.c           |  4 ++--
-> > >   14 files changed, 41 insertions(+), 41 deletions(-)
-> > >
-> >
-> > . . .
-> >
-> > > diff --git a/drivers/staging/greybus/bootrom.c
-> > > b/drivers/staging/greybus/bootrom.c
-> > > index 83921d90c322..fb1fbd3f7b99 100644
-> > > --- a/drivers/staging/greybus/bootrom.c
-> > > +++ b/drivers/staging/greybus/bootrom.c
-> > > @@ -222,7 +222,7 @@ static int gb_bootrom_firmware_size_request(struct
-> > > gb_operation *op)
-> > >   	size_response = op->response->payload;
-> > >   	size_response->size = cpu_to_le32(bootrom->fw->size);
-> > >   -	dev_dbg(dev, "%s: firmware size %d bytes\n",
-> > > +	dev_dbg(dev, "%s: firmware size %u bytes\n",
-> > >   		__func__, size_response->size);
-> >
-> > This line actually contains an error (and it was there before).
-> >
-> > The type of gb_bootrom_firmware_size_response->size is __le32.
-> > So the value being formatted needs to be converted into CPU
-> > byte order before being used.  That could be done this way:
-> > 	le32_to_cpu(size_response->size)
-> > or just use this, which is known from a few lines above to
-> > have the proper value and byte order:
-> > 	bootrom->fw->size
-> >
-> > Please add this to your list of things to fix, and submit it
-> > as a separate patch.  This would be a bug fix, which would
-> > also give you a little bit of a new experience.
-> >
-> > >     unlock:
-> >
-> > . . .
-> >
-> > > diff --git a/drivers/staging/greybus/raw.c b/drivers/staging/greybus/raw.c
-> > > index 4f1b3f4db404..2314496a858a 100644
-> > > --- a/drivers/staging/greybus/raw.c
-> > > +++ b/drivers/staging/greybus/raw.c
-> > > @@ -112,7 +112,7 @@ static int gb_raw_request_handler(struct gb_operation
-> > > *op)
-> > >   	receive = op->request->payload;
-> > >   	len = le32_to_cpu(receive->len);
-> > >   	if (len != (int)(op->request->payload_size - sizeof(__le32))) {
-> > > -		dev_err(dev, "raw receive request wrong size %d vs %d\n", len,
-> > > +		dev_err(dev, "raw receive request wrong size %u vs %d\n", len,
-> > >   			(int)(op->request->payload_size - sizeof(__le32)));
-> >
-> > The above size calculation was done somewhere else without the
-> > (int) cast, and the format specifier was %zu in that case.
-> > I don't think this needs to be changed necessarily, but it's
-> > something inconsistent across the Greybus code.  Consistency
-> > helps readability and maintainability.
-> >  >   		return -EINVAL;
-> > >   	}
-> >
-> > . . .
-> >
-> >
+url:    https://github.com/intel-lab-lkp/linux/commits/LiuJunyuan/staging-vme_user-use-scnprintf-in-tsi148_alloc_resource/20261021-111349
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/tencent_F5EEA06B3CD49F9EFF5C185259BF4134DA0A%40qq.com
+patch subject: [PATCH] staging: vme_user: use scnprintf in tsi148_alloc_resource
+config: i386-randconfig-1006-20261021 (https://download.01.org/0day-ci/archive/20261024/202610241010.ezQcs5lj-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241010.ezQcs5lj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610241010.ezQcs5lj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/staging/vme_user/vme_tsi148.c: In function 'tsi148_alloc_resource':
+>> drivers/staging/vme_user/vme_tsi148.c:748:38: warning: passing argument 1 of 'scnprintf' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     748 |         scnprintf(image->bus_resource.name, VMENAMSIZ + 3, "%s.%d",
+         |                   ~~~~~~~~~~~~~~~~~~~^~~~~
+   In file included from include/linux/kernel.h:32,
+                    from include/linux/random.h:7,
+                    from include/linux/nodemask.h:94,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from arch/x86/include/asm/paravirt.h:19,
+                    from arch/x86/include/asm/irqflags.h:100,
+                    from include/linux/irqflags.h:18,
+                    from arch/x86/include/asm/special_insns.h:10,
+                    from arch/x86/include/asm/processor.h:25,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/staging/vme_user/vme_tsi148.c:12:
+   include/linux/sprintf.h:15:36: note: expected 'char *' but argument is of type 'const char *'
+      15 | __printf(3, 4) int scnprintf(char *buf, size_t size, const char *fmt, ...);
+         |                              ~~~~~~^~~
+
+
+vim +748 drivers/staging/vme_user/vme_tsi148.c
+
+   705	
+   706	/*
+   707	 * Allocate and map PCI Resource
+   708	 */
+   709	static int tsi148_alloc_resource(struct vme_master_resource *image,
+   710					 unsigned long long size)
+   711	{
+   712		unsigned long long existing_size;
+   713		int retval = 0;
+   714		struct pci_dev *pdev;
+   715		struct vme_bridge *tsi148_bridge;
+   716	
+   717		tsi148_bridge = image->parent;
+   718	
+   719		pdev = to_pci_dev(tsi148_bridge->parent);
+   720	
+   721		existing_size = (unsigned long long)(image->bus_resource.end -
+   722			image->bus_resource.start);
+   723	
+   724		/* If the existing size is OK, return */
+   725		if ((size != 0) && (existing_size == (size - 1)))
+   726			return 0;
+   727	
+   728		if (existing_size != 0) {
+   729			iounmap(image->kern_base);
+   730			image->kern_base = NULL;
+   731			kfree(image->bus_resource.name);
+   732			release_resource(&image->bus_resource);
+   733			memset(&image->bus_resource, 0, sizeof(image->bus_resource));
+   734		}
+   735	
+   736		/* Exit here if size is zero */
+   737		if (size == 0)
+   738			return 0;
+   739	
+   740		if (!image->bus_resource.name) {
+   741			image->bus_resource.name = kmalloc(VMENAMSIZ + 3, GFP_ATOMIC);
+   742			if (!image->bus_resource.name) {
+   743				retval = -ENOMEM;
+   744				goto err_name;
+   745			}
+   746		}
+   747	
+ > 748		scnprintf(image->bus_resource.name, VMENAMSIZ + 3, "%s.%d",
+   749			  tsi148_bridge->name, image->number);
+   750	
+   751		image->bus_resource.start = 0;
+   752		image->bus_resource.end = (unsigned long)size;
+   753		image->bus_resource.flags = IORESOURCE_MEM;
+   754	
+   755		retval = pci_bus_alloc_resource(pdev->bus, &image->bus_resource,
+   756						size, 0x10000, PCIBIOS_MIN_MEM,
+   757						0, NULL, NULL);
+   758		if (retval) {
+   759			dev_err(tsi148_bridge->parent, "Failed to allocate mem resource for window %d size 0x%lx start 0x%lx\n",
+   760				image->number, (unsigned long)size,
+   761				(unsigned long)image->bus_resource.start);
+   762			goto err_resource;
+   763		}
+   764	
+   765		image->kern_base = ioremap(image->bus_resource.start, size);
+   766		if (!image->kern_base) {
+   767			dev_err(tsi148_bridge->parent, "Failed to remap resource\n");
+   768			retval = -ENOMEM;
+   769			goto err_remap;
+   770		}
+   771	
+   772		return 0;
+   773	
+   774	err_remap:
+   775		release_resource(&image->bus_resource);
+   776	err_resource:
+   777		kfree(image->bus_resource.name);
+   778		memset(&image->bus_resource, 0, sizeof(image->bus_resource));
+   779	err_name:
+   780		return retval;
+   781	}
+   782	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
