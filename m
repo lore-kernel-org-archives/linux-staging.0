@@ -1,85 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.47
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792851745;
-	b=lEYxSN4piGtUVytwhdRg8uTgR3Z+d/KBE0bIQP19RIae0WQD62ngTCRk+kd1o/GDH5C9
-	 c6N6M0TOYT05L7l0q7fkTP5AFnzOso4aYw8w7r3EdrIh+LVV/tXes79rmjwlshOlXd9x+
-	 E+LyWK9hbds1jkB27BFkWXu/xy28uz11X2vYB2BfmC1h8mD3lPffXg1FU7H6F5tQsM6K/
-	 H4IAgaaPRwGE02QOY2Ij2xE/Ni5oAEgwldgITO7eaGo5hgJqRkxbLQEBKDhvKsAkMiH87
-	 9DWNNbpTsVsCiAJX6+1JaaJHPxHT+JcwinnQc74asnxGFt1tPmcWGV65xks2u9iXdHQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792851745;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.43
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792852007;
+	b=XmYgfz80hP+OZU04VZQWtjxQbXA8SpLsbAFYymTENZOVBkcrfX63uyGZRmVjiUZnm1/q
+	 y0sWxwVq59orgQDztAVwIx91A/HnGULc0cfQXr8Cn/WX5Zm1ffFVvxw1RTuAh7BzDuOxk
+	 sovopBExMW+2zKEFHEyoeNQY5hQg4MBwrx+yzsaQLUgS5Reet/ZIZB24OrvEKXRkdrwk0
+	 y6ThmTeUNq84ooEIT5E25NAUC3pIOp/BJlm4kXtxcZlG4mDYKa7lMD5lChmqUkUapBONl
+	 0pDmlFoTTUwGHVvDyp1tytM2WlAwirpSWN9XbSAYpJgAAMPUWNXXiWLtu5FBDa6q3Zw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792852007;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=iDdrd5073i1gnypsqEQiBgBEYhwMDJoxKKlX0KaQrtg=;
-	b=kY9MaWsbThMBT0NMw9Bhu5ISTJ41VOhfVsB2NlrrrSFMVHcs90IsPvLs4YFmDzSWjqFx
-	 EcYNgaH6EWMn4aD2MUyDwUVSMDYGfUo/tqhuG+U1qo9jKowMQ/3srzA9ZtwBTD61KTCZn
-	 5bJwXuGNfPmcr3xctLpw4Cf2PFReqAnH+K+evcwtcCAstpFn/2V1ZbgKfq04vkf7JA0Q/
-	 iL8jOtvj6Nl/PASK04ZUp5JZzoDnrVVOHg5449uMhrLDMFvp84unDutqL+bQoYPizM1DG
-	 9Smak0f4kOsruyehWe1zsDm9Vr9zQc8Uf3c0Ep5Hlzc56RMb1cWMbMewoYR8qiJzWpg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ieee.org;
-	spf=pass smtp.mailfrom=ieee.org;
-	dkim=pass header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b="D/Y5U6jV";
-	arc=none smtp.remote-ip=209.85.161.47
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=93XTeLUJKmkMQYlViuECaN+uLdlXc1eW17xeu0ZWGzU=;
+	b=mvpDo09Ztt5RTYBQu+RB/CuIMFJRcfqa1F/cS2QHZoW/2KtQb75ioIeVR8hMo/HcSCtU
+	 QToxrO6SxH+gj/lTcKZyiQ9eIPqViNH0QWhwvzXk5BQMVZ7NsdxtmR/YBLZg/NOH1lWYf
+	 fo5bbzFLsavMTMqQXgZ9wWGUOJT18xWK+yJ0EqNQqj8aiqTANaVXBKz+neo5y+3rzCyQl
+	 zZBkUjXajVtvkbvtyah6tAwv82Li83h1Uq/BcXIYb/gQPVJa7KVXGkeZ5lFvQT8/ICAaV
+	 a5RPrSBsdsshtHkGsJ+EOt8gVFo8D6LgtvLvF3Tdg0guJmrhEfKC6xtigFWrgGLk+/A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="SbyAO/yQ";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.43
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1B7606A31A
-	for <linux-staging@lists.linux.dev>; Sat, 24 Oct 2026 14:22:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB1B7606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05B2606A31B
+	for <linux-staging@lists.linux.dev>; Sat, 24 Oct 2026 14:26:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E05B2606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=D/Y5U6jV
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6faddda49e7so1511488eaf.3
-        for <linux-staging@lists.linux.dev>; Sat, 24 Oct 2026 07:22:22 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=SbyAO/yQ
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-70b875f6f13so1031340eaf.0
+        for <linux-staging@lists.linux.dev>; Sat, 24 Oct 2026 07:26:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792852006; cv=none;
+        d=google.com; s=arc-20260327;
+        b=WDIte/A88iQmYnnID3wye0FU0yMflTFvTe6BsS7rPQPLG7lbzi9xGBUiORpUpDG/iS
+         AfJWj78gR7zGOEPttkjkquDS0zCIDcq2KewDjFYi5zi69IVDKDUVRPvPutfpbPsIikoE
+         +kjpAzYOqLZ693Mr+5FCDvz1KCWKKK62WsC624Opqd1E+iH4b4MA7QuN4mMV/slY11mI
+         BXJUQTkoCB55toGorCDciXa8hFBBWKtfCYAYPLxiaX1Rf6aKNWgLJ7esdOWndzJGgM1m
+         eajmyJC6FglDr3aKoSOvvQ5/oGfsTI/k0RLsKUgmeCuMypdM+0pfBvuqIOzyCUj2ITbp
+         0Xew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=93XTeLUJKmkMQYlViuECaN+uLdlXc1eW17xeu0ZWGzU=;
+        fh=NvPOKVrxFmP3Iwx82d9VQkes35yb7Mkc+rnxrgIr890=;
+        b=s/oajaUjFnsrvevl/HoP/6+k59URybEKrw6L8eIrPOf+09y8GJJKTbV4TdPETjmfr0
+         q33uOkVZPQgTAYpMEc2VtCEDnsmtx/LGrruNkQv9CCXKVeRLj2HwNPbVrn4VYqTN72jN
+         lSbV8LnX7eTvi14bDpKJsMCSn8nVrp7I2ULgX/rE63s+SmHvPLv7x/+f9/BdPSwl6iz3
+         D0JGzxjySDLurP94CloYt1xQeA4aRxHxft8f85i63/PBfpbr7/cmV9bhEMNoKE03t1p/
+         4c7o+AikZ+/PHnhfjcanZV1HNk4Rg7M534ZcVyEUcCm5ZuwHV818e2Mp0yp+PI7LgUnK
+         2Pow==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1792851742; x=1793456542; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iDdrd5073i1gnypsqEQiBgBEYhwMDJoxKKlX0KaQrtg=;
-        b=D/Y5U6jV7q+yr9LcqyODG2Ivd9AciQrMJ5zGCYM+IPv0xbVapaiaylVJKU4DET3BhU
-         Xaswipb9nvdwE9VszViSrgAh59CTXB+yxDek7v+8TTRrOylT78qqJ4JqNCRiAHwV/peA
-         eughz3AtwXRXZ/vxi5Ek6Q5+VcyK8KluEZYi0=
+        d=gmail.com; s=20251104; t=1792852006; x=1793456806; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=93XTeLUJKmkMQYlViuECaN+uLdlXc1eW17xeu0ZWGzU=;
+        b=SbyAO/yQ2v9wEmiYj/2C9bfasy+JZxc00bYdjC60RBC1UFeIdCZyhRI+yE2ptrMUV4
+         2KA5cpCIDpbFuPnVVbmj+/mPmE5FqoeRxCA386dQg7nsd2h2FHqU/jK7XN+JY2SOI7iZ
+         8u3jgkZ6s6nrx+XVizeQP3IV/IJmRMJv9fFN0O5Gz5wUFMDdWlsZFpWf0Czn0LXq/34w
+         b1i3B1O9t7dhOaBZhYJLKkKjaPS3u06ovKVPSHB8YmAmemuEVmhKT0FYBBK5BLzAIhpt
+         POocJZUDbSBfoTf9mKKvk2JApZhoZJQvR2kJSHMHijMT0y4XVV32OGOBwraG2R5M1G2e
+         JvQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792851742; x=1793456542;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iDdrd5073i1gnypsqEQiBgBEYhwMDJoxKKlX0KaQrtg=;
-        b=pcTgfzTjkVif0BHP3d1j1uAk63lGdM/HnlMO1EMKJS9RYg36lL20VX9FA0SwIjAfAw
-         sHCnMs6N2+PKGbCc4tv2eYt+SbEGTgHIz2tdoTYnawcRaUY3RoeVvdaKsw60zK7OIT1a
-         ViPMiYaZkGSqVbfsVncwBCHtA+/WmyqSXIFkXn4dQe10x2AsFjqeCerB203Cx7Xaczwt
-         eLXoRceswo2A4kGuFBPW1pLhTfjtJIK5FbG8Ewx/COSqVvOoNju4EfWYw5nr9LjQHo6+
-         XTC1Kl4h2FN2NwNTPfyQbUTL9gXDHeKwBvyM1R5g+jWjkBuloOIE4HtA+CNtu/Z2T3nE
-         WhaA==
-X-Forwarded-Encrypted: i=1; AKwUvBx0O1RxYSTGnaA4Eut5/9xTshLkb1u9Suk8edocXDVxLIa8OfHXbuEIxrbWPjQaaGcrc0q6XNxMfka28zO/@lists.linux.dev
-X-Gm-Message-State: AFq9FYL5e2URC7U3ZgtkrB27jVUv1uja4i44iFdkqVXvKUG9+d8y/n8X
-	CTcIXUbrt8y5o9b1KBBUiKG+++jrnXnvPBg8vOHYUEvousD9RfgiIh8nzvQ5iCLzFg==
-X-Gm-Gg: AYBFou0liFcrgWAQcX/8OxGtBRjZZ+UOwPKxX/RE94AYo+JYfdWkZtPLhd/CyyvHdlF
-	Wpi4CPpKMQmOcu1u2kYrhF4aNTk/+LyVrm+drpX/D8q1RruFyyysNCOjHzAdiK5qAqtpNN58yTP
-	0l4L0VUawadtTUNoxi4vcxwGCRNitp67uUaXfIgSMsAHAMmBTU4aeSh6OKkkcloCqSK5hXyl49X
-	eGAsdsO/JLfIHKvyzNKeF1m5z4jq1hSr8oraAvr280s9ko5uo1Ik5D1k9Xf1Qrg1QxRW24oeHuT
-	VS2pQ66+Tw1GJ6ZSVFdijwkKPpciuz8kqGImuF/O/ZCUTnObqg+BqVf1LH47yVluf+hJr0fCLg/
-	5vrsYYh4KvIOlNdVLQH4Q+rF1RjgXw21BahVVtv7+G5Ii1tNwZAv+0WTKfaBf8l+ADWojxGV4uE
-	TTMOVnK59CqIjIlo6OFilrF1sWcub5HYIcL+hrzpoCHxOE87+WDXyshmvrS8tHEfcaxxBxU0bEn
-	SPKKgGyZPnHXO8oTRcCo3a2V6vRmZ/LBwh/84BW0bbVxIlaqDpJZXPjXFsQiWPqecDU9MoNh6c0
-	d5A0
-X-Received: by 2002:a05:6820:c449:20b0:70b:72e8:e828 with SMTP id 006d021491bc7-70ba0fed09emr587806eaf.79.1792851741583;
-        Sat, 24 Oct 2026 07:22:21 -0700 (PDT)
-Received: from [10.211.55.5] ([73.62.185.64])
-        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-850f8458d7fsm2326894a34.2.2026.10.24.07.22.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 24 Oct 2026 07:22:20 -0700 (PDT)
-Message-ID: <569f827c-1219-40e1-a456-08e18342135b@ieee.org>
-Date: Sat, 24 Oct 2026 09:22:18 -0500
+        d=1e100.net; s=20260707; t=1792852006; x=1793456806;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=93XTeLUJKmkMQYlViuECaN+uLdlXc1eW17xeu0ZWGzU=;
+        b=RbuBGTXQXPAGNpl9RwZaInyWOlXJaUUPguGNxXfyoWDfPvoK1/dDoNPQx0bnx4Z4gA
+         30CwFEvDRJ5e4HQ1zrEZnJ+hWdtCsMTFnDzvZfQpSGosFEuZxVT1JWWNWQfdfK2i26xF
+         wo75yO2/vSpux4hwlyW9FZ13bD0SlGXGuns8TkLiCiygAjMXDFou00ckTqK+Zo+9t4Jr
+         SFLAwbm6xMTapdGisIYYBGMvra9ipl+kdk9Vr1hp1qRDcaA85tTKOTwLfeDgo6TbvRjA
+         XoSzURxzOed3WNkJlBHrmJRg1a5pWYjb8fovacHwYAI7r2x7d0m/YbLeJusLIrew+Cz6
+         +j/A==
+X-Forwarded-Encrypted: i=1; AKwUvBysegDo/fMAwrmU4YTEFESNnocS3i47R0cbyipBHESSodNKBzSxg41xyYwNR8nvQIrivuyTGQHYNhzN09iW@lists.linux.dev
+X-Gm-Message-State: AFq9FYIuIjfVbI4b/SPAPVR9Y+3o+zM0iZtFdfUT24CfsfX5yS9OFsmP
+	ayAEfIoacwwQ5YR650511uDoBjDkmo6Cc7jdPs0OSnA0RCp2gZN7kJwHAiylNlTHRmoBbJ40C+K
+	DoxZ3cvo9sIEXZWQdvpkZbpjTUcE86Zw=
+X-Gm-Gg: AYBFou0g3iLAdngSJiSbagBUXSFn5s/d309whEPOQZt4pazy5xvlp1hei4z/p6s+wBi
+	rBRPitNGn3NbRfIVC5aJscQWwBJn8SUmWCcz9YRSdBHnU0GnIS0XcqTfuOuUT8HU6i9YCZoqKiI
+	K+QL2ddAHslVcQkAAwCe0hs66+yG8cSTqbVWmDagkPQH36VA9N8No7ZhVJwBsxKzbkwUrNMEccN
+	xOI2tWAQLI00fvdTvSXXeNTnMFSBnguK9LnoUBNWE356M3pPYaSceRkwckbzlF533be0iACOm8C
+	l0Gerx04L6XB482wjNYEYELttKaAkilMju2DcgE9NXzRHFlisFQTMDv6jjtGhR0zcQhsupRaG2a
+	rtIEIgVxYvpdLQSiohKgCv2c7by34vS2WxsWoLlUFUw9NGvVw29/0PLJpCRLcHnZkL46P5ymv0x
+	jqJmMZQNpldaYGfspI
+X-Received: by 2002:a05:6820:740b:b0:6cd:3fdb:fa6a with SMTP id
+ 006d021491bc7-70ba0f580e0mr687530eaf.85.1792852005887; Sat, 24 Oct 2026
+ 07:26:45 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -89,554 +105,83 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: greybus: Replace format specifiers
-To: pavankumaryalagada@gmail.com, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
- elder@kernel.org, gregkh@linuxfoundation.org, vireshk@kernel.org,
- rmfrfs@gmail.com, dtwlin@gmail.com, pure.logic@nexus-software.ie,
- linux-kernel@vger.kernel.org
-References: <20261024093734.46424-1-pavankumaryalagada@gmail.com>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <20261024093734.46424-1-pavankumaryalagada@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20261024073549.29531-1-himanshu.bakshi478@gmail.com>
+ <2026102448-tackle-footnote-9ca0@gregkh> <CAGLmz9+J-s98cT_ZFHF5EU7t=beK8m82fjq20+n5dmncdrMSEQ@mail.gmail.com>
+ <2026102447-exhale-overarch-8ce7@gregkh>
+In-Reply-To: <2026102447-exhale-overarch-8ce7@gregkh>
+From: Himanshu Bakshi <himanshu.bakshi478@gmail.com>
+Date: Sat, 24 Oct 2026 19:56:33 +0530
+X-Gm-Features: AclHuK8JmRrrQFyrUfEN_DWwoARda0TGIesVXvInZouzCX2AOxXXYX-vfgnqmK8
+Message-ID: <CAGLmz9JS1rGR+fM7Rm5FXsFx4aDZuMoYYXH1HJ2_8B+WT_n4Rw@mail.gmail.com>
+Subject: Re: [PATCH] staging: sm750fb: clean up PLL calculation code
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/24/26 4:37 AM, pavankumaryalagada@gmail.com wrote:
-> From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-> 
-> Use the appropriate format specifiers for signed and unsigned
-> variables to match their types.
-> 
-> Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+Hi Greg,
 
-Have you changed something since version 1 that you don't think
-I would approve of?  I provided my Reviewed-by: tag on that, but
-it is not included here.
+Thank you for the feedback. I have read the discussion you linked.
 
-If that's the case, it's fine and appropriate to omit the tag
-I offered, but you should explain that to me--either here, or
-I wouldn't even mind if you did it in a private message.  But
-in any case, this is not what I expected.
+My motivation for this patch was that I found the existing PLL
+calculation difficult to follow when I was trying to understand it. I
+wanted to document the formula, make the candidate-selection logic
+easier to follow, and reduce the nesting.
 
-> ---
-> v2:
-> - Correct format specifiers for signed and unsigned variables.
+I understand that making code look cleaner by itself may not be a
+sufficient reason to change existing kernel code. I wanted to improve
+the readability and understandability of this function, but I should
+have explained the concrete benefit more clearly in the commit
+message.
 
-Can you be more specific about what you changed?  Did you discover
-you missed some, or that some that I said looked good were wrong?
+Regarding the LLM, I used it to help generate a standalone
+differential test for comparing the original and modified algorithms.
+The refactoring was my attempt to improve the code while learning how
+to contribute to the kernel. I ran the generated test, but I
+understand that testing copies of the implementations is not the same
+as testing the actual kernel function.
 
-Why did these change between version 1 and version 2?  (Why were
-they not all covered by your initial patch?)
+I am new to kernel development and did not have a good understanding
+of the contribution workflow when I started. I used an LLM as a
+learning aid, but I recognize that I am responsible for understanding
+and justifying every change and test I submit.
 
-> - Include additional format-specifiers corrections in audio_codec.c,
->    audio_topology.c, gbphy.c and loopback.c.
+I will also make sure to follow the mailing list's plain-text and
+bottom-posting conventions.
 
-Were these missing?  Please provide more information.
+Thank you for taking the time to explain these issues.
 
-And rather than just explaining here, would you please just
-send a version 3 of the patch that explains what has changed
-in a little more detail?  (Sending v3 is unambiguous.)
+Thanks and Regards,
+         Himanshu Bakshi
 
-Thanks.
-
-					-Alex
-
-
-> 
-> v1: https://lore.kernel.org/outreachy/237b20f5-3354-49d7-add8-71170d450306@linaro.org/T/#t
-> ---
->   drivers/staging/greybus/audio_codec.c    | 24 +++++++++---------
->   drivers/staging/greybus/audio_topology.c | 32 ++++++++++++------------
->   drivers/staging/greybus/bootrom.c        |  2 +-
->   drivers/staging/greybus/fw-download.c    |  2 +-
->   drivers/staging/greybus/fw-management.c  |  2 +-
->   drivers/staging/greybus/gbphy.c          |  2 +-
->   drivers/staging/greybus/gpio.c           |  2 +-
->   drivers/staging/greybus/light.c          |  2 +-
->   drivers/staging/greybus/log.c            |  4 +--
->   drivers/staging/greybus/loopback.c       |  6 ++---
->   drivers/staging/greybus/power_supply.c   |  2 +-
->   drivers/staging/greybus/raw.c            |  2 +-
->   drivers/staging/greybus/sdio.c           |  4 +--
->   drivers/staging/greybus/spilib.c         |  2 +-
->   drivers/staging/greybus/uart.c           |  4 +--
->   15 files changed, 46 insertions(+), 46 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
-> index 6daa4e706792..24b3317f7540 100644
-> --- a/drivers/staging/greybus/audio_codec.c
-> +++ b/drivers/staging/greybus/audio_codec.c
-> @@ -78,7 +78,7 @@ static int gbaudio_module_enable_tx(struct gbaudio_codec_info *codec,
->   			return ret;
->   		}
->   		data->state[SNDRV_PCM_STREAM_PLAYBACK] = GBAUDIO_CODEC_STARTUP;
-> -		dev_dbg(module->dev, "Dynamic Register %d DAI\n", cportid);
-> +		dev_dbg(module->dev, "Dynamic Register %u DAI\n", cportid);
->   	}
->   
->   	/* hw_params */
-> @@ -95,7 +95,7 @@ static int gbaudio_module_enable_tx(struct gbaudio_codec_info *codec,
->   			return ret;
->   		}
->   		data->state[SNDRV_PCM_STREAM_PLAYBACK] = GBAUDIO_CODEC_HWPARAMS;
-> -		dev_dbg(module->dev, "Dynamic hw_params %d DAI\n", data_cport);
-> +		dev_dbg(module->dev, "Dynamic hw_params %u DAI\n", data_cport);
->   	}
->   
->   	/* prepare */
-> @@ -116,7 +116,7 @@ static int gbaudio_module_enable_tx(struct gbaudio_codec_info *codec,
->   			return ret;
->   		}
->   		data->state[SNDRV_PCM_STREAM_PLAYBACK] = GBAUDIO_CODEC_PREPARE;
-> -		dev_dbg(module->dev, "Dynamic prepare %d DAI\n", data_cport);
-> +		dev_dbg(module->dev, "Dynamic prepare %u DAI\n", data_cport);
->   	}
->   
->   	return 0;
-> @@ -146,7 +146,7 @@ static int gbaudio_module_disable_tx(struct gbaudio_module_info *module, int id)
->   					    "deactivate_tx failed:%d\n", ret);
->   			return ret;
->   		}
-> -		dev_dbg(module->dev, "Dynamic deactivate %d DAI\n", data_cport);
-> +		dev_dbg(module->dev, "Dynamic deactivate %u DAI\n", data_cport);
->   		data->state[SNDRV_PCM_STREAM_PLAYBACK] = GBAUDIO_CODEC_HWPARAMS;
->   	}
->   
-> @@ -161,7 +161,7 @@ static int gbaudio_module_disable_tx(struct gbaudio_module_info *module, int id)
->   					    "unregister_cport failed:%d\n", ret);
->   			return ret;
->   		}
-> -		dev_dbg(module->dev, "Dynamic Unregister %d DAI\n", cportid);
-> +		dev_dbg(module->dev, "Dynamic Unregister %u DAI\n", cportid);
->   		data->state[SNDRV_PCM_STREAM_PLAYBACK] = GBAUDIO_CODEC_SHUTDOWN;
->   	}
->   
-> @@ -204,7 +204,7 @@ static int gbaudio_module_enable_rx(struct gbaudio_codec_info *codec,
->   			return ret;
->   		}
->   		data->state[SNDRV_PCM_STREAM_CAPTURE] = GBAUDIO_CODEC_STARTUP;
-> -		dev_dbg(module->dev, "Dynamic Register %d DAI\n", cportid);
-> +		dev_dbg(module->dev, "Dynamic Register %u DAI\n", cportid);
->   	}
->   
->   	/* hw_params */
-> @@ -221,7 +221,7 @@ static int gbaudio_module_enable_rx(struct gbaudio_codec_info *codec,
->   			return ret;
->   		}
->   		data->state[SNDRV_PCM_STREAM_CAPTURE] = GBAUDIO_CODEC_HWPARAMS;
-> -		dev_dbg(module->dev, "Dynamic hw_params %d DAI\n", data_cport);
-> +		dev_dbg(module->dev, "Dynamic hw_params %u DAI\n", data_cport);
->   	}
->   
->   	/* prepare */
-> @@ -243,7 +243,7 @@ static int gbaudio_module_enable_rx(struct gbaudio_codec_info *codec,
->   			return ret;
->   		}
->   		data->state[SNDRV_PCM_STREAM_CAPTURE] = GBAUDIO_CODEC_PREPARE;
-> -		dev_dbg(module->dev, "Dynamic prepare %d DAI\n", data_cport);
-> +		dev_dbg(module->dev, "Dynamic prepare %u DAI\n", data_cport);
->   	}
->   
->   	return 0;
-> @@ -273,7 +273,7 @@ static int gbaudio_module_disable_rx(struct gbaudio_module_info *module, int id)
->   					    "deactivate_rx failed:%d\n", ret);
->   			return ret;
->   		}
-> -		dev_dbg(module->dev, "Dynamic deactivate %d DAI\n", data_cport);
-> +		dev_dbg(module->dev, "Dynamic deactivate %u DAI\n", data_cport);
->   		data->state[SNDRV_PCM_STREAM_CAPTURE] = GBAUDIO_CODEC_HWPARAMS;
->   	}
->   
-> @@ -288,7 +288,7 @@ static int gbaudio_module_disable_rx(struct gbaudio_module_info *module, int id)
->   					    "unregister_cport failed:%d\n", ret);
->   			return ret;
->   		}
-> -		dev_dbg(module->dev, "Dynamic Unregister %d DAI\n", cportid);
-> +		dev_dbg(module->dev, "Dynamic Unregister %u DAI\n", cportid);
->   		data->state[SNDRV_PCM_STREAM_CAPTURE] = GBAUDIO_CODEC_SHUTDOWN;
->   	}
->   
-> @@ -414,7 +414,7 @@ static int gbcodec_hw_params(struct snd_pcm_substream *substream,
->   	 * is supported, validate params before configuring codec
->   	 */
->   	if (params_channels(hwparams) != 2) {
-> -		dev_err(dai->dev, "Invalid channel count:%d\n",
-> +		dev_err(dai->dev, "Invalid channel count:%u\n",
->   			params_channels(hwparams));
->   		mutex_unlock(&codec->lock);
->   		return -EINVAL;
-> @@ -422,7 +422,7 @@ static int gbcodec_hw_params(struct snd_pcm_substream *substream,
->   	channels = params_channels(hwparams);
->   
->   	if (params_rate(hwparams) != 48000) {
-> -		dev_err(dai->dev, "Invalid sampling rate:%d\n",
-> +		dev_err(dai->dev, "Invalid sampling rate:%u\n",
->   			params_rate(hwparams));
->   		mutex_unlock(&codec->lock);
->   		return -EINVAL;
-> diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
-> index 76146f91cddc..cb05e235b1dc 100644
-> --- a/drivers/staging/greybus/audio_topology.c
-> +++ b/drivers/staging/greybus/audio_topology.c
-> @@ -199,7 +199,7 @@ static int gbcodec_mixer_ctl_info(struct snd_kcontrol *kcontrol,
->   		strscpy(uinfo->value.enumerated.name, name, sizeof(uinfo->value.enumerated.name));
->   		break;
->   	default:
-> -		dev_err(comp->dev, "Invalid type: %d for %s:kcontrol\n",
-> +		dev_err(comp->dev, "Invalid type: %u for %s:kcontrol\n",
->   			info->type, kcontrol->id.name);
->   		break;
->   	}
-> @@ -260,7 +260,7 @@ static int gbcodec_mixer_ctl_get(struct snd_kcontrol *kcontrol,
->   				le32_to_cpu(gbvalue.value.enumerated_item[1]);
->   		break;
->   	default:
-> -		dev_err(comp->dev, "Invalid type: %d for %s:kcontrol\n",
-> +		dev_err(comp->dev, "Invalid type: %u for %s:kcontrol\n",
->   			info->type, kcontrol->id.name);
->   		ret = -EINVAL;
->   		break;
-> @@ -307,7 +307,7 @@ static int gbcodec_mixer_ctl_put(struct snd_kcontrol *kcontrol,
->   				cpu_to_le32(ucontrol->value.enumerated.item[1]);
->   		break;
->   	default:
-> -		dev_err(comp->dev, "Invalid type: %d for %s:kcontrol\n",
-> +		dev_err(comp->dev, "Invalid type: %u for %s:kcontrol\n",
->   			info->type, kcontrol->id.name);
->   		ret = -EINVAL;
->   		break;
-> @@ -655,7 +655,7 @@ static int gbaudio_tplg_create_enum_kctl(struct gbaudio_module_info *gb,
->   		return -ENOMEM;
->   
->   	/* debug enum info */
-> -	dev_dbg(gb->dev, "Max:%d, name_length:%d\n", gbe->items,
-> +	dev_dbg(gb->dev, "Max:%u, name_length:%u\n", gbe->items,
->   		le16_to_cpu(gb_enum->names_length));
->   	for (i = 0; i < gbe->items; i++)
->   		dev_dbg(gb->dev, "src[%d]: %s\n", i, gbe->texts[i]);
-> @@ -700,7 +700,7 @@ static int gbaudio_tplg_create_kcontrol(struct gbaudio_module_info *gb,
->   		return -EINVAL;
->   	}
->   
-> -	dev_dbg(gb->dev, "%s:%d control created\n", ctl->name, ctl->id);
-> +	dev_dbg(gb->dev, "%s:%u control created\n", ctl->name, ctl->id);
->   	return ret;
->   }
->   
-> @@ -861,7 +861,7 @@ static int gbaudio_tplg_create_enum_ctl(struct gbaudio_module_info *gb,
->   		return -ENOMEM;
->   
->   	/* debug enum info */
-> -	dev_dbg(gb->dev, "Max:%d, name_length:%d\n", gbe->items,
-> +	dev_dbg(gb->dev, "Max:%u, name_length:%u\n", gbe->items,
->   		le16_to_cpu(gb_enum->names_length));
->   	for (i = 0; i < gbe->items; i++)
->   		dev_dbg(gb->dev, "src[%d]: %s\n", i, gbe->texts[i]);
-> @@ -914,7 +914,7 @@ static int gbaudio_tplg_create_wcontrol(struct gbaudio_module_info *gb,
->   		return -EINVAL;
->   	}
->   
-> -	dev_dbg(gb->dev, "%s:%d DAPM control created, ret:%d\n", ctl->name,
-> +	dev_dbg(gb->dev, "%s:%u DAPM control created, ret:%d\n", ctl->name,
->   		ctl->id, ret);
->   	return ret;
->   }
-> @@ -1022,7 +1022,7 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
->   
->   	ret = gbaudio_validate_kcontrol_count(w);
->   	if (ret) {
-> -		dev_err(module->dev, "Invalid kcontrol count=%d for %s\n",
-> +		dev_err(module->dev, "Invalid kcontrol count=%u for %s\n",
->   			w->ncontrols, w->name);
->   		return ret;
->   	}
-> @@ -1044,7 +1044,7 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
->   						   curr);
->   		if (ret) {
->   			dev_err(module->dev,
-> -				"%s:%d type widget_ctl not supported\n",
-> +				"%s:%u type widget_ctl not supported\n",
->   				curr->name, curr->iface);
->   			goto error;
->   		}
-> @@ -1123,7 +1123,7 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
->   	}
->   	dw->name = w->name;
->   
-> -	dev_dbg(module->dev, "%s: widget of type %d created\n", dw->name,
-> +	dev_dbg(module->dev, "%s: widget of type %u created\n", dw->name,
->   		dw->id);
->   	return 0;
->   error:
-> @@ -1155,7 +1155,7 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
->   		ret = gbaudio_tplg_create_kcontrol(module, &dapm_kctls[i],
->   						   curr);
->   		if (ret) {
-> -			dev_err(module->dev, "%s:%d type not supported\n",
-> +			dev_err(module->dev, "%s:%u type not supported\n",
->   				curr->name, curr->iface);
->   			goto error;
->   		}
-> @@ -1192,7 +1192,7 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
->   		}
->   
->   		list_add(&control->list, &module->ctl_list);
-> -		dev_dbg(module->dev, "%d:%s created of type %d\n", curr->id,
-> +		dev_dbg(module->dev, "%u:%s created of type %u\n", curr->id,
->   			curr->name, curr->info.type);
->   		curr = (void *)curr + csize;
->   	}
-> @@ -1228,7 +1228,7 @@ static int gbaudio_tplg_process_widgets(struct gbaudio_module_info *module,
->   		ret = gbaudio_tplg_create_widget(module, &dapm_widgets[i],
->   						 curr, &w_size);
->   		if (ret) {
-> -			dev_err(module->dev, "%s:%d type not supported\n",
-> +			dev_err(module->dev, "%s:%u type not supported\n",
->   				curr->name, curr->type);
->   			goto error;
->   		}
-> @@ -1278,7 +1278,7 @@ static int gbaudio_tplg_process_routes(struct gbaudio_module_info *module,
->   		dapm_routes->sink =
->   			gbaudio_map_widgetid(module, curr->destination_id);
->   		if (!dapm_routes->sink) {
-> -			dev_err(module->dev, "%d:%d:%d:%d - Invalid sink\n",
-> +			dev_err(module->dev, "%u:%u:%u:%u - Invalid sink\n",
->   				curr->source_id, curr->destination_id,
->   				curr->control_id, curr->index);
->   			ret = -EINVAL;
-> @@ -1287,7 +1287,7 @@ static int gbaudio_tplg_process_routes(struct gbaudio_module_info *module,
->   		dapm_routes->source =
->   			gbaudio_map_widgetid(module, curr->source_id);
->   		if (!dapm_routes->source) {
-> -			dev_err(module->dev, "%d:%d:%d:%d - Invalid source\n",
-> +			dev_err(module->dev, "%u:%u:%u:%u - Invalid source\n",
->   				curr->source_id, curr->destination_id,
->   				curr->control_id, curr->index);
->   			ret = -EINVAL;
-> @@ -1299,7 +1299,7 @@ static int gbaudio_tplg_process_routes(struct gbaudio_module_info *module,
->   					      curr->index);
->   		if ((curr->control_id !=  GBAUDIO_INVALID_ID) &&
->   		    !dapm_routes->control) {
-> -			dev_err(module->dev, "%d:%d:%d:%d - Invalid control\n",
-> +			dev_err(module->dev, "%u:%u:%u:%u - Invalid control\n",
->   				curr->source_id, curr->destination_id,
->   				curr->control_id, curr->index);
->   			ret = -EINVAL;
-> diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
-> index 83921d90c322..fb1fbd3f7b99 100644
-> --- a/drivers/staging/greybus/bootrom.c
-> +++ b/drivers/staging/greybus/bootrom.c
-> @@ -222,7 +222,7 @@ static int gb_bootrom_firmware_size_request(struct gb_operation *op)
->   	size_response = op->response->payload;
->   	size_response->size = cpu_to_le32(bootrom->fw->size);
->   
-> -	dev_dbg(dev, "%s: firmware size %d bytes\n",
-> +	dev_dbg(dev, "%s: firmware size %u bytes\n",
->   		__func__, size_response->size);
->   
->   unlock:
-> diff --git a/drivers/staging/greybus/fw-download.c b/drivers/staging/greybus/fw-download.c
-> index a0a683447b3d..9f7f68411418 100644
-> --- a/drivers/staging/greybus/fw-download.c
-> +++ b/drivers/staging/greybus/fw-download.c
-> @@ -148,7 +148,7 @@ static int exceeds_release_timeout(struct fw_request *fw_req)
->   		return 0;
->   
->   	dev_err(fw_download->parent,
-> -		"Firmware download didn't finish in time, abort: %d\n",
-> +		"Firmware download didn't finish in time, abort: %u\n",
->   		fw_req->firmware_id);
->   
->   	fw_req->timedout = true;
-> diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
-> index 5d01da6b6eb9..ee86ed9686c4 100644
-> --- a/drivers/staging/greybus/fw-management.c
-> +++ b/drivers/staging/greybus/fw-management.c
-> @@ -141,7 +141,7 @@ static int fw_mgmt_load_and_validate_operation(struct fw_mgmt *fw_mgmt,
->   	if (load_method != GB_FW_LOAD_METHOD_UNIPRO &&
->   	    load_method != GB_FW_LOAD_METHOD_INTERNAL) {
->   		dev_err(fw_mgmt->parent,
-> -			"invalid load-method (%d)\n", load_method);
-> +			"invalid load-method (%u)\n", load_method);
->   		return -EINVAL;
->   	}
->   
-> diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
-> index bb9a5b538e6e..ac77b6a12ffe 100644
-> --- a/drivers/staging/greybus/gbphy.c
-> +++ b/drivers/staging/greybus/gbphy.c
-> @@ -80,7 +80,7 @@ static int gbphy_dev_uevent(const struct device *dev, struct kobj_uevent_env *en
->   	const struct gb_module *module = intf->module;
->   	const struct gb_host_device *hd = intf->hd;
->   
-> -	if (add_uevent_var(env, "BUS=%u", hd->bus_id))
-> +	if (add_uevent_var(env, "BUS=%d", hd->bus_id))
->   		return -ENOMEM;
->   	if (add_uevent_var(env, "MODULE=%u", module->module_id))
->   		return -ENOMEM;
-> diff --git a/drivers/staging/greybus/gpio.c b/drivers/staging/greybus/gpio.c
-> index 12185f7a982c..7616bcc23c6c 100644
-> --- a/drivers/staging/greybus/gpio.c
-> +++ b/drivers/staging/greybus/gpio.c
-> @@ -379,7 +379,7 @@ static int gb_gpio_request_handler(struct gb_operation *op)
->   
->   	event = request->payload;
->   	if (event->which > ggc->line_max) {
-> -		dev_err(dev, "invalid hw irq: %d\n", event->which);
-> +		dev_err(dev, "invalid hw irq: %u\n", event->which);
->   		return -EINVAL;
->   	}
->   
-> diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-> index cab02b5da867..1fbd80523d4e 100644
-> --- a/drivers/staging/greybus/light.c
-> +++ b/drivers/staging/greybus/light.c
-> @@ -1221,7 +1221,7 @@ static int gb_lights_request_handler(struct gb_operation *op)
->   
->   	if (light_id >= glights->lights_count ||
->   	    !glights->lights[light_id].ready) {
-> -		dev_err(dev, "Event received for unconfigured light id: %d\n",
-> +		dev_err(dev, "Event received for unconfigured light id: %u\n",
->   			light_id);
->   		return -EINVAL;
->   	}
-> diff --git a/drivers/staging/greybus/log.c b/drivers/staging/greybus/log.c
-> index 815d20ba9b6b..24f5d5cf21be 100644
-> --- a/drivers/staging/greybus/log.c
-> +++ b/drivers/staging/greybus/log.c
-> @@ -36,7 +36,7 @@ static int gb_log_request_handler(struct gb_operation *op)
->   	receive = op->request->payload;
->   	len = le16_to_cpu(receive->len);
->   	if (len != (op->request->payload_size - sizeof(*receive))) {
-> -		dev_err(dev, "log request wrong size %d vs %zu\n", len,
-> +		dev_err(dev, "log request wrong size %u vs %zu\n", len,
->   			(op->request->payload_size - sizeof(*receive)));
->   		return -EINVAL;
->   	}
-> @@ -46,7 +46,7 @@ static int gb_log_request_handler(struct gb_operation *op)
->   	}
->   
->   	if (len > GB_LOG_MAX_LEN) {
-> -		dev_err(dev, "log request too big: %d\n", len);
-> +		dev_err(dev, "log request too big: %u\n", len);
->   		return -EINVAL;
->   	}
->   
-> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> index efc69c10cffe..41a8b4d3b7bf 100644
-> --- a/drivers/staging/greybus/loopback.c
-> +++ b/drivers/staging/greybus/loopback.c
-> @@ -281,7 +281,7 @@ gb_dev_loopback_rw_attr(iteration_max, u);
->   /* The current index of the for (i = 0; i < iteration_max; i++) loop */
->   gb_dev_loopback_ro_attr(iteration_count);
->   /* A flag to indicate synchronous or asynchronous operations */
-> -gb_dev_loopback_rw_attr(async, u);
-> +gb_dev_loopback_rw_attr(async, d);
->   /* Timeout of an individual asynchronous request */
->   gb_dev_loopback_rw_attr(timeout, u);
->   /* Maximum number of in-flight operations before back-off */
-> @@ -424,7 +424,7 @@ static void gb_loopback_async_operation_callback(struct gb_operation *operation)
->   
->   	mutex_unlock(&gb->mutex);
->   
-> -	dev_dbg(&gb->connection->bundle->dev, "complete operation %d\n",
-> +	dev_dbg(&gb->connection->bundle->dev, "complete operation %u\n",
->   		operation->id);
->   
->   	/* Wake up waiters */
-> @@ -579,7 +579,7 @@ static int gb_loopback_async_transfer_complete(struct gb_loopback_async_operatio
->   
->   	if (memcmp(request->data, response->data, len)) {
->   		dev_err(&gb->connection->bundle->dev,
-> -			"Loopback Data doesn't match operation id %d\n",
-> +			"Loopback Data doesn't match operation id %u\n",
->   			operation->id);
->   		retval = -EREMOTEIO;
->   	} else {
-> diff --git a/drivers/staging/greybus/power_supply.c b/drivers/staging/greybus/power_supply.c
-> index beefcbaf3681..1eeccf452eaf 100644
-> --- a/drivers/staging/greybus/power_supply.c
-> +++ b/drivers/staging/greybus/power_supply.c
-> @@ -1011,7 +1011,7 @@ static int gb_supplies_request_handler(struct gb_operation *op)
->   	if (psy_id >= supplies->supplies_count ||
->   	    !supplies->supply[psy_id].registered) {
->   		dev_err(&connection->bundle->dev,
-> -			"Event received for unconfigured power_supply id: %d\n",
-> +			"Event received for unconfigured power_supply id: %u\n",
->   			psy_id);
->   		ret = -EINVAL;
->   		goto out_unlock;
-> diff --git a/drivers/staging/greybus/raw.c b/drivers/staging/greybus/raw.c
-> index 4f1b3f4db404..2314496a858a 100644
-> --- a/drivers/staging/greybus/raw.c
-> +++ b/drivers/staging/greybus/raw.c
-> @@ -112,7 +112,7 @@ static int gb_raw_request_handler(struct gb_operation *op)
->   	receive = op->request->payload;
->   	len = le32_to_cpu(receive->len);
->   	if (len != (int)(op->request->payload_size - sizeof(__le32))) {
-> -		dev_err(dev, "raw receive request wrong size %d vs %d\n", len,
-> +		dev_err(dev, "raw receive request wrong size %u vs %d\n", len,
->   			(int)(op->request->payload_size - sizeof(__le32)));
->   		return -EINVAL;
->   	}
-> diff --git a/drivers/staging/greybus/sdio.c b/drivers/staging/greybus/sdio.c
-> index 3952f3d225db..773ec1f72407 100644
-> --- a/drivers/staging/greybus/sdio.c
-> +++ b/drivers/staging/greybus/sdio.c
-> @@ -294,7 +294,7 @@ static int _gb_sdio_send(struct gb_sdio_host *host, struct mmc_data *data,
->   	send_blksz = le16_to_cpu(response->data_blksz);
->   
->   	if (len != send_blksz * send_blocks) {
-> -		dev_err(mmc_dev(host->mmc), "send: size received: %zu != %d\n",
-> +		dev_err(mmc_dev(host->mmc), "send: size received: %zu != %u\n",
->   			len, send_blksz * send_blocks);
->   		ret = -EINVAL;
->   	}
-> @@ -340,7 +340,7 @@ static int _gb_sdio_recv(struct gb_sdio_host *host, struct mmc_data *data,
->   	recv_blksz = le16_to_cpu(response->data_blksz);
->   
->   	if (len != recv_blksz * recv_blocks) {
-> -		dev_err(mmc_dev(host->mmc), "recv: size received: %d != %zu\n",
-> +		dev_err(mmc_dev(host->mmc), "recv: size received: %u != %zu\n",
->   			recv_blksz * recv_blocks, len);
->   		ret = -EINVAL;
->   		goto err_put_operation;
-> diff --git a/drivers/staging/greybus/spilib.c b/drivers/staging/greybus/spilib.c
-> index c1982f3fb931..6e34757d9051 100644
-> --- a/drivers/staging/greybus/spilib.c
-> +++ b/drivers/staging/greybus/spilib.c
-> @@ -540,7 +540,7 @@ int gb_spilib_master_init(struct gb_connection *connection, struct device *dev,
->   	for (i = 0; i < spi->num_chipselect; i++) {
->   		ret = gb_spi_setup_device(spi, i);
->   		if (ret < 0) {
-> -			dev_err(dev, "failed to allocate spi device %d: %d\n",
-> +			dev_err(dev, "failed to allocate spi device %u: %d\n",
->   				i, ret);
->   			goto exit_spi_unregister;
->   		}
-> diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-> index 2448fc9098d6..442aad685d33 100644
-> --- a/drivers/staging/greybus/uart.c
-> +++ b/drivers/staging/greybus/uart.c
-> @@ -176,7 +176,7 @@ static int gb_uart_receive_credits_handler(struct gb_operation *op)
->   
->   	if (ret) {
->   		dev_err(&gb_tty->gbphy_dev->dev,
-> -			"invalid number of incoming credits: %d\n",
-> +			"invalid number of incoming credits: %u\n",
->   			incoming_credits);
->   		return ret;
->   	}
-> @@ -300,7 +300,7 @@ static int send_break(struct gb_tty *gb_tty, u8 state)
->   
->   	if ((state != 0) && (state != 1)) {
->   		dev_err(&gb_tty->gbphy_dev->dev,
-> -			"invalid break state of %d\n", state);
-> +			"invalid break state of %u\n", state);
->   		return -EINVAL;
->   	}
->   
-
+On Sat, Oct 24, 2026 at 7:40=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Sat, Oct 24, 2026 at 05:20:41PM +0530, Himanshu Bakshi wrote:
+> > Hi Greg,
+>
+> Please do not top-post or send html email, the list rejects that.
+>
+> > I found this while reviewing sm750_calc_pll_value() and looking for a
+> > cleaner way to handle the PLL candidate calculation.
+>
+> But why does it need to be "cleaner"?
+>
+> > I tested the change as follows:
+> >
+> > Built the sm750fb driver successfully using make -j2
+> > M=3Ddrivers/staging/sm750fb W=3D1.
+> >
+> > Ran a standalone C differential regression test comparing the original
+> > and modified algorithms across 2,010,084 test cases, including
+> > frequency sweeps, boundary values, and randomized requests.
+>
+> Ah, you used a LLM.  You have read:
+>         https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
+> right?
+>
+> Sorry,
+>
+> greg k-h
