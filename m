@@ -1,55 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.233.101.22
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792924333;
-	b=uMeh5l6cmr9zEe+LtIVC+Bqvrq579nKsoeK0EtpWvIRbqdfdKSj9RdhI4F+S3gwtGQnj
-	 ZJxyTfCKwsmpijQHvcKqbbcBBjw01/pWqpMZew33dNBa1pZekgW0Pqtwmqh0sSqKqofQp
-	 nquOD8rppEk9XKzVzKXNz+rY+s5d4k+KkD72GzQzcwM225Cxso9vsHs19dbYxFl1/wt4W
-	 VtJD3PJ12jCq25Tdvr4nPpkm6moBkIvCvG6eweA6lJtCqL7XTa39osEyZ/4GA+la8d91H
-	 M3PVhgPQHwY/KkGxQXeJh6cyvNQv1yJf1yavXCu0L+XDWzmsmYgJJAixtpNeqXAU2Pw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792924333;
-	h=DMARC-Filter:Received:Received:X-Spam-Checker-Version:X-Spam-Level:
-	 X-Spam-Status:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=W8I6eZPNeQyfIA2MHqpnCAXBcywuCKbuTriES8lpKTM=;
-	b=XmlRCts6zoV2ap0przSfhjpe9HeGmS7T3sw/chJKEWKtJMT+E9XcebxViH3trISzEc5i
-	 8haF4ucOrEyagdBhGd/dLXUNOvJdvEaDKjBDLueDUt9d5Y0rzjhHRL85oS5yX/0b0RExI
-	 dD7Tc7oFz7OR+TzCUbvBE4V+5gkvF9TcTvAuX21s4nAeFyGE0osx4sao6IKU95KgqiHWr
-	 /eik1jQAC7+paMnReKRLF2JAzidVvfUhKsZ3gbuR0DQHf0ssAM5Myp+UBcvD40csY0jR1
-	 +Ju/e/hD/Fe1GghuwZZifDYI0bEbut1tXEM0msp5TuWfKZYpnliIYBGuWkunyVByKtQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=sys-base.io;
-	spf=pass smtp.mailfrom=sys-base.io;
-	arc=none smtp.remote-ip=185.233.101.22
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.49
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792925646;
+	b=W11xo8zHjW8MS2FmSxOWJyf049bYFaS9dVq8e1QowaZlIjMWxoKKudhXSKe9+de16hj1
+	 bFplfhjuBrkn/jHFr9mCL3iy45ymZ8lvL49mmmPknx5f8X3b4ycwe0YAdzO83F1LYrNo2
+	 VJiNCuBpfsLeNWF6S30jMuS4PhiL557VO3xCUTwwwIjQ0IIUk3VhRvUL05EhTJDJ2nIdB
+	 4vvC+PUOS8KuqpALRXrNP2LQfm5yjrGR+7yPF/85UTVWENpOBv5wGaoMgyFp8EQYEpW7w
+	 mE/PhZrkUi9gwm3T7j8UFYpAdzNKLoKDWHstpqU7+OIR1u5U3ZlIGAIfmfvfs9s4MAw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792925646;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=MtahZLniFEJWP8SrmHT3ICGVYOg1SiAxfLPOaOBltmM=;
+	b=bF0BBV2mO8BW70TasponRrJANY+/hoGRbw21XX1JQ5sdeBThur76cBEu8NKMDQx9dVvg
+	 jDtL+1MSnKxoEZuJzY/DZrIty+mzDQnLIGxGQzXqEkBux5i086KeNyc/F4hKakZ8+Pkh6
+	 aMbJqVvGm/O/gwsW58wup7yj1DKfcsF0Pf0y/TURxjo3sbGLVFOi4UH8MXmpuMdj9Keat
+	 XartIZQ33tAYXWkVPxEHhTB42CAH7UZesWK08vA0/MIRwnVumPGAvQuEsfAp4Z3yjveyn
+	 pCRW2if8Jlt2az5Qsa2IfoedK4aLbjlRoDYSDT26yRw7bStddexs6DPC62h3XcpMc/g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CN58dwws;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.49
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9EA606A31D;
-	Sun, 25 Oct 2026 10:32:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE9EA606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id A8DEE3700F62;
-	Sun, 25 Oct 2026 10:32:01 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 056EFB6F2F0; Sun, 25 Oct 2026 10:31:59 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 752CAB6CD17;
-	Sun, 25 Oct 2026 10:31:58 +0000 (UTC)
-Date: Sun, 25 Oct 2026 11:31:56 +0100
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Caio Vinicius Ferreira <contatocaio.ferreira7@gmail.com>
-Cc: mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: fix typo in comment
-Message-ID: <at3anD2TX8iQZ6Ws@collins>
-References: <20261007140056.7447-1-contatocaio.ferreira7@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB96606A31D
+	for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 10:54:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BAB96606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CN58dwws
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c3f04e0e65fso313934866b.2
+        for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 03:54:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792925644; cv=none;
+        d=google.com; s=arc-20260327;
+        b=O+VL8gp9CN+grxGijzbII51cIIRmfdeUzI93defS9yOkeo6GaUeZF6QUk/v1/fXbLX
+         e/24zbZXsVyopQDMy+ItgOebM45QQ4ZYb+zSIwjYNKsz2VB1M/RNWxC1ClbMJNLBffX2
+         cxtCWbhKCBAmXiLUEpaPtRWabqpg9o+yPB88vph9khOlJNK0p1wYKstXtqOxKmf03kc3
+         jv2A/HE43ESO6wXbAZnOYF/+SMPviASUaulZxVQ96ni060w7lINM25tllqqvTuWap88p
+         UQaooGO4bqE4m/qq7U5lyc97u0GpA49uMDek3XyIKqCDy9Bl06f7C9ThF8t1olBmWhzi
+         FGrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=MtahZLniFEJWP8SrmHT3ICGVYOg1SiAxfLPOaOBltmM=;
+        fh=DeVw2MT/j4CtdCxLIHZdLlDTCqdKU2bPdX8d48eOkng=;
+        b=bYuHsfBDOtq3w+uK0Da5cW/AS7SlpI5Pftze/DgKf/NkYB6IeBeddLYb4t/9Ul9CMf
+         GBTNryRNNl6iVBPZtrnZ55Ult/taLdj4++Jz5oxPbarCd5xHJmvWG4QanwQ6gjPTPgII
+         hgkFY/rnHL8z4YeQL7dHJ5qQifsgpUbgj+DCLtYpwjQCtFCLHezqSHUjTORHF7k54X7h
+         sWGCojojXVWwhDahVHvIOIKDD2T/fQ46LIe+ZxCm4pjNFmE59zJ1jw7bSIPGcMakuwAI
+         XI/0JN5twqm2KCNywzhYomo7+zYY26MNHY99hBSdS0hGy7rN8c72/OLjLPUpUfVeGeBX
+         GPpA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792925644; x=1793530444; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MtahZLniFEJWP8SrmHT3ICGVYOg1SiAxfLPOaOBltmM=;
+        b=CN58dwwsfQL5uuPoKH0CZx/zXBAak+FKG/LXbWyvSdPdv91EWHvC3LGTOd1KtogmmI
+         VU/SX4IizQ1eetduFkNcqiybn7tREpdofIHg8w8CmVEzIIkGtlfb6emT5fWfhiXAGmLj
+         +80IDMkzRkqIZEMcu5vjJcn1GpSJbaInJZEuHU/RO9cunlq+AcNQf3UWvndJXu8d5Jbi
+         YlTnUPx4PfqLobfLhWO+DV4eIqoffc80137Wg0xUb20ehIHwEpd/QvUcZ0qPBXpQDlbE
+         i5KBv4fNSFU/bimDXWrkLJYBUbcT7Xrwv2CNHcV85aJb13FA/QzsX5pbCvRARTHkJoNQ
+         xz9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792925644; x=1793530444;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=MtahZLniFEJWP8SrmHT3ICGVYOg1SiAxfLPOaOBltmM=;
+        b=Ntv1G1Ji5VWygEt+r2VWuDB2c8PKuL24GVnCoI36rjgN5YxBjpSwJdYbu6gY9Eo6TU
+         mH/S2V9DeUmHEn7Mnq6YiKDa5U97wRzoDYlp1dufLVLVzCZU9K5sNv/aeBzhqe7EMp3i
+         jlkvJundi5FaGBY5Bp0XvTp1TbkokPOj0M6OfHqrYE0y4+hS2nkPr1qyYXpoTvSE7HXt
+         sOFwnXQWxyIchBJ4RiW0ggMHscNGF8OxHuElvEUYgCinWrdbiuEo8oCsD6QRSZ2eeej3
+         QGHfTv1CrdGqeanskTZF+9V/YIrJFexRxK/wZUe9rd51Kr5HwG0z0RljyWkVyP6W+s8n
+         cLAg==
+X-Gm-Message-State: AFq9FYIuhCVtGYSSYSfswC4n0L5hUGBOsxdvVA26eT3hm8C71xAOsZ+n
+	hieWE+mlkaA9lVZr8KycmzfbHlEQvjtCxt49PmhkiPGogFPpYkdg+tagD1+C6omaYWLoEAgIQRH
+	QREzOfyIThSm5tUKc8197Xff/c0Qb+v8=
+X-Gm-Gg: AYBFou1PGw+Wqyzuq6Hb9CE+lOMwqypyLcQpXqCd0vtTNRviBSNWnWhNrcKju9QOhMw
+	p5ZLGzteykIl9dS49VvoewMB2g+GdOgBqXjwPRhKhSE8gjWvIY80JM6CBRB+o7yxVHsV3se7eYP
+	oRcXU+mQB1+bKdd6MjaLYY6mDuV7utwRxSSYBafKv/7VcDkNNEYsc5wtJ4Y0nBDOh0MiIruKHjk
+	bZdDnhDacZg8rMz503dI9KgthkU7XRMxs5CQuucrz7qkj2snro1KMUtGSUl3ERVupODk5aPKE+U
+	TNF1A08XB/91J+xAURopiAzqTImtF4h/GiEIfdLQnSsrFjZ8FkXjKUQMco6murJ06CnoVfgkqeo
+	+dYDJ4lTMgysFbU0QPcYdyxs8RdPcxZ1tcvXnk8P02gQG82Utb9M0Dd52NvZfWYhb796q
+X-Received: by 2002:a17:906:dc8b:b0:c29:659e:2fd6 with SMTP id
+ a640c23a62f3a-c46bddb549fmr450364866b.10.1792925643928; Sun, 25 Oct 2026
+ 03:54:03 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -59,80 +99,126 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="odmBEKKySAXLue9n"
-Content-Disposition: inline
-In-Reply-To: <20261007140056.7447-1-contatocaio.ferreira7@gmail.com>
+From: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
+Date: Sun, 25 Oct 2026 11:53:49 +0100
+X-Gm-Features: AclHuK9TY3j97je9JyLB2E5dU6k-0NiwAm7rcWLnTy2tP6DroPMgj8seRuA_E5c
+Message-ID: <CAHxSwT8zGKHDLjAbkR=EZL7QVwzS_47TPB283YTHKEQsE0mvFA@mail.gmail.com>
+Subject: [PATCH] staging: fbtft: fb_ra8875: Replace mdelay() and udelay() with
+ sleep alternatives
+To: andy@kernel.org, gregkh@linuxfoundation.org, outreachy@lists.linux.dev
+Cc: linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, julia.lawall@inria.fr
+Content-Type: text/plain; charset="UTF-8"
 
---odmBEKKySAXLue9n
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From 474546adc013fab098dfda25e6503413fddb9929 Mon Sep 17 00:00:00 2001
+From: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
+Date: Sun, 25 Oct 2026 11:38:17 +0100
+Subject: [PATCH] staging: fbtft: fb_ra8875: Replace mdelay() and udelay() with
+ sleep alternatives
 
-Hi,
+Signed-off-by: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
+---
+ drivers/staging/fbtft/fb_ra8875.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-Le Wed 07 Oct 26, 11:00, Caio Vinicius Ferreira a =C3=A9crit :
-> Fix a spelling mistake in a comment: Neightbor -> Neighbor.
->=20
-> Signed-off-by: Caio Vinicius Ferreira <contatocaio.ferreira7@gmail.com>
+diff --git a/drivers/staging/fbtft/fb_ra8875.c
+b/drivers/staging/fbtft/fb_ra8875.c
+index 0ab1de664..ded953636 100644
+--- a/drivers/staging/fbtft/fb_ra8875.c
++++ b/drivers/staging/fbtft/fb_ra8875.c
+@@ -47,12 +47,12 @@ static int init_display(struct fbtft_par *par)
+                /* PLL clock frequency */
+                write_reg(par, 0x88, 0x0A);
+                write_reg(par, 0x89, 0x02);
+-               mdelay(10);
++               usleep_range(10000, 11000);
+                /* color deep / MCU Interface */
+                write_reg(par, 0x10, 0x0C);
+                /* pixel clock period  */
+                write_reg(par, 0x04, 0x03);
+-               mdelay(1);
++               usleep_range(1000, 2000);
+                /* horizontal settings */
+                write_reg(par, 0x14, 0x27);
+                write_reg(par, 0x15, 0x00);
+@@ -72,12 +72,12 @@ static int init_display(struct fbtft_par *par)
+                /* PLL clock frequency  */
+                write_reg(par, 0x88, 0x0A);
+                write_reg(par, 0x89, 0x02);
+-               mdelay(10);
++               usleep_range(10000, 11000);
+                /* color deep / MCU Interface */
+                write_reg(par, 0x10, 0x0C);
+                /* pixel clock period  */
+                write_reg(par, 0x04, 0x82);
+-               mdelay(1);
++               usleep_range(1000, 2000);
+                /* horizontal settings */
+                write_reg(par, 0x14, 0x3B);
+                write_reg(par, 0x15, 0x00);
+@@ -97,12 +97,12 @@ static int init_display(struct fbtft_par *par)
+                /* PLL clock frequency */
+                write_reg(par, 0x88, 0x0B);
+                write_reg(par, 0x89, 0x02);
+-               mdelay(10);
++               usleep_range(10000, 11000);
+                /* color deep / MCU Interface */
+                write_reg(par, 0x10, 0x0C);
+                /* pixel clock period */
+                write_reg(par, 0x04, 0x01);
+-               mdelay(1);
++               usleep_range(1000, 2000);
+                /* horizontal settings */
+                write_reg(par, 0x14, 0x4F);
+                write_reg(par, 0x15, 0x05);
+@@ -122,12 +122,12 @@ static int init_display(struct fbtft_par *par)
+                /* PLL clock frequency */
+                write_reg(par, 0x88, 0x0B);
+                write_reg(par, 0x89, 0x02);
+-               mdelay(10);
++               usleep_range(10000, 11000);
+                /* color deep / MCU Interface */
+                write_reg(par, 0x10, 0x0C);
+                /* pixel clock period */
+                write_reg(par, 0x04, 0x81);
+-               mdelay(1);
++               usleep_range(1000, 2000);
+                /* horizontal settings */
+                write_reg(par, 0x14, 0x63);
+                write_reg(par, 0x15, 0x03);
+@@ -150,11 +150,11 @@ static int init_display(struct fbtft_par *par)
+        /* PWM clock */
+        write_reg(par, 0x8a, 0x81);
+        write_reg(par, 0x8b, 0xFF);
+-       mdelay(10);
++       usleep_range(10000, 11000);
 
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
-Acked-by: Paul Kocialkowski <paulk@sys-base.io>
+        /* Display ON */
+        write_reg(par, 0x01, 0x80);
+-       mdelay(10);
++       usleep_range(10000, 11000);
 
-Thanks,
+        return 0;
+ }
+@@ -210,7 +210,7 @@ static void write_reg8_bus8(struct fbtft_par *par,
+int len, ...)
+        }
+        len--;
 
-Paul
+-       udelay(100);
++       usleep_range(100, 150);
 
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h265.c
-> index 780da4a8b5af..f57642c0d8fa 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -755,7 +755,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, =
-struct cedrus_run *run)
->  	}
->  	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_CTRL0, reg);
-> =20
-> -	/* Neightbor information address. */
-> +	/* Neighbor information address. */
->  	reg =3D VE_DEC_H265_NEIGHBOR_INFO_ADDR_BASE(ctx->codec.h265.neighbor_in=
-fo_buf_addr);
->  	cedrus_write(dev, VE_DEC_H265_NEIGHBOR_INFO_ADDR, reg);
-> =20
-> --=20
-> 2.56.0
->=20
+        if (len) {
+                buf = (u8 *)par->buf;
+@@ -231,7 +231,7 @@ static void write_reg8_bus8(struct fbtft_par *par,
+int len, ...)
 
---=20
-Paul Kocialkowski,
+        /* restore user spi-speed */
+        par->fbtftops.write = fbtft_write_spi;
+-       udelay(100);
++       usleep_range(100, 150);
+ }
 
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---odmBEKKySAXLue9n
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmrd2pwACgkQhP3B6o/u
-lQyZzhAAjpLJ/LCS9ud2LmKBfIDoSIa36gfGD9iUB8J1/bgqENht/+QvFN/62jVi
-gAf0nT1W0HrQ2TIiFwdhhNnphU6VJUfI0C9Z+SpqAoKXf3j+qj34ZPpsSd+thEUB
-4HObZyKK5px6YWkHL1XekYjdbCjh2T6HZ6UTt8rZxR7V5RIFq4QKNZHN/myhUk5X
-X4IqbHpjD9zeD+9TH26kRbc4xlfMXiyfM88YkEWks8dMchnL+h69TOdk91I49y/H
-0wYthqG/WZsqNptz+z0ra6o8esqzgewhCTzNaFcb9GlIBG9gxhWAXi5w8HltGvmr
-DvfdXEj1ENFsiAy94HUstuTjG/76BOFiLHHrGle8u/Yi4iNu3rKVngmrcfltTqhP
-LVB2sqaiHYUH2tpNTv4UXmHbyhMTIA0jF/QW+I/p/2+Uv5dxIgLkwWMGfXZMojfm
-jAaaaA9h1GIkgPN6Sg4O2wn+g3YVTK3GVSBhwtE0D/KQMjsHv3HCZFSMQm6oYibv
-ZSS65D9RiGtg98h7zaFz7+bX01ZlAw5NRc4bbTPpweGFFX+0cidtdhMx9z5gw4wP
-fWbMP4DDoiCNPsjiW4CFNow0elBgsdn/WaW8lFtQ/WoGitoGArpT6iOlLLDRKOsN
-oSBIGryhLuvhFKe+8WNjHfWppj8Q/RVYN/vkE65Y0C8QEeDmsf8=
-=b2qN
------END PGP SIGNATURE-----
-
---odmBEKKySAXLue9n--
+ static int write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
+-- 
+2.34.1
