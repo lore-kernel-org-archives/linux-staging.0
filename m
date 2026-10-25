@@ -1,95 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.49
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792925646;
-	b=W11xo8zHjW8MS2FmSxOWJyf049bYFaS9dVq8e1QowaZlIjMWxoKKudhXSKe9+de16hj1
-	 bFplfhjuBrkn/jHFr9mCL3iy45ymZ8lvL49mmmPknx5f8X3b4ycwe0YAdzO83F1LYrNo2
-	 VJiNCuBpfsLeNWF6S30jMuS4PhiL557VO3xCUTwwwIjQ0IIUk3VhRvUL05EhTJDJ2nIdB
-	 4vvC+PUOS8KuqpALRXrNP2LQfm5yjrGR+7yPF/85UTVWENpOBv5wGaoMgyFp8EQYEpW7w
-	 mE/PhZrkUi9gwm3T7j8UFYpAdzNKLoKDWHstpqU7+OIR1u5U3ZlIGAIfmfvfs9s4MAw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792925646;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=MtahZLniFEJWP8SrmHT3ICGVYOg1SiAxfLPOaOBltmM=;
-	b=bF0BBV2mO8BW70TasponRrJANY+/hoGRbw21XX1JQ5sdeBThur76cBEu8NKMDQx9dVvg
-	 jDtL+1MSnKxoEZuJzY/DZrIty+mzDQnLIGxGQzXqEkBux5i086KeNyc/F4hKakZ8+Pkh6
-	 aMbJqVvGm/O/gwsW58wup7yj1DKfcsF0Pf0y/TURxjo3sbGLVFOi4UH8MXmpuMdj9Keat
-	 XartIZQ33tAYXWkVPxEHhTB42CAH7UZesWK08vA0/MIRwnVumPGAvQuEsfAp4Z3yjveyn
-	 pCRW2if8Jlt2az5Qsa2IfoedK4aLbjlRoDYSDT26yRw7bStddexs6DPC62h3XcpMc/g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CN58dwws;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.49
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.134.164.83
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792928515;
+	b=h78t+ZxxONg3RS3N24dQJe3ZI2ZV5ZjggKj6rtHcD0UK4OhRHdfDthznlDGPTTM9kWcK
+	 D9dqsR4MUwM70VbFHXWCeA4MR2JWrJZ8Kzn8lrtLXAszeQ6+MRf5f2QMm7mmR0YCCiX8g
+	 zh8g7H5ErKxrOomDLAf0ZUgxndG/u+IzMHWHK7tKPBGd23zb3YKWcehBYlqL3bp2zIT8K
+	 5Q38p51om2GGpqpoqopArJAhbrKb03avNr4ylKIkkAmJuJV9zvheaXwBnab6pJhDvF7S/
+	 zDlGUB7p5sr6PIlv+KQjM74V7NN8/I0dapJ/omXARIzdIL+16sWxlIGvOM159495I0g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792928515;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Content-Type:Content-Transfer-Encoding:From:
+	 Mime-Version:Subject:Date:Message-Id:References:Cc:In-Reply-To:To:
+	 X-Mailer;
+	bh=KbsdRHpqg1KqFzqFFAQ9GvFksML0SMYhMlnLwPDnewc=;
+	b=tkKd4JHJdCJY4L3hRbtim8xISQRrF06yZJzUvL0Le2eQBDLPY5zH4+nvXJSNFTSvbqrb
+	 z19EyCfpOwGp77zN7y1XoshQbu7LxL53qyBcN9zmC83U8wgymbNUc4qeS3QWXGQaAni3z
+	 0Vw7SXWA+3e4XxY08F/id1e/f7aPCDOCKxx2uVtNIAG+TIyqa1mtTxtXvrmFB6/OYbsks
+	 xIl7rWajU2p1d5hLicnQ1/5g9P7Aflei4NRhWxA73m1x1NdIJH/c9zPYIRjszpXY3kq7f
+	 Zdf1nQHA1E+YyoGPcoszNl7Uz3FkaEMWDL0PdCu/YXpyG243HJ4xSmsuoO35Yt4fEmA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=inria.fr;
+	spf=pass smtp.mailfrom=inria.fr;
+	dkim=pass header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=OikXoF75;
+	arc=none smtp.remote-ip=192.134.164.83
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB96606A31D
-	for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 10:54:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BAB96606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F717606A31B;
+	Sun, 25 Oct 2026 11:41:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F717606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CN58dwws
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c3f04e0e65fso313934866b.2
-        for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 03:54:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792925644; cv=none;
-        d=google.com; s=arc-20260327;
-        b=O+VL8gp9CN+grxGijzbII51cIIRmfdeUzI93defS9yOkeo6GaUeZF6QUk/v1/fXbLX
-         e/24zbZXsVyopQDMy+ItgOebM45QQ4ZYb+zSIwjYNKsz2VB1M/RNWxC1ClbMJNLBffX2
-         cxtCWbhKCBAmXiLUEpaPtRWabqpg9o+yPB88vph9khOlJNK0p1wYKstXtqOxKmf03kc3
-         jv2A/HE43ESO6wXbAZnOYF/+SMPviASUaulZxVQ96ni060w7lINM25tllqqvTuWap88p
-         UQaooGO4bqE4m/qq7U5lyc97u0GpA49uMDek3XyIKqCDy9Bl06f7C9ThF8t1olBmWhzi
-         FGrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=MtahZLniFEJWP8SrmHT3ICGVYOg1SiAxfLPOaOBltmM=;
-        fh=DeVw2MT/j4CtdCxLIHZdLlDTCqdKU2bPdX8d48eOkng=;
-        b=bYuHsfBDOtq3w+uK0Da5cW/AS7SlpI5Pftze/DgKf/NkYB6IeBeddLYb4t/9Ul9CMf
-         GBTNryRNNl6iVBPZtrnZ55Ult/taLdj4++Jz5oxPbarCd5xHJmvWG4QanwQ6gjPTPgII
-         hgkFY/rnHL8z4YeQL7dHJ5qQifsgpUbgj+DCLtYpwjQCtFCLHezqSHUjTORHF7k54X7h
-         sWGCojojXVWwhDahVHvIOIKDD2T/fQ46LIe+ZxCm4pjNFmE59zJ1jw7bSIPGcMakuwAI
-         XI/0JN5twqm2KCNywzhYomo7+zYY26MNHY99hBSdS0hGy7rN8c72/OLjLPUpUfVeGeBX
-         GPpA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key, unprotected) header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=OikXoF75
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792925644; x=1793530444; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MtahZLniFEJWP8SrmHT3ICGVYOg1SiAxfLPOaOBltmM=;
-        b=CN58dwwsfQL5uuPoKH0CZx/zXBAak+FKG/LXbWyvSdPdv91EWHvC3LGTOd1KtogmmI
-         VU/SX4IizQ1eetduFkNcqiybn7tREpdofIHg8w8CmVEzIIkGtlfb6emT5fWfhiXAGmLj
-         +80IDMkzRkqIZEMcu5vjJcn1GpSJbaInJZEuHU/RO9cunlq+AcNQf3UWvndJXu8d5Jbi
-         YlTnUPx4PfqLobfLhWO+DV4eIqoffc80137Wg0xUb20ehIHwEpd/QvUcZ0qPBXpQDlbE
-         i5KBv4fNSFU/bimDXWrkLJYBUbcT7Xrwv2CNHcV85aJb13FA/QzsX5pbCvRARTHkJoNQ
-         xz9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792925644; x=1793530444;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=MtahZLniFEJWP8SrmHT3ICGVYOg1SiAxfLPOaOBltmM=;
-        b=Ntv1G1Ji5VWygEt+r2VWuDB2c8PKuL24GVnCoI36rjgN5YxBjpSwJdYbu6gY9Eo6TU
-         mH/S2V9DeUmHEn7Mnq6YiKDa5U97wRzoDYlp1dufLVLVzCZU9K5sNv/aeBzhqe7EMp3i
-         jlkvJundi5FaGBY5Bp0XvTp1TbkokPOj0M6OfHqrYE0y4+hS2nkPr1qyYXpoTvSE7HXt
-         sOFwnXQWxyIchBJ4RiW0ggMHscNGF8OxHuElvEUYgCinWrdbiuEo8oCsD6QRSZ2eeej3
-         QGHfTv1CrdGqeanskTZF+9V/YIrJFexRxK/wZUe9rd51Kr5HwG0z0RljyWkVyP6W+s8n
-         cLAg==
-X-Gm-Message-State: AFq9FYIuhCVtGYSSYSfswC4n0L5hUGBOsxdvVA26eT3hm8C71xAOsZ+n
-	hieWE+mlkaA9lVZr8KycmzfbHlEQvjtCxt49PmhkiPGogFPpYkdg+tagD1+C6omaYWLoEAgIQRH
-	QREzOfyIThSm5tUKc8197Xff/c0Qb+v8=
-X-Gm-Gg: AYBFou1PGw+Wqyzuq6Hb9CE+lOMwqypyLcQpXqCd0vtTNRviBSNWnWhNrcKju9QOhMw
-	p5ZLGzteykIl9dS49VvoewMB2g+GdOgBqXjwPRhKhSE8gjWvIY80JM6CBRB+o7yxVHsV3se7eYP
-	oRcXU+mQB1+bKdd6MjaLYY6mDuV7utwRxSSYBafKv/7VcDkNNEYsc5wtJ4Y0nBDOh0MiIruKHjk
-	bZdDnhDacZg8rMz503dI9KgthkU7XRMxs5CQuucrz7qkj2snro1KMUtGSUl3ERVupODk5aPKE+U
-	TNF1A08XB/91J+xAURopiAzqTImtF4h/GiEIfdLQnSsrFjZ8FkXjKUQMco6murJ06CnoVfgkqeo
-	+dYDJ4lTMgysFbU0QPcYdyxs8RdPcxZ1tcvXnk8P02gQG82Utb9M0Dd52NvZfWYhb796q
-X-Received: by 2002:a17:906:dc8b:b0:c29:659e:2fd6 with SMTP id
- a640c23a62f3a-c46bddb549fmr450364866b.10.1792925643928; Sun, 25 Oct 2026
- 03:54:03 -0700 (PDT)
+  d=inria.fr; s=dc;
+  h=content-transfer-encoding:from:mime-version:subject:date:
+   message-id:references:cc:in-reply-to:to;
+  bh=KbsdRHpqg1KqFzqFFAQ9GvFksML0SMYhMlnLwPDnewc=;
+  b=OikXoF755J/CTql/wDRgEMEgTZzmyMAOtLltc3gVl7GMj+YtdJm/opgT
+   ctBtjXVv8T1ySGHs2BsW4HepEqCTQvrzNT0NZh1rUXvMCUNzOGw3Zbpqz
+   qMeZls1BXT7utt0JsIQ5LqyceUPLTBTYHpF9Df7zKhck6MyP6+zsXH6xD
+   Y=;
+X-CSE-ConnectionGUID: DbtlcMypTCG9i3bDwhzwiw==
+X-CSE-MsgGUID: Rb2sav4iQY2qd9gkiG63zQ==
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.27,177,1787004000"; 
+   d="scan'208";a="302212097"
+Received: from c-76-123-3-53.hsd1.va.comcast.net (HELO smtpclient.apple) ([76.123.3.53])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 12:41:43 +0100
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Julia Lawall <Julia.Lawall@inria.fr>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -98,127 +60,114 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-From: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
-Date: Sun, 25 Oct 2026 11:53:49 +0100
-X-Gm-Features: AclHuK9TY3j97je9JyLB2E5dU6k-0NiwAm7rcWLnTy2tP6DroPMgj8seRuA_E5c
-Message-ID: <CAHxSwT8zGKHDLjAbkR=EZL7QVwzS_47TPB283YTHKEQsE0mvFA@mail.gmail.com>
-Subject: [PATCH] staging: fbtft: fb_ra8875: Replace mdelay() and udelay() with
- sleep alternatives
-To: andy@kernel.org, gregkh@linuxfoundation.org, outreachy@lists.linux.dev
-Cc: linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, julia.lawall@inria.fr
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v2] staging: fbtft: fb_upd161704: Replace udelay() with usleep_range()
+Date: Sun, 25 Oct 2026 07:41:31 -0400
+Message-Id: <A0882440-865F-43CB-BA8A-FBB2A07B7404@inria.fr>
+References: <CAHxSwT_ya=kxLdQkx5iY6DdVbxDv9MP5shRUF5-yDUvM=cFpKw@mail.gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
+ linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+In-Reply-To: <CAHxSwT_ya=kxLdQkx5iY6DdVbxDv9MP5shRUF5-yDUvM=cFpKw@mail.gmail.com>
+To: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
+X-Mailer: iPhone Mail (23E261)
 
-From 474546adc013fab098dfda25e6503413fddb9929 Mon Sep 17 00:00:00 2001
-From: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
-Date: Sun, 25 Oct 2026 11:38:17 +0100
-Subject: [PATCH] staging: fbtft: fb_ra8875: Replace mdelay() and udelay() with
- sleep alternatives
 
-Signed-off-by: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
----
- drivers/staging/fbtft/fb_ra8875.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fb_ra8875.c
-b/drivers/staging/fbtft/fb_ra8875.c
-index 0ab1de664..ded953636 100644
---- a/drivers/staging/fbtft/fb_ra8875.c
-+++ b/drivers/staging/fbtft/fb_ra8875.c
-@@ -47,12 +47,12 @@ static int init_display(struct fbtft_par *par)
-                /* PLL clock frequency */
-                write_reg(par, 0x88, 0x0A);
-                write_reg(par, 0x89, 0x02);
--               mdelay(10);
-+               usleep_range(10000, 11000);
-                /* color deep / MCU Interface */
-                write_reg(par, 0x10, 0x0C);
-                /* pixel clock period  */
-                write_reg(par, 0x04, 0x03);
--               mdelay(1);
-+               usleep_range(1000, 2000);
-                /* horizontal settings */
-                write_reg(par, 0x14, 0x27);
-                write_reg(par, 0x15, 0x00);
-@@ -72,12 +72,12 @@ static int init_display(struct fbtft_par *par)
-                /* PLL clock frequency  */
-                write_reg(par, 0x88, 0x0A);
-                write_reg(par, 0x89, 0x02);
--               mdelay(10);
-+               usleep_range(10000, 11000);
-                /* color deep / MCU Interface */
-                write_reg(par, 0x10, 0x0C);
-                /* pixel clock period  */
-                write_reg(par, 0x04, 0x82);
--               mdelay(1);
-+               usleep_range(1000, 2000);
-                /* horizontal settings */
-                write_reg(par, 0x14, 0x3B);
-                write_reg(par, 0x15, 0x00);
-@@ -97,12 +97,12 @@ static int init_display(struct fbtft_par *par)
-                /* PLL clock frequency */
-                write_reg(par, 0x88, 0x0B);
-                write_reg(par, 0x89, 0x02);
--               mdelay(10);
-+               usleep_range(10000, 11000);
-                /* color deep / MCU Interface */
-                write_reg(par, 0x10, 0x0C);
-                /* pixel clock period */
-                write_reg(par, 0x04, 0x01);
--               mdelay(1);
-+               usleep_range(1000, 2000);
-                /* horizontal settings */
-                write_reg(par, 0x14, 0x4F);
-                write_reg(par, 0x15, 0x05);
-@@ -122,12 +122,12 @@ static int init_display(struct fbtft_par *par)
-                /* PLL clock frequency */
-                write_reg(par, 0x88, 0x0B);
-                write_reg(par, 0x89, 0x02);
--               mdelay(10);
-+               usleep_range(10000, 11000);
-                /* color deep / MCU Interface */
-                write_reg(par, 0x10, 0x0C);
-                /* pixel clock period */
-                write_reg(par, 0x04, 0x81);
--               mdelay(1);
-+               usleep_range(1000, 2000);
-                /* horizontal settings */
-                write_reg(par, 0x14, 0x63);
-                write_reg(par, 0x15, 0x03);
-@@ -150,11 +150,11 @@ static int init_display(struct fbtft_par *par)
-        /* PWM clock */
-        write_reg(par, 0x8a, 0x81);
-        write_reg(par, 0x8b, 0xFF);
--       mdelay(10);
-+       usleep_range(10000, 11000);
+> On 25 Oct 2026, at 05:53, Abubakar Musa Samaila <abubakarmusasamaila@gmail=
+.com> wrote:
+>=20
+> =EF=BB=BF=46rom 778030aa9291e3a7d40ffb03b19e6877041cddc8 Mon Sep 17 00:00:=
+00 2001
+> From: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
+> Date: Sat, 24 Oct 2026 12:02:25 +0100
+> Subject: [PATCH v2] staging: fbtft: fb_upd161704: Replace udelay() with
+> usleep_range()
 
-        /* Display ON */
-        write_reg(par, 0x01, 0x80);
--       mdelay(10);
-+       usleep_range(10000, 11000);
+This is still not correct. All of this From, Date information should not be i=
+n the message. And there should be a log message describing the change, not j=
+ust a description in the subject line. Please look at the patches sent by ot=
+hers and reread the tutorial to see what steps you have done wrong.
 
-        return 0;
- }
-@@ -210,7 +210,7 @@ static void write_reg8_bus8(struct fbtft_par *par,
-int len, ...)
-        }
-        len--;
 
--       udelay(100);
-+       usleep_range(100, 150);
+>=20
+> Signed-off-by: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
+> ---
+> v2:
+> - Send patch inline in the email body rather than as an attachment.
+> - No functional changes to the code diff itself.
+>=20
+> v1:
+> drivers/staging/fbtft/fb_upd161704.c | 18 +++++++++---------
+> 1 file changed, 9 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/staging/fbtft/fb_upd161704.c
+> b/drivers/staging/fbtft/fb_upd161704.c
+> index 7288140e7..94ae5bbf0 100644
+> --- a/drivers/staging/fbtft/fb_upd161704.c
+> +++ b/drivers/staging/fbtft/fb_upd161704.c
+> @@ -32,27 +32,27 @@ static int init_display(struct fbtft_par *par)
+>=20
+>        /* oscillator start */
+>        write_reg(par, 0x003A, 0x0001); /*Oscillator 0: stop, 1: operation *=
+/
+> -       udelay(100);
+> +       usleep_range(100, 150);
 
-        if (len) {
-                buf = (u8 *)par->buf;
-@@ -231,7 +231,7 @@ static void write_reg8_bus8(struct fbtft_par *par,
-int len, ...)
+You need to also check the archives to see whether the change is welcome. Gr=
+eg tends to reject this change unless you have tested it because you are cha=
+nging the behavior of the driver.  Without testing you don=E2=80=99t know if=
+ you have chosen the correct range.
 
-        /* restore user spi-speed */
-        par->fbtftops.write = fbtft_write_spi;
--       udelay(100);
-+       usleep_range(100, 150);
- }
+Julia
 
- static int write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
--- 
-2.34.1
+
+
+>=20
+>        /* y-setting */
+>        write_reg(par, 0x0024, 0x007B); /* amplitude setting */
+> -       udelay(10);
+> +       usleep_range(10, 20);
+>        write_reg(par, 0x0025, 0x003B); /* amplitude setting */
+>        write_reg(par, 0x0026, 0x0034); /* amplitude setting */
+> -       udelay(10);
+> +       usleep_range(10, 20);
+>        write_reg(par, 0x0027, 0x0004); /* amplitude setting */
+>        write_reg(par, 0x0052, 0x0025); /* circuit setting 1 */
+> -       udelay(10);
+> +       usleep_range(10, 20);
+>        write_reg(par, 0x0053, 0x0033); /* circuit setting 2 */
+>        write_reg(par, 0x0061, 0x001C); /* adjustment V10 positive polarity=
+ */
+> -       udelay(10);
+> +       usleep_range(10, 20);
+>        write_reg(par, 0x0062, 0x002C); /* adjustment V9 negative polarity *=
+/
+>        write_reg(par, 0x0063, 0x0022); /* adjustment V34 positive polarity=
+ */
+> -       udelay(10);
+> +       usleep_range(10, 20);
+>        write_reg(par, 0x0064, 0x0027); /* adjustment V31 negative polarity=
+ */
+> -       udelay(10);
+> +       usleep_range(10, 20);
+>        write_reg(par, 0x0065, 0x0014); /* adjustment V61 negative polarity=
+ */
+> -       udelay(10);
+> +       usleep_range(10, 20);
+>        write_reg(par, 0x0066, 0x0010); /* adjustment V61 negative polarity=
+ */
+>=20
+>        /* Basical clock for 1 line (BASECOUNT[7:0]) number specified */
+> @@ -60,7 +60,7 @@ static int init_display(struct fbtft_par *par)
+>=20
+>        /* Power supply setting */
+>        write_reg(par, 0x0019, 0x0000); /* DC/DC output setting */
+> -       udelay(200);
+> +       usleep_range(200, 250);
+>        write_reg(par, 0x001A, 0x1000); /* DC/DC frequency setting */
+>        write_reg(par, 0x001B, 0x0023); /* DC/DC rising setting */
+>        write_reg(par, 0x001C, 0x0C01); /* Regulator voltage setting */
+> --
+> 2.34.1
+
