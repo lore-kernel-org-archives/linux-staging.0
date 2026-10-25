@@ -1,92 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792936731;
-	b=kqBp0uqYQCadaJb3jDpoxn2hSBrJyMvMon6IsA3LqTQG49Y6z0cggj3PzD6h+4NZJ8o5
-	 boPXHFSD82zhEiumCkrepBMXGjXCxbx/pcqaH5hbKI5ZbQ9/+Vik1pZC/Vxe6fe810vff
-	 jbRXKrrr9XQ/yHQIfBqb5fVzQQc6YeRjWNKSOlMGQOFbnHDZmjEaEGMXNa4LLNyZ6Rsk4
-	 hsE7wh5zEKtddhqQoNrNEFNs/aV8ZrP9Kzz1h9oyCr/nG16DHMcbVSVB4wrHl5WD3w7uq
-	 P6+CS5rbHY7e/XplGigBmMyJ7f0znkpRU/db1RhEQHjcw8/wiIkaDabYJAoUa2Wrd6A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792936731;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.42
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792938166;
+	b=vXYjT+x4gkK+2DcX2NCA0xzOxduUbjt7wMXZJjl4EcxJlG3Om4jyfOpbG2DGUXnJLGw1
+	 24mol7iauimtq1R9bKy8r48SasYNgtBsxzx9cVnBycUUc/iHjdnUojImZ7M8lw+jesxq8
+	 ZOaf0Oa1z651FwqpXhQPxN162wu9DoQDQO5coyX/wXtT24Qr9a/J0wOJlG6CdQdHCZ+PS
+	 VaclNCQstB3vMZ2rSJeCo4BDlUlfzQU/LvTDhm2B0cud7JSzRCJb5u2J7Np90uutkYswj
+	 nTRddJtytftoa2X2Q0ux0iNrg8Gx9vl06miDOQiunRIwcGksZmUqOLE5Vnx7KHZ1QxA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792938166;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=so8lfUIk2kpbn92EQdY+sr4PHE6OnQZjUslmbfm4DwQ=;
-	b=nL0HY6scs95d7gGVR9KcJ+2Snvk+EKCfH1vewqgNk7a803kK2UKXR0rSZgp3ikwX+WV9
-	 B5hDkr68LVo7oXUkMNMkqVwbVXfRPT0nwRzmC3+SgOPR4l0UO7Vi+lFV6k7DTY5+2zN1t
-	 7LO1JyxTonrYI6QqIegIiwE0a1A2TN/LUrhQpaJ4O0Swg5c14kH5btQcVORO622iiDq8d
-	 jSY3gagr5CGV/iPUtoZ6Bl01rrCN7C5pU0bsNnDUMEGh2t4VKftiMX2zrOkN7lq/9jRfV
-	 yODwysBhLCBwtcdi/Fxdyvq2+8Lfvldep8UX+oMjV4cQnNb0Zks44nVg2nMRKxl74qA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=GWA3ILffVhGa4FkzQXQubKTR5QBs74w5VthahbifZWg=;
+	b=GgG2a+aOccaS4rJY57ruOPaREfbSMJhXttFc62VEYAlcJ2CTUxtyH2YnGYAGKBpBuTeZ
+	 O/YaMjwmlJHUVh9D/oxmhnikVWyvzWMS7CE5pCltj+4rxtpLNlZyFExznaqRwrE9EEQRb
+	 LEcWXMS5IoB9dO/ywJhiYwZ8BW28JWJhyLp28AreO9mtpK57Cf/egDYNRKdOf5fSaOfym
+	 6qCMUanexXSt/jk8AnQdibNVJK0tGpQh9wjNpeJAg3HfY1dZptMCrVout0ZYsoEvA21Cp
+	 Wtd8KEcN2ac8DKK1L3QGeZ+PuHCkBnLGheNzfgyjTAWDnGHm1+i/3E8j/8ADXrbyIPw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=hPBpVFKG;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DIzbT5VE;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.42
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5677C606A31F
-	for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 13:58:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5677C606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDE6606A31D
+	for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 14:22:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCDE6606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=hPBpVFKG
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so17622805e9.3
-        for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 06:58:51 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DIzbT5VE
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c4697404c2bso279914866b.2
+        for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 07:22:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792938164; cv=none;
+        d=google.com; s=arc-20260327;
+        b=e+n74yoRSvKllMiA8KOjjjmipqRRKpaO9n6ar6Tc9BrgkGjA7NO6Jo4NVc7e37H9my
+         7AyOLHlii1QGM+Kzeonx5wFNVwXJkpaAOuQsIqGtnYn3714xT1HMyofxzhQjVxbvEdxn
+         CQTlJ5xBIZJ159ry7p2uflbT2UTrWgRYePlZ43nGNanI+L4hIWRCdsUoP/BoiIgRjW8G
+         ESlzsHvOCCxJ0q7hmZVULKnoDfIxauLiWaW/HriqozuYTYf/BoiYTLMY+wGJhkz+zAFL
+         gONWTlSCoMiBVv9Yy+jR4vuLKuXJCxgu8dxowYxKdgR0HvrrYpVFiVjvkA1sgD6Qnil0
+         vPiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=GWA3ILffVhGa4FkzQXQubKTR5QBs74w5VthahbifZWg=;
+        fh=LF2jwPc6OKylAQr6jbim0Z80q6bit9XXetLnNl95+eA=;
+        b=IQCTc2SIrI1qKloazdtfZb/ZO6crfE7WqgKosdSeFxuvFRlnqQDOPVUYZ3IfThGxKG
+         jHEkBUyFn2Bt2NiFhuLngJHoteICnwWLMST6brhUvnUvAOscHPVJ7iMUPdVxR8xm+0Rz
+         ANkgpKNzPIBoYknSYrwnqab5PR44OzeHt5ZCYUoNsXDOj6NPaQDBGN6CFyuvZJXfZw/L
+         bJ8O7P6K0gnvwoJkwc1CqO/Ibn7biwshdmEHkcj60+rM0jmogu7uFos5ni55TO3AeFr5
+         G6Pn+9XCwbhXQosXPRmmWkRWXH04XQF0VekmHQqbj/OSZFoVqq5/Lp9/BTG8AaMGrPxp
+         gLYg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792936730; x=1793541530; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=so8lfUIk2kpbn92EQdY+sr4PHE6OnQZjUslmbfm4DwQ=;
-        b=hPBpVFKGCYYQzhDXoefyzDZ0LJ4vn8H7E7F6PdpKCuPlnk8Uk7vXC7t1u1Ocskt3F6
-         0dSIzC35YxpCsIU1rTFPDLqeKWtEePknViHEXkfBwPHznrMfWIShPFiDZrCx8KG3u9Gk
-         KfvfSlsEOEjVHgTrSoli9kJpBqhPzLO/8sO8/9/2EPgD5K5PaWUYnZ8BGH7a+pipeKP/
-         HkM1i18OZuoUDdCRmWKbAA1MisuCLsJc+YlCyBy79saq/rS9stuCUZWx1W5RwrwN+66J
-         NEmeoIUMRF0A0+MCltVr1526qu9VyrW4zueVGmzdOBaD7D0ICDjEuqcIiwguykJVWisC
-         yrWA==
+        d=gmail.com; s=20251104; t=1792938164; x=1793542964; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GWA3ILffVhGa4FkzQXQubKTR5QBs74w5VthahbifZWg=;
+        b=DIzbT5VE3DatzXwwt3fVgwxYEF6irCk92Jo+7BKwCPiPRXRNIpnATpkrFETGI7Pfkl
+         y0hni7URlUWYrKjWrILmtKsKblgk91r4N0XVgdSPR00d3DZ1G+1W2iRSh2hNjz3GeMMf
+         WYCeVjzdS58cXFuc2xKRkyx6FnCDPeXkMcy/EhTHj0F3I72U4ZC8fevOtx4p/SFT0VIA
+         nuw3kKvO13WjeFcOeZFgx/oo0RffDA3Pq2odK01IbxYriKbPQcqg5GqQ2Oy/eVXZC36S
+         6A2qy5+6U98QpcZBPPYqxXuJxPbIl+iJy9QLBkExU+qtfv9224T8qqTKZpXckCDscmC6
+         bmGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792936730; x=1793541530;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=so8lfUIk2kpbn92EQdY+sr4PHE6OnQZjUslmbfm4DwQ=;
-        b=OKTrKLasOpvWA2zFi4XIO1lXLxfeTQdDAKIX4IQMQUyIAj9F4fn1oMDDIzcVsxg9cE
-         H4HaP6xPowctDKmqwgEIjw6zaLd+5zrXVGk3vIvVqtJ+YyeUKGI3EJl6u1GjpwiynXpg
-         smQuyQLWhHcXXofBIUX8sIwKgb0i1OAjDnsKZa6sB9DaGEZ91UFnanx4VkMr2N32p6LK
-         6rWIEQYckJb+wUzbtE1Bxmc2/c5n6Dmdw1UOCkNcFcQPWwr/c3YEZPZ+NfMez57dSD1p
-         T2rp9F46cLX7FHRLP8txSzQsj/mT2Y5l0YnbD7s75YlAYJ/RRJXcm4CWnkyK2k+PF/s3
-         /1og==
-X-Forwarded-Encrypted: i=1; AKwUvBwPPXIc6W5PXNtF9TtQovk5OIF/OwFinAhP1I2djxmDse2OpLfzkHirsfo00G5d3bKzS1Wh86SvUnqr3YN6@lists.linux.dev
-X-Gm-Message-State: AFq9FYIsMmVxrqkcGXnYAZf8jp8TXCmj0zIxWeOON9gguWvQ6qpGdv8d
-	LvkRDjx9QS0H1/KlOEahRTAwDv2wNyFUvxIAqsqPd+32eZhJtzWmA84M
-X-Gm-Gg: AYBFou0DW8pfLd4fe8T5EQ/KDIjnjvZXxrDAzIcQj/v/RV3TPEcWkl25ae+ijTQwz3+
-	OXRrdc96Q4V3C0bd5V5adwexcp9T/4PEKH77tsolZsV0WCbAEP7qVpKvtnZIfp0mvZrMvNJZWCB
-	u1qaBpirdq38po+4BT/++MQEe48wWqZqYLXJv6mGIuHMSwJHPGsRGmqlwQlxZA5gn0wDEY0xtSB
-	6B7cN0RJAnMsFJnoh4DUTohSofxg21c0vnn2+gyGo9T2sH4uYFSS21e5IiDJ4FwAgW1Ft9YSo30
-	dfQ7LzxaB29SE49QYQE6/B2AVJdKLqlPiXerBsKG43TEVrkCh0tWbdNIorms6lqsfPT0ARqxWt/
-	iu3wTHISG/5Thwx6wpsgGTyHRNTSSLUiW/pjmxn5RdGcDESiyGvZUzZK8edkrc9ofnnTJa0aqI0
-	L+igc8PWkF4x4yGLlI9IsRrhOB/BVFb1YiDEW+XPwLW3lpJfDSj/4eYjxvo4P4VTPtAlgkWXWnl
-	OQNLx0Bql/0PY+NI+5U2v67YRAhzNrSbwHrMLlOpp2cTvrq60lqPSMha5vh00GLh5eAUuZiEQ==
-X-Received: by 2002:a05:600c:1391:b0:4a1:fc0a:8b75 with SMTP id 5b1f17b1804b1-4a35ac9f430mr75846955e9.24.1792936729550;
-        Sun, 25 Oct 2026 06:58:49 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a09434esm123575575e9.0.2026.10.25.06.58.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 06:58:48 -0700 (PDT)
-Date: Sun, 25 Oct 2026 16:58:44 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Haasham Khan <haasham93@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: remove unnecessary goto
-Message-ID: <at4LFOUt-XGzBAgS@stanley.mountain>
-References: <20261025130258.10747-1-haasham93@gmail.com>
+        d=1e100.net; s=20260707; t=1792938164; x=1793542964;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=GWA3ILffVhGa4FkzQXQubKTR5QBs74w5VthahbifZWg=;
+        b=cL7gfdQCRcgHtUdakBbI7FtniRkb1PGzFRybd3RbXjfzvcxRAFpAv2jaSZOk92YtIc
+         7xudl9rJe62tPfLLjaskvxa3C6fk7Wh7nA36lX0blsNwkN97KP+4HtofKifYL0CQ/VWL
+         IviMUxgPpkfpr5ju2cr/F7re6s0UznA4FidHwPElK4ShPcuKiTx/VLjBfd2SCl/XJEtW
+         qTTuv0FPfwNLqOlDD8Zi4cKoY4ngjRzj+SF/E+WWoVwPQcxifle9xqJMfKmaJNjATwyP
+         NFYfEweL3k1JaLXO5/6yVpzp2XdK5m9DqTW1fInjK56TM6xdiZy8Vw2IC6h3Lw61W0lA
+         YLZA==
+X-Gm-Message-State: AFq9FYKkXfVd7Rn/ghYAVjq0tk3Suunnqp2zRhEaJFaMcr6bXqt84lfk
+	aeYhK3BYKlExiT//sjtYI7yhWziC+pM2CTaoXbBJ/difqx2BzeNcma4bFf/xFq1Ai8xY+QvwJ32
+	F6xrVEzi9nCttjWPlXTGNLAwxO+PfAsU=
+X-Gm-Gg: AYBFou0pFSWIXfdOdxLYLoBiNjxEyTaGd37ryezLLx2aNKGT0xdf9fAchqT3FOElrBP
+	b37cnw6OO6qe9II/Bmy3HBo99ebWnmtAE85vuNCZwFh6i14oMwJ1iWmTakExrMKY8EkVBaJ9r/c
+	1IEoAbtpRm+MZOf8qKtyeqQxidF1Qtq9M9GbPdI8gSC4femh4Lr8krwf0Tg22ZefWkyseBL9uiX
+	ssh2IsEkdlsoVFdB3+PlKTp2O2vOdvAZphp6oLpI9FDYgNNf8NJS/s8GEEEG1XK6iS1lg6YF2oz
+	Kwm/GqMKCkkVovymZ0M+JxrqZDmmhf0r7qnV4Jdduyvwsd8G6xtuxJao4enfVHJzPVlxGn/aQAA
+	44uotiFuD53fpURDO54Q5E4g4mmxr8uYCUPvEDZXqS/5eOuJITZdwDoLyLIGXbgJ3bw==
+X-Received: by 2002:a17:907:dac:b0:c31:e9b7:f10b with SMTP id
+ a640c23a62f3a-c46bdea43dfmr530904366b.42.1792938163869; Sun, 25 Oct 2026
+ 07:22:43 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -96,42 +99,86 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261025130258.10747-1-haasham93@gmail.com>
+From: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
+Date: Sun, 25 Oct 2026 15:22:30 +0100
+X-Gm-Features: AclHuK9wgskeKFnwTz3UroDZd-FWWYPOLCNifdGibJ7BV5fPBFLMKtRw3_x8_lk
+Message-ID: <CAHxSwT_bdBdiwwXpGpr9+rGizZU3p+RsB18hPH5TxqMuMZOsQw@mail.gmail.com>
+Subject: [PATCH v3] staging: fbtft: fb_upd161704: Replace udelay() with usleep_range()
+To: julia.lawall@inria.fr, gregkh@linuxfoundation.org, andy@kernel.org, 
+	outreachy@lists.linux.dev
+Cc: linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Oct 25, 2026 at 01:02:58PM +0000, Haasham Khan wrote:
-> The error path in hw_sm750_crtc_set_mode() jumps to a label that
-> immediately returns ret. Return directly and remove the unnecessary
-> label.
-> 
-> Signed-off-by: Haasham Khan <haasham93@gmail.com>
-> ---
->  drivers/staging/sm750fb/sm750_hw.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-> index c4358d3e5091..22f93277e91b 100644
-> --- a/drivers/staging/sm750fb/sm750_hw.c
-> +++ b/drivers/staging/sm750fb/sm750_hw.c
-> @@ -272,7 +272,7 @@ int hw_sm750_crtc_set_mode(struct lynxfb_crtc *crtc,
->  	ret = ddk750_set_mode_timing(&modparm, clock);
->  	if (ret) {
->  		dev_err(&sm750_dev->pdev->dev, "Set mode timing failed\n");
-> -		goto exit;
-> +		return ret;
->  	}
->  
->  	if (crtc->channel != sm750_secondary) {
-> @@ -332,7 +332,6 @@ int hw_sm750_crtc_set_mode(struct lynxfb_crtc *crtc,
->  		poke32(CRT_DISPLAY_CTRL, reg);
->  	}
->  
-> -exit:
->  	return ret;
+Replace udelay() calls inside the init_display() initialization
+sequence with usleep_range() to avoid CPU busy-waiting. Since
+init_display() runs in a non-atomic context, sleeping allows the CPU
+to yield, improving power efficiency and system responsiveness.
 
-Change this to "return 0;"
+Signed-off-by: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
+---
+v3:
+- Remove raw git headers from the email body per maintainer feedback.
+- Add a descriptive commit message body explaining the rationale for
+usleep_range().
 
-regards,
-dan carpenter
+v2:
+- Send patch inline in the email body rather than as an attachment.
+- No functional changes to the code diff itself.
 
+v1:
+ drivers/staging/fbtft/fb_upd161704.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/fbtft/fb_upd161704.c
+b/drivers/staging/fbtft/fb_upd161704.c
+index 7288140e7..94ae5bbf0 100644
+--- a/drivers/staging/fbtft/fb_upd161704.c
++++ b/drivers/staging/fbtft/fb_upd161704.c
+@@ -32,27 +32,27 @@ static int init_display(struct fbtft_par *par)
+
+        /* oscillator start */
+        write_reg(par, 0x003A, 0x0001); /*Oscillator 0: stop, 1: operation */
+-       udelay(100);
++       usleep_range(100, 150);
+
+        /* y-setting */
+        write_reg(par, 0x0024, 0x007B); /* amplitude setting */
+-       udelay(10);
++       usleep_range(10, 20);
+        write_reg(par, 0x0025, 0x003B); /* amplitude setting */
+        write_reg(par, 0x0026, 0x0034); /* amplitude setting */
+-       udelay(10);
++       usleep_range(10, 20);
+        write_reg(par, 0x0027, 0x0004); /* amplitude setting */
+        write_reg(par, 0x0052, 0x0025); /* circuit setting 1 */
+-       udelay(10);
++       usleep_range(10, 20);
+        write_reg(par, 0x0053, 0x0033); /* circuit setting 2 */
+        write_reg(par, 0x0061, 0x001C); /* adjustment V10 positive polarity */
+-       udelay(10);
++       usleep_range(10, 20);
+        write_reg(par, 0x0062, 0x002C); /* adjustment V9 negative polarity */
+        write_reg(par, 0x0063, 0x0022); /* adjustment V34 positive polarity */
+-       udelay(10);
++       usleep_range(10, 20);
+        write_reg(par, 0x0064, 0x0027); /* adjustment V31 negative polarity */
+-       udelay(10);
++       usleep_range(10, 20);
+        write_reg(par, 0x0065, 0x0014); /* adjustment V61 negative polarity */
+-       udelay(10);
++       usleep_range(10, 20);
+        write_reg(par, 0x0066, 0x0010); /* adjustment V61 negative polarity */
+
+        /* Basical clock for 1 line (BASECOUNT[7:0]) number specified */
+@@ -60,7 +60,7 @@ static int init_display(struct fbtft_par *par)
+
+        /* Power supply setting */
+        write_reg(par, 0x0019, 0x0000); /* DC/DC output setting */
+-       udelay(200);
++       usleep_range(200, 250);
+        write_reg(par, 0x001A, 0x1000); /* DC/DC frequency setting */
+        write_reg(par, 0x001B, 0x0023); /* DC/DC rising setting */
+        write_reg(par, 0x001C, 0x0C01); /* Regulator voltage setting */
+-- 
+2.34.1
