@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792939836;
-	b=xj31b2vVewm2f1RMGrFMj0hrcGYzxkXhB4DH+7JYE8fDygePUKhJ1JvvyzUy8FfbaWEF
-	 kIOuYzHHIvedS7cx0CpvUtOoyLZfbu8MNEWBNOIW+2q0BLbGUu72j7DPsrOAX9Q1/M7oJ
-	 ia/NkxV0D2D1UnSCcqbAyIPUWEQ2c0Fuw4Ib5XvCRlS/vm5nlCT+/4Ju5p+BuXR21Vtaa
-	 Zy7FqZ1p1BIWuaSz4j4RuCN5cnYqGUJQhJOtDxpyVT1TX6EZMjiRhGs+5qj/YQ03R1HSP
-	 OGY9fPmBfRuem39DvdSzCubC16NcdAaU/jOCyzAVtrhfFDfZeHu8pKdyr+J7TvV9f5Q==
+	t=1792940496;
+	b=xmAC3grPWS4bP0gwabrBok/AkPxSi6ZhH4bgFiGVzzgTaHQajscFT/I8lTE+GWAizTKW
+	 iTn6xFjdQmQEQkLTt/8Be9BO6k18l4E0h726B0XsKtOAnOOUUk9TjUz97DKFhNmENQheA
+	 1GN8JIu+97n4N3bIToTsfh76ofE+mecz9DOrT3vMSzYj1YM7mEhRzIzJtLYLxUlJR3oeN
+	 1rUmHfq4iei/mreXocUyNDoGcnWMdyhR+F0fIi9P6JeTrXp7SCZ9a0FDYyOXgWmTWQ7nf
+	 idelFwuqGjjfG9qmCBLliaddMKY16imUX6b6CT2z6BRQH54f2p/7pS+oVXAYmj8O0Gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792939836;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792940496;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To:Organization;
-	bh=6Pxhpwyug/cohEo6PD4X5ffzTblLzmuMS1iKA6wHYTY=;
-	b=l3jSRz8G7rysjN+1dspMoOePzqxvcMgXzEPHEhvrAceEP1cDF2jDLTMb2MwEsZEqtz/v
-	 l4XZSURJE4oq4aAlkW9MqZR1GQm6Qou9ByYlY5oJYPlVAr9fMWfaZEGUTXBAfXYG1u6MO
-	 0Zcn2mlhYRJKua8bQ56itnmqMUIDmuZ2xY5gYJUNJ5Llofe1jvECVFDnsT+Hz7t1tPauI
-	 demlM/Edxtc8Xz647YurAtxW3D0y9MqejCxlKw5srYMhL/t5oaMQK1gVmvTSyuyg8+Ucs
-	 gGibUk0pddp6XhwHN44hxQ04aRHqarv9at+v9YAMtEfjxXwyqcKvgZuAjz2Uba4Jqfw==
+	bh=D9mREOesp9ix2gw/zcluHwQx8Ah3Xmw9pk+GCQ06GNs=;
+	b=OTGGFP2SaUz0hufhPZzRhVA0IdwqCnu+GQ86iRY74Z10+wt0bjht+nxfRCU4nY4K9Spv
+	 L/9J/lMoSd3VlRWqn47RI4M1FtiriAz+cOqdW1jD65331B+4eEn3tz5FKUkvGBKY4hoVv
+	 5S0KGb9JQi0sNwAitDqsxL6F6yTAumRelqMJreEsYW2dP8XBVpYtlxnHZmYK8sptvnUXj
+	 NueIm4E7I/FoUuWcO4kiqdT54raYU9EfWKkg4uCSHMVZJHnCL/Tf9gEHOu7Mi434LTUb3
+	 a1pyvNZzKOziS/8AME+QYGSfpqIdCtn1YNTyu/TYNiYlnf/K9p7T9Caiw7jcR6aPSDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PshC8Di0;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nJaZNf5L;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6372606A31A;
-	Sun, 25 Oct 2026 14:50:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6372606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E07606A320
+	for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 15:01:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89E07606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PshC8Di0
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nJaZNf5L
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792939836; x=1824475836;
+  t=1792940496; x=1824476496;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=H4I93okhC8Zg01N6xJwsIKRDh9uxsIAKt5AaymrgcT4=;
-  b=PshC8Di0VvoCJPT1LPZrWYHCax+1tWNXg4qka93dGdGFM084thK169kR
-   tUpvUQOnhDQ4SYrazUarH4D2Fa11pglepfTL05qWsDkHwHoMDXL+pbCVk
-   RI78SJMRKlEJRXWcVsnvEWeTQ3Jpep8i7LTpi/0SjO3mXVgKYjnu/avvG
-   eN+7OU9gKE+khRVtmp1R1l4GdVVDkN+zmhKoG4CWQ9qzyhalkT+JvIpcR
-   Lr5zDMDJQNJDphOMgc2W/Gvxgbub+ql88xDHBhe6x2OnfIMts0Rv2ANLa
-   swPU4fe0XL/4s+nghzskjR9EGa0LKJdUE1nabLhHebvYCFu9OduATy6gK
-   A==;
-X-CSE-ConnectionGUID: +wDDyThkQo2UX10U7J5qLA==
-X-CSE-MsgGUID: qlgxi24PR6OFnJKO0n56Fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1724552"
+  bh=L3ipZTsNucMPzNkW+kxXI9G3iUL6JjrKCA2IMBnMnBo=;
+  b=nJaZNf5L/rYoCssx9wNz2/xvR4nyix5cog2qweK5jFqDMsQiepwEWdLu
+   c5wuHliK/bbNdOSyciMQnWoBEWnjaO+rZVa8jLLnnQw8IoaFl4OPxvAP5
+   oSBV2DVMbb8p0k3qj8P5D9IsjXA3gxY7J+nNd2q2oJFd3BmvLEMhv0yJ+
+   hKAzHip4PRODg8Uk7u8ikWuIjm02oE26gE7588Nnz0eAY3RN3jqA0JnGU
+   F3Qjyl/UXl3Izl7+l7Qyrz7RIaaTYYZluNRLp8DoBLGT9dRiTgDJfgGeD
+   SD6Npq/F2v98aUevdSK07kY+Z26FY0HroHdy1Xqxu4r/lCZJ+hx+Xe9LJ
+   g==;
+X-CSE-ConnectionGUID: uI3I4znGQcG0w8BZa/tYRQ==
+X-CSE-MsgGUID: eQzMHu+/TxS3JfFKWQ/+zg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1629433"
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="1724552"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 07:50:35 -0700
-X-CSE-ConnectionGUID: ZsO6uhFNQiSLWYBDVmp0rQ==
-X-CSE-MsgGUID: /noBoKB5Qp24wD3Z0bBbcg==
+   d="scan'208";a="1629433"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 08:01:35 -0700
+X-CSE-ConnectionGUID: IJ5YdLbERyyITfSahx/fEQ==
+X-CSE-MsgGUID: jbpnSTeYSNOhBbOZEZN2nQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="4060247"
+   d="scan'208";a="4097073"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.10])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 07:50:33 -0700
-Date: Sun, 25 Oct 2026 16:50:30 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 08:01:33 -0700
+Date: Sun, 25 Oct 2026 17:01:30 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Abubakar Musa Samaila <abubakarmusasamaila@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: staging: fbtft: fb_upd161704: Replace udelay() with
- usleep_range()
-Message-ID: <at4XNunsk8UWquPB@ashevche-desk.local>
-References: <CAHxSwT8=ZA2sFqXNjfX2=Bf369+gNRLfCO+VtVmmWiTzenLwWQ@mail.gmail.com>
+To: himanshu bakshi <himanshu.bakshi478@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: Fix line length warning
+Message-ID: <at4Zyt9QP3Yo-ZTC@ashevche-desk.local>
+References: <20261024180803.108872-1-himanshu.bakshi478@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -82,19 +81,39 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHxSwT8=ZA2sFqXNjfX2=Bf369+gNRLfCO+VtVmmWiTzenLwWQ@mail.gmail.com>
+In-Reply-To: <20261024180803.108872-1-himanshu.bakshi478@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, Oct 24, 2026 at 04:32:11PM +0100, Abubakar Musa Samaila wrote:
-> Hi Andy and Greg,
+On Sat, Oct 24, 2026 at 11:38:03PM +0530, himanshu bakshi wrote:
 > 
-> Please find attached the patch that replaces non-atomic udelay()
-> instances with appropriate usleep_range() bounds in
-> drivers/staging/fbtft/fb_upd161704.c.
+> Split the line in fbtft_init_dbg macro to keep it within the limit of 100
+> columns and address the check-patch warning.
 
-Please. study the respective mail archive on lore.kernel.org to understand
-why this patch is no-go.
+checkpatch
+(in one word)
+
+...
+
+>  #define fbtft_init_dbg(dev, format, arg...)                  \
+>  do {                                                         \
+>  	if (unlikely((dev)->platform_data &&                 \
+> -	    (((struct fbtft_platform_data *)(dev)->platform_data)->display.debug & DEBUG_DRIVER_INIT_FUNCTIONS))) \
+> +	    (((struct fbtft_platform_data *)(dev)->platform_data)-> \
+> +	    display.debug & DEBUG_DRIVER_INIT_FUNCTIONS))) \
+>  		dev_info(dev, format, ##arg);                \
+>  } while (0)
+
+First of all, make sure that \ (backslashes) occupy the same column on each
+line of this macro. Next one, it's better to add a temporary variable to
+hold the platform data pointer. Something like
+
+	struct fbtft_platform_data *__pd = dev_get_platdata(dev);	    \
+									    \
+	if (unlikely(pd && pd->display.debug & DEBUG_DRIVER_INIT_FUNCTIONS) \
+		dev_info(dev, format, ##arg);				    \
+
+And last, but not least, have you checked with `git grep` how it's being used?
 
 -- 
 With Best Regards,
