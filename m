@@ -1,93 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793004711;
-	b=jWxNyu0T1ybiqxFCzWQJEDXuHs8aa7LBPrXAEVmljUkDMl8sq62UFb083TFIXQL+LEER
-	 wIeaj3VQ57Z5cV+vXJk5I/W1JKgsqmfrhI4fr+EyuAPOThmWNznoD+abPQgXtFw2ogY2s
-	 HVY/67+N0wEnido6fMQbKDwMGA5G+qtGNyPdHuVFeyFeikR2ZdK5duFz4GdEwDh0l0taL
-	 mZtvh2a35hd1CflijejvjWnAsN2dzmF7gOjTpcrQw+n1gyKV3Z6UGVm311QzHmpwwnsAg
-	 tAD5nsjxgBM4OodpjoD95NnhJ06z0vTBhCR7LmsKdBLBt0V2LHGB9Ee5ETnfiSp3vJg==
+	t=1793005665;
+	b=YwSkTTD3Sifdhh04XDyu68zBjh3dCCpjcEDkMqAF2OB7A2b6JcV/0AKz59Q3e6Gi07MG
+	 Sk73cl3I+9Fo7NXc10i9RzfS31p9Hya4CadMkbrKJ8p4y8nZb8224R+H0tQp6bKjqF63l
+	 qrDG3kpWxGBq+md9db7l6t+FgdRNplWASFx1gjkU/C7Uhv+BE9K5YHqH1tYZ+1rZbrQ1Z
+	 YojGjW71l4AkbcsvKQZIOghQhwmg55ZB70F2ji+CzEjji29AtIhyUGwtScVfKCPEa8yHb
+	 xPVHUe8G5htuYPBe3McV5l9vhqewlHOYDl1AK3xgwdbk78/aB0yDbDQWVG0vOKi40/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793004711;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=xWiTlDTyc6PTyNRCBNyeHOu3tzSbgoo2LUTk5932AiQ=;
-	b=rSGtySi/sBP7F0dw+q0zxp3WuEGg+3sRlbvOU+lfK6I7qK7PcbnbgDOXLrYHkalOEeAK
-	 041Mj7196P5/p8c1goxxGM/QhaBB/S9+IhIglAyiTHLVoFVWO0bsCBT1IjepYiUAR1cB8
-	 z678kmrupMUwEWxf9A5tt1PfDKLQCjOAsUUx4zu7RchS3V+fujAmLmMT9mwloYtKXR8cm
-	 v8pfFnWPzBf+tJG8wODi+WS6+id5feP0YZ187MsjEB5qTxY7OKox4Li5yHJRRorCwsC2J
-	 rWcZq6el1AGzxMVQf+2mi96FkmTFpapp89tAFC65xiv3rPjxRqr3EbtP4Wse06ed6pQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793005665;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=tku1anvtsxeDxchSeNjnKF1Zpthldyy4qNBOIQp4nOc=;
+	b=2QCvo7Dhkyy250LXVnYst3LPZrHDvwidMrxvyeBCqc8wZeYqkfPrRARyNe2k+bwUNeuG
+	 3h4s1txeD0HPiJ0TMN9wjnrORoEJPWidNGhxWmruQgt5T4Y3/V122vsPaozUv6Blpindx
+	 foXUicB/dLQN/iTMn8gSrj60xXtySRK31HRvfEIzhoctZgem/wXmRTaJMEY+EJOTrdVPy
+	 pTKWfJJhrf5jHc/lO66ZJtIGtIoybR4YfarLDVCUIWF2D1VRBTkcCb5yMDsM/hDmfoYsJ
+	 Q2b4jx8i2AhD9awRVnSSxqLjduWsW6hD7WElvQcK9O6LTcwEhNstoFPbpnOdAB9suyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=H2GucDwa;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SgtmbBEL;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32AB5606A326
-	for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 08:51:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32AB5606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A449606A31D
+	for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 09:07:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A449606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=H2GucDwa
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a549cd7fd2so8072935e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 01:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793004709; x=1793609509; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xWiTlDTyc6PTyNRCBNyeHOu3tzSbgoo2LUTk5932AiQ=;
-        b=H2GucDwa28C8OvbEmD+hlCt4lUixAxwB5M3a5SkP+VuI1mT5MN7LgJ0HvJPvJuv1p2
-         RGjo37GOnwjtgnFXcgDdlzz9Gzfvc4RT51b99p/3SbL36+Nr7a4Uv0qkm2J74serC2wb
-         cMws7C5FIDoeJmg6PYpJcHEQbyFCiTVmibaDTXFBdu/19Q/Ll5HBXumIOvbOE5MBxEYo
-         metkC7sLZHC7yIkYvaci0y6RRwu2mQ3fps67Dp6DBPzJ5jhK6D6J5HwuTUWfwIqGXxV3
-         Ka2oM1Z9e27sPEhfB0SNPkpmEzUMy2oekhvRyHCqm9riWLp0Fkx5JgU/359PT9OhbREV
-         htzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793004709; x=1793609509;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xWiTlDTyc6PTyNRCBNyeHOu3tzSbgoo2LUTk5932AiQ=;
-        b=YHvlaz9npKEru9LaBxLEZkeSvxZjWRwVbzaxK9tYnaFPyLMP07xr3QP7Z+LI2fblTu
-         pGghyEhtkO5Qat3jQR1uL4pPoK8Ig2TDOJqlSJHJXg5n53JtvjqnwUckSdvlzQRRi4e/
-         d2k46MCYD7reqntfYCLAKixjfHg0Z70eB5El2G7MAjRJ5VHgzLyb5nSdDpuTUjs7ezjX
-         Ez9SL9xPbBV0ZKl6uLpc+O0YRnPA06zAJpTlDVLe1JH/Yn5NZbT2I51axv5+/hgjj5QZ
-         9CicUWd+QifHS+DKLiOeqCuc/lBYf49tDk+VanG01nj9e9Nphm1OhgYdUSuj6dGNgpbH
-         VQuQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwkF/6dfG8kjCzCOseyNIoeOKNWyuDT1n5EBle2d/TQWERdeiKtDbTy8e+6jPkSTHwQjhxMgiJeVRekjKgK@lists.linux.dev
-X-Gm-Message-State: AFq9FYLD9DmloRwqTzeSpatFMj4EQnm729b9QYY6CxhKKqhyqQNuvR/b
-	/2nD5aCVQVXqHuVS6wolk/UMeujtGxCVz5CcNAhguKoRjjROCmAFi9DS
-X-Gm-Gg: AYBFou2v1Nia3EH6q9LAdCs1/gLG07bIS73gXmrB4SSw+1K0qw2q86/MXYYa3ee7Fze
-	tl7H1Dka1qF+NUUmvHDkMZ0YizM3WAxLAuYYEi3WvVhKRLRdgJ6nfyWzMCXrpIYXbJjWPbLWKfz
-	E+xgzH1IJxJ4VrLPgho+fl7QBHw2dxFbOIOc/2VKeqWgpOxK/gVEwQ6KKijeQWPQydA8Y2qUFO7
-	k8SJNQcUwW7AGGVAkxXBGmwqiUtRaHg+svkRcYIRdvs3REvgapdGse5keZr52G34msFPkBPEqGB
-	cbdoxZR4I35Yz0oNpC1gk6EPx6lvwX+DNxVWoAs7//o5pn4AC2NOZzBHkKuEfbeDcC2b09nZDFu
-	fx4VdotdgvM/rQJAuAcSreEYwHyjf3tJsZFz/Ff1J0VLz3aOec6KucOyCUUnXa26BhFeQOidb5p
-	MceGNAcAnDog2xP1Q2suM35xQ6VtNYdy9zWLw+Ikk9irGaE0vbs6EGdPEkyBqjhH/XysddC9oe+
-	UH9W0AZCyrRhVIZqpsLUChIVhoNFdSztBL12asvy9PSAdtbFaTO
-X-Received: by 2002:a05:600c:630f:b0:4a1:efbe:529c with SMTP id 5b1f17b1804b1-4a35ae9e071mr121463405e9.12.1793004709351;
-        Mon, 26 Oct 2026 01:51:49 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a0aa0bcsm224781085e9.4.2026.10.26.01.51.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 01:51:48 -0700 (PDT)
-Date: Mon, 26 Oct 2026 11:51:44 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: himanshu bakshi <himanshu.bakshi478@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org, dennylin0707@gmail.com,
-	cenzhang@linux.microsoft.com, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dan.carpenter@linaro.org
-Subject: Re: [PATCH] staging: fbtft: Remove unused macro
-Message-ID: <at8UoLDzrO9ypMeR@stanley.mountain>
-References: <20261026081832.60570-1-himanshu.bakshi478@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SgtmbBEL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793005665; x=1824541665;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oRjbsiZqVRUV0hn32VGb6rhu6l3a8Gv47KkMMMF0Q68=;
+  b=SgtmbBELmGMJXwdD2Z5jktDR/cwziyFNV/TIMbwMwOwh+ITRAMsxiRdd
+   YoEJ63KVefAs3pml7A4lqiuTIN+zIWaMrcUCUzJ/PK8ae5KgGZQiIhjfE
+   iynqyYkyNxYy7M5q2bfR6WOx2XBhmqhlBKEVVC92S/vN48HH5nmYbKUXu
+   HfhlGZ7DhY6DhjKOfX8q2wCtZpsnDx+ulp06WGcGUVzRf5RI2SPZcGwPH
+   JXD11U3WT75wVESFcFY83smJj45c2KmKTVJthLXWYoasomIEPCGGowRGA
+   2di9dO5w2Y0t1m6tf3UlioS/aeyESImGeD6BhAfLBbFoTWUAIIBYyQZmg
+   g==;
+X-CSE-ConnectionGUID: hykAbO6gQ3iLdNYBn5uXnQ==
+X-CSE-MsgGUID: muy9rMJaQ1aEQI1FuAR5iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1566084"
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="1566084"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 02:07:44 -0700
+X-CSE-ConnectionGUID: 9Vtw9D1DSD64C3SluN7cIQ==
+X-CSE-MsgGUID: P4xaKnc+TyuJ/TiwCDReBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="4267628"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.93])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 02:07:42 -0700
+Date: Mon, 26 Oct 2026 11:07:39 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Nithishvelan M <mnithishvelan@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: iio: impedance-analyzer: ad5933: use
+ guard(mutex) in ad5933_show()
+Message-ID: <at8YW0nzftacwkga@ashevche-desk.local>
+References: <20261019150248.416-1-mnithishvelan@gmail.com>
+ <atZq2GstK_rxOgbj@ashevche-desk.local>
+ <20261026024049.556c6642@jic23-hlaptop>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -99,31 +88,38 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261026081832.60570-1-himanshu.bakshi478@gmail.com>
+In-Reply-To: <20261026024049.556c6642@jic23-hlaptop>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Oct 26, 2026 at 01:48:32PM +0530, himanshu bakshi wrote:
-> From: Himanshu Bakshi <himanshu.bakshi478@gmail.com>
+On Mon, Oct 26, 2026 at 02:40:49AM +0000, Jonathan Cameron wrote:
+> On Mon, 19 Oct 2026 22:09:12 +0300
+> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+> > On Mon, Oct 19, 2026 at 03:02:48PM +0000, Nithishvelan M wrote:
+
+...
+
+> > >  	case AD5933_IN_PGA_GAIN:
+> > > -		len = sysfs_emit(buf, "%s\n",
+> > > -				 (st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1) ?
+> > > -				 "1" : "0.2");
+> > > -		break;
+> > > +		return sysfs_emit(buf, "%s\n",
+> > > +				  st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1 ? "1" : "0.2");
+> > 
+> > You can (re-)use ridx here as well
+> > 
+> > 		ridx = st->ctrl_hb & AD5933_CTRL_PGA_GAIN_1;
+> > 		return sysfs_emit(buf, "%s\n", ridx ? "1" : "0.2");
 > 
-> fbtft_init_dbg is not used in drivers/staging/fbtft directory and
-> since dev_dbg messages are good enough, fbtft_init_dbg should be
-> removed. After compiling the driver, there are no undefined macro
-> issues.
+> Maybe call it something else here as its not the range index that I can see.
 
-This commit message is sort of acceptable but a better commit message
-would be:
+True! I have no idea where the part of my thought went during the previous
+reply as I definitely kept in mind and wanted to add something like "(and this
+might need a variable renaming)".
 
-"The fbtft_init_dbg() macro is not used, so delete it."
-
-1. () after the macro name to show it works as a function.
-2. We care about the whole kernel not just drivers/staging/fbtft.
-3. No need to discuss dev_dbg().  That is unrelated.
-4. No need to discuss compiling the driver since that is assumed.
-
-Otherwise it looks fine.
-
-Reviewed-by: Dan Carpenter <error27@gmail.com>
-
-regards,
-dan carpenter
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
