@@ -1,101 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.50
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793007900;
-	b=DWmA8KrOzx74xtEXseRjdhOhT1/uFjn5A1r7AIcyc1rDNN/xypv8Td3oixbayCKol3nl
-	 05lCDMiL7eUdFtvE3vUAY4+lHza0CBg+z0kwsfDoY6wqH2hjJfVlLRm1oSJxDBiJCUXcL
-	 yNEhdZWzlikF17YPMxiD0YyLNMbgRnywpYIjFUYJGtxkdqTUe8NADSSPv139oIMAie7U/
-	 0T+qCOGDEIYf0N6zrfeuHM61zIT8j/Uzh3VE7YPPSn5QyIF2Pb0tkhmCrHn+mHC4UV29a
-	 cTlwPzIwVKjx2Z1r0RnJWqcX/Daf5L61gLiBqSkEwKRdhBQsFbV+R09WEpaWKLQbNOQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793007900;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=YySXXUFBOHmytywvVTLMkHqN01ZYut8GdXtuh1QQB84=;
-	b=o8XsgApUs9+mYqo9dq7gm6fVcSNTmg7dd7cMyRjvEHbMRfBcYn6LPrCHYZohrFZiLUYg
-	 1X5C6+05w6ElNQtYd21FUg89oC6PMfYwJJ6wEDyJnz7lKKdzwqB3Yyjue43uIOXXRZMh2
-	 GK9PiApeNstIgrHOmJp97vykQagip0E/JEqsQJAELipAFTHqZdJq6HNB9rXKtjUoIpKeD
-	 J2GnQQV7mN04L4DMzmWbsMmdH1s1gI4oZSsz0QoJRKA+k3nosX9HnH+IaUcjozq0nJAQM
-	 wX8mhRKeZhaK5NhRGLSlqe2Tn5tuSp/FmWV271rJmrBDMyeqHW+cczrxJH41NtRitdg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=au+isjdQ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.50
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793008090;
+	b=eeebjTCTxJ4lg8XksoHNN9Vwb/P904qi2QCv87/RaIacR5pV/kJkKWFctBHeWNkAa9im
+	 Lkot1aPvmu+UGMAGowgu4cmJqYODrOIjXmx1hfoiUH0d/wYdeWV9STAfcXfSxWXK/Tfh9
+	 oySwXmZnucUolB17PesENg3T8iesTuglaEmG8kngwv4PxIWTd+sHx6G8CyP7meKNCZErn
+	 s9wdGBY45+YOAcwc4EODB7P1tmTWpA8A4UunAlWS/0tzLRdqvt/gg63GeMCClotaMjtnS
+	 r1w1U+234D6CbAOh5P1jg6NFemTAuGZSaJa9rr47MNTahBWsdWHBvOJfkxQMQxdugsw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793008090;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=lKpxVBbLN2YxvRBv0VOPgTbhxs5jD0Cdmck3wTOZ8EE=;
+	b=TM136ymX4z1EiRURZFYw/S7XCUOcJG22usZ+miU16Ig2oCtJUPEEbQghRXBfhpM/xje3
+	 FhfBFQ4nhJn+AwIdT+P3W17WyEEnnrukOMrp4Quud2cIcBNgqbIs+fd8fEb3/DLqAARkN
+	 61ZCRJplDHqMhKHNzV7ZGQA9x02geLqGI2ezTdZOwKQjP1j0I++N45TcLh5A2aTXUrM9t
+	 DwZHZsuEwRie+uNPXiK+VJfB3MgRHThlvtxgr4bezqlSyMCxeqITAx/ODoUQDRmBXrtWr
+	 /E3LwY6l4P3jqsNWTgwhUM1USfPQeBqjVe0sYcV3Ap8LpQRsSlmf4zuzIxdQnvFgZZw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R5GKzUDl;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9482606A323
-	for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 09:44:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9482606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262AD606A324
+	for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 09:48:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 262AD606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=au+isjdQ
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-705cb6ceebaso1902589eaf.3
-        for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 02:44:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793007899; cv=none;
-        d=google.com; s=arc-20260327;
-        b=N4OjrPIBi4wOZJ2yObq3Fop/F23d7S/EvsjKdFGQBpFhSjIUJS7P88jcjIrlvEE0Zx
-         xhOIUXhiEj2bX31flwuDTXrqa+8iyHEijvmkIkkKiY4lBRz3JZ8Mj5Qoj+FkeeWk/Vvs
-         lGPP+kLfvaJPzousNxXj0EsiH+R71Z9Guu039gG09V9JmTxUNNdE+272jv+RkvBACUPF
-         8bpVNOsllFR4p1y7wMDgZkw4a4coyb0fFS9M4CIw/tA/fEj9WeNrQYBdZIP2B10w4LwE
-         UvEmn/hVstLBI/YDHP8wM4f2XvZfCjsQJ3uHKoPclT9IpUfWh5fz7G7zIyJ4fm/5txCZ
-         d3dQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YySXXUFBOHmytywvVTLMkHqN01ZYut8GdXtuh1QQB84=;
-        fh=b7KgUpEBoBJSdaku5xCZwBwVdgKH8MsJswQE/qYFMhc=;
-        b=iI91hC7c+KGS5rWA5835Y8MpNzyqv/QfBXuIhOXfh+9VdnUQG9nQ8GqugRfg02I5C5
-         LCC6npNNvgL7MYSWFCacOVtKa54hTJ4ryfjYb+3x67bw1m8SfPoMPIb3UkCtCzG82ePh
-         bvjxyw9ccdXANjFHOtmSxx6s5R36ENHnR9oixbqsOMfdJEMbUbs7dbDHiHgELeZB6Qvi
-         t5caB8nie7CcjeEfcPwctGKkwq2kK91e+zisK6W/MIfuzZlbztxGUWyqkVZF9g+wsIp1
-         zw6CCDg/Nb9zyWnHeu9Xmrp5kfUolg481PWnmmy8TwjXKJgY56XUO9RGRWp1p5CJe0Kn
-         8rfQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793007899; x=1793612699; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YySXXUFBOHmytywvVTLMkHqN01ZYut8GdXtuh1QQB84=;
-        b=au+isjdQH8tuC45MZrI5ZWIhxTDQ2+Cs4YcJ17e4S7jOf83hVty0yUMOqRaLJMO3xc
-         2Pir8WPlH1cSe1ZmmyM99fWsiQ0YwuVC10kKrqW9EAdexHx2tkNtdo2PfStrAN7LWBn0
-         Bd3VuHHTucq4bg7ktlc4cdQVGXzujNe+8AR9gz/6OzYTdsI/l12NzWQwhg63CIusbtC3
-         dtDaVwRHkwAtnjPT54XZCXq5Ad9SbR5sueBrijyn9rdsl6EOOiyxO1juHEHNYRcHwcRK
-         InQPERsdIYE/rPnF36Mve3D4dx+KUu9UfnjYRtpih2X8ardKBwKsfeArg6VX8SPmuWuL
-         qjxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793007899; x=1793612699;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YySXXUFBOHmytywvVTLMkHqN01ZYut8GdXtuh1QQB84=;
-        b=hWqWlrn88driRxF2uJuLtm4prf1nfinf9blqs/dPbBTZRYI6D1YOw0W/LPm/Qr2sB2
-         We6/HIiOu2VAJtUDHypzwOnktcGEU+XuvhBllnrjm1WBdRA1NPOXB07ZcUn9WfImwOEB
-         W3LQlm8wWOw6qdm1xcBS34rIlElY9KauNPsyheWz63RD1vorXvfdDdjYKYeZEOPQvqG9
-         PuHDPSXX0nsVEYKcVN6cFRzeQyGjE73OeHQzsPF2UoTk18yLEVyecPZVD0vEYTRcagHY
-         HrpTwa0g5Kg4SqGZjOwXeIBzdsGVrnD0fJDy0mX8Oj2JQA1IIJvIxC4bt2L7PJa4A/M0
-         F4qQ==
-X-Forwarded-Encrypted: i=1; AKwUvBywNv5ECgYAdj+A+62EZ53bD71M+DvI+ir+H1I+s6GsD9ylfxxLgJqULG8UmZSl/4c1MIYcHNM7jSYiV85L@lists.linux.dev
-X-Gm-Message-State: AFq9FYL8AwCVvHL6wMV9JYj5ozVHhjN2PUo7fA29TrGTsTEGbJlljnkp
-	GY7DTcHReyk1Mz9YeEsRhzAy2KIUftR4awwFJFbgGAoLjGuBoqSnRKKZGeWlSywggkXgdbZiNR4
-	IjIQsPGwVAmnKmQ3RGwcagsxZL5jnfXY=
-X-Gm-Gg: AYBFou2a9+rkGQs/v7TPom4xGyDWgcr1RlQU1rASo3zXrdefVeoEwlXoBy7hqFonTfv
-	4xVCFUZLumvlc/DQPKJwff7Uh+YPIaqp+dw5oz+3kN7p+GOqo9PLY0GLO1cdgR/ngkTZJAF5L1Y
-	cUX8zKD++1oR126cIMxLIbhwiOLQ0AhDT6smFJ1XGrTxVNLqcWft5bu1OMba3zRxcSktVl9fFmM
-	2ihTDIbLVUlExGN68rt9rM33yLjl0VXH0fjlHRQWYlIWtL7bF6K0KjFxpeMT5gwyVo67NrX73Ak
-	Lr8oZ8oNSJTDEQFRenrK1ev9JBwLGhuRmEGQ1iA2gstItYhIhs7YjtlQoatuzRXbRLh/PhwdepH
-	rSCaGDDBQo2DrKVUhKMTl53GT8uHpD8l8JIpkdt3L8TftnbBPzMgpN4tBmTzoRsdwM/csASsYbo
-	xhX5iJD7Ih2BZgvhQ/
-X-Received: by 2002:a05:6820:7089:20b0:70e:2096:8098 with SMTP id
- 006d021491bc7-70e20968319mr679857eaf.83.1793007898903; Mon, 26 Oct 2026
- 02:44:58 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R5GKzUDl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793008089; x=1824544089;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FO5YVRrreTVeqfWv1jXBJOTTkZR0P+8NlwynvXxgcVc=;
+  b=R5GKzUDlpVvR+tdMOYjmlTwkQEV3qAZUbRJzcR1hK977/Hn0ZE2Tg3cW
+   H9jwBdzK9JJK89kkuFadqiW9+CUwf+bQvabvQahUQXDL67OHezxDaYu++
+   fOQYgSeTpwZKq957T3P+h+XBsthOxBoMojjytHNLtP1Lj4jpsV6hsWQY9
+   iWCCxrfpkU2wrgBo/6U9AUF5QaC0Ffv3LK6o9qWfHQA0CJ/tOMdpGBsQv
+   5/adFC+ZVQaO6b9i5nScbA6iWnQbw2c2oSnXJXEA7jDsiS+3IpWtXK5j8
+   53LWY2a0kYnmCXexMlxO76CEds1YXdpX5JKWxpkZs9yuViEgOgk0Oqh1g
+   w==;
+X-CSE-ConnectionGUID: aRGqpYuySZ+IYX5l7rw//Q==
+X-CSE-MsgGUID: Uw3ycB6ORl27SKm0yX1XMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1680433"
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="1680433"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 02:48:09 -0700
+X-CSE-ConnectionGUID: TlYW+mW7QnibfSWzmgSNuw==
+X-CSE-MsgGUID: VjeOwo7CTom/BJPW5wLfjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="4233961"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.93])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 02:48:04 -0700
+Date: Mon, 26 Oct 2026 11:48:02 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: himanshu bakshi <himanshu.bakshi478@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org, dennylin0707@gmail.com,
+	cenzhang@linux.microsoft.com, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, error27@gmail.com
+Subject: Re: [PATCH v2] staging: fbtft: Remove unused fbtft_init_dbg()
+Message-ID: <at8h0ignZd8srvBi@ashevche-desk.local>
+References: <20261026092423.66168-1-himanshu.bakshi478@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -105,66 +80,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026092423.66168-1-himanshu.bakshi478@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20261026092423.66168-1-himanshu.bakshi478@gmail.com>
-From: Himanshu Bakshi <himanshu.bakshi478@gmail.com>
-Date: Mon, 26 Oct 2026 15:14:47 +0530
-X-Gm-Features: AclHuK8g_L7SXnsINc9C_3whJRkCHOJJj2ujrSiDjnaE7GbNryakHGpTdm_klP4
-Message-ID: <CAGLmz9KsGrVEFRO-dQv559ArJRKs7yOiR5wY4T_aFAeuvNhg=Q@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: fbtft: Remove unused fbtft_init_dbg()
-To: andy@kernel.org, gregkh@linuxfoundation.org
-Cc: dennylin0707@gmail.com, cenzhang@linux.microsoft.com, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	error27@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Oct 26, 2026 at 2:54=E2=80=AFPM himanshu bakshi
-<himanshu.bakshi478@gmail.com> wrote:
->
-> From: Himanshu Bakshi <himanshu.bakshi478@gmail.com>
->
+On Mon, Oct 26, 2026 at 02:54:23PM +0530, himanshu bakshi wrote:
+> 
 > The fbtft_init_dbg() macro is not being used, so delete it.
->
+> 
 > Reviewed-by: Dan Carpenter error27@gmail.com
->
+> 
+
+No blank line in the tag block.
+
 > Signed-off-by: Himanshu Bakshi <himanshu.bakshi478@gmail.com>
 > ---
+
+You must learn to provide a changelog!
+What has been changed? Why (whose request was that)?
+
 >  drivers/staging/fbtft/fbtft.h | 7 -------
 >  1 file changed, 7 deletions(-)
->
-> diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.=
-h
-> index 40a7567df1eb..16459e4e0ba0 100644
-> --- a/drivers/staging/fbtft/fbtft.h
-> +++ b/drivers/staging/fbtft/fbtft.h
-> @@ -420,13 +420,6 @@ module_spi_driver(fbtft_driver_spi_driver);
->  #define DEBUG_REQUEST_GPIOS_MATCH   BIT(30)
->  #define DEBUG_VERIFY_GPIOS          BIT(31)
->
-> -#define fbtft_init_dbg(dev, format, arg...)                  \
-> -do {                                                         \
-> -       if (unlikely((dev)->platform_data &&                 \
-> -           (((struct fbtft_platform_data *)(dev)->platform_data)->displa=
-y.debug & DEBUG_DRIVER_INIT_FUNCTIONS))) \
-> -               dev_info(dev, format, ##arg);                \
-> -} while (0)
-> -
->  #define fbtft_par_dbg(level, par, format, arg...)            \
->  do {                                                         \
->         if (unlikely((par)->debug & (level)))                    \
-> --
-> 2.56.0
->
 
-Hi Andy,
+-- 
+With Best Regards,
+Andy Shevchenko
 
-For testing, I have compiled the driver successfully and
-verified that  fbtft_init_dbg() has no call sites in the kernel
-tree.
 
-Thank you for the review.
-
-Thanks and Regards,
-Himanshu Bakshi
