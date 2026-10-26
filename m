@@ -1,96 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792993794;
-	b=0K2H95TRVLcBINLkQ/8tEQz/iQrT513Ptnrkh8y3FaYIxuUX98xLYowrBM3dy77BTUeC
-	 QrT8adw/rSI35SNJ8cblZ2f4XEQl0rkSRMu94Go2zVPAAiE6XoC+0SbtgjWhyIAGxNNI4
-	 ebXBZwLA4UZPfR5dDsbycL4OFxvoGmq2pPnNrmewGKS7SNUwEKmenuGsIidrhCRaFJx7p
-	 CWjMEHI1VpoR2sZWWvD53c6uJYUv4K8sKfiGP+fuM0gw/wIwmoME5ivIgiTi1DmdFLqUV
-	 XWCl3koCmF4BJ/WSOi7d9SqLMEuT+XXgIMjb+devYknZGa4Plh5kmRs1AYzbWA/8kYQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792993794;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.50
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792994014;
+	b=m3G5TyYjWzUoersbNGADV6gqUXWf+dxISMuCWD3wuTi6VIMfU3UrcLnXLzhlE7KYQkgj
+	 0FEY0kChsqn9gn0VSH852AHsif5gYEj4VPF6lKWT5G8is5OwQ7eGw5uwElGrMl3AVMDqA
+	 Z8xxvoEk2Hq4NVMFve+3WMq5Ty22s9fxE3SgEKY7clicFE1UP8y1WTZpSFA1HAmtcnGbi
+	 507Mk8tcYmSxqczAlSuPJNETG4Kh3JOcS4/RAXZO7lYkWMfTcHSLvj3CQhn9YeCIaOVvZ
+	 TeVgLFPdL6vN7ITaUg/drwQiCeLxwN9PqdMmntZNxSK2x8ofdejNEEAKy+1CIb4K35A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792994014;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=gkdqs/NrPzD13Pv6TZco/9L29+yn5yrwdhhFtX4Hbpc=;
-	b=HN2ioshOkBsxUOfvCut0LrKJlZgBoXZwlCOL6tgcFPf2v7EECXT4n+9ENWAXD1wGv6hC
-	 GU/QCYF5voQgU1ldkvB+A2tCR72eTFifWVzcIPka1xKD97CczhpJK7wJYZeq2HWsDRPNi
-	 inADaQX/48b6LC55LcYi1o7Y22w/dNv46glK/MZj2CXHHFHRrFRSGVAVDw3FpW1kGwcYF
-	 VA4euOYBpyRQWp/vx98W3N7JH2hyi/2ifGuMg4kAWWyn2tPV5TJHtQQEtXo6ZCzUabi5E
-	 M3eeTSbUbkjr8QC10CQUBQUYsGj3xKPPrOpAw7nL0v44T6//V/o4sx0perk+cgrkhFw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=c42lkr4if04AZ8UiQQ83ZlSvwlPXm235lZQS5qXaBN4=;
+	b=OlMMC0VxhMOA4qQmvusoMScYNycRBrB/IjB+BwL0JMEO4aq3GXCJLDz7GBEx4ICL/a7z
+	 dnkk7VbT6o6/II+/mXfG7XDEA1Py3TqgZPsVWyuqZ29/yoetT30Ho1EQ8snUnSCt0ERQ8
+	 IxaHbC8942zFEvpszaf1XG1lVZxYA2cC/PNXi1RWMtWJ5x3XeVGd9EIlkH/WAAzWu6F2s
+	 uwmfPYyFrfcCkKqTqXujWHar5uZLnPbOo1Rqr7h8pPHvseCw9I3FVSGL8LQEM2fxyGRT4
+	 hwYWoEGBVoF6QGOJ+mtM5sOMNwVmOEYOo22YhBAVxpWDAFR/9Or0cBhXNpKYuQvhvxg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CsLy9yUM;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TGV6ZWPU;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.50
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D777606A31F
-	for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 05:49:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D777606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8190B606A31E
+	for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 05:53:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8190B606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CsLy9yUM
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso26442785e9.3
-        for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 22:49:54 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TGV6ZWPU
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6aa9606ddadso1826719eaf.0
+        for <linux-staging@lists.linux.dev>; Sun, 25 Oct 2026 22:53:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792994013; cv=none;
+        d=google.com; s=arc-20260327;
+        b=O7iP354cF4IYMtc4JcgaxPQBE5IIGlLQYpvpjNvQMEPuhZlp57tTelDF2+2xMzxmDg
+         0P7VOG3eVSPief/2lgpR2ZEs1CdvYl+TEYuaJClpSvWfmo3YrnOX0bXbafQzGXdSilYh
+         E+ZgsuCJl55zCZU1sI+ciTn+rO6Oubg1dHOjfSLW+1heNjfB5TfpyRYrS1uZLDXpdRdr
+         1M0L6U86Y1GG++yPqbiImRBhaq5X5dpMA5KsPWmKfBfEkZiMvMj5njXQyFiQwyICneCV
+         UCynt7Ab+1auJHvTW4Z+64y1Fw5HXBILrL9yHJxlj66xp3uNTORL70CLMZGxLzxWhRPa
+         q9lA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=c42lkr4if04AZ8UiQQ83ZlSvwlPXm235lZQS5qXaBN4=;
+        fh=dQtGW5vh9zz3DLXCUC7JM7yYr+nESXlYG1QoQ/nGsQM=;
+        b=MuRTesNG3PfsgQkHu37K17dYzTEchfjQ1R9FEgpGggeG2JyGSwqLtGFk4tRiGaGGDs
+         m8UOMHvih3G09Nv1qc4gsgZW0gKIBM2W9ErNoNogxkG2rHslbZdntKv4ByZ6CKuCqZii
+         8hktYYKAC8dme/eP5WqFTT6tJyp8UtHLdL4zvTvgPZyCf2nDyxdHvUgZHSIWghnmaRhH
+         9zJHTeTz36po5FMS1NMfDkLzAfmRawXTrCo75AVyfiwrcTEBL4mAgFYqBRFAQAHv5qYI
+         I108PgCAjRN/hY3EowO+9R9poq+QnjyOzqijFQXchVgc6AqmplorLthea64haYVm31ox
+         uK1A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792993793; x=1793598593; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1792994013; x=1793598813; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=gkdqs/NrPzD13Pv6TZco/9L29+yn5yrwdhhFtX4Hbpc=;
-        b=CsLy9yUM/xLfxOdFE3eAQXhUvFBiNpttUU+4HWdMjFpZs8PMfbh8D4P2coOLI8u8dW
-         67COxsWbRm31h+PQVHtqce3VcafB2EICAtfzqioG+zwXg+xd1UyhmUgNODfbU2MjSYaM
-         odKoVEf4uUpELEN1S0A/MroGyXHFFPvAVZcmDPryB1cos1uX8vWGvKiOGx/zAVJmKt+F
-         fdkf5ffKpZLyxB/fcMVlJXvPPykBYhLXE0zWTw6wXTtailwgaudtmiHpa2hT4SG04zvd
-         jRpBZMWzumEfCVWOFtzcUWFeXWnB0aNqVg+vm0V0azA5RSkkAapXq8oHxC5llwu7gXnv
-         0L3A==
+        bh=c42lkr4if04AZ8UiQQ83ZlSvwlPXm235lZQS5qXaBN4=;
+        b=TGV6ZWPUzJRvj1WQfXZ8MAy2vyrQOLm1VtsTBVxz4tlmhVlDdzDf0eaY9VRt1iL/Z5
+         IXznSAJNO7CHXdINrWw8DHUJ7DGioo4wVBJ12tkRcYbr8pB6iUZUF+jEDe1ZXU+BXVyu
+         U2jSjkAenigzbAlpvtR9lJRkx+7VDFURefQ79QR6mxKceGqwFzL3g/Qwx8KqE/uKil5/
+         MHD/VrtVP57d67RzPceJfNBzhHHlLxAn2GhDrGImWsvbP+ygBE6ETFQYnUxLSumYJedB
+         yZdPHYzyE55Z9vmLP74N12wWnLHt03QnVf6gvfcjKizEr3YlwjtUGv6XK32ZhU3GK+8u
+         sgPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792993793; x=1793598593;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1792994013; x=1793598813;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gkdqs/NrPzD13Pv6TZco/9L29+yn5yrwdhhFtX4Hbpc=;
-        b=sZfi67D7wuo/TRwEUQsxAsVamesSYIfc9eNfFZZWNNexVMW/QT/d6tAwfV+ybyDY/6
-         t8lpzAYWX9pahvnkm3XykN/+sS4vQ0c+r7NI+C46m4vKDZeAOgVP+wg1IEgApIfmL92R
-         3qTko57N7Uranfw3hu77y5v7duoFYrFOO74TlG9RIVm845DgGZijlotLc/MImI+HPvmV
-         Yo2j8QWVAajxBD2HdkQEOX69dUpa2FPWHnwJHL27EJrIB1zFDR6yf0HzK1O4Z8YgOfWq
-         vsN6DY6GUQXay8S3NtqT0lUlalCS+xVpy6l0Qswa6nBs8e7wpVWpYP3+QfsIHjafW4Q2
-         /Jfg==
-X-Forwarded-Encrypted: i=1; AKwUvBwXHumzJN07NbiyF0Av5MPVCfNoKmj0rU2G4l7fn3t7MZvDF3hglrG2VZDzP4TGg2nu9+Z8FKu7nfo99xrZ@lists.linux.dev
-X-Gm-Message-State: AFq9FYIhYrQxRnqzqA9nWvDQ/Nafet2XPqZuKyqjRxxw2xXKZo+uKwa4
-	91nB3W/DhpQcdGd6PiyVYiUo/8yymeMz5QPuvn0lTRSJJ4/LiF7YjY9H
-X-Gm-Gg: AYBFou2GBdRRst76YxF835W+iFduflk8CbrAY2YJnzdKMCm6ci3Ac3khILvzbzztRE5
-	mhPbhneFH7ZcD9Q/fpo69BIHc71gB0gntnZFfwnMCWWig3lHJNglAlN+OQPy0vJBbne9CLLVwll
-	YOb0jei3dFF+jt6kAvlcDbH8s0lPuFmo1//wv2TQ+dqXYJBFOLuOfcF+xIq5/7qhPp/lCfbpp3A
-	5vx1ZmvD32bGzHyHCCGSjHmjbBkOBejE0SGqlkSS82v6jgT0NjvjbcTr4Rpa4+FS8mj0Iep7aU6
-	Te6AuH5tfLkCRtfIEnpMRi26hn2XdKR0b8HSGrRGNn1QAi5fi5tP0wITDBGNJDUeQbUJrImqz95
-	LxtPuyYs+vYaEmQ214HEvhaTqsM15RA8iUnZGiEAwW8dhe5cBLB5UtKJBoynt/7TR4fubIaC7rD
-	Tf68GGNrfPJI1tHSl3JSfh75Fnfs4pz/kX0TyzGgssyuWo15N30cI0Msff7Krm5k1gAr7BcpykP
-	a4vRB8ft936c4miOuazirgbCcvIBhOGPec72NGyiDdTnPwPWhKu
-X-Received: by 2002:a05:600c:8b62:b0:4a2:150f:1610 with SMTP id 5b1f17b1804b1-4a35acd5f91mr88675875e9.23.1792993792435;
-        Sun, 25 Oct 2026 22:49:52 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a00e1b0sm134644205e9.3.2026.10.25.22.49.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 22:49:51 -0700 (PDT)
-Date: Mon, 26 Oct 2026 08:49:48 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Anghel Mihai-Alexandru <mih@ianghel.com>
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: audio_manager_module: add missing
- newline to sysfs_emit()
-Message-ID: <at7p_FWu_3leali5@stanley.mountain>
-References: <20261025205427.259512-1-mih@ianghel.com>
+        bh=c42lkr4if04AZ8UiQQ83ZlSvwlPXm235lZQS5qXaBN4=;
+        b=ioMeIBwBBK8Y2GTNGra+SIm/uS9zFaY7/+Y9YY2ekBpWWxci/TAnr18yFCYzZV5fXE
+         wBdSrUF6xfiAuZuEovMGiTAnF+1Qznvq6G0qqr82ffw1Ns1R///m4XuiEKTGvdLwGqx2
+         yAjewCW2ScXtxjo+pQaOsw2hiJdwEeBBOo9tgCFlA6xlt0kC9+kj9VH4Yv2YvWLutMlB
+         Oc+M14XjYwfaW7XQ/CDyPYy+vnj8JW91T/DVcsDh9Y0MWKPgqJeuUsLQ+N+xVE665OQa
+         Sjh8NkZbkq6MoS3iiUuneFUMo7VVAZTvlrhsbU8/RAcjAPA4R9wHTq+dFTYplXRlrMpU
+         Sd2Q==
+X-Forwarded-Encrypted: i=1; AKwUvBx1XkvJOdCC9ZL9I9zDRHl3TCirIDeRpg3N4+hgj6uq510q7DT1IINfu1+mG0914dUIHuSLLxWUqn371Nn1@lists.linux.dev
+X-Gm-Message-State: AFq9FYIQX8bNghOuabTlp24x1oDURtdkvcFirPyHNf1MVdXqIB9dwLgg
+	/ho9UA+RnBWAZohfO5EKCxoZeaRYPHBoxgs6snscWDeIcYcAwTuPQVaHZyaUvt5Tg9YlwiYFl3F
+	PEgG3iM9bbhmZuuN7qxfe+rfycWKFwDk=
+X-Gm-Gg: AYBFou0/RDvAKIrzqKMV1QEItEprh8ViBsSkIArUKxGTAf/M0riOvvWe2yqk5TWPIzm
+	OVF873Q9jU/HWagK/FNmmJhOXx3OtZdtYMPdZzpSkL5f3bFRIcKMF8gujQYC9ZTEndtYTLT+CUL
+	NTaVOM5qIIU/p/WKXqW33ZZrbC9bqnUwmJuyygx77vaAUv3emuDnQCm/QU2V67pwZjrXBmFqFgK
+	bQmrCs9Zhd4YLfflApVNtGRmKt3VfVPha0CybZKYj6jPiEsIvbL7S5gTPtvxTFcAXfAAmDubYuD
+	1HU61vYhx01gJo73e1waNq+QcgYAeP1YXzv0zgWjh87wFwxBlo7mzVBZkdAeSYW99YklyELWCLy
+	3DPX8VTFKbkN8vZxgd8zvCMC50VC5z4TOKt3JstHQ5ES/1MrvIT/iRohiU1wgn7nrpVY1osA=
+X-Received: by 2002:a05:6820:f012:b0:6d9:779e:4f78 with SMTP id
+ 006d021491bc7-70ba0b69198mr2999266eaf.9.1792994013424; Sun, 25 Oct 2026
+ 22:53:33 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -100,21 +104,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261025205427.259512-1-mih@ianghel.com>
+References: <20261025164003.143864-1-himanshu.bakshi478@gmail.com> <at7pu4hldDTgZtXy@stanley.mountain>
+In-Reply-To: <at7pu4hldDTgZtXy@stanley.mountain>
+From: Himanshu Bakshi <himanshu.bakshi478@gmail.com>
+Date: Mon, 26 Oct 2026 11:23:21 +0530
+X-Gm-Features: AclHuK9kT-5mgEdeGVApWUOJUbhIUBpwPQFl-e5bzcx7W80tdoK-Z_OClF0xJzE
+Message-ID: <CAGLmz9JaXM8s4BHQ2Cn5QQdBZpzDXmHyb-GQ_jXtj4Rz6SJOJQ@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: fbtft: Fix line length warning
+To: Dan Carpenter <error27@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org, 
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 25, 2026 at 10:54:27PM +0200, Anghel Mihai-Alexandru wrote:
-> Documentation/filesystems/sysfs.rst recommends that single-value sysfs
-> attributes end with a newline, consistent with other Greybus sysfs
-> show() callbacks (see e.g. loopback.c). The name/vid/pid/intf_id/
-> ip_devices/op_devices attributes were missing it.
-> 
-> No functional change.
+Hi Dan and Andy,
 
-It absolutely is a functional change and that's why we have rejected
-it a dozen times already.  :P
+I have sent over the comment on the v1 message chain and
+also sent over the revised patch separately as v2, I will be glad
+if you will go through it.
 
-regards,
-dan carpenter
+Thanks and regards,
+Himanshu Bakshi
 
+On Mon, Oct 26, 2026 at 11:18=E2=80=AFAM Dan Carpenter <error27@gmail.com> =
+wrote:
+>
+> On Sun, Oct 25, 2026 at 10:10:03PM +0530, himanshu bakshi wrote:
+> > From: Himanshu Bakshi <himanshu.bakshi478@gmail.com>
+> >
+> > Hi Andy,
+> >
+>
+> We don't need this in a commit message.
+>
+> Also I would prefer to delete these weirdo debug messages.  The
+> normal dev_dbg() messages are good enough.  Plus, is this even
+> used?
+>
+> regards,
+> dan carpenter
+>
