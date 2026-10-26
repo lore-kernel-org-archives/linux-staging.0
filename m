@@ -1,93 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793032935;
-	b=U9ySANarMU7nIvl8Btxe2VvkCM7MF3FzOvIaEvNWsFwIfXk05eGgW6/jOoh6kig0ZCYh
-	 7zn0spEf7qcLjuZda2v9s5bRoGPSawlknypwIkiAUAjXuxW4rWcllu5F7He1BFy+u2jvM
-	 3YOm2AwmHw4XCcBcJl0m2x6edeVYvtRRrk+gtW5bVXBDzy5PJ+UP9BHIcZ7kNaGFhjhYd
-	 kThmUBPx4LkrZHjC/TECM1p3VPdezKGIGRpmzPVkfyb7NGJKueGXJXgUsy03BZ3uuJcsH
-	 aGi4/ziJLDe5D28Www7IVhjzGfs7nPGYJdXNzp1WpWks6/COQ49TCEI9Fcwu2JG9fUQ==
+	t=1793037605;
+	b=jsT2bikwjplKdsSMs3EPyM4DYG4CEjg+cX68K9wzxTLHF9acKmV2GJSl7W0d8BUgDawW
+	 vBJFxENylV1TqaOK3nxlvC4XDOHT2FFJ696XekoF29CSrZJU+Ek9NNs094Fq23Bj05CIp
+	 vojIjw7cF9tAP5DXRnNZGNT7hkLzkakSO7H3YpiQc45kg47hmMhGDZtnhtJn1346J/vfE
+	 HzOUQ+dthsB7Td4x48es2QNc0HxQZeM1vvhlGsfbaeqJjzijWHYKv27SpdVW+klrYDZXV
+	 +rFFebLDK9RqvCDbkCpfqRyK7JWitPOruOwZEynBTr8UfBtuMI8dhq+twgI11aNKleA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793032935;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793037605;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=IZdnB36TYkFpUyJUmp0mF4p0xDjkPFbcHCtRdEkoFgk=;
-	b=Wxk/sRrUmlTVbxaQYdC6xECJER+BRuN8LGm4B6cJyPFRr4df1j0JfMzm6M6f9z/31eaW
-	 +fk75lnsErYJIlYutTF7UnuCTTiW/vswRGamXOXJgBfXvLuDhOV26ArVnNWN7Ta6RkH7+
-	 r1Pk9sz1BuA6KiQ+mVFclkbfpwkHlQmdvVWMj40+WNIcyQ7kzg9yb631wTyPrc/QbQ9mt
-	 Khn7YlFBTImhy/Py5J1J7NV+wmjF6iiD7UihbMbY4F165WVnyP43o6kp/Om8I84bxU8oa
-	 yCrSbJgiPgE+cLUXf/MBuq08232qc4s4UY5MLrbJc2iihMrq1fw2HVT9GBJS1pHgpaw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=1qBZmfgPT2INlHLC5uDOw8q+VbmsUhEO4KbGb0W1nwg=;
+	b=BkoZKBRLrtzojD78qYSa1AE2i0/Oljurei2QqRVIeGM13PblJiCT3leHZpI0y6RkS9BE
+	 ZqTPk0OwqsgbF72qaxxuqrmDrEPF9WvAv6b4518oU+UvKiqSSNE3OaUVJCiWAde3G5XIH
+	 uAKTsIgHf15nx93cC6dogd3wZqxs462+SrBIKCQf/xMONexKeP3BpX1Cz+iUSwmxqsvZE
+	 raO0wa92S94FSQUlPCu01QwSgw6gRtk0IUihWOV7AWXi7uNuh4RuX+EpOV9M4WQ5kDiKr
+	 8aly3d3V8/HKg+CROD5wJqCjtMRcAz9gXqdPWDW6U2EQJgLVtQVWY8DHnB7h1oVU+8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=klpICFAc;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VEuqSMaT;
+	arc=none smtp.remote-ip=74.125.82.52
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9337E606A31A
-	for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 16:42:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9337E606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD983606A320
+	for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 18:00:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD983606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=klpICFAc
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48df8fe8513so3025261f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 09:42:14 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VEuqSMaT
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-14fc585291cso1599487c88.1
+        for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 11:00:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793032933; x=1793637733; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IZdnB36TYkFpUyJUmp0mF4p0xDjkPFbcHCtRdEkoFgk=;
-        b=klpICFAcSruhKP22YwctlPOaK1ZVLLDNqlHHhUw/3Y0s2R1OsaROCfwCilYYdnx0bB
-         Gz+3/aaXe4ccxOkMuqjf7w0HCjd+03q3DeOXbaIOLVEibcDgdYz/TV1qwTVUfxATXj0H
-         40b1qvUK/wd4PRpAPwu36eOfOpWTBkPTh6BD2hunn/uOlo6RsWhOZOzSuiU2Rgf1LQKI
-         TnFMYCme49rLb9Bwp+puuInmOOxSZH9XnVW6AXV4urDSceKPF5weIGgxqrRcfD1h6ROB
-         XKrYHSCLsLBlaK2lSRSP6J/aO6enXcd71MlU1seOH6zMJpMMW6m7tyPcmNLng2xDG3rw
-         qGdA==
+        d=gmail.com; s=20251104; t=1793037604; x=1793642404; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1qBZmfgPT2INlHLC5uDOw8q+VbmsUhEO4KbGb0W1nwg=;
+        b=VEuqSMaTgpJ0RAzwxw0U5w+NxrQDYaDtRYJ+aBSYVy5YKSeL2jCT+gM5VFpL+t3rie
+         D5C2M/L4z/PkFBKJh40iaLSdmcy463JZfRDz0Q1clbFyJ6EQdtBgKuAxnyleXi6bAi8o
+         n8gjMWfmzd2LWet6yQEcpyU7EctZTfdMM3ad0WA1w1UehAUs95IT1yG/QcCT1K019MeF
+         a2FxFaWTYEKabe6BQjLoulHmsAoEWfVmcYcn+ooMCyyrCzre1bW9xQUVOk8aNdEo7gXj
+         jbHmIeniXw5DOZ5068a7aioY0BAYTCoRuWcWNhuNp16rGLPfxFhI/9+iiUgAOwpU6O7a
+         eDLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793032933; x=1793637733;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IZdnB36TYkFpUyJUmp0mF4p0xDjkPFbcHCtRdEkoFgk=;
-        b=jS4P3oy4SmmDCgBpxauv1d5pBcX0Glc+FVJ1j0NF+pYwiS/T/4ZvHIwFXlPbYcaoge
-         Jpnbz7V1QJRgb4HrF2PnWe+1wxOoY+7vBG94rOfslSj9e8sjPmzuMyJqXek1YcON+ZZg
-         03iMt05wfaM00MuB500/jGtWoTAi3LakHT4wDOvQe4o5HHlkTUQjqFm4xJDgB14hkB9I
-         tRRG0EyBvrFxxtQzt1bIqFPVa/oNj5JX2DEi01fvfqNE7j7uVr9K9vSeTj9iI632nDmH
-         s9tvUUyMqD2WG/0FiVZhM7ic66p4tpWo20XqTsd38D+feyuvB/67rhje1Sw6RbnV6Uxn
-         OeEA==
-X-Forwarded-Encrypted: i=1; AKwUvBwY9dGYAsCOyXItnLV45VUysQfcG8aVj2AwJPS4dpqUcma550sVvwSMUwu4SJO1Ouc0NidBMfQUkejpaXzG@lists.linux.dev
-X-Gm-Message-State: AFq9FYImhqp+T7eKAibR3iKx9TX8KQwxE7R1Q7yFsaOvmAUA39MuPooY
-	GdB43xEdsw3M9L9DjFBfLuGlJiNgRXngIWK7Tr1LSSxqljyIeXn0CHX8
-X-Gm-Gg: AYBFou3qyXtG3s2uHwQxxFF6EE2nWuIdUgY3+oCBcBlcaJAGwLDS4NfZluLuG6it5Xm
-	v6iJ3zGw4145rX5Vq9h90pm2hqbR3GGLeAThYeCovIU1Gl/Yxw3BjFYNcL00PjOQJ3+jdDhaceM
-	sdcuCDqr/8L604mTeft218V77Qd2kpO1bmhBzHCrxG+QsD2igZY6j8cLI5cT4LzxS7ortb/fS3Q
-	VO7WPJtrcxACtdq/lZXxglUdDOZObqCnooyz3akFoMJs/c8GbDgJkXR85SPAisUxlJuNzmzX1qT
-	zgpMR9nRlplvWVGLei6n+Vigjw5dSniwmT28yrN3Tayi7IGPxFeQC8Tc5Ohi47TAaHaOS4j2JTf
-	fh32Fy4OngEydgg1OS/T1Ai1Cqys/GoF/vhIVElswQnCmpGe898J/cHyPqKIAhXHHtesmiWMyky
-	0e5i1PnnqbyO6bOBD78bbrqMUJou8ozPQ3rLJC2VJGXWGEE11TtvuDT+V6rr6Y2dlkLjWlsG4QQ
-	8cGAmAZl/rz4YkFh94Kds62fNn0lGLve1nsOkiwrSvAYWD2wMMf
-X-Received: by 2002:a05:6000:24c8:b0:48d:f831:2681 with SMTP id ffacd0b85a97d-48e3eb922a2mr13567728f8f.38.1793032932768;
-        Mon, 26 Oct 2026 09:42:12 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ece14a1sm17879800f8f.57.2026.10.26.09.42.10
+        d=1e100.net; s=20260707; t=1793037604; x=1793642404;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1qBZmfgPT2INlHLC5uDOw8q+VbmsUhEO4KbGb0W1nwg=;
+        b=qU25mBALPIupqfsCJRvyPMQwkOyFrJBs1tsn3VMzhcGLx1rVypMfb6omZ4uuLsae76
+         nZOMw+pSYAh17wKnsBEQJfZ55rF6Oi3yk3afYqWgZtDv3tCZfqwQjxLLu+lj3iwO2klS
+         DabX/ICws4Cl11XG2UYUVkpPfL7KIgzHHB3U/hfURGp5FeRBNk4QcSUzvgb3uQegi+oy
+         jlclJov4Rg35deAm6z1w1RpXrCdlt3cGRQRc5vfNEIXbm46UNqQzqK6Vzff13g/0JOh3
+         SNpFxrTfjFsGo2yNXDKdRJBeH+lbQPCKKgb6pr+osz2TG3AW0CEaiqljYv4ADO1EVp5T
+         21+g==
+X-Forwarded-Encrypted: i=1; AKwUvBx1NhYRiu5MAcOWeW5iUFA32/qD/WpHBquzpn8hanMo8QN3id68WqNYq5n3XTZPm/0u2wXaJeF44iuj52wC@lists.linux.dev
+X-Gm-Message-State: AFq9FYJU7DqgLzVPqVFwS2v409uTnoEaqPuiXDLeBQ4kNT+sOl3Up/oO
+	7zcf1vrCzrNtlFcPaHIwQ3kO3LymkMA9VLDo6AaQ/GrIed/LTD4OtF1t
+X-Gm-Gg: AYBFou3zCgDrNU7PLz68xLY81A0697gBv1/yRjHHVXTf7V+HIsVapWBHxed29SU7Dwf
+	0PY/pGay8fTuE36jvAxMTfFOAmafEHC57FVHB8fDqFPLLq7JdzCXp61vJnGI851CU9rUpGXYPE2
+	lHrUR78H57d4ZjcgQneJXzsJxK0WqLLX9NsR+MwVnU5Hvs1RFHADJk/rIBrpdlxWyfn5XBbMIlh
+	CCeYBd+1PiFnPEfepNkWrWZPvKkqJ8NLU9KntYYL2uUcE8OKBj4BRIIaVk2vcsfIPBZaz8HrTRa
+	HYV7iCOSMAnz4EM95cF6f9d6LmoekVhCLdsX3vboelxFnMSxEH3H5rzZv2eMZrce8mCT8ULLh84
+	VvASgqM+Btkd3RZo0WGa295bXh485mdXoBdjFyEWeBHyIb5gnR248AeqyKi9FTVsPCBX5fZb6JI
+	zJIML8fygazn4nkTEV99vjCKPIarascaHfKQ3P6E5Zf+Yy1YBhY8zfX08OWnz2ClTNk1TEBKd8G
+	ai8LaKAUtFGYla3aWCGTE+yV7EdQmM5/NF9LJVe6h+cM9bVAFNVIcU=
+X-Received: by 2002:a05:701b:4582:10b0:14a:a6dc:9ca6 with SMTP id a92af1059eb24-199292eec43mr10712176c88.3.1793037603609;
+        Mon, 26 Oct 2026 11:00:03 -0700 (PDT)
+Received: from localhost ([103.204.210.88])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-19894d59f90sm25310060c88.3.2026.10.26.10.59.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 09:42:11 -0700 (PDT)
-Date: Mon, 26 Oct 2026 19:42:07 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Abdullah Mohammd Sifat <sifat.yt.2.0c@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers/staging/media/atomisp: Initialize curr_rules in
- atomisp_freq_scaling
-Message-ID: <at-C33IuUEms74EL@stanley.mountain>
-References: <20261026161058.25031-1-sifat.yt.2.0c@gmail.com>
+        Mon, 26 Oct 2026 11:00:03 -0700 (PDT)
+From: Abdullah Mohammd Sifat <sifat.yt.2.0c@gmail.com>
+To: dan.carpenter@linaro.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Abdullah Mohammd Sifat <sifat.yt.2.0c@gmail.com>
+Subject: [PATCH] media: atomisp: Fix memory leak in atomisp_alloc_dis_coef_buf
+Date: Mon, 26 Oct 2026 17:58:39 +0000
+Message-ID: <20261026175840.13979-1-sifat.yt.2.0c@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -97,57 +98,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261026161058.25031-1-sifat.yt.2.0c@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 26, 2026 at 04:10:58PM +0000, Abdullah Mohammd Sifat wrote:
-> The local structure 'curr_rules' is declared on the stack but is
-> not initialized. Initialize it to zero using empty brackets '{}'
-> to prevent potential information leakage of stack garbage values.
-> 
-> Signed-off-by: Abdullah Mohammd Sifat <sifat.yt.2.0c@gmail.com>
+Free the allocated dvs2_coeff memory if ia_css_dvs2_statistics_allocate
 
-The commit message says it fixes a bug but there is no fixes tag.
+fails to prevent a memory leak in the error path.
 
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-> index e66a7d1c7a0e..d4de2bd9a0a5 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-> @@ -170,7 +170,6 @@ static int write_target_freq_to_hw(struct atomisp_device *isp,
->  		dev_err(isp->dev, "DFS target freq is rejected by HW.\n");
->  		return -EINVAL;
->  	}
-> -
+Signed-off-by: Abdullah Mohammd Sifat <sifat.yt.2.0c@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Deleting this blank line is unrelated and wrong.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index eacd7ee5c050..48196a358ad9 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -1373,8 +1373,12 @@ int atomisp_alloc_dis_coef_buf(struct atomisp_sub_device *asd)
+ 	/* DIS projections. */
+ 	asd->params.dis_proj_data_valid = false;
+ 	asd->params.dvs_stat = ia_css_dvs2_statistics_allocate(dvs_grid);
+-	if (!asd->params.dvs_stat)
++	if (!asd->params.dvs_stat) {
++		ia_css_dvs2_coefficients_free(asd->params.css_param.dvs2_coeff);
++		asd->params.css_param.dvs2_coeff = NULL;
+ 		return -ENOMEM;
++	}
++
+ 
+ 	asd->params.dvs_hor_proj_bytes =
+ 	    dvs_grid->aligned_height * dvs_grid->aligned_width *
+-- 
+2.53.0
 
->  	return 0;
->  }
->  
-> @@ -180,7 +179,8 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
->  {
->  	const struct atomisp_dfs_config *dfs;
->  	unsigned int new_freq;
-> -	struct atomisp_freq_scaling_rule curr_rules;
-> +	struct atomisp_freq_scaling_rule curr_rules = {};
-
-I reviewed this and the original code is fine.
-
-.isp_freq is never initialized but also never used so that might be
-the confusion?
-
-regards,
-dan carpenter
-
-> +
->  	int i, ret;
->  	unsigned short fps = 0;
->  
-> -- 
-> 2.53.0
-> 
