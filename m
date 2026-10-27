@@ -1,97 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793117321;
-	b=B/iv5XLYHyF+EKumYBwX7H3O9uTBHEWGtaaVdf4mvuG18NcIQF8Wf9hHMZXNb8/4zXwz
-	 +FSqz7QOhNO3hx6Ctn9lwSoNWLCmlcr38CPsvUjJidUcP4oHO6J90mIMHw3b27tdJW021
-	 BugiNK45MRD76bFEhwyLK9B+UzBggs0Kcz2iFGFH4OGOV5mU0UFymeg+WHUyk9V1b5uRE
-	 Y9EEe+/RcqCM92GZXWzej8QH2Y0nHM3Mbsn4XbS6SI/7jlU4iN/2rndQEx6TX5PSMEa0a
-	 0Pa6XjXcYtm/Z07nN4wBXD2QDpOqhviC4BmjEeXzdJtmTXph0iMTYBa+LFjeosLsO+Q==
+	t=1793118800;
+	b=YA38W6DP4R8Xn+gHT9suUCYsFp857DXEld8v6ucbNUSV8dHqRBAKpJQui1wCyiPZJmme
+	 kad8WcEJ0gLHi54WWz5Og1ya25XJFw/p2Lgt/tpXlb6eAL/Ma/q4LI1VmhBWPG2C2du0A
+	 mgmWeQpir8wit7HfSRTa5SbBb6sEMbFYXNs2hRCn8rmkVoP7VAzVuJzLNtBGsZnWowb4o
+	 cXEpyB+93DiF6kRDCW3vlNot9b4iL0luZyoEYMoz5RA5Ig/3GMJuZFG9I0u5Q509baCdb
+	 /0ukIZkCPCW6pjBXlXGGHDUtsEL43+h0BYgnIUHuEI4X6h6/DA0aGDOKPXx2bglFZ+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793117321;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=meYMluchLM94txKJXWt+qZDyf5+PbHP4r+z7ZzwQ43Q=;
-	b=fk58Q9rTcHkuMI5I8ngUiQxqnMl3QJQbloKMuuGaz2RWXhSY06Fkf1udeaeBgwYnXzsX
-	 5P9Bdv6rINmzswe0nQa72K2T/bpj6KFerpxuhGZLd2fjBnOBZ7mqsUBWbw99auVmt1mJJ
-	 gduVXc1Dy3XXnePGowIhDKLjFyKOyQNaRbX0aIOxQkmJfpSQiyvKgSYdK8N1vqeg9AO/n
-	 MAU8Eljpw98Z2VZOnd4oL4wHLQm6ZYYVyDW8Jwb0jzdiNVbEybyEIGjEKN8vPRti6JQFa
-	 o/MVmRBX78N/p0t2cTf4FfxNt3SzF4ELi8aaezmKMIs8Y2WElWfjaLygcA2yy+IcygQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793118800;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=oUH3PfCxcRjKPXYVmYqe+H03WTS0x76fQkCcrSzPc9U=;
+	b=GvW8MI5wom+ZgjqRvtFbW1VCkOB/8u8iJb9OLp9bwCpCpqFVChhLrZU9msXI9Fq/5QiP
+	 RR23GJurjMUayGLF8Fn7xFM6BeZzdPN5EBxtbjA01LDYxlWCScLzTxg8kTZHjSEEGQN0/
+	 tAdr/Ee48VxVm4S7PPdFSEAwWC8KcVNxy/fcmet4Klm4v6ugZ8tfv+gkF1JT53s14xjMw
+	 QXc3R+HiRS+4m0Q4PTKngEZnW5VidY8oF/OrqGrsHYaEi9V874fLBfHc1Ea5GKzuMRR4N
+	 LTEnbs/RH3Uc+5rmIa0z+JgJB0vGfcKPR1HnD2Xb1VNrOZlYz7r2LjjMwzi0wzBlTPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x1YtSc3P;
-	arc=none smtp.remote-ip=74.125.82.52
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DsX9oDVd;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4D7606A32F
-	for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 16:08:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C4D7606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4CD606A31E
+	for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 16:33:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD4CD606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x1YtSc3P
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1846bc43c28so5031364c88.0
-        for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 09:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793117321; x=1793722121; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=meYMluchLM94txKJXWt+qZDyf5+PbHP4r+z7ZzwQ43Q=;
-        b=x1YtSc3PbvTPNhdM208IQmw3SoD3ojapzLGQDIohukjIZRjptz4Nyr+OiHeQdArCrP
-         Ytdskng0jmV0tUGKp/Fyv8JJZ0pzuxmCE1Z234/EFSESPuU0ErOzxr+1fVxPMNKa7+mb
-         5PsVMzhw/ZPy+hnZDCkPgAQ02hWiyYYD7rMUqVou2hVFgWrNZNnvWd89H5z16wm9bFub
-         ybeTjSeOauAC3MROOLEogjwJQBtj2ORHDa3L3JvL/XHQ1iPK2j7mzeWY3Y4B2fwcuGEZ
-         8A0yWZKjOdsLbwG4lppz/qIuZG7qYIY2P3Hnqjs3KQS+yRtnRpa0l3HLoZd4PSZ3wASB
-         8sxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793117321; x=1793722121;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=meYMluchLM94txKJXWt+qZDyf5+PbHP4r+z7ZzwQ43Q=;
-        b=FVONkQTFrjluC2lcHBRcE7efgZaq0/hA0Bvlg6/ShSCpWYksko6ykHDOCzixH0WsJV
-         SlX9TA1hEhh6pwdT5LMSA6yjRPzSLS4a+1V8Z04PW/KDHqwVw+vI+bJKTv93jZAL0bPd
-         dDQMyVWx3tOdqKUoK6SzzmEaIMslAUxvHfAfiV+6s0sgKz7wGTHr7Q/63F7DqE6cabeE
-         ZDnmtDp36dcxnHvhjt557SjX18rrQpR9rlL6WaEwQB26AwCT/g0P14wdGpAwsOyueHKp
-         qArrNKWSbnh0rbfViqOg9lsxuLF9pjEZUZJ1hD2fdRtVwi7QuwmnRxgrXTLnsvCHAiyO
-         ZGPw==
-X-Forwarded-Encrypted: i=1; AKwUvByG1jPSfgJCqueAkD0kjxS2oml4HpUGQzNBf5Ac4XZz676N7A8OnbcRi5kNoG++HmlH21ZXfOocJ+fmEdAz@lists.linux.dev
-X-Gm-Message-State: AFq9FYKbQQfi1VQCVnh4rA0wmXC7MLF8JGmDDCabJroT+WlF143u/PV5
-	k0mesiPd4NFojibsIuONRTUwl3T9Lp3xYy05gNAy0uLGlHd5Ks6ScLpF
-X-Gm-Gg: AYBFou39FcjZqOaQYMN5Oh4DH/+8RwBDqZ0w2vQvlr8T3TEx4ViHDRPlVCYJINrqGuX
-	+sa3LzaB0+AUUfhylMj2Qrx9VjnqfhxUZ9gKF0fKQs6+7BOGgaa72+m0eGb9dm+Z/E+PUu60SzW
-	dWn/cVK6qg67ltNETCxWAehNgs7cJC00XabHUc++5X9CIzL/OZ180xX9xuS2crgK6ReYChy+WM5
-	nqoEuqIEDKVNA+G+qdZ/VMBNlzZP+StucLhV2cLzbDC1RNRQ5MJycz/fQlcRJzz7Ukfk1hJU6DJ
-	SA96cm29ApE8etJ5pinkaLdS7NREQaa/p2Uw9FW7XhGmPuHVNjiiVJ8+AbmZCIO3cNUnOJHYurX
-	pyqWvtwtvEYuVoi1hc3go5UKkhctOFmwnX3n2S4djH1H3mS4uLlcoDIyRCBowQxhtO+ORXzb5LD
-	5/5wAlGq2Z9v05IdNMJ+06ufphEYS9DO6nbfDLL9M4vRznZsiatVH6nGpKo6McCQ08AAQ7Q0Ow5
-	RJJRvUPrHiZ0Kff+PDOpYwkvc1DaxM521TuJHhtNKQGygmF0Lct09pbw5Yh8rvMUud9peKuNTR7
-	Jo4XMJzq4a+F2TsuksK+29FzPA==
-X-Received: by 2002:a05:701b:230e:b0:1a0:b650:5c93 with SMTP id a92af1059eb24-1a0b6505d9dmr7245819c88.41.1793117320361;
-        Tue, 27 Oct 2026 09:08:40 -0700 (PDT)
-Received: from NithishVelan.localdomain ([152.57.85.197])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-198a0e8d700sm40053759c88.10.2026.10.27.09.08.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 09:08:39 -0700 (PDT)
-From: Nithishvelan M <mnithishvelan@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Nuno Sa <nuno.sa@analog.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DsX9oDVd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793118800; x=1824654800;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ahSNnKvQxghxBzFnaPlkwiogmqW5ZV/8vLRqpfwB0K8=;
+  b=DsX9oDVdYkBsMGxBP6+DrKEYlpMaF3sDVy2f02eDkNTdmUMu8WIxYw2z
+   sBdG3nTmgZgkIeZP417+mZyGAGetdm6shSa0VDMdmH7u+AtA77c0AN0oR
+   vvVRJNW+mSLMuk8L42lR9z2uTyusWBSEwuolG9GeWvt6Peed+Pb0yVC5p
+   V7D/Le6QmN3oDH9Q0AUnJWTlOGqPhSAg0k5KBaqlZ6CM6I85xO8dg7N14
+   h6RMAHCgQAuACtvLR9wblknV1eRTA8HkyBnJYjIep4td3yy4GMG+U1pmn
+   zutJXALamNrJj5w8usteYUL66eX3AfI5Yk5VZYgnjR0J+JwCWCtJEbErx
+   Q==;
+X-CSE-ConnectionGUID: EKANN0e8T7uVio3GLIsN6w==
+X-CSE-MsgGUID: lkD3sm4RRQuRuBfRrvcaDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1931869"
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="1931869"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 09:33:19 -0700
+X-CSE-ConnectionGUID: YSY7vDFxRaaXZJzz1tijCA==
+X-CSE-MsgGUID: +2XfVK/VTV2/SIT0C/nwNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="4541532"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.196])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 09:33:16 -0700
+Date: Tue, 27 Oct 2026 18:33:14 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Nithishvelan M <mnithishvelan@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nuno Sa <nuno.sa@analog.com>,
 	Michael Hennerich <Michael.Hennerich@analog.com>,
 	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Nithishvelan M <mnithishvelan@gmail.com>
-Subject: [PATCH] staging: iio: impedance-analyzer: ad5933: use devm_mutex_init()
-Date: Tue, 27 Oct 2026 16:08:29 +0000
-Message-ID: <20261027160829.1731-1-mnithishvelan@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: impedance-analyzer: ad5933: use
+ devm_mutex_init()
+Message-ID: <auDSSrRLqM5sg7ti@ashevche-desk.local>
+References: <20261027160829.1731-1-mnithishvelan@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -101,36 +84,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027160829.1731-1-mnithishvelan@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Replace mutex_init() with devm_mutex_init() in ad5933_probe() and
-check its return value. The driver already uses devm_* helpers for its
-other resources and has no remove() callback, so this ensures the
-mutex is destroyed automatically on teardown when mutex debugging is
-enabled.
+On Tue, Oct 27, 2026 at 04:08:29PM +0000, Nithishvelan M wrote:
+> Replace mutex_init() with devm_mutex_init() in ad5933_probe() and
+> check its return value. The driver already uses devm_* helpers for its
+> other resources and has no remove() callback, so this ensures the
+> mutex is destroyed automatically on teardown when mutex debugging is
+> enabled.
+> 
+> No functional change intended. Compile-tested only.
 
-No functional change intended. Compile-tested only.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-Signed-off-by: Nithishvelan M <mnithishvelan@gmail.com>
----
- drivers/staging/iio/impedance-analyzer/ad5933.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-index c05a5f4b4..51d73c5ab 100644
---- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-+++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-@@ -672,7 +672,9 @@ static int ad5933_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, indio_dev);
- 	st->client = client;
- 
--	mutex_init(&st->lock);
-+	ret = devm_mutex_init(&client->dev, &st->lock);
-+	if (ret)
-+		return ret;
- 
- 	ret = devm_regulator_get_enable_read_voltage(&client->dev, "vdd");
- 	if (ret < 0)
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
+
 
