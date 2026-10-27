@@ -1,59 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793111014;
-	b=kaYfvqVlPT/bJtNOulSCgBYa166IDuSOcY4YfZwnmD5hEzxvt4tDt6kvzFQ8ayX9WUMg
-	 fVhhGwSKYo98MXu/t+gE1PR2FJ+/ohxgA5oQhNA2F8Ybuv7yqw1ARJ4e3KNyqvMuPYMnO
-	 rFwwGVIt5XP9W3WXBgkEd92gToESkLiAmPyPgBd7714GPFL37XYyx2XfIHpKHu/AM4WaO
-	 m9tFlhEaYEVFJvXA8VCaOl0pj1e7+tRBW0VFtho8gOiCCgfuwFgGxEdgfkkJKrNWarfkJ
-	 qqAEEk+TfTEm+84QStJ1LmB6hq4dENjlqg/GO3R7CBXNYDurDnDpMQf5TWip0HoD0WA==
+	t=1793111601;
+	b=PDG9jZS8qsW6Ml+7hKST2X76Xs9VpOQRiDxvEIFuV6HdD3EcHyW2stqoXQQYp/OZAV3P
+	 th4C2MGzfSILkNwy0QnkhlsxyKxSBYUanu6yR4J1/iCJuzpe6pk0HO3sHUJmwm6aWmftJ
+	 l6eAggH2Mfzub9I0Ga2d+lDrcGQDdZZEu4c6aMVLEYYnZkaDa6zQNwBHNqfuPIwVJUhHQ
+	 PPkN5Yi0NOlZhw82A5Vxi9timXr6Z15Ai0VuCCFYggjL/QCursgppNjFCkZ23N/zfy6Lk
+	 zeXDqDT7ByPApdW9c5IEuAAprlqi3vLMHBStGiTf5nMa3G7/hD27NkhjIy/bRBhNELA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793111014;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=BuIlLwMd2FMVO0k1lyniVsasMmiDEzVa6CkIfR/Asag=;
-	b=wrWj3DUlIEdFW+WFfwjgcvzZsAFPklDfi7k2vppPX6N9aSYJgNqHWFf9O5AqWHmR2GL+
-	 Ei48ZA48nvsjkUMa/uRC0q3VvYYM9xO07FlmzuckATSUgBor+2jAdAN8nhPzg+3GrZlbX
-	 g6VlFGkxtvUy3kuUAr1MBPgm8SOjBikh7QI5+U+UMNpwzfQoSHMsaVCfcmkZotEPHsj9/
-	 5cjau9fce0gH3om7n/BQEJsMudk3V1aHNo7LeA28lWCGAcUFscepmzCAtiVNDyF/RRY9m
-	 vz2tHUSqNAO0wC5axHQ02H1fbOFysFgC4APpfkCL/Jv3ka1/2AjWSbX3UdFF+nlM/yg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793111601;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Pxqv64jRbKx43KYFVJcBjlbQu9GgnQaRPgNsGJcCI2s=;
+	b=plPgOF0LfMHvEDHiQPI7r1jDb7XT7MfazjXdNpd/M7cVz6TOzEQM/oxD0JulNPf+Uxk0
+	 B+tPaAwNx0F4PFzy70gfID776xIYXjw9l1FJVG4SEwcYa4PsGORCITLHhSBB8zMbLpqXv
+	 J7xTuGZFGlC5pwOcFdLqnR44F9dmtXxo8+zfac32Yq4vkI3w/AonVDNc26LjPdJitTCgJ
+	 1L92+9F8J81EYT2ybQxL5+5wl0DpN5kwUCgvrLhJtfo81Ak37qBtJXGKAbTBH0xt/nCK2
+	 njzpf5/M150gSN1irEFKWJPkwJ6pFMjsSPvE3n+Hl4EP9A7bSd4qLtrPsGEX6IDOrDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=FmRMfUvS;
-	arc=none smtp.remote-ip=220.197.31.3
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="L/42o6Mg";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E4860A262A
-	for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 14:23:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96E4860A262A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E99606A32A;
+	Tue, 27 Oct 2026 14:33:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=FmRMfUvS
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Bu
-	IlLwMd2FMVO0k1lyniVsasMmiDEzVa6CkIfR/Asag=; b=FmRMfUvSHAZ5PIOqSY
-	Gn4Tsp6t1pa/bZznDvD1UIimArcauK3vVR4XBisWfJ8N68OWDWi3haBAb+vBgTwB
-	81P0c0k8P1Mqxqq7RKayYFffqdJtchAuDbgn/xaTeBsXAGQ6OwM/7nODpLtLLoxz
-	wHFxQ7lt74h0NdXENxHyJ8TTU=
-Received: from iZbp142fio164970eurit1Z.. (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgDn3o7Cs+BqSuuRCQ--.48315S2;
-	Tue, 27 Oct 2026 22:22:59 +0800 (CST)
-From: linfordWu <linfordwu@163.com>
-To: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linfordWu <linfordwu@163.com>
-Subject: [PATCH] staging: greybus: fix loopback Kconfig help
-Date: Tue, 27 Oct 2026 22:22:58 +0800
-Message-ID: <20261027142258.1720002-1-linfordwu@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L/42o6Mg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 218031F031E2;
+	Tue, 27 Oct 2026 14:33:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793111601;
+	bh=Pxqv64jRbKx43KYFVJcBjlbQu9GgnQaRPgNsGJcCI2s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=L/42o6Mg5f2S45VxDzO15bacgo0AkxvBmJA/KV6SqumC3Y2QjNTvH1RgflJuWVS94
+	 cToM/Wzeuz2TGS551b0q+ZFRczWp4ANnLAG0A9DojlzNerkDHQdeX9X0Fqa2jwlUjP
+	 ueNKAhRG4LP7cO9b9WQsq67aQ1HYDHYyNEzF12XHU3i6veV3crOEjAdytXAoTWwwEX
+	 pWtJpekhEbkX89z37ZJq4sNStppLUy0n0i9XDfVBVEzLO924FQbth/CKbHaZf8EpF2
+	 WXrwd/1k2JymtZ/XByicDpL7gUY0xXVdu+w6ojkHhZJF12W0GpPJ1FvM7PJ17aPiKZ
+	 npJmPJaMAxtVA==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xLiEo-00000000Nv2-37pN;
+	Tue, 27 Oct 2026 15:33:18 +0100
+Date: Tue, 27 Oct 2026 15:33:18 +0100
+From: Johan Hovold <johan@kernel.org>
+To: linfordWu <linfordwu@163.com>
+Cc: elder@kernel.org, gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: fix loopback Kconfig help
+Message-ID: <auC2LiV6564Z1zFg@hovoldconsulting.com>
+References: <20261027142258.1720002-1-linfordwu@163.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -63,40 +61,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgDn3o7Cs+BqSuuRCQ--.48315S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZrWxKFWUAw4UZryrtF43ZFb_yoWfKFX_ua
-	sYqr1xAr9YkryIkayIqFs5ZryI9a1qqrWku3Z0yrZxXr13A347X34DW3Z8JF48Wa15Gry3
-	urWkZFnIyr17AjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sR_5Ef5UUUUU==
-X-CM-SenderInfo: xolqw0pugz3qqrwthudrp/xtbC8QPvj2rgs8P2lQAA3L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027142258.1720002-1-linfordwu@163.com>
 
-The loopback driver help text describes the debug log class and names
-gb-log.ko. Update it to describe the loopback class and the actual
-module name, gb-loopback.ko.
+On Tue, Oct 27, 2026 at 10:22:58PM +0800, linfordWu wrote:
+> The loopback driver help text describes the debug log class and names
+> gb-log.ko. Update it to describe the loopback class and the actual
+> module name, gb-loopback.ko.
 
-Signed-off-by: linfordWu <linfordwu@163.com>
----
- drivers/staging/greybus/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+How was this issue found and fixed? Did you use an LLM?
 
-diff --git a/drivers/staging/greybus/Kconfig b/drivers/staging/greybus/Kconfig
-index e1d7ffdf4..3ff475500 100644
---- a/drivers/staging/greybus/Kconfig
-+++ b/drivers/staging/greybus/Kconfig
-@@ -75,10 +75,10 @@ config GREYBUS_LOOPBACK
- 	tristate "Greybus Loopback Class driver"
- 	help
- 	  Select this option if you have a device that follows the
--	  Greybus Debug Log Class specification.
-+	  Greybus Loopback Class specification.
- 
- 	  To compile this code as a module, chose M here: the module
--	  will be called gb-log.ko
-+	  will be called gb-loopback.ko
- 
- config GREYBUS_POWER
- 	tristate "Greybus Powersupply Class driver"
--- 
-2.43.0
+This went unnoticed for 10+ years, but a fix for this was posted just
+the other week:
 
+	https://lore.kernel.org/all/20261018172711.8013-1-sowmyatorra@gmail.com/
+
+Johan
