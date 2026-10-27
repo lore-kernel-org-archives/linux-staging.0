@@ -1,61 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793063508;
-	b=RJU+0GfFltcRFDZwjlGW+CfQVJBZetmHwB8KYkm7hceRPkfWj5WpYvSt9RJ2m7JE79Gn
-	 gjHQBve5g3mAOQtkePJnNJJQZP3UGoBb2KuaFwDKKPIYlAXnlxezOgHm/c4MU8Xj4BIqD
-	 uD2M/855EZvWR0kneawgedt8b4PR3/N7kn3rZRdxo/ygh2Q4vmQ5fL5oTJKNjeU23sHFg
-	 jnsqBOq5ymjNcLEI0pQcmUXHzHrASYSHfhkDMSwTNd6KWP90Ao8uc6MjXSr6OXVIAuU5S
-	 r0AzSkqjrjpKrwDiQ08t2/Wm9uaXgfeGO948AiLGYVbfxjLYU+65xrKUn4SV4xNKZDQ==
+	t=1793079306;
+	b=LTbwLiiNFmDXt5HjXtTA91V81orXKODhGJef4A/42gooS6AeimGGckv44yBDsf+fQran
+	 b/gWHFZDUkdt1N/4rspGfPb6YvnPAvSd6eiZCCYTt1DgEK9SQIU2ruOUfKNsLLU2gTmeH
+	 DLswQsCwtWrFqGTbx+Ut1LQEUK0KAd9XOGINuez6wvKS/Sqce6Trx3ZeinUKhhAsXKObM
+	 TTf2JNjonVjly5jqYsMTonynHtoY7Yibmu2KirAJgRz+iVq/K+RuJfmEjtM9DEn4zZjra
+	 4QWambXXugk8MImogvllW+vI9OB6CIRmuxZNsFty/YbuXeL1y3wJNnrXUh5DeAEH3qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793063508;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=lQNU6hNGBy9jJbAi6r59f2PUJR0Koj1qckPlsZypSTk=;
-	b=vNLN9QOD8HLyNyPTo1mNW9dhl94sMHwvbyexSOQklxSmyrI6Zu/1W5fTHFiSaADLiahL
-	 SCthFrkcmADc60RUGc4AO0Ff0X0mn4yaWPkERwrLrZkFzL7itOYN7S5TWz/s02rBe9pFe
-	 QPVGCELUaXbRFHoZWr90/oZXSzHjCocUs8CjDdZX3NHF1aTuR1Z40FYA5rAnqjp7QaTax
-	 xchSRdHqGTbWy26iQOTVIV7cm/l25BCbzshwUf7FFa/VHHpX6Ng243iPBMJzeqbSs0eNB
-	 DHY8cpxJjeSk+ZYGSFI9o5k9Vm/h/bY58tar2LHyDuDvXBJtSsclm+FyXEMPaQ3BXNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793079306;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=hjwP3UPuVBpxDXWbtbEONQc9EqAwoM8fNiMF8hyJZOA=;
+	b=UQuF19knxOKpLufgb/FjElljNHyh/caMRmkG1tZIIqBjaYNYBUhcARVt63vL4ztWRWAU
+	 Df40E65b3ub7s5BC73aBjZtSyXbIf2N2gvgK4rxQZkVtXXPu6BqbezRAEWoHe/R5BMX+c
+	 rgECwnMRxEguP1kISCbQ6hKP/BNzFBrJ7wMIeEpm3OzGLXDTKFisI2uK5x1GB8p3oo39E
+	 E8Vw1+EGSuJQep6moksYlxnPggV9Obv6YTgrDt43ZYOixkeupqem6OGCdbHQd8ywnft+M
+	 lRP8c0TA1hgeDHyeyT1aJIgwsdrONMCJuesRzl0kRvouy1EWxymZoN56Pgif4f6U/XA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hVWh675o;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QZ1EtR5j;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696A5606A31A;
-	Tue, 27 Oct 2026 01:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0169606A31A
+	for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 05:35:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0169606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hVWh675o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 095CF1F01825;
-	Tue, 27 Oct 2026 01:11:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793063508;
-	bh=lQNU6hNGBy9jJbAi6r59f2PUJR0Koj1qckPlsZypSTk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=hVWh675out79bGzP+eT+vTXlBvi8q+BuUtiK9jsImwMHkQGPl6iU1Ea6kIVEinF+4
-	 DHFZgHTdaKKW9mZ0zV202B8oGQhyLBepn4BvN9sBBn7VrtnHzW50wyUuLeru5LNYPd
-	 ovII4SKiUVAqkN0tif+j69bKabx4Iq3CkLozWjJ4t7a6y8BR7DRgggrKT73KP8KeNF
-	 qERUGq34uJcm4jal/W96Id3kqJJp30EAsuUk+U026hWMKcyOAbcbpxIXWR7pcXTOiy
-	 g6L8jL8g3Wex6kdkBjnIYv3K4Z7Vj+hNucD/3hvjdD6eCySP/tZrz6ir3o7WDBZEBX
-	 Co8hjVZrgkFZA==
-Date: Tue, 27 Oct 2026 01:11:43 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Nithishvelan M <mnithishvelan@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Nuno Sa <nuno.sa@analog.com>, Michael
- Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: iio: impedance-analyzer: ad5933: use
- guard(mutex) in ad5933_show()
-Message-ID: <20261027011143.3bce4a32@jic23-hlaptop>
-In-Reply-To: <at8iQhUDfDpkRxI6@ashevche-desk.local>
-References: <20261026082828.652-1-mnithishvelan@gmail.com>
-	<at8iQhUDfDpkRxI6@ashevche-desk.local>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QZ1EtR5j
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48e09aa5264so2023760f8f.2
+        for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 22:35:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1793079304; x=1793684104; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hjwP3UPuVBpxDXWbtbEONQc9EqAwoM8fNiMF8hyJZOA=;
+        b=QZ1EtR5jmp9wGDURexuGGaH9L17ftfo7V6tiRy2xe21Dn9zP4d3t5HLXJdeQOM3p65
+         3M7LknfiBm2oc4JHeou1tb5ESd93jCo/FXlAOEDD2/0f5wR6vHM1UdLgSrJivJLCWspv
+         qr9UUeFuC1NxZ64tsI6o3fepBmh7bYAsAQeMl/mkjSUAjcGL6GVjdNMKzEL/sJr24/3X
+         bgu73MF2JbMLTr5NJuv+vOyCwk5sQK8mEnLO9FOGsDLKbeijcCrBc/DhOHqSEUUiuU5P
+         tKdP/kt0n3KefE5GJu7cDbk9ctvQzFVl5SztJjBm8+FEzTTnKct3A1DzjWjF+96aODhM
+         9zgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793079304; x=1793684104;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hjwP3UPuVBpxDXWbtbEONQc9EqAwoM8fNiMF8hyJZOA=;
+        b=BlNx+zLxR2UAaNnsT702OgoCOBClg6mNdVQWZh2CzFGENZszF8eSkWZEiP46tvNcEg
+         m9/00dZedO5YiPJZSBI3RxyFPcv6mg5MD8fDPNaGKSNpBBjGvMAIYTxE/SGIMlNMtwAy
+         l0qdcyLSb0go4324GX/59+6Yg+IsHl+/Uv5hN3e+DZTM+OvCJzbu+VDyKg/xOOsQAet5
+         4M0Atk3mGRqyZxjKwenzXJP5L+labZ5SKSuD52lePk9nURT/GTFo2RMrMxn1ryWxJ5ex
+         tgHs9KLUg9c/lv7KOKG+65pbGwXw69penSYoR7KqTRaJGdRjX/8mw8LDQUfktRKoOuRR
+         NYqw==
+X-Forwarded-Encrypted: i=1; AKwUvByXMaZ6aygBfGqGwEmt/ZdXHjHOVF3oZy6M0nDsBxTwvxYRiNO+AT+fTURQRj66Sv3I2oL+DxmGFTEUtWiv@lists.linux.dev
+X-Gm-Message-State: AFq9FYIp2u/48r3Idz27FBOWgacZ4pAasidgtn2U1M8QZkIXHBSVZh9h
+	Dh9xpxdZybBYGtkp0u92VYduSIriQFYwHdxdP3lrGGvziVCwLN8ro6mD
+X-Gm-Gg: AYBFou3GRl2+/Mic1e6mTFOxCp+67Q770hmzpAbrK3IhY7QUIW9H14d0HCvEk0Uk4Yu
+	HA+2/ssNx92MAOdEj2rz1VC3Mngb6oU1tSsfqmvAgymBDlKKVSsR6AqTQaskA0gxlziVuMJH6l3
+	+rwK9rjJ8GwPFtrqAeVH3B5V5deH63oG2PsmYOwHI0OEf9XWZAaTAeufMz+Sl/gh4lLjcTPuKpZ
+	+AyQVb0d5Vquwl33jwo1QX6utMJEw0cWGTbslsIlT2Gv3XDr/JzlmK+KHSWpI2WwCFrBV3YWWwF
+	Xn0ny4v3biHT2yWDHd2dlZh7RDd1t+gMED+MCQ0xPNf+VeiU6qizdbjJTqxPQVyMKafgrkV+ZIg
+	V+KF6/UlokiT8ynmj5KZFqLRZaHFjWxeeX+MSctnEboIwxd565UyyZoRHNHfDUNQb2xjX0DVwAg
+	F2qFgM1mAOx947KVpMmfLbYTKOzv5CXYGLyVUb9yJrpVxjLra4b94sL7F/8Ouscb38o9xGGEIUz
+	Q5xHPdPGFL3D0xbJ9+6qof6vD35UV021LMBqcm7qJJAvl0a1vj9sg==
+X-Received: by 2002:a5d:504a:0:b0:48e:6f:a9c1 with SMTP id ffacd0b85a97d-48e3eba307fmr11592520f8f.54.1793079304172;
+        Mon, 26 Oct 2026 22:35:04 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3c5bsm21205393f8f.9.2026.10.26.22.35.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 22:35:03 -0700 (PDT)
+Date: Tue, 27 Oct 2026 08:34:59 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Albu Victor-Marian <albu.victor.m@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+Subject: Re: [PATCH 0/3] staging: rtl8723bs: checkpatch cleanup in ieee80211
+ files
+Message-ID: <auA4A9N5vYCH7Zwq@stanley.mountain>
+References: <20261026205659.181065-1-albu.victor.m@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -65,20 +97,12 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261026205659.181065-1-albu.victor.m@gmail.com>
 
-On Mon, 26 Oct 2026 11:49:54 +0200
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+This driver has been deleted in linux-next.
 
-> On Mon, Oct 26, 2026 at 08:28:28AM +0000, Nithishvelan M wrote:
-> > Use guard(mutex) to automatically manage the state lock in
-> > ad5933_show(). This simplifies the function by allowing direct returns
-> > from each switch case, eliminating the mutable return variables and
-> > manual mutex_unlock() calls.  
-> 
-> LGTM now,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> 
+regards,
+dan carpenter
 
-Applied.
