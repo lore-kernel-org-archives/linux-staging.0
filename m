@@ -1,93 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793079306;
-	b=LTbwLiiNFmDXt5HjXtTA91V81orXKODhGJef4A/42gooS6AeimGGckv44yBDsf+fQran
-	 b/gWHFZDUkdt1N/4rspGfPb6YvnPAvSd6eiZCCYTt1DgEK9SQIU2ruOUfKNsLLU2gTmeH
-	 DLswQsCwtWrFqGTbx+Ut1LQEUK0KAd9XOGINuez6wvKS/Sqce6Trx3ZeinUKhhAsXKObM
-	 TTf2JNjonVjly5jqYsMTonynHtoY7Yibmu2KirAJgRz+iVq/K+RuJfmEjtM9DEn4zZjra
-	 4QWambXXugk8MImogvllW+vI9OB6CIRmuxZNsFty/YbuXeL1y3wJNnrXUh5DeAEH3qw==
+	t=1793079534;
+	b=Zgkdssbud30L8uUKMcUs+DnnK/ohin8xaX/AQowy71ugEi54QuwWGA5kkgzf2hCWdhjL
+	 r3eAyPwl1hciUJLUm1dyXkj9aQko2LYJdKRkYGVgAjmfxNHc6AhSKEzvnyq65l+NG1C9n
+	 nGLOY+K0i5PTqgXCANNfzdpTf38BPIv5jqbQTy6P19o/D8syVJtNuEmtoVGYaSZTNbRx9
+	 qi8UjfvuzmNnE1E1D19602UsI9ToDPD9zPl+ehbQeP7t/G/eN991pxaK4S5CaKU/IZ+WB
+	 /pFB80R1penHIH/eCoyOhogjgzfW2htemngNhCVJOLrb+oK6EcYQbrNLPppARytI8qA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793079306;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793079534;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=hjwP3UPuVBpxDXWbtbEONQc9EqAwoM8fNiMF8hyJZOA=;
-	b=UQuF19knxOKpLufgb/FjElljNHyh/caMRmkG1tZIIqBjaYNYBUhcARVt63vL4ztWRWAU
-	 Df40E65b3ub7s5BC73aBjZtSyXbIf2N2gvgK4rxQZkVtXXPu6BqbezRAEWoHe/R5BMX+c
-	 rgECwnMRxEguP1kISCbQ6hKP/BNzFBrJ7wMIeEpm3OzGLXDTKFisI2uK5x1GB8p3oo39E
-	 E8Vw1+EGSuJQep6moksYlxnPggV9Obv6YTgrDt43ZYOixkeupqem6OGCdbHQd8ywnft+M
-	 lRP8c0TA1hgeDHyeyT1aJIgwsdrONMCJuesRzl0kRvouy1EWxymZoN56Pgif4f6U/XA==
+	bh=EeCv2zoswoi1cyVuV3aMhSAQS6klpYnNlB3thV2Q9FE=;
+	b=THMF/KtNl3oplDMD7YUk6gmqZ00vtqrzo5EJIIZd+nP6s49Ps4FSHSBVEOoMjL12DaWT
+	 l0a6Ee6zYfvDx/UvyVZy8h/pxTQo25+xuOSYWmlLWsH0mnPf/tbQtMtbvgFENZ0xUUCK9
+	 h0LUYVmhFNWhavkCQ6pMbu3nTn8kUnQ8XAkjRMwYOu+FEd64QhZG+gM4gV4eNkeiCCKKV
+	 2kTy1r0Qb+P4z/hixziZ75UwBlZZMurK19F9zOKR0ODPcUFxc4JeBaCqIhw23K+uPBwhf
+	 bmg/RvQSO8wEVp52qRW5cP3cnYaoK6oBGMRgFG20PMJtyvGUf0gJx0GgVQDpY5hDRaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QZ1EtR5j;
-	arc=none smtp.remote-ip=209.85.221.43
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TZFHGyom;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0169606A31A
-	for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 05:35:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0169606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD52606A31A
+	for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 05:38:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CD52606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QZ1EtR5j
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48e09aa5264so2023760f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 22:35:05 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TZFHGyom
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a5720b0a57so3401805e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 26 Oct 2026 22:38:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793079304; x=1793684104; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1793079527; x=1793684327; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=hjwP3UPuVBpxDXWbtbEONQc9EqAwoM8fNiMF8hyJZOA=;
-        b=QZ1EtR5jmp9wGDURexuGGaH9L17ftfo7V6tiRy2xe21Dn9zP4d3t5HLXJdeQOM3p65
-         3M7LknfiBm2oc4JHeou1tb5ESd93jCo/FXlAOEDD2/0f5wR6vHM1UdLgSrJivJLCWspv
-         qr9UUeFuC1NxZ64tsI6o3fepBmh7bYAsAQeMl/mkjSUAjcGL6GVjdNMKzEL/sJr24/3X
-         bgu73MF2JbMLTr5NJuv+vOyCwk5sQK8mEnLO9FOGsDLKbeijcCrBc/DhOHqSEUUiuU5P
-         tKdP/kt0n3KefE5GJu7cDbk9ctvQzFVl5SztJjBm8+FEzTTnKct3A1DzjWjF+96aODhM
-         9zgQ==
+        bh=EeCv2zoswoi1cyVuV3aMhSAQS6klpYnNlB3thV2Q9FE=;
+        b=TZFHGyomEJz9FhV32EnqbZPMipqa4A+VyyJ/FBFsr0FyfYhG+jx5FpyC6TIRJbn9pS
+         xGLT3ASY9/r+YLyinuuFWy+ZQYE9R+FCy0GrT1UTL/CqFPzcclhyz30+FNm2v5Ob1OcX
+         neKF9Cllt0/qGXQZIsnZCFgZ96sSk1MP3GnTJiW2y12/6DM8Q+h4gPYmfIsg9sBce9UI
+         w9GtIon8jSOAKDCLSLmITSa6BOUmozgZs8TyBQ7sbWclCog5EvQW2tzfQeoReUk+T5TK
+         +oFtw7kpJhomA7JY8KFR44Cp3TCPFnubbFynqhD/Vjy8R3X8GwPydas8KWBoswshRICP
+         LkYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793079304; x=1793684104;
+        d=1e100.net; s=20260707; t=1793079527; x=1793684327;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=hjwP3UPuVBpxDXWbtbEONQc9EqAwoM8fNiMF8hyJZOA=;
-        b=BlNx+zLxR2UAaNnsT702OgoCOBClg6mNdVQWZh2CzFGENZszF8eSkWZEiP46tvNcEg
-         m9/00dZedO5YiPJZSBI3RxyFPcv6mg5MD8fDPNaGKSNpBBjGvMAIYTxE/SGIMlNMtwAy
-         l0qdcyLSb0go4324GX/59+6Yg+IsHl+/Uv5hN3e+DZTM+OvCJzbu+VDyKg/xOOsQAet5
-         4M0Atk3mGRqyZxjKwenzXJP5L+labZ5SKSuD52lePk9nURT/GTFo2RMrMxn1ryWxJ5ex
-         tgHs9KLUg9c/lv7KOKG+65pbGwXw69penSYoR7KqTRaJGdRjX/8mw8LDQUfktRKoOuRR
-         NYqw==
-X-Forwarded-Encrypted: i=1; AKwUvByXMaZ6aygBfGqGwEmt/ZdXHjHOVF3oZy6M0nDsBxTwvxYRiNO+AT+fTURQRj66Sv3I2oL+DxmGFTEUtWiv@lists.linux.dev
-X-Gm-Message-State: AFq9FYIp2u/48r3Idz27FBOWgacZ4pAasidgtn2U1M8QZkIXHBSVZh9h
-	Dh9xpxdZybBYGtkp0u92VYduSIriQFYwHdxdP3lrGGvziVCwLN8ro6mD
-X-Gm-Gg: AYBFou3GRl2+/Mic1e6mTFOxCp+67Q770hmzpAbrK3IhY7QUIW9H14d0HCvEk0Uk4Yu
-	HA+2/ssNx92MAOdEj2rz1VC3Mngb6oU1tSsfqmvAgymBDlKKVSsR6AqTQaskA0gxlziVuMJH6l3
-	+rwK9rjJ8GwPFtrqAeVH3B5V5deH63oG2PsmYOwHI0OEf9XWZAaTAeufMz+Sl/gh4lLjcTPuKpZ
-	+AyQVb0d5Vquwl33jwo1QX6utMJEw0cWGTbslsIlT2Gv3XDr/JzlmK+KHSWpI2WwCFrBV3YWWwF
-	Xn0ny4v3biHT2yWDHd2dlZh7RDd1t+gMED+MCQ0xPNf+VeiU6qizdbjJTqxPQVyMKafgrkV+ZIg
-	V+KF6/UlokiT8ynmj5KZFqLRZaHFjWxeeX+MSctnEboIwxd565UyyZoRHNHfDUNQb2xjX0DVwAg
-	F2qFgM1mAOx947KVpMmfLbYTKOzv5CXYGLyVUb9yJrpVxjLra4b94sL7F/8Ouscb38o9xGGEIUz
-	Q5xHPdPGFL3D0xbJ9+6qof6vD35UV021LMBqcm7qJJAvl0a1vj9sg==
-X-Received: by 2002:a5d:504a:0:b0:48e:6f:a9c1 with SMTP id ffacd0b85a97d-48e3eba307fmr11592520f8f.54.1793079304172;
-        Mon, 26 Oct 2026 22:35:04 -0700 (PDT)
+        bh=EeCv2zoswoi1cyVuV3aMhSAQS6klpYnNlB3thV2Q9FE=;
+        b=lnrTN9KDYbkjyQ4htA42L8RjQFN4P+2MUtGhERy3Y9GtoPosTRngSAGxQXeUH/JFuQ
+         O2F5OfrBikvmdoTRzI3icZcOArRqOagfcxz712aEtwIruZNdjJCILd6lBQIXWmuG9cL4
+         1Yzye6jufe3rSC6tfYId+P+h89Jnag38gDgCT6AEnzoBuquNwz4YQ7btz0iZTtN0HXe7
+         C+Cw5KAqE5Bkq9Sdwdi1ycht3IePXvp86yWmxaHGT6IaHEk0En1jxGTR+Zaumr9JC7IN
+         WbKOtIVLSm+2OO5xshgPxMbyeL2hN4aGWNLKdgaYvvA7P/12DHzkmT06UIrJv5xfBhMZ
+         //EA==
+X-Forwarded-Encrypted: i=1; AKwUvByX9m1TNg7776N1hpv56suH+zaJLoG6vqU4AOWLRrkHeY6QI7NU3sy6ZTi2yICKgJKoCa4chLz1YlQeSwwO@lists.linux.dev
+X-Gm-Message-State: AFq9FYKqwo+b9Pf6T70qHh9Ral31gYGDxhmJEAcWfz+6B3uj7OGKkXYm
+	4sZDWaqrScUkVWyq1cFo1nbzAxgn3y2BbkFtlkcry8n6oimmnOMYLjw7
+X-Gm-Gg: AYBFou2aS8oaIu5PqaBd8gNDAniLWh0nEnwnf0y9X9JpJ/E2LD/UUN5ju2Kzfl1Nq2Y
+	BlxKg5AfhapGY7zh4P7CbkjyggVkwUN+Kr5vlHv8cfTgqWdGncn0hS4bryP/goR4CrGgH/i9cCo
+	CXmKBcR57ye7g2m2KC2ShZERiMUvH/vCjEZ8+pp9Br5UPVCX/T/0mtdB+plEa1zE9vyYglLuZD5
+	fmJE+HJ5brq074XxrmcdtPTww2CEusiuzM8ES5OMy+ZJaUukeBOdEaFkybs6sKl5Ts6m0wghBUa
+	Dw5jLgESLGl4yYiDE1FNaOB5+Pvt5nieOqoWFUD9kXXd0pTr0POqAjqwae9s+VulG96IhcepmkR
+	vSbZI2yGdtE9Zf5uU+O+Ue4RUXB/9hEDSoJXr8ZbZ/vBGcz9n2WlF/N1+5TZ7OqMSr/R+XeqXgt
+	W4B1CJ1XIoLjNe2c/AmOSKrqjgK9+UOdyJtkbv6acqoyD5VArfOLezniciX29m2tphU/08yBfj/
+	qLBEUmU2yoHAP6kVAsMxSknR7lSvekSJCy5pnsLoYn5/IaLnYLn
+X-Received: by 2002:a05:600d:849a:20b0:49e:795e:ba89 with SMTP id 5b1f17b1804b1-4a7c3856e2fmr26530125e9.6.1793079526864;
+        Mon, 26 Oct 2026 22:38:46 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3c5bsm21205393f8f.9.2026.10.26.22.35.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3eb8f248sm20057407f8f.6.2026.10.26.22.38.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 22:35:03 -0700 (PDT)
-Date: Tue, 27 Oct 2026 08:34:59 +0300
+        Mon, 26 Oct 2026 22:38:46 -0700 (PDT)
+Date: Tue, 27 Oct 2026 08:38:42 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Albu Victor-Marian <albu.victor.m@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
-Subject: Re: [PATCH 0/3] staging: rtl8723bs: checkpatch cleanup in ieee80211
- files
-Message-ID: <auA4A9N5vYCH7Zwq@stanley.mountain>
-References: <20261026205659.181065-1-albu.victor.m@gmail.com>
+To: Abdullah Mohammd Sifat <sifat.yt.2.0c@gmail.com>
+Cc: dan.carpenter@oracle.com, hansg@kernel.org, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: Fix memory leak in
+ atomisp_alloc_dis_coef_buf
+Message-ID: <auA44kPevsJUudhR@stanley.mountain>
+References: <20261027001940.20565-1-sifat.yt.2.0c@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -99,9 +99,18 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261026205659.181065-1-albu.victor.m@gmail.com>
+In-Reply-To: <20261027001940.20565-1-sifat.yt.2.0c@gmail.com>
 
-This driver has been deleted in linux-next.
+On Tue, Oct 27, 2026 at 12:19:40AM +0000, Abdullah Mohammd Sifat wrote:
+> Free the allocated dvs2_coeff memory if ia_css_dvs2_statistics_allocate
+> 
+> fails to prevent a memory leak in the error path.
+> 
+> Signed-off-by: Abdullah Mohammd Sifat <sifat.yt.2.0c@gmail.com>
+
+The commit message says it is a bug but there is no Fixes tag.
+
+However, it is not a bug because the memory is freed in the caller.
 
 regards,
 dan carpenter
