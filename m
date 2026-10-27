@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793102642;
-	b=3LhNVX5nsJctS0CsPLnWklbOVnIVzFW0DzFnC+Bewk/yzcPSPIM2HdYXTxJ9i9ULGGxe
-	 mHcpLvJCiHRNWt/5SgKUUyto6UgM/IBSJ+s8oIDYWG/vGGio/QIxU9MSn94r2HK4b5QKx
-	 BgfSX1XeUArUa8/eAs8WjWVx6Bg066ZXUPbT9Iv3Mo+87TyC6mxJN7LdW86LgzIPpt/Xx
-	 GwmIk8pF80m6PpI2EFdVKV1SHFDyNw0a2Ilf2J+9I6cL7BE6jb5d0rUh47r0tFQ46xVsG
-	 HXLel6ewZPGU3fjTCDWqulsG9YK/1gMssfveaJ0SEbglAsyiZMYxQFBmvrLJ+lsqR+Q==
+	b=A6sl/RTYknC+aDHmoSCxd1FFsnF5ztsGXiGENc7HlbrZNvZSzH3QFqsjjvTbBoNMDV9o
+	 e/fq5lN74qSCzG1JndMEP14zhVNYdCWyfuwfiI7BpvOAtbpl1YJP0vN4xwfdlK13xAaYZ
+	 Dq3QPMBorxS0JleHnMfr2taZsVAUdDuXlkDKK6F7NKwoXppvs05luR2yE0AeOdqL/mquy
+	 /+iJXdAObSFwwxAgSreFjedc/arMG6C94zJR44xWJeW938gXKGHQub7LdCV7My9RFsLk8
+	 kNsERjYtC3Xlwlh8fIkhcD/f6MQ09N1N6m4kZAWqz749eKCxv29YF/Rpole6QqOpH+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793102642;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=NZRI7OXfrCuhmjB2P6fSSq6CZTi7xapgTlqibVa79fI=;
-	b=GD+tkj9ZsxQW1V8Plqk8DG6ZS9JVNAfHt6MHZX4DF07HFMRbXVzLH4OSQJFo5OKKwstn
-	 /ssp7fnXIAgCwdLisQ1A3XQThKkRdAqo1jkBOrKVal2Dk5U7xkfHN/VfGJR0H+H7Zg63v
-	 9mB/MYsmrqtCRnyC3/+EWW950JY9aDEk79/xE7l+rUAH4Lf6B2iDAOlSSMcpnf2kTft/s
-	 OOYPmhllHs8W8g6+zL+WcvG2Yfkg2koCpF50G/Yg01Sm9gxoFqjrNgONgMpgrl5CbUOwh
-	 DTqlNCiY1xwkchEQX0igW7fcAI0kmod5TkMeEbU2WMOsFFATJYSW2Ye1tSvrSqFP2sQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=ngKLlD/TZFndBBHOawGu//O5HfItQqjo8oistDQQOGc=;
+	b=eGNXrImUDDRWPwg0MRjyS/YuDsk1Z1pdLba7/CwCNysbapo47RjHd0t2/poegVC8n+tm
+	 htT3lYIZ3/8cKTN1ItIHZbKzZcYpH3UH7jX+293FMdJfU3FqozsRV4bTS90vTtyRPYrFS
+	 KdkSEpa8Hn7979JApvuMFh/TfaXcAyKKPnM5DzMycnmWDRVO77AceV46jBKPO/HLWKPIG
+	 Dmr7y4tHBFwB8my0Ix+Jokj+QbT16kzqCQvLlZ9eK3nKGjGGCRpieLp6CwVawe7//n3Yp
+	 Au0QhephStCCBNA1aeDgKOlok2qM6+hJLEYeywJOvKsxPLjl5Us2SqZ88z6bzKj2spg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FftjxsKG;
-	arc=none smtp.remote-ip=209.85.208.51
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=m2dIH42y;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1DA606A322
-	for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 12:04:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB1DA606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDB6606A32C
+	for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 12:04:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FDB6606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FftjxsKG
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6af9a90e4bbso4360886a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 05:04:01 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=m2dIH42y
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48dfdd0678dso2948651f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 27 Oct 2026 05:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793102640; x=1793707440; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NZRI7OXfrCuhmjB2P6fSSq6CZTi7xapgTlqibVa79fI=;
-        b=FftjxsKGXBV6F2KR0fFVM6AnEyNhSQq0Fg34WdIkzM7XZAYszPIaN8t3Hjx4q5MK9C
-         tbVM92k51GkDRRGW//INhMaVloxp99YGO6G8R7YVCupn00mHR/WxrB32MXrVTGo/IxfI
-         sgPt4xJSSB4BiXQQIxrmGnEqxs5jlloRmF/U/LqQ4W1JIbIrRRajo+NejrzdiZwRyAE9
-         +fUL4L3jNEfO8VmgeYnQ6RqIw5TGqzUUYK0gBTWUPE8pvHKBiew7D8szIf/uV7ygP6UW
-         9eiFJRk6jJyOykHAGEveGDgRli4N+HpC3ab2xaqKHbMLZx5Wc5XRfghrlZ/HhJDQ9HKw
-         Vw4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793102640; x=1793707440;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1793102641; x=1793707441; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=NZRI7OXfrCuhmjB2P6fSSq6CZTi7xapgTlqibVa79fI=;
-        b=GClc0CEzRK0p0FVBVmJWOP6mC7B6jdEuq+bbxam4Pst5ZhrymBUU43ZvNyoPrfs7DM
-         Kay0x6nXWA0AXVw3dJ/9B2JL9feENuxxOzASm+m1/qacq745HmW7flrYclu5A46qTlBz
-         tpiAAlLCj2XYgFLYMLfoMOw5nFQbYX6OgFHI6O6K2eQk1/E4A6haAEH4mkyZLEHtbEOD
-         lc/DOlXr0xf1dl7lGoOZJ40Q6D7ruVjHIilkxlnX+x/5n7RG1bNZyNhEKtTWZ4xtmdjQ
-         aUsq3C671paia9oBrscYvlQervOV/KmcmSG+AvwNq3WUngX98Ph0m4dWweZz2EVs1UFv
-         nV3g==
-X-Forwarded-Encrypted: i=1; AKwUvBw2iXfwT7SST4qMNBtQoWBMb+g4M9Kh4kel/hUZzpy3kMLPgT7UpDGf0P0WTPUs6k4W2z7sBFl7sNcc+few@lists.linux.dev
-X-Gm-Message-State: AFq9FYKSpgynIFet2Q6w8wKVV3stbS05JRlGkWkj6FD2fMU9PCNfO62b
-	IBGyNPz26f1EGikCljSy2E8tn0DJHqswiSVUYKzLFqq92BjRP1mYsLc46q5OoQ5iANA=
-X-Gm-Gg: AYBFou0P08q3oKxbYyvHZB7wl3eVwCtjS0kGvXDP9cM8B78NSOAGCsKHynR/zn6Z4HZ
-	qwtfkU9fqdNThR//4/uCdb7UNa7Ik2waB5kZk9MEYc23DOrZuN2v/qGZ0Ai7XL92rnp/CNJkXKi
-	WXbC7sT5Qj18SMDFchZD5hQHAS4ci+rMyVue4fmcH8nyRuDoaueoTIjKL1ThEUW4zHUc8xECCvt
-	LhhHDKdC9whlrjY1TkPak/hDWpYYf7bEXTquPs2491G1Z+2CL6V4P4fsWBEleYZ9qTn4jsCNiTA
-	4K7SqGtvVbimL852gn6XYx6aaHmazfz7KMzMGORxTyzr+Qk2omg6gcc20y8tTy+cSlMAPTzJfeG
-	XVs8MFR6TmIwiduqQZZgc4EO2ZkVSQ0Mu+fzNBWFvcBuQvMELuMt++8krv2HSSf9zHzdRU4ZIy4
-	DlOI2DYgC1Ijy66ufU2t6j1cToprPmPe9st74KhbCJULjhS9gBvOTZ8t/FQ0f+6xQGAF0u/JDHX
-	n1orizwnk0K0AMTVs2bYhaob+pzmGjr050LbdIluDLiicwHeJW+8yloVaABAZ1l+/TpNYgKHoiI
-	UHM8
-X-Received: by 2002:a05:6402:3d9:b0:6b4:2b7:69aa with SMTP id 4fb4d7f45d1cf-6b442ff3197mr7230849a12.34.1793102638778;
-        Tue, 27 Oct 2026 05:03:58 -0700 (PDT)
+        bh=ngKLlD/TZFndBBHOawGu//O5HfItQqjo8oistDQQOGc=;
+        b=m2dIH42yhBQ2vy+PNLMEhLH46STdeIq53sDzHuneV69HOT/ywIuuEz84gv/1Ko2JDW
+         07zhso52CkT1cjb9KWeRVzJyC3nveVvazk0+qaweLdbIlVyCGESqq7ZItV/7YBNSwnBW
+         sBK03icpwRz/Xwai/ScRCQoxChXnMLor4NBLsEz1PghAZrfKM/eK7PxQQ4Krv25lyrYH
+         5FxhmUV2lxv2cP7jj2tcC4gw+zkST3fuArXpwje2kr2Kurm5WzBpoO3sEi5wITzlrAIZ
+         YWxgPGkz+fee+XZjHH7w+SuXHMbGsVCrzmS7bsfH3VBZVMYWuvdZLRHIOv9eXQp3PggI
+         FAmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793102641; x=1793707441;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ngKLlD/TZFndBBHOawGu//O5HfItQqjo8oistDQQOGc=;
+        b=h102p7B24GW+QDaoyMmkwWn8F+xClWvMn9GC2lD0b2EVW+t4ztm74HBNx40HgBHX1n
+         ND7lcy69jLBc9vHYKDhIzX2ehwN8rHBo3hI7yIUbjmfcKZhKDlbJDxNenD4ZMMMsAmBK
+         alot/z6/lhUIhOfLu8Qn79WHewAKiFvTCVPylMb3kX6g9vzO2YT40nI38HU+39aWG6Go
+         0SBbTCj4C3xiKfGW5r1nc4l7ivD9qWVnroD4N7ENHFSpWRh/k1nIq0qwe5psnJh+Ys9I
+         ljJ2Wgoa8g8oj4OrGHq2TCK1CrxjkFA3iy/f8NW45DuVoTkLXvVbI7fsxMw5e26HDk5P
+         DIvA==
+X-Forwarded-Encrypted: i=1; AKwUvBzzJW48XXSywhFEnCLQTfemFiZwQ7KWsvZl3OV/fHg1LGPV7O9uSxxT8RFXZ9m2eRzyPKoxZxOSsinlAFXD@lists.linux.dev
+X-Gm-Message-State: AFq9FYKKXp/4TMdgLtqLYNTbVt/Kon2EeivKNL16huIWRVQ+AkrgRGho
+	gtjD93RIhl9wussVZcjSAppn5zEd7VkU2nkX8e9j0Yr0OANjsfZOvS20
+X-Gm-Gg: AYBFou0EGI4rebIcnBMcoirf+J0mBKm1Y1AE4KaISuKbd/kOKqqH4Xy8ngaI7gxb2dg
+	SYRhC4TnRwXtUAD7I1VYIe0aOBdSdGmzjjW0JpSGjpKOFB8QMDklGD7FwY9HiE0yDlHzKT2omjk
+	wpSjpvpPCX4sMNmCX+TXs8BskxNXQApgB8kHDmbHyL/1QJO+NtHWDwtXyvukPMlTpmBIm3fax3O
+	j3tmt85I6ZyzpWCXhJGAV8P015V51a5EmJRmgOU+UXg1sjs3k2bContBJ1bdVj4MCs561CYC5Ua
+	Cf7E+QfhFdreg5snFfmx+YDq5lve+lckLnt5kqGlzdpPNW8fxgNnWSyMtnHoQ3X6V4jIlE62b41
+	qRYEX8QZBsIpP3LYi1CuMZvBfqR5oGZ/frv+wYDc6GbVeRlZYxdZvopocfbUwgvxH6AD9ee0FEq
+	7MXj981xbiC7CSxkUF5gXimDjk5XYto8QFrbdLRmY2/k079QEBbx8UxvxJQs+rZ38du/Ld59G7c
+	anmyeGBSia7Jk5CrHW9wAmFlWwkVKgL+Yj2rj3UKE+dpZQ07be9WlTItG9eTnjAfoRAidt0df4T
+	ROU=
+X-Received: by 2002:a05:600c:620b:b0:4a1:c6fd:4db0 with SMTP id 5b1f17b1804b1-4a35aca41e4mr160349135e9.19.1793102640602;
+        Tue, 27 Oct 2026 05:04:00 -0700 (PDT)
 Received: from ubuntu-4gb-nbg1-1.. ([2a01:4f8:1c19:b0ad::1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd39a9sm22977554f8f.46.2026.10.27.05.03.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd39a9sm22977554f8f.46.2026.10.27.05.03.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 05:03:58 -0700 (PDT)
+        Tue, 27 Oct 2026 05:04:00 -0700 (PDT)
 From: =?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
 To: Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -88,10 +89,12 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
-Subject: [PATCH v3 0/5] media: atomisp: remove the circbuf library
-Date: Tue, 27 Oct 2026 12:03:35 +0000
-Message-ID: <20261027120341.2305533-1-vladurares@gmail.com>
+Subject: [PATCH v3 2/5] media: atomisp: queue: move remote queue handling into helpers
+Date: Tue, 27 Oct 2026 12:03:37 +0000
+Message-ID: <20261027120341.2305533-3-vladurares@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261027120341.2305533-1-vladurares@gmail.com>
+References: <20261027120341.2305533-1-vladurares@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -104,79 +107,540 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Thanks to Andy for suggesting, in review of my earlier typedef
-patch [1], that I look at converting the custom circbuf code to
-circ_buf or kfifo, and for reviewing the previous versions.
+Move the remote queue branch of every queue operation into its own
+static helper, written the way the function is meant to look once the
+unused local queue support is gone, and call it from the existing
+function after the local branch.
 
-While looking into it, I found that the circbuf API is only used by
-the local queue path, and ia_css_queue_local_init() has no callers,
-so as far as I can tell that path is unused. The remote queues only
-need the descriptor and element layout shared with the SP firmware
-and a few small helpers.
+This prepares for removing the local queue support in the next patch
+and keeps that change easy to review. No functional change intended.
 
-So this series first moves the remote queue handling into helpers,
-then removes the unused local path together with the queue type that
-no longer seems to serve a purpose, moves the few remaining pieces
-into ia_css_queue_comm.h and drops base/circbuf/. I may well be
-missing something, so please let me know if a different approach
-would be better and I will rework it.
+Signed-off-by: Rareș-Mihai Vladu <vladurares@gmail.com>
+---
+ .../atomisp/pci/runtime/queue/src/queue.c     | 407 ++++++++++--------
+ 1 file changed, 232 insertions(+), 175 deletions(-)
 
-checkpatch warns about new typedefs in patch 4 and about MAINTAINERS
-in patch 5. The typedefs are only moved from ia_css_circbuf_comm.h,
-which patch 5 deletes, and MAINTAINERS has no entries for the removed
-files.
-
-Compile-tested only.
-
-This supersedes the typedef patch [1].
-
-Changes in v3:
-- New patch 2: move the remote branches into helpers first, so that
-  patch 3 mostly removes code, as Andy suggested
-- Generate the patches with --histogram, as Andy suggested
-- Patch 1: add Andy's Reviewed-by, thanks!
-
-Changes in v2 (patch numbers as in v2):
-- Patch 1: keep the includes ordered by name, as Andy suggested
-- Patch 2: also remove IA_CSS_QUEUE_TYPE_REMOTE, the type field and
-  the type checks, as Andy suggested. I tried to describe in the
-  commit message how the queue handles are initialized and why
-  struct ia_css_queue looks host-only, so that its size change on
-  64-bit should not matter. Corrections are very welcome.
-- Patch 3: use u8/u32 and the usual function declaration style in
-  the moved code, as Andy suggested
-- Patch 4: add Andy's Reviewed-by, thanks!
-
-v2: https://lore.kernel.org/all/20261014111213.1967452-1-vladurares@gmail.com/
-v1: https://lore.kernel.org/all/20261012230754.1914517-1-vladurares@gmail.com/
-
-[1] https://lore.kernel.org/all/20260918214132.1135549-1-vladurares@gmail.com/
-
-Rareș-Mihai Vladu (5):
-  media: atomisp: sh_css_mipi: include assert_support.h directly
-  media: atomisp: queue: move remote queue handling into helpers
-  media: atomisp: queue: remove unused local queue support
-  media: atomisp: queue: move circbuf types and helpers to queue_comm.h
-  media: atomisp: remove unused circbuf library
-
- drivers/staging/media/atomisp/Makefile        |   2 -
- .../base/circbuf/interface/ia_css_circbuf.h   | 363 -----------------
- .../circbuf/interface/ia_css_circbuf_comm.h   |  56 ---
- .../circbuf/interface/ia_css_circbuf_desc.h   | 160 --------
- .../atomisp/pci/base/circbuf/src/circbuf.c    | 312 ---------------
- .../runtime/queue/interface/ia_css_queue.h    |  29 --
- .../queue/interface/ia_css_queue_comm.h       | 135 ++++++-
- .../atomisp/pci/runtime/queue/src/queue.c     | 369 ++++++------------
- .../pci/runtime/queue/src/queue_access.c      |   1 -
- .../pci/runtime/queue/src/queue_access.h      |   3 -
- .../media/atomisp/pci/sh_css_internal.h       |   2 +-
- .../staging/media/atomisp/pci/sh_css_mipi.c   |   1 +
- 12 files changed, 248 insertions(+), 1185 deletions(-)
- delete mode 100644 drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
- delete mode 100644 drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf_comm.h
- delete mode 100644 drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf_desc.h
- delete mode 100644 drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-
+diff --git a/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c b/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
+index d27c6567daeb0..cfd7473720d1f 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
++++ b/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
+@@ -70,10 +70,50 @@ int ia_css_queue_uninit(ia_css_queue_t *qhandle)
+ 	return 0;
+ }
+ 
+-int ia_css_queue_enqueue(ia_css_queue_t *qhandle, uint32_t item)
++static int ia_css_queue_enqueue_remote(ia_css_queue_t *qhandle, uint32_t item)
+ {
++	ia_css_circbuf_desc_t cb_desc;
++	ia_css_circbuf_elem_t cb_elem;
++	u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
+ 	int error;
+ 
++	if (!qhandle)
++		return -EINVAL;
++
++	/* a. Load the queue cb_desc from remote */
++	QUEUE_CB_DESC_INIT(&cb_desc);
++	error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
++	if (error != 0)
++		return error;
++
++	/* b. Operate on the queue */
++	if (ia_css_circbuf_desc_is_full(&cb_desc))
++		return -ENOBUFS;
++
++	cb_elem.val = item;
++
++	error = ia_css_queue_item_store(qhandle, cb_desc.end, &cb_elem);
++	if (error != 0)
++		return error;
++
++	cb_desc.end = (cb_desc.end + 1) % cb_desc.size;
++
++	/* c. Store the queue object */
++	/* Set only fields requiring update with
++	 * valid value. Avoids unnecessary calls
++	 * to load/store functions
++	 */
++	ignore_desc_flags = QUEUE_IGNORE_SIZE_START_STEP_FLAGS;
++
++	error = ia_css_queue_store(qhandle, &cb_desc, ignore_desc_flags);
++	if (error != 0)
++		return error;
++
++	return 0;
++}
++
++int ia_css_queue_enqueue(ia_css_queue_t *qhandle, uint32_t item)
++{
+ 	if (!qhandle)
+ 		return -EINVAL;
+ 
+@@ -89,48 +129,56 @@ int ia_css_queue_enqueue(ia_css_queue_t *qhandle, uint32_t item)
+ 
+ 		/* Push the element*/
+ 		ia_css_circbuf_push(&qhandle->desc.cb_local, item);
+-	} else if (qhandle->type == IA_CSS_QUEUE_TYPE_REMOTE) {
+-		ia_css_circbuf_desc_t cb_desc;
+-		ia_css_circbuf_elem_t cb_elem;
+-		u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
+-
+-		/* a. Load the queue cb_desc from remote */
+-		QUEUE_CB_DESC_INIT(&cb_desc);
+-		error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
+-		if (error != 0)
+-			return error;
+-
+-		/* b. Operate on the queue */
+-		if (ia_css_circbuf_desc_is_full(&cb_desc))
+-			return -ENOBUFS;
+-
+-		cb_elem.val = item;
+-
+-		error = ia_css_queue_item_store(qhandle, cb_desc.end, &cb_elem);
+-		if (error != 0)
+-			return error;
+-
+-		cb_desc.end = (cb_desc.end + 1) % cb_desc.size;
+-
+-		/* c. Store the queue object */
+-		/* Set only fields requiring update with
+-		 * valid value. Avoids unnecessary calls
+-		 * to load/store functions
+-		 */
+-		ignore_desc_flags = QUEUE_IGNORE_SIZE_START_STEP_FLAGS;
+-
+-		error = ia_css_queue_store(qhandle, &cb_desc, ignore_desc_flags);
+-		if (error != 0)
+-			return error;
++		return 0;
+ 	}
+ 
++	return ia_css_queue_enqueue_remote(qhandle, item);
++}
++
++static int ia_css_queue_dequeue_remote(ia_css_queue_t *qhandle, uint32_t *item)
++{
++	ia_css_circbuf_desc_t cb_desc;
++	ia_css_circbuf_elem_t cb_elem;
++	u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
++	int error;
++
++	if (!qhandle || NULL == item)
++		return -EINVAL;
++
++	/* a. Load the queue from remote */
++	QUEUE_CB_DESC_INIT(&cb_desc);
++
++	error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
++	if (error != 0)
++		return error;
++
++	/* b. Operate on the queue */
++	if (ia_css_circbuf_desc_is_empty(&cb_desc))
++		return -ENODATA;
++
++	error = ia_css_queue_item_load(qhandle, cb_desc.start, &cb_elem);
++	if (error != 0)
++		return error;
++
++	*item = cb_elem.val;
++
++	cb_desc.start = (cb_desc.start + 1) % cb_desc.size;
++
++	/* c. Store the queue object */
++	/* Set only fields requiring update with
++	 * valid value. Avoids unnecessary calls
++	 * to load/store functions
++	 */
++	ignore_desc_flags = QUEUE_IGNORE_SIZE_END_STEP_FLAGS;
++	error = ia_css_queue_store(qhandle, &cb_desc, ignore_desc_flags);
++	if (error != 0)
++		return error;
++
+ 	return 0;
+ }
+ 
+ int ia_css_queue_dequeue(ia_css_queue_t *qhandle, uint32_t *item)
+ {
+-	int error;
+-
+ 	if (!qhandle || NULL == item)
+ 		return -EINVAL;
+ 
+@@ -145,47 +193,35 @@ int ia_css_queue_dequeue(ia_css_queue_t *qhandle, uint32_t *item)
+ 		}
+ 
+ 		*item = ia_css_circbuf_pop(&qhandle->desc.cb_local);
+-	} else if (qhandle->type == IA_CSS_QUEUE_TYPE_REMOTE) {
+-		/* a. Load the queue from remote */
+-		ia_css_circbuf_desc_t cb_desc;
+-		ia_css_circbuf_elem_t cb_elem;
+-		u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
+-
+-		QUEUE_CB_DESC_INIT(&cb_desc);
+-
+-		error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
+-		if (error != 0)
+-			return error;
+-
+-		/* b. Operate on the queue */
+-		if (ia_css_circbuf_desc_is_empty(&cb_desc))
+-			return -ENODATA;
+-
+-		error = ia_css_queue_item_load(qhandle, cb_desc.start, &cb_elem);
+-		if (error != 0)
+-			return error;
+-
+-		*item = cb_elem.val;
+-
+-		cb_desc.start = (cb_desc.start + 1) % cb_desc.size;
+-
+-		/* c. Store the queue object */
+-		/* Set only fields requiring update with
+-		 * valid value. Avoids unnecessary calls
+-		 * to load/store functions
+-		 */
+-		ignore_desc_flags = QUEUE_IGNORE_SIZE_END_STEP_FLAGS;
+-		error = ia_css_queue_store(qhandle, &cb_desc, ignore_desc_flags);
+-		if (error != 0)
+-			return error;
++		return 0;
+ 	}
++
++	return ia_css_queue_dequeue_remote(qhandle, item);
++}
++
++static int ia_css_queue_is_full_remote(ia_css_queue_t *qhandle, bool *is_full)
++{
++	ia_css_circbuf_desc_t cb_desc;
++	u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
++	int error;
++
++	if ((!qhandle) || (!is_full))
++		return -EINVAL;
++
++	/* a. Load the queue from remote */
++	QUEUE_CB_DESC_INIT(&cb_desc);
++	error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
++	if (error != 0)
++		return error;
++
++	/* b. Operate on the queue */
++	*is_full = ia_css_circbuf_desc_is_full(&cb_desc);
++
+ 	return 0;
+ }
+ 
+ int ia_css_queue_is_full(ia_css_queue_t *qhandle, bool *is_full)
+ {
+-	int error;
+-
+ 	if ((!qhandle) || (!is_full))
+ 		return -EINVAL;
+ 
+@@ -196,28 +232,34 @@ int ia_css_queue_is_full(ia_css_queue_t *qhandle, bool *is_full)
+ 		 */
+ 		*is_full = ia_css_circbuf_is_full(&qhandle->desc.cb_local);
+ 		return 0;
+-	} else if (qhandle->type == IA_CSS_QUEUE_TYPE_REMOTE) {
+-		/* a. Load the queue from remote */
+-		ia_css_circbuf_desc_t cb_desc;
+-		u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
+-
+-		QUEUE_CB_DESC_INIT(&cb_desc);
+-		error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
+-		if (error != 0)
+-			return error;
+-
+-		/* b. Operate on the queue */
+-		*is_full = ia_css_circbuf_desc_is_full(&cb_desc);
+-		return 0;
+ 	}
+ 
+-	return -EINVAL;
++	return ia_css_queue_is_full_remote(qhandle, is_full);
++}
++
++static int ia_css_queue_get_free_space_remote(ia_css_queue_t *qhandle, uint32_t *size)
++{
++	ia_css_circbuf_desc_t cb_desc;
++	u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
++	int error;
++
++	if ((!qhandle) || (!size))
++		return -EINVAL;
++
++	/* a. Load the queue from remote */
++	QUEUE_CB_DESC_INIT(&cb_desc);
++	error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
++	if (error != 0)
++		return error;
++
++	/* b. Operate on the queue */
++	*size = ia_css_circbuf_desc_get_free_elems(&cb_desc);
++
++	return 0;
+ }
+ 
+ int ia_css_queue_get_free_space(ia_css_queue_t *qhandle, uint32_t *size)
+ {
+-	int error;
+-
+ 	if ((!qhandle) || (!size))
+ 		return -EINVAL;
+ 
+@@ -228,28 +270,34 @@ int ia_css_queue_get_free_space(ia_css_queue_t *qhandle, uint32_t *size)
+ 		 */
+ 		*size = ia_css_circbuf_get_free_elems(&qhandle->desc.cb_local);
+ 		return 0;
+-	} else if (qhandle->type == IA_CSS_QUEUE_TYPE_REMOTE) {
+-		/* a. Load the queue from remote */
+-		ia_css_circbuf_desc_t cb_desc;
+-		u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
+-
+-		QUEUE_CB_DESC_INIT(&cb_desc);
+-		error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
+-		if (error != 0)
+-			return error;
+-
+-		/* b. Operate on the queue */
+-		*size = ia_css_circbuf_desc_get_free_elems(&cb_desc);
+-		return 0;
+ 	}
+ 
+-	return -EINVAL;
++	return ia_css_queue_get_free_space_remote(qhandle, size);
++}
++
++static int ia_css_queue_get_used_space_remote(ia_css_queue_t *qhandle, uint32_t *size)
++{
++	ia_css_circbuf_desc_t cb_desc;
++	u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
++	int error;
++
++	if ((!qhandle) || (!size))
++		return -EINVAL;
++
++	/* a. Load the queue from remote */
++	QUEUE_CB_DESC_INIT(&cb_desc);
++	error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
++	if (error != 0)
++		return error;
++
++	/* b. Operate on the queue */
++	*size = ia_css_circbuf_desc_get_num_elems(&cb_desc);
++
++	return 0;
+ }
+ 
+ int ia_css_queue_get_used_space(ia_css_queue_t *qhandle, uint32_t *size)
+ {
+-	int error;
+-
+ 	if ((!qhandle) || (!size))
+ 		return -EINVAL;
+ 
+@@ -260,28 +308,47 @@ int ia_css_queue_get_used_space(ia_css_queue_t *qhandle, uint32_t *size)
+ 		 */
+ 		*size = ia_css_circbuf_get_num_elems(&qhandle->desc.cb_local);
+ 		return 0;
+-	} else if (qhandle->type == IA_CSS_QUEUE_TYPE_REMOTE) {
+-		/* a. Load the queue from remote */
+-		ia_css_circbuf_desc_t cb_desc;
+-		u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
+-
+-		QUEUE_CB_DESC_INIT(&cb_desc);
+-		error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
+-		if (error != 0)
+-			return error;
+-
+-		/* b. Operate on the queue */
+-		*size = ia_css_circbuf_desc_get_num_elems(&cb_desc);
+-		return 0;
+ 	}
+ 
+-	return -EINVAL;
++	return ia_css_queue_get_used_space_remote(qhandle, size);
++}
++
++static int ia_css_queue_peek_remote(ia_css_queue_t *qhandle, u32 offset, uint32_t *element)
++{
++	ia_css_circbuf_desc_t cb_desc;
++	ia_css_circbuf_elem_t cb_elem;
++	u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
++	u32 num_elems;
++	int error;
++
++	if ((!qhandle) || (!element))
++		return -EINVAL;
++
++	/* a. Load the queue from remote */
++	QUEUE_CB_DESC_INIT(&cb_desc);
++
++	error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
++	if (error != 0)
++		return error;
++
++	/* Check if offset is valid */
++	num_elems = ia_css_circbuf_desc_get_num_elems(&cb_desc);
++	if (offset > num_elems)
++		return -EINVAL;
++
++	offset = (cb_desc.start + offset) % cb_desc.size;
++	error = ia_css_queue_item_load(qhandle, (uint8_t)offset, &cb_elem);
++	if (error != 0)
++		return error;
++
++	*element = cb_elem.val;
++
++	return 0;
+ }
+ 
+ int ia_css_queue_peek(ia_css_queue_t *qhandle, u32 offset, uint32_t *element)
+ {
+ 	u32 num_elems;
+-	int error;
+ 
+ 	if ((!qhandle) || (!element))
+ 		return -EINVAL;
+@@ -298,39 +365,34 @@ int ia_css_queue_peek(ia_css_queue_t *qhandle, u32 offset, uint32_t *element)
+ 
+ 		*element = ia_css_circbuf_peek_from_start(&qhandle->desc.cb_local, (int)offset);
+ 		return 0;
+-	} else if (qhandle->type == IA_CSS_QUEUE_TYPE_REMOTE) {
+-		/* a. Load the queue from remote */
+-		ia_css_circbuf_desc_t cb_desc;
+-		ia_css_circbuf_elem_t cb_elem;
+-		u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
+-
+-		QUEUE_CB_DESC_INIT(&cb_desc);
+-
+-		error =  ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
+-		if (error != 0)
+-			return error;
+-
+-		/* Check if offset is valid */
+-		num_elems = ia_css_circbuf_desc_get_num_elems(&cb_desc);
+-		if (offset > num_elems)
+-			return -EINVAL;
+-
+-		offset = (cb_desc.start + offset) % cb_desc.size;
+-		error = ia_css_queue_item_load(qhandle, (uint8_t)offset, &cb_elem);
+-		if (error != 0)
+-			return error;
+-
+-		*element = cb_elem.val;
+-		return 0;
+ 	}
+ 
+-	return -EINVAL;
++	return ia_css_queue_peek_remote(qhandle, offset, element);
++}
++
++static int ia_css_queue_is_empty_remote(ia_css_queue_t *qhandle, bool *is_empty)
++{
++	ia_css_circbuf_desc_t cb_desc;
++	u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
++	int error;
++
++	if ((!qhandle) || (!is_empty))
++		return -EINVAL;
++
++	/* a. Load the queue from remote */
++	QUEUE_CB_DESC_INIT(&cb_desc);
++	error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
++	if (error != 0)
++		return error;
++
++	/* b. Operate on the queue */
++	*is_empty = ia_css_circbuf_desc_is_empty(&cb_desc);
++
++	return 0;
+ }
+ 
+ int ia_css_queue_is_empty(ia_css_queue_t *qhandle, bool *is_empty)
+ {
+-	int error;
+-
+ 	if ((!qhandle) || (!is_empty))
+ 		return -EINVAL;
+ 
+@@ -341,28 +403,35 @@ int ia_css_queue_is_empty(ia_css_queue_t *qhandle, bool *is_empty)
+ 		 */
+ 		*is_empty = ia_css_circbuf_is_empty(&qhandle->desc.cb_local);
+ 		return 0;
+-	} else if (qhandle->type == IA_CSS_QUEUE_TYPE_REMOTE) {
+-		/* a. Load the queue from remote */
+-		ia_css_circbuf_desc_t cb_desc;
+-		u32 ignore_desc_flags = QUEUE_IGNORE_STEP_FLAG;
+-
+-		QUEUE_CB_DESC_INIT(&cb_desc);
+-		error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
+-		if (error != 0)
+-			return error;
+-
+-		/* b. Operate on the queue */
+-		*is_empty = ia_css_circbuf_desc_is_empty(&cb_desc);
+-		return 0;
+ 	}
+ 
+-	return -EINVAL;
++	return ia_css_queue_is_empty_remote(qhandle, is_empty);
++}
++
++static int ia_css_queue_get_size_remote(ia_css_queue_t *qhandle, uint32_t *size)
++{
++	ia_css_circbuf_desc_t cb_desc;
++	u32 ignore_desc_flags = QUEUE_IGNORE_START_END_STEP_FLAGS;
++	int error;
++
++	if ((!qhandle) || (!size))
++		return -EINVAL;
++
++	/* a. Load the queue from remote */
++	QUEUE_CB_DESC_INIT(&cb_desc);
++
++	error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
++	if (error != 0)
++		return error;
++
++	/* Return maximum usable capacity */
++	*size = cb_desc.size;
++
++	return 0;
+ }
+ 
+ int ia_css_queue_get_size(ia_css_queue_t *qhandle, uint32_t *size)
+ {
+-	int error;
+-
+ 	if ((!qhandle) || (!size))
+ 		return -EINVAL;
+ 
+@@ -373,20 +442,8 @@ int ia_css_queue_get_size(ia_css_queue_t *qhandle, uint32_t *size)
+ 		 */
+ 		/* Return maximum usable capacity */
+ 		*size = ia_css_circbuf_get_size(&qhandle->desc.cb_local);
+-	} else if (qhandle->type == IA_CSS_QUEUE_TYPE_REMOTE) {
+-		/* a. Load the queue from remote */
+-		ia_css_circbuf_desc_t cb_desc;
+-		u32 ignore_desc_flags = QUEUE_IGNORE_START_END_STEP_FLAGS;
+-
+-		QUEUE_CB_DESC_INIT(&cb_desc);
+-
+-		error = ia_css_queue_load(qhandle, &cb_desc, ignore_desc_flags);
+-		if (error != 0)
+-			return error;
+-
+-		/* Return maximum usable capacity */
+-		*size = cb_desc.size;
++		return 0;
+ 	}
+ 
+-	return 0;
++	return ia_css_queue_get_size_remote(qhandle, size);
+ }
 -- 
 2.43.0
 
