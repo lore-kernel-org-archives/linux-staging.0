@@ -1,80 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793195455;
-	b=1HGS6nVVTaaYwzQBnqJ6IzTXXdYnjwCuHxgLCQfZS+xOlVuaU8oQt+e2Aq2qEEiVneob
-	 izQQd2hGZmETb16q+Q7+/HAzIwKe7k5uDFYSRYpTHjSDM59Go3fubERWKJzZztaOyUNi/
-	 ZgtQmzTAMULVT00VQtMBqlr+JGZ/hN2KZUTEKPgXMkH2jqBkzeBYjDhO+/77ts8rSqlIZ
-	 0fi/eCvkYhB18Kl471fpHvq3/5I8yiayKi8VlXIXqhy8nPtZPPX8oiKaerTYE2b7VGDy6
-	 NAjaj5geriGjVNle6vPMl6brgALe1SMcSr+37SJEQP8JWNq3dxXAVv7Kn1i3YY0j74g==
+	t=1793208326;
+	b=gg9wsTyGbePjqSB5huVyQOUJbgGia5PlIU52RrN43vn8g6hrJiRHlIIecuA1tXC7A3vU
+	 wdt0tQmV8aPYogB8WYVXXv2s74XlSEcB/IE/YTopJz2mYxVev+dzOGH9BAVFlttsI5Hzb
+	 DB+YU4jcjecpNBfg13ujg7yInBoDxKv19UUFCfRLiBYMRR2XP3km3ywm85gqx0pjo3oe+
+	 1ZwR4Lft0C7Ygsfh99hgRyuE2/MrabhAIrwCOY/xpFqvuM2ke5UwtzTIKRL+oy28CAgL3
+	 M7newi6h/Z7URhGujXmLiWTOoYtJbVnai7W4jzMMqqNobBMHxXz6vBXyS0JKYiINTIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793195455;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=ytmfdLrrLUjit5910My8j6VwU6axce6cK5JuYHw9yuo=;
-	b=YgNDn7IQtl870B0vnAfqS/4aOZVz/iUAm2lhD/oQploFXrKqaM+VN5eK/RuXzETmEKK2
-	 5WMWk+Q9yg/sWr6m0hoeeaI1O7FH6b2svp6g9GF014Zjssfq8aI+5q7+ES1Q1K/DuThK0
-	 VHdjuDFoYn3d1sx8Mb5LlnmAC3BgOow4/XHoXxj3g2u9PDhbKDyeo80YopO0+tD/MdBCS
-	 zBijPjwVeFrpAqbfvEGK6TKUjUV99eVonCfQ7We9AxEPfVhPvczF9V1r/+5EntuikYPmQ
-	 4lFaByxrI7urI9rQxttqZWukPyu9zchO2uyw44fCygqTsnUokcaVQ8mYn89k9O+nSJA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793208326;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:User-Agent:X-stable:X-Patchwork-Hint:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=gHJhOjXyWmdX7N1PI5P2DTbWQTYSMzazzmsZeexRjbQ=;
+	b=KYDvMisJ3oe6wMV6IwITiDtS3CTsux0DfsNVQRTCtOW85igEP8LW1gTfEzoU9qKpLuxE
+	 zSmDZXxMDy8cI9xAIsSRbR9qVANBeJ3XdLpMQY17W+11Lt5EfvWA2c+j5e/Dugl/dWmS8
+	 7wJ8pYtu+meDjrgPDq7I57JAMI4+X7hoEA1riPJX9JqQo/mSgd7mDGtRlRKuEwlOKrJUa
+	 PAzobxKOkIIjQFHREnas4to1Joi487O6X5frCYhJacIzgXhd99FW3vzaQbVBH6sGoAPvw
+	 82iG2bImNGguORiwPnhqusPQ1iC1lpEHtX9chWJw0PGbhm0VFIatRrzNT6/F526T23A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FfVC9OvX;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Iz9C5JVv;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96D9606A321
-	for <linux-staging@lists.linux.dev>; Wed, 28 Oct 2026 13:50:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A96D9606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13ADB606A31A;
+	Wed, 28 Oct 2026 17:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FfVC9OvX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793195454; x=1824731454;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p1JkUACHdNx5IY27R/TUmcxdST8xoLNNfo7001KKm5k=;
-  b=FfVC9OvX8rMNTzBSP0m6DvsZCM3O57JyRTjc+CA+GZTjsqO9pgksm5Nx
-   TICBZnySAw2b5mS3XDlK5mUxNRDLpq2fIY6MHXx/l5hYcOYh5HvTV4g5l
-   5Gl3FbhMig2PcRlnEtDNeWWPmpR3c/tGOCg31EINn4sGm/qvzG4LhYeLQ
-   rpr0G4jtx19btq4Q+ijMmM7GHKsGwMfZ+6ashN50GERZ165da22cKB2xq
-   w+BGC+46LzkJ6gERY04cWA0m8x0cNd0bTHXaVhDO9wGyIRmfkWmV56msr
-   ijEw8teVAH6A2fWhiK0tmzUxRPxmQw0OYbhupx6hRZRb7WOZujO1KBBuw
-   g==;
-X-CSE-ConnectionGUID: YccnlmgyQPC2joXndVxhRw==
-X-CSE-MsgGUID: eNFAeTMiSemxovhaINGM5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1930325"
-X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1930325"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 06:50:53 -0700
-X-CSE-ConnectionGUID: tbj/Sw60SuyXyV/lo3NuvQ==
-X-CSE-MsgGUID: W/Jsa/uqStW2efrFVJE6sg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="4783179"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.117])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 06:50:50 -0700
-Date: Wed, 28 Oct 2026 15:50:48 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nuno Sa <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux@analog.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: addac: adt7316: clean up and sort headers
-Message-ID: <auH9uAxgDIE3AByn@ashevche-desk.local>
-References: <20261028094308.27811-1-abdelnasserhussein11@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Iz9C5JVv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E4D1F01825;
+	Wed, 28 Oct 2026 17:25:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793208325;
+	bh=gHJhOjXyWmdX7N1PI5P2DTbWQTYSMzazzmsZeexRjbQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Iz9C5JVvqyIz5RPfYXQxAuPruCLJFpdpppFNZtRACQnxWlb8CYLHqCLdTHPxzsGYL
+	 1eNxzu2yBVgaMU7qtBb8Gx8cJ2OoVxzBaM4CZH3TuXxRWNx1l4g+rDJdKpLwDTLPNi
+	 bw9c3rlq9tyU9d3FTUGLTxnmQgboo8c1ClbE/a04=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Lee Jones <lee.jones@linaro.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.10 079/516] staging: sm750fb: sm750_accel: Provide description for accel and fix function naming
+Date: Wed, 28 Oct 2026 17:53:51 +0100
+Message-ID: <20261028170005.392470895@linuxfoundation.org>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261028170003.522232767@linuxfoundation.org>
+References: <20261028170003.522232767@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,23 +65,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261028094308.27811-1-abdelnasserhussein11@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 28, 2026 at 12:43:07PM +0300, Abdelnasser Hussein wrote:
-> Remove unused header files and
-> add linux/pm.h and linux/string.h and
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
-This should be a separate patch, it also needs to get rid of "proxy" headers,
-such as kernel.h. (The use of device.h needs to be revisited,)
+------------------
 
-> sort the remaining include directives alphabetically.
+From: Lee Jones <lee.jones@linaro.org>
 
+[ Upstream commit d12dd1e0e3b96b1a2c9ffdb0fa9c115aeb82b569 ]
+
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/staging/sm750fb/sm750_accel.c:155: warning: Function parameter or member 'accel' not described in 'sm750_hw_copyarea'
+ drivers/staging/sm750fb/sm750_accel.c:155: warning: expecting prototype for sm750_hm_copyarea(). Prototype was for sm750_hw_copyarea() instead
+ drivers/staging/sm750fb/sm750_accel.c:321: warning: Function parameter or member 'accel' not described in 'sm750_hw_imageblit'
+
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: Teddy Wang <teddy.wang@siliconmotion.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Link: https://lore.kernel.org/r/20210414181129.1628598-26-lee.jones@linaro.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Stable-dep-of: cc7cd2a92281 ("staging: sm750fb: fix mono image source stride mismatch in lynxfb_ops_imageblit()")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/staging/sm750fb/sm750_accel.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
+index 8faa601c700b2..24b9077a634a6 100644
+--- a/drivers/staging/sm750fb/sm750_accel.c
++++ b/drivers/staging/sm750fb/sm750_accel.c
+@@ -131,7 +131,8 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+ }
+ 
+ /**
+- * sm750_hm_copyarea
++ * sm750_hw_copyarea
++ * @accel: Acceleration device data
+  * @sBase: Address of source: offset in frame buffer
+  * @sPitch: Pitch value of source surface in BYTE
+  * @sx: Starting x coordinate of source surface
+@@ -298,6 +299,7 @@ static unsigned int deGetTransparency(struct lynx_accel *accel)
+ 
+ /**
+  * sm750_hw_imageblit
++ * @accel: Acceleration device data
+  * @pSrcbuf: pointer to start of source buffer in system memory
+  * @srcDelta: Pitch value (in bytes) of the source buffer, +ive means top down
+  *	      and -ive mean button up
 -- 
-With Best Regards,
-Andy Shevchenko
+2.53.0
+
 
 
