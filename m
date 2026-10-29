@@ -1,68 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793279555;
-	b=bld2jzvKW+h47bAfR9isLJig/H+5EmFkkxb4IrO5sF1vH57+7Yz1vkoHZCdaf/OHzgpi
-	 cYDq0V+SUqnZDfrb9VzfaWpgcLThcg616HQN5+DMwt0vtkMmIQgTwM9chZ2UxterfVc+P
-	 UdnJNVnlND59NevL981Touu8pyX5fWI1TFUCdc1W2KD3yNHm21qbYDMVjiAwTvm2sjFlY
-	 +JVQsuO3BFvYpKHBZVJzPs1RR+PqloN6KO3OgLPlQpvcipAB8cHp70C5g6UNwrm4FFcTR
-	 wCURQFntlkP1Wfz6r9J2vPKEkyI6AteciYx5L4/gAo//AxjK63mjOrIWhkLPdCKqE1g==
+	t=1793279777;
+	b=AmTmXr9NUDkUPjTGdbiIs3UUwctDXpy7CCra4b1oxCy6U9FoEWXMT6h3NaR6m0fORcsT
+	 A/c3eBifD9M7WDzL9tm0lpoz5WU3THRbtlr8CbGLG+T1gI63u+7yGnMfVgI7Gk9BsI39Z
+	 ahAHMnmHrzYBMsLe1bQjdE+1LBIoWsjcXyxAL9gOa4leUfe9TqLqTgWekHqG/IasZPCyq
+	 Yoc74Og+mngth6I5LM2kH5ciekfbGse4vlVD0kEFSXdrcna1STrAYOxO0uJq536GsoAT8
+	 Sd29GV/3EYfpUMswy1y1fY4FOuE4aPKe+EPyUlNQzdCyDT30ov4FXBcL0CoxWCeWbSQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793279555;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793279777;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
 	 Organization;
-	bh=U/dn1bJxSxiZF4VVcxna9DY8oDDKRyAz/5CgUNCelhU=;
-	b=ptZ7vQzqiNX0ovgVRabGpQIhB8XVy9xLbIJ6FfXYLIH3OrAA6Z7AGyrcwi+pi/ZtnGtD
-	 AhsRHprWcJh403oQ/8x3b2fWFDkCWBZuwGHm9NWcv9Myau6LSGzC3spqDV5xRxdBFsUMY
-	 ajkYY378f9bJk2ZfFkKwwjEi87uOaaU0BEn2i2YHuGAcuxp2QT0g7gok3PvMR4e8oc7Bp
-	 HCouPM5Sfd5J8GijZw+1UPIqCNai6T4m1jcdk7VPZUnrPt/i+tBGky4ZG6zgQ75Dv+/0i
-	 kg422jYIte0jIqCPeUMySwNo5vUWpNV9kUFui5bHcy5HWo7Mw/vnzatjJf9gWS0HYHw==
+	bh=h8u45CNmIEd0bbtYlv6CM92JPz3f01uopFoHms6RdL8=;
+	b=IgHLxmIgEKGB71vaMwrqgYiBWPIoG0dhdnVNgwOiUQCpUqUxas/u3N2mxEvjIOCBVTyE
+	 FCNsB8IBtAI5W6srzo1UzTz+CCQ1mFK15078qglhjReyQmPb2An6WbCtg0a+qc9w0JfxM
+	 kJBHYPdKqSpI4GnyU7ZmWe8IoMPp+fF4bhUxxWEEl7fJRvUAufflUqlV9wcrW36HrufVQ
+	 iNPVo+F8pc8bG6p+Fo4RMBiKqFHEaRvnHPNnOrf0qqGNm+dKvWsRQA5zKE0cqq9CFdxM5
+	 lye6yvrzSE7q8kOk5QUeRqpSgZAlvW7Mq41FLF3+luy8tdX53BbWDHB21JvsFUi476A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BRBUtqwr;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kVtwdqBb;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F8B606A320
-	for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 13:12:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0F8B606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F4C606A31F
+	for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 13:16:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0F4C606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BRBUtqwr
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kVtwdqBb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793279555; x=1824815555;
+  t=1793279777; x=1824815777;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=rJvdpx6TIzyH5FLjB4rDEtTKuj6RYTQy+iMgZeUQkFY=;
-  b=BRBUtqwrQ5E0a5SvM94BWETm8p4GVykAFzAFOUfyc/y2Z7hVwV4JBzpz
-   SHGmTs9djHhK6OGF4ez79NMRJ4bbe34wRgnbJ0pf1RdazBtuwJVhZP7yH
-   oG3qkNg4XO338zQhaIi9Ao89DD/bukYF7X+k23c8sucyqTQGzf+EdJi0V
-   QdBVriMHc2xRk3IdEpQdw9xlZv3KYf49bIuOMtOm4cz+LqXY1SbT5jJva
-   B/e6AnQpSPuJlSLkwDTF0mgadjGL5whjc8na+tpg2LAkzvgX7zMjExBEp
-   D9K+niKh4GyoCqfstJVkx6M5suRUxPVwl1s6H3DltSm4O03WMGzxdx8nk
-   Q==;
-X-CSE-ConnectionGUID: CPm1vhBzQfyaDEH+Kz0wFQ==
-X-CSE-MsgGUID: htxyzi1FSRKsBQU9XJyWHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1899004"
+  bh=0k351C2/JUZ73k6Gtt6/++UObK1xusuhxkHbZNf6oSU=;
+  b=kVtwdqBb0gBFp6ekE5175Bp3nt49RXEk+L/RhfWVskQzLmI1yDiMvSWx
+   kPw9Kg8R1Fbf54AVqrpxuxN2cMbZWS3LRt3DFuK97eC58vZ7m4na+9867
+   hTtVAbKeSpqtcmEaD73B7YBBqXCOO23PDmT6/WXyL+ETplGOaIOKUFDOu
+   d4QSY+k9+nStH0ZyXCguTY0VI7Agk1KuGuuIQyhLpjX4ZOGk1lVYfGJxQ
+   q2fX5SWki185ez8GNXZrrWu9mMMh5+UVq/DfiILhgxQkFigXvQqS4YuZr
+   KEr3hGCk4T8XrdYEqjayJPvT1k9sZuH2xr+zXCWHegcrsUFmJtVPQpD/z
+   g==;
+X-CSE-ConnectionGUID: eroWMvcCTnSe1SQFqLzIJw==
+X-CSE-MsgGUID: fl/rhUcuTA6d39ad1GK9Kg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2038139"
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="1899004"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 06:12:35 -0700
-X-CSE-ConnectionGUID: MoGixHUWTIyr70a/Hk0ieQ==
-X-CSE-MsgGUID: nHz/yb5BSSuH+syylIKlbg==
+   d="scan'208";a="2038139"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 06:16:17 -0700
+X-CSE-ConnectionGUID: Cm6bfeYkSo6Wzv/qwOUJ9A==
+X-CSE-MsgGUID: HXNgm2u3SzW0GNBTUrvuYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="5269102"
+   d="scan'208";a="6907380"
 Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.129])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 06:12:32 -0700
-Date: Thu, 29 Oct 2026 15:12:29 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 06:16:13 -0700
+Date: Thu, 29 Oct 2026 15:16:11 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: =?utf-8?Q?Rare=C8=99-Mihai?= Vladu <vladurares@gmail.com>
 Cc: Hans de Goede <hansg@kernel.org>,
@@ -72,11 +72,9 @@ Cc: Hans de Goede <hansg@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] media: atomisp: queue: move remote queue handling
- into helpers
-Message-ID: <auNGPTeZWYXKrE9c@ashevche-desk.local>
+Subject: Re: [PATCH v4 0/5] media: atomisp: remove the circbuf library
+Message-ID: <auNHG_JHY9P3xqMd@ashevche-desk.local>
 References: <20261027230807.2407261-1-vladurares@gmail.com>
- <20261027230807.2407261-3-vladurares@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -89,46 +87,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261027230807.2407261-3-vladurares@gmail.com>
+In-Reply-To: <20261027230807.2407261-1-vladurares@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Oct 27, 2026 at 11:08:04PM +0000, Rareș-Mihai Vladu wrote:
-> Move the remote queue branch of every queue operation into its own
-> static helper, written the way the function is meant to look once the
-> unused local queue support is gone, and call it from the existing
-> function after the local branch.
+On Tue, Oct 27, 2026 at 11:08:02PM +0000, Rareș-Mihai Vladu wrote:
+> Thanks to Andy for suggesting, in review of my earlier typedef
+> patch [1], that I look at converting the custom circbuf code to
+> circ_buf or kfifo, and for reviewing the previous versions.
 > 
-> While at it, tidy up the moved code: drop the redundant parentheses
-> and '!= 0' comparisons, use !ptr instead of comparing to NULL, and
-> return the result of the final ia_css_queue_store() call directly.
+> While looking into it, I found that the circbuf API is only used by
+> the local queue path, and ia_css_queue_local_init() has no callers,
+> so as far as I can tell that path is unused. The remote queues only
+> need the descriptor and element layout shared with the SP firmware
+> and a few small helpers.
 > 
-> This prepares for removing the local queue support in the next patch
-> and keeps that change easy to review. No functional change intended.
+> So this series first moves the remote queue handling into helpers,
+> then removes the unused local path together with the queue type that
+> no longer seems to serve a purpose, moves the few remaining pieces
+> into ia_css_queue_comm.h and drops base/circbuf/.
+> 
+> checkpatch warns about new typedefs in patch 4 and about MAINTAINERS
+> in patch 5. The typedefs are only moved from ia_css_circbuf_comm.h,
+> which patch 5 deletes, and MAINTAINERS has no entries for the removed
+> files.
+> 
+> Compile-tested only.
+> 
+> This supersedes the typedef patch [1].
 
-...
+Thanks!
 
-> +int ia_css_queue_enqueue(ia_css_queue_t *qhandle, uint32_t item)
+Sakari, can you apply this, so we have reduced code base (by 1%,
+which is significant in this case) to think of?
 
->  int ia_css_queue_dequeue(ia_css_queue_t *qhandle, uint32_t *item)
+FWIW, output of `cloc`
 
->  int ia_css_queue_get_free_space(ia_css_queue_t *qhandle, uint32_t *size)
+$ cloc -- drivers/staging/media/atomisp/
+     605 text files.
+     602 unique files.
+       3 files ignored.
 
->  int ia_css_queue_get_used_space(ia_css_queue_t *qhandle, uint32_t *size)
-
->  int ia_css_queue_peek(ia_css_queue_t *qhandle, u32 offset, uint32_t *element)
-
->  int ia_css_queue_get_size(ia_css_queue_t *qhandle, uint32_t *size)
-
-This change is okay, just a comment for further possible cleanup.
-
-Please, consider making driver use uXX/sXX types over uintXX_t/intXX_t
-for the kernel-only code and the respective double underscore for ABI
-data types (I'm not sure about firmware protocol, it's strictly speaking
-an ABI, but sometimes we use internal types) — __uXX/__sXX.
-
-Maybe not entire driver at once (can be tons of lines to change), but small
-step first to check if the approach is correct.
+github.com/AlDanial/cloc v 2.04  T=0.21 s (2828.8 files/s, 456544.5 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+C                              144           8850           6077          46523
+C/C++ Header                   455           5355          10852          19150
+make                             2              7             16            286
+Text                             1              8              0             35
+-------------------------------------------------------------------------------
+SUM:                           602          14220          16945          65994
+-------------------------------------------------------------------------------
 
 -- 
 With Best Regards,
