@@ -1,85 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793297495;
-	b=FlF5Hl50NyKGskybFQ4tP+6dyN5vPRjsfUPFRRjIRzMy4lkzd3aJIEPZrPAR9KnaHpO+
-	 WWGOY+ZsxhsUHfmPTkYEeihOmxK6fRRTs+TtGo2sgBCJ0q9zN/3y3urClRILNAJQ69Mrs
-	 nmE661vtj/NMgfbTJ2wrrlW1vyFUxyN4EnnT+szh88rh5W6/jwrjhUCwnxxfxpztjRisN
-	 uRbElyPNNV6+z0PiUNrYQY9ZM2HYbtx2TDuwo0rZigersRFSzcTTEdVc+LG/0gtKd9ntU
-	 ZTVp6iCRFN++v5cRoEO2gTtEpdSm9YmUFJtDaTMlZ1RzkcJThVpzSAIKTmChkknh9Pg==
+	t=1793297998;
+	b=goGfXNPK3zOi/Y9wVR6xqTcHUQt+NdGdK0ggLStFRElxK6OQoo7G/DdZc9Vuld9VGB2Q
+	 9uFpVjp2N+4W5Nx6HVs62DeOQFdqaXVpsWnCUp0trnm+3o5UQo27ttyA0wvzd6KOl+7d2
+	 fOBZAHrX87l9AkN/x7VuF9w4nbH++mLlGZDbRyfUBmg+OkaFiF5/kBo6w/hYiAK9Q8259
+	 XhUPvmn54rX6AUiK18S2JYRbMU/EOUkxhQVtGZvKeCAt302fWPgf/Bt78/ZH7ejRQI5+q
+	 LVbQYPddXFryzMR8b3nueXc62TCpeWCBEpKs36ZZ4a0J7OM8TonGps+8jiXiBjE1tHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793297495;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793297998;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=gLjComLCp2esLTingR9be9ipRIp36YyskRA+PmDaCHo=;
-	b=5iCiMTbykP2LoV3v082i2HlbU6xpWlgVLyuac550H6UAO+hPE0NPTOmfQ6+3rBQ4n3fx
-	 2k36UwFxmamqJyIR14MqK8PBR1HHwM7Er6s/yEK90p8/U4tLH3FYJ4HMj4kcvK8Z0fkeJ
-	 4fMeR8fuu57EDhxmsIWykLrcvH5tuBxY7tcKH0KeUfOwLWSMMqAxLyKLvDDe8ld6Baq3N
-	 G/uIsPEUF8bssj3Cszo/nondG3WuR6MIFgM7Uoq4N7BSuZTeq6kX2vkLnDzvhPCy6Ju3E
-	 otkvbetX0DeJ5LvryTAQZTqm5q4tOEFzA1zuBhp+LLhewI37VX02tw9uf/QANW5w6fw==
+	bh=iX/5kcgJLHYenTjEkqTynO0b70ye+PYgd2o/7R7g0Oc=;
+	b=n66TlBg1Ghu54U1374PdWoQFFf0gvER3g8hNyPs8GQzezPi4MTD7uqO+0zoZqZ/3ctT8
+	 DpCnw+Z8UMKqIKu8WJHjUD84fhRQUJixWr6NOfDiPau2n4JZzFa/yeELGKdXwmQnxItSe
+	 Slxuu9oR6uDK5iBcMlrwB6x2UA4f5Co70nVWlvhhrmAEe4wSmO5qp6MQ0xY2fyJXL+fiJ
+	 pkPKtCZREZXGAtEZoyEkMRxCZgxbFsqFe05FevoOiNzMt1mEmyxohEFlxgSw/HW0wlrI4
+	 BuCKzDXhsc0iLtIktf14OSBpX1kgBqAnR7cpOcJ6wK/Tz4z4393c37AE2qo7qWKuDQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ieee.org;
-	spf=pass smtp.mailfrom=ieee.org;
-	dkim=pass header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=atvUF4gw;
-	arc=none smtp.remote-ip=209.85.161.45
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YNRetcNi;
+	arc=none smtp.remote-ip=209.85.218.48
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6A5606AB41
-	for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 18:11:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E6A5606AB41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0123B606A31D
+	for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 18:19:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0123B606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ieee.org header.i=@ieee.org header.a=rsa-sha256 header.s=google header.b=atvUF4gw
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-706113e92f9so1473510eaf.2
-        for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 11:11:33 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YNRetcNi
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c4395d31228so391191166b.1
+        for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 11:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1793297492; x=1793902292; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gLjComLCp2esLTingR9be9ipRIp36YyskRA+PmDaCHo=;
-        b=atvUF4gwmcPMsiIaDWedbAbCBy197wB5qj5u4BZVwwHdEcjTLLuLLueTt+TH6oG6Y7
-         IujC5Dt8yIns+NGVC9BI9PloCDt7aWp5tD+FeLauH4t5tkGLnIYJ6AVptLD3P/7yltRR
-         3dVMAml8q+ktHmxEaMi8gmp05ja9rA4EyGa+c=
+        d=gmail.com; s=20260707; t=1793297996; x=1793902796; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iX/5kcgJLHYenTjEkqTynO0b70ye+PYgd2o/7R7g0Oc=;
+        b=YNRetcNioRbw88kB8q0hzVCt+n2IH7gm5+0ajIiDW5nbpKEyAZacRw65KH0lRE5/l9
+         xv1Mfi4Lfnr9ItChvZYFDPg1EmyQGGgxseZoNjF0JXuE/CEd1GHbOHzyzdlCcF6C9VVj
+         4Gi+N7uqUL7eXKSrdzN3KXTnDcBzhIQcKlCDMlyXIoWU+BGvXLdHEmmrqnCniJiWQYoy
+         woyvNOM6HhgJ96FMthr7vRrJtd7Gnk0KaHhUtBQT1BLdotQP2+RvUYxevD3LLNCivjFM
+         hTzKjkLQHCJII3XIrgvzcLAIuU0sOztpmuD28kZ4BCIPRrARojlqBprDJ7SFgxggsOUw
+         6+dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793297492; x=1793902292;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1793297996; x=1793902796;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=gLjComLCp2esLTingR9be9ipRIp36YyskRA+PmDaCHo=;
-        b=U90lptKV67eYhqgcIb8UclMLGzCSgRvdio9BIWlBAKNF3Z7Nv9VeTAEYOJuIUxrF5v
-         Gxh2Qto/XngCX5GxzSg/LRf3ojLIXm0IwvuK6efwK5dTQ+R01KZMXnd5dRCfmPMfh2zz
-         zkyZiX/w/BWmuecjoK5kMgPTDrx6VIE7Jkdn/KTkN8Z/lsV2t9mAlMExH+q+kR+poZ+q
-         0U0y5VYP6hLWRCJeX1E/TCn0w+qOIBuF/Hj0Od8sIW/li3omJrIXIP1dAT/Joc6bxSWy
-         uzzTTVJBsFwhIg4xyxPCpW5T2Nslqg6xOHPbqImVkZzjy8z9oq6QCpNTW3u4ec0LoQuv
-         CiVw==
-X-Forwarded-Encrypted: i=1; AKwUvBzQEURMEaLLRp54whZFVkW3gShCEWxfMZ0txbAhrrbgf9Su6LfKFU9tZTJSzv5AGistDMZso5EHC4U8t/gR@lists.linux.dev
-X-Gm-Message-State: AFq9FYIn4xbmxDodyCVXrVAhM4jStuxC7RO4+GB2v7JzrO/U4DzUY2km
-	lr8UZxGoo1iSqFfun4PcO2GAVmGnLJ8TN6tKMxU/Uda8RCx8FZzLUaM17cLJFiKbZg==
-X-Gm-Gg: AYBFou1+Pg1u9CgioZHIQPSGctrz9wCxRjPvmEW1Go7CWxXMlxZsC1AZLf41CATIl+B
-	q7RQzKUFgsyGfR/b9iokw7WPPCHI6ODFaV233rWtpFdHHl+KkSQYHwUuCg3rpk+LWTVoHKfpsKE
-	Z+MP49Q/PGJSOjdXE6eQB6K65NB9pHQ1JKyIAokj+Ys85nf7yAZP+4LpN+dndiKw8JtvWYrWSj7
-	GU2uTwoA2zFKIFEXP9Q6dv3s/pBZFY0nReJlQ8Qj1ri5FHjcvm+I/dZ56i7ad9Ks2HOjBRZEdJz
-	eKsERB1692cVnQYrrGg+uCbI59QdTPjnJMWROGhKn5pmzrKRYXXaxaJ5z5UIQd3JRZ0J0++avkM
-	gGICnoaPCg8XP2W8ocddbV7CYBEL7u30qz0zVw8ZAIZaZ6hCXgIjhTSus85ifiDspKRUZn9GdeP
-	lSaSG7/Vbx3ppQEOCWhN46D229JO5mUF+yhaBwa3J+iXvfklOIoveMUAMtywLaSGQE9vCHfurrb
-	omUpVDsW2TpMFAQcgff6RGR6S0LBq/3pceu/dSEGfoYtiRxy2Tw0r3F5jt84ackmFiPSfFNagCe
-	rQvORTr2tCDuPMMOAOURzXH4Tq2jPPPrc4BZdtj8TAUblw==
-X-Received: by 2002:a05:6820:5710:10b0:6de:aeea:5c89 with SMTP id 006d021491bc7-714f288a10fmr36729eaf.23.1793297492247;
-        Thu, 29 Oct 2026 11:11:32 -0700 (PDT)
-Received: from [172.22.22.28] ([73.62.185.64])
-        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-4a904856f09sm130363fac.3.2026.10.29.11.11.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2026 11:11:31 -0700 (PDT)
-Message-ID: <4c7a6635-7382-4e57-ae16-6bc2ee694f46@ieee.org>
-Date: Thu, 29 Oct 2026 13:11:29 -0500
+        bh=iX/5kcgJLHYenTjEkqTynO0b70ye+PYgd2o/7R7g0Oc=;
+        b=zmiNsjZ5sf3g1lTSRXszoGAaZd6IPwvKti/CDMOdijn3XzOGAp/voPXYKt0HqJfbK3
+         safBeTWwNQvTseB71XDaZX0XS7OT7G3Zn6G4BSkekhVjZF7+v0c81+iybm23NpWr+a2s
+         tp0t6zhhTpwIYU58l/2ck/toL/6woOWaE43laN8mYx6+TOb7XuDQOTzEyjqkyoIu5gWt
+         +dHSVkvG53Xj+39yBj7+0LuLAr1aUkLQK93uKorTINT+H49O1V9wz4XOcnP7ebyPUp9A
+         VDyNEW6crL7pkxxLVBxtO6BYAtcM4DWkJToVIHPqWqzS14BiRyFRwz81jcEizNZC+2FS
+         zdEg==
+X-Forwarded-Encrypted: i=1; AKwUvBzHpvcAqqHtz3sESkLKY4nAVjpe8SEJ/qb90JFVjr5QPI+uvhSOymaotQIU6x7d8goDCfjHNMpildPqP1S6@lists.linux.dev
+X-Gm-Message-State: AFq9FYIQzTBDJZu47V+pcshf23qkQV/DSLk7MhpsS37xxpByxKFzfzjL
+	TE6Nu3i3eDScM+3BScdXyo3x1wZMy9270nJrGdxHcxJ1wutEtXnM6B5W
+X-Gm-Gg: AYBFou1J7jBzIk59GSwT4F6gwqHLPvBZqSfbmlwJHLkrPXT4b/i4vdYZsr4yMzRztxF
+	nDY+8d2u8Kj1qb4gAskvLTCdY5iI5mX208ZWjZq8k4vQZZ5L/SHO3YwI3yY5wU6o0t9mcyMutEk
+	b1vRFHgOiV9Ca4fNs7noSq6OJ0oLgMIMnuXGaMma67R3XJqTJz0QURMAYDgBYFYoYkjpswn0Q0U
+	qlkwwKOxLlIBkmjR6QmJtFHF+m9kfYKgyKeTDT0XcvP7leVBUNvWWHEzzgf2QF/K4IxEJ+X7cIM
+	A8tvKaS8oN4ybRri+oDNYFzE6hUpuHVJ7JAW84A+abvRmLXeLwmCZnz0tfGhKIomtjOGGnZDKRx
+	4YL+QWUdC2f/njf7XpF5LxrCc3QYHfrF+LdG9T//Sb7bCNYPSVYW6S/BSKS+3Be+jCMYeYofgob
+	pG/3YsdAVH0BkLW1iwOaFAIoljqYJDNCxKQL9bwkJTcZNXPWZWwfWwCaxYDFXlRZufqwJmAeaPT
+	zZ3KId5qrhdy0Rnwa9yGy7UJLbbmYq+Tcd0PjdvGnae5vI2s/nf2t33egm9b8/kopckGcwLAsKG
+	NE8IrMtr+v8u25YkeG45tVr1AQdbMzwpZa1XGL7p2E+sereThab2Sj3YT5demUSXMSu55mL1qWC
+	WER5TstdVzW9LTZM32My+zis2wR7Pc5OVIvsU7R+DAsAc47UkIIALIYoeFWR7YU92
+X-Received: by 2002:a17:906:448:b0:c41:1e13:8896 with SMTP id a640c23a62f3a-c49c635f4b8mr354049166b.28.1793297996159;
+        Thu, 29 Oct 2026 11:19:56 -0700 (PDT)
+Received: from maria-VMware-Virtual-Platform ([182.186.0.95])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4ca2de1b78sm10323466b.2.2026.10.29.11.19.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 11:19:55 -0700 (PDT)
+From: Maria Sheikh <mariasheikh812@gmail.com>
+To: outreachy@lists.linux.dev,
+	vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Maria Sheikh <mariasheikh812@gmail.com>
+Subject: [PATCH] staging: greybus: audio_manager: Add newline to sysfs output
+Date: Thu, 29 Oct 2026 23:19:40 +0500
+Message-ID: <20261029181948.13121-1-mariasheikh812@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -89,161 +102,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] PM: runtime: change stub pm_runtime_get_if_active()
- return 1 when !CONFIG_PM
-To: Frank.Li@oss.nxp.com
-Cc: Frank Li <Frank.Li@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Matthew Brost <matthew.brost@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alex Elder <elder@kernel.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, Guan-Yu Lin <guanyulin@google.com>,
- Mathias Nyman <mathias.nyman@linux.intel.com>, linux-pm@vger.kernel.org,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- netdev@vger.kernel.org, imx@lists.linux.dev, Rob Herring <robh@kernel.org>
-References: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/29/26 11:30 AM, Frank.Li@oss.nxp.com wrote:
-> From: Frank Li <Frank.Li@nxp.com>
-> 
-> When CONFIG_PM is not enabled, all devices runtime PM state should be
-> treated as active.
+Fix checkpatch warning:
 
-Should be treated as if runtime PM were enabled for the device,
-and the runtime status is active.
+WARNING: return sysfs_emit(. . .) formats should include a terminating
+newline.
 
-It's a subtle distinction but the previous behavior returned
-EINVAL, which means "runtime PM is disabled for the device".
+Add "\n" to the sysfs_emit() format strings of the name, vid, pid,
+intf_id, ip_devices and op_devices attributes.
 
-Anyway, for the IPA use of this function, this looks correct.
+Signed-off-by: Maria Sheikh <mariasheikh812@gmail.com>
+---
+ drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Acked-by: Alex Elder <elder@riscstar.com>
-
-> 
-> __pm_runtime_resume() returns 1 (called by pm_runtime_get()).
-> pm_runtime_get_if_active() is the try-and-get version of pm_runtime_get().
-> stub pm_runtime_active() also returns true. So pm_runtime_get_if_active()
-> should return the same value as the stub pm_runtime_get(), which is 1.
-> 
-> Analysis of all callers and their behavior with old (-EINVAL) vs new (1):
-> 
-> Pattern A: if (!pm_runtime_get_if_active(dev)) -- no impact
->    Both -EINVAL and 1 are non-zero, so !ret is false in both cases.
->    Callers: drivers/accel/ethosu/ethosu_perfmon.c,
->             drivers/gpu/drm/msm/adreno/a6xx_gmu.c,
->             drivers/gpu/drm/msm/msm_perfcntr.c,
->             drivers/gpu/drm/v3d/v3d_mmu.c,
->             drivers/gpu/drm/v3d/v3d_perfmon.c (x4),
->             drivers/media/i2c/gc08a3.c gc05a2.c og0ve1b.c ov6211.c,
->             drivers/media/i2c/ccs/ccs-core.c s5kjn1.c lm3560.c (x2),
->             drivers/media/i2c/s5k3m5.c thp7312.c imx283.c ov64a40.c,
->             drivers/media/pci/intel/ipu6/ipu6-buttress.c,
->             sound/hda/core/device.c
-> 
-> Pattern B: if (!ret) after get -- no impact
->    Both -EINVAL and 1 are non-zero, !ret is false in both cases.
->    drivers/gpu/drm/amd/pm/amdgpu_pm.c (comment says "allow access"
->      in kernels without CONFIG_PM), drivers/pci/pci.c
-> 
-> Pattern C: ret > 0 / ret <= 0 / ret != 1 checks -- FIXED
->    drivers/usb/core/offload.c: checks (!= 1), old -EINVAL caused
->      -EBUSY even with !CONFIG_PM. Fixed: now returns 1, proceeds.
->    drivers/accel/ivpu/ivpu_job.c: drm_WARN_ON(<= 0), old -EINVAL
->      spuriously triggered WARN. Fixed: 1 > 0, no warn.
->    drivers/gpu/drm/i915/intel_runtime_pm.c: checks (<= 0), old
->      -EINVAL triggered error path. Fixed: 1 > 0, correct path.
->    drivers/accel/ivpu/ivpu_sysfs.c: (> 0), old skipped freq read.
->      Fixed: proceeds correctly without CONFIG_PM.
->    drivers/gpu/drm/xe/xe_pm.c: wraps (> 0), all xe callers
->      (xe_bo.c, xe_shrinker.c, xe_vsec.c, xe_ggtt.c, xe_guc_ct.c,
->      xe_pxp.c) now correctly treat !CONFIG_PM as active.
->    drivers/net/ipa/ipa_smp2p.c: power_on = (> 0), now correctly true.
->    drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: (> 0), now correctly
->      executes stall register update.
->    drivers/staging/media/ipu7/ipu7-buttress.c: active (<= 0) early
->      return now skipped, correctly proceeds.
-> 
-> Pattern D: explicit -EINVAL check
->    drivers/hwmon/prom21-xhci.c: checks (> 0) then (== -EINVAL).
->      Old: took -EINVAL fallback. New: takes (> 0) fast path.
->      Both succeed when CONFIG_PM is disabled; functionally equivalent.
->    drivers/hwmon/eic7700-pvt.c: call is guarded by IS_ENABLED(CONFIG_PM),
->      stub is never reached. No impact.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> Cc: Karol Wachowski <karol.wachowski@linux.intel.com>
-> Cc: Oded Gabbay <ogabbay@kernel.org>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Alex Elder <elder@kernel.org>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: "Joerg Roedel" <joro@8bytes.org>
-> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Guan-Yu Lin <guanyulin@google.com>
-> Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
-> Cc: linux-pm@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: intel-xe@lists.freedesktop.org
-> Cc: linux-hwmon@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: iommu@lists.linux.dev
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-staging@lists.linux.dev
-> Cc: netdev@vger.kernel.org
-> Cc: imx@lists.linux.dev
-> Cc: Rob Herring (Arm) <robh@kernel.org>
-> ---
->   include/linux/pm_runtime.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/pm_runtime.h b/include/linux/pm_runtime.h
-> index 64921b10ac74f..de9e7518ecef2 100644
-> --- a/include/linux/pm_runtime.h
-> +++ b/include/linux/pm_runtime.h
-> @@ -280,7 +280,7 @@ static inline int pm_runtime_get_if_in_use(struct device *dev)
->   }
->   static inline int pm_runtime_get_if_active(struct device *dev)
->   {
-> -	return -EINVAL;
-> +	return 1;
->   }
->   static inline int __pm_runtime_set_status(struct device *dev,
->   					    unsigned int status) { return 0; }
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index dc90cc2d2308..5737f2a32f5a 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
+ static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
+ 					 struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%s", module->desc.name);
++	return sysfs_emit(buf, "%s\n", module->desc.name);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+ static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.vid);
++	return sysfs_emit(buf, "%d\n", module->desc.vid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+ static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.pid);
++	return sysfs_emit(buf, "%d\n", module->desc.pid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
+ 					    struct gb_audio_manager_module_attribute *attr,
+ 					    char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.intf_id);
++	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+-- 
+2.53.0
 
