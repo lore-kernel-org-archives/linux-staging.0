@@ -1,120 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.134.164.104
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793300351;
-	b=a6Eo6OxgT5Bs7EcJCE/L5n1RNlPqATj3EL54sUCLeOq4C7DqsdIs+JuUiYE2rymhhtDk
-	 TW90bKjXGaSg5RxokgfFzaZpz2Xh89sSlL3oos9Fut9bYpxSpblPxtMVl6XhcJnMEtsMc
-	 clIndVwhXT2ieH8I3Yl0SYfCxoPwJ63eTiRszFVVw2/lQdkvhng7WGdJkAc+e00Jqe4tN
-	 hE/DHe2nG6GbD/g8B3yB2WKGhJP/u4ZdZTpvl5oJtYwZG1x0GP7b1kJatQDMC9I8e+Q+4
-	 UqXwuvoTlEZAfVKS+GFv2vdSJTsuOreU/vqz0YcqflJ7x+F64q0iN28vnhXDrC7ieVw==
+	t=1793302911;
+	b=47CjIGM+aBG8SzbgameKivG88P2pKZW5DbJygJzzx0jFAQWLXs8QqGglhbNqLMwtkTtf
+	 BAJuu4gK+XstzC2eH1yfwi+uJrQUqh3AKaz66JUU4BVbCWsydIis3c6GhefDSCVLyHlXy
+	 sZlcXnLMM4THwX7n+NwgDG3XRg56qtsJ66KlSnoE70sZXDtwoz0HdFC68h9fdnKVJwgyO
+	 6JaxArhcLhEHa9SqSOSlc1gsgn7k1ABJ9WA3AVDuSyPiIuRe+9FgQjI1ZtjhDy28VjWJu
+	 olkCdDFz1P1J2oZk+pKrj37Qvzc1sQsknx7mpoCaAYKZ7GeXXBgx6xF+zEWaa38b3gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793300351;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=K0Ytmrnk1GXIgM1fqIrHZ5HsCVM2IH42icX0Nl0p4uM=;
-	b=A7LvLDMwQmzV/6eGCaI+rh5PFapJFIJ5dn3iyAU1pUrEql3CP3jOBLOttlkquqH9KXZg
-	 bAOo2XK5Z8Ods/Zm7daRNUkVu4Q/Lfu/8SxwIk4Zy1VTiaDpGtW5MhZ0I4MmUIYZgi82C
-	 HGtm0N32tmC2QFN4JoC2MJi+3ZrYSGmkirWVr6gOkX+bKcgXUXxrqHVFnUbItNn/Xy8yx
-	 MA8wW9A6ddgqUgtceabh8WISJwWmwY3a9aUQfvYe6JvStuP3IUSpg6DYMnjQYOc+KITo5
-	 lf26V3SmqwSrZI7B8kECSVfgmsTdY50JCo7NFc+Gzx2sbkVb/gTkOHs5nK6c42W5H7w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793302911;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Content-Type:Content-Transfer-Encoding:From:
+	 Mime-Version:Subject:Date:Message-Id:References:Cc:In-Reply-To:To:
+	 X-Mailer;
+	bh=XRi8pcTf4rfC4VLA5r1QxQ3Of7atJjfiNOnycg20qTU=;
+	b=iEoRvEZVHlMf+q1q3GPhawRdW06V7Zn7ze8pVcOyiRkdK9PpfmVDSqs4ikSvQufI+CKS
+	 jIl4coBTyiIWPQWfxFROrj+v86/Lie9VggeCfWWo7fUJB6sGzIKdoMz4GzrtsY4g9y2/M
+	 maIqRgybiNK+GWgYlL8sCZhPdiw2NkexkKaQlhgRvCID89k+bt9rsAwyoztyHOjV1rxE3
+	 QAvbH5ELpEMkR+YowCwadchEeR5DbCaGMtyuDOkGEWKTc11wWFZjYiEYjusMDdXsq9fS+
+	 aC/E2xqc229gnIIbrD75DvcvJKzhuxw8UwoFkzWo3ZBfU0LLVmL3D37fWOFnQ2FV8qQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n9Vivb5T;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=inria.fr;
+	spf=pass smtp.mailfrom=inria.fr;
+	dkim=pass header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=epaaUSOf;
+	arc=none smtp.remote-ip=192.134.164.104
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E953D606A32A
-	for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 18:59:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E953D606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BA9606A31C;
+	Thu, 29 Oct 2026 19:41:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89BA9606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n9Vivb5T
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so16224995e9.3
-        for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 11:59:10 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=epaaUSOf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793300349; x=1793905149; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=K0Ytmrnk1GXIgM1fqIrHZ5HsCVM2IH42icX0Nl0p4uM=;
-        b=n9Vivb5TqpsSyppk6cFWW+1D31ir1UyzZpBK7DVSRRChQLLaDj31UlBbNKx4YmWXag
-         zVhyfGXJPH+MzNLrU+mvz+ENl3bIjy/90SAvNWgNhkrBVwEvyG8vIAIx3UPabgO0ZtCF
-         ZRyH3umxTrS+VkQXUxVvWPZIPfKSWRFwu1dTt13Rj0cby9fCf5XCNBBPLcWGetGiWhc3
-         6F+xzB2w2OZ2k5ca07PTeNGvImsviLMMbUzVnHjVp0ryII+FiHdg9e7xBxuZe8lEriln
-         sooL3S6eGLjAekJY4vYbjolm+Pvn7suKQndQusP8EWjwsAZ1xE74xGLP7+JZOW+nc2Xn
-         WlGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793300349; x=1793905149;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=K0Ytmrnk1GXIgM1fqIrHZ5HsCVM2IH42icX0Nl0p4uM=;
-        b=yBrSF6ClZBg9GDzPPSX9bicTrd9Y9gNOn5hO3hdhLRDRDNiZKlUSbik1ng++9PPquC
-         dVrNzG/ZcOGkGeo3Q6OiLy49SU5sKAMwWgY+dkppy428TgB1T/wBUnirZg3w2fwTudTZ
-         SrkWMFAtQvDCdrIEPU4faCNm/vbgHW1j4THSs9MMpMlqkkaJJRhWvbnbvbzX+FoMQhHb
-         ZQWta+5df/IbiBp6Vq5dsWjKHWTM+gWQjdjFmZHKSvVbe5iUyQCkIzzn/mT2WASM+DON
-         DsCu9d6mWHD0TDvWn5kkaoPFSswMm8KZdZLIZ4uvrG9xF1rXsaLvCaacvC3t4KMmOH4l
-         pVXg==
-X-Forwarded-Encrypted: i=1; AKwUvBzbW5GYM5QlJye70Au2U/oORRXlcUhikFNspUhEZuOSYSTm4f6xH3GkfHJyupmC+zbwkVrnOzaAHdHXuq96@lists.linux.dev
-X-Gm-Message-State: AFq9FYKN3XM0Q9AgqZ+tI+J60V0+OTF6EkyyAK0QS/EkzXn83wJe7iaP
-	Gv9CZDyOzKUOiJyHuHe/pHyCjAj1V10LmaPhgP3KC6cWHEHQXyVBOVN8
-X-Gm-Gg: AYBFou0Vr6h1tnD+ehNfrDnlO4ozmA/vILHfDkqcuHkhQKhzocVYEE8lEGrF4sPOG6+
-	DFg4PbCt+iaOEo6LDSK9wGd28kPpjt2bnU9CVMbwNJ8hRFZp2TBjtcKCAr94esNrShdWjYeTVY8
-	NihDWxK/ZhbHnLhAy+v8coUnnzFqUWBkxfDFbXwxtX+2lSns/7/iimyAbJTtlmAakfUi/39L9d/
-	rURCzeoC9AbemNTp8c9UZRC7gsbBra+4t8oRx5WT5VM7aQkJmO3DnHY9Y5zElBWHrVppug+1bwh
-	MaNwfy0gozYKiSjYzRleTA0ZZXJBkx6Phs/GVNqhgGi9gTOOffK/C7xDOIKB7FvVuOIGboLSXgV
-	+OTsjDh3MAUjhs82rX8IdvvcW6DKaAPu3LLrYYXaI2Y4cQdH6pbAvR2Qk/BiidIi97ogUXpwoil
-	j8b1Exf4pjRJEwmevAfi72t/LdUxis88ubFK1tUj5KAMocfK3cM7ktnRKGFfunKeO59cMCdvgbX
-	0NyOtoiNvHzplrRv/za3mhXwvw5UY9zBljUX3/v5FJINphm1Q2gsW1WXnogJIThwhbBNJt2B2uN
-	42wZYbTkL22ZmpyIW8AvlEOGU6aw9OUXFEue33g9AvAJo4Iqb41NOeMMEZOIhUYw0MUkejnMl1+
-	ZaKiKSp4fCWJy/H46u8V+BFkKYnVKqdcmZ8J0afQx2NRvmYXYiuLYqLR6rhc0wSZCtAh3PH/YlO
-	Lny2qlZdGIOiow
-X-Received: by 2002:a05:600d:4121:b0:4a3:59c9:a758 with SMTP id 5b1f17b1804b1-4a96836988amr152798385e9.32.1793300349381;
-        Thu, 29 Oct 2026 11:59:09 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf6c76507sm4933955e9.10.2026.10.29.11.59.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 11:59:08 -0700 (PDT)
-Date: Thu, 29 Oct 2026 21:59:04 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Frank.Li@oss.nxp.com
-Cc: Frank Li <Frank.Li@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
-	Karol Wachowski <karol.wachowski@linux.intel.com>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Alex Elder <elder@kernel.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Guan-Yu Lin <guanyulin@google.com>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, netdev@vger.kernel.org,
-	imx@lists.linux.dev, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/1] PM: runtime: change stub pm_runtime_get_if_active()
- return 1 when !CONFIG_PM
-Message-ID: <auOXeGVQG0UHeoQb@stanley.mountain>
-References: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
+  d=inria.fr; s=dc;
+  h=content-transfer-encoding:from:mime-version:subject:date:
+   message-id:references:cc:in-reply-to:to;
+  bh=XRi8pcTf4rfC4VLA5r1QxQ3Of7atJjfiNOnycg20qTU=;
+  b=epaaUSOfb0zSZpemikoEL1jRlpVBGP2WHyK3QRbuv05yjQrd3VFSqACS
+   rnKiAcEjy2mjwRFOBRA7C7SArzo4npYsQsbxNsEi+7bBJ1GZrq241apHU
+   U2yhBvyALYzabx7EE4rrB4wphL57AQw36HheQY7y+lN/R8TJ7yFdL4+p7
+   A=;
+X-CSE-ConnectionGUID: URfV2/lBQt+woBOfA5N9bA==
+X-CSE-MsgGUID: PKaJ28FpQM2EwgDc7biwzQ==
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.27,185,1787004000"; 
+   d="scan'208";a="161239336"
+Received: from 37-167-22-2.coucou-networks.fr (HELO smtpclient.apple) ([37.168.22.2])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 20:41:24 +0100
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Julia Lawall <Julia.Lawall@inria.fr>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -123,35 +60,113 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] staging: greybus: audio_manager: Add newline to sysfs output
+Date: Thu, 29 Oct 2026 15:40:58 -0400
+Message-Id: <3B73BF88-AA02-4965-8FAC-82881C192E69@inria.fr>
+References: <20261029181948.13121-1-mariasheikh812@gmail.com>
+Cc: outreachy@lists.linux.dev, vaibhav.sr@gmail.com, mgreer@animalcreek.com,
+ johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Maria Sheikh <mariasheikh812@gmail.com>
+In-Reply-To: <20261029181948.13121-1-mariasheikh812@gmail.com>
+To: Maria Sheikh <mariasheikh812@gmail.com>
+X-Mailer: iPhone Mail (23E261)
 
-On Thu, Oct 29, 2026 at 12:30:37PM -0400, Frank.Li@oss.nxp.com wrote:
+Please read the recent mailing list archives. A similar patch was already re=
+jected.
 
-> Pattern C: ret > 0 / ret <= 0 / ret != 1 checks -- FIXED
->   drivers/usb/core/offload.c: checks (!= 1), old -EINVAL caused
->     -EBUSY even with !CONFIG_PM. Fixed: now returns 1, proceeds.
->   drivers/accel/ivpu/ivpu_job.c: drm_WARN_ON(<= 0), old -EINVAL
->     spuriously triggered WARN. Fixed: 1 > 0, no warn.
->   drivers/gpu/drm/i915/intel_runtime_pm.c: checks (<= 0), old
->     -EINVAL triggered error path. Fixed: 1 > 0, correct path.
->   drivers/accel/ivpu/ivpu_sysfs.c: (> 0), old skipped freq read.
->     Fixed: proceeds correctly without CONFIG_PM.
->   drivers/gpu/drm/xe/xe_pm.c: wraps (> 0), all xe callers
->     (xe_bo.c, xe_shrinker.c, xe_vsec.c, xe_ggtt.c, xe_guc_ct.c,
->     xe_pxp.c) now correctly treat !CONFIG_PM as active.
->   drivers/net/ipa/ipa_smp2p.c: power_on = (> 0), now correctly true.
->   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: (> 0), now correctly
->     executes stall register update.
->   drivers/staging/media/ipu7/ipu7-buttress.c: active (<= 0) early
->     return now skipped, correctly proceeds.
-
-Pattern C is mostly bugs so this patch should have a Fixes tag since
-it fixes bugs.
-
-regards,
-dan carpenter
-
+> On 29 Oct 2026, at 14:25, Maria Sheikh <mariasheikh812@gmail.com> wrote:
+>=20
+> =EF=BB=BFFix checkpatch warning:
+>=20
+> WARNING: return sysfs_emit(. . .) formats should include a terminating
+> newline.
+>=20
+> Add "\n" to the sysfs_emit() format strings of the name, vid, pid,
+> intf_id, ip_devices and op_devices attributes.
+>=20
+> Signed-off-by: Maria Sheikh <mariasheikh812@gmail.com>
+> ---
+> drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
+> 1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/stag=
+ing/greybus/audio_manager_module.c
+> index dc90cc2d2308..5737f2a32f5a 100644
+> --- a/drivers/staging/greybus/audio_manager_module.c
+> +++ b/drivers/staging/greybus/audio_manager_module.c
+> @@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj=
+)
+> static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *m=
+odule,
+>                     struct gb_audio_manager_module_attribute *attr, char *=
+buf)
+> {
+> -    return sysfs_emit(buf, "%s", module->desc.name);
+> +    return sysfs_emit(buf, "%s\n", module->desc.name);
+> }
+>=20
+> static struct gb_audio_manager_module_attribute gb_audio_module_name_attri=
+bute =3D
+> @@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio=
+_module_name_attribute =3D
+> static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *mo=
+dule,
+>                    struct gb_audio_manager_module_attribute *attr, char *b=
+uf)
+> {
+> -    return sysfs_emit(buf, "%d", module->desc.vid);
+> +    return sysfs_emit(buf, "%d\n", module->desc.vid);
+> }
+>=20
+> static struct gb_audio_manager_module_attribute gb_audio_module_vid_attrib=
+ute =3D
+> @@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio=
+_module_vid_attribute =3D
+> static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *mo=
+dule,
+>                    struct gb_audio_manager_module_attribute *attr, char *b=
+uf)
+> {
+> -    return sysfs_emit(buf, "%d", module->desc.pid);
+> +    return sysfs_emit(buf, "%d\n", module->desc.pid);
+> }
+>=20
+> static struct gb_audio_manager_module_attribute gb_audio_module_pid_attrib=
+ute =3D
+> @@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_=
+audio_manager_module *modu
+>                        struct gb_audio_manager_module_attribute *attr,
+>                        char *buf)
+> {
+> -    return sysfs_emit(buf, "%d", module->desc.intf_id);
+> +    return sysfs_emit(buf, "%d\n", module->desc.intf_id);
+> }
+>=20
+> static struct gb_audio_manager_module_attribute
+> @@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct g=
+b_audio_manager_module *m
+>                           struct gb_audio_manager_module_attribute *attr,
+>                           char *buf)
+> {
+> -    return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
+> +    return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
+> }
+>=20
+> static struct gb_audio_manager_module_attribute
+> @@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct g=
+b_audio_manager_module *m
+>                           struct gb_audio_manager_module_attribute *attr,
+>                           char *buf)
+> {
+> -    return sysfs_emit(buf, "0x%X", module->desc.op_devices);
+> +    return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
+> }
+>=20
+> static struct gb_audio_manager_module_attribute
+> --
+> 2.53.0
+>=20
+>=20
 
