@@ -1,80 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793279777;
-	b=AmTmXr9NUDkUPjTGdbiIs3UUwctDXpy7CCra4b1oxCy6U9FoEWXMT6h3NaR6m0fORcsT
-	 A/c3eBifD9M7WDzL9tm0lpoz5WU3THRbtlr8CbGLG+T1gI63u+7yGnMfVgI7Gk9BsI39Z
-	 ahAHMnmHrzYBMsLe1bQjdE+1LBIoWsjcXyxAL9gOa4leUfe9TqLqTgWekHqG/IasZPCyq
-	 Yoc74Og+mngth6I5LM2kH5ciekfbGse4vlVD0kEFSXdrcna1STrAYOxO0uJq536GsoAT8
-	 Sd29GV/3EYfpUMswy1y1fY4FOuE4aPKe+EPyUlNQzdCyDT30ov4FXBcL0CoxWCeWbSQ==
+	t=1793280217;
+	b=5MhII9eVV0lQOWaT2B+vW0/L01LQNvxDL9+9xoSloGM4e9FD3YcfDRRm+9khsiBQUQsl
+	 Eh5SBGLD7tI2+5BtOlIImAhdK6Xw0f/B1Xir3nN/gYWrnTfNKpQuBRXZexs04na0Ldh7s
+	 BPBueSiJbOYMkpYRuLEDzUO5NXPC2bzj6vZG/MWbCrtMkCPr8UWjhGj63ZOTBR22H87z7
+	 zCBSiBPFLwlpLvOMtwqwhmr9di9RxrjJN/6eGPkQlbqAo2Ga6LvjHParKINrITwxejWkp
+	 lys/oRjOmVmXEIGXTEGX+BAyTvyZ6h56EmeMhflj8E0sNR5gXHNVs/+zFwLf9JEX1YA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793279777;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 Organization;
-	bh=h8u45CNmIEd0bbtYlv6CM92JPz3f01uopFoHms6RdL8=;
-	b=IgHLxmIgEKGB71vaMwrqgYiBWPIoG0dhdnVNgwOiUQCpUqUxas/u3N2mxEvjIOCBVTyE
-	 FCNsB8IBtAI5W6srzo1UzTz+CCQ1mFK15078qglhjReyQmPb2An6WbCtg0a+qc9w0JfxM
-	 kJBHYPdKqSpI4GnyU7ZmWe8IoMPp+fF4bhUxxWEEl7fJRvUAufflUqlV9wcrW36HrufVQ
-	 iNPVo+F8pc8bG6p+Fo4RMBiKqFHEaRvnHPNnOrf0qqGNm+dKvWsRQA5zKE0cqq9CFdxM5
-	 lye6yvrzSE7q8kOk5QUeRqpSgZAlvW7Mq41FLF3+luy8tdX53BbWDHB21JvsFUi476A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793280217;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=OwYCnrVFV8I2f8pmllBeUgdIyQq7zFSBdo4u/NvHzyU=;
+	b=Zkxdgwli40gQKivxic11GH8Xh4ob5dsaoVYsN1FMMiSy4FACFiatUJrytgOvauukgh/o
+	 PRtWtd7OVvdaZ1WIy08UoJUYlk3kbAL266+Iw2ksje1tIY1BUUnrx/qh3Hozt/DyqQ+JC
+	 wmeVyJwwJBOiVORrRFzIjFQdeYsrDprT2PM8JGY6NQ33Xx2fhSzW/NWsB7Su1KNfwhOFW
+	 MKSg5iAdgfiz3aBLQEWm7K7P+USzzZl2P8eVeze35VcupEaI2IOzSXV4i2Yge2MmdCPSD
+	 Skn/ZWstm7IbYqwCuzzfGCEgcBvosMpgmbQQIwWKG9xsSTtKHKrMaR6xODaT/6SKD/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kVtwdqBb;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bxLPrA0P;
+	arc=none smtp.remote-ip=209.85.128.45
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F4C606A31F
-	for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 13:16:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0F4C606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30879606A31A
+	for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 13:23:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30879606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kVtwdqBb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793279777; x=1824815777;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=0k351C2/JUZ73k6Gtt6/++UObK1xusuhxkHbZNf6oSU=;
-  b=kVtwdqBb0gBFp6ekE5175Bp3nt49RXEk+L/RhfWVskQzLmI1yDiMvSWx
-   kPw9Kg8R1Fbf54AVqrpxuxN2cMbZWS3LRt3DFuK97eC58vZ7m4na+9867
-   hTtVAbKeSpqtcmEaD73B7YBBqXCOO23PDmT6/WXyL+ETplGOaIOKUFDOu
-   d4QSY+k9+nStH0ZyXCguTY0VI7Agk1KuGuuIQyhLpjX4ZOGk1lVYfGJxQ
-   q2fX5SWki185ez8GNXZrrWu9mMMh5+UVq/DfiILhgxQkFigXvQqS4YuZr
-   KEr3hGCk4T8XrdYEqjayJPvT1k9sZuH2xr+zXCWHegcrsUFmJtVPQpD/z
-   g==;
-X-CSE-ConnectionGUID: eroWMvcCTnSe1SQFqLzIJw==
-X-CSE-MsgGUID: fl/rhUcuTA6d39ad1GK9Kg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2038139"
-X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="2038139"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 06:16:17 -0700
-X-CSE-ConnectionGUID: Cm6bfeYkSo6Wzv/qwOUJ9A==
-X-CSE-MsgGUID: HXNgm2u3SzW0GNBTUrvuYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="6907380"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.129])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 06:16:13 -0700
-Date: Thu, 29 Oct 2026 15:16:11 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: =?utf-8?Q?Rare=C8=99-Mihai?= Vladu <vladurares@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bxLPrA0P
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a60f9474c4so25372335e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 29 Oct 2026 06:23:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793280215; x=1793885015; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OwYCnrVFV8I2f8pmllBeUgdIyQq7zFSBdo4u/NvHzyU=;
+        b=bxLPrA0PXTROJBECcH/3LonC/XlvxRdaWkIm/Cpsv+zYZmEYydhlQzo0JA3eJvQ9Zf
+         ZPzemhaZG6lkrCGW1f69TXNZx8FRexQwR9nUwsBcjSnt6mTeP+GO6YzwV4OuYpDoIeY9
+         F5un7YscHyijcx5Gywj1qc3uXbXF0CH5druqnDRfjrDq8Hy8O5u6DJP1BEd5ozw+mx4V
+         ZDWXlVA1rP9N597jkxdN8KROyUsbeSKK+u1/V+b8KkRibG6/+VvJHlVMSw7hbrf+HEAz
+         GYy0ntmyrHi6LGsatLnrakXcQJBnJnJx7KmUKioZpUVfcqJUKbbPVr36p9rF0E9Rm00v
+         5S+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793280215; x=1793885015;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OwYCnrVFV8I2f8pmllBeUgdIyQq7zFSBdo4u/NvHzyU=;
+        b=CHG0hXhx2voyFTUMSV8zFywoWdyqoPYUOtCapqnpOROTjmf+HLAbydUcDVLhrm+UV5
+         YJELz1GduzYFvzUzljflP7NnKwzTdd6OY5vZbI1Tcnx9DK2XorN7/pMsYpbBzRTagF/u
+         56CqADVwdDcDm54eCaGn+JzfNVeQarKoc2bYYF1DS135Zat8CpuocGDHyEXQkcZBCIFX
+         RZjfmgOesdQU/0BvZUsBI1jumRgERyoqiNP/6r6vbnCZRrTrqOwTgBfuLchjjjAgWNvD
+         kB8qnjNZEOH3zngP18Y0rvLOOt4Vjz2Man8iC+L8Evmnudo+skoy+DguzVFYO422OQO1
+         cgpg==
+X-Forwarded-Encrypted: i=1; AKwUvBzxH9QApuIzn5hnpV/LY4asfErBFpEEcPFQPon2wZqZIj0jD3BhOkUJtrn+GucVLxRkTIIn8oDODoBN3WNb@lists.linux.dev
+X-Gm-Message-State: AFq9FYILN0zzKv6ezaLPVgxbRNAMtJniGqnnbPFP65a0vh4hrtijOcKc
+	bBTDMZ2hdGdVdxZ3xsKHGfTwFh+hxy32I3uDamAiIun4Wbp/fvo0Zbf6
+X-Gm-Gg: AYBFou1ia3T0wx4eXZlTIvmjO6LBre0gvLVXBBLJzoI9EXDeyRs3pO4FZzOioh/s79Q
+	+vxLhiWgCK3u6U1QEIfbi0nGsPDCP6jcPPrzaq7xyn2sMZC/QoZ1JTID/JGMMkl37JqpdD1KJjN
+	hVbI8vIv0Bq/lyFKIb9eygk+Ktjk/p6gB+MI25smq+xVoEdrCqK6M1hKI9OAT4OruALkSr2nzUu
+	I46jeL12wHbjKHppx9dxyD8kQ31R2O4GQiXbHxrbEUUFUTPeRXMsvRp4s/9+jv0gtdhw4Nh9uAk
+	DEtGDJTVY9ib66wre0Z+NRrl1+Ik303NOGfa4SYJy0Oa0PEfzMkvMXsoWsP7wzssDmWoKeyuCnR
+	w8lWU0ntSs3wfV4QHt+tjNg0u0BdxZcIAjNm+Mn3zHu35hPNeNfV+1Bp1yImhX//3v5Qxb4Ux3K
+	nmfEXD757L5yZZcmWy7vaT6LvG+6YKffTGwo/dzZVXwNhzDo6bD/kXHykInzUChSQS8cM7v3WX3
+	zOXySyYQde4yAMcROHywd0xonXWiOnbyp4l30AbTHNCcJXD60z9gn4GlcSwHmYk+B2E6KTOygmp
+	GEnqHhQrrUpi++ZLlQ8kQgPLgbRhuTCHzUTg03jVeq/9H2TsQHb4RShXYFGNZZauCdwTe/toK2i
+	MISCWzv9XnwtUK2rXKEtLXd2JL9EGJONj15XFiTMQkbDloiBAIWfFLgqkPHufkBgByvKuQxd8DP
+	x0/73ja0FNRoLS
+X-Received: by 2002:a05:600c:354f:b0:4a3:2f35:38b4 with SMTP id 5b1f17b1804b1-4a965ec95f6mr130057815e9.10.1793280215255;
+        Thu, 29 Oct 2026 06:23:35 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm23216785e9.12.2026.10.29.06.23.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 06:23:34 -0700 (PDT)
+Date: Thu, 29 Oct 2026 16:23:30 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Jose Nieto <jnieto.alaber@gmail.com>
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/5] media: atomisp: remove the circbuf library
-Message-ID: <auNHG_JHY9P3xqMd@ashevche-desk.local>
-References: <20261027230807.2407261-1-vladurares@gmail.com>
+Subject: Re: [PATCH] staging: greybus: audio: add missing newline to
+ sysfs_emit()
+Message-ID: <auNI0owLeK0gwOxF@stanley.mountain>
+References: <20261029131122.167464-1-jnieto.alaber@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,64 +103,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261027230807.2407261-1-vladurares@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20261029131122.167464-1-jnieto.alaber@gmail.com>
 
-On Tue, Oct 27, 2026 at 11:08:02PM +0000, Rareș-Mihai Vladu wrote:
-> Thanks to Andy for suggesting, in review of my earlier typedef
-> patch [1], that I look at converting the custom circbuf code to
-> circ_buf or kfifo, and for reviewing the previous versions.
-> 
-> While looking into it, I found that the circbuf API is only used by
-> the local queue path, and ia_css_queue_local_init() has no callers,
-> so as far as I can tell that path is unused. The remote queues only
-> need the descriptor and element layout shared with the SP firmware
-> and a few small helpers.
-> 
-> So this series first moves the remote queue handling into helpers,
-> then removes the unused local path together with the queue type that
-> no longer seems to serve a purpose, moves the few remaining pieces
-> into ia_css_queue_comm.h and drops base/circbuf/.
-> 
-> checkpatch warns about new typedefs in patch 4 and about MAINTAINERS
-> in patch 5. The typedefs are only moved from ia_css_circbuf_comm.h,
-> which patch 5 deletes, and MAINTAINERS has no entries for the removed
-> files.
-> 
-> Compile-tested only.
-> 
-> This supersedes the typedef patch [1].
+On Thu, Oct 29, 2026 at 02:11:22PM +0100, Jose Nieto wrote:
+> The sysfs show() callbacks must emit a trailing newline. Commit 14c91651df34
+> ("staging: greybus: audio: Use sysfs_emit in show functions") converted them
+> to sysfs_emit() but dropped the newline. Restore it.
 
-Thanks!
+This would have been a convincing argument, but it's not true.
 
-Sakari, can you apply this, so we have reduced code base (by 1%,
-which is significant in this case) to think of?
+-       return sprintf(buf, "%s", module->desc.name);
++       return sysfs_emit(buf, "%s", module->desc.name);
 
-FWIW, output of `cloc`
+There was never a newline and adding one now is a change to the user
+space API.  We are allowed to change the API so long as it doesn't break
+anything but no one has been able to check.
 
-$ cloc -- drivers/staging/media/atomisp/
-     605 text files.
-     602 unique files.
-       3 files ignored.
+We have recieved this same patch over a dozen times now.  :P  It has
+become a challenge to keep rejecting it over and over...  But I am a
+stuborn person and the whole point of staging is to teach good habbits.
 
-github.com/AlDanial/cloc v 2.04  T=0.21 s (2828.8 files/s, 456544.5 lines/s)
--------------------------------------------------------------------------------
-Language                     files          blank        comment           code
--------------------------------------------------------------------------------
-C                              144           8850           6077          46523
-C/C++ Header                   455           5355          10852          19150
-make                             2              7             16            286
-Text                             1              8              0             35
--------------------------------------------------------------------------------
-SUM:                           602          14220          16945          65994
--------------------------------------------------------------------------------
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
