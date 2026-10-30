@@ -1,59 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793346099;
-	b=FRJ6ID876mTKo8VJRdrdiQA7UJxRYtCKvtvio6hx3dZfQOq5DkRIvtsagw+TLVefSoku
-	 VTL1qS1JUQ4VH28TEAYrR2dBnrIcpX4VA+phJJg6Sq+MB726Z4YsuRgxFoRneqxnQOZ3E
-	 dQmJac5nt3qcf6RczylvaDL3raVK0fthdNmQSPckeyySMHabeg+adA1EvcBBFrkrn/9ci
-	 tPRPj/3R3hd+K4vOSd+vpZdA6ad7V4NSl/tWMZmByflCNohi4ajV6VWWtV6jmIoQmPwJ1
-	 vjWBoCY2+ODuC0Qwh8l1NogATCSXeSPkENXKx7fH5lTznDggob4X31JacPNNnHLpQSg==
+	t=1793350664;
+	b=rPsYXDULb/+ndZ/oMWk1pHjJC6VHmXPPKh4yQy/xH0TzcPFQtLCsu2y8sicPfGarjrdb
+	 M4f05108GHuZnk94EUCx9ucYSWcY+kVNhco6t+vEyEQbsZ4ptm0kO2FsA1kuIW19xDhd3
+	 AA3haXMtqzn9dY1w6TBLVodyRapmsli6HqW//vtYe78JRElc6erXei05arxn5YgYqzVEC
+	 NnGEtzEoMRF3ffNsuWFQDIZlwNtDE+VRGFUblv9EYbawLjmOr131/QdcrznVnMYlWK1Q2
+	 pqG9USlGOKVmEuDtObtoDuJNA/b/NTaiWK6v0Pk1QaFiTo5voI0H8ZxZ1kLeKPHmlgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793346099;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=LHQfIWBN+aSGdEKtJFwRZbRX7DnmFZfG929FAAq5IgQ=;
-	b=Ko2fsVSk8mR0k4QqCI1WnlAwVrge9FTEl0vLPXoCpm8RD8yIkiAaicDW2zjKnfLYZSgu
-	 aUbieINkfFUvpvKOPaQvB/KvjjUP4WsJKNJEDE0q1/Qsv93YNB8QMh+6GRiG+Ur0eg/Bn
-	 CNL+bP0QthldEZbwQKsE4TNTI+OpUEKvDvkucmVTTu7XHIjCkoMtIremHBa0WitYx8ILQ
-	 JMBAIJBRLDXQFJhN/LY3nqWOaI/tSseHRy4/etv+/mOKFYufZpFSarBNLJBmWDcCKhsYN
-	 Gr/x/+z8JGcDbPFZr7ah+6liSMeiv6O2F/cQRL/Idu6OrRiAoG+lLOVet81LNGlutXg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793350664;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:
+	 Organization:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=eGH1sgh8fHcD1YzHQAXXHU+ICjz/GR3arUB8DIO7xaI=;
+	b=nEL/mDNkuct6zMAMU+2b5vyV1kKVQucQ0WYjMZ9ms9KPSIPNSQtmDWyJ7AAXrUySILqX
+	 Fe5p1n8ZDAuinAbK1W5iHIWNlVd2baa35mxZaLn3RwugYau13af8OqqGjqeQ172TIcvO9
+	 m5uSem95FgEjnoVmJNEOJN6UixhyP8inClZvCfoiJZ6Dp2Tn78hOeAsivoaZkSNNCs59c
+	 yliushIjwOlxf2JOlNZgqdkX13rNi8lUnbNrIN1I/7FRCg/pBz2c8Xn2DOQrqfWD/yy/m
+	 rGoHLU0lxSpN7x/6Tq7SFHzxhTnqpw++ca0UHD193YhDX0fG1cRnDeAzHoVf5YS5N2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BC7f5qyj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L79pU4vW;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22F5606A31A;
-	Fri, 30 Oct 2026 07:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E76606A31A;
+	Fri, 30 Oct 2026 08:57:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02E76606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BC7f5qyj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E0861F000C1;
-	Fri, 30 Oct 2026 07:41:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793346098;
-	bh=LHQfIWBN+aSGdEKtJFwRZbRX7DnmFZfG929FAAq5IgQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BC7f5qyju+/fSlQIUvWknQdcX0/4Lgvmwc5UewXk6ZGBO9IH/RlPeNDXozvSHnr2e
-	 rLAE8V7idK7dM6vNbAipaoMjUPk76icNrrEaPgdtLTr91YhJ/1ZXrHpMbb0nLbQ6p7
-	 msZmbfIaZupQS+ozV3/xLWtjS6++UtqQfxYIAOfRNI7YD3nwdWVjgGU/nzkWGhyDMp
-	 a7SqKgqFsvFpZP3MRwbmIXNKX2MTxNEKagLT00XBSDhoHeKQq6t4UUKUKo406fXVdA
-	 c+k8FEhHkl6Qfif1USVoINmgdqXY2QyZg4kb8a9xPkGh5czUsEP5FQY/K/COTjLMKB
-	 Hotj/KXBkrLwg==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xMhF1-00000004buE-3RQR;
-	Fri, 30 Oct 2026 08:41:35 +0100
-Date: Fri, 30 Oct 2026 08:41:35 +0100
-From: Johan Hovold <johan@kernel.org>
-To: linfordWu <linfordwu@163.com>
-Cc: elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: fix loopback Kconfig help
-Message-ID: <auRKL5XqAFGOek4A@hovoldconsulting.com>
-References: <20261027142258.1720002-1-linfordwu@163.com>
- <auC2LiV6564Z1zFg@hovoldconsulting.com>
- <179328281884.1789021.4493185936400503751.linfordWu@163.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L79pU4vW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793350664; x=1824886664;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XC9L0N0lGS0WxoaPGxJtRF+Dcu7w/yLaO4BtytOzzuQ=;
+  b=L79pU4vW7uY7s26CgOQnkqh84RSv936RavEmcjrDTUnS4Siipvtjaxv9
+   niC/LQALmZglumppct7FEwQIro1Gz/w674bkYPVoPpUs7WdYYrKj8S4dh
+   pzbje3C7Tok8W3ejcrBifgXwizUFSAgAZknUyf1X1uEdKEqzYRhBhmM0u
+   VNlUIdPpedishVRl3xlDdhyqLpVcFReAGuJNt3+ZcVVbHXOZqNHIQYCE2
+   8QV4MERFL9+uvL8WvzD28keURSTx3+k6K3S4QyMJ7JQJlkHCDQlO1o6kH
+   qSxXemxc78C/HhTKxmdFwkZvq4LJevHZJxeCyUkDpo2OWXghEEAascIs9
+   w==;
+X-CSE-ConnectionGUID: DeHXts5hTC+4YzbLIjnQrw==
+X-CSE-MsgGUID: M3P7cvM8TYK1oHwf8iFO7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="1987136"
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="1987136"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 01:57:43 -0700
+X-CSE-ConnectionGUID: 2ZQs9CufQJ2aI+tvMlBntg==
+X-CSE-MsgGUID: YTk54IPeRM2APeu2Ec1IKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="5265993"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.19])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 01:57:35 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2CDB9121B77;
+	Fri, 30 Oct 2026 10:57:36 +0200 (EET)
+Date: Fri, 30 Oct 2026 10:57:34 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Frank.Li@oss.nxp.com
+Cc: Frank Li <Frank.Li@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
+	Karol Wachowski <karol.wachowski@linux.intel.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Alex Elder <elder@kernel.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Guan-Yu Lin <guanyulin@google.com>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, netdev@vger.kernel.org,
+	imx@lists.linux.dev, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/1] PM: runtime: change stub pm_runtime_get_if_active()
+ return 1 when !CONFIG_PM
+Message-ID: <auRb_r8ZSSU-eHZA@kekkonen.localdomain>
+References: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -65,16 +109,28 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <179328281884.1789021.4493185936400503751.linfordWu@163.com>
+In-Reply-To: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
 
-On Thu, Oct 29, 2026 at 10:06:58PM +0800, linfordWu wrote:
+Hi Frank,
 
-> I found the incorrect help text while reviewing the Greybus Kconfig
-> entries and prepared the fix with assistance from an LLM. I should have
-> caught the earlier patch during my pre-submission search.
+Thanks for the patch.
 
-Thanks for the details. Note that staging is there for people to learn
-to create and submit patches and that using an LLM defeats that purpose
-(LLM generated patches have therefore been rejected recently).
+On Thu, Oct 29, 2026 at 12:30:37PM -0400, Frank.Li@oss.nxp.com wrote:
+> From: Frank Li <Frank.Li@nxp.com>
+> 
+> When CONFIG_PM is not enabled, all devices runtime PM state should be
+> treated as active.
+> 
+> __pm_runtime_resume() returns 1 (called by pm_runtime_get()).
+> pm_runtime_get_if_active() is the try-and-get version of pm_runtime_get().
+> stub pm_runtime_active() also returns true. So pm_runtime_get_if_active()
+> should return the same value as the stub pm_runtime_get(), which is 1.
 
-Johan
+Shouldn't the same change be done to pm_runtime_get_if_in_use()? It's
+otherwise the same, except that it requires also the use count to be
+non-zero.
+
+-- 
+Regards,
+
+Sakari Ailus
