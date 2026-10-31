@@ -1,80 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793436673;
-	b=ZLUm9QvG2puz6V+kpcIyqMoUrBK4eO5C4BWvzVwq4yfIyIfU/6iIr/66kinpskluhhpt
-	 Bo9vNk1yW52yjvlFePbrQXeg/+9YToVtMpUelZ7ObI+6OCH/hPwGb6vbWbusOcoqFkGuw
-	 w7ANurNQDGznizvDe9yIx3jX27mF+e7CUiunfphio83DgO5ZXHipML40zoE5sbQ4RTSL9
-	 1BnTcKvNHR77wiF56eDuAR6TZEKqe7uPY2xkk1lVsFQ6fvxD4U86C20KlyBXQC7O9AOlK
-	 mHeGbdwc+KIJEzEgzFOIHNCLr9XKiU6T+at+L2lCiGe0RukzobBPtMRwCkg3s8ryg0g==
+	t=1793436703;
+	b=h1EptAcQFuno3Ya+/2o49xyeMHydsk1jt52G/bdR8UqBR5Swf2Z0Fz/5iBj8e6R0TCet
+	 Y+0JBQF5LnmfrUDJsoCfqGuXWufNLuY7MkyA+zXIty0y0yBvs6MVz6QBrakdgNt3bDR5C
+	 cdjkdUmUqfdIydgFHsiCf289zFD2GwaNLjhJ4GapDPTp0GonbdL+hwctY42rNJz3IkRQP
+	 X2vp6NsRgPGRnbPFjOmVd1HfLnQ027alIDkPaRDJqdktT2PsxyX4pebN2am8/BgDQvJZA
+	 A65DEntSPKXPfvcbso4X7BE4XBTb1vWMESJQBynftN0pZGZ7IY+eAsZNZ9UATGQW0fA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793436673;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793436703;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To:Organization;
-	bh=4u4LKmqPQwyYsLxjj1JePiWhJRAotn+x2mWC12SUM8g=;
-	b=Rol1ErcZ56+igAMV9AX5dQUlsFcEGvFzCh+EGEHlmRj9HIm6vCr3eUvpXLoc41TfyJkl
-	 RWqjFM2OaETZfOIE0TqkdvcK5TymaRsiICobBH/mmoWfSxzxCnfINFjybaXabFMu5Gbj2
-	 JTrkaoyUBA2cmfHpp9bRZLFyzu28Dyok9PnaQKhDdqfvsMrPxH3G2MSUFkm0Kf0E0kNhY
-	 sd0wK8Hb/JPR7La1NbZV3mNbJVMgk/OIzLFyGFPk6ecoXKSnsFdBqB7U/48k/qpumVFii
-	 2eV0DPXuJRdkOM76snpne0AQn7F+CEqnfC/rPDjtpPNovmAWiVJOjs5Ab+j74WaszIw==
+	bh=Oia3K4AHfSEsRzNJ8cTE47m0UQ5ty++Ukc5Cd7jXA8Q=;
+	b=BYveAnAlHpq9GtguN+/mXZ3y/eBltStd/NplbWxZ0JlNe9/mXLdCoh19zXBtI0v9K6Dd
+	 zMwEtfwwk72MsWLDUN4STp1VWUgh2GczY7Sq+P7H6TN4W6YGw37EtsBS7/18ne6zo1OXq
+	 gNqG8jdcEy/r9ufglU/f3htr/GeHgUp7sV6VKbykLzduUGQop/T1nZIb/9qK8KwQLsryV
+	 WJJLAzgWSBxRvAq1JPnsM40nKnF61dQCk/LGEYdJTaQHFSlkF4FY/2q8PIYCEjxM7jmdn
+	 PS3OdlmavXFMWwNK06Hb4gu/jWXx1kjr/OoduuKH4SD3XBeblvE7mWCFV8iEPTaWErw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KMYTDdgR;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fRy4Tepd;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C021606A31C
-	for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 08:51:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C021606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79177606A31C
+	for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 08:51:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79177606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KMYTDdgR
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fRy4Tepd
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793436672; x=1824972672;
+  t=1793436702; x=1824972702;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nwv4TqEAetnRJKnu4Hrrk+6Di2VlM6tDrcI2fKdJ5VQ=;
-  b=KMYTDdgRIzF1/n1vdMfXlkE9pxaCXwXb8nmUvK4PIzXzZ4t4fZYraQOF
-   sbFeoUxL2MBvcxvdBm/W/I7jinZ4Y2nz4kjZb4rMYHTqD1AXIWg56ngPb
-   VM14NLzULT7aIbU8/yV3/KqaIZxRIrgGsTfEeotuTA+2GiwnAezjHxzHJ
-   98m0EEZzvmJ+KhlD8IifReXBOZZJgzHe+m0urJaFMdR4oZg6AmeeLBojs
-   FwUM690Loc7vK1EqlqEYDL8TmgRfO0TaXRgdRSESEIaJifKCCfZTqDdMO
-   ROokVQZwf9mSMdjSeWwMGEpJH3DBzoBY+pcyaQNtiS7CmZvpCS81i/fQS
+  bh=ks9bWYSJtuDY+8uGeFVP/3kU2BSZSz71I8dIOvJ1sZo=;
+  b=fRy4TepdZ9LSZVNHhi1xRCpCmdV6xeSB6aDdGHZqMV0oBE8VJ+1FjR34
+   Nw2lIsdxfhdGH5OYBOaAYttmSURJ4lPzZpXjY5VnfYVCQQm7covyu8nEB
+   siH4sumUyfyO5C65CFtEyBWhHvPmZlT6himmqASf2ShpeVKV8i8Nsw0r1
+   /+CFj6B0Ao3lxYrEmUF35vOh0RQqsqzUcoWdquQusxSjuWeMLfXcCQJGE
+   2C7NgDcSOunbNsUkoa1nrtu3hjLwRY07LBE+PwR6NRjXDcQayUPc72hu9
+   WP6vH969FG3aCUmH3pgxJvwdn+7MVdUxDM1vBsIInVabeJcN7iy/hVlF4
    A==;
-X-CSE-ConnectionGUID: pfeSmirXSou7TIG/BeEiew==
-X-CSE-MsgGUID: PaKvdNQNRlKJFCvB2J+ryw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2216615"
+X-CSE-ConnectionGUID: 3beFItqyR7Kc3q/plxfetg==
+X-CSE-MsgGUID: zQMfic7+Q9OUSqC+x2GwGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2203883"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2216615"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 01:51:12 -0700
-X-CSE-ConnectionGUID: pzWFCsmLSBm2xkm65MLrJQ==
-X-CSE-MsgGUID: JtZESsbbQ42wojQyHjrWGg==
+   d="scan'208";a="2203883"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 01:51:42 -0700
+X-CSE-ConnectionGUID: ZH3TE4sMR3uPF3RQONTvpg==
+X-CSE-MsgGUID: FZmIsDKQRxauXw6i7KvcFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5972826"
+   d="scan'208";a="5733511"
 Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.127])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 01:51:10 -0700
-Date: Sat, 31 Oct 2026 10:51:07 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 01:51:39 -0700
+Date: Sat, 31 Oct 2026 10:51:37 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Nithishvelan M <mnithishvelan@gmail.com>
 Cc: Jonathan Cameron <jic23@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nuno Sa <nuno.sa@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
 	Michael Hennerich <Michael.Hennerich@analog.com>,
 	David Lechner <dlechner@baylibre.com>,
 	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux@analog.com
-Subject: Re: [PATCH] staging: iio: frequency: ad9832: use devm_mutex_init()
-Message-ID: <auWr-zLzIIaQ2Nzi@ashevche-desk.local>
-References: <CAFonu5gDrT6znf3VUDjyg9=mTtB2nqXj9MFVO6cUZF3X4F-UeA@mail.gmail.com>
+Subject: Re: [PATCH RESEND] staging: iio: frequency: ad9832: use
+ devm_mutex_init()
+Message-ID: <auWsGZtBMmLABsz_@ashevche-desk.local>
+References: <20261031075814.34379-1-mnithishvelan@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -86,28 +87,11 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFonu5gDrT6znf3VUDjyg9=mTtB2nqXj9MFVO6cUZF3X4F-UeA@mail.gmail.com>
+In-Reply-To: <20261031075814.34379-1-mnithishvelan@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, Oct 31, 2026 at 01:02:58PM +0530, Nithishvelan M wrote:
-> Replace mutex_init() with devm_mutex_init() in ad9832_probe() and
-> check its return value. The driver already uses devm_* helpers for
-> its other resources and has no remove() callback, so this ensures
-> the mutex is destroyed automatically on teardown when mutex
-> debugging is enabled.
-> 
-> No functional change intended. Compile-tested only.
-> 
-> Signed-off-by: Nithishvelan M <mnithishvelan@gmail.com>
-
-> From d6899b1d88d9c9b224dd78b94b67caaad05098bf Mon Sep 17 00:00:00 2001
-> From: Nithishvelan M <mnithishvelan@gmail.com>
-> Date: Sat, 31 Oct 2026 12:03:37 +0530
-> Subject: [PATCH] staging: iio: frequency: ad9832: use devm_mutex_init()
-
-No, we don't accept attachments. But `b4` might, I dunno.
-
+On Sat, Oct 31, 2026 at 01:28:14PM +0530, Nithishvelan M wrote:
 > Replace mutex_init() with devm_mutex_init() in ad9832_probe() and
 > check its return value. The driver already uses devm_* helpers for
 > its other resources and has no remove() callback, so this ensures
@@ -118,27 +102,10 @@ No, we don't accept attachments. But `b4` might, I dunno.
 > 
 > Signed-off-by: Nithishvelan M <mnithishvelan@gmail.com>
 > ---
->  drivers/staging/iio/frequency/ad9832.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> index 35f823f24f..a90ee89803 100644
-> --- a/drivers/staging/iio/frequency/ad9832.c
-> +++ b/drivers/staging/iio/frequency/ad9832.c
-> @@ -325,7 +325,9 @@ static int ad9832_probe(struct spi_device *spi)
->  		return PTR_ERR(st->mclk);
->  
->  	st->spi = spi;
-> -	mutex_init(&st->lock);
+> Resending because the first mail carried the patch as an attachment
+> instead of inline. No changes to the patch itself.
 
-+ Blank line.
-
-> +	ret = devm_mutex_init(&spi->dev, &st->lock);
-> +	if (ret)
-> +		return ret;
->  
->  	indio_dev->name = spi_get_device_id(spi)->name;
->  	indio_dev->info = &ad9832_info;
+Same comment as per that variant.
 
 -- 
 With Best Regards,
