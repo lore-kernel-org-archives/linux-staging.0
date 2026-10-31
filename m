@@ -1,93 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793454614;
-	b=YUXEbdMyEUfJWIizm7LuaZxpWTGZH7/+C+J6+H5BcdkoKliFm1j/Nct8uNPzez/UOy6f
-	 xHxPeBjf2z6CMeI2xeG+L50ZOufYaVsGR+WLD9a5gjcqrjXYsxPNZcSMy92AiVDk0nROK
-	 IBR+rRhyzJPXZkz5nHWR0dimkSlJYAjGqdmZskJeg2VVe5DzS70bLK9WO7hI1sYyrhvXm
-	 UMI51J2HVQ08HCrY0GqqTqmcY6v5ggZ1VtZwM023qeBUtPjx5pa0iZ/gYSDb7IHibuyxF
-	 ljg8RwnkX8n/92w+0HwQS++wbMIGr4rKm6yTL9M0ru8QZmEVRoZJYhO36cegYdEQvFw==
+	t=1793462966;
+	b=AJrtUxDXC7Z+Mn+WHkcoTCjqUufbU0NqUJYo9bgYJfIQ8Xm9gj57xhy7oCuuAVO/7QE2
+	 XVWP+wpDxVxyhVzVa5A9WgjXbTMOp4668ywwwULxGDnUIo3o9cejONQvaQSGtmVHCA3Pz
+	 f4GrE32TDdKcZIoGJQsT/KaagkYq+6Z+pPffrNklh8Nc3Z0oe+ik5CuwzmIp+BzlPNgyt
+	 mDSw6mlS1E2zaAusxB771mw8T7ckunhwJBboQ3nYxDkWMnDUp2UeNPpWKRGrcnY2sHx+v
+	 im8indCQ5hqDmMS8V+0BA++Klshjx1S5bUImGLvDm/ZraKWJFWcJawgVThym41bkBqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793454614;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793462966;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=q8xXFgm02QuTQ9KygADKrC85zWxCKIT0/FsOPIPoUtQ=;
-	b=2pgFIWajR/MYGXCVf6WLz4QJZV4FnF3kK3z7NIXx373XhYzTlrYoBylhhqPAHGfdC8tS
-	 Ua4wIzooRjipHMlrxEdYGU6TbxCCOtFfVgwJbJFn9dgsMHqCcBO9xTnjgCVTOYRBwAjaa
-	 BgtgcDtFTYZB+3P0lAxA7bBRkNwHtybtd2PAOYpMnwRbZW9g72Cb1H5m1JaJ7/R9dgyqr
-	 0oHoByH56A5oPuNlCqfwhX6AuGV94gZTLKP+zTy+fmgK2zo4SGYWf8Zp8CObfIXSmi3+4
-	 HXRQUyfLwCWY9gXyyElfFeq6ooWyhwJRujI9aHZa0iSWN86Skh05Gw4nGaha/gW3TeQ==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=pIMO9wgY/VwwK5nxTStbEs7fUPx2bmuTq8LX9Vofsqo=;
+	b=MKI6rHz56SgccgTvVDBPkER+o4DFkmqt6tcTYKxlzGJ25IJ0N6/Lhw5EwYOz/J33hDpW
+	 SAc+U2mgqrivxf3N8UXINhRhmrgPQFFMysoq2oM1dKqJ2upWiC5p+k0e3/zK8q36iRgVw
+	 Dzcb3hBsJwIcUnMyxbovV0GApYEY5HYKCpP7lybylqgGps0ZZxiC6slrCgFhtH+v3TfLj
+	 3m3taavW5YVqNVu2tIzL0yijNkii2VYac4IpkMn/8XqQseX0SIk7vHJncdNrgWpI5821a
+	 u/N1gM7joaCa+OdBo21WWRyb1uJ7+A4cOWFNZ1frM2Mty0UxVF0vdXnIHUX9GcrNRYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MPO2qo6Y;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="ZQwj/+q2";
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40467606A31C
-	for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 13:50:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40467606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068F3606A31C
+	for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 16:09:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 068F3606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MPO2qo6Y
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a2084d62cdso14278935e9.1
-        for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 06:50:13 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZQwj/+q2
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a60f9474c4so18930395e9.0
+        for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 09:09:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793454612; x=1794059412; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=q8xXFgm02QuTQ9KygADKrC85zWxCKIT0/FsOPIPoUtQ=;
-        b=MPO2qo6YQezICALfUyyjK/avrd0Aw/L1/llwWeR6/38SheJBI5mGBUWCqKuB5Dp+Kt
-         dNWLjhhOXlyafeMwMVl27JyArul/g8y08ozxq+scRANDTbJUlEiHtqd64p3iJjQBhGu9
-         Duwd7V1HR0W94f7JrV6CUnaCW2j656VpwIfp8FdB1A5Uvsl4SC0D8Cq1Ba2LWWasVQDM
-         wP4enaTv6qzCDhUe7mDm9JagACVeJcz5jKy/nA4dvJ7MWlQRuDwv6FV0Oa7lP5YchYOS
-         oRy/QLl7QfTm5a4BvHBOYLOhwLjY6DFt7B3w0DpFjPpcrRihsOFgi8trVOQJy80ImR2W
-         6dUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793454612; x=1794059412;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1793462964; x=1794067764; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=q8xXFgm02QuTQ9KygADKrC85zWxCKIT0/FsOPIPoUtQ=;
-        b=dFcwzQoR1RKYT7XGZdqhrc4hK9Ghgxtn/cgVzW10/qkaxyzeocwT3A0wwLXNVJoL2U
-         DzqGouROI60zheH8pXIDpuRygFuZOG0lno6PMIZgkyrg2xGEKTeDP5kij0/iNOwvfNsv
-         V8x+Gotrf9mb9/f7a6hK09foJDi3xB2h+L69fJOxNvd3gN+XDi47MqOpSmmK/CIV3GLW
-         yIXBZ1e8Dr6p344DEqpPr8P0oLT5kyq3AMpoD9JVeX4WvlarRJO1RoILj/fWPMDEDEs2
-         fvJF2SBsGo9+uH8lhZuAa9RbQ3gS6fo6a0flztYl2PcNmkTvXDdnLX3KDDDEgbl+ZVMF
-         gSBw==
-X-Forwarded-Encrypted: i=1; AKwUvBwMBeogkmTmdRhI9RkxZFpfzAbvVEklnh3AN2ECSP3fxUQfwgv3X1Kxdbr45NkD1oBhpyfeXoUmcWYE+BVM@lists.linux.dev
-X-Gm-Message-State: AFq9FYI/uBRQTgOKbGnQ86NjOSq3ZDf3Xi2/1M3Bh7Vu2LYQELv4XwPH
-	o7wqIt6mCc6cc5crKXT/BRGHMesuLnJeJ9z/XvgMNpBFzfElJosXho+t
-X-Gm-Gg: AYBFou2rsMqCZc4PHuNqgXJsx2sWOZDE5S6Kebd+rHgw7IvAmCBA+JOXkRk8SdXzauQ
-	POTxqNJgEU3TYg4/cSdzPuaEovlPMuDAfB6PnuHN5/7oQx/IjPLiBUd88PzFDUCxVNuYkXer1Fd
-	8cn/JrpikHA3UyQ89s5ipPIOATpMM4P9m9dy4btZsU4Knu9DUChbRO0+jBg2/Y4XSnbH05vY807
-	0HEaYBMdkNO6aoeRM9ZCuwFIzCbJlvJa4hzqbfbJYPS4v/qS7i/J7qjpYEITR34cgzSzy5oC5b1
-	t3U0w1wjHFKzx6yhyqXd//Nn3UgduC7fuMPTadxM4+KXyIem9vZTOUKGZ6odrGw+IGVD4TndU4u
-	h8IoMEoPCa6DT81z36c8Xx+QDMAqcOvP2my/3ttmeSpNa8nRT+zVlfOnxTbujz6RJ5nKpAfsc6q
-	N7e8lNzBEYXYAeA5+YR7qp4JKCUkZGKDU69yJWTX89DPq5ID3ZzbBPVE98Z+SD8/PzcE6nDeqLY
-	RY26p1UBhnt1PxEaUS7N/np4yRfgK3ZQ57SREOGnJHVcMkuwVNiyGPU1+Gmm5scUU8Zkm+UWiU/
-	OwgfwyT+Z8lGBThejNv7O6EbKxbrnlEdh0U270MqjYnSaEQR2a9DQgW7e3YMGhCQtjd9mDf6npc
-	0eh67UKQ9RQCd5rWwI31Te+veA3d4g9pO/+Yuaa5JApEgSeMgNexenE5iBlDejEKUbAo=
-X-Received: by 2002:a05:600c:354a:b0:4a3:5aee:2c25 with SMTP id 5b1f17b1804b1-4ac181e759dmr127440445e9.31.1793454612490;
-        Sat, 31 Oct 2026 06:50:12 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa81b7fe80sm234950815e9.11.2026.10.31.06.50.11
+        bh=pIMO9wgY/VwwK5nxTStbEs7fUPx2bmuTq8LX9Vofsqo=;
+        b=ZQwj/+q2hV9Mbl3GMOcsA71Ck3EwblJYIoWp+QjgKh6vxjkeESYPauJcU5N45CQt/u
+         AhKPpKCzYMGaQSd9fW6Ljx/8c+PtZRtok2Hoj3dHRcQjkLc3jmx5tokGTBgA6mC18ZVE
+         dqhFbVN1j2G5tvswqRif8warrylgqG3rD+S2zSGST+I5Ly3bwTURz+6s43VeoREj6YpJ
+         tfXq32cyywx/LHzhLEn0a/KBZvL5W7HTMcdisy7GUnReSduConO5+1mWYdFAmPi4a+4B
+         AiNJXHw4P9jyCBugb1n1bns76n9hoE+3Nu4En+YfLUvX6sSWZ9z8LuAKX+HhUZhb7xbt
+         fxSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793462964; x=1794067764;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pIMO9wgY/VwwK5nxTStbEs7fUPx2bmuTq8LX9Vofsqo=;
+        b=YhRhzu+a7ZIEb4FnqPyeMfSOC3mfSxUKydgEpN+FrHL93ByXGOy81ZjBJab9EIyGV5
+         VrHmh8ckRYbyxgc/BLp37x078eXc+oLvOZZQevXWTNaRW9sDncPWavDTlrN0SDac1KX4
+         x9xr9rXPws80cJSvikKcqsfMs/ZEoUJvb750GBgdrl9y1GaeghIqGsETvyRyLafZ+Pkq
+         35Sd14xrCZeaknZ1fR82tYrneJVTPdinqq2/k9F2xiXIo0T6e1YOqComIW7ic2uXP2dB
+         gr3rYGyrqMteqcAGBsGvMNh8SZAAs7fWjxcMrZS+7PoOxiJoVPvJWZVDKLGgdiTklw7T
+         M2ug==
+X-Gm-Message-State: AFq9FYJ3/C5wwL+/HrfLtUM7seEuHWcYr3uJMdmt0MK0VwlqAMa0oAuA
+	HG/Yxloo6wYsQEXlngMQrl2y1CubsmYA0erLtIYy2B26hLXqwnI4NZnn
+X-Gm-Gg: AYBFou1/9k37bjFL1qkQ2+LGedJqsRbeFsW7errA9cKrABxnZBQfn16S8w4iBsVZEMI
+	1ofvL6KbA1FQb9VRnu28NlbLLaYuwiFUpuovWb7uxxa1PzRpzYNwLyDGKIBeIxrDbDjBBVxctIP
+	copVx0u4M+QaZgSJ2qU/DLozXMQq9NBhXDo2vPrUQ4yZERUP+KdpBX3JXtnEdVhyvLBT42njmXo
+	+5n5tsBZixP9feUTex3N8akI97EzYCcuYlvRwK4PntRteJnlPXW+SE9Sw72stG684ig0BTN1ocX
+	w5XewPs6/971d6yhDd5xflGcvWqz+YC2bfJeP479oLSd0ng7KC1xO9tlTpZclozgBwyrzG8FCPV
+	Dr04kahEsLXYT4dz2C3hHMEFxEWG03J5sfR8HFgos1XZ2/bZHDE0SI9T2QD4A7SX2Mg1smvfaND
+	8Fmv/wT6j+g8ACeBKDy20qnD3LOfbZonWml45zUORrphpdQcBqlVidj3Ghh9Pccp+uLQNMMHJ3h
+	A6U/f/vYbxUtErD0xdWYZncik1hg5tUf844Y2kB1kdADheDvWZ4WHBY0R4PqbKDbywkWp/+otP2
+	EoRdI6onPVuw17mE12vf+9hQSA9dAH1ct2gZ7ARrsHI522H0YX2FfA==
+X-Received: by 2002:a05:600c:310e:b0:4a2:10f9:37ce with SMTP id 5b1f17b1804b1-4ac1709ae70mr125197655e9.15.1793462964034;
+        Sat, 31 Oct 2026 09:09:24 -0700 (PDT)
+Received: from ubuntu-4gb-nbg1-1.. ([2a01:4f8:1c19:b0ad::1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac0a66caefsm110103945e9.5.2026.10.31.09.09.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 06:50:11 -0700 (PDT)
-Date: Sat, 31 Oct 2026 16:50:08 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: linfordWu <linfordwu@163.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vme_user: fix probe error path resource handling
-Message-ID: <auXyEB82y-I-j7Zc@stanley.mountain>
-References: <20261031133433.1826133-1-linfordwu@163.com>
+        Sat, 31 Oct 2026 09:09:23 -0700 (PDT)
+From: =?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
+Subject: [PATCH] staging: octeon: remove unused cvmx_pko_get_base_queue_per_core() stub
+Date: Sat, 31 Oct 2026 16:09:02 +0000
+Message-ID: <20261031160902.2540710-1-vladurares@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -97,25 +95,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261031133433.1826133-1-linfordwu@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 31, 2026 at 09:34:33PM +0800, linfordWu wrote:
-> The probe error paths free the current master or slave resource before
-> jumping to cleanup loops that free it again. They also pass NULL
-> resources to the VME release helpers when window allocation fails, and
-> pass a NULL buffer to vme_free_consistent() when buffer allocation
-> fails.
-> 
-> Let the common cleanup paths own all resource releases and guard the
-> resource and buffer pointers so each failure path only releases objects
-> that were allocated successfully.
-> 
-> Signed-off-by: linfordWu <linfordwu@163.com>
+cvmx_pko_get_base_queue_per_core() is not used by the driver, so its
+stub for COMPILE_TEST builds is never called. Remove it.
 
-This driver has been removed from the latest tree.
+Signed-off-by: Rareș-Mihai Vladu <vladurares@gmail.com>
+---
+ drivers/staging/octeon/octeon-stubs.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+index 9c1968b7e2d10..ac7a98093398d 100644
+--- a/drivers/staging/octeon/octeon-stubs.h
++++ b/drivers/staging/octeon/octeon-stubs.h
+@@ -1323,11 +1323,6 @@ static inline void cvmx_pko_disable(void)
+ static inline void cvmx_pko_shutdown(void)
+ { }
+ 
+-static inline int cvmx_pko_get_base_queue_per_core(int port, int core)
+-{
+-	return port;
+-}
+-
+ static inline int cvmx_pko_get_base_queue(int port)
+ {
+ 	return port;
+-- 
+2.43.0
 
