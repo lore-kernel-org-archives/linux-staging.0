@@ -1,98 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.134.164.83
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793437993;
-	b=ypoCigWekJ9kPSaL488g03naaTfsVCm/4EZL3xxbxEVsSVlFic+taGyualaNHIutLpAK
-	 GmdaL6hubhg9RXmb4hanUYO62AIrX8cjD5fdIhw6T/+5ZYTGHT2e0wWZeAZcORlHDA06y
-	 4ZRaYJeVYjYZzJpLSosvYHC5CCp4+zlmhvBEeJyXOdIANZJzvolVmER9wG3rsXR8PvL4f
-	 X1nLj0L5Q+BwNMn+7BbMuXR8V9P4QNVg+i2Oorw+9AncPN8Zd2S1T69aa2vxPOXcJ0bLl
-	 BkLnQFoxKQ6ZYVtNBs2f/RmAMLDgd+m0D0Ir9/TNxRXqUI8U3HtFShwbdd0VMaDi7gA==
+	t=1793453555;
+	b=iI0mFU4ja18QwOM8tL/nzn0rlmDUgUX/N93MCIt4HCOAWFTfSo+0JkgCFE38biwscVME
+	 1b+t2A7/QFofYooW/V9TLE4F7aUduLNbiyzC9kCI9SaBY3uwT7qQ4rCTPlzGCay7vT2WK
+	 1zUNz2fVOh0bx36U8JaFkwIp/ygVCsDtSNXW2P05ctPnC9xSXNXZREEI7/CXcaAv6MEfg
+	 DfBdclv9wmj3zr3rseArtEByTFj+jxP26PhCMvUljsRK184R2rM0pWw9EcWEmTDK5mhdT
+	 IUD+YhF6J+/3sKHE+K+ISOQKm5vnJLff0WvPZaYbBSrWdx4ayXcpAHJ9rq6YBlKCrDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793437993;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=yvb6WJh+6K9JJR5AEaTQbWzXxWner501dTBgAUHA8yQ=;
-	b=uobSpmOby4FoKkcj9fSRCCq0fPfES1VMTvzK4QVYNUQL4IEgPuR43wBtZCEnz9k625fJ
-	 rlJueRcXx4WxT8dRFz88Nnp9D5i9ir1VdI6GmDhsgwwPLp1JE8iRdgk7iUwV1RbErfaut
-	 EJArj3R6GNilsazeKaX0aK4Ef85nvnIf4ueAn+DAGIyYzuAGqkml7SwD3UtyPptp+kyIo
-	 zgGAoT5ywgB0w8WomDOBiti0crDB1NSiETzgtKHttT7H9RgBSbsObA3z0NlQlYkhe1buM
-	 bY62xcGHR99mrl0zHYJWbJog9Zt8NQXPm+BXnV7bPF0qTFMCKUhgPclk3BD8vsISDLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793453555;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Content-Type:Content-Transfer-Encoding:From:
+	 Mime-Version:Subject:Date:Message-Id:References:Cc:In-Reply-To:To:
+	 X-Mailer;
+	bh=D7LvaphkkZhIV8sWBjj5XfC38F7LHAzLjBycln5nMTQ=;
+	b=bqnqVGcINL0zv9aWcg0KIrKvgwUM2b8SiMhZMQ7FGVY66dBj5St+vQq3al8iFknbASeu
+	 VrZv9q619jcBrQq+NOc3M5kJzSLplmY3RlmJnL7NBfd0s2J9wgTuzisJGuWlYb0KC9Lc3
+	 EIyfLksKCTUxsDk3lUAmXuK4Q4tKDfQbo/8N49/OJTfUSbKXHg3KxBr9rKHMQA6ZVqI1u
+	 jycWIo7y4BlNK7YcB1A01EKvlVkZ/hu7kysN3PyU29xtq6W4o2na327Y1waagFoHnt+UZ
+	 +feUNV+uVb+kdRAWlWs7UktlReAXFTSanejUG1Na/gQwxx2mjR5/GLG2a/HHkJuNpNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OkrPrzTu;
-	arc=none smtp.remote-ip=74.125.82.49
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=inria.fr;
+	spf=pass smtp.mailfrom=inria.fr;
+	dkim=pass header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=p5HdaAwh;
+	arc=none smtp.remote-ip=192.134.164.83
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEF6606A31A
-	for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 09:13:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DEF6606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB73D606A31E;
+	Sat, 31 Oct 2026 13:32:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB73D606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OkrPrzTu
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1adbf62dd31so1348246c88.0
-        for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 02:13:12 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=p5HdaAwh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793437992; x=1794042792; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yvb6WJh+6K9JJR5AEaTQbWzXxWner501dTBgAUHA8yQ=;
-        b=OkrPrzTuQcUuW/UhNHHxX8NdB9cupQkNYT5j+lqp+ZPZajRJBUWfM9FC7MSWMdeqvA
-         TEcmlaYf92vK5J30gk1t+MZQanjRmfC/ErhUCQ3ZxcLIE3O4/z5k4WCxtkaLiAP+Bof5
-         j4h/EWOO8kIYzydgxVKcuPgV04Xlegfak7fKNa3JLLqL+oGBcZA7OdtX9e/3FkmRSaLm
-         x7+Et1naN85dCPVR7JoGTECCk2Z1iof91A2OeTE2nHA41SXIzFzEP68kj9kz0JqThuAy
-         VGs53K6th2izRUyjSVTWASLi/0NSwW4qY6Y9eP0V8xDR0K5yFH6CAp/IVu7Lt5ltOI6o
-         nLKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793437992; x=1794042792;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yvb6WJh+6K9JJR5AEaTQbWzXxWner501dTBgAUHA8yQ=;
-        b=zwg7aRIdTs5qwoTqARgugMk6R4a4/CbFWcL4vPklqnWsaQ2uxfiD0SRaHfThrJTQve
-         CTEuxt13hMM0Ao/p8BrJDEKpMl1XSBkItbxCqCISvxQ/QwzLsBtVw8GhEu5xdhxHzx8a
-         NHGI21lDzZR9ktbAW/MlkTBel2Ecn8YDeLM7GzA8HLhtsJRQqRnNk8GSA6u2dzKflT/5
-         qnXf0RZqZqUVMESwBNGiKPKOX2xIL19DewBQg7ful2OBlwz9Wj4BuGMsI3/7P+GAx3Up
-         jfEF9iK7WpDGKTFx8NPCBcckp/PW9Y5kSreqogx8OR0tMJhCmy4cvMs2rpRLxtt6Mxqi
-         Qrhw==
-X-Forwarded-Encrypted: i=1; AKwUvByL96fiBTaqyxcwE3cHQeQp+O2g2Fq7A/I8stMdlZSk8Agp1h4Nj+rDFIEUj2YMIdpjjMmDBJtd1sdjtZkF@lists.linux.dev
-X-Gm-Message-State: AFq9FYK5iCN5GMOvHmUbQDZg4jnu1kGd2ijk802OxqrT9OMKnehqGthR
-	gkjUDy/kcUcxRnqGuuHKUKceMwFK776wA1mEQ3lfer8HetSRzE2jRglc
-X-Gm-Gg: AYBFou3PMBLEyh/npdLRFDKRjYCog+IloLBN6EJWlLsEBcBBdXMF4BzAgGJkpwpTdbL
-	KRHyjZSnZIWAGChAbAo/jSQ2mAnsfueJguNso/iRMBeori8NvyNaPYISuTiy2e8SUcLDFsSM+km
-	lXNuRY0CalnRGC2cvztTZqxeIDK7RDaWegXKRhzEexdRgp6qvwdYpRtmWzr5CokplbETqA4/gMC
-	xp6N3jlw41SKksKAqlCfdVsOL5DzCtomGGhXBgLA5P1XDJexqrDYGxoyIWfw6CafCJEwZNcix/4
-	qIajKg00E6cQDXvm8MWcaL7D8VqZ8/odJVkYez1FjZx+Nlt5zYbpK2Ep1IdRolwAj/nKxOZvVds
-	bxp84/zVLn36zCZLHCoraBTUhuJdpvoFqkIMydPUPeAws7kc0uS5mp/Gizuaa7n3I1k8173nmo0
-	JD9UMrlSrm16dCumlmtp1MOvF2AARp+gst6T0p6xEZ2j8FUhsak5WTlTmWjEjsxktYgNKPf9PoD
-	QFLRjkDwgr8ZxZ7Ka7iDC/13GL+V16YTrpQd25yZV3SKQMexj72C2LAh7xEE6PGXTktFc+/Uroo
-	eh6gWCWSU3bQsI/N5qU7RCYEPFsVO+o0qVJL
-X-Received: by 2002:a05:7022:3b88:b0:1a8:ff0b:a4e1 with SMTP id a92af1059eb24-1ac5c8380aamr7862765c88.18.1793437991368;
-        Sat, 31 Oct 2026 02:13:11 -0700 (PDT)
-Received: from archlinux ([2401:4900:ccca:8aae:db4f:18dc:62fa:a502])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a6eabbsm15771014eec.24.2026.10.31.02.13.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 02:13:10 -0700 (PDT)
-From: Nithishvelan M <mnithishvelan@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>
-Cc: David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux@analog.com,
-	Nithishvelan M <mnithishvelan@gmail.com>
-Subject: [PATCH v2] staging: iio: frequency: ad9832: use devm_mutex_init()
-Date: Sat, 31 Oct 2026 14:42:36 +0530
-Message-ID: <20261031091236.40401-1-mnithishvelan@gmail.com>
-X-Mailer: git-send-email 2.56.0
+  d=inria.fr; s=dc;
+  h=content-transfer-encoding:from:mime-version:subject:date:
+   message-id:references:cc:in-reply-to:to;
+  bh=D7LvaphkkZhIV8sWBjj5XfC38F7LHAzLjBycln5nMTQ=;
+  b=p5HdaAwhI5g3hTzWI43jKfRzRQZLNw+Bu1TShoYLkXBKR6ktAymmpBBx
+   fVXldhYgKWBQT4XU0y9EvHEQxK8FnDwS5ujelMz1fpD+mBTdk+lwxj9QP
+   sjVG660D6P6mrQqgu/7gm8js0Qm2DbM+nqhLd9j+2iMC+QeUbwM5sH/FH
+   E=;
+X-CSE-ConnectionGUID: 0JLDJ17zQY60Wwg+oM/8bQ==
+X-CSE-MsgGUID: DKW+yWdNSEOI4tCpgy1QHQ==
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.27,188,1787004000"; 
+   d="scan'208";a="303148185"
+Received: from c-76-123-3-53.hsd1.va.comcast.net (HELO smtpclient.apple) ([76.123.3.53])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 14:32:29 +0100
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Julia Lawall <Julia.Lawall@inria.fr>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -101,41 +60,55 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] staging: fbtft: fb_tinylcd: align argument with open parenthesis
+Date: Sat, 31 Oct 2026 09:32:19 -0400
+Message-Id: <9445966A-996E-4F2F-9E8F-E71E9C90A6C5@inria.fr>
+References: <20261031064705.9513-1-mariasheikh812@gmail.com>
+Cc: outreachy@lists.linux.dev, andy@kernel.org, gregkh@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Maria Sheikh <mariasheikh812@gmail.com>
+In-Reply-To: <20261031064705.9513-1-mariasheikh812@gmail.com>
+To: Maria Sheikh <mariasheikh812@gmail.com>
+X-Mailer: iPhone Mail (23E261)
 
-Replace mutex_init() with devm_mutex_init() in ad9832_probe() and
-check its return value. The driver already uses devm_* helpers for
-its other resources and has no remove() callback, so this ensures
-the mutex is destroyed automatically on teardown when mutex
-debugging is enabled.
 
-No functional change intended. Compile-tested only.
 
-Signed-off-by: Nithishvelan M <mnithishvelan@gmail.com>
----
-Changes in v2:
-- Add blank line after "st->spi = spi;" (Andy)
+> On 31 Oct 2026, at 02:47, Maria Sheikh <mariasheikh812@gmail.com> wrote:
+>=20
+> =EF=BB=BFAlign the continuation line of the write_reg() call with the open=
 
- drivers/staging/iio/frequency/ad9832.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+> parenthesis to fix the checkpatch.pl check "Alignment should match open
+> parenthesis".
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 35f823f24f..e3b4e19a8d 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -325,7 +325,10 @@ static int ad9832_probe(struct spi_device *spi)
- 		return PTR_ERR(st->mclk);
- 
- 	st->spi = spi;
--	mutex_init(&st->lock);
-+
-+	ret = devm_mutex_init(&spi->dev, &st->lock);
-+	if (ret)
-+		return ret;
- 
- 	indio_dev->name = spi_get_device_id(spi)->name;
- 	indio_dev->info = &ad9832_info;
--- 
-2.56.0
+I believe that this patch had already been proposed by another applicant and=
+ rejected. Please check the mailing list archives before sending a patch.
+
+Julia
+
+>=20
+> Signed-off-by: Maria Sheikh <mariasheikh812@gmail.com>
+> ---
+> drivers/staging/fbtft/fb_tinylcd.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb=
+_tinylcd.c
+> index afa8f1c740c5..d58b1247262b 100644
+> --- a/drivers/staging/fbtft/fb_tinylcd.c
+> +++ b/drivers/staging/fbtft/fb_tinylcd.c
+> @@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
+>    write_reg(par, 0xE5, 0x00);
+>    write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
+>    write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
+> -               0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
+> +          0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
+>    write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+>    write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+>    fsleep(250);
+> --
+> 2.53.0
+>=20
+>=20
 
