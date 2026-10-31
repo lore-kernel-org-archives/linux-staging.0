@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.193
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793436427;
-	b=4IestC6xFyjiy9JVskf/btNf4HPJ43ckGccfyhH3ynrQJBcrBHgdlSJmeDKLyRpcWsFM
-	 19uct53rH7ZAJ/hLIGRZkaYjCLLC2tPXLj6xu/Ii5nUFh7icVW7Ylq0Fcd9XMIvXnhrS7
-	 d5Xj7gU5iGIZ9GKPiZ/AwhDXL6SJ3BaMPZ4Xs0xyInQWrRmsE4DYjaNilbd1Fj9Fua/9G
-	 S+QtXE6X8ac8ugNWkG8BXQJi53ewdZDf77ZMz4MpfwTQQUiYv8GC8lXoUP62xOOcptrL3
-	 1a31uGd8lPIEpDRAMvHZB080ZZ4qhZcyJzRxCCZEceGDtQUn+op0Fv6n+Jq6UjfVZjA==
+	t=1793436510;
+	b=P/47uQhK3UFWZIQ41jP/K2k/1NZPuMAwjWHW94RMHDScEgjJL8VEod+C8k27p0/Rp59O
+	 u855oWsWs0qO+uO3P8zzoKNDT1LqzNeJVbDyld3Q5KX6tH7V+AQdRNJbCTKtK7ZdFk9RC
+	 Jd1MvxQ5H7225OnSLF9AbsYe7sREL8NeYGt6Q9c6taqnqzVUrDbIb6zhJqvB9QcfQu9Bg
+	 rH+GdQgzD5Y5lx66bJ+oOB0iRSOD7e0e2RruqahVhapNN+4Tq2K2lhisZhxhIQWkSycxQ
+	 jGGaHumgPljf3AByi/5zlipXnTWCE9GnjL1uH2EOwX3nXQq0Aczx4Qqsms/i2RvwtBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793436427;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793436510;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=tQZ+SMI7bX5fVz6VQ//lpX/hBzSPPOS0UylhAHpyrgQ=;
-	b=fB9cBAMlNm29ONbAImd4sHVWtHYEBtVg8mXm+OUpR7efe4U4D/pw/m3ybSRT5hQxHqls
-	 QQco7tAxLPzdcuB+uVmrktip23vIOa/t9l8p1isYKusp/8xthi9rjUUgvd+i68e2VEMPu
-	 UinbCpgUGIwC28A8V8LsNe+wueahy7AU6hEm+A3LE3wSMgAwS3RwQMKLk8zKncwOI2S2z
-	 WnnPmbkxCr313L4PGZ3oStF21p1V5DdDH7EHBh+aYfQDhwnU5zCKuDAqGptbW0gOEEXj8
-	 BJhwUitYNK2HAFmHbt1Cqrt/mTjiaaSN2iiSZ0hyzLdZWxaUI3QdDeoC8jalCA/cLDA==
+	bh=hDQTovz7Ix9maIgBq+C0wW/9n5tDPpyQGeZtV66dPdQ=;
+	b=x7eo30ubpW/A/IzVTwpgxf1w8J5lYYQV/pHNmKN6k13ad4OdhSP7j2OM2TCaVM6rCjzP
+	 yUv6501XnP6CM31k6bk5U2JUNoOgR78EyingEyU+FNQqgbx+cXeuI9qb/8w+dYDdidzYJ
+	 QNg2/nuEM6KbtP9PWIotUYSYvdEKVrjzGhD5QrTAhcNHCtvEwHG5hJCdf0OI3Rov4vV9q
+	 w4GP3vR0Ea23IF/IQrsSYPqP15WgOJS4G5WXWNO8Rpc/sbqSUgcUJypAWRJaHglVmqC/W
+	 WFBVyGzqRBm9mNri037Ojf4qykD7tSU5QIGn7I+wSL4bbsCoxPaBFQDI9hVagSfV46A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="g/xVg7iZ";
-	arc=none smtp.remote-ip=74.125.82.193
-Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=waiRlsNK;
+	arc=none smtp.remote-ip=74.125.229.131
+Received: from mail-dl2-f3.google.com (mail-dl2-f3.google.com [74.125.229.131])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231CF606A31A
-	for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 08:47:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 231CF606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81DBC606A31C
+	for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 08:48:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81DBC606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g/xVg7iZ
-Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-35829219da8so3009840eec.0
-        for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 01:47:05 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=waiRlsNK
+Received: by mail-dl2-f3.google.com with SMTP id a92af1059eb24-1afb6473195so35561c88.0
+        for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 01:48:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793436425; x=1794041225; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793436509; x=1794041309; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tQZ+SMI7bX5fVz6VQ//lpX/hBzSPPOS0UylhAHpyrgQ=;
-        b=g/xVg7iZ2R4IQOASKrhDZ/0ZRRLBBIp9wDVrB8o/bvpPsjYsAgnrjv2tNgM3D37xN7
-         CBMLueAHv9oS2Kkp9eq7OYmk4LAJ2XcJwXlzrH4bAzQVqEVF0CUQXku+LHEP1mFk4jti
-         IdIf+luqJncDh5oECe2CIjACCAzweVoDxph1b4hyXTNy9OGEEHhEOcfszPDhm329Xkq/
-         dvfYWfXV4XlS9RDt0GgSKwKWQIUCL7XjuGeeoX+WzaIM9Y6trpYXtztsr7uxM3LKnulV
-         5+bbmZ1q0ivmaAc9M6jMmLTr5qoz652YKPlIT2nj6UW3xZ9ETPoZ6T+dE0l0nVwWnRoM
-         CKsA==
+        bh=hDQTovz7Ix9maIgBq+C0wW/9n5tDPpyQGeZtV66dPdQ=;
+        b=waiRlsNKOSGOpTekBPpf+mlvaTVIjpsdopIhaW0EcZJ+2qW0xgnbqu91BxDzlglS+B
+         HcRHt3EjU8Jt+I28WR2Q4TNEpLglfeIjlgXDFbWm5lVNmdZvNF84N9n7cxgJ9K4+epvC
+         dRoPGVkv0Vp6wHNFicFtd06U76j8MGOKlqAlrkFdVSwoMqkAskQ0+RBfJpaOFoCCCusJ
+         tq9Y77aIg4rCs+2a8GxYQLIFJxi0foxL/gyucyFuE6Pw6jDjzVQTnS7L1Abypp8tqj2H
+         /LLEf+t+fqqIlAD9q6HJFpsikzYMy2Z1Glwz3y9eSXW359tKv4DZ3U6LZkjUc+AGRYqN
+         TR1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793436425; x=1794041225;
+        d=1e100.net; s=20260707; t=1793436509; x=1794041309;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=tQZ+SMI7bX5fVz6VQ//lpX/hBzSPPOS0UylhAHpyrgQ=;
-        b=t9PSO8aN8lpML5oY4k1k5Ffy3hsxvgKsgqyygdmD3TkE8FtXswt4jcIkAGADU7RCav
-         bKD7Jc0BvCg+ip3ZzH9bumWIPhVwt1FGnaiW9Ffy+rh1mXtNH+DHDbRf0TbZDaB0d16M
-         MfhJ4qBcFlfER4bZI2dZ8NJgiX3Qpc1dH8RrZlJkNqhYWfs6MDkNiYgEsfPo4Ardhzwk
-         na2CFxKu2GsT1w3l7U9ag4NA2UqgqGKtQjh7pt36yb9oMl6POTnDRQeW7uC74rhafxbh
-         faQXvOMqNWud4IT7nwbVFqQnwh0f2lrav6RoZ7JboMom0Y+IDGx2j5DmzcQYmJev+YTp
-         tmzA==
-X-Forwarded-Encrypted: i=1; AKwUvBzN843/kW0OdS+sUYh5tmIl/Q5kmW87UZzy1ahuG1bTrcB0nzj2MoKlZtgO5pUJtUE/w6q1T761kh0C0Iag@lists.linux.dev
-X-Gm-Message-State: AFq9FYLCUc8JJszJD7XOYOT9kWBX9NCAcafPm0MfM/+BXwi/YCiTQ92v
-	y8+8BoVdFHuJwVGBtNBQq8VjgKR1JGb+leN2txLaXD9xN0mTI1/aOcg7
-X-Gm-Gg: AYBFou2+Bf6Il71iKvTTMEDq5zHoEnKZ482wO1RLW/mRgKT3RfRtLzUnJHfWkBxzIZO
-	u6AhOcFg6JVwTIJId4pp7TawyEdh3/xicVp2POGwivDFQbQPdyYjcimyRrIXkA8x/pZOyU/phgV
-	0Lxwd/Wn58reoz0qhxaQTWHB0HAOmwFFmWEKBp4RV800glbB7RPk7jO3g/RzFCJlbVemJpAvBus
-	4Sb4+gK3elflYB+esY262qP08p4IrUAebbkYji1ZxxqeZq/hsYg5q5JuHIkaddJERldw8DUPOd7
-	65PJ2/4KVKCEzMdt2KlBsW1pELv0iiATi9Kst1jecubhWi+LKtlHg5Q5pLrSENle1jzme6hunW+
-	Ja2OskBksaKBAA9/nrwHv/rMs3bc0WobXNXOvtZ7jFCrS2Qkx3Z1dVgSm71Y4ZIx9gMeX4rPz/k
-	YBoc0C2OSEy3kdg4nsxV20MI1csrpVAREjBX9izsEw7mRQEHa1n4MCi1yS5bXptL125Wqdjkruj
-	BZrvnwtp5Dm9l5Lq3OIb3yGUx9+Fz21+IfBSsu0dsUGVBFJR8Tmjk6ri6NWElx/Ih+6c3PNyVEQ
-	SjlemQiyKwR1dDUEPIdV+60yOJ/nOslnvHpjF2j3g8MzOAwr9GNP6Wxahx51GDtVLQhMPnPg
-X-Received: by 2002:a05:7301:5408:b0:36a:1446:4852 with SMTP id 5a478bee46e88-36a30008540mr10632884eec.5.1793436425057;
-        Sat, 31 Oct 2026 01:47:05 -0700 (PDT)
+        bh=hDQTovz7Ix9maIgBq+C0wW/9n5tDPpyQGeZtV66dPdQ=;
+        b=blt4k40yuBIzsu+VxmJDyK0+Jpoxz0J0G3+7NgzKb2nA4uG4UQmJWSQEowSiyj4OwN
+         LRbIV8jWO28YmzKO+okJ1NXH9A1OH3igkdLOx45A4BxCmkgZOjdG9FixN0G+BMsjb4z8
+         IdA8tx1oywX+NJuaIEXLbWD87hFZPf+l40kuXUH5f6Ajq2tQmlDI8EtFdy0BDlUGIZlV
+         y8DKsr+HvnHZA+JPr5aIxNP4evcj3gx1aNUrDf3646ksID2eht1THgTtRDs24LMJ7jDG
+         Pq4q2Cj5KXrwoLTIFQjIzZaj35jZeXb2fOqTJImujhwfL268plfMeBnBoyGrJCBZEltR
+         r+oA==
+X-Forwarded-Encrypted: i=1; AKwUvBz1LLTsosowOsso1ZHmesWdHBimYe/taQ0wjPFv2RIhsJlO6+40KbQGi7PuQHCLMjNQ8SspKsnLSMiRB6BX@lists.linux.dev
+X-Gm-Message-State: AFq9FYI2DLL9KMvCQm71S1LUw8WIK9k/emZucrRQBal+bJ7AG4NM4Jvq
+	4NN/giGQgKTRI5+/WETZd5fAShdOVCJPcScJkbMF50XOqFKox8mk4j/J
+X-Gm-Gg: AYBFou1H/w0Zew1d1Iwd3oDy/J02EyjrLmV7qQ4jJ4SwKHF7BvTsNzxYDSNH1J9LX2r
+	IC2yKNUvGjNAcxAPZQdJDSZekPnv86WWgnX8OH4KiuzN1qsIlFs9d0mce2q6POMkapZzT/S5oUk
+	CymCnbA/zj0y/r6/NNyt/WpiMEnEktmps86QfcBAV/KcAnN48ToP4hsLklyUb2xogJkN6M8W5ez
+	NguU29WlpjIoC3CBGeKlGvhAJMPIpeGbKEdiI/Edb92D91OE7vLrlStH/lceW3cKBgr38foLN09
+	oyZdR3LotwofPbJ+wTsHp+psCVideo98YC91EoX+LH9eHOXzxuLEjL0IWdUiTYjUsGJ0sTgihLu
+	TrqUHdkS9Fgzj4idIMxW48sENR/Se5bQ7QQx7bRBUaIkDOUHAw+WrXOqgWmJ6qhIojY7eVkcMFr
+	dN/zEqfBeTnZdskE1aUEijRAjrTABWGagXdg0RHDqtL/rDZoMpefSFmNGJc/Jwn0sc3rV0+xOVg
+	CfzDsgrYxwaWPGenpLLOvDwpBtb8ie9oEGQjIf2KcGibaa/Fzamp5u+jQskmNhFAn1pLRA7gCu8
+	24h+GdmrCyqsyhEb/Ox6q5lHjrRx1fY9+QqQH6jqAOzLRwT6sPbMRHBosw+WOcFiYQnae8AX
+X-Received: by 2002:a05:7022:4392:b0:1a4:c892:b14f with SMTP id a92af1059eb24-1ac5de53bc8mr10454378c88.29.1793436509417;
+        Sat, 31 Oct 2026 01:48:29 -0700 (PDT)
 Received: from 49152.tail67c8a6.ts.net ([170.62.100.241])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42935b4asm19952736eec.16.2026.10.31.01.46.57
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac194b5437sm15684575c88.13.2026.10.31.01.48.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 01:47:04 -0700 (PDT)
-From: Ken <ken3009le@gmail.com>
+        Sat, 31 Oct 2026 01:48:29 -0700 (PDT)
+From: Kenzema <ken3009le@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Johan Hovold <johan@kernel.org>,
 	Alex Elder <elder@kernel.org>
@@ -85,10 +85,10 @@ Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
 	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Ken <ken3009le@gmail.com>
+	Kenzema <ken3009le@gmail.com>
 Subject: [PATCH] staging: greybus: light: use sysfs_emit() instead of sprintf()
-Date: Sat, 31 Oct 2026 15:46:48 +0700
-Message-ID: <20261031084648.213333-1-ken3009le@gmail.com>
+Date: Sat, 31 Oct 2026 15:48:13 +0700
+Message-ID: <20261031084813.214366-1-ken3009le@gmail.com>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -106,7 +106,7 @@ should use sysfs_emit() instead of sprintf() or snprintf().
 Convert fade_*_show() and color_show() to use sysfs_emit() for safer
 buffer handling and consistency with other greybus drivers.
 
-Signed-off-by: Ken <ken3009le@gmail.com>
+Signed-off-by: Kenzema <ken3009le@gmail.com>
 ---
  drivers/staging/greybus/light.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
