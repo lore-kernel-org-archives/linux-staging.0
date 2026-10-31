@@ -1,76 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.193
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793436052;
-	b=J/2AkcJWa9AmU7ul+6mhVllb7rNn+ciDwHJrh+M6wdUA2xhwmIhpNWo9c1YnoDUJGGth
-	 kuPuwKay65s2mCDYk6D5hcLI1cupdEX3bCzfmA9/gKwYzPayXN/MdPPC0rmCkkscvrAFE
-	 EO/aj9QjFzh8uY3JRg8kuYPfWTNFk3u3irmUO2zDTyH/94WgxfTXZ6wGT7pGjhTXyXOLE
-	 5rRVGm8ezP03WKUIpxkW0jHSC8APdSOXqCSJ6JNnK7sj2CACaDf0K12jCxjCCNKZtUsD+
-	 WmX/f5Z9gxOMPuJiHyw+U6mFWnhLcaAZV/eYJYmyrd5x/xzcdnQQi6VF2CcqTMpUqeA==
+	t=1793436427;
+	b=4IestC6xFyjiy9JVskf/btNf4HPJ43ckGccfyhH3ynrQJBcrBHgdlSJmeDKLyRpcWsFM
+	 19uct53rH7ZAJ/hLIGRZkaYjCLLC2tPXLj6xu/Ii5nUFh7icVW7Ylq0Fcd9XMIvXnhrS7
+	 d5Xj7gU5iGIZ9GKPiZ/AwhDXL6SJ3BaMPZ4Xs0xyInQWrRmsE4DYjaNilbd1Fj9Fua/9G
+	 S+QtXE6X8ac8ugNWkG8BXQJi53ewdZDf77ZMz4MpfwTQQUiYv8GC8lXoUP62xOOcptrL3
+	 1a31uGd8lPIEpDRAMvHZB080ZZ4qhZcyJzRxCCZEceGDtQUn+op0Fv6n+Jq6UjfVZjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793436052;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=6svTTISeQUYx1ZIWsfbO5edWqBQzyZocELnYvruPeJQ=;
-	b=KAahtmOOOWX7jZaxRmS+jyfnIdcUlb9u0dyL+Wp7C+s+UL1xvp8YIUjrxPgZh5Hi9xU5
-	 1iagz5isWGCsHAAoR1K4L/Zs2yTkI226sXaHmdcS5TlNpM3Quf1a2OhkCQJ0YK1njQk1u
-	 JftJoxPEHixyu0QttUxxarjp0zkYKuQoFS3YlzJKB8UsLv/82dCEgHH06AEEv8JE3urDO
-	 YoqSqQNvTKCkBv2JN2lDZfB8CaIVM6C/raoXT8mtR8cJXj8QsCrXUTvIVs42bCn6COfqp
-	 zrAXKzXyAdElDzcBH6oz7GBXvdu289f9i7Bug/HfopvvX8xsTGyWRwAzL/1bzs3sOyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793436427;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=tQZ+SMI7bX5fVz6VQ//lpX/hBzSPPOS0UylhAHpyrgQ=;
+	b=fB9cBAMlNm29ONbAImd4sHVWtHYEBtVg8mXm+OUpR7efe4U4D/pw/m3ybSRT5hQxHqls
+	 QQco7tAxLPzdcuB+uVmrktip23vIOa/t9l8p1isYKusp/8xthi9rjUUgvd+i68e2VEMPu
+	 UinbCpgUGIwC28A8V8LsNe+wueahy7AU6hEm+A3LE3wSMgAwS3RwQMKLk8zKncwOI2S2z
+	 WnnPmbkxCr313L4PGZ3oStF21p1V5DdDH7EHBh+aYfQDhwnU5zCKuDAqGptbW0gOEEXj8
+	 BJhwUitYNK2HAFmHbt1Cqrt/mTjiaaSN2iiSZ0hyzLdZWxaUI3QdDeoC8jalCA/cLDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bxCyBxt9;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="g/xVg7iZ";
+	arc=none smtp.remote-ip=74.125.82.193
+Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F8C606A31C
-	for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 08:40:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7F8C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231CF606A31A
+	for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 08:47:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 231CF606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bxCyBxt9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793436050; x=1824972050;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BF/278JGTfk0RG+nqNh0X0rOdKPRj+r50jvDUKTf/J8=;
-  b=bxCyBxt9aIwNnkJLpd/c0qwqBNdUugxDfhvLcTNF4gJyUDtmE/YVQU6U
-   SL7L+ohKVMIY6Xmch02aC2VTgCeSd3Q4nG43yaBoz9l3jK3CYvsIf8uKz
-   jtUNPhHVttq8ZFS94FpmMtcf3sN4jYxijF31GTgVdZbBI+DcK/vV3Fz7M
-   swVERMwDn1n6mkuHaCwq0yzMXgJvK5QfEyyCHis+LAcrlBSfbXuTRVxks
-   GzfLHoqtJZ1NWPLvJjwneHjGQFFonz/dxqi56O0wcM++EnHNf7aCdZeRa
-   0RgedtHac0T/I9T6BI0xU9c6fUqxRsKljEBB5SHCG0SdUJQy/Q4AHK6XF
-   g==;
-X-CSE-ConnectionGUID: RXC6wQdoRB+Iy20MnZhqqQ==
-X-CSE-MsgGUID: ARnxGHgtT4O2ZoKVxR/HAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2220960"
-X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2220960"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 01:40:50 -0700
-X-CSE-ConnectionGUID: GO8Lq7JGTfyf+TJ2wWyVRw==
-X-CSE-MsgGUID: edkas0dCReeUBlowOcjoDg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="7429665"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.127])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 01:40:48 -0700
-Date: Sat, 31 Oct 2026 10:40:46 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Avishek Chaulagain <chaulagainavishek14@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	andy@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: Remove redundant return statements
-Message-ID: <auWpjhhTGEJS09n0@ashevche-desk.local>
-References: <20261030193322.13777-1-chaulagainavishek14@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g/xVg7iZ
+Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-35829219da8so3009840eec.0
+        for <linux-staging@lists.linux.dev>; Sat, 31 Oct 2026 01:47:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793436425; x=1794041225; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tQZ+SMI7bX5fVz6VQ//lpX/hBzSPPOS0UylhAHpyrgQ=;
+        b=g/xVg7iZ2R4IQOASKrhDZ/0ZRRLBBIp9wDVrB8o/bvpPsjYsAgnrjv2tNgM3D37xN7
+         CBMLueAHv9oS2Kkp9eq7OYmk4LAJ2XcJwXlzrH4bAzQVqEVF0CUQXku+LHEP1mFk4jti
+         IdIf+luqJncDh5oECe2CIjACCAzweVoDxph1b4hyXTNy9OGEEHhEOcfszPDhm329Xkq/
+         dvfYWfXV4XlS9RDt0GgSKwKWQIUCL7XjuGeeoX+WzaIM9Y6trpYXtztsr7uxM3LKnulV
+         5+bbmZ1q0ivmaAc9M6jMmLTr5qoz652YKPlIT2nj6UW3xZ9ETPoZ6T+dE0l0nVwWnRoM
+         CKsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793436425; x=1794041225;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tQZ+SMI7bX5fVz6VQ//lpX/hBzSPPOS0UylhAHpyrgQ=;
+        b=t9PSO8aN8lpML5oY4k1k5Ffy3hsxvgKsgqyygdmD3TkE8FtXswt4jcIkAGADU7RCav
+         bKD7Jc0BvCg+ip3ZzH9bumWIPhVwt1FGnaiW9Ffy+rh1mXtNH+DHDbRf0TbZDaB0d16M
+         MfhJ4qBcFlfER4bZI2dZ8NJgiX3Qpc1dH8RrZlJkNqhYWfs6MDkNiYgEsfPo4Ardhzwk
+         na2CFxKu2GsT1w3l7U9ag4NA2UqgqGKtQjh7pt36yb9oMl6POTnDRQeW7uC74rhafxbh
+         faQXvOMqNWud4IT7nwbVFqQnwh0f2lrav6RoZ7JboMom0Y+IDGx2j5DmzcQYmJev+YTp
+         tmzA==
+X-Forwarded-Encrypted: i=1; AKwUvBzN843/kW0OdS+sUYh5tmIl/Q5kmW87UZzy1ahuG1bTrcB0nzj2MoKlZtgO5pUJtUE/w6q1T761kh0C0Iag@lists.linux.dev
+X-Gm-Message-State: AFq9FYLCUc8JJszJD7XOYOT9kWBX9NCAcafPm0MfM/+BXwi/YCiTQ92v
+	y8+8BoVdFHuJwVGBtNBQq8VjgKR1JGb+leN2txLaXD9xN0mTI1/aOcg7
+X-Gm-Gg: AYBFou2+Bf6Il71iKvTTMEDq5zHoEnKZ482wO1RLW/mRgKT3RfRtLzUnJHfWkBxzIZO
+	u6AhOcFg6JVwTIJId4pp7TawyEdh3/xicVp2POGwivDFQbQPdyYjcimyRrIXkA8x/pZOyU/phgV
+	0Lxwd/Wn58reoz0qhxaQTWHB0HAOmwFFmWEKBp4RV800glbB7RPk7jO3g/RzFCJlbVemJpAvBus
+	4Sb4+gK3elflYB+esY262qP08p4IrUAebbkYji1ZxxqeZq/hsYg5q5JuHIkaddJERldw8DUPOd7
+	65PJ2/4KVKCEzMdt2KlBsW1pELv0iiATi9Kst1jecubhWi+LKtlHg5Q5pLrSENle1jzme6hunW+
+	Ja2OskBksaKBAA9/nrwHv/rMs3bc0WobXNXOvtZ7jFCrS2Qkx3Z1dVgSm71Y4ZIx9gMeX4rPz/k
+	YBoc0C2OSEy3kdg4nsxV20MI1csrpVAREjBX9izsEw7mRQEHa1n4MCi1yS5bXptL125Wqdjkruj
+	BZrvnwtp5Dm9l5Lq3OIb3yGUx9+Fz21+IfBSsu0dsUGVBFJR8Tmjk6ri6NWElx/Ih+6c3PNyVEQ
+	SjlemQiyKwR1dDUEPIdV+60yOJ/nOslnvHpjF2j3g8MzOAwr9GNP6Wxahx51GDtVLQhMPnPg
+X-Received: by 2002:a05:7301:5408:b0:36a:1446:4852 with SMTP id 5a478bee46e88-36a30008540mr10632884eec.5.1793436425057;
+        Sat, 31 Oct 2026 01:47:05 -0700 (PDT)
+Received: from 49152.tail67c8a6.ts.net ([170.62.100.241])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42935b4asm19952736eec.16.2026.10.31.01.46.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Oct 2026 01:47:04 -0700 (PDT)
+From: Ken <ken3009le@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ken <ken3009le@gmail.com>
+Subject: [PATCH] staging: greybus: light: use sysfs_emit() instead of sprintf()
+Date: Sat, 31 Oct 2026 15:46:48 +0700
+Message-ID: <20261031084648.213333-1-ken3009le@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -80,29 +99,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261030193322.13777-1-chaulagainavishek14@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 30, 2026 at 07:33:04PM +0000, Avishek Chaulagain wrote:
-> A return statement at the end of a void function is redundant; control
-> returns to the caller once the closing brace is reached. Remove the two
-> such 'return;' statements in hmm_bo_release() and hmm_bo_vunmap(), as
-> reported by checkpatch.pl.
+According to Documentation/filesystems/sysfs.rst, the show() callback
+should use sysfs_emit() instead of sprintf() or snprintf().
+Convert fade_*_show() and color_show() to use sysfs_emit() for safer
+buffer handling and consistency with other greybus drivers.
 
-Usually we expect deeper cleanups for this driver, see [1] for the best
-(so far) example how somebody can help with it without having deep knowledge
-on the particular hardware.
+Signed-off-by: Ken <ken3009le@gmail.com>
+---
+ drivers/staging/greybus/light.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This type of change has been appeared many times in the mailing list, you
-can study the case why it's still not in the upstream.
-
-[1]: https://lore.kernel.org/linux-media/20261027230807.2407261-1-vladurares@gmail.com/
-
+diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
+index cab02b5da..2689f9a75 100644
+--- a/drivers/staging/greybus/light.c
++++ b/drivers/staging/greybus/light.c
+@@ -173,7 +173,7 @@ static ssize_t fade_##__dir##_show(struct device *dev,			\
+ 	struct led_classdev *cdev = dev_get_drvdata(dev);		\
+ 	struct gb_channel *channel = get_channel_from_cdev(cdev);	\
+ 									\
+-	return sprintf(buf, "%u\n", channel->fade_##__dir);		\
++	return sysfs_emit(buf, "%u\n", channel->fade_##__dir);		\
+ }									\
+ 									\
+ static ssize_t fade_##__dir##_store(struct device *dev,			\
+@@ -220,7 +220,7 @@ static ssize_t color_show(struct device *dev, struct device_attribute *attr,
+ 	struct led_classdev *cdev = dev_get_drvdata(dev);
+ 	struct gb_channel *channel = get_channel_from_cdev(cdev);
+ 
+-	return sprintf(buf, "0x%08x\n", channel->color);
++	return sysfs_emit(buf, "0x%08x\n", channel->color);
+ }
+ 
+ static ssize_t color_store(struct device *dev, struct device_attribute *attr,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
