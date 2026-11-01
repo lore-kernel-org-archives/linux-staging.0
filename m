@@ -1,96 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793548208;
-	b=qL7QMIvS9Be/gEykMiKRNR6FRuUt8xeNhFbhDuKU/ReF/eE9P4XOGZTmXCuGP/v/lcsW
-	 d2yzNXeAI1CVPbaRV/M/XYgoOqNEf2bUKNpskny1m04ZX/yh19MN5a7YiQ762BIbZsMQB
-	 IInsKUhzXbbRb/I/HiS+lRiwY96VMuC2NLM95hKbFvpa7v+HSF+KKofyxDVM1qjiQCkpX
-	 UWgtGYYwKZ9toVIk71jeT1sA4N0+gSh8I/L8DbLWkcUeVyDqmXy1cPE/O6okO41cSCagg
-	 Ozr0T9nXGk8UCVnNQgwdfnZF2GVbuNiRqzB9iEI/a09QGSAdjlgDxEaQa4MxClJ2P4w==
+	t=1793558971;
+	b=Utgz53KTt1gd3fVgATIuURL0g6+2MBcRSy2Yog++ZEpGd625S1f0OWRI82TIeNYt4rWH
+	 aVKtZ3DOpcwCblUGSmw5finSr9e92Bf/BVE+ucedqYaZlDeEYnEi+5fqmWRySs76Cfw+y
+	 aR/Pz+E4ijS+y3wSE1WHfpg+goqYKo9JMFMzhHuw5+BkBWfYN0NTbDOSAtUhe5hzKRK3Y
+	 HoxclvQLL+QdJYL1/+QZocHCsFz7scMX5ueuqq62tdDsJNE5E2N0W/RuluxMzam9cCBRw
+	 6PJzes5HR4TUrt6p/AWIM8gyGZGzHkRfZJYgtItkrdHP+GdVrhv5S9IsmzHQs1lqpJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793548208;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793558971;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=ZQZ4ENRlGzy9j1pUwqm6k+qNATZGaMh89x9i7xh06Gw=;
-	b=OSEYcNOzU6QE20V/bC/CBZsJSVu6QV30uEuCcgs1+vc2tgdUDWehuBtnuT6EPMgXN2tN
-	 e9ctzvCwasu5PDiQMJJYN8eDMXTFyVfBwZh1BCho5q7iODGv3Qw9Dld7/GFgv14tPPVEM
-	 9wKrG0hkf733u3JpJH6p+YD2+7v3UwcXAypBfFzpSxv2E15Vo9faNL93AKqNsVhUhsa4A
-	 Lu87D7Mqqepw9704/ssTyA3nzPPSYgZwK4aBk0AEWFkTYfe+n05ZbyuUf/sLBZY9qBnNA
-	 4DyJ3SBNt1QXZCynG0+/mvpTbu0RkvAfzGZVSQlyBO1IUzz4WjjGVAUFG93xbnRk6tw==
+	bh=i4kMYe4pF05BAeSRiIgaVbEHMlhyZzqAIkz58RqSejo=;
+	b=3P8bHYCxxMW4PcRISpCNd6GTePM/vXz08GrhzXRMdgDgkCY6hEVWgvBb1na5pnSs3OKf
+	 XKqJ2kJU2Fm95bnmRTl/qlTkSp21QQSKrxH9Q5i0JGiuGcFSbXe9050BDkPqbfk0xU/Kr
+	 5QAHwlyyFo0dzV8OdttDJgsdaAodTz8MM3cig1xoV8KDx8DOMDzW/50nPeJ6q5XLhY/5e
+	 jjsm6Pbw4YfvrgYJkdGQokHD/asicyYrPO7lEy2+vFANG1QbPVx5JmDzV2O7vwzP7w5X6
+	 Y+rou6gLEngfGS9bXRgMswAMbZIMO5sWJ/oc7mlrdBBKdX4sM4gZbRPdQZ8lL42p0Sw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WUum7w47;
-	arc=none smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YYE95LTF;
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44DA606A326
-	for <linux-staging@lists.linux.dev>; Sun,  1 Nov 2026 15:50:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A44DA606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0BC606A326
+	for <linux-staging@lists.linux.dev>; Sun,  1 Nov 2026 18:49:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D0BC606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WUum7w47
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-36a2551d7b5so4238043eec.1
-        for <linux-staging@lists.linux.dev>; Sun, 01 Nov 2026 07:50:07 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YYE95LTF
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48e0d1da913so1704107f8f.1
+        for <linux-staging@lists.linux.dev>; Sun, 01 Nov 2026 10:49:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793548207; x=1794153007; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793558969; x=1794163769; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZQZ4ENRlGzy9j1pUwqm6k+qNATZGaMh89x9i7xh06Gw=;
-        b=WUum7w47Sykive/L9e4RhBT/ta+QNlbBV8WW3Of8JYv4eRxChECsXDdZ+hx0qskD7w
-         e+wb5ca6R8C5vcVLArFRYzx1O54Er/F2RyxrypO6ICuIIC+oM56RKit6ED6Owi2E8+cl
-         anscLJNHjsyxAU4UcvBZ31eNzDag+KYO8vBtTpVft/L/BmjnOejQ5SCyVtTfHFUd0Axc
-         CmPpshavQEyORVOnUwu3JVy0E9001gJ7bVif5Ca4bRHA/UtgO3+3nAZELA2+8ZLrxmDQ
-         /MNOjnQgL1J0S4ywKx4msHAx5cGSg9D/dVrNWMgUX/0ATwqSZYV9cx90DUMR9XT3kqlL
-         sSbA==
+        bh=i4kMYe4pF05BAeSRiIgaVbEHMlhyZzqAIkz58RqSejo=;
+        b=YYE95LTFX0n9CCjS8nnRtydW2vpypwUTtq1fVsjXS9gAUuff+cjEJzBL4/BfR1Ywps
+         NqKHFQtw9M7Top2wE9wLJ87yJIZ4ynddqRgctroCboyDKLUiWD333uRtBuuaDKnIHJfQ
+         MqmJfzzL0JL2E49vsVrMEaOOjw8d9FNgh/nNhmR3S2qiGfXSijQCaifdOC/IQT8MkXti
+         i8WinRKerMtlrIXJE6JvYNk53YeJwlms9rpw4WMYf6wZ61YQttBwqKv1gBsTb+S5bMtg
+         fn3VfVbGZ2o8CNdrsuaZTtz4rfPnr+9EgYD2jn2d7sIB8GHaKpcioox/xIJ2EdUcXGSi
+         W13w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793548207; x=1794153007;
+        d=1e100.net; s=20260707; t=1793558969; x=1794163769;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZQZ4ENRlGzy9j1pUwqm6k+qNATZGaMh89x9i7xh06Gw=;
-        b=gxfK6j6o/C32uZeCFySPfQ3CUOE112kUNqSHbmw/ZtgLLsiooMzqWhGByOo15UlXCC
-         ovVIq1deL5q9htd1VhzhfPuJNdejLpW1DQVpmsLftPPLOlN1hpwowvXFIpX17R5qM8VU
-         l4nWiJYf9eurMUrtR5GFgiEsRFWcZ/uj4LH2lUtV4L2OBmYQTexy8s/fkGyKAtgkv4BS
-         7pFAVJgPvRmYaP1T+NgFFUue2ctd1AuO4VfnSrzNPfsOaPEzecWxQtFUI6Y6su2NGw3A
-         oIEj/LFxeV/8SyyJKO6HoMtOOBngashVPRR54fxwIUq7tHRJxTmKEv8rX7zZwJoT9Ov5
-         vI6w==
-X-Forwarded-Encrypted: i=1; AKwUvBwf/0t8Ibs1RmAAre1189dK1b7EwQOb3NPtaITKNmNpZPwxScL4KNIcDSfwzT54HeaYsvRLUhjyDsS5JNcP@lists.linux.dev
-X-Gm-Message-State: AFq9FYIQNoEw+Ude1LeLgmqoqJoGqzcYIUJgNQV8sllIgkf/R9jMHoRI
-	eCfTw+rN+I9TII42lT0l1L+vOJj6p/N1fuGqL5DKv8/BcVEBI8k+uEL4
-X-Gm-Gg: AYBFou3i9LORnBwF/jULzMsktPMaOulCRKFIiFJRffulprzeQeOFp9aY4F8fmOPLUEU
-	hcb2v+YdBJ7nFGvI6RC1Y7onGqgq4cg45mMuOSH7bzNTHSMQGEY0I/WJYs6u+vCutTxIFrEZJlI
-	S1aXXkLt5Esb7tWsT33poY12BCB+cPJb6qcQ37b0xDNZbp2TZYbF4Ekr3z9sdAZuTSpvGv8ZLrl
-	L5XI6AOZw8Y2rCOJs60LVMgyPfEyZwIU3vxJQS9nyeEVz29BuuXiyorDKa3YTYIXwKgyqQa87Za
-	JK+yqgnX3SwohVtqZoa6NE3Mq3ZrhY/NPq1IMmhEGX2MBYnR8ivMyDePANTrGshXVkBRbush6Rt
-	udC4kmqebu3uVZbRha8u9YHFOhWjfTnnY3isyja2EWSLxSLTJIypc5N0amKKdjlaJTy7G5kShPg
-	EcaIXkyXg7ymVHF855a0vknwIV/o7M/mAto40UdifjAn1ls2+CcFoyvAyrscDE9fWZUtRdZBiam
-	iEyPFUzTQdBhTslUExEYjdBxcO8LGdZdyI02dBOjjHIHW70yoavzmRzlq21OsijFxVVg7jL2XJf
-	WS/yvqPdxEtou1jkCfdQp+zr65X4kerhkrimAG2bLMQ8jYjQ5jLJOrOyeuVRYWDxD9IrgkKB
-X-Received: by 2002:a05:7022:7f02:b0:156:d588:c881 with SMTP id a92af1059eb24-1a9420e36c4mr15374530c88.2.1793548206589;
-        Sun, 01 Nov 2026 07:50:06 -0800 (PST)
-Received: from X.tail7c3ebe.ts.net ([103.190.40.31])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1a136537sm25437817c88.18.2026.11.01.07.50.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 07:50:06 -0800 (PST)
-From: Avishek Chaulagain <chaulagainavishek14@gmail.com>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
+        bh=i4kMYe4pF05BAeSRiIgaVbEHMlhyZzqAIkz58RqSejo=;
+        b=lLKjYzpVGxm4TrB1koX3WjPxozxYfPefxRpsxEFyYY5Z/+nKDfmeKF5h+jMabeCTaX
+         FX/wryKg21VvLAYpRQqLqjBi8dONTSW2n27rXY0qiHjy+60Jh23XpyO9AscuQ+LWWz+4
+         Ekeb8mVdWqPtNxWy1hvIt9MNT49krRlA7K1cqLI92GmuMKvV+I73e+Lb5xImc4W5KIcY
+         cfgJPP+0UIULApZmylK09eVjTLSlErPkaf42Af34+rh4brZgkxgQqTGPBpknx1x7Bja/
+         0s4Cg4+Z9WWzRe1gO4VlSpF1BBHE6OcajaGUI66Z2maOPvBoBznkS7fZTRl+Wxxa7gUh
+         J9Hw==
+X-Forwarded-Encrypted: i=1; AKwUvBwGwcG3GsvMMFBDLvqhCthLFoZunOzgMmG0oApXQ/ZLtjjc98teWw5ao7vkVQTFO/uUFQHm/gLQ8HPFOWom@lists.linux.dev
+X-Gm-Message-State: APuU4Z943hOm4QarPd32vT72vZvmgWbMcuboABRElEzXKUQfXbXBqASY
+	/iNVhJjmfGaVtwGeKEywuxsKInED0JqpWE7q/kW6WojqDThYGUB62i4pCFSOPjo=
+X-Gm-Gg: AYBFou1k8zs5ZSSvufTmShL7nAAjt6B92j8N3iZBtGMVg25vtE+pjQNjbsXMIpWWyqb
+	ML2wPnTmIbHFeDqyw1ofWgdR993D40OdPxQ+9A8XttdLvHoUjF1C0Bgr0KDnZbg42YNW5BVseBM
+	DGiUiF6I5O81NbdRik3r3iYRYchPzTaC3L+uWs89OiTsdTkQKzxIaCdDu0R5PqYo4PwNRPyRjjA
+	82tqIG4Td9qr9YwYxzr8R3lLXgEenc+f0J7hyVJ6jGlrzOhhXoNRU1UDdlGDbFhykJ9zC4Q8OpJ
+	rpoWz7iQPx64L8tPWAJ3QTCT29Hc95YeUxsVQqDbMg7gGBxSDUXmSl6T5ngy34nBsv1KMwoJT6E
+	U063lpjcfOtfF4I2AUzbgoDe3FtK4nXCpP/4NLIkz0QEFPk4kBAlhZekbv/Toi6k4GDPCnU8Il+
+	s24rtMec5DPjI9f6q1lBbjak0pnQ6SmYAV/WseUMeeWWWS02GdDlPX4iwrrOXoWhRYBSH+tS1Ge
+	E6qGs7dKV3pAR93ytna5ENaSQHmYT4Po9sBfrm2s112v+nk0as/crPkmofuRBx2EtOw0UNlRhEv
+	xX2MJgJuynNDWPeeGeS2OrOL7bVijJuxsD4fZYws055EEF0F8hFMru+rdfGiqs8LDfGf8z4oQf2
+	iIl6HbliVFpW9j+m4WLOPOjCsXdVAPHcqWABPxg==
+X-Received: by 2002:a05:6000:4012:b0:48e:678d:396e with SMTP id ffacd0b85a97d-48e678d39eemr26985417f8f.9.1793558968758;
+        Sun, 01 Nov 2026 10:49:28 -0800 (PST)
+Received: from localhost.localdomain ([81.199.56.166])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b7270asm15530548f8f.11.2026.11.01.10.49.26
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 01 Nov 2026 10:49:28 -0800 (PST)
+From: amit <amittibi123@gmail.com>
+To: andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Avishek Chaulagain <chaulagainavishek14@gmail.com>
-Subject: [PATCH] media: atomisp: Remove unused atomisp_get_pixel_depth()
-Date: Sun,  1 Nov 2026 15:49:59 +0000
-Message-ID: <20261101154959.381-1-chaulagainavishek14@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	amit <amittibi123@gmail.com>
+Subject: [PATCH] staging: fbtft: remove unused ssbuf member
+Date: Sun,  1 Nov 2026 20:49:15 +0200
+Message-ID: <20261101184915.33899-1-amittibi123@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -102,80 +101,36 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-atomisp_get_pixel_depth() has no callers anywhere in the tree. Remove
-the unused function and its declaration.
+The ssbuf member is documented as unused and has no
+users in the FBTFT driver. Remove the unused member
+and its kerneldoc entry.
 
-Signed-off-by: Avishek Chaulagain <chaulagainavishek14@gmail.com>
+Assisted-by: LLM
+Signed-off-by: amit <amittibi123@gmail.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 41 -------------------
- .../staging/media/atomisp/pci/atomisp_cmd.h   |  2 -
- 2 files changed, 43 deletions(-)
+ drivers/staging/fbtft/fbtft.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index e66a7d1c7..4f876b02c 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1080,47 +1080,6 @@ static int raw_output_format_match_input(u32 input, u32 output)
- 	return -EINVAL;
- }
- 
--u32 atomisp_get_pixel_depth(u32 pixelformat)
--{
--	switch (pixelformat) {
--	case V4L2_PIX_FMT_YUV420:
--	case V4L2_PIX_FMT_NV12:
--	case V4L2_PIX_FMT_NV21:
--	case V4L2_PIX_FMT_YVU420:
--		return 12;
--	case V4L2_PIX_FMT_YUV422P:
--	case V4L2_PIX_FMT_YUYV:
--	case V4L2_PIX_FMT_UYVY:
--	case V4L2_PIX_FMT_NV16:
--	case V4L2_PIX_FMT_NV61:
--	case V4L2_PIX_FMT_RGB565:
--	case V4L2_PIX_FMT_SBGGR16:
--	case V4L2_PIX_FMT_SBGGR12:
--	case V4L2_PIX_FMT_SGBRG12:
--	case V4L2_PIX_FMT_SGRBG12:
--	case V4L2_PIX_FMT_SRGGB12:
--	case V4L2_PIX_FMT_SBGGR10:
--	case V4L2_PIX_FMT_SGBRG10:
--	case V4L2_PIX_FMT_SGRBG10:
--	case V4L2_PIX_FMT_SRGGB10:
--		return 16;
--	case V4L2_PIX_FMT_RGB24:
--	case V4L2_PIX_FMT_YUV444:
--		return 24;
--	case V4L2_PIX_FMT_RGBX32:
--		return 32;
--	case V4L2_PIX_FMT_JPEG:
--	case V4L2_PIX_FMT_CUSTOM_M10MO_RAW:
--	case V4L2_PIX_FMT_SBGGR8:
--	case V4L2_PIX_FMT_SGBRG8:
--	case V4L2_PIX_FMT_SGRBG8:
--	case V4L2_PIX_FMT_SRGGB8:
--		return 8;
--	default:
--		return 8 * 2;	/* raw type now */
--	}
--}
--
- bool atomisp_is_mbuscode_raw(uint32_t code)
- {
- 	return code >= 0x3000 && code < 0x4000;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index d3d1f2574..937b64ac8 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -284,8 +284,6 @@ void atomisp_init_raw_buffer_bitmap(struct atomisp_sub_device *asd);
- int atomisp_enable_dz_capt_pipe(struct atomisp_sub_device *asd,
- 				unsigned int *enable);
- 
--u32 atomisp_get_pixel_depth(u32 pixelformat);
--
- /* Function for HAL to inject a fake event to wake up poll thread */
- int atomisp_inject_a_fake_event(struct atomisp_sub_device *asd, int *event);
- 
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index 40a7567df..3b58bb9d7 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -155,7 +155,6 @@ struct fbtft_platform_data {
+  * @pdev: Set if it is a platform device
+  * @info: Pointer to framebuffer fb_info structure
+  * @pdata: Pointer to platform data
+- * @ssbuf: Not used
+  * @pseudo_palette: Used by fb_set_colreg()
+  * @txbuf.buf: Transmit buffer
+  * @txbuf.len: Transmit buffer length
+@@ -192,7 +191,6 @@ struct fbtft_par {
+ 	struct platform_device *pdev;
+ 	struct fb_info *info;
+ 	struct fbtft_platform_data *pdata;
+-	u16 *ssbuf;
+ 	u32 pseudo_palette[16];
+ 	struct {
+ 		void *buf;
 -- 
-2.43.0
+2.54.0
 
