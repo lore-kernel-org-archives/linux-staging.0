@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793645450;
-	b=Fdv/eJZKtxc2yBzQP0QU0fIGHlZN8ke7z83QCQHoPNniETIdpiHdPZYGG6ePxoakiHO+
-	 FWq+L0HZhUWLSg/sKc3gSLu9TyoPajCYEqDmWRPx1Y6pKr074s4kR8b6hPiY8XLHw7F5R
-	 xLCqPoikzCmrfM8mHcwiITAsTeUsQsREXxV2xiMWK5n6qfM4fNdNSIL6v0ERb/tF+1thj
-	 w40tgWoccy9IYKj+VqSNH9cQrLdZhUJzJz7l+CuM5NDwTBr9JmArSOR3+YyWKkTZbZ1qu
-	 FwGts3TcjCfyaiOQUF+/SJzrT6t0fftyZZmda5hb6H4eAqL4R6nKJkVeUFVYTIbSvZg==
+	t=1793645818;
+	b=Ad20SMfty1q50P61DlmW+oYEDYqTcWXWMKelE3BjX2nDSLDj8cOk/t1he2MbwAxHzQ5S
+	 FvPJhn7r/SgTK1inz3K/GnI9zXse3D02ZTBBAPRvBNqkiXH5BnV/hE3x4RaQFm1k5hDjo
+	 GVMBtbVnUvRCGKQpeTNZLC1NcTbk32CSm/girCSJe8VdJT5Q48fTgRNGODurHUtzVSW1o
+	 gCiwceXUCWLc142iPbORdfk1lMOaFHODdkmWFkx8cZFtV+ql2zJq5KmT2x8ml+k5odEYg
+	 WlmbSvH47i47ENICMrDUXxkKDuAu9HhyGQd2Mq8PaGSZSU5eWRrlk6aLY5Rc8Mk+Uqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793645450;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793645818;
 	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
 	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
 	 User-Agent:MIME-Version;
-	bh=QyPdtmG5O4gEWYHR8b+vQVbdQt/9/X9eHrm6vneitHQ=;
-	b=H6dvdZdB5lGtS8p3HYxZvrih9pcyGTzbhONBrEcnwpeoG6soY5WY2Ja1wGEjHFfZVwd6
-	 0z75mkd8GuR79mSwyG6OFZy6yCuj2CCxhs1itgMKjxiSJZ5zbYZBDHi+Z116zsM7q597v
-	 fRlupWZFz9J8xaNIvcs/u/e+RKTX3kb9zuWS4YWAVHZ+ktvJiDG3A7QUEGCjf6sEVM40a
-	 cgnmnG6087AIef1VWWF2TwQKnig9OuHy67gr/LayOAxUfnp5LbZ06xwKAVSr+ljpgZS3y
-	 E5AJYUzM52drUlnaXbWO2Z8d+hh8kZf3T5vaodYFqhRNFFf6/bagY7bwj21XFOwxVCw==
+	bh=Em7LgszDC3yV2ax9pGbeyhWHik0oIvE0LFFvVjdiovc=;
+	b=cFo+HnFt7DxUuK08HdQXcpfHqcA0G+8ecejsuhccA0WNcQmltZHZekh0tV7a6ByJA+0k
+	 fb3ckRaQ0Y8zy6U456T1SNeCiHQmk4UJIlddwawwP7CkK4AlBVzm7EKj4a2Fqgml/qr//
+	 6mcIgiysLt6P7OEA/Rfuwj+WTAw8sdVbGbnyYY4ceU7PkEQjs3g/xt3P3BYBH2kk7ByT8
+	 rUKPuU4gZGpxK7+mQQeBZeeDZjC2QVWQuCZ1ci02B+7eZyP0IEj79i9DYI97D8W/+0FiS
+	 yxCkxjCFbk2dkNf0E65efsSolR2j0PheqsfQJJ/UCmEU1mu+wnzDdj1ElK4ihwgWk0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=collabora.com;
 	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=mwQDZAy2;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=BQyDa+Qt;
 	arc=none smtp.remote-ip=148.251.105.195
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E348A606A327;
-	Mon,  2 Nov 2026 18:50:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E348A606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34A5606A327;
+	Mon,  2 Nov 2026 18:56:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E34A5606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=mwQDZAy2
+	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=BQyDa+Qt
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1793645448;
-	bh=qzBA81ShHldLD90swJaBtt/OtYkjLtWwLi/hFMBaL1w=;
+	s=mail; t=1793645815;
+	bh=fOLpOB2LsNGYFnbSGDntDvT7olJ/DoIyk1p1zTIGGg4=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=mwQDZAy2e8wjzC96ZVB68kI/dOcz+M7DGj8Iepm62/0fy5v7sOwlYDmtChSXEfyhW
-	 1k9L9jD1HiXRy39gcuSiaJQT9pCfe/1NN6ngeUHPrDKGK+8gIFYDxwjxmQ4l3EHZrn
-	 xEwkW0H6u24W7W9Nzy35N2SQOIjtTGOkdFGjEOHbe4voNb84uglo58LcvR0IMgPx8D
-	 D6x4dkw8x9Od/vxSSwrq/1ky21TK8YtOup51OKpLedw21NgxYODQqJYXoaU5Cjb4+Y
-	 YB3AsjErr5rzxc3/JKYsaaFI+mFnl0p23jGxDO2ltE06SyiMYvgjIWeGUJl5DnrgAp
-	 2tD+gZNB/+xpw==
+	b=BQyDa+QtEF/80OwP/TH+CIWiZ+c9fDqQ4cNvyl03AhCjS4ptcy81Q0y/fQiCY8QiB
+	 plyP4LTlwcILzEXf+9jijXl1qYlprb6cPDDX6WY/mDaASVNkVxdTlofccdqA1aMC91
+	 KAjiiJ6CRyfPDKRssS/i/c4wf341SFNsBryfEti9CUuXwIsqBzIgEyKzg29/DGVl3F
+	 LcLpxYWK1Nl2FS+nhQPIIK+L8UZxumV0kZvnudDqKTXVAYl7D+1bCZ/LIfzJlFEPxM
+	 YLBZtoQNBIfbDbRGCrd1jgCpRq47kSZrDIKJbSveNLz6xzDLwOslbxTxhsSTPnucex
+	 ySWR8mk8GhWTg==
 Received: from [100.64.0.214] (unknown [100.64.0.214])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange secp256r1)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4DDBD17E080E;
-	Mon, 02 Nov 2026 19:50:46 +0100 (CET)
-Message-ID: <29e72b15007592f98dd000f5f62a85367c590347.camel@collabora.com>
-Subject: Re: [PATCH 03/10] staging: media: cedrus: h264: mark long-term
- references in the frame info
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3F78E17E07F6;
+	Mon, 02 Nov 2026 19:56:53 +0100 (CET)
+Message-ID: <cd5780876274ab5aa73739f890a32ceacf2e793b.camel@collabora.com>
+Subject: Re: [PATCH 04/10] staging: media: cedrus: mpeg2: use the field
+ height for field pictures
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>, Mauro Carvalho Chehab
 	 <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
@@ -62,10 +62,10 @@ Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
 	linux-kernel@vger.kernel.org
-Date: Mon, 02 Nov 2026 13:50:44 -0500
-In-Reply-To: <20261102170303.1973892-4-jernej.skrabec@gmail.com>
+Date: Mon, 02 Nov 2026 13:56:52 -0500
+In-Reply-To: <20261102170303.1973892-5-jernej.skrabec@gmail.com>
 References: <20261102170303.1973892-1-jernej.skrabec@gmail.com>
-	 <20261102170303.1973892-4-jernej.skrabec@gmail.com>
+	 <20261102170303.1973892-5-jernej.skrabec@gmail.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -81,7 +81,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-Ylgszz8oLP7hKDIiQWGA"
+	protocol="application/pgp-signature"; boundary="=-P2HLuzwLLDfm1tPGi+tN"
 User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -94,122 +94,91 @@ Precedence: list
 MIME-Version: 1.0
 
 
---=-Ylgszz8oLP7hKDIiQWGA
+--=-P2HLuzwLLDfm1tPGi+tN
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
 Le lundi 02 novembre 2026 =C3=A0 18:02 +0100, Jernej Skrabec a =C3=A9crit=
 =C2=A0:
-> The frame info of a reference has a reference type for each field, in
-> bits 1:0 for the top field and 5:4 for the bottom one, which is 1 for a
-> long-term reference. The driver never sets it, so the hardware handles
-> long-term references like short-term ones, also where they differ, like
-> in temporal direct and implicit weighted prediction. The vendor library
-> sets it.
+> A field picture covers only half of the macroblock rows of a frame, but
+> the driver programs the coded and the boundary size of the whole frame
+> for it, as for a frame picture.
 >=20
-> This fixes MR8_BT_B and MR9_BT_B of the H.264 conformance suite.
+> Program the height of a field for field pictures, like the vendor
+> library does.
 >=20
-> Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
+> Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 12 +++++++++++-
->  drivers/staging/media/sunxi/cedrus/cedrus_regs.h |  8 ++++++++
->  2 files changed, 19 insertions(+), 1 deletion(-)
+>  drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h264.c
-> index 892193c12b2f..a716955655f7 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -69,13 +69,21 @@ static void cedrus_fill_ref_pic(struct cedrus_ctx *ct=
-x,
->  				struct cedrus_buffer *buf,
->  				unsigned int top_field_order_cnt,
->  				unsigned int bottom_field_order_cnt,
-> +				bool long_term,
->  				struct cedrus_h264_sram_ref_pic *pic)
->  {
->  	struct vb2_buffer *vbuf =3D &buf->m2m_buf.vb.vb2_buf;
-> +	u32 frame_info, ref_type;
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/drivers/=
+staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> index 10e98f08aafc..ca66a3c6b830 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> @@ -58,6 +58,7 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx *ctx, s=
+truct cedrus_run *run)
+>  	struct vb2_queue *vq;
+>  	const u8 *matrix;
+>  	unsigned int i;
+> +	bool field;
+>  	u32 reg;
 > =20
->  	pic->top_field_order_cnt =3D cpu_to_le32(top_field_order_cnt);
->  	pic->bottom_field_order_cnt =3D cpu_to_le32(bottom_field_order_cnt);
-> -	pic->frame_info =3D cpu_to_le32(buf->codec.h264.pic_type << 8);
+>  	seq =3D run->mpeg2.sequence;
+> @@ -108,13 +109,21 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx *ct=
+x, struct cedrus_run *run)
+> =20
+>  	/* Set frame dimensions. */
+> =20
+> +	/*
+> +	 * Field pictures cover half of the frame's macroblock rows; the
+> +	 * vendor library halves both the coded and the boundary height.
+> +	 */
+> +	field =3D pic->picture_structure !=3D V4L2_MPEG2_PIC_FRAME;
 > +
-> +	ref_type =3D long_term ? VE_H264_FRAME_INFO_REF_TYPE_LONG_TERM :
-> +			       VE_H264_FRAME_INFO_REF_TYPE_SHORT_TERM;
-> +	frame_info =3D VE_H264_FRAME_INFO_TOP_REF_TYPE(ref_type) |
-> +		     VE_H264_FRAME_INFO_BOT_REF_TYPE(ref_type) |
-> +		     VE_H264_FRAME_INFO_PIC_TYPE(buf->codec.h264.pic_type);
-> +	pic->frame_info =3D cpu_to_le32(frame_info);
+>  	reg =3D VE_DEC_MPEG_PICCODEDSIZE_WIDTH(seq->horizontal_size);
+> -	reg |=3D VE_DEC_MPEG_PICCODEDSIZE_HEIGHT(seq->vertical_size);
+> +	reg |=3D VE_DEC_MPEG_PICCODEDSIZE_HEIGHT(field ?
+> +			ALIGN(seq->vertical_size, 32) / 2 : seq->vertical_size);
 > =20
->  	pic->luma_ptr =3D cpu_to_le32(cedrus_buf_addr(vbuf, &ctx->dst_fmt, 0));
->  	pic->chroma_ptr =3D cpu_to_le32(cedrus_buf_addr(vbuf, &ctx->dst_fmt, 1)=
-);
-> @@ -128,6 +136,7 @@ static int cedrus_write_frame_list(struct cedrus_ctx =
-*ctx,
->  		cedrus_fill_ref_pic(ctx, cedrus_buf,
->  				    dpb->top_field_order_cnt,
->  				    dpb->bottom_field_order_cnt,
-> +				    dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM,
->  				    &pic_list[position]);
->  	}
+>  	cedrus_write(dev, VE_DEC_MPEG_PICCODEDSIZE, reg);
 > =20
-> @@ -174,6 +183,7 @@ static int cedrus_write_frame_list(struct cedrus_ctx =
-*ctx,
->  	cedrus_fill_ref_pic(ctx, output_buf,
->  			    decode->top_field_order_cnt,
->  			    decode->bottom_field_order_cnt,
-> +			    false,
+>  	reg =3D VE_DEC_MPEG_PICBOUNDSIZE_WIDTH(ctx->src_fmt.width);
+> -	reg |=3D VE_DEC_MPEG_PICBOUNDSIZE_HEIGHT(ctx->src_fmt.height);
+> +	reg |=3D VE_DEC_MPEG_PICBOUNDSIZE_HEIGHT(field ? ctx->src_fmt.height / =
+2 :
+> +						   ctx->src_fmt.height);
 
-nit: Not a hard objection, but I really hate boolean parameters. It could b=
-e a
-simple as:
+I'm not entirely sure, but I see:
 
-+			    false, /* short term reference */
+	fsize->stepwise.step_height =3D 1;
 
-Or using an enum. My preference being documented here, its yours to decide.
+But I don't think interlaced video can have odd height in the first place. =
+But
+it also have an implication here as you are not rounding up to a multiple o=
+f 2.
+Not sure what is the proper fix, but I have this impression something is
+missing.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Nicolas
 
->  			    &pic_list[position]);
 > =20
->  	cedrus_h264_write_sram(dev, CEDRUS_SRAM_H264_FRAMEBUFFER_LIST,
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_regs.h
-> index 05e6cbc548ab..961fe023bb43 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> @@ -616,6 +616,14 @@
->  #define VE_AVC_SRAM_PORT_OFFSET		0x2e0
->  #define VE_AVC_SRAM_PORT_DATA		0x2e4
+>  	cedrus_write(dev, VE_DEC_MPEG_PICBOUNDSIZE, reg);
 > =20
-> +/* Frame info word of a frame buffer list entry in the AVC SRAM */
-> +#define VE_H264_FRAME_INFO_PIC_TYPE(v)		SHIFT_AND_MASK_BITS(v, 9, 8)
-> +#define VE_H264_FRAME_INFO_BOT_REF_TYPE(v)	SHIFT_AND_MASK_BITS(v, 5, 4)
-> +#define VE_H264_FRAME_INFO_TOP_REF_TYPE(v)	SHIFT_AND_MASK_BITS(v, 1, 0)
-> +
-> +#define VE_H264_FRAME_INFO_REF_TYPE_SHORT_TERM	0
-> +#define VE_H264_FRAME_INFO_REF_TYPE_LONG_TERM	1
-> +
->  #define VE_VP8_PPS			0x214
->  #define VE_VP8_PPS_PIC_TYPE_P_FRAME		BIT(31)
->  #define VE_VP8_PPS_LAST_SHARPNESS_LEVEL(v)	SHIFT_AND_MASK_BITS(v, 30, 28=
-)
 
---=-Ylgszz8oLP7hKDIiQWGA
+--=-P2HLuzwLLDfm1tPGi+tN
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaujbhAAKCRDZQZRRKWBy
-9JWLAP4x8oCrqj26/oTlMncagq0eT+Bf92Otj0S9Y8iQE/FcgQD+MJmfpy96hxQF
-U1VQIM6SOG5IPwtNHBzv9fHcsimvuAQ=
-=mkHb
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaujc9AAKCRDZQZRRKWBy
+9FCtAP9jsMoceNEcZBP9smOFURh22hfFhq9F7bGhoIiXygecnwD/TZd0tE9tcnxF
+yNRD1b/TdxpJUTqjYdMx/wp68lb2mAs=
+=X4Qg
 -----END PGP SIGNATURE-----
 
---=-Ylgszz8oLP7hKDIiQWGA--
+--=-P2HLuzwLLDfm1tPGi+tN--
