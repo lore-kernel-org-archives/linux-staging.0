@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.250.56.165
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793623980;
-	b=0Suy2rKIc/V/Ojm2WAETKWNQCowgPEAD4aJB0Xv6ysZa09czQibuqcVsFruwFkhq4JPj
-	 /oIitxmA0zQ+RgCjctD6GSZBovjxt/gyGmCsZJE3gdWPA9WBFL+b8bT7PqRmchsOY5vp5
-	 en6/29DzdxqhnMLztfB24KrR5xy1suGAJ7JFVKZ7TpP437Qt+XLiNqbc13benVoYJqaB/
-	 5HBSQOcNh1ZwXa+7ZygSRwZfGm05tKdFGTXeG7K51muzCRPpw0fcNEp3rLsMz9pd0bM1p
-	 OG/zuCge6qNhZQGnB8Ty31haWvwZJPRXo3lSaNh1sWTw7xXtxvJ+ZMTY8zM9Pp2awvQ==
+	t=1793623994;
+	b=YGINL5iBLzIQmSyqawRJMJRZWLtJOQe5ynK+RGYuuMe8vPSSBb/T9/Eqv3dN2cN5WssT
+	 QRjr+7oFoTRy9utgBmzg3yZg4BHiHY7gKMXRAmr+VPqQM8NuUBVk+F3LMHVfR/YnZMZZC
+	 iGMphM3oRFNkOhMsg2c0YKksSpWhxGnfH+q3Bn+Kzlb9B045k19Nl0lxDvtXblUmii3mv
+	 R6ckH+pwAhahUTicXtIS3OiZWZl5QRz7CcmSFAiUZLmM+4v/YXfhzL165vgMsOcslgnk9
+	 kBSt36iv7fn2Kv5WJawmS0N+jUPkDNzy4CZc1hToCkEzHDORjcqMuAwkgUbkpJa0sQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793623980;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793623994;
 	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=3PialWx1gJazCwMTuiaUjmHYkSCF0pla0P3jT1wYUtE=;
-	b=f0LDglgqDCE0537Pq3+lE8GsrrGdfnZYeuJ+/EZtp32AuapmYwzsfLtPOh4XGe00H212
-	 LpbclixXm0kCCv0UnF0bUcN4kMO8bRbaExwzr3umUWgOGQWK00aNTcT4jjdAq+rScnuti
-	 4JvoM7AaR6x9ZjXWjzw1+F3OGyLUGZqzw7nLH6JC5BTX8tOMoEw3AfXFHBnlVj8b8Xh50
-	 5d3UQvt0zs0YAOOjyA/CZNrgCLSOCMB+Tc/0ytqb0YYfSL/MkdtXRfOoRLO4GtbTNASMw
-	 whIheZ2BvwhtE/Q6c3HPTPDWLTPyzOzNKhZGtf1AdBqQ8js3Rw1qTzGKwKmWST0iooQ==
+	bh=TPDXEiwGt7D41lmUmIF/tgtt4iQ0LTVJ4ZzGPmpcPqA=;
+	b=JN7iVgZP35KQEdlSLI6RQJ0TQ2k4R+JfOFoWzdqq3QCwrxgGjHt68Y0akBbtCobVQ9Qo
+	 d7HamUbTYGbMCaCTG8ju9qzKcniLCJ0TEEpaaI9K9kBfc1AQCCjvO0A5HBuqt/g7mitqy
+	 BnxQFLf7yH0NveabrAQGDPZqh0np2Ue31329OeYLVMA03epKoD0/KDvtihIQR8G/pL1yp
+	 jSF3nzNw/GayQ+jMCfL/Dg9i4u0S/Wj9BVbYAvaEj0ci/X6eXowOsnx18yGO6rQGLh/25
+	 WH+z6kjt1mqbvOmaPXr3gytDtvPOMLTGEFNJJVMB9XUs3L39VO+18cpKBY48/22yyEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=ideco.ru;
 	spf=pass smtp.mailfrom=ideco.ru;
@@ -25,20 +25,20 @@ Received: from smtp.ideco.ru (smtp.ideco.ru [51.250.56.165])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2490F606A327
-	for <linux-staging@lists.linux.dev>; Mon,  2 Nov 2026 12:52:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2490F606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2711B606A329
+	for <linux-staging@lists.linux.dev>; Mon,  2 Nov 2026 12:53:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2711B606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ideco.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideco.ru
 Received: from [169.254.254.254] (localhost [127.0.0.1])
-	by smtp.ideco.ru (Postfix) with ESMTP id 224CF188FC;
-	Mon, 02 Nov 2026 17:52:57 +0500 (+05)
+	by smtp.ideco.ru (Postfix) with ESMTP id BA635188FA;
+	Mon, 02 Nov 2026 17:53:12 +0500 (+05)
 Received: from laptop-ak.in.ideco.ru (unknown [46.36.23.99])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.ideco.ru (Postfix) with ESMTPSA id D911D188FA;
-	Mon, 02 Nov 2026 17:52:46 +0500 (+05)
+	by smtp.ideco.ru (Postfix) with ESMTPSA id 03497188C4;
+	Mon, 02 Nov 2026 17:53:01 +0500 (+05)
 From: Andrey Karelin <a.karelin@ideco.ru>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -48,9 +48,9 @@ Cc: Andrey Karelin <a.karelin@ideco.ru>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	lvc-project@linuxtesting.org
-Subject: [PATCH 2/3] staging: media: av7110: check dvb_dmxdev_init() result in av7110_register()
-Date: Mon,  2 Nov 2026 17:51:30 +0500
-Message-ID: <20261102125149.82725-3-a.karelin@ideco.ru>
+Subject: [PATCH 3/3] staging: media: av7110: check dvb_net_init() result in av7110_register()
+Date: Mon,  2 Nov 2026 17:51:31 +0500
+Message-ID: <20261102125149.82725-4-a.karelin@ideco.ru>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261102125149.82725-1-a.karelin@ideco.ru>
 References: <20261102125149.82725-1-a.karelin@ideco.ru>
@@ -65,69 +65,69 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-av7110_register() ignores the return value of dvb_dmxdev_init() for both
-the main dmxdev and the optional budget-patch dmxdev1. dvb_dmxdev_init()
-fails if the demux cannot be opened, the filter array cannot be
-allocated or the demux/dvr device cannot be registered. Probing then
-continues, and on device removal dvb_unregister() calls
-dvb_dmxdev_release(), which dereferences dmxdev->dvbdev and
-dmxdev->dvr_dvbdev that are NULL or, if only the dvr device failed to
-register, already freed.
+av7110_register() ignores the return value of dvb_net_init() for both
+dvb_net and the optional budget-patch dvb_net1. dvb_net_init() fails if
+the net device cannot be registered and leaves dvbnet->dvbdev NULL.
+Probing then continues, and on device removal dvb_unregister() calls
+dvb_net_release(), which dereferences dvbnet->dvbdev.
 
-Check the result and unwind on failure, releasing the corresponding
-demux as well.
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Check the result and unwind on failure.
 
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Cc: stable@vger.kernel.org
 Signed-off-by: Andrey Karelin <a.karelin@ideco.ru>
 ---
- drivers/staging/media/av7110/av7110.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/staging/media/av7110/av7110.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-index ecc15bb222c5..3371e33db103 100644
+index 3371e33db103..9390c347da50 100644
 --- a/drivers/staging/media/av7110/av7110.c
 +++ b/drivers/staging/media/av7110/av7110.c
-@@ -1283,7 +1283,9 @@ static int av7110_register(struct av7110 *av7110)
- 	av7110->dmxdev.demux = &dvbdemux->dmx;
- 	av7110->dmxdev.capabilities = 0;
+@@ -1314,7 +1314,9 @@ static int av7110_register(struct av7110 *av7110)
+ 			    &dvbdev_osd, av7110, DVB_DEVICE_OSD, 0);
+ #endif
  
--	dvb_dmxdev_init(&av7110->dmxdev, &av7110->dvb_adapter);
-+	ret = dvb_dmxdev_init(&av7110->dmxdev, &av7110->dvb_adapter);
+-	dvb_net_init(&av7110->dvb_adapter, &av7110->dvb_net, &dvbdemux->dmx);
++	ret = dvb_net_init(&av7110->dvb_adapter, &av7110->dvb_net, &dvbdemux->dmx);
 +	if (ret < 0)
-+		goto err_dmx_release;
++		goto err_unregister_devices;
  
- 	av7110->hw_frontend.source = DMX_FRONTEND_0;
+ 	if (budgetpatch) {
+ 		/* initialize software demux1 without its own frontend
+@@ -1333,7 +1335,7 @@ static int av7110_register(struct av7110 *av7110)
  
-@@ -1337,13 +1339,17 @@ static int av7110_register(struct av7110 *av7110)
+ 		ret = dvb_dmx_init(&av7110->demux1);
+ 		if (ret < 0)
+-			goto err_unregister;
++			goto err_net_release;
+ 
+ 		av7110->dmxdev1.filternum = 256;
  		av7110->dmxdev1.demux = &dvbdemux1->dmx;
- 		av7110->dmxdev1.capabilities = 0;
+@@ -1343,15 +1345,21 @@ static int av7110_register(struct av7110 *av7110)
+ 		if (ret < 0)
+ 			goto err_dmx1_release;
  
--		dvb_dmxdev_init(&av7110->dmxdev1, &av7110->dvb_adapter);
-+		ret = dvb_dmxdev_init(&av7110->dmxdev1, &av7110->dvb_adapter);
+-		dvb_net_init(&av7110->dvb_adapter, &av7110->dvb_net1, &dvbdemux1->dmx);
++		ret = dvb_net_init(&av7110->dvb_adapter, &av7110->dvb_net1,
++				   &dvbdemux1->dmx);
 +		if (ret < 0)
-+			goto err_dmx1_release;
- 
- 		dvb_net_init(&av7110->dvb_adapter, &av7110->dvb_net1, &dvbdemux1->dmx);
++			goto err_dmxdev1_release;
  		pr_info("additional demux1 for budget-patch registered\n");
  	}
  	return 0;
  
-+err_dmx1_release:
-+	dvb_dmx_release(&av7110->demux1);
- err_unregister:
++err_dmxdev1_release:
++	dvb_dmxdev_release(&av7110->dmxdev1);
+ err_dmx1_release:
+ 	dvb_dmx_release(&av7110->demux1);
+-err_unregister:
++err_net_release:
  	dvb_net_release(&av7110->dvb_net);
++err_unregister_devices:
  	dvb_unregister_device(av7110->osd_dev);
-@@ -1351,6 +1357,7 @@ static int av7110_register(struct av7110 *av7110)
+ 	av7110_ca_unregister(av7110);
  	av7110_av_unregister(av7110);
- err_dmxdev_release:
- 	dvb_dmxdev_release(&av7110->dmxdev);
-+err_dmx_release:
- 	dvb_dmx_release(&av7110->demux);
- err_registered:
- 	av7110->registered = 0;
 -- 
 2.56.0
 
