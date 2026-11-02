@@ -1,88 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793646938;
-	b=inU9DnndoXddJOqdnp1IQYtbwrC1duM/Dy6PS6FFufrFD2B3ls8qHWDLhU7ZYg41CTtw
-	 /VulIu4ZhLWReYnGldImckFpY4FwCkmegMV+SO+qr26p+J+usRtVLDVoZCkkpmVbvkIDb
-	 MeZoMNkyc4qGGlJGpylxWvcdJ8KgWqs/qHWMH91TysQf3dkDgaRHazYy3e2ZNRTC2SNa+
-	 3EsdgDQ4Cuhhr2D+C5LNYPgL02sWDIwq66hxccH6zvN7NyOgNd3d6lXt32NwlNK8uppuX
-	 Zn+ZqbwHvrOib54ZytkDO68ppgcOfYgff4rwBaIT1MOVPRcDvg/U2WZvYAO/a74Dn+w==
+	t=1793649220;
+	b=1Z6I0JsIj0ilbXy8WiEae0W2fDy9vODVie6Ay5ivLxHjWsq+xytYCYn/9xfgE4WzEemV
+	 Z1pHcxwQWfUjFQ0Bv5gpoS+qjji9RV4UXUku99diwk/J7xqKoWeQ/NpoLmJIdcVKAVfWo
+	 xlMCazUeGJARqrqoxdTb0yeLCVSNEQPYsC0WjCz5ie4S4P3MOUq4GuCycE8nDOtdqYoLH
+	 +3wEu0hjgKx+Ht+iJmLpA0xdyLnsa0n+aiXeZ0fPmi7cYbh4X3gTCr3wQ5U+0zmXdkvCa
+	 Ml1SC5tW6goxedF1BNtFz10KQbrFm82YSlNhlimKUydpP8yRGwggXE7PWADIXS7kXSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793646938;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
-	 User-Agent:MIME-Version;
-	bh=DIPqP7gi47CnCUVbaUeSaa4AKRfzLYhpSnAXGZmxHTE=;
-	b=j9P19hlk77BMzhLHsEGQzchpm7slgVDMenIk6G4DCLeLn//jnDsIZP2feKIddFxrK73V
-	 xWLQ84uWO4YkdZe63bNcoEvLvYHBxWHfapEztJ5089pA/8xnS02m6RXLWW9rAOCulrCx/
-	 2W+64yJnzg0UGzjrmWWwU24dhRSoURikL9B9tJpZgTfSscZ8FdStOe3ilPeFLLM9FGztB
-	 ojxxXUmRqahFnbHX/QfNMgpsRTWVtX8FKI95giDRMl25k70KGhb5U+gan7SjzDMhZfwgA
-	 3TDRuz0smbjEWGhCcoRWJ4T48r+xU6SRR60e5B8JgTXXlkQSVvy/CqsIZEUPEwhdTuA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793649220;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=TT+JdKCO8FQmAWG62bqZ1mtZpW2RojAaKod9k+xaBw0=;
+	b=gXYUClj8HlY/JLR3MjDV2ngOhXw/wSsfSMhoen3Z0wMqioO+1xF5TkXCX4eFXVxI2URS
+	 zYkNUSq6jvgUPOUz6ZgrT01DSOFvoInoZrcEJGnrPbkdKrxxxBqfj5E7iQdr7N3p4ZuTh
+	 1tudnuxZiM/mvCSDnF+9038N2adHMpheDdphLdaVqsJ9WQXuY3kpG9NPVjE8tLJZuBtmz
+	 JZAyGFc3nHYLhhb2S5NEbBP7FZ2hpiGsWR0d54gN0Sx7YaRAVnNJv3jy/NCwie3PwC/3u
+	 H67tsDaj1cLOu8B7rEw5FskUcoKiT5UdZSCwSkPyILcGr0EPmRTREAvQCgL5t+w1XQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=NAR7jFb0;
-	arc=none smtp.remote-ip=148.251.105.195
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ioEO9Uof;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5D6606D803;
-	Mon,  2 Nov 2026 19:15:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C5D6606D803
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C7E606EEB0
+	for <linux-staging@lists.linux.dev>; Mon,  2 Nov 2026 19:53:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1C7E606EEB0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=NAR7jFb0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1793646936;
-	bh=Nbbszuc4cqTH/2OVCKA2NFWpdZdIw/mf+sQeosPEgAg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=NAR7jFb0YSYZB3cRjXDhpxMO1Q2KD/+YsrtGxk/8lKcWYbYESKuPGuCpYe0fUBPxt
-	 gdSC9Mp74jAp0pb5tGFBkmaMD3DhwCpHdlN75ZLQrq+9lL4vTGYbfzTXFL+L2Ystq7
-	 SYxKYD1hShaNNcjR0iQJlZjSj/MTk1VI2qzo3J/g4lyalFdrWVl4/idLW4gSsvdaxi
-	 3ds7OeZhMZ8DssMy+OvpL+oR7Jm7p9yTMpb/wHtYatjO85fLSEXlsIWoS/UkmPH0kK
-	 EoVEmpBDO3xcUj6w7QYjP/vESDKt+HjxUOX2kS/Nvp5LRfWANkOSbrQxze6AV6BoO7
-	 IazNtMY6BV9XQ==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id CD33E17E003A;
-	Mon, 02 Nov 2026 20:15:34 +0100 (CET)
-Message-ID: <a52aacb2e0475d5d4a248acb0d385e8d7f5ef019.camel@collabora.com>
-Subject: Re: [PATCH 10/10] staging: media: cedrus: vp8: support frames wider
- than 2048 pixels
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski
- <paulk@sys-base.io>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 02 Nov 2026 14:15:33 -0500
-In-Reply-To: <20261102170303.1973892-11-jernej.skrabec@gmail.com>
-References: <20261102170303.1973892-1-jernej.skrabec@gmail.com>
-	 <20261102170303.1973892-11-jernej.skrabec@gmail.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-al3UBxtaGnl/gweWbDkj"
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ioEO9Uof
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso23972225e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 02 Nov 2026 11:53:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793649218; x=1794254018; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TT+JdKCO8FQmAWG62bqZ1mtZpW2RojAaKod9k+xaBw0=;
+        b=ioEO9Uof/2Um+4+4CQqp9SdR1Wsr0UsZXS+EVax9rNpvlGIVLpz2j97f32W7braXdC
+         rMQLS08RwaCa2RUEUZPjDfBwcj09WvO7gLpLqV4vgXPMPdOHPwXzuJlBifyqY4ZZUc3O
+         pynMsck4cuFdfiyfVoRN3HAVsNsvYKfgLWqRZizB5ddCW9bCEQ5y8wmB6eT9sgOTST6h
+         HwLMgmaRyO8eHUm9UePwYBn+TNW8Yc4Nqv+8hkrndmyIwO5/Jiqyz8M/G7A1GQiG/bkV
+         KgJdy5kRlzijkCdRjuwe8ttl6EkFil8oySULRpMbAXnUdbUMbw60oJZcKjO1GDuWUGeV
+         36qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793649218; x=1794254018;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TT+JdKCO8FQmAWG62bqZ1mtZpW2RojAaKod9k+xaBw0=;
+        b=EykWWyUiCY513b4wwXqw3Q05AM8C6cFjv978D32biQmb3kwy5PPqLuz3TLuwovLyGA
+         RpADNVxrhKS5y7sjAhOt2xNZD0OgnvLpyB4RmtaPLHsPKc7jRNKLwvEsfMmAcdEmqquE
+         bR68KKHeFHCGENTbW0q+Tj4STDLAECCMNg5zqQodyyGnrfmAaXHxVnlSBACizcPf0+u6
+         5fvbrsO3khDyRMHlTepcVQC4OkxqB8JTqEpjxK4sqQ4SeLKL2fgvnKNVOW5oK6hg9hur
+         ORSZganxOmBrjad1F5VpQeJF/aWHlIKwjHkJs0/SmOmpCs8+df8j8r3e2qJMJq1Rs9tf
+         EvLQ==
+X-Forwarded-Encrypted: i=1; AKwUvByvn6GkMfwxE6kaHxDrvOygW4n9AKs1GpoRkXd6n7E7beRRgj69se/f9uAcqg6GxeWctU6UyVlNZvL4gOpq@lists.linux.dev
+X-Gm-Message-State: AFq9FYJSl0ug0rDO/umVmxgrXcbWXE/0QgXfb5KFMOkVYqQvJfS0Zl5L
+	M9a1SQyaDoYS9AxuEh/n2wa6mDVuhDupnxMGXwZnc3hkZsvhxhI6fxN+
+X-Gm-Gg: AYBFou0VyxFOSwx/MAdb3x0+N1ZKxLPyLhZX/6vFRag8UjRTg4xfm/EUg7O4RCDIAMj
+	DRmmrSNXMhBhjc8pU8XT7VXVi+L6B+RY2kA6VzNSLKf8Rec/4TlTmRmzwE8Jn/Vq7WFE4GvNwyy
+	BAM54Gtev2cl77R8pH6qLin/hPM08mBvIa2EewOBe8i6IohTck9xf/fY1/pRPt3GDVj3pnRP/tG
+	xffv0Hvt6faVScBj6URteHCSDPN01FvwJtKbXQUmpLwuiqI1RmeKuibFKRHDV5p87lZCxgCptCW
+	b14vAwwpgeIJrymiSGB2VwnUM8DukwE00hg5wlLv7eBN3sGHTeNv/9oFwO0rsSGpIq/NDhnsTHe
+	NHGroFzQdb2An7pULAp6yVAk5xfGUvgHeAKu+STRd1nxQYY6KKbf5saRrl8e/Q+t4coAg7iN1iJ
+	VZXmcFjKrFgSAgqhljY1aZRsu8Uga1lgD94s63NydWWQhcewaGNqwn1delQSHNwHYIVuUWL9zAT
+	35s1jtYiApfliG+crhIimDfO65/nOeTz1XjHe59cqzWLTxRNRBmQ2TnR07Uxk2G4DD7+k06LOfI
+	i+FjkUR9SZc3DWb0pd+R+sPk4epVNj8k35XV3tXh3mSRS5kY+ZOSHP6jsJmwXU3vuJQAVq9LOqf
+	yzKXOHtJu5cAp8KqmtzXxWuXLclCKhmCt3CdfAw==
+X-Received: by 2002:a05:600c:848c:b0:4a1:efd3:9862 with SMTP id 5b1f17b1804b1-4ac1765d977mr237853695e9.21.1793649218121;
+        Mon, 02 Nov 2026 11:53:38 -0800 (PST)
+Received: from x1e ([196.189.152.19])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b727c6sm23542852f8f.16.2026.11.02.11.53.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 11:53:37 -0800 (PST)
+From: Maritu Hone <marehone12@gmail.com>
+To: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Maritu Hone <marehone12@gmail.com>
+Subject: [PATCH] staging: greybus: uart: fix heap buffer overflow in gb_tty->buffer
+Date: Mon,  2 Nov 2026 22:53:32 +0300
+Message-ID: <20261102195332.19860-1-marehone12@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -92,153 +100,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+gb_tty->buffer is allocated once in gb_uart_probe() and reused for
+every outgoing chunk as the backing store for a
+struct gb_uart_send_data_request:
 
---=-al3UBxtaGnl/gweWbDkj
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	struct gb_uart_send_data_request {
+		__le16	size;
+		__u8	data[];
+	} __packed;
 
-Le lundi 02 novembre 2026 =C3=A0 18:03 +0100, Jernej Skrabec a =C3=A9crit=
-=C2=A0:
-> Above 2048 pixels, the deblocking and intra prediction row buffers don't
-> fit into the internal SRAM anymore. Put them into DRAM like H.264 does.
-> The vendor library sizes the deblocking buffer as 24 bytes per column.
->=20
-> Tested on H616 with 2560x1440 and 3840x2160 libvpx streams, which are
-> bit-exact with the FFmpeg software decoder.
->=20
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+In gb_uart_tx_write_work():
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+	request = gb_tty->buffer;
+	...
+	send_size = gb_tty->buffer_payload_max;
+	if (send_size > gb_tty->credits)
+		send_size = gb_tty->credits;
+	send_size = kfifo_out_peek(&gb_tty->write_fifo,
+				   &request->data[0], send_size);
 
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.h   |  7 ++
->  .../staging/media/sunxi/cedrus/cedrus_vp8.c   | 64 +++++++++++++++++++
->  2 files changed, 71 insertions(+)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.h
-> index d28fe91562d1..ca4efa9302fc 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> @@ -156,6 +156,13 @@ struct cedrus_ctx {
-> =20
->  			u8		*entropy_probs_buf;
->  			dma_addr_t	entropy_probs_buf_dma;
-> +
-> +			void		*deblk_buf;
-> +			dma_addr_t	deblk_buf_dma;
-> +			ssize_t		deblk_buf_size;
-> +			void		*intra_pred_buf;
-> +			dma_addr_t	intra_pred_buf_dma;
-> +			ssize_t		intra_pred_buf_size;
->  		} vp8;
->  	} codec;
->  };
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/st=
-aging/media/sunxi/cedrus/cedrus_vp8.c
-> index 6b00efa77c22..954c0ceb98ed 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-> @@ -666,6 +666,20 @@ static int cedrus_vp8_setup(struct cedrus_ctx *ctx, =
-struct cedrus_run *run)
-> =20
->  	cedrus_write(dev, VE_H264_CTRL, VE_H264_CTRL_VP8);
-> =20
-> +	if (ctx->codec.vp8.deblk_buf_size) {
-> +		cedrus_write(dev, VE_BUF_CTRL,
-> +			     VE_BUF_CTRL_INTRAPRED_MIXED_RAM |
-> +			     VE_BUF_CTRL_DBLK_MIXED_RAM);
-> +		cedrus_write(dev, VE_DBLK_DRAM_BUF_ADDR,
-> +			     ctx->codec.vp8.deblk_buf_dma);
-> +		cedrus_write(dev, VE_INTRAPRED_DRAM_BUF_ADDR,
-> +			     ctx->codec.vp8.intra_pred_buf_dma);
-> +	} else {
-> +		cedrus_write(dev, VE_BUF_CTRL,
-> +			     VE_BUF_CTRL_INTRAPRED_INT_SRAM |
-> +			     VE_BUF_CTRL_DBLK_INT_SRAM);
-> +	}
-> +
->  	cedrus_vp8_update_probs(slice, ctx->codec.vp8.entropy_probs_buf);
-> =20
->  	reg =3D slice->first_part_size * 8;
-> @@ -849,7 +863,44 @@ static int cedrus_vp8_start(struct cedrus_ctx *ctx)
->  	memcpy(&ctx->codec.vp8.entropy_probs_buf[2048],
->  	       prob_table_init, sizeof(prob_table_init));
-> =20
-> +	/*
-> +	 * Above 2048 pixels the deblocking and intra prediction row buffers
-> +	 * no longer fit into the internal SRAM. The vendor library sizes the
-> +	 * deblocking buffer as 24 bytes per (32 aligned) column.
-> +	 */
-> +	if (ctx->src_fmt.width > 2048) {
-> +		ctx->codec.vp8.deblk_buf_size =3D
-> +			ALIGN(ctx->src_fmt.width, 32) * 24;
-> +		ctx->codec.vp8.deblk_buf =3D
-> +			dma_alloc_attrs(dev->dev, ctx->codec.vp8.deblk_buf_size,
-> +					&ctx->codec.vp8.deblk_buf_dma,
-> +					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
-> +		if (!ctx->codec.vp8.deblk_buf)
-> +			goto err_probs;
-> +
-> +		ctx->codec.vp8.intra_pred_buf_size =3D
-> +			ALIGN(ctx->src_fmt.width, 64) * 5 * 2;
-> +		ctx->codec.vp8.intra_pred_buf =3D
-> +			dma_alloc_attrs(dev->dev,
-> +					ctx->codec.vp8.intra_pred_buf_size,
-> +					&ctx->codec.vp8.intra_pred_buf_dma,
-> +					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
-> +		if (!ctx->codec.vp8.intra_pred_buf)
-> +			goto err_deblk;
-> +	}
-> +
->  	return 0;
-> +
-> +err_deblk:
-> +	dma_free_attrs(dev->dev, ctx->codec.vp8.deblk_buf_size,
-> +		       ctx->codec.vp8.deblk_buf, ctx->codec.vp8.deblk_buf_dma,
-> +		       DMA_ATTR_NO_KERNEL_MAPPING);
-> +	ctx->codec.vp8.deblk_buf_size =3D 0;
-> +err_probs:
-> +	dma_free_coherent(dev->dev, CEDRUS_ENTROPY_PROBS_SIZE,
-> +			  ctx->codec.vp8.entropy_probs_buf,
-> +			  ctx->codec.vp8.entropy_probs_buf_dma);
-> +	return -ENOMEM;
->  }
-> =20
->  static void cedrus_vp8_stop(struct cedrus_ctx *ctx)
-> @@ -861,6 +912,19 @@ static void cedrus_vp8_stop(struct cedrus_ctx *ctx)
->  	dma_free_coherent(dev->dev, CEDRUS_ENTROPY_PROBS_SIZE,
->  			  ctx->codec.vp8.entropy_probs_buf,
->  			  ctx->codec.vp8.entropy_probs_buf_dma);
-> +
-> +	if (ctx->codec.vp8.deblk_buf_size) {
-> +		dma_free_attrs(dev->dev, ctx->codec.vp8.deblk_buf_size,
-> +			       ctx->codec.vp8.deblk_buf,
-> +			       ctx->codec.vp8.deblk_buf_dma,
-> +			       DMA_ATTR_NO_KERNEL_MAPPING);
-> +		dma_free_attrs(dev->dev, ctx->codec.vp8.intra_pred_buf_size,
-> +			       ctx->codec.vp8.intra_pred_buf,
-> +			       ctx->codec.vp8.intra_pred_buf_dma,
-> +			       DMA_ATTR_NO_KERNEL_MAPPING);
-> +		ctx->codec.vp8.deblk_buf_size =3D 0;
-> +		ctx->codec.vp8.intra_pred_buf_size =3D 0;
-> +	}
->  }
-> =20
->  static void cedrus_vp8_trigger(struct cedrus_ctx *ctx)
+request->data starts 2 bytes (sizeof(request->size)) into
+gb_tty->buffer, and up to buffer_payload_max bytes are written there
+whenever enough data is queued and credits allow it. That needs
+buffer_payload_max + sizeof(struct gb_uart_send_data_request) bytes
+of backing storage, i.e. max_payload bytes.
 
---=-al3UBxtaGnl/gweWbDkj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+gb_tty->buffer is allocated with only buffer_payload_max bytes:
 
------BEGIN PGP SIGNATURE-----
+	gb_tty->buffer_payload_max = max_payload -
+			sizeof(struct gb_uart_send_data_request);
+	gb_tty->buffer = kzalloc(gb_tty->buffer_payload_max, GFP_KERNEL);
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaujhVQAKCRDZQZRRKWBy
-9KdyAQDZU0e4+bmf99HvWpWSNByerV75EjcL3AWAST8ccZA4JwD7B9t/sUhUPZM7
-rf9dHqLu6L2gtkyaySdnQ7Cn2ljdzwc=
-=fR3M
------END PGP SIGNATURE-----
+so a full-size write overruns the allocation by exactly
+sizeof(struct gb_uart_send_data_request) (2) bytes, corrupting
+whatever follows it on the heap.
 
---=-al3UBxtaGnl/gweWbDkj--
+Allocate max_payload bytes instead, which is exactly
+sizeof(struct gb_uart_send_data_request) + buffer_payload_max, so the
+buffer is large enough for the header and the full data payload it is
+used to hold.
+
+Fixes: dd1c64ede97f ("greybus: uart: kmalloc for send_data once only")
+Signed-off-by: Maritu Hone <marehone12@gmail.com>
+---
+ drivers/staging/greybus/uart.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index e1b73db6a17c..7bbac2603726 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -842,7 +842,15 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
+ 	gb_tty->buffer_payload_max = max_payload -
+ 			sizeof(struct gb_uart_send_data_request);
+ 
+-	gb_tty->buffer = kzalloc(gb_tty->buffer_payload_max, GFP_KERNEL);
++	/*
++	 * gb_tty->buffer is reused in gb_uart_tx_write_work() as the
++	 * backing store for a struct gb_uart_send_data_request, whose
++	 * variable-length data[] field holds up to buffer_payload_max
++	 * bytes starting right after the struct's header. The allocation
++	 * therefore needs room for the header plus buffer_payload_max
++	 * bytes of data, i.e. max_payload bytes, not buffer_payload_max.
++	 */
++	gb_tty->buffer = kzalloc(max_payload, GFP_KERNEL);
+ 	if (!gb_tty->buffer) {
+ 		retval = -ENOMEM;
+ 		goto exit_put_port;
+-- 
+2.43.0
+
