@@ -1,102 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793612609;
-	b=4U2lgnW7unr6kiARJOKDGVpmmiP703kbyL9n2XckiLVwXZUWaF/Hi0At3W4WT7wBfmmm
-	 WaIGjGbFmdCSO/g9ED0tZetl9a0PTHephfhncTA7HnmKrV64TsQh4E36+aDqZnsk8zmAQ
-	 8U806+Bm0CLayK9fhOME1Rb6ECxeMYHvlKP38z5EeyyE3KxiK62UsL7bWAA2AU/fHWvFi
-	 sltfBeRLG6j/puc2Z7EWeYDh52ROW7JPIBF0sOpc6oH/pshcOEOgs5TjrU2QL69P0HDxD
-	 RrSFQyIeXXs8eZ8rYSSbqleFlREGeft3jGYuC3Okr/fyuDE5M97ceUV1IJrSwXPUQQA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793612609;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=teF6NADalu5/7cF6wyx/P+C8roXp4OA8wuuPR0caYC0=;
-	b=kHqG2u86C9qsW5/stHb+h93Ow2Ko6PQrFvh0m1oLQ4Pdsu3qr0OVu9XjkjnP+r1K264d
-	 6jyVxGrAEG6y9T9LU5GSq5Zkgqxn1KhEMPaQHDOSS4oyR2kX4Z2ef9AdSMQXNJpk8KQhu
-	 xs/gcfb+I1+K1a8SgTUV0atQLUDhR/Zx91nS24lqf6yDBKMtU1q9EaTLIQ53XrIJCw/eE
-	 MIl10uwbMB0+h3n0y26W2yKC6IreNGTkTJue/cT0fz0CSS16dXXQnt7Zo9yjREbwA96W0
-	 boZ84OKwJfmo/nFh4gR/hIDL8anK2DM4RKKuDPKdN4zfSem6i6KzgFM0Rw9ZBKsgAGg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Qpl3OlQq;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793613750;
+	b=oygBHB6nVsaEXLqtEjQ0YR4w7mc1dGbxj66YidTf2ntUc9MCCswHP8jwewqm6tVmtqtb
+	 +sgTu6nZzJCGo7mpbcCao4fVaKv210+buewrNlmVVd6+YAzCqMgoAAnSCNOs9dgY8PfPG
+	 XNFsZ2yTMLXFils2CKaNiDcou4ZKli29qf2BMSIwTX4eGxA+R4XcirjmV/uev2Jv4NgtO
+	 VICJhuo08QO8wMHtB2CGULcfvS6J4Bw1uYiKG45GEoMZkvWISCzFz5q9jVYF6y0tv4ar7
+	 GSbvjIPbyqj6VhSAv+oYfMDK9/bLmMO+EllbPmEjhs9vAN/ppHrZKKy9ufWqo9Y1xig==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793613750;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=XzpjiuDg14m5/0rAwtwR3uEc9Ha934pVu4Nw/YOiHAQ=;
+	b=5JXu6o7TdeFi/yz4EDTZQ581BBj6rRqFtVwjvzO+2X5pOkrthm51QEF5Jxhzp6QMy4c6
+	 bt7aFFN7zyar954KnGnW9r5e+HEA2ARXxh68sWBdd7osb4MdzlpqM+lzF2UVFt6FeiRgp
+	 0X+4OP97y3GptrfFN/qaePWLwGGDuvf6d3IzGtqT2WZYeMZ4yZsUzmdQFhgGPZ3UGT1nQ
+	 FlA08v09Z4nr3/kKHy19GaWfI7lIoinLj0ta3heipH4O8scnaU50wvwAclqavBpYNv9uc
+	 1vKa5nqFXk7Iq62D9eDrgiSFX6PiYNLbuEqp8AFyVLP9xSf0z9ELde7A92pZax8Eo2g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OTjL0PkG;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC980606A324
-	for <linux-staging@lists.linux.dev>; Mon,  2 Nov 2026 09:43:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC980606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6C9606A326;
+	Mon,  2 Nov 2026 10:02:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Qpl3OlQq
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a59100fa83so23794215e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 02 Nov 2026 01:43:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793612607; x=1794217407; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=teF6NADalu5/7cF6wyx/P+C8roXp4OA8wuuPR0caYC0=;
-        b=Qpl3OlQqYVlmwdxWwgZiP1OQwtPzRYeE57qqk7bcjGX1zDOUx9Jx7vulNcAiZSekNx
-         v40Knvep8Bc0Anj2wozTqRnZ2DbyC3hq8f/6RPSA8sv1kKAOrnFihP7IyKh2zlx/CuI0
-         gaY61B6IZiFLhe3bUeQ3/9/qmo1ECZaWkVzmROcHIchNJulqUBn2oSfUJMzid42nWPoe
-         Jq0z1vYpYjOO2idn8cigWHO52Q/5oYuuW9hXFqjSGsHzsuhGh42LdVWv5PaTRscWcS2e
-         LBKsrw4m3iqto4lmd39ZqziavzHsC3c4UWTeI9CJXiG/cCOb5THFJ0UADiyKd87ULhW6
-         wtzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793612607; x=1794217407;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=teF6NADalu5/7cF6wyx/P+C8roXp4OA8wuuPR0caYC0=;
-        b=oWhOVGxvcOdgmA8mNcq8K1RwJdJaZE+p+5IPc2bBRLxF1c5J0psmb4Q6407QyxZw90
-         ym81Tc6d21/4Eu+Wr+plBIFxlk21UtzlMo6qj1I8JPKVKe6mMVZ7O3JSc37kI+Dk8hRt
-         hs/+punpxypy01RtP0j8VrLYPOnVNC2JCcm0Mf9ssptDA/LPdL46F5tXOuYlXyVoyqn6
-         qAn4LOc+lhfEiDASdz5xpf7TBrqxn+kcMsjQeO09g6Xbvyvc4+te701zVNVaX7DjAeMT
-         aMUbOfHveSoiXopui91e9u476KYJPzO91ab1uLkJ2nN4lF7ezIwLR0GQBC1A9Z9MdZBS
-         z6Uw==
-X-Forwarded-Encrypted: i=1; AKwUvBxwhs2eehIyjz9Xr1VMZwzCqUkn7TUDu5EhrTrxBT+31esCesBLUeJpWvugfj6YKIk43nLQyKMPIminyWoP@lists.linux.dev
-X-Gm-Message-State: AFq9FYKjo6EtWbHIqiHN3VX30MmBdMLvJXC4Of5BQgz1yrAcy2yC1RH4
-	bpqvSuln9L/9OyiGrNi2ENnM5pUgNLi4DmibIThn9S9P5YQiGJ9mtLxR
-X-Gm-Gg: AYBFou1t/A37V62OjVKst8yQTCmDfnX+pRXOMT9xYUAUYtxTKJsK2sP2jXnRRpQYwMy
-	2hDjEAaUZmoSgDK40pqafxjNZnRCR71cQo2oMHtZS8mPwYEy60Jen+R0Wx1J6MKmqDXXOjA3yvk
-	jWYYQTGNmREd3msO43nzT3SeMDjU9KmXgp8x/F8Ck1sVc7Jy9zrwuBClASgRVtAhwMATtJzaFzu
-	WPJz7JcgQxN9EX7uh0/jKwFw2xlzKjREZSN1a473B6XwWiLJPbI0PbzqDy0bYoglZcqENi9HqjA
-	0hrorZ7HwiQvsexCTp3ILM1WLz6QpvHshwlCYW3R5/TJ+FB3b8GB7o4thQBYMxqT44CYz5RD7Ja
-	7jgnnHaWeM5xP3Oy8IfuOSOGXxEG4goMlC7szGukk25KtaEMnuYEaFo9/Epv5cJARr3PnSVYj5p
-	ysbSUNA5jHDnS+Flo08zzC70H1/3aJVhusb8fsd+XPXvqj1kPrJaMh06dlDaAzoF/8c8+S+xaMR
-	4Ek0TvFo1lnbaXQPPZSwD0t2198hKie3RtotpLgA5V6ssO0qiZsnmeUmf5nlAWvkIQkqNde1rFq
-	Zof74k2YKAiD7ETSmRsVGT6TpQv8EQHbQD28pNo=
-X-Received: by 2002:a05:600c:46c8:b0:4a2:1a:a120 with SMTP id 5b1f17b1804b1-4ac16acfde1mr230539615e9.6.1793612607413;
-        Mon, 02 Nov 2026 01:43:27 -0800 (PST)
-Received: from fedora ([154.183.179.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa813d295csm332507285e9.7.2026.11.02.01.43.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 01:43:27 -0800 (PST)
-From: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>
-Cc: David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Joshua Crofts <crofts@kernel.org>,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Subject: [PATCH v3 2/2] staging: iio: addac: adt7316: replace kernel.h with explicit headers
-Date: Mon,  2 Nov 2026 11:42:36 +0200
-Message-ID: <20261102094236.57757-3-abdelnasserhussein11@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OTjL0PkG
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=90.182.112.124
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793613749;
+	b=Sdw3n8cZJlkrzqGPdh6dMB3CD9GNo0GpsZrP3JyZtIurlibo69cIBSXntqTNWTe6kNVp
+	 thb5P8bMdO+rt7dif2IAVhUlealtv+FXOns/v0zhl42weCIob4yw87bThAu4jHZVLYNA7
+	 cx64dXeHsPgfhz0cjq7okJj+fk8HXdLwW2tGOHIwKnMKSaiBgvewkCq51QdrGl903tjc7
+	 vqFxTd62RjuZp7kpg7PkyXGXSLLXTi+iR+bM/UEDsYBXiaHWsRzK7i1F24McXvtGhXQCc
+	 zWIkvAvMDkSX3bqXbN8OvtOR8uh4zPvn1YGBAp/17ivI+SGr52UcyaNcOMvVH20ji+A==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793613749;
+	h=DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
+	 References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=XzpjiuDg14m5/0rAwtwR3uEc9Ha934pVu4Nw/YOiHAQ=;
+	b=IDkuIHi7IvRGnPuP7kqdSidtY304aymblgvlpoY2+azECmXj5MN8PaWJT8Wzx3C7jfek
+	 Mr38mHkbkZ6HV/M2fjk8A7tIuLgv8I/3BQLr1UU6vCmy11iIB2nUq6uy5g9J10dGKaw8g
+	 emSAfO9J4iFaXHSoiXOwvpB/eM5pABsZ9cSQdtIxWQshh6yY++ftFqk5pKNFux4r4R9Fu
+	 w3KAuvX/CfIVoattwJ8tLgdhBWsqT5iKxhMHo6Fq678QGOm0KKMJeywmtkEDfkYyeQ6xm
+	 F9B7TqsfZFdw/9MKDrJ/NJ2Lu4JiRMXfo75Yqyp2OGzrWm4qOgmHMqsCaTXyrB1EuJQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=90.182.112.124
+Received: from localhost (90-182-112-124.rcp.o2.cz [90.182.112.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPSA id 3DE491F00919;
+	Mon,  2 Nov 2026 10:02:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793613749;
+	bh=XzpjiuDg14m5/0rAwtwR3uEc9Ha934pVu4Nw/YOiHAQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=OTjL0PkG+1OJ9V2ZkWrnG9o1YZAZtk+U9U1I1LfmZNIHxfuq1nGzGGjch7beI9jhM
+	 6GttOvG4VxGMldeJqwpBgmLdN5YsrU6vrAHeVK7QesfFMIc+NIO5mmD2tlJykkF3YB
+	 VUNn1sBTp+z8RA9RjGhKay/jTiLteO0Czlh0cZ8ZNj50LbiX+gY0h3wlNm5hNrhMEt
+	 H+ElJx6fwDazK7WLbbqlxCHGF7TTFtZHXmik/Y3qqe1OOxuVtLIsiIY1pG4Y/nU3H2
+	 SgogVlqZokBaeQqMDWQKs0dqltwnneujRivAOh6RoL6ZNGh3O2yfPP5uPhV8y9SxGf
+	 62HJG9l9ghOzQ==
+Date: Mon, 2 Nov 2026 11:01:58 +0100
+From: Joshua Crofts <crofts@kernel.org>
+To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Nuno =?ISO-8859-1?Q?S=E1?=
+ <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
+ linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] staging: iio: addac: adt7316: clean up header
+ inclusions
+Message-ID: <20261102110158.0000386b@kernel.org>
 In-Reply-To: <20261102094236.57757-1-abdelnasserhussein11@gmail.com>
 References: <20261102094236.57757-1-abdelnasserhussein11@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -106,73 +89,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Drop the proxy header <linux/kernel.h> and replace it with direct
-inclusions per the Include What You Use (IWYU) principle. Also remove
-unused headers and keep the list alphabetically sorted.
+On Mon,  2 Nov 2026 11:42:34 +0200
+Abdelnasser Hussein <abdelnasserhussein11@gmail.com> wrote:
 
-Explicitly add:
-- <linux/bits.h> for BIT()
-- <linux/err.h> for IS_ERR() and PTR_ERR()
-- <linux/errno.h> for error codes (-EIO, -EPERM, -EINVAL, -ENOMEM,
-  -ENODEV)
-- <linux/kstrtox.h> for kstrtou8(), kstrtou16(), and kstrtoint()
-- <linux/pm.h> for EXPORT_GPL_SIMPLE_DEV_PM_OPS()
-- <linux/string.h> for memcmp()
-- <linux/types.h> for fixed-width and standard types (u8, u16, bool, s64)
+> This series cleans up header inclusions in adt7316.c by following
+> the Include What You Use (IWYU) principle.
+> 
+> The series is split into two logical steps:
+> 1. Sort existing header inclusions alphabetically without modifying the
+>    list of included headers. Keep subsystem <linux/iio/*> headers
+>    separated and insert a blank line before "adt7316.h".
+> 2. Drop proxy header <linux/kernel.h>, explicitly add missing headers
+>    (<linux/bits.h>, <linux/err.h>, <linux/errno.h>, <linux/kstrtox.h>,
+>    <linux/pm.h>, <linux/string.h>, <linux/types.h>), drop unused headers
+>    (<linux/i2c.h>, <linux/list.h>, <linux/rtc.h>, <linux/slab.h>,
+>    <linux/workqueue.h>), and maintain alphabetical sorting.
+> 
+> v3:
+>  - Split the series as suggested by Joshua Crofts: patch 1 only sorts
+>    the headers, patch 2 replaces kernel.h and adds/drops headers.
+>  - Explicitly include <linux/err.h>, <linux/errno.h>, and
+>    <linux/types.h> per IWYU following verification of symbols used.
+> 
+> v2:
+>  - Address review feedback from Andy Shevchenko: drop <linux/kernel.h>
+>    and include the headers actually used.
+>  - Split the original patch into a 2-patch series.
+> 
+> v1:
+>  - Initial submission.
+> 
+> Abdelnasser Hussein (2):
+>   staging: iio: addac: adt7316: sort headers alphabetically
+>   staging: iio: addac: adt7316: replace kernel.h with explicit headers
+> 
+>  drivers/staging/iio/addac/adt7316.c | 22 ++++++++++++----------
+>  1 file changed, 12 insertions(+), 10 deletions(-)
+> 
 
-Drop unused headers:
-- <linux/i2c.h> (no I2C symbols used in core driver)
-- <linux/kernel.h> (proxy header)
-- <linux/list.h> (no linked list symbols used)
-- <linux/rtc.h> (no RTC symbols used)
-- <linux/slab.h> (no kmalloc/kfree symbols used)
-- <linux/workqueue.h> (no workqueue symbols used)
+Much more readable in this order.
 
-Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
----
-v3:
- - Replace <linux/kernel.h> and add/remove headers in this patch, as
-   suggested by Joshua Crofts.
- - Explicitly add <linux/err.h>, <linux/errno.h>, and <linux/types.h>
-   per IWYU after symbol verification.
-v2:
- - Split from original monolithic patch.
+Reviewed-by: Joshua Crofts <crofts@kernel.org>
 
- drivers/staging/iio/addac/adt7316.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-index 515f1fdae46b..54d942cae586 100644
---- a/drivers/staging/iio/addac/adt7316.c
-+++ b/drivers/staging/iio/addac/adt7316.c
-@@ -5,18 +5,19 @@
-  * Copyright 2010 Analog Devices Inc.
-  */
- 
-+#include <linux/bits.h>
- #include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/errno.h>
- #include <linux/gpio/consumer.h>
--#include <linux/i2c.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
--#include <linux/kernel.h>
--#include <linux/list.h>
-+#include <linux/kstrtox.h>
- #include <linux/module.h>
--#include <linux/rtc.h>
--#include <linux/slab.h>
-+#include <linux/pm.h>
-+#include <linux/string.h>
- #include <linux/sysfs.h>
--#include <linux/workqueue.h>
-+#include <linux/types.h>
- 
- #include <linux/iio/events.h>
- #include <linux/iio/iio.h>
 -- 
-2.56.0
-
+Kind regards,
+Joshua Crofts
