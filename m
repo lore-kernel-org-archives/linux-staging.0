@@ -1,97 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793628752;
-	b=J5RZA+tSO5wfr6blazEGI/Onk2+usnXdm5yD+OOTr9i0iViPo1XBsOPbMbGxPiVTy1Z0
-	 jXFSNQ4kBLJwaA31oOBudjIrR4ggdkvZSq/hcL+tCjFT5Fmnr3LIswpx5D75QOhj8+wi7
-	 9+tCx+8hzqqj8vG8wlgyr7VDtRMKl0x17f5F72wPSvwMCCCcr9PW/ZVzdSy5sI+DV0Sva
-	 jqpXtg9kdd9FEgh1wlIuH52svhBTlOx33yIae+jozk6XLx5pb1Es1I1U5h+gMY8rbTtD0
-	 6Oj+CPFoH/aPXZAvV+yHPUmMM2SltSlboj0fRYs6sJtga+e+rrI195OOP3hjqThnXmg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793628752;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.178
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793628869;
+	b=o7WcEMk44wzCzzGnsu5ruQigt0fD2emHM6bx/Fc4Ev9ZJ6iLBukp37NpC2/U7mRV31Fd
+	 WZGSeiW14ZnRv1TqIHIiD4n6G8T1WGi526UXMHfJOZeOxkgv1FtZpdv8VhR3XNWZo/NnP
+	 LxF6be97UMmFQOPVdsWroVX8ObQQ6T/VB+r7gnSDKxeA/hceahea+YpyeuM4vdq/3dTrf
+	 Ab4qGBYTomxSxGqG+4VXIOqMetcdQB1EWeJiBD6SjycSZ9ckCJOboTCy3r7eHD0KgPpHV
+	 wKHECT9kwp9drRJVKi1SW+5vl9Tl5AY8+i1x5wK2rhj6W1CRGdOzwAEa2NyDiN4xoZQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793628869;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Zbt90t1wgRfp0YpX0T9Ft+WXbhZP3kkNCP+Z5PBV6hk=;
-	b=LFx9Yy55N60+16CgkkSpD1FhJ8lLTPgEx80/ouPEpr6342X8TTbZWlQXaNFCxMp/lGHG
-	 uVvcBLml9KfG4FzMPq4l9cWt91yPu/0wsTQPs9JRmBEfkNffeTLuZznzb4W4JJf864vza
-	 xaXKqu2g20Dt0hsXBu9UB1UD1WTK270QLqacrWugLFU7GMUkUllZHXMr29iEDjnv3RXbR
-	 JGOmWqgvC4WBotWui8K3qnPCu6k865U059lQa61pnuyAnoSokC1Xx0ex9DvoJ/vnsfbD+
-	 UJ4NYUBkzG5+vucj6sfCMvOAtktwWoXx/nyZJZGqRjuthc/KdTvYZE/sEGVh3g6lhWw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cT+s8qQ5;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=Z9u7rLBjFfObwxr3Bnidh1W488MKnwPxv7XdCiOlz3k=;
+	b=utV1I96z0S9wvEalPm5/VXXSk8jm/phFCMUjllULPTlZSWBwvPCpX0BofbmfEWXZ/um2
+	 zWnHWDkDryoGWC3BwSvex0ga3MaQgMT4X91tAJD5GUbUfN7bxE5nKA1oS7VdA6p9hqN8n
+	 4nbdY+pOHqkqq9hDsRW7OWzXpZCpTksvUH1X+kKqHaYAlieXRGmxbvvepbj67MOoZBcA6
+	 Q4METizwXZ0ceoGXdVVu3Ul1+tgHT4QHSUk5WQDCraVq4m92Ha3o+B+CnSvPBbg55v1Ew
+	 fZy/K/WiGr6qQYoSa+64LSV9oCkQuY9O0LqzgYfCBwyD2ZGChmUBuO0hb7x5xSekGVg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=bitmesra.ac.in;
+	spf=pass smtp.mailfrom=bitmesra.ac.in;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.178
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8956606A324
-	for <linux-staging@lists.linux.dev>; Mon,  2 Nov 2026 14:12:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8956606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cT+s8qQ5
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so29229315e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 02 Nov 2026 06:12:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1431660A263C
+	for <linux-staging@lists.linux.dev>; Mon,  2 Nov 2026 14:14:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1431660A263C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmesra.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bitmesra.ac.in
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-3ac99992373so23975881fa.3
+        for <linux-staging@lists.linux.dev>; Mon, 02 Nov 2026 06:14:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793628861; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XBInQ1+93eotoAfdfzRjrmCLuMxSzB4Aez7PriIdoEmAXXaej5kUgj5Ms9edvVRQct
+         b5JDJSTzUdWxwLz8whrdq1dFClWtyokDMbbld0cGPaTgEd8BI52XZKKL5ICeZZ//JNKm
+         hYuNdrZkVgHdEj2u5Y+Z26LuKpTeO68KIZL+Nc6TKxAIqatCrvdvGHcJCp8cevZLWgHj
+         t82CQAOSBC83JrK5CA626E9abC+P1XyECIaAbWL07waL+u580Gm9Sww4+7yeuzYwEShe
+         WUFqCLayqFVaQMhMneebESmSxCD45ylD879QmYqRsNKWqYXxbtWzpwHE3Z0E/wF6eEq0
+         8LQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=Z9u7rLBjFfObwxr3Bnidh1W488MKnwPxv7XdCiOlz3k=;
+        fh=kNDiLnut5PPu924EZComLueSVIfw/+IFIU8uoHePVK4=;
+        b=eN/10aDN8XMWhSWSK/UGr4qCfsi5WYztWTj5i1YPmG79bfaG3PqaePVwhjrlwQfEIw
+         sk3qLzLDuwtdaqo6BYxH19O+R7Xn9FnTfm66Imq1c3j/43cpLaDVT+3wnWFxAkbFSzIf
+         V80+eQc+h3ZPYcQa4N6HYQh8xMza/LJLR+9PklukSnrtztgP3iPT1jyp2kCiLg9D/39y
+         xyRkKaqsWvtZ/IxZ1YuZSJUqPGQDhhYaT+o4NveeL4LM8TDIV/5WtM6GGbK9+ReaJN2h
+         RkhPtjyEPYoSpIhxrZHrHz5by92xFEuDtz4MMTS6IOduMKh2qSYtO5i6GEXwZukEroSx
+         cmbQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793628750; x=1794233550; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Zbt90t1wgRfp0YpX0T9Ft+WXbhZP3kkNCP+Z5PBV6hk=;
-        b=cT+s8qQ5pIrPAZF8GouXqQuutdV7SZbRennIwto2c2yS4Gsel/awfPwl2laMC2hGA/
-         FcN9HW2a7I2PrwuHcTVq50jqSJ36VYDeeDKMuP1IA3YJE5JYrrmSxcg43gtqBVHfpm7B
-         4Yg6YkcP32ZMF87eDsCb/H9G6Nc3PMxp+vTfSiyBhMR7cmWiYCpaHscP0KH+NIsjxLVt
-         waa4z2vVosDxrnA4pPZ3mhZNLjk0ZdgzP7rqoq9owAGdhrP6x1qMNLwm7Syjsj8GC/9v
-         wfW90aSqGL7mkK5SkibA0GselWArv6szpEZnu6Qbd3lFEgbybK93GKdaQx11CapNOOsQ
-         rpcg==
+        d=bitmesra.ac.in; s=google; t=1793628861; x=1794233661; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Z9u7rLBjFfObwxr3Bnidh1W488MKnwPxv7XdCiOlz3k=;
+        b=aj9qyJ7lV9YRGNrPtqmJt3mlmenYMXlaHqb1NpHZgyiuz+f7Sd6UVqE/4VKw4Nx42b
+         nAq4i70MUo64SAU5Ml/yC5kP0pUYDDdTG236IWoi1INF7mHFVYMFz/yqIrbb8E1FuEZz
+         ypvmSIKSoi42LLgl2bLPkP0Sjqs4mQs+4q7pU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793628750; x=1794233550;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Zbt90t1wgRfp0YpX0T9Ft+WXbhZP3kkNCP+Z5PBV6hk=;
-        b=Xf26b7T2tNJp0sCq3w/J/pBMRpQ+vuF1CKFn/8l3Vrdz7OaaD7we53oU25lasuH0L0
-         OXoacGPV4ToAAiFtaPDTv/hXRCgTsQR7nOXxYehIyz+3LqdZe6CaWSqvxjubJGrMjm0/
-         wjwzDMa6a6s6lGPUL8yk3+6d2QTJvQd061LNfECo6lj+6b7+I/AhmjH+ACKCbCt1i1xW
-         IRN1X8AgBtNphnF4US5rY4gr6admtTRnjK+sWuiVpGOAv0JgQFR9mGM072YJizaQ+vW5
-         HQD6mSoVnZE2a7XWkUEEReEsJsJtgKrxkIvSSiUQNsvwv7ECU21oQ5MEYb9gmbH+eWAE
-         4I+Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzVBDv20aqkC8mZSUTCTQ+g7CR5UJmQ7W3v3ayBth/RXZd6Hty62GH/yaFIqEUJ80luN7BAiw1yBOvsAAXx@lists.linux.dev
-X-Gm-Message-State: AFq9FYJLVv5xxkFJ/43lUQFrQdh8zFmBYruYzGHzWpTHsCccbnnSvQ7a
-	tpR9odVpIaajn1oZRn/bEJr8jBbe2NVJpmgsz3/zT4t7s+VUS6TA/h/Y
-X-Gm-Gg: AYBFou17OuyQh/KWyjT9Vi5Vrc44eFV4PHKNu/nIC7OWEU8QF8/7yZMxEIgOEFshP93
-	i9JUJg2oUqUgetup4VGG70XZSrdaiorMdb1CgtgLpJABx348TIfMVRmrG3TCXf9jlTW5asMfzY7
-	Kf8UY5PjQrq4dqFDLMuPSThU9NPA/Ok8aTdEM1RwepUi5cQpwFeSqz0ulfY/RuHs73g7W0Jtx6D
-	cfB5rZQqsqHmu9yPcgqHJlO7uMFfSfmFm1Me8zlgq8k6kpU53k+yb4TZJXyHKAxydgEVrQy6AFh
-	1wsmpa0BKlv62mbp7s2yfaDYo2ys3S6ybmCcEA3N9Ao/CukNi88Bfweu6+xp/1m77eYw2ZWEjWO
-	eLVbTULqus+oQJgQBjnFRj5WHT/jnv/X/IezIELgkECs6/AAb9dacXjhplu1giLyKcHlWy3Hqvd
-	3Fep1gU7EWqPzyCDjOnfdjGlkNPLLdC34bOz7dVyUjO7SJ8GiHFkHIlhu5+NPQBK9kKsMOWZiR5
-	EDfkhc+l318b62SEyQPfOHoJmpw0VzKAUCA/Y6yx0YYZbFqCUTSOPvctNx0Sq78lWZzAeUdUJX8
-	9W4ZOG0Bpt8MbUaYb8zPc3WVoHSbeFwE+xAvGCtz7xZlvTQeFr6MM1NfIqG9jll54FYwk9H6xFw
-	85myxHO/xy3oUZWDppTIRjD+D9QmIZ5kZxiLW
-X-Received: by 2002:a05:600c:4e02:b0:4a3:59c9:a758 with SMTP id 5b1f17b1804b1-4ac19705e02mr219933115e9.32.1793628749862;
-        Mon, 02 Nov 2026 06:12:29 -0800 (PST)
-Received: from x1e ([196.189.89.249])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf751c2d2sm301441565e9.15.2026.11.02.06.12.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 06:12:29 -0800 (PST)
-From: Maritu Hone <marehone12@gmail.com>
-To: vireshk@kernel.org
-Cc: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Maritu Hone <marehone12@gmail.com>
-Subject: [PATCH] staging: greybus: fw-management: validate firmware_tag is NUL-terminated
-Date: Mon,  2 Nov 2026 17:12:21 +0300
-Message-ID: <20261102141221.87646-1-marehone12@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20260707; t=1793628861; x=1794233661;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Z9u7rLBjFfObwxr3Bnidh1W488MKnwPxv7XdCiOlz3k=;
+        b=AOTHtV0mNw5j1uX24hJgAHSmHhUIpNyYObgw9i8JgEhxfmGYlF6A1qYwqsZ9gcltBg
+         95yyjnbpQPY8gRAnEP1EPM1EtnVmYsuUoYjLXAHWWZd3sA6R4cPBkE9CCdiiQyR03xOL
+         XH8sBhlkI8XN7upLR71WO3xj3DVqQMnt6epSam3S88V5hGKW03O6Ou53RQSVoRjElfTd
+         g97CVUuJ/d9l8tQjUGOsb0YxNhVdXUR7MEFlKDRYD/zHaBDWxyPuF7bc8nf3qK3Zlm23
+         NMjpiGAQi+oIYPDDUaQ/ofBXGHF6LwHwZ7yh6phwhA/HZP9+9XSxcHFx3LEsJo3I0iMQ
+         Lo4w==
+X-Forwarded-Encrypted: i=1; AKwUvBwAFLeTD7ujy2zUnCx4KZlR+FVsnfDZDS//ex2/LbfpNzQVUyHkOmBSWEvl8A5KqCFOm1cPwpykUN2mbbo8@lists.linux.dev
+X-Gm-Message-State: APuU4Z84k7LpjyU8kXCi/Y0IjGfZSphAhVwgAC4BbdU6GeKYLBlPBEdo
+	XnFslNOCii+Xyz888tH1MyT8AQlaSB4HL5sUyakrZb4Pcci1+oeEbCwCz9KfGiiKvhtxsJ2F3qK
+	xnAScAV/5l6BOzPEbplQ3uNG1HjCn3FySm905tKbp
+X-Gm-Gg: AYBFou0AUhpZ2EOH+pdd+6UTi0ME37YDTO9tlAngbA7OubRme/4Mn+h9p9j2gGnS99y
+	8Q2LEi6T5lnHZSi/O4DLuI5lhNxwwUDHG4QGY/2maPJ+y6jsBbttQ/Ex3aORedrg//+jTE3uyRp
+	IQNgXE5UT8lF+1meuvn/pjwL31bw+TuT2StaHvauIP8R3IvLMqn/AoUHs0hzI1uQjndqgUFXizj
+	v8pwiMufuSr8GkuoKBoh3XOAvnwiXnMm1S8Ui7FEP+Sr9ZE1EDsnn3s0wDbPh1XEg8MXjelxjW3
+	rImztBiFNMHiWYe+x7cIDgw/WsYgR4bguWe/RS8Gr+0iPJkTXTUwj53t6psAKGe15Ll1ubwt3Ug
+	wZpMC1lnU7/c+R9ZKFVMiLUBIBJtm14gvTiRgzcEzifNQ3GLPk+D1M/bEAwg=
+X-Received: by 2002:a05:651c:43c7:20b0:3ac:d178:4f97 with SMTP id
+ 38308e7fff4ca-3acd178522dmr3648971fa.14.1793628861275; Mon, 02 Nov 2026
+ 06:14:21 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -101,85 +95,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Kurmapu Sai Devansh Prasad <btech10487.26@bitmesra.ac.in>
+Date: Mon, 2 Nov 2026 19:44:09 +0530
+X-Gm-Features: AclHuK8zvAC6NLaJerLR74Nj2Z7Ax0Couwh_5yLGD3UqJh-lFBH5T1ZF2R1C2DU
+Message-ID: <CAPwSj7XvbTR3qtSev-xEtZeewwvSWFXPhK5F12VGzSiQoNudNg@mail.gmail.com>
+Subject: [PATCH] staging: greybus: fix string termination in firmware sample
+To: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-fw_mgmt_ioctl() copies struct fw_mgmt_ioc_get_backend_version,
-struct fw_mgmt_ioc_intf_load_and_validate and
-struct fw_mgmt_ioc_backend_fw_update directly from userspace via
-copy_from_user(). Each of these contains a fixed-size
-firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE] array that is never checked
-for NUL-termination before being used.
+From 9114eb9d60f2c4a52f05e3a33b0d6b8ca4856cac Mon Sep 17 00:00:00 2001
+From: Kurmapu Sai Devansh Prasad <btech10487.26@bitmesra.ac.in>
+Date: Mon, 2 Nov 2026 19:11:09 +0530
+Subject: [PATCH] staging: greybus: fix string termination in firmware sample
 
-While the array is eventually copied into a Greybus request via
-strscpy_pad(), which safely bounds its read and always NUL-terminates
-its destination, three error paths print the original, unterminated
-userspace buffer directly with "%s":
+The firmware_tag string copied via strncpy() is not guaranteed to be
+NUL-terminated if the source string is exactly the size of the destination
+buffer. This can lead to a buffer over-read.
 
-  fw_mgmt_backend_fw_version_operation():
-    dev_err(..., "failed to get version of %s backend firmware (%d)\n",
-            fw_info->firmware_tag, ret);
-    dev_err(..., "Firmware with tag %s is not supported by Interface\n",
-            fw_info->firmware_tag);
+ Since alternatives like strscpy_pad cannot be used in user space
+sample code, we can make it  safer by limiting the copy size to
+MAX_SIZE - 1 and explicitly assigning the last byte to be a NUL
+terminator. This ensures the string is always
+safely terminated before being passed to the ioctl.
 
-  fw_mgmt_backend_fw_update_operation():
-    dev_err(..., "backend %s firmware update request failed (%d)\n",
-            tag, ret);
+Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings
 
-If a caller supplies exactly GB_FIRMWARE_U_TAG_MAX_SIZE non-NUL bytes,
-"%s" has no terminator inside the array and reads past it into
-adjacent kernel stack memory until it happens to find a zero byte,
-leaking that memory into dmesg.
+This is my very first patch to the Linux kernel! I've been learning the
+process and would deeply appreciate any feedback from the maintainers.
 
-Reject the ioctl up front when firmware_tag is not NUL-terminated,
-mirroring the existing check already used for the equivalent
-Greybus-module-supplied field in fw_download_find_firmware().
-
-Fixes: 013e66537273 ("greybus: fw-management: Add firmware-management protocol driver")
-Signed-off-by: Maritu Hone <marehone12@gmail.com>
+Signed-off-by: Kurmapu Sai Devansh Prasad <btech10487.26@bitmesra.ac.in>
 ---
- drivers/staging/greybus/fw-management.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ .../greybus/Documentation/firmware/firmware.c        | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
-index 5d01da6b6eb9..2ee609dd67fb 100644
---- a/drivers/staging/greybus/fw-management.c
-+++ b/drivers/staging/greybus/fw-management.c
-@@ -419,6 +419,11 @@ static int fw_mgmt_ioctl(struct fw_mgmt *fw_mgmt, unsigned int cmd,
- 				   sizeof(backend_fw_info)))
- 			return -EFAULT;
- 
-+		if (strnlen(backend_fw_info.firmware_tag,
-+			    GB_FIRMWARE_U_TAG_MAX_SIZE) ==
-+		    GB_FIRMWARE_U_TAG_MAX_SIZE)
-+			return -EINVAL;
-+
- 		ret = fw_mgmt_backend_fw_version_operation(fw_mgmt,
- 							   &backend_fw_info);
- 		if (ret)
-@@ -433,6 +438,11 @@ static int fw_mgmt_ioctl(struct fw_mgmt *fw_mgmt, unsigned int cmd,
- 		if (copy_from_user(&intf_load, buf, sizeof(intf_load)))
- 			return -EFAULT;
- 
-+		if (strnlen(intf_load.firmware_tag,
-+			    GB_FIRMWARE_U_TAG_MAX_SIZE) ==
-+		    GB_FIRMWARE_U_TAG_MAX_SIZE)
-+			return -EINVAL;
-+
- 		ret = fw_mgmt_load_and_validate_operation(fw_mgmt,
- 				intf_load.load_method, intf_load.firmware_tag);
- 		if (ret)
-@@ -457,6 +467,11 @@ static int fw_mgmt_ioctl(struct fw_mgmt *fw_mgmt, unsigned int cmd,
- 				   sizeof(backend_update)))
- 			return -EFAULT;
- 
-+		if (strnlen(backend_update.firmware_tag,
-+			    GB_FIRMWARE_U_TAG_MAX_SIZE) ==
-+		    GB_FIRMWARE_U_TAG_MAX_SIZE)
-+			return -EINVAL;
-+
- 		ret = fw_mgmt_backend_fw_update_operation(fw_mgmt,
- 							  backend_update.firmware_tag);
- 		if (ret)
+diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c
+b/drivers/staging/greybus/Documentation/firmware/firmware.c
+index 3b35ef6d4adb..a6a0988ad6fe 100644
+--- a/drivers/staging/greybus/Documentation/firmware/firmware.c
++++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
+@@ -64,7 +64,9 @@ static int update_intf_firmware(int fd)
+        intf_load.minor = 0;
+
+        strncpy((char *)&intf_load.firmware_tag, firmware_tag,
+-               GB_FIRMWARE_U_TAG_MAX_SIZE);
++               GB_FIRMWARE_U_TAG_MAX_SIZE - 1);
++       ((char *)&intf_load.firmware_tag)[GB_FIRMWARE_U_TAG_MAX_SIZE - 1] =
++               '\0';
+
+        ret = ioctl(fd, FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE, &intf_load);
+        if (ret < 0) {
+@@ -102,7 +104,9 @@ static int update_backend_firmware(int fd)
+        printf("Getting Backend Firmware Version\n");
+
+        strncpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
+-               GB_FIRMWARE_U_TAG_MAX_SIZE);
++               GB_FIRMWARE_U_TAG_MAX_SIZE - 1);
++       ((char *)&backend_fw_info.firmware_tag)[GB_FIRMWARE_U_TAG_MAX_SIZE
+- 1] =
++               '\0';
+
+ retry_fw_version:
+        ret = ioctl(fd, FW_MGMT_IOC_GET_BACKEND_FW, &backend_fw_info);
+@@ -130,7 +134,9 @@ static int update_backend_firmware(int fd)
+        printf("Updating Backend Firmware\n");
+
+        strncpy((char *)&backend_update.firmware_tag, firmware_tag,
+-               GB_FIRMWARE_U_TAG_MAX_SIZE);
++               GB_FIRMWARE_U_TAG_MAX_SIZE - 1);
++       ((char *)&backend_update.firmware_tag)[GB_FIRMWARE_U_TAG_MAX_SIZE - 1] =
++               '\0';
+
+ retry_fw_update:
+        backend_update.status = 0;
 -- 
-2.43.0
-
+2.56.0
