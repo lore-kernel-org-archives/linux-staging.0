@@ -1,65 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793699353;
-	b=q/8qQjGfJ4cIN7olyTzNArbaak2mVqJ++HxHWPHfGtI/kxGMMDoQU/pmQ8Ha0t/0XvLF
-	 bgNAIyElXPR/M7siwteRbR62EaiG/N80sl4QkpHhetaU5UFMyHigfrz1mDqEJFVfebNHV
-	 qECOHghRaFucbzyVSN1WbbMI7YWZXvHUOfVJb2W121zC7xEZ/UfKElLieTfG83sEoDPJd
-	 6t/qV+TFKY4937/p0khkpjJG7GXQjIA2XplYyhA5qlHGAUDbCvFys6RyhcNAit/INkJiR
-	 2mp1ACwwwo2CxCi2KCrwaFvNxL9E156hydsr1ePtIHSQvErn0znFl9/352NRwMHecvw==
+	t=1793699737;
+	b=c6CNI+8tqSUfasY9KeCIXRKjH8TenbHQYLSlNZ/aDs9hMZiBD+FgBViQi7V3KtJZHJUM
+	 Comem1cxH8/WVpJh0zwO2FXc83tqfqCG38NF4dz4NcHoHUA/ujKe1skP16Et7FRaFamj1
+	 KKCi/AJSniUEDAbfETJX/z66MJaJPb6iJavzztb7zhJJXB0JhuqjT6hIVVnmlzgj1sTbb
+	 VGSXkZbq7909bQnUZu2ItzgWLttWTwRJUiZ/SQwdJFThaTqkmc8itYqqkQnUg9+/+gXqL
+	 Pvetpce/zYO2YDt5QHzRif9suroQ+XNYNGRSPYAlBNqYlAxqo/pgpJ5hcMQXqpmvXJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793699353;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ylrl98H/oi6kVjKkLEYq2OJJs9fx6JVqgO3GHSLwI00=;
-	b=IZluSHEVFctxEE5NYrBnkSdADik6mz8SvcJ31sxEj69+1NF1sh1mn3KjuBsottXJ44ic
-	 O3+lhQEeaW/lXJRZnNu4O9x6Rs/a53fREXzHx95Y/fD2OQTCIfclANY0+RrQg8H8MK68a
-	 STqqmFoUcwt9MAMH8uERGiBVeUR0jCR8Dw7DlyiS6+EckSdiwSVB8Yv6otwSn19A2E/6i
-	 bSTh8dL6vVcrgCzBQdiXL9DkfMeQ6AUVXWB2GTrFaq9DatSosG1Jt/SE8UdQsx3Dw/WRF
-	 b/pj20csZ0FLg0LsecDaDhzB5EX6NwlSea9zOkxe1eCoHt5HxMCjQG1KDnTGsClumeg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793699737;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=BeQGUCOl1k+ajaLkli3SGFUKxG/MbdebyYfebJs1qjY=;
+	b=dzNmEwWSabfADHT2PdWK0Bfczf9oybk2spUnogQinpnrLl9EKOfXceShEvnEltaveidE
+	 9TldoPhpqX+KX+uEnOx9Y5E1mEqOOi3gF2aaUkMccGcvPjJ7sm/QXze4lDLXDnQ8R533c
+	 ySU50QySTTF96KcMdjlUXN7KTeTMUa1MGoftkBLGfrWCxRb4qWn0gEhfmMGYiDLLVp2nw
+	 cEX2HJPpQNdOWWzfiLTJ1pcS2IcCfCGpG27Qk1lYbxs8rbr0tpPs7oMoh4gBS39sag7Vd
+	 +ICGdVXnOs+6xv3Nb4vobZNYYrtqzodppPw8k/d0wRJOtn9qx8ahsfJ1NxMf8U7MP/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TCf5BEiZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="lB/78FF9";
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23286606A324;
-	Tue,  3 Nov 2026 09:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E814560A6F6F
+	for <linux-staging@lists.linux.dev>; Tue,  3 Nov 2026 09:55:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E814560A6F6F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TCf5BEiZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC1201F00A16;
-	Tue,  3 Nov 2026 09:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793699352;
-	bh=ylrl98H/oi6kVjKkLEYq2OJJs9fx6JVqgO3GHSLwI00=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=TCf5BEiZyZYXarpybkObEUkHSHilYbJPAy8ThT7xO7n3HVFgfQNrNK/z/8YqVVw7a
-	 IOe1Ty5l8zq6lS2RefnCeFHLBK3ZvxYkHAoO8+MQJblPcp/5aiaSYVChaShOtQQeSG
-	 CSRRIXKcSEMhO3eQNwC3JHBSVQxo2trr6yBq8CK6gyqFJzi4h51wreo+rGIxszECIT
-	 0JLP2uuL77Nuoj15vd1+eE7Fs4KsYfgqbAqVLNlVz/irlzi6cgdIjiS9KULchsS9IS
-	 t1mX5gVa8lIdmNSFx6uD8B8pqoDAJ3goXuPzIhgiBHxRb6US9bPnf1E/jbjx3oD+Cu
-	 EPASwHU5mRxww==
-Received: from johan by xi.lan with local (Exim 4.100.1)
-	(envelope-from <johan@kernel.org>)
-	id 1xOB8g-00000006I3f-0e6Y;
-	Tue, 03 Nov 2026 10:49:10 +0100
-Date: Tue, 3 Nov 2026 10:49:10 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Alex Elder <elder@ieee.org>, Maritu Hone <marehone12@gmail.com>,
-	Alex Elder <elder@kernel.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lB/78FF9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793699735; x=1825235735;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0UZauren3FKcX2qFQSrZTnrqyYVdkjbCTu/nrHaJWM4=;
+  b=lB/78FF9SfGF3XuUMS4v3Taq1uW+GjkRtqt+rIEzLAMw6p/G49Oy9HgK
+   MN6EDznTCZwhdlXRuqF1d2jcWLPiSTa9aw50Cd2GeoB4jJSdCm7bMHi/d
+   AJ3WEqHBSks+wy7ICd9l1btwGbYAVH7W+4izl9orK1DOwc/u7TognEFiQ
+   cZXDwx1tNxi+bv5uc/afwOzQyc9yi+nBxF3WZVpG2+d4MWj3U5BDtcgC8
+   6/4UHH8ocIaCPBwAddPQFu8pTIAYjRa8qQ5zLYeEVzHOQcNKVW2+1uXWO
+   Qu2JC8/2+3VzyCZlzguaZkZmPvkv7+AQfwe7E9COwPrGqqOnzlzJyXMmi
+   Q==;
+X-CSE-ConnectionGUID: MVVvx12VQ4ypFFUD5/YyjQ==
+X-CSE-MsgGUID: 1Iu7aW8oR2G0Jx9c0pRxAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2306695"
+X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
+   d="scan'208";a="2306695"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 01:55:35 -0800
+X-CSE-ConnectionGUID: c9SjTP9tRECL/nhQYcKZXw==
+X-CSE-MsgGUID: U4AhdxKWR/+2AadWm0Giyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
+   d="scan'208";a="8223937"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.108])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 01:55:32 -0800
+Date: Tue, 3 Nov 2026 11:55:29 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bryan O'Donoghue <bod@kernel.org>, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: uart: fix heap buffer overflow in
- gb_tty->buffer
-Message-ID: <aumuFpFQWloRxaqO@hovoldconsulting.com>
-References: <20261102195332.19860-1-marehone12@gmail.com>
- <f3848ac6-a105-4581-8f17-fc9d3f748b74@ieee.org>
- <aumfB5MLWIQuTYY3@stanley.mountain>
- <aumlkgtsSDS1fw4g@hovoldconsulting.com>
- <aumpM9Hlh40t9UZd@stanley.mountain>
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Joshua Crofts <crofts@kernel.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] staging: iio: addac: adt7316: replace kernel.h
+ with explicit headers
+Message-ID: <aumvkSfdGIoJHtmn@ashevche-desk.local>
+References: <20261102094236.57757-1-abdelnasserhussein11@gmail.com>
+ <20261102094236.57757-3-abdelnasserhussein11@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -71,31 +89,40 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aumpM9Hlh40t9UZd@stanley.mountain>
+In-Reply-To: <20261102094236.57757-3-abdelnasserhussein11@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Nov 03, 2026 at 12:28:19PM +0300, Dan Carpenter wrote:
-> On Tue, Nov 03, 2026 at 10:12:50AM +0100, Johan Hovold wrote:
+On Mon, Nov 02, 2026 at 11:42:36AM +0200, Abdelnasser Hussein wrote:
+> Drop the proxy header <linux/kernel.h> and replace it with direct
+> inclusions per the Include What You Use (IWYU) principle. Also remove
+> unused headers and keep the list alphabetically sorted.
 
-> > It's the kfifo_out_peek() in gb_uart_tx_write_work() that may write 2
-> > bytes beyond gb_tty->buffer (as its size is currently just
-> > gb_tty->buffer_payload_max).
+> Explicitly add:
+> - <linux/bits.h> for BIT()
+> - <linux/err.h> for IS_ERR() and PTR_ERR()
+> - <linux/errno.h> for error codes (-EIO, -EPERM, -EINVAL, -ENOMEM,
+>   -ENODEV)
+> - <linux/kstrtox.h> for kstrtou8(), kstrtou16(), and kstrtoint()
+> - <linux/pm.h> for EXPORT_GPL_SIMPLE_DEV_PM_OPS()
+> - <linux/string.h> for memcmp()
+> - <linux/types.h> for fixed-width and standard types (u8, u16, bool, s64)
 > 
-> Ah, right.
-> 
-> The right way to fix this is to have a commit message that
-> says.  "The gb_tty->buffer pointer is supposed to hold a struct with
-> a flex array at the end, but gb_uart_probe() only allocates enough
-> space for the flex array so it's two bytes too small.
-> 
-> Part of the reason for this bug is because it uses a void pointer
-> instead of a struct pointer.  Clean that up as well to prevent
-> future bugs."
-> 
-> Please send something like this in v2.  (Send exactly this code
-> but edit the commit message if you want or leave it as-is).
+> Drop unused headers:
+> - <linux/i2c.h> (no I2C symbols used in core driver)
+> - <linux/kernel.h> (proxy header)
+> - <linux/list.h> (no linked list symbols used)
+> - <linux/rtc.h> (no RTC symbols used)
+> - <linux/slab.h> (no kmalloc/kfree symbols used)
+> - <linux/workqueue.h> (no workqueue symbols used)
 
-Looks good, but since kzalloc_flex() was introduced in 7.0 (and this
-bugs goes back to 4.9 it may be better to do that conversion in a
-follow-up patch to assist the backporters.
+This is too much for this type of change. Please, move it to the changelog and
+comment block (after '---' line).
 
-Johan
+> Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
