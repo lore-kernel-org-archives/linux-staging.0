@@ -1,107 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793729570;
-	b=d30YkbvbkKaH23nnYv6pYV+DB1yMkN6ATLuUmYzKMmEjrW1gyynm5Nwz+cyRauaS4VqT
-	 IE/6o8BD5ga4KQBiyzO3RHaowiEqPe/n8/JlefDn9ak4JQdw+igi2ctkwzmBKT71Q8cGA
-	 HONIQzzlM71NJSiuoY4lncHTeEZ9UAA/d13AbOC1bgmRFfM0LijB9s9UoDnnD+3cFA8VZ
-	 cKDkCMfe8ZTquWr8eircIIncp/C4CSeQ4W51C285yFTzI6dkIwKbrvE4XEY9ydN30S5d1
-	 i4FIClgaiY0/JAdroXdcAQVLdr3gJ55fKSyc28q+lXsx6n5OvG015xmvbiGf412mIpw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793729570;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.170
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793730092;
+	b=XHfQSjHhbljov+o8eP8msyRaneqMl5mYiq2//R74INEXjrYaxbORuF+HsnfA1sGDfPzC
+	 BhBX3dyjf2qQ2r4STL8S5dPF+WWtAV3lPUyK5eewxAf9NnBJBWqtQEcg6YbhzZlrEwKai
+	 MIzrfU7ADWgm2IgaZhRBA7mjG+ZZN3FNu0g3v3/dqLA5tAMYHq77QsHo7tqg4MIoKLY7u
+	 wIP2mGHTVyTbOSwBFNzBnTyWPFrakQx+JqHgNC7fYxQNio6CHhVn/5ZWu4Co2b5ZtpGlu
+	 EQcWdLPUBb3BYWmYck1PMXOha+ymUnH1ARnZPwj+v48g5X6VJg+wNN6QjZzM7UezSIQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793730092;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	bh=axeQ5CIE2uW000DJFHLDIWC6PSnHJaM+7ICNLkjh1BE=;
-	b=CR92Ze3Q/6FV0IkphMbZvTdzL2/gJ8lzltWXudz6NiR6h8J5cJA+Jn09Af2uY6agC1J7
-	 F+gQH12VFBYqOXLY5JYenDhhe8Zay6Q317mgxxn6cgQAQ1rqu70hNHRlAkleU+wNULT1w
-	 qJrYc18K5M2Wbe9oioixqcHNnRQApqgsdNeOp8zzlh+wdgr9iLck/LAtX6cBE5KX7fN6o
-	 aDU8CIih16Z3B+mIqoQLxwm/Lm3hO/rWG9ROw/ZMlpgEPbryjhVgi53grjRUzZE1bQefL
-	 IavLLAie2Vf8ecfWbCzVgjWmi6UVgVSMjAODZDTyccdJTlNPResD5M+XEb4Y3YVvm2g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=MpEcraxy9Q/+qqrBNS3dySP9r7Q89RzTEEKEaNrMPJU=;
+	b=042sGUn9KZ2u/IrFoGVlSgHl6yB+VHCXeXnfmdXYjnXb/WOlcuSSSHK+4JWpYUYxLNTS
+	 WDgxk+KBkYUoml019GABRPVswJg9EZ1WnIEGBkcKPXObrLdQKOvX/xrQgU46StUH3FDSh
+	 hlbT28XWjqmTwrIjwC5rdHpihW6udf+P7IEVZtzlMm1UnPtoL/s5oXn1wPFQve/Oar5w6
+	 6QbnfSojwPy3rgpVQcSdEyZW5F9cQfSWqkaGBV+SEb6Vj8VIJ3HbE6ANvrye2p9mVB4C1
+	 puFHAr1rPD9kPeK05m1hXF08LTfJlPKfag6BonW0oq4pCYc7whx0O9WHnx7G/MmJT/Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DwmhY2Q6;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=m5LpPDuQ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.170
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C800A606A326
-	for <linux-staging@lists.linux.dev>; Tue,  3 Nov 2026 18:12:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C800A606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C737D606D823
+	for <linux-staging@lists.linux.dev>; Tue,  3 Nov 2026 18:21:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C737D606D823
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DwmhY2Q6
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48df54150dfso2298959f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 03 Nov 2026 10:12:49 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=m5LpPDuQ
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3ab3dd9670bso40391291fa.1
+        for <linux-staging@lists.linux.dev>; Tue, 03 Nov 2026 10:21:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793730090; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NmnW1KNDAYn+LziGtWVGjJLlonQuYrGJC64xZgjZnVzQDdcqVSyDKn8YyzVqv6T9P3
+         GaKyG9ypDEVXqhZU9cqD/dN1fdloCJ/ZY8onVB54OZ6fhX/GWPyVCP9TDeoErDDgeP4V
+         o/mCxNiGs8jCvQUuWv6Fb/bqtXCSij4a5prHXvbmTuSgWZNxUTXr60DhDXZUEdkwfp8l
+         puTzTplpuJjdJD6yr2N8m1fW5B7SXbbJa16o47S77d5aYEVcoq8eEx9FQZhu9fQPiCHB
+         6VSUh6zJV3DLICTuQ5kjhXUjq81j2mcCxp0XdfuoVQteHAe18s/ezS7+pYxR3RnlM0Yx
+         D1Rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=MpEcraxy9Q/+qqrBNS3dySP9r7Q89RzTEEKEaNrMPJU=;
+        fh=+iOlbFVpNTMmrRBFiHSSHgwXk138h4IzD/DZjr9WoLg=;
+        b=DpyLzsdYPX0xuP2HS9j7rd4eD8N7JiSA9VVN4wtKMePTeausQvez2Br1kKwonmC/cO
+         CJdASQTCu42TOwDblNQhMtTA+z7zQklENEMynvWmDggDf/WTMpcGZ0HUPtCjnIEee5LM
+         Jrtdq1VzVUoYtlRSCbkMXRWCNdx0aqUhLoNVRPsGj+6LD00LF3wPSkPmOz775q34CKhQ
+         5YNdhNnDLusAOWCR7oxpkVMv+f1RPD6Pt5Osatl3d2CBywAohZrSO1/Fm+S5GQCYRFTr
+         1uN1/uB5EnU9H9uyvaay/GZS16rjgUXpvB7reIId4I2Z73R0SmRfeOPL8IL2mpTjdc9F
+         5UOA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793729568; x=1794334368; darn=lists.linux.dev;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1793730090; x=1794334890; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=axeQ5CIE2uW000DJFHLDIWC6PSnHJaM+7ICNLkjh1BE=;
-        b=DwmhY2Q6n0SBsR+iUoh/HOTzqgF0tCmTpLLs+Yy7J1PDfkzoIUMxLCiPa4TW4mtXxu
-         0oLRXnjlvLuBKX2LFp2MOUbR647HUXs9WhsZ+n1PzFiHm1HS6i5x7w8gz5tYQoS08UGn
-         +90B0nk5SWD08YcgwGJQJAeDpZHNaaXK7VodcgUh9Ox232Vc1xOJ1RSxWZmjZqzM7GfQ
-         RGl2UvS1F93cXBdmkXov2CPKQwZC5ChcwxVzkv/QOMDGlmrswRlXozfzZpmsDu71VuoC
-         pptumAalxPc1EiVfJHb1GhPZDjU9oh8Erv/RZZ1OLxoDA7u9geWASW9ov8xb4cTt53GI
-         f9wQ==
+        bh=MpEcraxy9Q/+qqrBNS3dySP9r7Q89RzTEEKEaNrMPJU=;
+        b=m5LpPDuQGZoFVYxmBulzH78/4kwjPMP/Cb3Q0k4vcfH/BAUMRVUS0nN96Ull6nMdlf
+         9VXeXv/SsGg5mAtLYoT7oGfuD8n3SeVGIPYqnhnhSTEdOIoM1NEhP9LvlEv11FP5EL1M
+         DeS447Q9KcYWllI2RrnmK+nE6XYclVkfy6MY4H0ptFRQAN4iDtusSTjY7opKkO04ebDu
+         EblsbtJY1oUOkUFTKcdqOigABApgRaTxevsmxAOPK0ZZw4YuVU4K8VIytzjHZ90MlrdG
+         6hiDS7b0F7Py0cX2TNGbo8oAZY7Of6cPqQUxnL9P00ZJweFoGWHOiIAqyFEWyPWqbRkW
+         VlTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793729568; x=1794334368;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1793730090; x=1794334890;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=axeQ5CIE2uW000DJFHLDIWC6PSnHJaM+7ICNLkjh1BE=;
-        b=QaUwAo/vW5Sk9QWHt2KvLoCMfoQ3ceXYYGR8khKkqeX9E2LqAF6yjcjkEBCuwNyN8k
-         WDTPsoHz1KVj7xu4C7GLnT2kVJhNOY/VA6RS+gbxzt0rE5tYf7tlcHu2+p8gugWSublP
-         eyto5DF8ICHaNCUe9mIKkxNq5SG3dgmYajfEfmotk38LsjybUFKhfstWYTLWbwuWj7Bp
-         DXQOjPhJXA4o6u+dIa5sPTuhIfkWBjd8/Qn+mT8zFYtw0ghF6wju49dk6HbZ6ItMaxuK
-         GM54mL4AJxC5cKOaQ43H4aQKJNm5y/w7O4uU5tBCaYzEaz18Hv/ARiz9Ms3W9Et1oHEn
-         SxDg==
-X-Forwarded-Encrypted: i=1; AKwUvBxmUZ6NdvA2Qc/rLCf8ozgwSST5movVzeVf7whOAhh0n836PCPeVaQJO7JBuNzF5oCgBTv9oek6aMI8SolX@lists.linux.dev
-X-Gm-Message-State: APuU4Z8y/253Y4bx1e5ZMnxAQvIYQCfClFljo5npCX6OfVjch3R80kkA
-	hV7VZQBQ/nG0LFSmHUwBIu5ieYdswbVnxcSleyp6NCBoA0Fjvdje4Lqv
-X-Gm-Gg: AYBFou3Ipiblym5R4WFzDsgME0sIiL/f9/6cPHXQlTrBkf9OJUpSUjT2RPYL7MBuSYs
-	5+O87CDJpKshQNiHPByXEhFxj9Shu7QjKW+Ywp+m1C5uhplf+T14DfOkLhsNiB16EZRKpMDOrI5
-	YKK4BWzdcbvMA59FOKzZnEeWkL33VhrOXupR7T7WN/njCLN2w2FDd5Qp3fT3ohcCpTLH8S9fV8I
-	FZFoKIU9FwZ2xtbTkj2o3v5C2xqTq005qFk+OVwHcg4T6sgNpqcEFB9V1JVJ7xRGTGwaaFv/TXk
-	Dkqv79+gqS1gcjgxyLTwxNAkhEFDZrBa0ta3SzbO3Bh3xuIwL+fAtLf1tZnoU0K5Pm2+N9wr4cL
-	Fii/RVDZ1ngOD/0QMtX1WfOkXYrLceS3FxdubXjOfWooSzkmMmIojj8cce1Slhh3JNHI1Q5/of6
-	LJWDQ58JMsCv5y+tAC5hgCxS2kwBK9rQUmV97XV05Ai5heSiH0a59e1qx9a7H0Z3nIfYC1PeTwL
-	6pG8unqOYhs0vWsmwJWracSkusIhbshIQIfK8j2j6340dgW3QGEZwPjJ48/YZ4CxDGp2YJXJ6Pv
-	sHKqvuzFULVM4DE2be2eM1DhXg4Wb4plzHg7gJH2+6fPyXmISbDtISvVCK0KKJX+RDKZjP6GDI1
-	z/iB5i4yRj6djU8HWqeFq2la1R+fD6ubaB0gz8gbSe/9q6AKflm9QdTxuwedej8HkqP8lsdfPY3
-	zrg3XJbmLaCHfJbC62/jX2DJ+vhTU52Vd5nsKNW2Ut4406RF3Gy8NtRVcnGNAAuCP+4+AbzHsTe
-	MmDtR0MOdh6atOZaflNUxX6WmEHdkIlCabsFAIy75EgpyaGcuXFzpSdSMjsrA==
-X-Received: by 2002:a05:6000:310d:b0:48a:f59f:8b70 with SMTP id ffacd0b85a97d-48e6e4f8c71mr33769566f8f.46.1793729568150;
-        Tue, 03 Nov 2026 10:12:48 -0800 (PST)
-Received: from jernej-laptop.localnet (194-152-27-116.dynamic.telemach.net. [194.152.27.116])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b789c6sm28261090f8f.26.2026.11.03.10.12.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 10:12:47 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH 04/10] staging: media: cedrus: mpeg2: use the field height for
- field pictures
-Date: Tue, 03 Nov 2026 19:12:46 +0100
-Message-ID: <vCPa4waZQ6-kwYC7OOX3Kg@gmail.com>
-In-Reply-To: <cd5780876274ab5aa73739f890a32ceacf2e793b.camel@collabora.com>
-References:
- <20261102170303.1973892-1-jernej.skrabec@gmail.com>
- <20261102170303.1973892-5-jernej.skrabec@gmail.com>
- <cd5780876274ab5aa73739f890a32ceacf2e793b.camel@collabora.com>
+        bh=MpEcraxy9Q/+qqrBNS3dySP9r7Q89RzTEEKEaNrMPJU=;
+        b=Yw7Uv6smrNIIPGl1MZ7ky9buL+Bd3c7l54I2eKgi4fuY64tsEt73A6G4WAkUH20HGe
+         jzj0aHewpCyNTj73+hsJXBQY+7e7ri5qki6Nc0WqE16b0/QXKIHOFFDGwqHL9ggNgrqg
+         uCcAhkdCakd2mdGRn70MfAwm4rISB8MVW0RjHjJBYC6Q5I1RdxdW7KXkmN6vN3l4YfXF
+         YgUF+drSm6ybtFZEiX+3F3A+0xo0OQxZ6+3pWZjWivofpO5Gyq/4ACKYJAK5EKZBX/ou
+         kVTD5QKfzgkw9DtgU3XBVCZQhv0jpxnR361H4V2VdO/ve6mNoV2Daqrq7DZUHsoZJfCS
+         61Ng==
+X-Forwarded-Encrypted: i=1; AKwUvBxd2LYQgpKlHJKaYKpVq/NrsnYjFXXl02/AplhT8vHPhP9AMQ9TnizEn+bzEWavoItPddhMJLRJkpOSU3tL@lists.linux.dev
+X-Gm-Message-State: APuU4Z8qR9NB6G75iV4YEDaw9v/2sNJDmW4rQfW8b1Ctxwi4McQ4xzdm
+	86tG/49ZZoV6c7dNSAfSBoGVVTBT9G+/ZLVjcMjFU/6CT2OrfmFMt/eh7f15+BAAXNC6xfoMCQK
+	GzRDnzbSPh3Hup6ULpstrBOmGYyhbnqU=
+X-Gm-Gg: AYBFou0Avk2nnYKfPPAh0wQjdYYJx5PDsXgQy8ZIkzaXaSUnC38l6JyLmj0Pg+DNwAI
+	eBXDwmm44YOYJHG/BCDsWodfJRbvgvbXTH82/13NidSHy6r2eiJGhBL4brlQBVIwVcFKutqg43Q
+	HZNpyoK0TsUv8A88xVEvDQkSfYJRqbH/lnSgPvd1XeLuq38scoI/dFk6yuAedIDCLI3z7SplRJR
+	c0ogulvcj26rxEFGVs+B4V/2Tnk8biaSUPsKued0w0dSLrBEoao/hULy4gpyUJF4Z1FDVbM/uiV
+	sa3rGKHOmiPHnJeWk/dzxNWscZZtnmPq8/96B1L6fQCYf2D/0PsY/t0bURcFWORIHYfZ3djOR6z
+	xc0VC/j3SlbU22qZN7P4/6RTZzdLKnPOgvcLZzoCzNY9/xt/CLEhCV5A=
+X-Received: by 2002:a05:6512:15a7:b0:5bf:a7d2:e8a0 with SMTP id
+ 2adb3069b0e04-5bfd956a316mr4721107e87.24.1793730089789; Tue, 03 Nov 2026
+ 10:21:29 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -111,92 +104,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+References: <20261013201538.43156-1-rishik.yechuri.code@gmail.com> <2026101402-spotter-stitch-056b@gregkh>
+In-Reply-To: <2026101402-spotter-stitch-056b@gregkh>
+From: Rishik <rishik.yechuri.code@gmail.com>
+Date: Tue, 3 Nov 2026 12:21:18 -0600
+X-Gm-Features: AclHuK-WvTHT1ZlqTF2qAihAoEI62WDFaQZ_G19gGgQx45WPEFF393UzPQZsYo8
+Message-ID: <CAL4M7k4kABFmDrReZ0dnuYHiEb0Jn2N=iutncNJ4X-S=HPAYXw@mail.gmail.com>
+Subject: Re: [PATCH 00/10] staging: rtl8723bs: replace private 802.11 header
+ macros with generic helpers
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rishik Yechuri <epicrishik@gmail.com>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne ponedeljek, 2. november 2026 ob 19:56:52 Srednjeevropski standardni =C4=
-=8Das je Nicolas Dufresne napisal(a):
-> Le lundi 02 novembre 2026 =C3=A0 18:02 +0100, Jernej Skrabec a =C3=A9crit=
- :
-> > A field picture covers only half of the macroblock rows of a frame, but
-> > the driver programs the coded and the boundary size of the whole frame
-> > for it, as for a frame picture.
-> >=20
-> > Program the height of a field for field pictures, like the vendor
-> > library does.
-> >=20
-> > Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > ---
-> >  drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c | 13 +++++++++++--
-> >  1 file changed, 11 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/driver=
-s/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > index 10e98f08aafc..ca66a3c6b830 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > @@ -58,6 +58,7 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx *ctx,=
- struct cedrus_run *run)
-> >  	struct vb2_queue *vq;
-> >  	const u8 *matrix;
-> >  	unsigned int i;
-> > +	bool field;
-> >  	u32 reg;
-> > =20
-> >  	seq =3D run->mpeg2.sequence;
-> > @@ -108,13 +109,21 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx *=
-ctx, struct cedrus_run *run)
-> > =20
-> >  	/* Set frame dimensions. */
-> > =20
-> > +	/*
-> > +	 * Field pictures cover half of the frame's macroblock rows; the
-> > +	 * vendor library halves both the coded and the boundary height.
-> > +	 */
-> > +	field =3D pic->picture_structure !=3D V4L2_MPEG2_PIC_FRAME;
-> > +
-> >  	reg =3D VE_DEC_MPEG_PICCODEDSIZE_WIDTH(seq->horizontal_size);
-> > -	reg |=3D VE_DEC_MPEG_PICCODEDSIZE_HEIGHT(seq->vertical_size);
-> > +	reg |=3D VE_DEC_MPEG_PICCODEDSIZE_HEIGHT(field ?
-> > +			ALIGN(seq->vertical_size, 32) / 2 : seq->vertical_size);
-> > =20
-> >  	cedrus_write(dev, VE_DEC_MPEG_PICCODEDSIZE, reg);
-> > =20
-> >  	reg =3D VE_DEC_MPEG_PICBOUNDSIZE_WIDTH(ctx->src_fmt.width);
-> > -	reg |=3D VE_DEC_MPEG_PICBOUNDSIZE_HEIGHT(ctx->src_fmt.height);
-> > +	reg |=3D VE_DEC_MPEG_PICBOUNDSIZE_HEIGHT(field ? ctx->src_fmt.height =
-/ 2 :
-> > +						   ctx->src_fmt.height);
->=20
-> I'm not entirely sure, but I see:
->=20
-> 	fsize->stepwise.step_height =3D 1;
-
-Where? I don't see this in Cedrus.
-
->=20
-> But I don't think interlaced video can have odd height in the first place=
-=2E But
-> it also have an implication here as you are not rounding up to a multiple=
- of 2.
-> Not sure what is the proper fix, but I have this impression something is
-> missing.
-
-Odd height shouldn't exist in practice, but I'll use
-DIV_ROUND_UP(ctx->src_fmt.height, 2) in v2 if you agree.
-
-Best regards,
-Jernej
-
->=20
-> Nicolas
->=20
-> > =20
-> >  	cedrus_write(dev, VE_DEC_MPEG_PICBOUNDSIZE, reg);
-> > =20
->=20
+I forgot to add the assisted-by tag to the series. I wrote the series
+with some help from claude. Should I resend the series with updated
+tags?
 
 
-
-
+On Wed, Oct 14, 2026 at 10:45=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Oct 13, 2026 at 03:15:28PM -0500, Rishik Yechuri wrote:
+> > The rtl8723bs driver has its own set of macros and inline functions in
+> > wifi.h for working with 802.11 frame headers. They access the header
+> > through hardcoded byte offsets and pointer casts, and they duplicate
+> > struct ieee80211_hdr and the helpers in <linux/ieee80211.h> that
+> > mac80211, cfg80211 and other wireless drivers already use.
+> >
+> > This series switches the driver over to the generic versions and
+> > deletes the private ones from wifi.h. Each patch converts one group of
+> > macros and removes their definitions once nothing uses them anymore,
+> > so the driver builds after every patch.
+> >
+> >   Patches 1 to 3 convert header address access and the Frame Control
+> >   flag checks and updates.
+> >
+> >   Patches 4 and 5 convert the frame type and subtype checks. Single
+> >   comparisons use the ieee80211_is_*() helpers, and switch statements
+> >   mask frame_control with IEEE80211_FCTL_* and use IEEE80211_STYPE_*
+> >   case labels, the same way mac80211 does.
+> >
+> >   Patch 6 removes an unused struct member. Its initialisers were the
+> >   last users of a few private subtype constants that have no generic
+> >   equivalent.
+> >
+> >   Patch 7 converts the frame subtype setter and removes the private
+> >   WIFI_* frame type enum.
+> >
+> >   Patches 8 and 9 convert the Sequence Control, Duration/ID and QoS
+> >   Control fields.
+> >
+> >   Patch 10 replaces the driver's destination and source address
+> >   helpers with ieee80211_get_DA() and ieee80211_get_SA().
+> >
+> > None of this should change behaviour. In the few places where a
+> > generic helper checks more than the code it replaces, or where the old
+> > macro kept bits that a plain assignment would overwrite, the commit
+> > message explains why the result is the same.
+> >
+> > Compile tested with W=3D1 after each patch, and checked with checkpatch
+> > and smatch. I don't have a device with this chip, so it has not been
+> > tested on hardware.
+>
+> Did you forget the assisted-by tag for this series or did you really do
+> this "by hand"?
+>
+> thanks,
+>
+> greg k-h
