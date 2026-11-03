@@ -1,100 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.170
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793730092;
-	b=XHfQSjHhbljov+o8eP8msyRaneqMl5mYiq2//R74INEXjrYaxbORuF+HsnfA1sGDfPzC
-	 BhBX3dyjf2qQ2r4STL8S5dPF+WWtAV3lPUyK5eewxAf9NnBJBWqtQEcg6YbhzZlrEwKai
-	 MIzrfU7ADWgm2IgaZhRBA7mjG+ZZN3FNu0g3v3/dqLA5tAMYHq77QsHo7tqg4MIoKLY7u
-	 wIP2mGHTVyTbOSwBFNzBnTyWPFrakQx+JqHgNC7fYxQNio6CHhVn/5ZWu4Co2b5ZtpGlu
-	 EQcWdLPUBb3BYWmYck1PMXOha+ymUnH1ARnZPwj+v48g5X6VJg+wNN6QjZzM7UezSIQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793730092;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=MpEcraxy9Q/+qqrBNS3dySP9r7Q89RzTEEKEaNrMPJU=;
-	b=042sGUn9KZ2u/IrFoGVlSgHl6yB+VHCXeXnfmdXYjnXb/WOlcuSSSHK+4JWpYUYxLNTS
-	 WDgxk+KBkYUoml019GABRPVswJg9EZ1WnIEGBkcKPXObrLdQKOvX/xrQgU46StUH3FDSh
-	 hlbT28XWjqmTwrIjwC5rdHpihW6udf+P7IEVZtzlMm1UnPtoL/s5oXn1wPFQve/Oar5w6
-	 6QbnfSojwPy3rgpVQcSdEyZW5F9cQfSWqkaGBV+SEb6Vj8VIJ3HbE6ANvrye2p9mVB4C1
-	 puFHAr1rPD9kPeK05m1hXF08LTfJlPKfag6BonW0oq4pCYc7whx0O9WHnx7G/MmJT/Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=m5LpPDuQ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.170
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793731122;
+	b=cdeMjVd3whsY0hWus7e6R9KMFhe7yBPqNoI8FmBhdhtBNJF+CoeH6xkEQZYlJCfbHTtg
+	 Q8Kn/NbbnAdSy/SHYdzoQgmIRmwbSOW9atDfAZActlV0i6VVdnbTuAHRbpm5vP/deL2IW
+	 muXwhUHZ2CfNb5CstclHIa02HBilVr48YK6IEts4j70QCmNawzcDvUgC1fX+hz9oVe/VH
+	 2qLYfo0yyQhty397El2bsVBVp5/mZTr+Zb80O7Qe3UPZSqnDGOvHTlgHOp3/EE3rLI8ck
+	 uUWy6SCDDyUt82yeGOcsuzKM561h0Dl4RR84t7pyaBVdHTOZyh09ghI9oWO5f8+dZbA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793731122;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
+	 User-Agent:MIME-Version;
+	bh=wsT4r2HhyLvk9SHRJUai7dkY2xdDTk8tWuwT4vKDd3Q=;
+	b=vcL6jA32gSl/v1XsC2b/VRZc/aQdxt7BquMJ0tiGdbqsq7ENHMllIzqdHbHuz3F0Bgg6
+	 TdJJ/E3MCVd5utlC5JXioTcSb4V18Bh75H1nGe0krLL8xwcFOW1xkT8Q/Xz1bcYNCYUg+
+	 DXlJ+Ak2fTHU6cN4eGu0JKTkpFPUQ6Id3MeQFYXqOPQzx5aWPwyLnEYDJJCcredAUCF3c
+	 rkQGmWEXeP9CdLKRftywRwJXRJyHF6lrqsZAbytlNrzMXUcQQOLYX3lZagi5DuXD6OLCi
+	 GOdiJK1gHryb982K3aMzFge2yb7O/VlY17p4GhG+aVnX8kztCbfcLQCPHU2AaiSgsgw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=Zk7AtSP7;
+	arc=none smtp.remote-ip=148.251.105.195
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C737D606D823
-	for <linux-staging@lists.linux.dev>; Tue,  3 Nov 2026 18:21:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C737D606D823
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B5D606A324;
+	Tue,  3 Nov 2026 18:38:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91B5D606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=m5LpPDuQ
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3ab3dd9670bso40391291fa.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Nov 2026 10:21:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793730090; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NmnW1KNDAYn+LziGtWVGjJLlonQuYrGJC64xZgjZnVzQDdcqVSyDKn8YyzVqv6T9P3
-         GaKyG9ypDEVXqhZU9cqD/dN1fdloCJ/ZY8onVB54OZ6fhX/GWPyVCP9TDeoErDDgeP4V
-         o/mCxNiGs8jCvQUuWv6Fb/bqtXCSij4a5prHXvbmTuSgWZNxUTXr60DhDXZUEdkwfp8l
-         puTzTplpuJjdJD6yr2N8m1fW5B7SXbbJa16o47S77d5aYEVcoq8eEx9FQZhu9fQPiCHB
-         6VSUh6zJV3DLICTuQ5kjhXUjq81j2mcCxp0XdfuoVQteHAe18s/ezS7+pYxR3RnlM0Yx
-         D1Rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MpEcraxy9Q/+qqrBNS3dySP9r7Q89RzTEEKEaNrMPJU=;
-        fh=+iOlbFVpNTMmrRBFiHSSHgwXk138h4IzD/DZjr9WoLg=;
-        b=DpyLzsdYPX0xuP2HS9j7rd4eD8N7JiSA9VVN4wtKMePTeausQvez2Br1kKwonmC/cO
-         CJdASQTCu42TOwDblNQhMtTA+z7zQklENEMynvWmDggDf/WTMpcGZ0HUPtCjnIEee5LM
-         Jrtdq1VzVUoYtlRSCbkMXRWCNdx0aqUhLoNVRPsGj+6LD00LF3wPSkPmOz775q34CKhQ
-         5YNdhNnDLusAOWCR7oxpkVMv+f1RPD6Pt5Osatl3d2CBywAohZrSO1/Fm+S5GQCYRFTr
-         1uN1/uB5EnU9H9uyvaay/GZS16rjgUXpvB7reIId4I2Z73R0SmRfeOPL8IL2mpTjdc9F
-         5UOA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793730090; x=1794334890; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MpEcraxy9Q/+qqrBNS3dySP9r7Q89RzTEEKEaNrMPJU=;
-        b=m5LpPDuQGZoFVYxmBulzH78/4kwjPMP/Cb3Q0k4vcfH/BAUMRVUS0nN96Ull6nMdlf
-         9VXeXv/SsGg5mAtLYoT7oGfuD8n3SeVGIPYqnhnhSTEdOIoM1NEhP9LvlEv11FP5EL1M
-         DeS447Q9KcYWllI2RrnmK+nE6XYclVkfy6MY4H0ptFRQAN4iDtusSTjY7opKkO04ebDu
-         EblsbtJY1oUOkUFTKcdqOigABApgRaTxevsmxAOPK0ZZw4YuVU4K8VIytzjHZ90MlrdG
-         6hiDS7b0F7Py0cX2TNGbo8oAZY7Of6cPqQUxnL9P00ZJweFoGWHOiIAqyFEWyPWqbRkW
-         VlTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793730090; x=1794334890;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MpEcraxy9Q/+qqrBNS3dySP9r7Q89RzTEEKEaNrMPJU=;
-        b=Yw7Uv6smrNIIPGl1MZ7ky9buL+Bd3c7l54I2eKgi4fuY64tsEt73A6G4WAkUH20HGe
-         jzj0aHewpCyNTj73+hsJXBQY+7e7ri5qki6Nc0WqE16b0/QXKIHOFFDGwqHL9ggNgrqg
-         uCcAhkdCakd2mdGRn70MfAwm4rISB8MVW0RjHjJBYC6Q5I1RdxdW7KXkmN6vN3l4YfXF
-         YgUF+drSm6ybtFZEiX+3F3A+0xo0OQxZ6+3pWZjWivofpO5Gyq/4ACKYJAK5EKZBX/ou
-         kVTD5QKfzgkw9DtgU3XBVCZQhv0jpxnR361H4V2VdO/ve6mNoV2Daqrq7DZUHsoZJfCS
-         61Ng==
-X-Forwarded-Encrypted: i=1; AKwUvBxd2LYQgpKlHJKaYKpVq/NrsnYjFXXl02/AplhT8vHPhP9AMQ9TnizEn+bzEWavoItPddhMJLRJkpOSU3tL@lists.linux.dev
-X-Gm-Message-State: APuU4Z8qR9NB6G75iV4YEDaw9v/2sNJDmW4rQfW8b1Ctxwi4McQ4xzdm
-	86tG/49ZZoV6c7dNSAfSBoGVVTBT9G+/ZLVjcMjFU/6CT2OrfmFMt/eh7f15+BAAXNC6xfoMCQK
-	GzRDnzbSPh3Hup6ULpstrBOmGYyhbnqU=
-X-Gm-Gg: AYBFou0Avk2nnYKfPPAh0wQjdYYJx5PDsXgQy8ZIkzaXaSUnC38l6JyLmj0Pg+DNwAI
-	eBXDwmm44YOYJHG/BCDsWodfJRbvgvbXTH82/13NidSHy6r2eiJGhBL4brlQBVIwVcFKutqg43Q
-	HZNpyoK0TsUv8A88xVEvDQkSfYJRqbH/lnSgPvd1XeLuq38scoI/dFk6yuAedIDCLI3z7SplRJR
-	c0ogulvcj26rxEFGVs+B4V/2Tnk8biaSUPsKued0w0dSLrBEoao/hULy4gpyUJF4Z1FDVbM/uiV
-	sa3rGKHOmiPHnJeWk/dzxNWscZZtnmPq8/96B1L6fQCYf2D/0PsY/t0bURcFWORIHYfZ3djOR6z
-	xc0VC/j3SlbU22qZN7P4/6RTZzdLKnPOgvcLZzoCzNY9/xt/CLEhCV5A=
-X-Received: by 2002:a05:6512:15a7:b0:5bf:a7d2:e8a0 with SMTP id
- 2adb3069b0e04-5bfd956a316mr4721107e87.24.1793730089789; Tue, 03 Nov 2026
- 10:21:29 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=Zk7AtSP7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1793731114;
+	bh=HeofyCXbsIbhGQR411TrT8um27wJJMDztfyXIZKyIYo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Zk7AtSP7NQ5DS7BQq1qbYzLtbq663Mxsy/ZWlE747xYCt7ZMPDeAtrn4lAc2+7SSv
+	 N3Zhn/VwIiSm2tgyHeA0kYTfCNP+3r/53RlAutFVqazeYrPWJhCQ6u/KfNTdbUvXkY
+	 gSS3yeRWcASCO0Bqx8NvruvZlcpA3EtQAwhCZb+4gMu107fSvlWvLGrMQq4fr1DjwO
+	 1z3/Gq8V3MEr6GVvBlgwCzRttCDatgARziBgBbIHvKxxg1zadZFv+oQ+riBmD4vxFj
+	 KckvspcZpnTXF863tBxuWYZzqzEjsgI0MRXwNcuhXjSYBJ1+6Xu5v/8Y/bQmGdQmpg
+	 FOsknmoeX688Q==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B66B717E0DA7;
+	Tue, 03 Nov 2026 19:38:32 +0100 (CET)
+Message-ID: <56f2cb86f57bb6dc6903eabdaacdd73d47dddc57.camel@collabora.com>
+Subject: Re: [PATCH 02/10] staging: media: cedrus: reject too large
+ H.264/HEVC SPS
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski
+ <paulk@sys-base.io>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 03 Nov 2026 13:38:30 -0500
+In-Reply-To: <P3FCc6YrSeexw_Zto5zS4g@gmail.com>
+References: <20261102170303.1973892-1-jernej.skrabec@gmail.com>
+	 <20261102170303.1973892-3-jernej.skrabec@gmail.com>
+	 <0cecac8706862ea7410be0553d942539f0d53c06.camel@collabora.com>
+	 <P3FCc6YrSeexw_Zto5zS4g@gmail.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-qrDlG8q9KarF8F22u61t"
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -104,73 +94,219 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261013201538.43156-1-rishik.yechuri.code@gmail.com> <2026101402-spotter-stitch-056b@gregkh>
-In-Reply-To: <2026101402-spotter-stitch-056b@gregkh>
-From: Rishik <rishik.yechuri.code@gmail.com>
-Date: Tue, 3 Nov 2026 12:21:18 -0600
-X-Gm-Features: AclHuK-WvTHT1ZlqTF2qAihAoEI62WDFaQZ_G19gGgQx45WPEFF393UzPQZsYo8
-Message-ID: <CAL4M7k4kABFmDrReZ0dnuYHiEb0Jn2N=iutncNJ4X-S=HPAYXw@mail.gmail.com>
-Subject: Re: [PATCH 00/10] staging: rtl8723bs: replace private 802.11 header
- macros with generic helpers
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Rishik Yechuri <epicrishik@gmail.com>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+
+
+--=-qrDlG8q9KarF8F22u61t
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-I forgot to add the assisted-by tag to the series. I wrote the series
-with some help from claude. Should I resend the series with updated
-tags?
+Le mardi 03 novembre 2026 =C3=A0 19:02 +0100, Jernej =C5=A0krabec a =C3=A9c=
+rit=C2=A0:
+> Dne ponedeljek, 2. november 2026 ob 19:44:38 Srednjeevropski standardni =
+=C4=8Das je Nicolas Dufresne napisal(a):
+> > Le lundi 02 novembre 2026 =C3=A0 18:02 +0100, Jernej Skrabec a =C3=A9cr=
+it :
+> > > The hardware decodes whatever picture size the SPS describes. An SPS
+> > > beyond CEDRUS_MAX_WIDTH/HEIGHT, or beyond the capture buffers once th=
+ey
+> > > are allocated, makes the hardware overrun memory and hang. On H616, t=
+he
+> > > JCT-VC PICSIZE_A..D streams (1056x8440, 8440x1056, 528x4216 and
+> > > 4216x528) leave the hardware wedged, so that every following job time=
+s
+> > > out until reboot.
+> > >=20
+> > > Validate the SPS picture size in try_ctrl. Move the size limits to
+> > > cedrus_video.h for that.
+> > >=20
+> > > Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
+> > > Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support"=
+)
+> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > ---
+> > >  drivers/staging/media/sunxi/cedrus/cedrus.c   | 40 +++++++++++++++++=
++-
+> > >  .../staging/media/sunxi/cedrus/cedrus_video.c |  5 ---
+> > >  .../staging/media/sunxi/cedrus/cedrus_video.h |  5 +++
+> > >  3 files changed, 44 insertions(+), 6 deletions(-)
+> > >=20
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/st=
+aging/media/sunxi/cedrus/cedrus.c
+> > > index c3331b4f3f02..45deebddb630 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > > @@ -28,10 +28,38 @@
+> > >  #include "cedrus_dec.h"
+> > >  #include "cedrus_hw.h"
+> > > =20
+> > > +/*
+> > > + * The hardware decodes whatever picture size the bitstream headers =
+describe.
+> > > + * Reject sizes beyond the hardware limits, or beyond the capture bu=
+ffers once
+> > > + * they are allocated, instead of letting the hardware overrun memor=
+y and hang.
+> > > + */
+> > > +static int cedrus_check_pic_size(struct cedrus_ctx *ctx, u32 width, =
+u32 height)
+> > > +{
+> > > +	struct vb2_queue *vq;
+> > > +
+> > > +	if (width > CEDRUS_MAX_WIDTH || height > CEDRUS_MAX_HEIGHT)
+> > > +		return -EINVAL;
+> > > +
+> > > +	/*
+> > > +	 * The hardware decodes whole 16x16 macroblocks, and all capture
+> > > +	 * formats pad the buffers to at least 16 pixels in both directions=
+.
+> > > +	 */
+> > > +	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE=
+);
+> > > +	if (vb2_is_busy(vq) &&
+> > > +	    (width > ALIGN(ctx->src_fmt.width, 16) ||
+> > > +	     height > ALIGN(ctx->src_fmt.height, 16)))
+> > > +		return -EINVAL;
+> >=20
+> > If my memory is correct, Hans rejected this kind of construct in try_ct=
+rl,
+> > because if you are only doing try() it shouldn't fail like this. Instea=
+d we can
+> > validate in the real s_ctrl, but I believe the downside is that it make=
+s the
+> > error asynchronous when a request is used (perhaps that's actually want=
+ed ?)
+>=20
+> You're right. This is not the best place to check size, since it can be
+> bypassed as sashiko bot find out.
+>=20
+> My suggestion for v2 is to split this to two stages. Max width and height
+> check stays here, whereas buffer size check is moved to setup() callback.
+> Failing there it will mark buffer with V4L2_BUF_FLAG_ERROR.
 
+Agreed. I just looked quikcly at the Sashiko report, and it underline the f=
+act
+that you can't rely on getting an S_CTR in the first place.
 
-On Wed, Oct 14, 2026 at 10:45=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Oct 13, 2026 at 03:15:28PM -0500, Rishik Yechuri wrote:
-> > The rtl8723bs driver has its own set of macros and inline functions in
-> > wifi.h for working with 802.11 frame headers. They access the header
-> > through hardcoded byte offsets and pointer casts, and they duplicate
-> > struct ieee80211_hdr and the helpers in <linux/ieee80211.h> that
-> > mac80211, cfg80211 and other wireless drivers already use.
-> >
-> > This series switches the driver over to the generic versions and
-> > deletes the private ones from wifi.h. Each patch converts one group of
-> > macros and removes their definitions once nothing uses them anymore,
-> > so the driver builds after every patch.
-> >
-> >   Patches 1 to 3 convert header address access and the Frame Control
-> >   flag checks and updates.
-> >
-> >   Patches 4 and 5 convert the frame type and subtype checks. Single
-> >   comparisons use the ieee80211_is_*() helpers, and switch statements
-> >   mask frame_control with IEEE80211_FCTL_* and use IEEE80211_STYPE_*
-> >   case labels, the same way mac80211 does.
-> >
-> >   Patch 6 removes an unused struct member. Its initialisers were the
-> >   last users of a few private subtype constants that have no generic
-> >   equivalent.
-> >
-> >   Patch 7 converts the frame subtype setter and removes the private
-> >   WIFI_* frame type enum.
-> >
-> >   Patches 8 and 9 convert the Sequence Control, Duration/ID and QoS
-> >   Control fields.
-> >
-> >   Patch 10 replaces the driver's destination and source address
-> >   helpers with ieee80211_get_DA() and ieee80211_get_SA().
-> >
-> > None of this should change behaviour. In the few places where a
-> > generic helper checks more than the code it replaces, or where the old
-> > macro kept bits that a plain assignment would overwrite, the commit
-> > message explains why the result is the same.
-> >
-> > Compile tested with W=3D1 after each patch, and checked with checkpatch
-> > and smatch. I don't have a device with this chip, so it has not been
-> > tested on hardware.
->
-> Did you forget the assisted-by tag for this series or did you really do
-> this "by hand"?
->
-> thanks,
->
-> greg k-h
+Though, thinking about it, to be completely strict (keeping everything on s=
+ync
+all the time like the spec states), since SPS change comes first, we should
+reset both fmt from S_CTRL when not streaming, and always match the SPS fro=
+m
+TRY_FMT later on. Later SPS update at runtime would have to fit allocated
+buffers (since we don't do SRC_CH in stateless), and probably fit the forma=
+t
+(since you can't reset the format while running).
+
+If what I'm thinking is correct, we are up to patching all the drivers, sin=
+ce
+none are strictly correct today :-(
+
+Nicolas
+
+>=20
+> What do you think?
+>=20
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > Nicolas
+> >=20
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+> > >  {
+> > > +	struct cedrus_ctx *ctx =3D container_of(ctrl->handler, struct cedru=
+s_ctx, hdl);
+> > > +
+> > >  	if (ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS) {
+> > >  		const struct v4l2_ctrl_h264_sps *sps =3D ctrl->p_new.p_h264_sps;
+> > > +		u32 height;
+> > > =20
+> > >  		if (sps->chroma_format_idc !=3D 1)
+> > >  			/* Only 4:2:0 is supported */
+> > > @@ -42,9 +70,15 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+> > >  		if (sps->bit_depth_luma_minus8 !=3D 0)
+> > >  			/* Only 8-bit is supported */
+> > >  			return -EINVAL;
+> > > +		height =3D (sps->pic_height_in_map_units_minus1 + 1) * 16;
+> > > +		if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+> > > +			height *=3D 2;
+> > > +		if (cedrus_check_pic_size(ctx,
+> > > +					  (sps->pic_width_in_mbs_minus1 + 1) * 16,
+> > > +					  height))
+> > > +			return -EINVAL;
+> > >  	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_HEVC_SPS) {
+> > >  		const struct v4l2_ctrl_hevc_sps *sps =3D ctrl->p_new.p_hevc_sps;
+> > > -		struct cedrus_ctx *ctx =3D container_of(ctrl->handler, struct cedr=
+us_ctx, hdl);
+> > >  		unsigned int bit_depth, max_depth;
+> > >  		struct vb2_queue *vq;
+> > > =20
+> > > @@ -52,6 +86,10 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+> > >  			/* Only 4:2:0 is supported */
+> > >  			return -EINVAL;
+> > > =20
+> > > +		if (cedrus_check_pic_size(ctx, sps->pic_width_in_luma_samples,
+> > > +					  sps->pic_height_in_luma_samples))
+> > > +			return -EINVAL;
+> > > +
+> > >  		bit_depth =3D max(sps->bit_depth_luma_minus8,
+> > >  				sps->bit_depth_chroma_minus8) + 8;
+> > > =20
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/driv=
+ers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > index adc7f255d7cf..2521315abdb7 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > @@ -29,11 +29,6 @@
+> > >  #define CEDRUS_DECODE_SRC	BIT(0)
+> > >  #define CEDRUS_DECODE_DST	BIT(1)
+> > > =20
+> > > -#define CEDRUS_MIN_WIDTH	16U
+> > > -#define CEDRUS_MIN_HEIGHT	16U
+> > > -#define CEDRUS_MAX_WIDTH	4096U
+> > > -#define CEDRUS_MAX_HEIGHT	2304U
+> > > -
+> > >  static struct cedrus_format cedrus_formats[] =3D {
+> > >  	{
+> > >  		.pixelformat	=3D V4L2_PIX_FMT_MPEG2_SLICE,
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.h b/driv=
+ers/staging/media/sunxi/cedrus/cedrus_video.h
+> > > index 8e1afc16a6a1..367e52158f01 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.h
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.h
+> > > @@ -22,6 +22,11 @@ struct cedrus_format {
+> > >  	unsigned int	capabilities;
+> > >  };
+> > > =20
+> > > +#define CEDRUS_MIN_WIDTH	16U
+> > > +#define CEDRUS_MIN_HEIGHT	16U
+> > > +#define CEDRUS_MAX_WIDTH	4096U
+> > > +#define CEDRUS_MAX_HEIGHT	2304U
+> > > +
+> > >  extern const struct v4l2_ioctl_ops cedrus_ioctl_ops;
+> > > =20
+> > >  int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
+> >=20
+>=20
+>=20
+>=20
+>=20
+
+--=-qrDlG8q9KarF8F22u61t
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCauoqJgAKCRDZQZRRKWBy
+9MW7AP4hn5lfIe9xIT3at5ZT+I1pZuICZVWeK1MZ8IsIE5Z0hAD/ah6XlNteGw1r
+2H9nQXM4TVlESJiecgtLuIKdMSDp2gE=
+=bNmk
+-----END PGP SIGNATURE-----
+
+--=-qrDlG8q9KarF8F22u61t--
