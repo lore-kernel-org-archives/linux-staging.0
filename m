@@ -1,94 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.173
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793743929;
-	b=ttR2qRkvZ0eHTTuUQyBnyWj3ppMNrdr0z80D/pZh9LZ0M3w5BIG+gMC0l4EMiU7Hpj9Y
-	 oARZBEXKcn+YQ4GD+tklWtbRNYCSiwJLSSrEtibNxLOVb28IuREz25iU8ENUn4RgVXWyl
-	 yEU9fukJYkSb0Aby7/mZ/+t8Pkyn3EeGS8D+WFDbOAhvUe8BOc6ocYA0bVidMy/x4zTwx
-	 mRO8naA0O6lJVqer5biOL4Jv5AI5Pf94FT22doqKWwLkzc/ATFXS3eu8O3zjOrI6WN3R+
-	 Ol8DdjTxE4VfwWEmOjTCP3Iewn1X6UBp8YXevB1EE7GZybE6QNsIDQUEDmkE6fsshgQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793743929;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793745166;
+	b=3u7oyXMKcu7KJVFfGxsNl6jIn7NrvEVmP4bZmdGydBttoZZQO6EhJho6dBcGKLyr65Xh
+	 RFCV9WfMZKRLgB7GRq2Mn1wa21kvJ99TMtP0JAetFWV0meDp5CnkE5XwIr3r7zuw7nwlR
+	 eZ+I9dXffajR4P6QxDnqFsmX3KxEcpzPpLVrGlnLmAYkueQ+9YM40k6pcFgK90y+6zlUx
+	 jZ2GWeHAUkDPvr5MyYR4FbpiVphkNi8VgG+jdo36d2Gezov9CXsI1arttWdbev+waPCB6
+	 NMXVFlHT7SF0zq0PHc6QIZeDRpRhTHUy2Nx29maN4/xbSdOgS2mpCy3axQ/362E+qvg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793745166;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=zhleLxlgO/8KkinCeUWj94TJDi+jMt0bo+ONkONjbbs=;
-	b=msHWhAiQocyEpt97sYuWonR3JCI4CQKk/SBbOEDp2h1qWM0HnyXUu4+3vePOR9YdcZAD
-	 u1Ku7NHAaN3w03ULWmzyokz1ZfpZdCFRkXsMQJjozaTJR9VgbXBlUgKW1ecQ6AJVcCIzt
-	 d7UEV7K3kmw6OhGPg3tTzbPXyXVor3kz3V+vb8E6LAu0vqYPTvXOL0RnQlHG/pEgYJ75W
-	 1IeU8yjUH+Kqn4E6/mKIOorD5IKKCiPrtu3LKPNB7kRq3W9O7S+/4u6NQ0SR2iuUN/Qe/
-	 5dDy7uh35iTf9w/iHzOKJQSTk82mRnJX+sDFbvogRBm5P4iqDYSA/TdJ+2mMdCjNzXA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=5BID5yKv/9UrmWUEUD9UK4fIG+bBGjc3x/e9izWEr5A=;
+	b=Wf4cKtR+tpQmnwaqt70+875SQAteVEOWQtXdbm+wwv8l0vhV9qt6DpGyAIdmBzj4wuFk
+	 6oVnpyvtpy0c8JG+y+RbcEBNZKJFdvswEWRfi5Pjk2H8qPEg40EuaUlms1sT0J8ms3XiM
+	 2OP2JLIQMZAGyyFSGow6vpKaeo3ScWClUI7dKiX+SGYCu3caRFU2aG04RVAFoQyPa2075
+	 pTC728RRVV9Hanyl5ii5XsYVqRUSlsY+FI1K3ZCAb5lmkNv+4ee31nSlPqh0vyQw9UDkQ
+	 aLdZYvwejq74RQjCyalce2y4ioXz0XL5caO5spDNl/6pu23i26Cz4tWsws49msvhYuA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pBxP32qv;
-	arc=none smtp.remote-ip=209.85.222.173
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=w0uH2A5I;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.41
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60602606A331
-	for <linux-staging@lists.linux.dev>; Tue,  3 Nov 2026 22:12:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60602606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD73606A31B
+	for <linux-staging@lists.linux.dev>; Tue,  3 Nov 2026 22:32:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FD73606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pBxP32qv
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-93e515769d3so10656985a.3
-        for <linux-staging@lists.linux.dev>; Tue, 03 Nov 2026 14:12:08 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=w0uH2A5I
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5bfa65c8617so16398e87.0
+        for <linux-staging@lists.linux.dev>; Tue, 03 Nov 2026 14:32:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793745164; cv=none;
+        d=google.com; s=arc-20260327;
+        b=q+/Dq5nL3lKTQgjBMaqYX9ZqjGbjCovFthCE8TLuBb2AjC+l0Zk6JPGfVx6Y1y3y3M
+         AG+eo0SnnrBiW5qcFoGbBTOGZfVGpZummkO7T7ZgcZDvjTAV088/Sf6zxr6NIgFe9Nmz
+         hUfOI4JhMoeJ0c6AjdjlkJO2IchzRyBAU3RZmM+4dL/pWpK9vzbJHZHg8acGzzom5SYe
+         d7Qco9IQqEsgvq9J4+G114bMFTzhaAkb6XJrY0pTwlwtHeEQRdusSQ6DyO7dIMjXnZTE
+         bK0KbjjJg3u1xUsxs+T0wkXh+X7YvJ5wr/iaLmZAYxN/uGJn7i9mxq4dS41KbJpuF3/Y
+         QEww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5BID5yKv/9UrmWUEUD9UK4fIG+bBGjc3x/e9izWEr5A=;
+        fh=TJZ6WrXJNtxlRdsswvEXobXhiYe3L9KOPR8APu5iwZ0=;
+        b=c6FRoSAkQsccAmwseFnAoaCGJo7kAy5Yby7vJN42kYqiGVM8b0g72QJgBCiF8hwssM
+         LLpx9xDjEJPZETfS6uZSovmK6R5HTjqdbnK0dR8XAIDrsnrz7CsOJjK70crDxQSZsxk0
+         Z+TcasiOXdp4MMvJbAmQyuvfM2ijEW1rdbbkhc7xUBK2zQqhnahWXNexQ1objTKc6NNl
+         0kA0zskaCVzHeCUotxx2sFNWD1E7bKX2mv7QQed4ZjGs0PXSw+MMveVF50soM7bqrWYW
+         SW81cYsc0lXQdot+FCBMPLFVj/Ij+viOEppc18LYe9uXOJvDyViXF36v7u/qau8X2mzd
+         i9BQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793743927; x=1794348727; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zhleLxlgO/8KkinCeUWj94TJDi+jMt0bo+ONkONjbbs=;
-        b=pBxP32qv2SDqXSbwKq5zeVpQ7x/is9u7xC2MolREXbPUBW3wzamfe/BSWULc2kqrYj
-         dKrhMYoqGN86nrrbpRueqnYkqYxG0vt+g7X0FJ7sH90nZstyPdCXYQYqA1w9R0zegHhh
-         ad+BxEbqYsXxSfXO8vamywUhAAWUHaMEndXzDsubUndaLFFL2CNKhYLknRZGyha2V69J
-         ilDVBICe/iZfW+oUjumvNAu6zfaImsorN4yqSwrlwxhxq3hQEsnmEygA/xUb79jwswhm
-         giobACF07ThM45jG4DEZdRWN5Vr8xzGaXq15tzuGIw7voSeQIXjhNZSNOKkKqT2caolK
-         k4Yg==
+        d=gmail.com; s=20260707; t=1793745164; x=1794349964; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5BID5yKv/9UrmWUEUD9UK4fIG+bBGjc3x/e9izWEr5A=;
+        b=w0uH2A5IFtwQ0QzfavqBN2rXMQKuTgliQRRREhHwsj9iXR6wbr830ym4oM+mZlVhhP
+         6aDN/Zli4TVmZT2014HBm7NrP40kLEX63UERS/KNNdBeqw58jPVXihr8W65jbpV7wbSG
+         UlK71pw2p2wkO3dPKDFg079yuOce2Ab6b75E/zoPlIVVWIeBQe5stfVT983Q7qQMLKyI
+         5KBT/disG+qMt+sPiHYJJzOU8VV1NajnJmlmaYL1bCVsPxZcrfS0Lhwa8vF9etDcEvir
+         JWVhpPwNWz2ztOZyMIagKC6St4LEx5hP3KpMIRVz8dLXtLkaarNrnFIvgafmrydvV+o9
+         PZtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793743927; x=1794348727;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zhleLxlgO/8KkinCeUWj94TJDi+jMt0bo+ONkONjbbs=;
-        b=Ajq3IlJzUTegfkftX/Pr+cwSQrAG5WLxLcKiIfpGFiu8J88hG/fMv8/0DBXcBOuDhy
-         UZMoqg2zXIraMZujHPxaXZcpCUsLB+8GVK+NRF9xBhq/q+npVjbVtnwIUyqITXLklzUX
-         sH+/VS10hgdY0vrq4VFM6dfbb9m7l6AQyulHg97tcqEMjepdUifYjcE48xUyXyJpeGQt
-         b/JaLphmQA6dluKoVYZNCtGC8jOV2DvinjH/wgKbmk6kVmK4P2PRCWQ6hp5v1uicLb6+
-         bWcnrAFwgUOkUzbmECK3J75/mD4TLBci3Qzvhj5GQzF2DFoN6EEwDWL/5Q161vx96JAP
-         8JtA==
-X-Gm-Message-State: APuU4Z/v78m9VJvbhZ9fU+KKjPG9cdcMc2nwLGpYjN/Nm4BRmBcqqnU7
-	1P0Bt1wiJ/61iUXzGeiuZZjyalLjECS2AoVA41NGJfokkrsNYFlNPjl4
-X-Gm-Gg: AYBFou1ZJy4J+ed2ZWy4yPpxyXYgACRdziCyMhCcGPjQ2KTOkHC8Pah2rbqOL+JQ8wF
-	M9yB8VkrcZ5mOGDaOhm/WMyBk6OIvVbKUkj664I63Ou4fmCTiS1pqbBkFBLevpSPovxSUYkfz2j
-	y/h6E7nEr+ALaa/4j/9ui2RI9CFE958DDyK0HSGfzYooCSJZXvIxMe7PEa7fq6CkKYFN1+YqX/6
-	rjBP/Mx2kSO1SuPV6BDw67CS8GAnrNWPfyZ4MFi+7B6B5NG3jKOJHm9q1WpC48KAZAwKwR0eCDI
-	THGzPkozng8aPy4gXms6vv8mG+EXLHTVGOTzW6fChSNYb8onlqWqP7yb++QqVVjVWjB/7/eDJZs
-	/rLpZVpQXfM5HAS7NnUWWwFzveo0h04YDA7ZnvIEfIaiFPKvrpkJaR+wqVDPvigA70CLNAHjjvW
-	F3O8HabVCqhIdHvO7LaRltYfnCnDTShzSGiQni+/GyEjyxNzy8dFXKjEJZ/dJPffWIfOwOu0nij
-	tyCaj4Wdhqmbk7uTfRck2UY0pQ9noaoEoO49PFnySHruf4PCy/6xwolZXhIhSlzt/8fjRuFbTM8
-	49lxa00rH8Y+BhjP/in5vUyk1LSs1P5rex7UFQfKd/Q6rt/K+XQvusANGdnLhRMf2IcHT3tlZu1
-	whl9j8OgD13PP2g9P6W7Yaq1ht7dQ+h1C2GE=
-X-Received: by 2002:a05:620a:2805:b0:93b:d79a:c463 with SMTP id af79cd13be357-944216db682mr2344562985a.59.1793743927168;
-        Tue, 03 Nov 2026 14:12:07 -0800 (PST)
-Received: from codespaces-be20d5.ynsnsb35uh3ubhr4tvarlepncd.bx.internal.cloudapp.net ([172.191.151.57])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d4844be4sm39276485a.29.2026.11.03.14.12.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 14:12:06 -0800 (PST)
-From: Eileen Blessing Kabi <kabiblessing5@gmail.com>
-To: outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: linux-staging@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Eileen Blessing Kabi <kabiblessing5@gmail.com>
-Subject: [PATCH] staging: fbtft: fix spelling mistake "writte" -> "written"
-Date: Tue,  3 Nov 2026 22:11:41 +0000
-Message-ID: <20261103221142.45100-1-kabiblessing5@gmail.com>
-X-Mailer: git-send-email 2.56.0
+        d=1e100.net; s=20260707; t=1793745164; x=1794349964;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5BID5yKv/9UrmWUEUD9UK4fIG+bBGjc3x/e9izWEr5A=;
+        b=i463Y7aHY272JISgtfDanJH+6AExINZXq7uytxQJl4Kr7CDMcqIPXHasvV+YC2+Poo
+         Hevh7KwZDP4k3taey8Y+Aku0XjnY0+AlIkhRkDVzb60rOzsK438oNcs8cQlxQaQXoaoz
+         L4K8+kKBBNlGCYDHuHkuVtsl8LNfee7QzEAPspMk3lQQNuqU9aceHvA3vVNO/728r1g/
+         nYVqOImyrKMzfE04Z0TXwidnEyGvMRSJqGuoNmLWk8JU+HxZzgXZvsBo3Pk3FiV5is9U
+         e1Bh3XascwtxM0sipt/ai8nD51671QLNmn1HMwLbEqxBPlPfgk32W5LNfmaHgb3HUsh2
+         T0Rg==
+X-Forwarded-Encrypted: i=1; AKwUvBwKkgD3+yhnw53y8b6KclkWbCXP29Jjs555MXbo0O35n59cHm45dNSdDvHe/DbKFlMneE1IW8WGShWml8sk@lists.linux.dev
+X-Gm-Message-State: APuU4Z9d1JEST4C6NTQgw5VCW5JwAJ9Tom2tDyfUB8Op58yJmfe74g+G
+	Aj1QsHJtxTcWUwM5AutsX9ngpp/3LpclPo5SqLr6LCDVPqFM+24Sk48PRuZT26PCnY8kZyU02Qb
+	PCNe6H6mF4bCOcsMQPJt2ZpwviTigGvM=
+X-Gm-Gg: AYBFou38zfRqQMKtMXqGFtxl0TcAttsyP4zsS+yVVfH2V85qR0PwSQn29BsRDE9IiC3
+	ExzXSXwHNrdWVlqK17tu89aBeMEMqxM/4fUOhjfiKI+y72mBnKCeQq7zvYhMKGg23blLd7jPUOf
+	x2Zcr1S7KIzFNcvQRir81hHMX71V+W4DuZ4wz73fB9W/vHEFg88bmHPtIC2Qt8vfF48E8BaxJpz
+	AkkGBaa1a4f+sXZJJN7x3fb5hh1ClZVh4FN89qQi+jixzRKXo2EgPY1XDEz9Ue7MUI0CFOjVgca
+	/O8bP4I80Zy1uVk6ykoNNi6escH/re6kCQUFt/SUgOncYYG6R2/1M4AVSy9ocZM54PUdcPkwf3x
+	RNKYV0ngKkgDEp39UjrmzFjybSyezc4qXFkIOGfRbGa6Ct0eaZkmKwbA=
+X-Received: by 2002:a05:6512:130c:b0:5bf:e7d5:c22e with SMTP id
+ 2adb3069b0e04-5bfe7d5c338mr2656695e87.65.1793745163648; Tue, 03 Nov 2026
+ 14:32:43 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -98,30 +104,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261013201538.43156-1-rishik.yechuri.code@gmail.com>
+ <2026101402-spotter-stitch-056b@gregkh> <CAL4M7k4kABFmDrReZ0dnuYHiEb0Jn2N=iutncNJ4X-S=HPAYXw@mail.gmail.com>
+ <2026110322-axis-wispy-1081@gregkh>
+In-Reply-To: <2026110322-axis-wispy-1081@gregkh>
+From: Rishik <rishik.yechuri.code@gmail.com>
+Date: Tue, 3 Nov 2026 16:32:31 -0600
+X-Gm-Features: AclHuK8A-NQfFx6x1E94e4VUIEtshK8qcRhPyXPIT8gvbVXDtzDYV2Awe3jTmrA
+Message-ID: <CAL4M7k6LGK8Cvn=vVYw2XOmhsYEPre-6Or-bEndyQT8HO1jphA@mail.gmail.com>
+Subject: Re: [PATCH 00/10] staging: rtl8723bs: replace private 802.11 header
+ macros with generic helpers
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rishik Yechuri <epicrishik@gmail.com>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix the spelling of "written" in the write_vmem() kernel-doc comment.
+Just saw that the driver was removed.
 
-Found with codespell.
-
-Signed-off-by: Eileen Blessing Kabi <kabiblessing5@gmail.com>
----
- drivers/staging/fbtft/fb_st7789v.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-index 861a15414..c4db681eb 100644
---- a/drivers/staging/fbtft/fb_st7789v.c
-+++ b/drivers/staging/fbtft/fb_st7789v.c
-@@ -221,7 +221,7 @@ static int init_display(struct fbtft_par *par)
-  * write_vmem() - write data to display.
-  * @par: FBTFT parameter object.
-  * @offset: offset from screen_buffer.
-- * @len: the length of data to be writte.
-+ * @len: the length of data to be written.
-  *
-  * Return: 0 on success, or a negative error code otherwise.
-  */
--- 
-2.56.0
-
+On Tue, Nov 3, 2026 at 1:22=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Nov 03, 2026 at 12:21:18PM -0600, Rishik wrote:
+> > I forgot to add the assisted-by tag to the series. I wrote the series
+> > with some help from claude. Should I resend the series with updated
+> > tags?
+>
+> Please rebase on the latest kernel release and see what happens :)
