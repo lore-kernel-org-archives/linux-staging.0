@@ -1,101 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793765571;
-	b=QEaIuvu7hlDbg2W5K7akaMlLxIRpXS1IBXf8+cKhgzOT4UQYF+5Jn6dSvNXKzs8szOMr
-	 qw4Q19musotjt6/XUCYuBPE3SqbOXcrH5LL/voCJnCAaybx7dlmTJeeloXPnCnS0bF7t1
-	 ttxAiT0dM30EcovV0xM+QOtKfB9dMFNcATQaKKkrhXunR2n7n+9SoNEiEjHIWsUJW3ZK5
-	 qr7ar8/xZ9JwNCzOxTHk2UZqSHQS15DGIc6F2ew3y3fqQO982eFLqYC692aBhmxSrcGz3
-	 9ybLz+hc6Frt4ymzblCsWCZyO8LzJJY98zVzBkIw1zitwIprgfW+bBoF5LJcv5fzvyQ==
+	t=1793776377;
+	b=FOGspGqinlYorKKE+0Co4PhqjAgQFh6TahjkOzTa+5iZQ2eGKencRnZYCcNCcoxxmxmO
+	 kQNZeReV2z95qeJ7X3BPPNFVL9j6DnZEO1vO4dJbGn1mGRf7slg7GmBVW+w+csO2g7ly3
+	 znNfdyZ5qPYstRzpY0oDCBpaBkcCKadR4svAoiuvKiiqwwN1DKYPl9z7T9XSkjmfDTaj0
+	 2GkF9DS5tdHI3r/lDhqvrwgz1O1Zj0MukDpU0wNEp4M6BYEfVcn0hGQKWvi8HSuLEigyw
+	 tRxgc03Y/3HMkYoccB/RSv3cxyTNZ2EMW1o8ih62oApIcptr/WYALaKNJ0u29vnBgqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793765571;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ETxWwH+3XKdmGy3va4VsbBXcOFXJDAUa18QQihknvJY=;
-	b=paMIiVRNK6cdxUvjF+XsVYnXo/d1xCFcQ2JYFP6wuTETjZGRjWUaMmlCBSltnQkrI1BY
-	 hnYKJW5yaFtoY13R2GrmjLl0YfHxTXDc9pShcTFUcugFYVpgRa8/AXzF4tgiwEaWA2ZeD
-	 9IHnvtOy1kI88h6Tx6F/7t1ED0e8GuVx6Hf2sdejty50bYOOmkaWw+LKB0BJd/knX5/A0
-	 rBGwggsdpGCW2ifzMmgHfFQtmqYrBqkjF3fjwlQCEBsblDjGVixm2YMZJ78u5TKy5v36i
-	 288xCylKnG9gZHm/bYuPyCtJQa6gBsXYRWW6x3Ek0PbUg8cZKxyvf8M9D6pavjlEsmw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793776377;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=DB4yQCgfJtejeUr2NFz55DShHKw/3MpmmTIh9LFhOyM=;
+	b=x9kQJoNYfFKR8OOKwSr+N9gJUBFGAgXyZYGYXaRxfpnWqthgAgQ/LDIAwaFE83C2Q/t1
+	 YP4+WR2Asr3soc+H5ZrL1P6tSsfZisyujVl5eX90POMCx04kdleLJTU7G6v7n6YDz9sag
+	 mdxeBTB1U7rZNiNhKbm2XPgpQKvd0rj1yqfUUqLPjXSjZozYj+c39KwmAtYC6t++BKU+e
+	 hsUMy+Ast1eVxwCZbqKU4POmW1nERQh0p33WUkryC2MRnULP3ELKrY797yEjH7zPyn4A9
+	 LJhrvwgeMuYES0z8W07wvC6sqiMMdX9c4LvVTlUV9uVC6ivWrgBkaM4Ada24XR16meg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rnwDgGOj;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AH1wHa0o;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B640606A334
-	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 04:12:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B640606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC69606A328
+	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 07:12:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rnwDgGOj
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4afe2d546f9so2442515e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 03 Nov 2026 20:12:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793765569; x=1794370369; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ETxWwH+3XKdmGy3va4VsbBXcOFXJDAUa18QQihknvJY=;
-        b=rnwDgGOjRSiFhw83B7foxlSgQEWgu0iExnSx9WeExadRFOcpRloAf5cIei4xolmrhr
-         O6MLNwWDk15ot/rtCaan0/4FQ+F/tEumfTkC9l+pfZsQhbi6HEMLx3lahNgYzBTojrQW
-         P50hs0yX/bOvVRnmf0n9jPNZuk/QDduoMuTNBQ1TQNyS5aFmyjKXhIXYDKACgTsVfjDQ
-         SHGzD4IoTFoG+5K6EudDNOiiwke84vcyMpRf9+YAXWA+KYSKjJs+4ZHVR31tB7Mty6nU
-         Zybp1ojn/+b5y707lSETyDnhpw/MEpKZc5YqrVElwbpAHngJoSkrIq9knufwXlubT9Qt
-         W2jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793765569; x=1794370369;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ETxWwH+3XKdmGy3va4VsbBXcOFXJDAUa18QQihknvJY=;
-        b=vVsK+KOIrI3UUJp+yaKzQR7IecLYdsVYg7YMkh2tca4XReB0aKrwCJS5dZHFHmqbaS
-         57rtBa1as3KTo+IEBKGRj+5T1DXxXAug+JBtvjpGCWTHayAs6Er7R4Gr8u6Z48DZR9+A
-         DIa9prAxIcEnHzwwosdpCYxBB1cQcuwT3901cvj9YVhMUaEOi6RXQ5xe6c2WEoV/Z1aJ
-         TfsKktQdHx7+FLmbsoEiHQEaBLa+mtjOIdQHn23gJQ5YTMSVhZVQGQUZXoLuPghBb5M2
-         lhLda/lANt8Pc3Rm+GgCLxaN+BWWsg3NyaDBur2E8729uWwbvOU8ohOddeedcumt7Wiv
-         b8mw==
-X-Forwarded-Encrypted: i=1; AKwUvBxyT1eO5w+g+P3g8MTFn+HnaCJGGxLKen76fZTk/Ed9vnfFgLNQ25PrjzOhfzOIPQJceOplgATGgbodn95F@lists.linux.dev
-X-Gm-Message-State: APuU4Z8Ufk8pdNvwcLH/VxIvPD/Z2PA1m6+2WOsg65LyeUgzPuGLtMRp
-	jPihd7Ui/1IGkB2C4ipeMZmJ4yVdCD07tjKivCpY3i5ThQXPX9y7B2e6
-X-Gm-Gg: AYBFou1hB2/X9+vP98Slk/sjZradbTE79Suqa/1qaiHe8nEMcqzaea8qDOQ7uZ4+3gp
-	/J5esncN2SerUkvjjBLCwjWnSBwLXLhrbb4zw43CUZBQmgnc+XgwqcGalKwdNtfuEvGw3SZ49aI
-	Yv9Qw2jh9qV0XuudWvDccooq8x5k0/hSZ+kEMA/u4zkfEu6yZ+6PITfC7z49JnPUao+uuGNOl+W
-	hLfrm+H8hArOLfsSGN6fhJCr2bGKjdTatu4X/X7u8yNBNeDwV2b3AhzhX3aVUcd//oZlGoKndJW
-	UsXIKlu/B/66ysUcVYyuro+lHouNdkL+2pB8DGtQAi1Ay4wyHNXvq8yzfkQ8DUxB6WVoALDjIPF
-	qDjaCRZV+lMW/WvrmPFMkjqNuRnOnsW3V4AGemK1jcTmzf03+JscWltwHRr8OwwR5tu7x+AKzqM
-	Jl1smY9XqJWBrjsYhwV7XVul3lA7GP61yp+IfDOgGwm+yPqWdU5/E+VJc9UdhtIqPpm7/torMoI
-	5tSghu/f4xgm7p6DwhDio7ffpkw7cAGu857Hjc7a169qaPJaKq+fAhV9KOclC9ketLnBIsDqNL5
-	xVGjkjmZvyZziUOBhWVkkUoWi14V/pCrIaDl5pzm5K10mf/CBITb4rkjhLn4a1cs0A1rQSFXLN6
-	FmfFtTxxwsyZ2Aq6xOilFV3VrbgAUlaWrZKudhSe8RDNi+YfBLIuzSoHBe070ffbduDdNE1m73A
-	qVZtfPLBuGP199
-X-Received: by 2002:a05:600c:46d1:b0:4a1:df52:3e36 with SMTP id 5b1f17b1804b1-4ac17b2cdc2mr344273165e9.27.1793765569288;
-        Tue, 03 Nov 2026 20:12:49 -0800 (PST)
-Received: from maria-VMware-Virtual-Platform ([154.80.94.109])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b437864e3fsm21212225e9.0.2026.11.03.20.12.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 20:12:48 -0800 (PST)
-From: Maria Sheikh <mariasheikh812@gmail.com>
-To: outreachy@lists.linux.dev,
-	nuno.sa@analog.com,
-	Michael.Hennerich@analog.com,
-	jic23@kernel.org,
-	dlechner@baylibre.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Maria Sheikh <mariasheikh812@gmail.com>
-Subject: [PATCH] staging: iio: addac: adt7316: return 0 in _adt7316_store_enabled
-Date: Wed,  4 Nov 2026 09:10:45 +0500
-Message-ID: <20261104041237.7978-1-mariasheikh812@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AH1wHa0o
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 343B21F000C1;
+	Wed,  4 Nov 2026 07:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793776376;
+	bh=DB4yQCgfJtejeUr2NFz55DShHKw/3MpmmTIh9LFhOyM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AH1wHa0oBNeG3yBGpwGmnWC2GAt4BmX1mFR1MX2Pac75iczEY4IWHnVYS9pIkKQo+
+	 OxMk3n0AOBJR1uvPKqUWSY+83faLYsipKPLb8C3tmxhUaD57h+F0UUs/ZN4gEJlp0U
+	 I8UPHZHCpAIZpn7qlWqXaXYizQZZokB8b65I/op7+31NSniia6WkZA39Yb76QR5FLE
+	 y/ji9CDWI+eqxCFcgJvC5XtwRCOobAagKRw6lGpdEeG80dnPbiu/ckLRbAf3Telimc
+	 Tub9Y6oXuSqORm1FZ1fVJ1GidDAxr79kcGPMIThi+3hfTKjFV0j1c7x3dZIjy5kgp9
+	 HcNhDpxJM4TIA==
+Date: Wed, 4 Nov 2026 08:12:54 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: octeon: release the port device node in
+ cvm_oct_probe
+Message-ID: <20261104-provocative-crow-from-ganymede-e0d271@quoll>
+References: <20261104021450.1468423-1-vulab@iscas.ac.cn>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -105,38 +57,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261104021450.1468423-1-vulab@iscas.ac.cn>
 
-_adt7316_store_enabled() writes the config register and returns -EIO if
-the write fails. When execution reaches the final "return ret;", the
-write has succeeded, so ret is always 0. Return 0 directly to make the
-success path obvious.
 
-Found with cppcheck (identicalConditionAfterEarlyExit). All callers
-either check for a negative return value or pass it through, so
-behavior does not change.
+On Wed, 04 Nov 2026 02:14:50 +0000, Wentao Liang wrote:
+> cvm_oct_probe() looks up the device node of every port with
+> cvm_oct_node_for_port(), which walks the children with
+> for_each_child_of_node() and therefore returns the node with an
+> incremented reference count.  The reference is stored in
+> priv->of_node and used for the lifetime of the net_device, but it is
+> never dropped: both probe error paths free the net_device without
+> releasing the node, and cvm_oct_remove_device() does the same on
+> unbind.  Each failed or torn down port therefore keeps its device node
+> referenced forever.
+> 
+> Add the missing of_node_put() in the two probe error paths and in
+> cvm_oct_remove_device(), which also covers the error cleanup done after
+> the ports have been registered.  of_node_put() accepts the NULL node of
+> the POW device.
+> 
+> Fixes: 422d97b8b05e ("Revert "staging: octeon: delete driver"")
+> Cc: stable@vger.kernel.org
+> Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> ---
+>  drivers/staging/octeon/ethernet.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-Compile-tested with W=1. The disassembly of adt7316.o is identical
-before and after this change.
+Multiple things here:
+1. Your team ignored completely previous feedback. Multiple times.
 
-Signed-off-by: Maria Sheikh <mariasheikh812@gmail.com>
----
- drivers/staging/iio/addac/adt7316.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+2. You use multiple identities with this email address, thus I doubt that we
+   speak with an actual person.
 
-diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-index 20f6052cc7fb..4cb03e7808ab 100644
---- a/drivers/staging/iio/addac/adt7316.c
-+++ b/drivers/staging/iio/addac/adt7316.c
-@@ -236,7 +236,7 @@ static ssize_t _adt7316_store_enabled(struct adt7316_chip_info *chip,
- 
- 	chip->config1 = config1;
- 
--	return ret;
-+	return 0;
- }
- 
- static ssize_t adt7316_store_enabled(struct device *dev,
--- 
-2.53.0
+3. Your bot does not even bother running checkpatch, right?
+
+4. Nothing of this was reproduced nor tested.
+
+5. Finally, the same feedback:
+You sent multiple independent patches, to multiple independent
+subsystems. The amount of these patches clearly suggest this was
+AI generated and most likely not tested.
+
+More importantly, you sent all this work without properly organizing
+relevant patches into patchsets. This makes reviewing difficult
+and might cause multiple reviewers to address the same issue.
+Replying to the entire set is impossible and requires handling each
+patch independently, instead of applying or discarding the set.
+Maintainers also won't see the bigger picture of your work. Quite
+worrying.
+
+This is on the verge of hostile patch: bomb us with so many
+contributions, we won't be able to handle them in efficient manner,
+like responding ONCE to ask you to slow down.  Considering all this
+is untested and LLM generated, I have even more doubts whether this
+should be considered for review.
+
+Please read kernel documentation BEFORE posting more work. It will
+explain you how to identify subsystems, how to organize your work per
+subsystem (so a patchset grouping multiple patches with a short cover
+letter), how to document the issue discovery method and what was
+or was not tested.
+
+Best regards,
+Krzysztof
+
+
+
 
