@@ -1,101 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793779217;
-	b=AdRxoItQI9KGy7xnAHbYHOswSjYIYnrHhx37AdX4Zvn1/ZCrlvMC3zpJdZ02kyCUCkDH
-	 /83+fuuRbQC7jQzV3r1CW5eivufALnY4Yi8WYitlab5lDeqrYAjH61VZTqBBrKNZPBE4F
-	 ERxHQVx40j+GnuwdwD65uzln36Yuk9ao2UU/JNdA5H0v7gpib4smx3Yvl3YhWB1X+7IOM
-	 lzG0QHy6Mob2AhF8bGqqqRBAjO/0m4KECsDRvlREor6a+Jzxj0cQadAOBV1AVHcVbApkn
-	 BUAbbP4v+q98zFjV40XWITupPvGlfO5N4qbnN3buDufipkOqT93lPq5DojBm9gzYnxg==
+	t=1793781277;
+	b=qRJEtrJBmNBP5Jaums5u++08oWFrm2djlbNcM8fAE96bGkd9gTo0eF+/Rdo3oDJcB/Vu
+	 lGhjnH9XdgKHwuZdcTj9U9J6PJH20SLvIUQvzdtBw61ORz0VMvAx+8tSn5bsjNz5sAjws
+	 6T27Ez6woekfSM9WFGTteobsWi4OzGPlHi8B8lovYIEuQIzQE1DPBOJsBfFXLnZcnhryG
+	 hJe3fFv409xIcO47oacGYqFFeNinqrXGkKcM+8CiroGjPHO47sdxGDb6HUjuYzjIl76Ji
+	 aGJyJv6ZfwJzt5ULJOqHDhKze9hvVZUs6XCZuRu7yPwCF1tXqmy5+dCvIvM3/pO7KAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793779217;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=3J5U2FAeFLLXR6CG2lJiwfFE52kTArm5g7+TkN7ZkP4=;
-	b=kv6QIFpSRtr00GzF89TpMemfj1KJV0WLwtyuAOYt9XC3mNAwkfab8PKtqGC7WgSr+LX/
-	 p2FoJ/To57q+Jl59g3QIgzdLVIw9pgB46+fnF0AQ1yaiwXOUsN5WruftZH1tqDuOfQD+P
-	 07HWQpFVVyEs5ZBbSmtl7OblArHsq2RzBmCXTh/9AsQzkiggnPQVkfsnBevLpgb9DRISs
-	 st4+tItMV7ZPqYHg1lL8DRr+4QsJTzVYiav32kESEhyprP/12HghqxKt0Lfo2geKBRh5v
-	 p6djmTnacYWTIVhqIv4JFfyFxJP8Rq3ra9+Zo2X6iDrWGbT337zlTp2BLdKvvkLKpVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793781277;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=hYZxFY3YN83cRM0H2M4lqnHe2OCek2s7uLf9HcJ3VjU=;
+	b=GSmIdS6pPU42l8lC15RTDCrDs1U03K5Gu1DwdTIDjS1Ww7ZT0G70JipCBkGLi8ehUVH+
+	 05MOhvhwI4nWIBI+leK9RPXm1GWbLSSTMIp/mXrG0Jy/321/7kwqTFYY53A5ZCbFiIcTP
+	 NoAh7iuTnvhpruEAcrPB3iQ9eKWUl4DjZyWFtOth+2co18AhqSyJ4STsbmR1tlInfIZtw
+	 hyZZkSIRJNaVgbLZk8S396FWYjW6vasRxyWYFMjWTwqUQAzyOWi37XEKJnVjaW/NJITNq
+	 8Wbd6C2F2X3iOOP18TiuXvIHDwakCKPIE1KaRFVFRSyis+gyjYBeh80kTuSaIEhAhrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="AG/+l2HD";
-	arc=none smtp.remote-ip=209.85.221.48
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lk2BKpy8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CED606A328
-	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 08:00:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89CED606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2AD606A326
+	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 08:34:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AG/+l2HD
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48fbe12cfdcso199695f8f.2
-        for <linux-staging@lists.linux.dev>; Wed, 04 Nov 2026 00:00:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793779215; x=1794384015; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3J5U2FAeFLLXR6CG2lJiwfFE52kTArm5g7+TkN7ZkP4=;
-        b=AG/+l2HDwypxub5LDzUF67dhgAkf2S4VOVliF56DZtSzXjnv+YY86o7cIIbhB9fkHP
-         WaRHaZEMMDZqhfO/hLVzj0iD7TOH8Th+pqFwbK2x+xzv0AVsHRXF+yPlBqsLiAuicgWe
-         IYMtH9fAM8Dcw9IlBwGw3B4tfHhPw0vzPncanoZ6okbfCrKFSGjWXKmAvkBSICMz+e9/
-         Mv/NCGpm2arp+o6KstwmfrtHtu7TBF3G5p1En6gndRa4pRyTzXLu7Tf6pOBjEvM6JNOS
-         tYWP4ubqCZ5ahihcBFnbFAWICUcC9+8Xu8i9SY6UoMGrd7vCd09qveaRj3F9yCwZoHXO
-         uscA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793779215; x=1794384015;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3J5U2FAeFLLXR6CG2lJiwfFE52kTArm5g7+TkN7ZkP4=;
-        b=rZWWzn42XDPQdapKJ1V/Bl/YzIKLPUIWUzpzIXrPyeGLhfUx/fnunxNReT7lEWmH6r
-         /02BpJKiwMo8oIXVNKabnY9/VU9xmk/EHxqWNChZ3aQJUs+F/TGW7/FKLeTHIpCzPt0b
-         voP8/cyhRMxoR7KMjkb0U6LVOtg4phL1Qzn84B4P4IK0jvbj0yHU8KOHN69PNYDjnOPM
-         RPfIq+i8X2/DF4+Wkz7sVOVjXLB7DZxD1CQem0A/LS+OrIngQzP/3ZPPsJ3jLt2+Iyqk
-         lG+pCNqr1k4aRMZvZcAnLjV1pKv2P7s3gFwNLNBjtMRthbCSpxgFMQRz54GBayBL61UX
-         cGQA==
-X-Forwarded-Encrypted: i=1; AKwUvByXZ1fjO+0B5Zzo9DfwgnTIjzBCrkFlAy8G2qP04Brt2qqNqyIi0uo3hxh7uLJooBPnALuKl0iu81G41CnM@lists.linux.dev
-X-Gm-Message-State: APuU4Z9nuiu0sKyC+gti5icJkMmj1a+w56g7zC2YTRMKeHOUSM93Wgq2
-	BhwRB6tT8bEhNPVlhll8xT86u3oaY9lgPKt217sKp4emZCkt3TMicVP/
-X-Gm-Gg: AYBFou0zj9BJdIKx9ILER1H63CthkCMsRuUCnC6R7popMVaf8ze729Y7OSH8Mivveeg
-	iEDpzjjAFLwe0K7fZF+8QsMNxMPbO6rNKAHasJpfqtvz6rGVOYz3Kam00dHAvxeeyS0nEf89l6C
-	XrfXBfOQAKOK3mmBjXy2vq6wJ9axbtmdd9Mi4f5vSWPdvLQHlEcagQO5wo+WMsz1CKa+H+6t857
-	PYgI8NKkcK+QT5Zju8PqL0zzgeQ5MxFki++xo4/0xMsa52VcFEJijyRM7GC6oYJVFoWmvBY8Qa7
-	nNsg8+lAq2kcZ+KjU5DskXx+NPZc7O5zX8ArpdWof3MAb584Ln1IOveH89oeEs5NfRnXW8U7dc4
-	8DWbj4lE6xrqBGEb9qOSF1nS+hsE1DUllNdIx0EnEwiukJgNA1JAeffUZS0kmB7GB9RfcJxhp1t
-	Ohd4KXlEdfez1exa5Bi7F0qefOCFujrVscSlOwCzqemf81eeRAF6PmzV3N8v63Z/GuS2pkF9mvj
-	eUVdpAVeKQeduJ9800yhnGEldmb2Z0TJIo9XlHCestNxB5q1CqnHVkGZoZjZoi8v4Wr29b5L+Nd
-	/XqXesKfwjqxmr9sp9LAgnX/oFvUIzwjjfbZCZ0QtR37BROrA8LlWXMO1WUeGwjI7rBTKetLUSw
-	WfYhKsGpt+9bMz0CtJXi3IjsaYa0mq98wqiWIUtMxTwjILNIv3XonPrQjE4yGXSDuoC/+gJTbSa
-	0NM9HPx1i/4FZ74WjWxjFlI2vHdBrmVzcsYDHqMyN5xtWQrdKYnwpNVZpETM+Z8MYn+hCpjxRjB
-	Z6yhvhw04BomXpPZlztW1k=
-X-Received: by 2002:a5d:5f89:0:b0:490:2033:1477 with SMTP id ffacd0b85a97d-49020331482mr1365594f8f.56.1793779212966;
-        Wed, 04 Nov 2026 00:00:12 -0800 (PST)
-Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fea18104bsm2588704f8f.6.2026.11.04.00.00.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 00:00:12 -0800 (PST)
-Date: Wed, 4 Nov 2026 09:00:08 +0100
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-To: Maria Sheikh <mariasheikh812@gmail.com>
-Cc: outreachy@lists.linux.dev, nuno.sa@analog.com,
- Michael.Hennerich@analog.com, jic23@kernel.org, dlechner@baylibre.com,
- andy@kernel.org, gregkh@linuxfoundation.org, linux@analog.com,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: addac: adt7316: return 0 in
- _adt7316_store_enabled
-Message-ID: <20261104090008.00002b25@gmail.com>
-In-Reply-To: <20261104041237.7978-1-mariasheikh812@gmail.com>
-References: <20261104041237.7978-1-mariasheikh812@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lk2BKpy8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC59C1F000C1;
+	Wed,  4 Nov 2026 08:34:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793781276;
+	bh=hYZxFY3YN83cRM0H2M4lqnHe2OCek2s7uLf9HcJ3VjU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Lk2BKpy81LbgYKH8/yiKNw1+KhGTXqcQpncperTnauPF0S0yaQpQibmMZ8OkL1uBD
+	 Zapjr2dHaSXX7iV3bX7zAUl8egWHlgiXtbjVxvWYD8LmKf2G62AJIcYXLzi7h6I9Pl
+	 eZGCTDKiYEY+icwKdvTYi9yefcMc5SwETvdzAR8Mbsg1ZVv8TAHg6PIVbXhTvyuDzZ
+	 5tyg38wKVUKbs9A6NtB8m4X3ygTDcV8VXTjPOQaHae4COQ3UJXvSwP7h9Yqb2A8s92
+	 N0gEyeFNRMP/pD60zpYqRVPu0frS6FWobcLUJqFNGdkQi4mxSoA9OGrcFA4vpdDib6
+	 x2hHcs0BIb1iw==
+Message-ID: <006f5d5d-6c74-488b-b4ea-aa61cee4646d@kernel.org>
+Date: Wed, 4 Nov 2026 09:34:33 +0100
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -105,29 +51,92 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: octeon: release the port device node in
+ cvm_oct_probe
+To: Dan Carpenter <error27@gmail.com>, Wentao Liang <vulab@iscas.ac.cn>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev
+References: <20261104021450.1468423-1-vulab@iscas.ac.cn>
+ <aurikMTyOVMRHDl9@stanley.mountain>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <aurikMTyOVMRHDl9@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Wed,  4 Nov 2026 09:10:45 +0500
-Maria Sheikh <mariasheikh812@gmail.com> wrote:
-
-> _adt7316_store_enabled() writes the config register and returns -EIO if
-> the write fails. When execution reaches the final "return ret;", the
-> write has succeeded, so ret is always 0. Return 0 directly to make the
-> success path obvious.
+On 04/11/2026 08:45, Dan Carpenter wrote:
+> On Wed, Nov 04, 2026 at 02:14:50AM +0000, Wentao Liang wrote:
+>> cvm_oct_probe() looks up the device node of every port with
+>> cvm_oct_node_for_port(), which walks the children with
+>> for_each_child_of_node() and therefore returns the node with an
+>> incremented reference count.  The reference is stored in
+>> priv->of_node and used for the lifetime of the net_device, but it is
+>> never dropped: both probe error paths free the net_device without
+>> releasing the node, and cvm_oct_remove_device() does the same on
+>> unbind.  Each failed or torn down port therefore keeps its device node
+>> referenced forever.
+>>
+>> Add the missing of_node_put() in the two probe error paths and in
+>> cvm_oct_remove_device(), which also covers the error cleanup done after
+>> the ports have been registered.  of_node_put() accepts the NULL node of
+>> the POW device.
+>>
+>> Fixes: 422d97b8b05e ("Revert "staging: octeon: delete driver"")
+>> Cc: stable@vger.kernel.org
+>> Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
+>> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 > 
-> Found with cppcheck (identicalConditionAfterEarlyExit). All callers
-> either check for a negative return value or pass it through, so
-> behavior does not change.
+> Normally with firmware, we just take a reference to the firmware node,
+> read the information we need to probe, and then release the reference.
 > 
-> Compile-tested with W=1. The disassembly of adt7316.o is identical
-> before and after this change.
+> Is there any need to hold the reference here until basically the system
+> shuts down?
 
-I'd move the testing info below the ---, as it's only compile tested.
-No need to resend however, this can be fixed up when applying.
+Just FYI, you are discussing with a bot. :)
 
-Reviewed-by: Joshua Crofts <crofts@kernel.org>
-
--- 
-Kind regards,
-Joshua Crofts
+Best regards,
+Krzysztof
