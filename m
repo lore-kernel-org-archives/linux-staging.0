@@ -1,55 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793762753;
-	b=BZFRhNLTBcuLZz11gEadASlVjhLPAg5lsCrFKbuGe8zJjreoH9SmJiJDm39JYfHMxK0M
-	 8z9ncyY3k2DVM3cakKJ9csCzIoBefoA+Ru1Ynj6NeClkKY1HaWLkTTuwTzfUiG10OO/G1
-	 sVv0ipIOLTc3ygG6xLUe2ouIBdWznaeehbrVQyUQE7uCiYkjAzZBBL/upS/peTSjWVyCx
-	 j/uKU6cbWT/533Ar2Lx6AThVuZWXC9c8p68Pye3iIlYjoJOoBGDTJF9Z/ludc+y25elN+
-	 +GY1ZInP6QGsotx8OJNacs5+41edmhts2ZDgR10S/MqdHMuDZsxJrulGXBBjMfPBamw==
+	t=1793765571;
+	b=QEaIuvu7hlDbg2W5K7akaMlLxIRpXS1IBXf8+cKhgzOT4UQYF+5Jn6dSvNXKzs8szOMr
+	 qw4Q19musotjt6/XUCYuBPE3SqbOXcrH5LL/voCJnCAaybx7dlmTJeeloXPnCnS0bF7t1
+	 ttxAiT0dM30EcovV0xM+QOtKfB9dMFNcATQaKKkrhXunR2n7n+9SoNEiEjHIWsUJW3ZK5
+	 qr7ar8/xZ9JwNCzOxTHk2UZqSHQS15DGIc6F2ew3y3fqQO982eFLqYC692aBhmxSrcGz3
+	 9ybLz+hc6Frt4ymzblCsWCZyO8LzJJY98zVzBkIw1zitwIprgfW+bBoF5LJcv5fzvyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793762753;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=FiR8bNJz68wyQ94GkBHZoR3YiuS4hpz+FXLXPKGN9Lk=;
-	b=YBs7XJLndUfDy2G2bbaZCBcAyZMoVxZ3ncwBcNMTBYZMUA4Mjsw8iuRYikH+kQa62QED
-	 kA3a47GTpG94wQtjrtHNRWl8SED3EJlYitmlKFYwv9Btl8Wr5+Z/eAfgnbaJngHsWg7EK
-	 Z8uzakV21OSAKlq0qUCz3vCGhsZfMuldUO1CJT6WJWCLXdGnE/nxQ17NWFKLE/1+LQ/pM
-	 yuY4LWKnPMOUZK3KsV8pnkNueltt1izeU3VS3y3KEDoRXrGzr2FNCvhBka0Ga1eyIYx8W
-	 QvqVaii3JU75GiJ7Rcz3RYlKvpwE7pPNINKMqRo6OOG7dHTQ9JP4sN2nkj6QMs8KQSw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793765571;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ETxWwH+3XKdmGy3va4VsbBXcOFXJDAUa18QQihknvJY=;
+	b=paMIiVRNK6cdxUvjF+XsVYnXo/d1xCFcQ2JYFP6wuTETjZGRjWUaMmlCBSltnQkrI1BY
+	 hnYKJW5yaFtoY13R2GrmjLl0YfHxTXDc9pShcTFUcugFYVpgRa8/AXzF4tgiwEaWA2ZeD
+	 9IHnvtOy1kI88h6Tx6F/7t1ED0e8GuVx6Hf2sdejty50bYOOmkaWw+LKB0BJd/knX5/A0
+	 rBGwggsdpGCW2ifzMmgHfFQtmqYrBqkjF3fjwlQCEBsblDjGVixm2YMZJ78u5TKy5v36i
+	 288xCylKnG9gZHm/bYuPyCtJQa6gBsXYRWW6x3Ek0PbUg8cZKxyvf8M9D6pavjlEsmw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F5IOzblz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rnwDgGOj;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB28C606A326
-	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 03:25:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B640606A334
+	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 04:12:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B640606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F5IOzblz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 654D81F0093A
-	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 03:25:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793762752;
-	bh=FiR8bNJz68wyQ94GkBHZoR3YiuS4hpz+FXLXPKGN9Lk=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=F5IOzblzVMFI6Zx8tG7Yt2TBiGdnoDbxyv6HGYRoDScDZEGta3FVGaKpN2Hcktbky
-	 GJJcGsjqbGIFO5FcXmWnYbabSnO95o+H9/OQ7rnY/jsNjOGn8jlo8ycg09LL6MzQmB
-	 zz1LAG9JD4KqD+QXvLSyHu33uMeCJJVcsfHP1ajPTp0lmtY3n6A7CBY34quq7LQnN7
-	 F10HywVMTczJoShhzWDLzAOPWhTw+15r99gmxX1euVy3mprMVQNeXr3wYkmlWNHvNO
-	 1SgVdJF5S5dJKlheJwUe4LCwDl79onScy96ySFZNqKlOD5hdsHxe2tXCYJIeO2zXV/
-	 C64WEZT6EKL/w==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5ba3ec92031so227342e87.2
-        for <linux-staging@lists.linux.dev>; Tue, 03 Nov 2026 19:25:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBwUC6h/DoJyNOQ/q/WkGZEHNXEpkSMaXllL4qAoORrJvCT/9CfOgtTy/FRCSsp5CuDPC+n+kjYNbjshBFPv@lists.linux.dev
-X-Gm-Message-State: APuU4Z8qg5sbsIMf1Chpdh6J+CYw4HvAIkApGQ3SEptsnNxhw4UFNz+j
-	udEZvpyR1q3V2a7sNd7IhEKwahfsxLxNPnfgtwLyBQn0fZMJDFFEK/UYZadhBEibHCpFkjD8N0s
-	UwwE0191gkGhwQn6k35DTEUZs4ouTzR4=
-X-Received: by 2002:a05:651c:b11:b0:3ab:4ab5:56ce with SMTP id
- 38308e7fff4ca-3acb7b4edb0mr35654131fa.28.1793762750881; Tue, 03 Nov 2026
- 19:25:50 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rnwDgGOj
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4afe2d546f9so2442515e9.3
+        for <linux-staging@lists.linux.dev>; Tue, 03 Nov 2026 20:12:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793765569; x=1794370369; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ETxWwH+3XKdmGy3va4VsbBXcOFXJDAUa18QQihknvJY=;
+        b=rnwDgGOjRSiFhw83B7foxlSgQEWgu0iExnSx9WeExadRFOcpRloAf5cIei4xolmrhr
+         O6MLNwWDk15ot/rtCaan0/4FQ+F/tEumfTkC9l+pfZsQhbi6HEMLx3lahNgYzBTojrQW
+         P50hs0yX/bOvVRnmf0n9jPNZuk/QDduoMuTNBQ1TQNyS5aFmyjKXhIXYDKACgTsVfjDQ
+         SHGzD4IoTFoG+5K6EudDNOiiwke84vcyMpRf9+YAXWA+KYSKjJs+4ZHVR31tB7Mty6nU
+         Zybp1ojn/+b5y707lSETyDnhpw/MEpKZc5YqrVElwbpAHngJoSkrIq9knufwXlubT9Qt
+         W2jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793765569; x=1794370369;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ETxWwH+3XKdmGy3va4VsbBXcOFXJDAUa18QQihknvJY=;
+        b=vVsK+KOIrI3UUJp+yaKzQR7IecLYdsVYg7YMkh2tca4XReB0aKrwCJS5dZHFHmqbaS
+         57rtBa1as3KTo+IEBKGRj+5T1DXxXAug+JBtvjpGCWTHayAs6Er7R4Gr8u6Z48DZR9+A
+         DIa9prAxIcEnHzwwosdpCYxBB1cQcuwT3901cvj9YVhMUaEOi6RXQ5xe6c2WEoV/Z1aJ
+         TfsKktQdHx7+FLmbsoEiHQEaBLa+mtjOIdQHn23gJQ5YTMSVhZVQGQUZXoLuPghBb5M2
+         lhLda/lANt8Pc3Rm+GgCLxaN+BWWsg3NyaDBur2E8729uWwbvOU8ohOddeedcumt7Wiv
+         b8mw==
+X-Forwarded-Encrypted: i=1; AKwUvBxyT1eO5w+g+P3g8MTFn+HnaCJGGxLKen76fZTk/Ed9vnfFgLNQ25PrjzOhfzOIPQJceOplgATGgbodn95F@lists.linux.dev
+X-Gm-Message-State: APuU4Z8Ufk8pdNvwcLH/VxIvPD/Z2PA1m6+2WOsg65LyeUgzPuGLtMRp
+	jPihd7Ui/1IGkB2C4ipeMZmJ4yVdCD07tjKivCpY3i5ThQXPX9y7B2e6
+X-Gm-Gg: AYBFou1hB2/X9+vP98Slk/sjZradbTE79Suqa/1qaiHe8nEMcqzaea8qDOQ7uZ4+3gp
+	/J5esncN2SerUkvjjBLCwjWnSBwLXLhrbb4zw43CUZBQmgnc+XgwqcGalKwdNtfuEvGw3SZ49aI
+	Yv9Qw2jh9qV0XuudWvDccooq8x5k0/hSZ+kEMA/u4zkfEu6yZ+6PITfC7z49JnPUao+uuGNOl+W
+	hLfrm+H8hArOLfsSGN6fhJCr2bGKjdTatu4X/X7u8yNBNeDwV2b3AhzhX3aVUcd//oZlGoKndJW
+	UsXIKlu/B/66ysUcVYyuro+lHouNdkL+2pB8DGtQAi1Ay4wyHNXvq8yzfkQ8DUxB6WVoALDjIPF
+	qDjaCRZV+lMW/WvrmPFMkjqNuRnOnsW3V4AGemK1jcTmzf03+JscWltwHRr8OwwR5tu7x+AKzqM
+	Jl1smY9XqJWBrjsYhwV7XVul3lA7GP61yp+IfDOgGwm+yPqWdU5/E+VJc9UdhtIqPpm7/torMoI
+	5tSghu/f4xgm7p6DwhDio7ffpkw7cAGu857Hjc7a169qaPJaKq+fAhV9KOclC9ketLnBIsDqNL5
+	xVGjkjmZvyZziUOBhWVkkUoWi14V/pCrIaDl5pzm5K10mf/CBITb4rkjhLn4a1cs0A1rQSFXLN6
+	FmfFtTxxwsyZ2Aq6xOilFV3VrbgAUlaWrZKudhSe8RDNi+YfBLIuzSoHBe070ffbduDdNE1m73A
+	qVZtfPLBuGP199
+X-Received: by 2002:a05:600c:46d1:b0:4a1:df52:3e36 with SMTP id 5b1f17b1804b1-4ac17b2cdc2mr344273165e9.27.1793765569288;
+        Tue, 03 Nov 2026 20:12:49 -0800 (PST)
+Received: from maria-VMware-Virtual-Platform ([154.80.94.109])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b437864e3fsm21212225e9.0.2026.11.03.20.12.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 20:12:48 -0800 (PST)
+From: Maria Sheikh <mariasheikh812@gmail.com>
+To: outreachy@lists.linux.dev,
+	nuno.sa@analog.com,
+	Michael.Hennerich@analog.com,
+	jic23@kernel.org,
+	dlechner@baylibre.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux@analog.com,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Maria Sheikh <mariasheikh812@gmail.com>
+Subject: [PATCH] staging: iio: addac: adt7316: return 0 in _adt7316_store_enabled
+Date: Wed,  4 Nov 2026 09:10:45 +0500
+Message-ID: <20261104041237.7978-1-mariasheikh812@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -59,54 +105,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <aupKBdon3N4Kpnkt@daniel-HP-Stream-Laptop-14>
-In-Reply-To: <aupKBdon3N4Kpnkt@daniel-HP-Stream-Laptop-14>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 4 Nov 2026 11:25:38 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65DdCiWrEOefDGUjYtT2=tcxQ+VW3vfcHVUAUgcEtEfwQ@mail.gmail.com>
-X-Gm-Features: AclHuK_5Y2MLhaVY7HfmVbOKOfX5_2eeteHh2sW4OTC1OnqSFna6GnQ5i2y_CDY
-Message-ID: <CAGb2v65DdCiWrEOefDGUjYtT2=tcxQ+VW3vfcHVUAUgcEtEfwQ@mail.gmail.com>
-Subject: Re: [PATCH] drivers: staging: media: sunxi: cedrus: spelling correction
-To: Daniel West <daniel.west.dev@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 4, 2026 at 4:54=E2=80=AFAM Daniel West <daniel.west.dev@gmail.c=
-om> wrote:
->
-> Correct spelling in comment.
->
-> Signed-off-by: Daniel West <daniel.west.dev@gmail.com>
+_adt7316_store_enabled() writes the config register and returns -EIO if
+the write fails. When execution reaches the final "return ret;", the
+write has succeeded, so ret is always 0. Return 0 directly to make the
+success path obvious.
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org>
+Found with cppcheck (identicalConditionAfterEarlyExit). All callers
+either check for a negative return value or pass it through, so
+behavior does not change.
 
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h265.c
-> index 780da4a8b5af..f57642c0d8fa 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -755,7 +755,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, =
-struct cedrus_run *run)
->         }
->         cedrus_write(dev, VE_DEC_H265_SCALING_LIST_CTRL0, reg);
->
-> -       /* Neightbor information address. */
-> +       /* Neighbor information address. */
->         reg =3D VE_DEC_H265_NEIGHBOR_INFO_ADDR_BASE(ctx->codec.h265.neigh=
-bor_info_buf_addr);
->         cedrus_write(dev, VE_DEC_H265_NEIGHBOR_INFO_ADDR, reg);
->
-> --
-> 2.51.0
->
+Compile-tested with W=1. The disassembly of adt7316.o is identical
+before and after this change.
+
+Signed-off-by: Maria Sheikh <mariasheikh812@gmail.com>
+---
+ drivers/staging/iio/addac/adt7316.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
+index 20f6052cc7fb..4cb03e7808ab 100644
+--- a/drivers/staging/iio/addac/adt7316.c
++++ b/drivers/staging/iio/addac/adt7316.c
+@@ -236,7 +236,7 @@ static ssize_t _adt7316_store_enabled(struct adt7316_chip_info *chip,
+ 
+ 	chip->config1 = config1;
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static ssize_t adt7316_store_enabled(struct device *dev,
+-- 
+2.53.0
+
