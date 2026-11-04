@@ -1,45 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793758484;
-	b=NcShwknN4ZcQJN3k5eRT/B4PiwfIky7UfD5ajNv+0ozVSslDLN/H1SpgWTqEpmokVWh7
-	 wTmx6I5kIenZbS4SriCGDU9KIc9bNq0ej74V01kAFEaG2AaJyN5uXqYwWJvzGfcBT4JNA
-	 hPHU8HD4znLDhRI2zgt8O4g4n6fU4oohEsiqLJJhhx1md5ugZFIBteKj6ZTuoXRqCGK63
-	 329xGYFpgZGDzv6AH6S+YuAbW7IIJgEGjS+9OSF/pCXTU2sHaDx89YHnA4dDxFQoDoGbx
-	 B2y7TJi3m1VM/ZuqwrdRWv5NG3BihQLuuZHOPhKqsSHKxK5MPL/PqB4+5mg9pMzv+pw==
+	t=1793762753;
+	b=BZFRhNLTBcuLZz11gEadASlVjhLPAg5lsCrFKbuGe8zJjreoH9SmJiJDm39JYfHMxK0M
+	 8z9ncyY3k2DVM3cakKJ9csCzIoBefoA+Ru1Ynj6NeClkKY1HaWLkTTuwTzfUiG10OO/G1
+	 sVv0ipIOLTc3ygG6xLUe2ouIBdWznaeehbrVQyUQE7uCiYkjAzZBBL/upS/peTSjWVyCx
+	 j/uKU6cbWT/533Ar2Lx6AThVuZWXC9c8p68Pye3iIlYjoJOoBGDTJF9Z/ludc+y25elN+
+	 +GY1ZInP6QGsotx8OJNacs5+41edmhts2ZDgR10S/MqdHMuDZsxJrulGXBBjMfPBamw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793758484;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=7ce1f3+NVT/2DmrT9qST+VFvQOlRL9d+rVa22I17lO8=;
-	b=yotCLOTjqP/2Iv4rDUFpPpUQO38+e4a/ZTD0WAgrg3Xh+2ob1UekiKW0tSRilxtjbQ+E
-	 YNAfZ3GNTA5xAFcfmNL0si+Iuqdv6Bop0IC0KMp3X4pMf8zA/8eVR1oVamjlPtmDE5t5c
-	 9ocAsFNVPk4KKgW3NrujxqBNhfENGbejSleo/gbSFF+6R3pGD3nIIrLFJvmZyBT7p7kSR
-	 PTrqnmmm8Z/zNzMRi9H7YU9Zv2/Zs1wHr6pmgGV3N/Ulj2Fdp1Nx80ovAFcbqDwhBr0rG
-	 HeEx35kN5z7HPDioPvntROTRA8CgAwwDWykNiXiidm3Vz/0OnElrz0AOZEAYNbbFVBw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793762753;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=FiR8bNJz68wyQ94GkBHZoR3YiuS4hpz+FXLXPKGN9Lk=;
+	b=YBs7XJLndUfDy2G2bbaZCBcAyZMoVxZ3ncwBcNMTBYZMUA4Mjsw8iuRYikH+kQa62QED
+	 kA3a47GTpG94wQtjrtHNRWl8SED3EJlYitmlKFYwv9Btl8Wr5+Z/eAfgnbaJngHsWg7EK
+	 Z8uzakV21OSAKlq0qUCz3vCGhsZfMuldUO1CJT6WJWCLXdGnE/nxQ17NWFKLE/1+LQ/pM
+	 yuY4LWKnPMOUZK3KsV8pnkNueltt1izeU3VS3y3KEDoRXrGzr2FNCvhBka0Ga1eyIYx8W
+	 QvqVaii3JU75GiJ7Rcz3RYlKvpwE7pPNINKMqRo6OOG7dHTQ9JP4sN2nkj6QMs8KQSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=iscas.ac.cn;
-	spf=pass smtp.mailfrom=iscas.ac.cn;
-	arc=none smtp.remote-ip=159.226.251.21
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F5IOzblz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB6D606A338
-	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 02:14:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCB6D606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowADH7vgRlepq2nU+AA--.9520S2;
-	Wed, 04 Nov 2026 10:14:41 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Subject: [PATCH] staging: octeon: release the port device node in cvm_oct_probe
-Date: Wed,  4 Nov 2026 02:14:50 +0000
-Message-Id: <20261104021450.1468423-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB28C606A326
+	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 03:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F5IOzblz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 654D81F0093A
+	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 03:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793762752;
+	bh=FiR8bNJz68wyQ94GkBHZoR3YiuS4hpz+FXLXPKGN9Lk=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=F5IOzblzVMFI6Zx8tG7Yt2TBiGdnoDbxyv6HGYRoDScDZEGta3FVGaKpN2Hcktbky
+	 GJJcGsjqbGIFO5FcXmWnYbabSnO95o+H9/OQ7rnY/jsNjOGn8jlo8ycg09LL6MzQmB
+	 zz1LAG9JD4KqD+QXvLSyHu33uMeCJJVcsfHP1ajPTp0lmtY3n6A7CBY34quq7LQnN7
+	 F10HywVMTczJoShhzWDLzAOPWhTw+15r99gmxX1euVy3mprMVQNeXr3wYkmlWNHvNO
+	 1SgVdJF5S5dJKlheJwUe4LCwDl79onScy96ySFZNqKlOD5hdsHxe2tXCYJIeO2zXV/
+	 C64WEZT6EKL/w==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5ba3ec92031so227342e87.2
+        for <linux-staging@lists.linux.dev>; Tue, 03 Nov 2026 19:25:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBwUC6h/DoJyNOQ/q/WkGZEHNXEpkSMaXllL4qAoORrJvCT/9CfOgtTy/FRCSsp5CuDPC+n+kjYNbjshBFPv@lists.linux.dev
+X-Gm-Message-State: APuU4Z8qg5sbsIMf1Chpdh6J+CYw4HvAIkApGQ3SEptsnNxhw4UFNz+j
+	udEZvpyR1q3V2a7sNd7IhEKwahfsxLxNPnfgtwLyBQn0fZMJDFFEK/UYZadhBEibHCpFkjD8N0s
+	UwwE0191gkGhwQn6k35DTEUZs4ouTzR4=
+X-Received: by 2002:a05:651c:b11:b0:3ab:4ab5:56ce with SMTP id
+ 38308e7fff4ca-3acb7b4edb0mr35654131fa.28.1793762750881; Tue, 03 Nov 2026
+ 19:25:50 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -49,73 +59,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADH7vgRlepq2nU+AA--.9520S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CrWfAF1DuFyrCF43Aw1UJrb_yoW8Cw4kpw
-	4jkas8ur9YgF1xGFn2q3WUZF90ya1xtrWrC3ZrGw4I9w1rJry8XFW0qFW5Wa45tFWrt345
-	tr1Fyas7uay8AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkqb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
-	AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
-	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14
-	v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
-	McIj6xIIjxv20xvE14v26rWY6Fy7McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
-	6cx26r48ZrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
-	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxG
-	rwCI42IY6xIIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
-	1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY
-	6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU5EQ6tUUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRUBA2rqY-m4NAAAsI
+References: <aupKBdon3N4Kpnkt@daniel-HP-Stream-Laptop-14>
+In-Reply-To: <aupKBdon3N4Kpnkt@daniel-HP-Stream-Laptop-14>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Wed, 4 Nov 2026 11:25:38 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65DdCiWrEOefDGUjYtT2=tcxQ+VW3vfcHVUAUgcEtEfwQ@mail.gmail.com>
+X-Gm-Features: AclHuK_5Y2MLhaVY7HfmVbOKOfX5_2eeteHh2sW4OTC1OnqSFna6GnQ5i2y_CDY
+Message-ID: <CAGb2v65DdCiWrEOefDGUjYtT2=tcxQ+VW3vfcHVUAUgcEtEfwQ@mail.gmail.com>
+Subject: Re: [PATCH] drivers: staging: media: sunxi: cedrus: spelling correction
+To: Daniel West <daniel.west.dev@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-cvm_oct_probe() looks up the device node of every port with
-cvm_oct_node_for_port(), which walks the children with
-for_each_child_of_node() and therefore returns the node with an
-incremented reference count.  The reference is stored in
-priv->of_node and used for the lifetime of the net_device, but it is
-never dropped: both probe error paths free the net_device without
-releasing the node, and cvm_oct_remove_device() does the same on
-unbind.  Each failed or torn down port therefore keeps its device node
-referenced forever.
+On Wed, Nov 4, 2026 at 4:54=E2=80=AFAM Daniel West <daniel.west.dev@gmail.c=
+om> wrote:
+>
+> Correct spelling in comment.
+>
+> Signed-off-by: Daniel West <daniel.west.dev@gmail.com>
 
-Add the missing of_node_put() in the two probe error paths and in
-cvm_oct_remove_device(), which also covers the error cleanup done after
-the ports have been registered.  of_node_put() accepts the NULL node of
-the POW device.
+Acked-by: Chen-Yu Tsai <wens@kernel.org>
 
-Fixes: 422d97b8b05e ("Revert "staging: octeon: delete driver"")
-Cc: stable@vger.kernel.org
-Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- drivers/staging/octeon/ethernet.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 42ec4b8324a8..bba46127ef9d 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -114,6 +114,7 @@ static void cvm_oct_remove_device(int port)
- 
- 		cvm_oct_tx_shutdown_dev(dev);
- 		unregister_netdev(dev);
-+		of_node_put(priv->of_node);
- 		free_netdev(dev);
- 		cvm_oct_device[port] = NULL;
- 	}
-@@ -919,10 +920,12 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 			}
- 
- 			if (!dev->netdev_ops) {
-+				of_node_put(priv->of_node);
- 				free_netdev(dev);
- 			} else if (register_netdev(dev) < 0) {
- 				netdev_err(dev, "Failed to register ethernet device for interface %d, port %d\n",
- 					   interface, priv->port);
-+				of_node_put(priv->of_node);
- 				free_netdev(dev);
- 			} else {
- 				cvm_oct_device[priv->port] = dev;
--- 
-2.34.1
-
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h265.c
+> index 780da4a8b5af..f57642c0d8fa 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -755,7 +755,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, =
+struct cedrus_run *run)
+>         }
+>         cedrus_write(dev, VE_DEC_H265_SCALING_LIST_CTRL0, reg);
+>
+> -       /* Neightbor information address. */
+> +       /* Neighbor information address. */
+>         reg =3D VE_DEC_H265_NEIGHBOR_INFO_ADDR_BASE(ctx->codec.h265.neigh=
+bor_info_buf_addr);
+>         cedrus_write(dev, VE_DEC_H265_NEIGHBOR_INFO_ADDR, reg);
+>
+> --
+> 2.51.0
+>
