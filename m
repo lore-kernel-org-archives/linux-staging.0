@@ -1,98 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793778447;
-	b=oA0POtfQiwnfJlDbqbcftT8ic4ZsNEHYyPZfe8Gl5UZQhD+W0O2mSeh0KtMQN22SRmud
-	 p+u/jq7jDALaTfwrLvb45XQGF23ruktrRomkenMbIzwgw0k6nmEePcchffRQ/8qiTiXmz
-	 NlzxElh8/VTTSlODmUiPRVcyQ+z4kJk74ytOZJNbEhOSpM9i8Ahh9QuXBjsSXx7JkQrji
-	 ypSNOT5XWyBPLyWWkSr+3QUFpac/bWGTZZ5+3Be9f8j9go6/D9y1Nul79VGaqiyLZgoZO
-	 A+MIF6nGTAIM3+E97YnUbQMnKcZthki9zQdwXFOXwd0BXdK+0Ad3Jmj30GRQHla0qfg==
+	t=1793779217;
+	b=AdRxoItQI9KGy7xnAHbYHOswSjYIYnrHhx37AdX4Zvn1/ZCrlvMC3zpJdZ02kyCUCkDH
+	 /83+fuuRbQC7jQzV3r1CW5eivufALnY4Yi8WYitlab5lDeqrYAjH61VZTqBBrKNZPBE4F
+	 ERxHQVx40j+GnuwdwD65uzln36Yuk9ao2UU/JNdA5H0v7gpib4smx3Yvl3YhWB1X+7IOM
+	 lzG0QHy6Mob2AhF8bGqqqRBAjO/0m4KECsDRvlREor6a+Jzxj0cQadAOBV1AVHcVbApkn
+	 BUAbbP4v+q98zFjV40XWITupPvGlfO5N4qbnN3buDufipkOqT93lPq5DojBm9gzYnxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793778447;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793779217;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=CJrVpzWSqXnZyMhmYQZlXezsPnpuAEBGvhZcWkwrTMY=;
-	b=tUfnDb21LX30FTSuFrnAy6/loJ1nUZJWzfA9ybFFHONyMMGeV3dz16JO9hLmfwQRXcjW
-	 qL3WM471DR358FUDmKK5Y6bW0thN7/uNx0Zqn07RMeYHhlWW7a8NIWMFPQW4jsWru1Us4
-	 dzX/7Zs3C4Y07szsUMoiMLNSnYYxoFRZaYehrOqSCMHy9ZJidjtNx1vNKu5WLS0NzgF4Q
-	 mYXDCRxxcsl1rE5G6FqjOYF9UVm50gdmaczyHKP8FHGB+tTtTdJ90ghlm9JpdY06kgFUC
-	 Sjz0UYV4xsQUmtEbK8i/+vMzTCcm24H/TiZ+RZCEwJdjR26trXHDO4cWZulFCqWXwqw==
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=3J5U2FAeFLLXR6CG2lJiwfFE52kTArm5g7+TkN7ZkP4=;
+	b=kv6QIFpSRtr00GzF89TpMemfj1KJV0WLwtyuAOYt9XC3mNAwkfab8PKtqGC7WgSr+LX/
+	 p2FoJ/To57q+Jl59g3QIgzdLVIw9pgB46+fnF0AQ1yaiwXOUsN5WruftZH1tqDuOfQD+P
+	 07HWQpFVVyEs5ZBbSmtl7OblArHsq2RzBmCXTh/9AsQzkiggnPQVkfsnBevLpgb9DRISs
+	 st4+tItMV7ZPqYHg1lL8DRr+4QsJTzVYiav32kESEhyprP/12HghqxKt0Lfo2geKBRh5v
+	 p6djmTnacYWTIVhqIv4JFfyFxJP8Rq3ra9+Zo2X6iDrWGbT337zlTp2BLdKvvkLKpVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="FpXguuY/";
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="AG/+l2HD";
+	arc=none smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A427606D805
-	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 07:47:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A427606D805
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CED606A328
+	for <linux-staging@lists.linux.dev>; Wed,  4 Nov 2026 08:00:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89CED606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FpXguuY/
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a2000d5fb1so1756155e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Nov 2026 23:47:26 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AG/+l2HD
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48fbe12cfdcso199695f8f.2
+        for <linux-staging@lists.linux.dev>; Wed, 04 Nov 2026 00:00:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793778445; x=1794383245; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1793779215; x=1794384015; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=CJrVpzWSqXnZyMhmYQZlXezsPnpuAEBGvhZcWkwrTMY=;
-        b=FpXguuY/gG9NsQd7FoNRar7awS2/rBRpGN5gq+xcsYrx2lFEF9sUPLJ95ejeOGK3zn
-         AeZ8CsuLjSvlKSzGFWm5EXVbN6zwR9xvjZ80n1zQJtFC2HDUVk2rZNjWJdEw7kYTEpYz
-         TB2beOOXAAMm3Jbfx9FkI39pS5XBwQtAhvL0H9j9PPHqilAnPij2+OF20M3xl1exf7aj
-         h3Ar7o8BcsVDxkXWKeTdkX9kG0/J0b8+IzvV6me2jXtFQ/zueLTmg7aBScqG9G6rhspr
-         pZ9fXH8qfKXNZMIESsvd58od29mS+eR/NRHomg3feBD6ok3XOZYHoq2LBrlWsLohWljj
-         uHAQ==
+        bh=3J5U2FAeFLLXR6CG2lJiwfFE52kTArm5g7+TkN7ZkP4=;
+        b=AG/+l2HDwypxub5LDzUF67dhgAkf2S4VOVliF56DZtSzXjnv+YY86o7cIIbhB9fkHP
+         WaRHaZEMMDZqhfO/hLVzj0iD7TOH8Th+pqFwbK2x+xzv0AVsHRXF+yPlBqsLiAuicgWe
+         IYMtH9fAM8Dcw9IlBwGw3B4tfHhPw0vzPncanoZ6okbfCrKFSGjWXKmAvkBSICMz+e9/
+         Mv/NCGpm2arp+o6KstwmfrtHtu7TBF3G5p1En6gndRa4pRyTzXLu7Tf6pOBjEvM6JNOS
+         tYWP4ubqCZ5ahihcBFnbFAWICUcC9+8Xu8i9SY6UoMGrd7vCd09qveaRj3F9yCwZoHXO
+         uscA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793778445; x=1794383245;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1793779215; x=1794384015;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CJrVpzWSqXnZyMhmYQZlXezsPnpuAEBGvhZcWkwrTMY=;
-        b=lkvMU3GjXzVInU9bMcX3xakLERUb9l/0qgZW9T49HbCb8GLxhHBZE07ez8BkQct6e6
-         t9GUSl1RmLRfh6T+HC5n3QQ6an1wycWAOrPrDe1yW/C21/fMXDKpIHpL4F1rh3VG3VUi
-         VoW3+hwwIneJt9e1mdW46X5Yz6S4i1tU5y6UgmObS8dJ9ZwDdrfYjgJxpZR6KBUhQ00z
-         9sYk5P5GnXsO7qiUuwjQrc+YwDzFJzs3Ih3hdr2ChjEHg0ROqWVCXUz+YRfo2y49RP6R
-         Nibd+Oa+t+cuq0IsMoMGrvGf0opM2AtpPpaAlmp3VWccrptcyjLB6aKXGoD7/EpP6FDP
-         GOVg==
-X-Forwarded-Encrypted: i=1; AKwUvByCTughPb5ylphOwAW0yMgsClP52/oRc8hEhuwcyStRm20r6G4s0SaaHWGY+zjfL/R5LT5VEU+Hb2/YPujz@lists.linux.dev
-X-Gm-Message-State: APuU4Z9rvP/w0RoLh/Jm5L5F38ww5NsPL5eVxNdQr7dPj8gHZj/0a58B
-	BpgTemZ0iCoNbGv4BSZn+TfXdzJykNH2QzJkK5iAWmsSZZ5WHQmI7pEd
-X-Gm-Gg: AYBFou282T182uxwIHa9ATqsrEDwYvJsrJtxjFrEpInHrdar1fDJBKVGcjlQGgUxtKp
-	l/LXHtvbfyGebbkoud9z6VuEo3Eh7Shd8ZtvKJlHnzkr26q0Q50bSCU7+NnMYSSElAreetqOIDs
-	DwiF5MjmSEhwuBMxUPD978aUo2I5xUWOpzuET3stFrZSMpINZvE9SQhgT4UiDNRQmzQymeomVHc
-	RlqahhFg0eakW5SIa6aNs4Phyp7YeVeh7TyH0QgtWavocTgwCvlZz1MQrFkeeS66bO5osJlBEyU
-	UccLcdx5mfRb0/zULjD9t8yA2GEDYHGsQjAjN8MFjnZ05/yFUuwZbgOEtURplMnWlpYNAhcIedQ
-	k0cd4h3XzEzL5x/0lRAtlStqIWnvE85HYkaT/YIzAKdyA8r6KAPRD3LKckXZBTmLznZ2p/mJNVx
-	XuAZq7Z2ObUYLFFndHah9I2equoqibn8QtVf490Zxr2xsHlQDa5vUpDqXae8LpY43o8h30jF8V+
-	ax9Zv0MTQRkbkklBsA8M2vBojabuP2FrY/UYKDxDaqXmrwhw9oYHzxcEISAvlEUVLyOqreiOmtJ
-	9vTqd1QNuiO5AiGbQya1E6fd7wcCa1IaKLfbSL8r6JJD/6j0+AFJ3rInIED2uMryKUHNpY21G8m
-	+sJAkQiAQLb1g5dhujdV3p6rIpAQYBAJ1XmGkubXX9blrPv5KRqX4vStWXkIMnxkxBpDHIwjDgh
-	/EP98g8AsQRrY=
-X-Received: by 2002:a05:600c:4fd4:b0:4a1:e250:b191 with SMTP id 5b1f17b1804b1-4ac180f2ff3mr345570805e9.17.1793778444927;
-        Tue, 03 Nov 2026 23:47:24 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2ab010a66sm164324185e9.13.2026.11.03.23.47.22
+        bh=3J5U2FAeFLLXR6CG2lJiwfFE52kTArm5g7+TkN7ZkP4=;
+        b=rZWWzn42XDPQdapKJ1V/Bl/YzIKLPUIWUzpzIXrPyeGLhfUx/fnunxNReT7lEWmH6r
+         /02BpJKiwMo8oIXVNKabnY9/VU9xmk/EHxqWNChZ3aQJUs+F/TGW7/FKLeTHIpCzPt0b
+         voP8/cyhRMxoR7KMjkb0U6LVOtg4phL1Qzn84B4P4IK0jvbj0yHU8KOHN69PNYDjnOPM
+         RPfIq+i8X2/DF4+Wkz7sVOVjXLB7DZxD1CQem0A/LS+OrIngQzP/3ZPPsJ3jLt2+Iyqk
+         lG+pCNqr1k4aRMZvZcAnLjV1pKv2P7s3gFwNLNBjtMRthbCSpxgFMQRz54GBayBL61UX
+         cGQA==
+X-Forwarded-Encrypted: i=1; AKwUvByXZ1fjO+0B5Zzo9DfwgnTIjzBCrkFlAy8G2qP04Brt2qqNqyIi0uo3hxh7uLJooBPnALuKl0iu81G41CnM@lists.linux.dev
+X-Gm-Message-State: APuU4Z9nuiu0sKyC+gti5icJkMmj1a+w56g7zC2YTRMKeHOUSM93Wgq2
+	BhwRB6tT8bEhNPVlhll8xT86u3oaY9lgPKt217sKp4emZCkt3TMicVP/
+X-Gm-Gg: AYBFou0zj9BJdIKx9ILER1H63CthkCMsRuUCnC6R7popMVaf8ze729Y7OSH8Mivveeg
+	iEDpzjjAFLwe0K7fZF+8QsMNxMPbO6rNKAHasJpfqtvz6rGVOYz3Kam00dHAvxeeyS0nEf89l6C
+	XrfXBfOQAKOK3mmBjXy2vq6wJ9axbtmdd9Mi4f5vSWPdvLQHlEcagQO5wo+WMsz1CKa+H+6t857
+	PYgI8NKkcK+QT5Zju8PqL0zzgeQ5MxFki++xo4/0xMsa52VcFEJijyRM7GC6oYJVFoWmvBY8Qa7
+	nNsg8+lAq2kcZ+KjU5DskXx+NPZc7O5zX8ArpdWof3MAb584Ln1IOveH89oeEs5NfRnXW8U7dc4
+	8DWbj4lE6xrqBGEb9qOSF1nS+hsE1DUllNdIx0EnEwiukJgNA1JAeffUZS0kmB7GB9RfcJxhp1t
+	Ohd4KXlEdfez1exa5Bi7F0qefOCFujrVscSlOwCzqemf81eeRAF6PmzV3N8v63Z/GuS2pkF9mvj
+	eUVdpAVeKQeduJ9800yhnGEldmb2Z0TJIo9XlHCestNxB5q1CqnHVkGZoZjZoi8v4Wr29b5L+Nd
+	/XqXesKfwjqxmr9sp9LAgnX/oFvUIzwjjfbZCZ0QtR37BROrA8LlWXMO1WUeGwjI7rBTKetLUSw
+	WfYhKsGpt+9bMz0CtJXi3IjsaYa0mq98wqiWIUtMxTwjILNIv3XonPrQjE4yGXSDuoC/+gJTbSa
+	0NM9HPx1i/4FZ74WjWxjFlI2vHdBrmVzcsYDHqMyN5xtWQrdKYnwpNVZpETM+Z8MYn+hCpjxRjB
+	Z6yhvhw04BomXpPZlztW1k=
+X-Received: by 2002:a5d:5f89:0:b0:490:2033:1477 with SMTP id ffacd0b85a97d-49020331482mr1365594f8f.56.1793779212966;
+        Wed, 04 Nov 2026 00:00:12 -0800 (PST)
+Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fea18104bsm2588704f8f.6.2026.11.04.00.00.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 23:47:22 -0800 (PST)
-Date: Wed, 4 Nov 2026 10:47:19 +0300
-From: Dan Carpenter <error27@gmail.com>
+        Wed, 04 Nov 2026 00:00:12 -0800 (PST)
+Date: Wed, 4 Nov 2026 09:00:08 +0100
+From: Joshua Crofts <joshua.crofts1@gmail.com>
 To: Maria Sheikh <mariasheikh812@gmail.com>
 Cc: outreachy@lists.linux.dev, nuno.sa@analog.com,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	dlechner@baylibre.com, andy@kernel.org, gregkh@linuxfoundation.org,
-	linux@analog.com, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+ Michael.Hennerich@analog.com, jic23@kernel.org, dlechner@baylibre.com,
+ andy@kernel.org, gregkh@linuxfoundation.org, linux@analog.com,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: iio: addac: adt7316: return 0 in
  _adt7316_store_enabled
-Message-ID: <aurjB1B5sRHC6GsW@stanley.mountain>
+Message-ID: <20261104090008.00002b25@gmail.com>
+In-Reply-To: <20261104041237.7978-1-mariasheikh812@gmail.com>
 References: <20261104041237.7978-1-mariasheikh812@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -102,11 +105,12 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104041237.7978-1-mariasheikh812@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 04, 2026 at 09:10:45AM +0500, Maria Sheikh wrote:
+On Wed,  4 Nov 2026 09:10:45 +0500
+Maria Sheikh <mariasheikh812@gmail.com> wrote:
+
 > _adt7316_store_enabled() writes the config register and returns -EIO if
 > the write fails. When execution reaches the final "return ret;", the
 > write has succeeded, so ret is always 0. Return 0 directly to make the
@@ -118,12 +122,12 @@ On Wed, Nov 04, 2026 at 09:10:45AM +0500, Maria Sheikh wrote:
 > 
 > Compile-tested with W=1. The disassembly of adt7316.o is identical
 > before and after this change.
-> 
-> Signed-off-by: Maria Sheikh <mariasheikh812@gmail.com>
-> ---
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+I'd move the testing info below the ---, as it's only compile tested.
+No need to resend however, this can be fixed up when applying.
 
-regards,
-dan carpenter
+Reviewed-by: Joshua Crofts <crofts@kernel.org>
 
+-- 
+Kind regards,
+Joshua Crofts
