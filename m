@@ -1,50 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.254.49.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793867826;
-	b=EzlEb+e89V3tCBhypnIK0oI2479zO8fFqzrsK/ltaQ/8fPiQHbtlxDZ4j7LjAptZbBBT
-	 aV8ExEAdpkBSxRn8ICNWboi4e0a1npjz0e3Gq9Bnox1U3xL3oV0MdhwvQe/uiXQYI+heg
-	 MoSkEoqksrndaaW96c0L638QeGbcBiCmALzVduHPZXS2iumd/uJLhWC4hcwnkiwxpI29q
-	 /iKBE2tC6GtgDRhq1H9mBOJ/0WLaRUmYqm6Okh0viXnjef/O1URbg77py8FxvIgA5MhXl
-	 RzO+ooyyBAxhAAmxKgmID+Umk/UKpcwy1eNg/wmINOkq5om6jXYPbN+c1EyhPOhQObQ==
+	t=1793869958;
+	b=toDUZImomQwOrfeEQy2P7+HpXdzpgDwkKetDsv7BfZJ7EyKOP0Cd85dogFhJFzFxCzXM
+	 DMhfWyoC7eZjXqQk+fmCSqaFDQAzzGE3qoFyZRm4dg8Pu7n6+31UmQxZDpUcrCJE9kvLG
+	 G56a8k6cMjs2PTluFs/zb3eL905GuXna42YjVDA92kKqliS7U6DIs2yZtGmOJXS5dzAot
+	 aXQ3NwrPwF8y5KzSxBkJ0SZGq9Jom3aQRZ6zysFyK25AGqdRURQo34imb6ga42esOOSvL
+	 oMptHtOgbXDz4Lc/HG/vljCQc3Gb/9C0vDbFIiJEFPe0FuwZNvGf65AvI1DNngURsag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793867826;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
-	 X-HM-Spam-Status:DKIM-Signature;
-	bh=W4Zk2FLpcNUrXr35foVG7Z4kYUlJ8eIkjf0ShH+qhDE=;
-	b=Vc6q5R/MAji8B06tXj5M7iQKdFFdL2WTty/0jxLUdXDKqafltMTGzcVtxwAnrACE3B1u
-	 8dncB5a5eH0t2ceBXf6hvPW6mPKgY+pPjorHFN0PLWFj1YTHLUJDU4xbPwV7Lv/7ZASQ3
-	 Fdk6u0qLNFBe60+ZCyzy4csMsj3KJEjSh05Kt4lmPTkTmxmQYW0JGASdKW2U4Cr3Q96lS
-	 m6yEELX45nFXAUvR43vEsluBYNf/BVM3Ii8QLWNefx4gF2hKXZX+qRiiRewewwX0ebiXD
-	 Bd5gg4jTeRWE9MzSFZ6IIGhnK7ntMbizdcf7YkH77Bm4U+mgAKDq29r5q6c6PMDhmXA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793869958;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=pQEU+Nq/6GczAyz2qU5/jfNWYEMY7F7Ws8orF2Q5XuI=;
+	b=GvdeRCcqWGeCZGbIfgtshZ4BS5SaHuHJNe4o0v/9th2JbpGduzN9Rc/bdM2akQ1AKXJC
+	 QecS+hpNJvXIuo4Ut3eIPKPYn9ey2ANAYQpNfwnB/+Y4W8KzbcUQjBmFf0lfDz67y9CWa
+	 yufhM3s5JjdGt3OJdP8Z6YMKzmD5Wc9jsHvF41nY+QnxrfAaGkWwyvrKNkjilLONVlpzb
+	 fBw/nTXBBYJZ8aEmZ3BQpZaTSuvQ9ENIhqo933Z0m/QyGvlcblXM7kUXn0lFS9QAWMWyP
+	 r4YBBzfXJbUlhgJaigkHX+3+6NOIsIZU3ABqZG5ScdxsZuhPBRHsHuqjypZzmE7Kh2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.sdu.edu.cn;
-	spf=pass smtp.mailfrom=mail.sdu.edu.cn;
-	dkim=pass header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=YLgyPy4M;
-	arc=none smtp.remote-ip=45.254.49.198
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="NZ/xUS0K";
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DAD606A336
-	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 08:37:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8DAD606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sdu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sdu.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9705E606A31B
+	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 09:12:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9705E606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=YLgyPy4M
-Received: from user.localdomain (unknown [223.80.110.101])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 539a5dbea;
-	Thu, 5 Nov 2026 16:36:54 +0800 (GMT+08:00)
-From: Tian Xuechen <202300460064@mail.sdu.edu.cn>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	prashantrahul23@gmail.com
-Subject: [PATCH] staging: octeon: unwind receive initialization on IRQ failure
-Date: Thu,  5 Nov 2026 16:36:28 +0800
-Message-Id: <20261105083628.4043124-1-202300460064@mail.sdu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NZ/xUS0K
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so9697685e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 05 Nov 2026 01:12:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793869956; x=1794474756; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pQEU+Nq/6GczAyz2qU5/jfNWYEMY7F7Ws8orF2Q5XuI=;
+        b=NZ/xUS0K4s5+TaZl1PdPPM4ehSZPe6ZZata0kyMJhcVBwVGi04Ig0lkEPLC1cHHibr
+         coZNpVs0c0+/Wa2RssUShcW8bUf6LuieAqayRAu3/BsrxPRpqAuklL4AfJtnkamy9mkW
+         I8YUfKggD+TDyVOAD+TvoqUXbCd9D+lBRPcvxFPtq0CbtegaPih989JE47RV9pjPG/Fm
+         vnXIEjKpw1TO25amKtkzh883f6eO7wlo7lDMoAOT4aFrxsdjinEV9NAx7JcY6P0iYNte
+         xecrj15IY9sxVhBgdU8+eMPXyeZGtuxRmG1NNOh73N3wT+f0wBFS+0hNpel2kgTJi7Sr
+         wNlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793869956; x=1794474756;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pQEU+Nq/6GczAyz2qU5/jfNWYEMY7F7Ws8orF2Q5XuI=;
+        b=WbeqgvCjIOUknmDrHrZvtfXTpvOR1Cl8V57MATpCGnb8am9JiUjPbaqYoYYJMKlzuW
+         sVcye1TMHmMgNH2GadhjxV6YcVxgH846ArnlZoF8lVzHO2/Pbu76jfM5Xs6BrtsDDijI
+         N4LbC5nGvIxH+PwfOTlwTDQlhgnJ3iMADJfpWfh8TP1VbD3pc3LW+8mG0FBo9phydKXb
+         yLoj3Zl6JMzC01v0w0YZpxkhhYGT0nAzdQoxrwvfA4IccGcTUaCFbQbw4qWeiEVpaauN
+         7MrfMXJh96Ov8aMAApPHGhVcRqGQw1CsxfX9aAT4/e67BveF8QiDX9kXzD600i/NOzpv
+         d9Cg==
+X-Forwarded-Encrypted: i=1; AKwUvBwN5ln4ufDz1H2gK6cMzkjRQNbHkAKRd3zy9ABNigMlN62S7Fj13c8RnJeqoEeT8xGBg3rmut5S7iut4lSj@lists.linux.dev
+X-Gm-Message-State: APuU4Z8WJzIki4QmIY8uYGaql90kdN311b9rK49SbFtWUPbIC6HFRXNA
+	K6E4zfOHErIV8RpsO8+wS4tvEM2Az9FkzH7B2HK92ynvEsQe6DBXVhJY
+X-Gm-Gg: AYBFou0fLWrr1vMWr1w2W80WPYdMvEu6fxbB1QplE6oXN7c4pwzbSd515UywvL/Feln
+	epg5QXLpElrYZYm9dB9G+XynW427Ao95CWKcHPMrJYwZjwa1QKqjLobhJB450tMwyQD9pLBdigZ
+	wlfKiUaBigaCE92M6dziNxBgxInKRP9amGTdPKoqFgSJ2MBqM6S3A1WqLtU0tgIoY6qtpDUVoHe
+	i33DT1xb8E0F79GehVDRFOIHZOz3LGiiXFo7TXCVwSRrxDnPHdQBfsIhVptd1pgPbpWT4X7vApV
+	IumSU9Bc+hE3s0wsgUTRw4R2fkgjqmZzZ/uDFVj78l0LHszTTAMMnP/KtRJORk0UqdqTBISttbV
+	R21mmUgTuGa9qQe9TwkAuMozok49p8IK+j4fJstRmLBJ12kWL7tqEun28cCHsu7DU73AHkSjMja
+	MMUDPERFof24tCIkhC/5zffaOfQVGtewyy6MCvE9b4q+DcgIrJF2oDLNjfkktJ//Y28U4NtChNw
+	ULfEepb+F49kGTYMXY61D3Oi76YDsKAXUISWKxjOrAskhExJLQwHjwwAEvkzE+mxkif+qo7WCC/
+	X7GJl6V9UOFwhhxowLEFUTBoJDQqN5a8BY8uOvLXWqau6b+l33Jp19vl47BjPSS2
+X-Received: by 2002:a05:600c:350b:b0:4a3:2f35:38aa with SMTP id 5b1f17b1804b1-4ac1932bac0mr362719635e9.29.1793869955983;
+        Thu, 05 Nov 2026 01:12:35 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b56e58fcc6sm93063255e9.2.2026.11.05.01.12.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 01:12:35 -0800 (PST)
+Date: Thu, 5 Nov 2026 09:12:34 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Daniel West <daniel.west.dev@gmail.com>, vaibhav.sr@gmail.com,
+ mgreer@animalcreek.com, johan@kernel.org, elder@kernel.org,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: Add newlines to sysfs output
+Message-ID: <20261105091234.008c0c2f@pumpkin>
+In-Reply-To: <2026102808-stunning-headgear-4355@gregkh>
+References: <auEmTBqbAPvMLRcg@daniel-HP-Stream-Laptop-14>
+	<2026102808-stunning-headgear-4355@gregkh>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -54,105 +101,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa1aada974103a2kunm1e8bc9a61940ec
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDHkweVhkZGh5MH0NLTUtCGVYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUhVQ0tVSkpLVUpLSllXWRYaDxIVHRRZQVlLVUtVS1VLWQ
-	Y+
-DKIM-Signature: a=rsa-sha256;
-	b=YLgyPy4M+WG81hzOF6Ms4KdRyJ9eRna4bnhFrX6fJP2kTrcMHhqzmlFhoApbS/kpIJ11C2NI6954qntx4sqqpaddiMyEsx0zDCqF9cvTkrp26FCmmTQxY6DHcdUUobvLffr76LGIxIGMMaVLMGPuPiBbVxoY10P3NVtfhm9WUlk=; s=default; c=relaxed/relaxed; d=mail.sdu.edu.cn; v=1;
-	bh=W4Zk2FLpcNUrXr35foVG7Z4kYUlJ8eIkjf0ShH+qhDE=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-cvm_oct_rx_initialize() returns immediately when request_irq() fails.
-The failing receive group has already had its NAPI instance added and
-enabled, and earlier selected groups can still have registered IRQ
-handlers and active NAPI instances.
+On Wed, 28 Oct 2026 05:19:45 +0100
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
-When RX initialization fails, cvm_oct_probe() unwinds and returns an
-error. The driver core then releases the managed platform data, even
-though earlier RX IRQ actions still reference NAPI instances embedded
-in that data.
+...
+> > WARNING: return sysfs_emit(...) formats should include a terminating newline  
+> 
+> Please read the archives for why this warning is ok to ignore here.
 
-Disable and delete NAPI for the failing group, then unwind the previously
-initialized groups in reverse order. Mask their POW interrupts, disable
-and delete their NAPI instances, and free their IRQs before returning the
-original error.
+I was contemplating a patch to the sysfs code add missing '\n' and
+also remove trailing ", ;" that come from generating lists.
+It would make a lot of code a lot simpler.
 
-Fixes: ae4350364008 ("staging: octeon: Propagate rx initialization failures")
-Signed-off-by: Tian Xuechen <202300460064@mail.sdu.edu.cn>
----
-An AI coding assistant helped analyze the RX error path, draft the
-unwind, and edit the changelog.
+I found one place that puts binary data into the buffer (horrid).
+(I have a plan for that.)
 
-Cross-built drivers/staging/octeon/ with cavium_octeon_defconfig,
-GCC 10.3.0, and W=1.
-Not runtime-tested on Octeon hardware.
- drivers/staging/octeon/ethernet-rx.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+So why is this one special, there is nothing in the commit messages.
 
-diff --git a/drivers/staging/octeon/ethernet-rx.c b/drivers/staging/octeon/ethernet-rx.c
-index 5be43bbf6a1d..a1b5ccdbb6b2 100644
---- a/drivers/staging/octeon/ethernet-rx.c
-+++ b/drivers/staging/octeon/ethernet-rx.c
-@@ -450,6 +450,7 @@ void cvm_oct_poll_controller(struct net_device *dev)
- int cvm_oct_rx_initialize(struct platform_device *pdev)
- {
- 	int i;
-+	int ret;
- 	struct net_device *dev_for_napi = NULL;
- 	struct octeon_ethernet_platform *plat = platform_get_drvdata(pdev);
- 	struct oct_rx_group *rx_group = plat->rx_group;
-@@ -467,8 +468,6 @@ int cvm_oct_rx_initialize(struct platform_device *pdev)
- 	}
- 
- 	for (i = 0; i < ARRAY_SIZE(plat->rx_group); i++) {
--		int ret;
--
- 		if (!(pow_receive_groups & BIT(i)))
- 			continue;
- 
-@@ -485,7 +484,9 @@ int cvm_oct_rx_initialize(struct platform_device *pdev)
- 				  "Ethernet", &rx_group[i].napi);
- 		if (ret) {
- 			dev_err(&pdev->dev, "Could not acquire Ethernet IRQ %d\n", rx_group[i].irq);
--			return ret;
-+			napi_disable(&rx_group[i].napi);
-+			netif_napi_del(&rx_group[i].napi);
-+			goto err_irq;
- 		}
- 
- 		disable_irq_nosync(rx_group[i].irq);
-@@ -524,6 +525,25 @@ int cvm_oct_rx_initialize(struct platform_device *pdev)
- 	}
- 	atomic_inc(&oct_rx_ready);
- 	return 0;
-+
-+err_irq:
-+	while (--i >= 0) {
-+		if (!(pow_receive_groups & BIT(i)))
-+			continue;
-+
-+		/* Disable POW interrupt */
-+		if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-+			cvmx_write_csr(CVMX_SSO_WQ_INT_THRX(i), 0);
-+		else
-+			cvmx_write_csr(CVMX_POW_WQ_INT_THRX(i), 0);
-+
-+		napi_disable(&rx_group[i].napi);
-+		/* Wait for the poll callback before freeing its IRQ. */
-+		netif_napi_del(&rx_group[i].napi);
-+		free_irq(rx_group[i].irq, &rx_group[i].napi);
-+	}
-+
-+	return ret;
- }
- 
- void cvm_oct_rx_shutdown(struct platform_device *pdev)
-
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
--- 
-2.34.1
+David
+  
 
