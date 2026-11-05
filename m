@@ -1,94 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793855492;
-	b=Tq/dDsPIejazwMorCAChS5F3rtvf+jAfsMmkQ2B7+Nqom04xT7IMwRGHz6G69LScAXmk
-	 8iOdk7bvCsWkUKzx9thrchQL1KCpsDI7BAtPGIFkAViHkl1Ls5cVLkDUfy1VRCkh6fAON
-	 oMxeUOxE5n6psvbMHEomnEC/yGUESblfVwyi8MOiyE3yEHnK6g48/aXuqAuiKbTd0vtUc
-	 FdN4MKSj+2+7V3lMkswaq5Hs8X35pWsSBkoWYtpWas5EUDD8v+CWXyLkTg5rJh1HByB3M
-	 z/3qhyyBtk4Di3C4FjtbyTX44Ny+Q1wJFQQsXIMu+DbkSUVSdEJYbQrshM37BtD4XRw==
+	t=1793861002;
+	b=OAYTrcFeQBB1T1usMiF2u06AXCmV136u+DWIrPHF3e7Q1hWBIzlj+oIbsDyCniMxBuDD
+	 eULLaiRLjAj3eICeX6OVjIh3U/BIs1s88CEY1wQkj3A4z0hfjoOvBgyoq1Na0gcgoSKml
+	 22LQ5uRIWWP9iZYTMndisTaA6tnf0tktmI/opJD3lObVxAUVP/dljPNalt12fJiLTMu6W
+	 yCcq/4JWa134SN3s5VdTaxSIPWu3s61aBXb7kqfjFMzumZjtKBDwt/4yOEL29GCsztaSt
+	 DqV6Lp7rqAq4s4yqUAaWsIrmpmmgCv1M3bFeXfb3bLModhQmksyInmTN6viBCDJ7+PQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793855492;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793861002;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=WH7hL3ikL27LTJMTaLrScaPWHm2vNQUEXqc1M9TWMAY=;
-	b=e2rLXnuOajkgqtnz+KGkATfXKwZTvPcO5nDRvEH2IXIGyvZx4syu/6o0MFdn+XfGaBoO
-	 n1Rd+yARemmBLHUd+mqXMBi/PbO/gd0Ac+6d3htDvK3l9FDTdnSwxR4elD6MZHxNA1Sx0
-	 gnCMY4/7CiEkvv8jMpyrBYlOhRS5AZtOS2yinfktMGn3/zg0VrW2SuHkU3jnN3D21fSqE
-	 UNEaOT6vQcN9MJBfffB1o9CreCBHTpOAyaUSD8AUzM/de7TtkhgDWbUDylCuuAURmqFRh
-	 sik3f/UDJoKnzlU2I4A3kchN3guHhKnCr9xFnew7qv+H0e23wHsGO3j+uVviThYkwSg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=HOKhZ+OmEJZ1PLckraBlLABqKVAROM53Rmk2rUoOxt0=;
+	b=KrCZrnM/aE2xv93gwC84sxek25ZGF56NzhhCaYLwGoeFrK3dv1a1D5xhYlj3LAJUQl+B
+	 s1t3uCMfw7b4ViNjKmpz/0/4JoQfRf1PIRR9tDT/b7MnSgmkhky2J2x2mbPoIx+Zqemhg
+	 Cog3VuQhyzgzUmY302dy2HCaEt8W0xHx5FxzewzNP26tN6GHKUyYz6qikSyspDVQ/OW7F
+	 IdfR8OZgVb6RwAmuIWdVHFQh87c/jHLhq35DTu4tbJTe+eOY1wBIwITFr+GQCPjgUITWO
+	 PlOzDHka/SOtdKJ/84YjV7R0Na4A85GX3zLXlQhGAUiyIDUp34WCsY54qvYa/YUoyrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=v9i91ubx;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UucDrU7b;
+	arc=none smtp.remote-ip=74.125.82.177
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F86F606A31B
-	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 05:11:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F86F606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CE4606D830
+	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 06:43:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7CE4606D830
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=v9i91ubx
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4afe2d546f9so16481935e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 04 Nov 2026 21:11:31 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UucDrU7b
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3514b90bb89so2952012eec.1
+        for <linux-staging@lists.linux.dev>; Wed, 04 Nov 2026 22:43:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793855490; x=1794460290; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WH7hL3ikL27LTJMTaLrScaPWHm2vNQUEXqc1M9TWMAY=;
-        b=v9i91ubxrRCN7LmmtFtubQRh0kU4MzHIorwZxR+Gm3hcZIMuEu2y7pkY2DxEyE9yJX
-         k4qyQMlVSo7Kl8Y7yWHg3KYKpwCgd6rFE/2ip1x1/rsP3+8IPKF1VTTQ7oP8+V0Adpcs
-         /izxfozMm7/hyxKAazYw7MNXDVo1AFlJ/5OVx8Hw1osCgxV8HJcY7rzKLuVMe3AhUqKF
-         8Jz84Tbv/QdwiRTtDTva/e3JvQNFxPaDrn4CbUsKYnjBALTe5zc7SHXAPtKVUdZonbOh
-         EbTzr1lfdyLCyYXp7+pShM/R6O8xOU69GPV594y1bU3qyrWu7gLPgPEe9hPYEKf7DQUN
-         86Fg==
+        d=gmail.com; s=20260707; t=1793861001; x=1794465801; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HOKhZ+OmEJZ1PLckraBlLABqKVAROM53Rmk2rUoOxt0=;
+        b=UucDrU7bBkwm1R+wsNZKjlNALb9qM992Z+B+GkZJ+4JUDSW/42LFYIp9ODIgpksJu6
+         SEMaBadO8Hc6paOCEWaJp/Y7zc4TfkYJjDOiB5F4qIDvx1GAJG5N4zKw/MWLCF0BTFKB
+         4eK67HyeDRmPMWmT92cXAqNE3WkeiG76YXzvOiAF6E0rofXxHauz7RsMEnVoG3aGueMZ
+         DfOOCQowuNoiuPvdMwPRqpritcpXCMVIY3AkBdoSFEM3RBiDYt67UN2W/XXLpuk36UvP
+         gnRaKr7Ks2aIIGAdWglAYqYezOm7pp+2lHsQR8hkgs9Xvv6Vc/60fjXl1iTYwEvq1ABz
+         RvNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793855490; x=1794460290;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WH7hL3ikL27LTJMTaLrScaPWHm2vNQUEXqc1M9TWMAY=;
-        b=AsPjDKBwsbP5EAY3n4bgRxyZ4Z7p8ZK9OauqVLePHf1DX2OfInADwGH95kwKNu9tCB
-         Y0ycnGUhCX5ouw00JAwLRFErfm6M5p75xIf/g0dzobuzrx1FAglwvTS4FSgQv0+5EKTn
-         GWK5X5mLy9lnwwv5PCeCQO+I7utKPYITp7HcPn3cS+qv5W3b6ZnUIV2WFT06B9UPPTSZ
-         bSNtD2pY25xzoQWQAYeaMm/4OIdDACXr92R7UmMW3OGGhrepfny+t7g8wOutbcdDeMd8
-         iCgzQSw62JBOSJZTq+3yTXH0+L66ZCEnOhqKz+17BIRjZiiIt6iaZ5QHcFmbC/RrOG2u
-         RhBQ==
-X-Forwarded-Encrypted: i=1; AKwUvByC9fGeD8NP2mOVHzRlZg4ybaGHLjwAgmA+I9rUP3NPF31HZN8Edi6IekES5KwFe0KYoMY77bWc0DOfo3XZ@lists.linux.dev
-X-Gm-Message-State: APuU4Z+W4wpmA/JS+XFVYrWn/fx+cGaOBBD31Urzp4sav27Uyj7JziEh
-	f4DyANMn6GGDmqabN/O73tWVAj84XBm2cL/T1oW+SCW89OUQaAgduFez
-X-Gm-Gg: AYBFou0aut9PlUM9Q4OZsuJiY3gPafCPuYJ2DvJmxxVg/nx/2NA9V2A6qU1ayahO78R
-	N5Hwm85rEOOGpfcrdEKLDV5gHX5hyKHnPVn0F7jDd3uePedbvphu/gOoMX2bKxvFochSwFf+I8l
-	o1SAZLqr0wwAtf4TLuBm8UfAcEpzMkX5AOEKfwu3K3djq/NCDL5vG5TvcPtZL1x9gw4vY8tEW1E
-	74AsycTro6yndfOXWGXeePwF+qlhbaOZVxE7dAtZXyoLp2NMlF+Xq242Rx30bv2ZU45HYL/EsRp
-	SMFkZOycFJaFLmC1H3nI+MAbbUYVap1gzejmuJ1Tr7LhPshvG34FXYsbUMgj7YABMwYdGbsikwU
-	VkO6xLdegPH/IK4bs1dQ030M7OtMNNn6cgM27tE3f00wmYEux+JA60xU4XgwZVA4gmmthBM0Pxe
-	DEQlydN4vXO3YnRw/0T+qa5p39CVeKoG574YZjrwozyI73r8/hSwYHPuNL9LcL4BAx/A+88TsWh
-	+E2bXGIDXfEE3hJe+Iw+WNLKfY6NlqTYgXKtSaz00+R5jlxPi10HvHUhSsoDsC+x/ofu+oZRhZ6
-	UACasHGvPxJ7qHflCtLyWoN7U1Vzp6Kv7k+swBA5oW6t5QAQ4vP3M4Lg0l9B+QCrMq5+pzO2Zou
-	qqQ2o3xKJn94IZKmEDsRUWQHgJLUnXWNq19wsKFklXp7Pu845XSrNZg8851By42pPDQ==
-X-Received: by 2002:a05:600c:1f96:b0:4a2:1a:a129 with SMTP id 5b1f17b1804b1-4ac185bd363mr397491995e9.35.1793855489741;
-        Wed, 04 Nov 2026 21:11:29 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b5725fb0d1sm34508935e9.8.2026.11.04.21.11.28
+        d=1e100.net; s=20260707; t=1793861001; x=1794465801;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HOKhZ+OmEJZ1PLckraBlLABqKVAROM53Rmk2rUoOxt0=;
+        b=wB3zJtUYD5gPKf3BNjTLWM5iGsrPMFXoOANdmOgn6lu5vS4Sj84S7/FNzXc4D5OXqB
+         rKcrefyZAqeafqDaUxZKmFYH8k9/8u+l2pLjjyvqdWxgBKhSzTjVInIYqf+qgiZl236f
+         6PQoR1OvP95NQllDx/45Xi4wMXelB8+N0RbqZUP4ApWaASyfADAMuxN/jVgd+AyocoSj
+         3RzijzQFi3fJwlfTNsFA+gPs8kvb2B7O2uVUx8dVxlknWDo7aZC5D56qKX/0KBp931WU
+         tsva4+6/O3xk+JSep1xHw5SpFPH86K397DjW5adH3vzACVana6CIHp9e9BJGUIDsdbiC
+         Hc0g==
+X-Forwarded-Encrypted: i=1; AKwUvByXJ9O3qiBYVe1RVPSj95gYG4YHwJ+bcWXxSdX3jf3GzcMGjFXEBsai9h5+vpK484n+dO7rNP/gapt3LTAK@lists.linux.dev
+X-Gm-Message-State: APuU4Z+bE9rWRvcDNlhyOk9WbTNt8RwSIHrqlazWJbE3Ah3kMxf8Q44H
+	JbIMWZDhViOjXxBdoOELuqjl72Nbgb/r0Xiv9NCMcoyKeZFOqtJn0zdm
+X-Gm-Gg: AYBFou3sJ8p8OzbSzsldZnNVGF3sE9iSWUHquyM4MYApBsl127dWFz5L57moTeFb+OI
+	hHO9JBUbqvM9eS+oGpl04x8pYbN9j5CJJeRKw9jqezgbGmgXyAyOMNKaAdmJy/kpMNYiDn7jj8q
+	Fp2nkqAveAEkju/Ef3U3dc+S8MpLZ1UTIoJ6hAJT1oHUxrMi8bbOK1VHnrWmJ5Obroe2I9AvExj
+	unChh8Lt6gD7GJqEP9u/XuP/Oj2qg4mJsCgQj+uxjuzPGDLsMXS0jiq02TCJG1RLcuYw4db68As
+	eCSp9KcUlTL5VZJ02qb1f8KjteALwHqmeNv7gk0f6sja8niZD4yxD7qIidWyBppg3o3hvCtwDcp
+	sEVV93j0ID9TTXSzIlpNFXom6jhMw8GlY1VLrSMGULXrV+gxlRJK4tfRSmWF2XutnzJS6+b2eZ/
+	jk6dDlE8qanb18sHMsx9MnR+Ub/9Wsjb20E1lDHLJnrh0kGZnM92UCQ8rvmp0OWR6Wz2ZHNxXZ8
+	IPzCxmNc8CLwKgg6LI/yjqE0lqIJWd0pcwAvZT7SAjtE/RXPdTjfXmxdK1MyU9Z6T7zvPli3q1J
+	o0nf4dyLq+CEzvBO3lBUMm2n1BnSmXVXWly7264krKDBSni7Pfe18Qgd+D7QfRn4Q1AIge2znQg
+	=
+X-Received: by 2002:a05:693c:4159:20b0:351:29c8:643 with SMTP id 5a478bee46e88-36a423a8b7fmr30063206eec.18.1793861000822;
+        Wed, 04 Nov 2026 22:43:20 -0800 (PST)
+Received: from kernel-dev.multipass ([49.37.221.53])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca3785430sm19435759eec.3.2026.11.04.22.43.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 21:11:29 -0800 (PST)
-Date: Thu, 5 Nov 2026 08:11:25 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Albu Victor-Marian <albu.victor.m@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+        Wed, 04 Nov 2026 22:43:20 -0800 (PST)
+From: Gobi Durairaj <gobidurairaj@gmail.com>
+To: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: dim2: add missing Return: documentation
-Message-ID: <auwP_WprHG99Nv1z@stanley.mountain>
-References: <20261104205108.1041666-1-albu.victor.m@gmail.com>
+Subject: [PATCH] media: atomisp: fix block comment style in sh_css_sp.c
+Date: Thu,  5 Nov 2026 12:13:12 +0530
+Message-ID: <20261105064312.360626-1-gobidurairaj@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -98,37 +100,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104205108.1041666-1-albu.victor.m@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 04, 2026 at 10:51:08PM +0200, Albu Victor-Marian wrote:
-> Add missing Return: descriptions to functions in dim2.c. 
-> 
-> Signed-off-by: Albu Victor-Marian <albu.victor.m@gmail.com>
-> ---
->  drivers/staging/most/dim2/dim2.c | 30 ++++++++++++++++++++++++++----
->  1 file changed, 26 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> index 0e2512d166329..7ed38d5d93f05 100644
-> --- a/drivers/staging/most/dim2/dim2.c
-> +++ b/drivers/staging/most/dim2/dim2.c
-> @@ -156,6 +156,10 @@ void dimcb_on_error(u8 error_id, const char *error_message)
->   * @hdm_ch: channel specific data
->   *
->   * Transfer a buffer from pending_list if the channel is ready
-> + *
-> + * Return: 0 on success, -EINVAL if hdm_ch is not initialized, -EAGAIN if hdm_ch pending_list is
-> + * empty, dim_channel is not ready or there is not enough DBR space, -EFAULT if first MBO bus
-> + * address is 0 or dim_channel fails to start
+Convert block comments to the preferred kernel style with a leading
+"*" on each line and the closing "*/" on its own line, as reported
+by checkpatch.
 
-These line lengths are too long.
+Signed-off-by: Gobi Durairaj <gobidurairaj@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_sp.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-Normally we would just say 0 on success and negative error codes on
-failure.  Spelling them all out like this will be hard to keep in sync
- with the code.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+index 2beb7168517f..bb916de3dce3 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+@@ -266,8 +266,10 @@ sh_css_sp_start_raw_copy(struct ia_css_frame *out_frame,
+ 	pipe->copy.raw.max_input_width = max_input_width;
+ 	pipe->num_stages = 1;
+ 	pipe->pipe_id = pipe_id;
+-	/* TODO: next indicates from which queues parameters need to be
+-		 sampled, needs checking/improvement */
++	/*
++	 * TODO: next indicates from which queues parameters need to be
++	 * sampled, needs checking/improvement
++	 */
+ 	if (pipe_conf_override == SH_CSS_PIPE_CONFIG_OVRD_NO_OVRD)
+ 		pipe->pipe_config =
+ 		    (SH_CSS_PIPE_CONFIG_SAMPLE_PARAMS << thread_id);
+@@ -702,8 +704,10 @@ sh_css_sp_write_frame_pointers(const struct sh_css_binary_args *args)
+ 			err = set_output_frame_buffer(args->out_frame[i], i);
+ 	}
+ 
+-	/* we don't pass this error back to the upper layer, so we add a assert here
+-	   because we actually hit the error here but it still works by accident... */
++	/*
++	 * we don't pass this error back to the upper layer, so we add a assert here
++	 * because we actually hit the error here but it still works by accident...
++	 */
+ 	if (err)
+ 		assert(false);
+ 	return err;
+@@ -1233,8 +1237,10 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
+ 	sh_css_sp_group.pipe[thread_id].port_id = port_id;
+ 	sh_css_sp_group.pipe[thread_id].dvs_frame_delay = (uint32_t)me->dvs_frame_delay;
+ 
+-	/* TODO: next indicates from which queues parameters need to be
+-		 sampled, needs checking/improvement */
++	/*
++	 * TODO: next indicates from which queues parameters need to be
++	 * sampled, needs checking/improvement
++	 */
+ 	if (ia_css_pipeline_uses_params(me)) {
+ 		sh_css_sp_group.pipe[thread_id].pipe_config =
+ 		SH_CSS_PIPE_CONFIG_SAMPLE_PARAMS << thread_id;
+-- 
+2.53.0
 
