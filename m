@@ -1,110 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793909545;
-	b=mIcE7//4nX6ND1IYZIvh/q1vYbJqNX7sXWt+zJaB+rA6B0Ug16oyYSwLZeW+ZKovogLV
-	 GXZpL7IyrjlLhO81e4nV/Vz/3KyXrUHb666xzp/pXgHch43QjcQeDt8z0osJDr+qtiuTY
-	 ZJ2ugbH2imVVmlDS08HSfhcmmYcSlgQzPcyG0aiwSe8MLdaejNAVA6MEeiybpo9Z+tkdF
-	 3k9UwKjOtH+FlQJzJMLyV1Ew2KIeIdh+h8gN1xDw01qxok3j2lBIz25KsemdmUwSJnt+d
-	 044hBVvkLqyeC1NPhuJGtRnV1WkA5mwnf4lw2fCFrOfA8ZPYgah11Rxw6y4iukOJguw==
+	t=1793910079;
+	b=kZm0X2ZIRf4D0JTxf0yZu5jzQEHJwrLOfqhL658hScXzpWq27gtMJuaKS2rHMKC+wVTI
+	 ajNDJY84XPivzSPbWEOMG6vYfnSlpy6QwaPN1kfOgIYagqb6BtikSWlErd/IbKAwuKoum
+	 LRQg+0kHRE8jdP2GWf7yyXAajl7fLMxslG70aANRsvV4itwcuo8nvgfwKSGeCBkyVpa6Z
+	 ve09aSA8IUrgilvpwNqbxUOJ8ESsvhdRfXPAE1rtDwEtf2LXLA7cdO9NwMtHF+HQu5jnF
+	 KPBv0Zj+nm7RrnfYGvpQkclCeLM+QXxGFraNAbMYsdxsFlDlUJHrG1KV/Rs8iQYG6vA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793909545;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793910079;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=oj4+ZYy6IPmEk7n48ZoOfVMyHB9K5zKwdNLmj5eS60A=;
-	b=bAWyLjmqqb5Q4SAHme5tcNAEvT5JCW3h3V8zeuQx+2W60RD/KZQIssOgkMn21iud6zee
-	 az+gx26Y+Lilk/BOwmBlb8f+KTFqR1EdS9u40QU0lg6GTfh2kpThswtG73NC7aFJEd8GK
-	 8V8xNAMzCVXfKWVjDCGj6X8CnPxSDAk9pmaNat66eTqdACdZPUVxpEjiKrlRHrifNlSBL
-	 zM+FCTBpWssF09xWAqicp6F3b0ziC/0nlKh6/j3GFyW64bx8AyicxThrkZKGxb/Zy2iOv
-	 pNe8vPOXs95PEw/vCiKb8xOnfIU6NiNpKbBhHjmHOrwkO1L0lTxmZuHbeOtqNywRH6A==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=VhzRY2mKH6ORtaSBser4RPtg8SfuX9F5vDH2pAGGfas=;
+	b=GNSh9avYrex/Svet0FCJumgNNf5SFKcmZBBhbd19UA8FdbR51IaFduDqtoMyTt2ST5/G
+	 C3B8VAdb1thSmlSnjLJx8DvFJ+RwGxUvec7MMbysH/L3CpKe6MJ/x9hhIZ3RY4989ZCzI
+	 5ZRhytd4YxBCG26JQjIaKaX9n2vL0TbHgat8C8T+y+gyDDubhHUOo9kH+8DZsU/vieU/v
+	 zFxCg1a+h5yJW/6if9BEMm6usLUhN8g0zk7XooFlfQ3UUjTvGrZvp6CJcINnFyLKOUMBm
+	 Mr2Q9O3X0L4AURI5v8nTZTDsINB5aiabkx+XA8oeq0qfASdc4UOi/6doebKBt3gA5ew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oo3U4yyJ;
-	arc=none smtp.remote-ip=209.85.221.45
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XuBmlLW9;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA99606A326
-	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 20:12:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BA99606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746B2606A326
+	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 20:21:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 746B2606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oo3U4yyJ
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48dee593f18so1941170f8f.3
-        for <linux-staging@lists.linux.dev>; Thu, 05 Nov 2026 12:12:25 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XuBmlLW9
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so21493305e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 05 Nov 2026 12:21:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793909544; x=1794514344; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oj4+ZYy6IPmEk7n48ZoOfVMyHB9K5zKwdNLmj5eS60A=;
-        b=oo3U4yyJIJFA75XV4M2XwFXVV0xBGUi0bLsQI2DPNt1w9GKT2Mxy5XEuTyP54uuUl5
-         ASHSTwqcVeGmkHYv+qDNpj8qMZDMJ0eONhtHtll5WWfe9OC3lXHiIRhdlT8Sq12DLqAe
-         LCqaNnebjfx6LCvvrQBfappyB3+WWl7Ht1SmeQwX4hnvvAofCjM8iR+87ZRvbLF4gluK
-         iR9k9VccOHe+Eyh7rEXgjyNJeUf0ZQTJq1UBOO/4y33Z7RxTHEGI0lu4Qrbla1nrs0V+
-         EyxWsp2ouFN96p6slZ7s8MzkJC9tlt9dR0gRTlkIAII6p3odJ/363swmZEtgohEPzXPo
-         Dd6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793909544; x=1794514344;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793910078; x=1794514878; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oj4+ZYy6IPmEk7n48ZoOfVMyHB9K5zKwdNLmj5eS60A=;
-        b=JtgpbzJkkG5CRSnQPjgFjDcyLf/kXla4dzv9cZDvTvKveQjIONjBWvDn6nWuEP1BD/
-         R7nLYH/9AjTmRMGXF2CnpknU0PMXi8p+5oufC9FY9VVcTOGCnf0yDuPmqRJjJNz4N3fq
-         utPkP9Y1V74kpyAYXrDJ6WYOABN+SVQcDDT6rS9cNxmRrMCFQrqRE5PsKfjOc6P7uXZR
-         z0lx2Qwdz5RgxbYWCdL29EnOoJx3kjpwf6mMl0NB+E6o5Gv4d8ExUW7ZJJQqQlv2mL8Z
-         STaiKVYmJ1k62SDTVRfyvXA6KZwx+yDdVCRjshdAeT3nfO12ZexWDKxBVQ9zOgEumS3d
-         +H2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzAuWqZcFIGfvvWSkN8ABFH39044q89amnNLn30zxIuCluGYhxiYjp9WfNdKPvTo9hdQpOoB97ayuLf4twc@lists.linux.dev
-X-Gm-Message-State: APuU4Z8srukBJrCDX0OCvBgr9zcsRPwM2jAA/McNvQKURh/XAWI0YdC9
-	hnDGovx7tqj46XA/yQQsK9dy4p8hyxykEg55RmNJTU7/qF1mCb0rzJnI
-X-Gm-Gg: AYBFou1Wj81mbzLeP/3rusvIjrHdWqoSkUo44X7AIb3zcXUTKN8E2L6SGkYgAS1SRI5
-	FAN78l+TkS4qH7iQQqx2iFlmWnot+F49LnnZtQu3BWDctvRueHPu/cg4j+rLW5bca6c4K2QMDOQ
-	plqH0JMmWj0vYl4gCMC09UBj+eN4lKFpi+8XsAzz2CNFdN+KWwQuSlMZ1S0itcxMDigxyam0+m/
-	p8HnH5rrNPTNs3ComuKJwNbDgAXpEfcPnRFfAGkt3k/0oSsHj7fPgXhmrPqRomy4eV3bhIhKLCn
-	3rs6Z4sfA87qjJpl0Fjbc64sEAJa+BnQYzi+oeZ0Gi8ctpjhYCs+7GrRWRM6sV0tUQIM/dtYuD8
-	qYiCwbUV+pGVQ56n+IHzKHzU3HD3rg3gLPgEjYS3httG6QmJz7/766cqur3vWjlUnHRH6/r5upf
-	ItIe0mTMg9RfZuue7yUqPRovm3Q7jaGjkiUn7uPnbQu5fp3sIb4qjDgvdZ7HMLruEXFgQJIDXxO
-	/0t++O3PNFY6lgc9QfMBvXZ2j+i4mDn8cqJL+vJAdAmtEDCxT06G688Braap92AB+9LN3N8Ggvy
-	QHMVBU6Sx8qOM6VnxPWK1qu2wGQRPdmsr5pSmbFngZopmbGV4Jy05uk=
-X-Received: by 2002:a05:6000:2dc9:b0:48c:7f18:c85e with SMTP id ffacd0b85a97d-492778d2076mr1325704f8f.45.1793909543495;
-        Thu, 05 Nov 2026 12:12:23 -0800 (PST)
-Received: from localhost ([82.77.126.113])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fecac1caesm11108369f8f.17.2026.11.05.12.12.22
+        bh=VhzRY2mKH6ORtaSBser4RPtg8SfuX9F5vDH2pAGGfas=;
+        b=XuBmlLW9UiXs2BXXBKrb440yEoYH303SKkcT0LYJ7DSUIiUzSHQ5An7k6RudlwkTfO
+         RxJIYD11sDQxPXda+RDBdb/KNAqoF0J1pMivMhSrqdPr0PTelyAlqWlsyaHpPJWR9ugI
+         62T53aqOmhOubc2YuWOM+f6pr8RrfIM2NDVgSV55+e2L1zQypwl2Ut5lLhhAFsvWNFZu
+         mkjNPtI0ZZL7rEFpc03dlwXmtIMOZh72eoCD0BfMhBd/SgNSpeUJZstOwxmzbhdx+ukv
+         4Cx2sAO5qe0NJz5XYwSupn6Vbm/0HpHK9zsgEqK00fs1xoe470KBNoRU7iLL8AE+69Lg
+         zYgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793910078; x=1794514878;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VhzRY2mKH6ORtaSBser4RPtg8SfuX9F5vDH2pAGGfas=;
+        b=PJLYiAI/kZ5lkL+oSZbk8EfONmw2gGEkN633ltiMl/JBEav9Iv9wf9YOWDMCwGTB8J
+         QEaAumYq7oRX3ctYFwXduSFIhS88NWOlm8Xk4iDzAU1c09f4AeqxeVso+57Hj6VvCFeL
+         KSzzur5YAXkCTxwd0atbZcmIDdCM9/1MVz5izuNQO2hLtvCCNOuMfApGa4n44j+yERwZ
+         nWZlvsoczaA/uVLWuNgg3j2CzgCQ6e1NhI7MTPWuxWepjs69S9fEsPFbr6QqaSnkbAdb
+         GCG829eqZ1G0lijLDmtXJja4WyIyksPRJ9yTN5QQbQM2QhvAX59102+C62HrKDo8XpzX
+         2PHw==
+X-Forwarded-Encrypted: i=1; AKwUvByUXkfJlV6rPQr/x6U+WnGgoRp30sp4OG6VZYWNj5T6SHfUinMEqXgoVgxMqKK2zgTk/lvy80pUiEsxZ2wn@lists.linux.dev
+X-Gm-Message-State: APuU4Z+NTxBiKpo+wAjq9M/wFfNuP2pYjGm4rYtUa663Bsd1ELYQt40C
+	HPpmurQ0UzkcJXAG2KDf8jcEamVe2R46SChU+5Hg//EA/RfCl6vjW5Jr
+X-Gm-Gg: AYBFou0wj3FYKtacfW+ZVJiNOh4BnH4HdMvyGoDp2yJCmpTAZkqz1nck0FUIhAZkct5
+	mnyZ2WYKGXT29Hr17tZ8RNbKLBcL8p0TXccOYFPcYG+w4yT7E3KwbQQ5Oyu5Q7CPCUvVIgXb41d
+	Ib8urrpPVbXC1jCefCuLs5sLff7MB0+wJLwwcF+yEU84/0XVCDrLX858eJp5zZOofIdevzqy0AT
+	StD4N7FI+oEtLslyQTc/xp3o7P7wGfHUBqL9PozTzAdE+gI1IxJU6YxthexqbbHiIYBQUP5Ttxi
+	fqWbdOXcdT5bPyE957IidfNdnAQjRWLo7oaJgVWrbfqBUaudhgOOFxMox8JwoVVKysxH5ms+6NT
+	jDotW9Ys53VaFbBLfPvnjlh0GVY1aIKuVSNyFVDttTQYoawreOtZ90ojOvrb0UjrFQcMcfuVbC3
+	F6YPn49x9S+/q4oCZn9KSI9niRMVKKanu44cWxyn0y7p9dMsocKSJNiMELzRFSv1dMPC3tUQ+R+
+	fgyRRncCNk/9JRDokHSY74MyIRyQ8LDicr4ggZBbd41coHjiTLGCDpWEzyUzozofg6pUKCP4iTv
+	aXCaUmsaE/3uiiD81UgzSVxEi+Up671+tLSs9+RXnYShf7FD/hE=
+X-Received: by 2002:a05:600c:4443:b0:4b6:b2cf:3088 with SMTP id 5b1f17b1804b1-4b6ddcf59abmr4348165e9.14.1793910077589;
+        Thu, 05 Nov 2026 12:21:17 -0800 (PST)
+Received: from pop-os.. ([87.248.177.225])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b413312a4fsm71869865e9.1.2026.11.05.12.21.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 12:12:22 -0800 (PST)
-From: Daniel Matyas <matyasdaniel006@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Daniel Matyas <matyasdaniel006@gmail.com>,
-	linux-staging@lists.linux.dev,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Lanzano <lanzano.alex@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Nam Cao <namcao@linutronix.de>,
-	linux-fbdev@vger.kernel.org,
+        Thu, 05 Nov 2026 12:21:17 -0800 (PST)
+From: Albu Victor-Marian <albu.victor.m@gmail.com>
+To: albu.victor.m@gmail.com,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Cc: christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: [RFC] staging: fbtft: Moving fb_ili9341 (and others) to DRM
-Date: Thu,  5 Nov 2026 22:11:53 +0200
-Message-ID: <20261105201154.37294-2-matyasdaniel006@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	linux-staging@lists.linux.dev,
+	parthiban.veerasooran@microchip.com
+Subject: [PATCH v2] staging: most: dim2: add missing Return: documentation
+Date: Thu,  5 Nov 2026 22:21:10 +0200
+Message-ID: <20261105202110.1081296-1-albu.victor.m@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261104205108.1041666-1-albu.victor.m@gmail.com>
+References: <20261104205108.1041666-1-albu.victor.m@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -116,44 +103,102 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Add missing Return: descriptions to functions in dim2.c.
 
-I'm looking at the fbtft TODO (convert drivers to DRM) and want to check
-whether fb_ili9341 can be dropped. Findings against v7.4-rc1:
+Signed-off-by: Albu Victor-Marian <albu.victor.m@gmail.com>
+---
+Changes in v2:
+	* Simplified the Return: descriptions
 
-1. fb_ili9341's init sequence is the MI0283QT-9A one. Comparing register
-   writes with drivers/gpu/drm/tiny/mi0283qt.c, the values are identical,
-   including the default gamma tables. Differences I found:
-   - mi0283qt writes EN3GAM (0xF2) = 0x08; the fbtft write is commented out.
-   - mi0283qt always sets MADCTL BGR; fbtft makes it configurable (bgr=).
-   - fbtft rotate=270 also sets ML; mi0283qt does not.
-   - Rotation maps as DRM rotation = fbtft rotate - 90 (mod 360).
-   - fbtft also offers runtime gamma adjustment.
+	modified:   drivers/staging/most/dim2/dim2.c
+---
+ drivers/staging/most/dim2/dim2.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
-2. fb_ili9341 registers the compatible "ilitek,ili9341", which is also the
-   fallback in the dt-schema binding, so it can match nodes that the DRM
-   drivers claim via their specific compatibles.
+diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+index 0e2512d166329..34c0eb796c291 100644
+--- a/drivers/staging/most/dim2/dim2.c
++++ b/drivers/staging/most/dim2/dim2.c
+@@ -156,6 +156,8 @@ void dimcb_on_error(u8 error_id, const char *error_message)
+  * @hdm_ch: channel specific data
+  *
+  * Transfer a buffer from pending_list if the channel is ready
++ *
++ * Return: 0 on success, negative on failure.
+  */
+ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
+ {
+@@ -211,6 +213,8 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
+  * @data: private data
+  *
+  * Wait for network status and deliver it to mostcore once it is received
++ *
++ * Return: 0 when the thread stops without error.
+  */
+ static int deliver_netinfo_thread(void *data)
+ {
+@@ -392,6 +396,9 @@ static irqreturn_t dim2_task_irq(int irq, void *_dev)
+  *
+  * Acknowledge the interrupt and service each initialized channel,
+  * if needed, in task context.
++ *
++ * Return: IRQ_WAKE_THREAD after acknowledging the interrupt and
++ * servicing each initialized channel.
+  */
+ static irqreturn_t dim2_ahb_isr(int irq, void *_dev)
+ {
+@@ -442,7 +449,9 @@ static void complete_all_mbos(struct list_head *head)
+  * @ccfg: structure that holds the configuration information
+  *
+  * Receives configuration information from mostcore and initialize
+- * the corresponding channel. Return 0 on success, negative on failure.
++ * the corresponding channel.
++ *
++ * Return: 0 on success, negative on failure.
+  */
+ static int configure_channel(struct most_interface *most_iface, int ch_idx,
+ 			     struct most_channel_config *ccfg)
+@@ -561,7 +570,9 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
+  * @mbo: pointer to the buffer object
+  *
+  * Push the buffer into pending_list and try to transfer one buffer from
+- * pending_list. Return 0 on success, negative on failure.
++ * pending_list.
++ *
++ * Return: 0 on success, negative on failure.
+  */
+ static int enqueue(struct most_interface *most_iface, int ch_idx,
+ 		   struct mbo *mbo)
+@@ -637,7 +648,9 @@ static void request_netinfo(struct most_interface *most_iface, int ch_idx,
+  * @ch_idx: corresponding channel ID
+  *
+  * Destroy a channel and complete all the buffers in both started_list &
+- * pending_list. Return 0 on success, negative on failure.
++ * pending_list.
++ *
++ * Return: 0 on success, negative on failure.
+  */
+ static int poison_channel(struct most_interface *most_iface, int ch_idx)
+ {
+@@ -710,6 +723,8 @@ static struct {
+  *
+  * By success stores one of the CLK_{NUMBER}FS in the *val and returns 0,
+  * otherwise returns -EINVAL.
++ *
++ * Return: 0 on success, negative on failure.
+  */
+ static int get_dim2_clk_speed(const char *clock_speed, u8 *val)
+ {
+@@ -746,7 +761,8 @@ static void dim2_release(struct device *d)
+  * @pdev: platform device structure
+  *
+  * Register the dim2 interface with mostcore and initialize it.
+- * Return 0 on success, negative on failure.
++ *
++ * Return: 0 on success, negative on failure.
+  */
+ static int dim2_probe(struct platform_device *pdev)
+ {
+-- 
+2.43.0
 
-3. In-tree users: no defconfig enables FB_TFT. canaan_kd233 (62363a8e2f56, Feb 2021)
-   has a status = "disabled" panel node compatible with "canaan,kd233-tft",
-   "ilitek,ili9341". It predates the first DRM driver accepting ilitek,ili9341
-   (5a04227326b0, Jul 2021), and none of the DRM drivers match canaan,kd233-tft.
-   fbtft requests "dc" and "reset" GPIOs, which fits that node. I haven't tried
-   binding it. I suppose that, if the board is used, then it is built against the
-   fbtft driver.
-
-4. fb_ili9341 has had only style/mechanical changes in recent years.
-
-Questions:
- a) Is removing fb_ili9341 acceptable, pointing users of other ILI9341
-    modules to panel-mipi-dbi? The KD233 node would then have no driver.
- b) Or should KD233 panel support go into a DRM driver first? I don't have
-    its init sequence or physical size, or the board...
- c) Is removal of all of fbtft already planned?
- d) Several other fbtft drivers have drm counterparts. Should I inspect those
- to see if removal is needed?
-
-I have not tested on hardware.
-
-Thanks,
-Daniel M
