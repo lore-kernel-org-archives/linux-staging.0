@@ -1,79 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793879174;
-	b=XSDM5V/+8iqbTNqTYpDY/mTf6RQr6yrYsoPPOZs0ZHJRxZ/cLn79jbX8ewBr+5D3QLU4
-	 lvKb6c/PBGag8+suC6evSuAIXTfwsliidgXT5xb/dnAJZ40jj/jMccH/E4Iq9h36tVmIm
-	 XmDMcTIbbbRRnoP4hdoknPbJIBUZH7Ub81B+KqwDCaqLWSdO59tlDpGKyDQvrgKs+HS+C
-	 bmN2XWsnHzyuabdLdyAP3JZvdRgS/pMsmpq+ZJn/1QXjJ6XDg3RuilGq0iiA9IagVLdaW
-	 022iIZxOVZDYM4KDy/iJGdPOFSJN75xF099pRPQFdfElrtzoR5pGe1rA8YlZnq+45sA==
+	t=1793882929;
+	b=oyXXKozb5bc6DstJCUkgKj95/A3vTdRSCGopu3hWF8sutsgnVOyN9qfAsr+W7Su9O93W
+	 xdQefkCJTYY+smGVQgMDdFHFcxNU5ixQtbGu7v7UXLlsGsXIyWJsLQgILPjfcHXkgepWd
+	 hBNudxPrVOv79xrEuEhS61tZ1T9+KmMJGQ092gG0pT2ar4dZ41P4QKBPQ9ayt/UmTIYoS
+	 3C8GV5DQ0H17rVC2Hw+iLLrTjE+JWctn1YRXCWXo600BxWJsGP5rNxUzd9m2MZuYG7bTK
+	 8/HdT1K7wx+kDXVQM87wmqrV9OK9dl5ijg+pzGEfZXEX5p+U1EbHclqY+UMgndpfWdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793879174;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=NSKZa4ye0LkUdsLkrm7Rm28ju04K47Dqy5NWckuPC+k=;
-	b=oWsuWOXOnvYSKLSIBfez1YfTUOAOatan+sekPzZRBOfzhgF6i2vg5pR4JHVPGEpAbFpF
-	 Vsr2tZyV1wQ9VuzROkXzrc6XEcE1/4y7Ch4LdBue98VGwHT6KaW9P7wDVaxAjWwqSQlu7
-	 CfpxgjOsdrg/YGumVuU0Cd+6jvJmkN/4smn8n4hti/agZi5fUzi3BldKiVG0I58kbA/47
-	 q4WpRvXQrq6M8TLSxYCK/pW6xs9pmnHSTtMYVa+zfjJQ4+m5G8QVgv8GmhK/yG+CD37/8
-	 DvFMMtYCwXCfxclgRJkwA3PHgZiSH7cyykE/+txTSXwrVr6O9jPLZKx+S4eIptETNww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793882929;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=FpsCnQXulO1zACpv3lZ/XLdDu6HqgPswy6BO1ThvjQA=;
+	b=QWoTvSEuJf9QHO/BsDBHqt682xzRWCWqLzI7gtrkyC7+4R/diBAm2etslW7ufIgvqzpz
+	 ioT3ijh5Hs/sMIObiqEW6PGHrSSYhv9K9K6f3CwbRPxQHe7Rwv+ARzDyr7v4PcqnYqTI8
+	 bH8AiTD8r1iZDvHE8QeuqSZd9UmM+egrFOjBnTKdn/dU1brX/ju7PxRP2RGsvPTMKVkBe
+	 r1RNUpoKBEfYjkNoCU4YUigOftnnGTLi0Oav0WFDj+6NQ3QddRmvxlKpJxYo4mxWIptzh
+	 Cznzk3bhQhw636lOyMON016xlR/2ReRNo0B+0JWNBjwBryXpVGrKHwS3g+aXYzWEY2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Sr4C7iZ9;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="AqLQ/f+m";
+	arc=none smtp.remote-ip=209.85.221.44
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8511606A928
-	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 11:46:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8511606A928
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76BB606A328
+	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 12:48:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C76BB606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Sr4C7iZ9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793879173; x=1825415173;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OCg2W30o8vQ8OO1s+xdsqkrOdBHhLk2OtMes1baq76c=;
-  b=Sr4C7iZ9s0umWaZx9amVQ2t0Hc2an7JmRL1z8Optpa67ofauSGIpe3ij
-   qkVWRnYSJRCPGXp/+XenM5QQ1M/XH0zWeEy2GPz7nCOjsP7POvqPBIYx2
-   wZt6aoawM7ppPcsrMdchyCvF72M0fLIMsn4tvncGWIq9A3pq9PI4IU+AL
-   HeNUTYbNmCg0q9RJ5HOKC5PYlhhKWqMhzwnhy1iWGavcLgHxW9z+k5aJo
-   1qVIHAPO742jKJUsmjxV8iUQi1jjc8OZft383EO7Xs0blEVXN5+C3OUb3
-   Ob6BJ12bZALuCQPxF4byOt8XOT6BNEkVmlQ3Df3PrDnpKzy3ik/rAt4Vk
-   Q==;
-X-CSE-ConnectionGUID: PoSJ8CTgShu4ZCrbQ72oIg==
-X-CSE-MsgGUID: pFuw6fX5RRGTnGTNr+JYsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2548020"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2548020"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 03:46:12 -0800
-X-CSE-ConnectionGUID: Vdd75W6xS4i/w10gfKSiGA==
-X-CSE-MsgGUID: DBVu0q0gTD6lwwwebdsT1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7113980"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 03:46:10 -0800
-Date: Thu, 5 Nov 2026 13:46:07 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Gobi Durairaj <gobidurairaj@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: fix block comment style in sh_css_sp.c
-Message-ID: <auxsf6qUD4XeAV2D@ashevche-desk.local>
-References: <20261105064312.360626-1-gobidurairaj@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AqLQ/f+m
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-490d59c3edaso438274f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 05 Nov 2026 04:48:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793882927; x=1794487727; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FpsCnQXulO1zACpv3lZ/XLdDu6HqgPswy6BO1ThvjQA=;
+        b=AqLQ/f+mo9ExufnEpWuhFXyEzVszB4kv7hfYh0ATEM4iGk2MwHy6ET0kC15cPSgaIW
+         LzeLmvYNm+q/TnMm2gSrtfG3J7bLGf1SF1NXRKqZ5aIeTQB0FbtDQ7+Fm2m189XSC98b
+         EiPm5csIGtN3xteFQesm58wGBZxaYjQu9QAphTT3cPN8Pvv7Kp7VjukNLInbvNy57SY5
+         gVt+5BtD/XJkrsbSvHms5iI2FntXtnCrUytoBe9mXN4RCcMhZmGOZsPZMM4PAeXj/QkD
+         dOXK8aW1EmUME84oaZqT5lxHQddISNxvo3lOk0SoxnU9tA4TqW9UJlBUoXR0MZsOL6MX
+         P3Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793882927; x=1794487727;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FpsCnQXulO1zACpv3lZ/XLdDu6HqgPswy6BO1ThvjQA=;
+        b=sgvAKClrhkoIGSZ+h+nd1Rnv0U1tmt7l7RWjLQkDPas0OeKolMMRhR4SvuGj83S8k9
+         SBPx7WWNzxd83zSjJWDKoqJtEBa7DNvSoX4DmzgiKhndwErLbL17nCZWi9sNv9uNOKkp
+         vXx6KYfB/AbVGS7WOhZEuXWjNaI3hYuxrQl42OGnDo2JDgv8t8MBssgd1bVGFwY1Gmw+
+         wozP1IMeXWgPi5aaPVoArEBSpjyY0xAYwvVXZkmDMMor21GKODQQLwpuCwf/nuq4eFSC
+         j3xyUob+co17mn9evHbEM+hDe+BFjMZ+ufjD7nw4vT7lakk9fSLRXa1OP0YqCjwsIdZf
+         9FuQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwB4nYkdfJ8ibqXY8vP5dlihYMWi8eTMCgV7MUDI21ehna5Luv5S6VfBN2SkDkTOZdVug9cdEhEBE5hnFZ/@lists.linux.dev
+X-Gm-Message-State: APuU4Z8WfTt6wO/lYYGggO25qScM2z7jEsgh1hP6seXi48jQ26sPXN7X
+	Bp92ZmhENenp57tYu9U31lAjkreqt1p38qrwcSHe8n22QwFee4uZEtxy
+X-Gm-Gg: AYBFou1pXGJzWV5G09yGVfZOozBcYXOK70sEd/DrWWnaRIWxqK1J/RJKaEMDQxUcml4
+	CqDPci+QyIL4dwGj/USkayBClXKIHmlfXuDB9Fs+FiFsGpIjynnWBw3UucrPuBvKiNwLT40N9J8
+	jRZ+yWD4CSvCLqC3nCcu/6Mz+G5q1G4pfGfuVliX4YqRQ6yzNf6xoCpWnSZIe+PiGFL/B8woya3
+	EoA5pynxv5mAeC7m4QSWJn6mnAZrkT1fOsUQZDxvplb9EMqsxWrORDv2hEI8WcoWq8Iz0AoPSa9
+	TIRkFUzvCYA5jwGRhNpAurhnY+5IRJ1gN92y3QyQ5CguTo1VH1GZYF4p9ntUlWNN12FMY8XqdaW
+	DZ056qF4s5l8HmsHzVAB6I3QbRJheB2XKK4RTrvgvbhh5spuW7kn+k4iLAUUCOzWJ/sUZqb7wie
+	WvlbClOEIiu1lfaOibZFk1/2pjw2PyY0rMKR66Pp9SRD+IPb15meCK1YXEdrG5EdMzf9s3AxDVI
+	hC/RQwv6JIeiNUBIlio8VV1sWKkhcsawO2k8RI8ZP3ommI1Awe5pGq6BVDuPLGHQ/3JsMPsuZMj
+	98WXTJblHYffZCEbrJo/DPKI+5oKjvfnSDCXD3fK+UTwc6zw1d14HnG0Qfon7TEX8BtIh8iOG4k
+	BN+PoGVl+0nptmNvsPEx8uPn+zGg6iMcpgmk1bRiFDrYojhaoHy5KcWxWp0BLDuTBAeg=
+X-Received: by 2002:a05:6000:1847:b0:491:e477:6820 with SMTP id ffacd0b85a97d-491e4776b1emr2280105f8f.20.1793882926933;
+        Thu, 05 Nov 2026 04:48:46 -0800 (PST)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fed45d2bbsm10342778f8f.33.2026.11.05.04.48.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 04:48:46 -0800 (PST)
+Date: Thu, 5 Nov 2026 15:48:42 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Hussain Sitamouwala <husainsitamuwala21@gmail.com>
+Cc: outreachy@lists.linux.dev, parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: most: video: document lock fields
+Message-ID: <aux7KmnRHloDL8dj@stanley.mountain>
+References: <20261105101222.5478-1-husainsitamuwala21@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -85,23 +100,36 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261105064312.360626-1-gobidurairaj@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20261105101222.5478-1-husainsitamuwala21@gmail.com>
 
-On Thu, Nov 05, 2026 at 12:13:12PM +0530, Gobi Durairaj wrote:
-> Convert block comments to the preferred kernel style with a leading
-> "*" on each line and the closing "*/" on its own line, as reported
-> by checkpatch.
+On Thu, Nov 05, 2026 at 10:12:22AM +0000, Hussain Sitamouwala wrote:
+> Fix checkpatch.pl checks:
+> 
+> CHECK: spinlock_t definition without comment
+> CHECK: struct mutex definition without comment
+> 
+> Add a comment to each lock in struct most_video_dev describing what it
+> protects. No functional change.
+> 
+> Signed-off-by: Hussain Sitamouwala <husainsitamuwala21@gmail.com>
+> ---
+>  drivers/staging/most/video/video.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+> index 3a0445ff62f4..d60be8a741ed 100644
+> --- a/drivers/staging/most/video/video.c
+> +++ b/drivers/staging/most/video/video.c
+> @@ -33,14 +33,14 @@ struct most_video_dev {
+>  	bool mute;
+>  
+>  	struct list_head pending_mbos;
+> -	spinlock_t list_lock;
+> +	spinlock_t list_lock; /* protects pending_mbos */
 
-If Sakari wants to take it...
-This type of changes to this driver are not appreciated at this moment, sorry.
-I can point to the success story in case you want to continue with this driver
+What I want here is an audit of the locking.  I imagine that the result
+of the audit will be more than a two word summary.
 
-https://lore.kernel.org/linux-media/20261027230807.2407261-1-vladurares@gmail.com/
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
