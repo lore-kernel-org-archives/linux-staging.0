@@ -1,50 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793878070;
-	b=4blXumgHy6rDHl0nNptL0YUpi/PglIaW/2FsNzPX+BQqWNbWge5tWAMBps10IX3dQEAn
-	 ufwkIP7muJDeZ9TwEM3PSfBw3Sk9f+hxeOaSwu8csUOxpveAP8/i8oeo+kd68eGCjwtla
-	 M+eUvMYPFRxoHRUJfkVeAaW2jd5p3QHsC+dFj87xHWLLzEiuvY04Nu9PLV5yAa5yuksar
-	 Pqvi1O0cSxPihRFoCdYPSfUL87mRIOj4pJm+fF0CagqIh9hWBSDErgl+WxnEtdy90avs9
-	 14hpB3PPeukFsi6B6kDgNA2BK+PhVHXu3hDbHZULWXBbpTiOiiC+X3nMCiibvxc4zyQ==
+	t=1793879174;
+	b=XSDM5V/+8iqbTNqTYpDY/mTf6RQr6yrYsoPPOZs0ZHJRxZ/cLn79jbX8ewBr+5D3QLU4
+	 lvKb6c/PBGag8+suC6evSuAIXTfwsliidgXT5xb/dnAJZ40jj/jMccH/E4Iq9h36tVmIm
+	 XmDMcTIbbbRRnoP4hdoknPbJIBUZH7Ub81B+KqwDCaqLWSdO59tlDpGKyDQvrgKs+HS+C
+	 bmN2XWsnHzyuabdLdyAP3JZvdRgS/pMsmpq+ZJn/1QXjJ6XDg3RuilGq0iiA9IagVLdaW
+	 022iIZxOVZDYM4KDy/iJGdPOFSJN75xF099pRPQFdfElrtzoR5pGe1rA8YlZnq+45sA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793878070;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=1PSWLnrlODBcIUuy+o4iDuUbA3x5EaV0n7/q768U0ug=;
-	b=pfHy7gs+WV69+79JXIN4TFQRtn01BnQXkNwUKbe0Pfps1FfDLVtJZEFR5jyEiBXC3idt
-	 kd24/C8S+yZPPwDsrY7Z7xkaHVHcom3A3tN9w4qYeM1q9x9EpdWullir85X9eL54EpEei
-	 7MKUYOI9wZ5NbzT7ImrBAkpYo3Y/NpRTzKhigUcYCJV8Uw9w8pfZylf6sxWWJ0g1L82LZ
-	 YSCTU5Uoqj3oNRRZiyaeQsXhDcbVNQ5RKGRKiiU1kXMD4Jxd7k6NJrPG/M1yzqpihNRG+
-	 z2klpeNtTVGT5DrE9gqtCJOY5b0GiUlS6iJFy9h4DhkBF5T5bhIftH3zFKLoKwDMMEw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793879174;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=NSKZa4ye0LkUdsLkrm7Rm28ju04K47Dqy5NWckuPC+k=;
+	b=oWsuWOXOnvYSKLSIBfez1YfTUOAOatan+sekPzZRBOfzhgF6i2vg5pR4JHVPGEpAbFpF
+	 Vsr2tZyV1wQ9VuzROkXzrc6XEcE1/4y7Ch4LdBue98VGwHT6KaW9P7wDVaxAjWwqSQlu7
+	 CfpxgjOsdrg/YGumVuU0Cd+6jvJmkN/4smn8n4hti/agZi5fUzi3BldKiVG0I58kbA/47
+	 q4WpRvXQrq6M8TLSxYCK/pW6xs9pmnHSTtMYVa+zfjJQ4+m5G8QVgv8GmhK/yG+CD37/8
+	 DvFMMtYCwXCfxclgRJkwA3PHgZiSH7cyykE/+txTSXwrVr6O9jPLZKx+S4eIptETNww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=zUePNzRi;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Sr4C7iZ9;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C036C606A32D;
-	Thu,  5 Nov 2026 11:27:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8511606A928
+	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 11:46:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8511606A928
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=zUePNzRi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B9DA1F00919;
-	Thu,  5 Nov 2026 11:27:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793878069;
-	bh=1PSWLnrlODBcIUuy+o4iDuUbA3x5EaV0n7/q768U0ug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=zUePNzRih/ByPAQaBlvqqMHHDBx8v/1NjVVgqBreCnVcQBvYLgKVXSbBkMqgPn87Z
-	 gkc7jgtHQTE+4cEO8AzeN6NA0Sa1IN6PFNNFbQ/pOu44E8V9I80gZ55Vl9BnnDgDUM
-	 YWB5Jn51/VZjwP1jRGmhiFsB5zzF9t2Wy617USdA=
-Date: Thu, 5 Nov 2026 06:27:48 -0500
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tian Xuechen <202300460064@mail.sdu.edu.cn>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	prashantrahul23@gmail.com
-Subject: Re: [PATCH] staging: octeon: unwind receive initialization on IRQ
- failure
-Message-ID: <2026110532-succulent-chug-b9d5@gregkh>
-References: <20261105083628.4043124-1-202300460064@mail.sdu.edu.cn>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Sr4C7iZ9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793879173; x=1825415173;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OCg2W30o8vQ8OO1s+xdsqkrOdBHhLk2OtMes1baq76c=;
+  b=Sr4C7iZ9s0umWaZx9amVQ2t0Hc2an7JmRL1z8Optpa67ofauSGIpe3ij
+   qkVWRnYSJRCPGXp/+XenM5QQ1M/XH0zWeEy2GPz7nCOjsP7POvqPBIYx2
+   wZt6aoawM7ppPcsrMdchyCvF72M0fLIMsn4tvncGWIq9A3pq9PI4IU+AL
+   HeNUTYbNmCg0q9RJ5HOKC5PYlhhKWqMhzwnhy1iWGavcLgHxW9z+k5aJo
+   1qVIHAPO742jKJUsmjxV8iUQi1jjc8OZft383EO7Xs0blEVXN5+C3OUb3
+   Ob6BJ12bZALuCQPxF4byOt8XOT6BNEkVmlQ3Df3PrDnpKzy3ik/rAt4Vk
+   Q==;
+X-CSE-ConnectionGUID: PoSJ8CTgShu4ZCrbQ72oIg==
+X-CSE-MsgGUID: pFuw6fX5RRGTnGTNr+JYsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2548020"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2548020"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 03:46:12 -0800
+X-CSE-ConnectionGUID: Vdd75W6xS4i/w10gfKSiGA==
+X-CSE-MsgGUID: DBVu0q0gTD6lwwwebdsT1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="7113980"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 03:46:10 -0800
+Date: Thu, 5 Nov 2026 13:46:07 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Gobi Durairaj <gobidurairaj@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: fix block comment style in sh_css_sp.c
+Message-ID: <auxsf6qUD4XeAV2D@ashevche-desk.local>
+References: <20261105064312.360626-1-gobidurairaj@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -56,30 +85,23 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261105083628.4043124-1-202300460064@mail.sdu.edu.cn>
+In-Reply-To: <20261105064312.360626-1-gobidurairaj@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Nov 05, 2026 at 04:36:28PM +0800, Tian Xuechen wrote:
-> cvm_oct_rx_initialize() returns immediately when request_irq() fails.
-> The failing receive group has already had its NAPI instance added and
-> enabled, and earlier selected groups can still have registered IRQ
-> handlers and active NAPI instances.
-> 
-> When RX initialization fails, cvm_oct_probe() unwinds and returns an
-> error. The driver core then releases the managed platform data, even
-> though earlier RX IRQ actions still reference NAPI instances embedded
-> in that data.
-> 
-> Disable and delete NAPI for the failing group, then unwind the previously
-> initialized groups in reverse order. Mask their POW interrupts, disable
-> and delete their NAPI instances, and free their IRQs before returning the
-> original error.
-> 
-> Fixes: ae4350364008 ("staging: octeon: Propagate rx initialization failures")
-> Signed-off-by: Tian Xuechen <202300460064@mail.sdu.edu.cn>
-> ---
-> An AI coding assistant helped analyze the RX error path, draft the
-> unwind, and edit the changelog.
+On Thu, Nov 05, 2026 at 12:13:12PM +0530, Gobi Durairaj wrote:
+> Convert block comments to the preferred kernel style with a leading
+> "*" on each line and the closing "*/" on its own line, as reported
+> by checkpatch.
 
-Please read: https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
+If Sakari wants to take it...
+This type of changes to this driver are not appreciated at this moment, sorry.
+I can point to the success story in case you want to continue with this driver
+
+https://lore.kernel.org/linux-media/20261027230807.2407261-1-vladurares@gmail.com/
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
