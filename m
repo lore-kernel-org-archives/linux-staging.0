@@ -1,97 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793910079;
-	b=kZm0X2ZIRf4D0JTxf0yZu5jzQEHJwrLOfqhL658hScXzpWq27gtMJuaKS2rHMKC+wVTI
-	 ajNDJY84XPivzSPbWEOMG6vYfnSlpy6QwaPN1kfOgIYagqb6BtikSWlErd/IbKAwuKoum
-	 LRQg+0kHRE8jdP2GWf7yyXAajl7fLMxslG70aANRsvV4itwcuo8nvgfwKSGeCBkyVpa6Z
-	 ve09aSA8IUrgilvpwNqbxUOJ8ESsvhdRfXPAE1rtDwEtf2LXLA7cdO9NwMtHF+HQu5jnF
-	 KPBv0Zj+nm7RrnfYGvpQkclCeLM+QXxGFraNAbMYsdxsFlDlUJHrG1KV/Rs8iQYG6vA==
+	t=1793910825;
+	b=WOygJVGiA9UF6w2IXNktYSLKGUNukYOLr+60UvszsEBxDXXgUupH2rlMUKWIi0IARELC
+	 67GdlBP1M/+L8tdatQZ36TAEq76XBpGFcpWUy2c0XLJ4iBNmXttv3eQATYV5SV5IR02RE
+	 yT+qccJnNKQkUGE0QgLdAbTBymUQNjiwGeka+1O/PvgGUzggT3/G1qPpOrEWgDCMXJDP9
+	 lpIP/KiqLOUqpLLT7CgvafL8Qx6C+05G78i5FtMNGzQsifq64QhCscJGdV7xENPik+3Oq
+	 XeYxRuxQsVCLlGtQr/37yILOyl7vO14qodCjVmnzPN3XgtxtiJuPSMYCLFT81Oe6xxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793910079;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=VhzRY2mKH6ORtaSBser4RPtg8SfuX9F5vDH2pAGGfas=;
-	b=GNSh9avYrex/Svet0FCJumgNNf5SFKcmZBBhbd19UA8FdbR51IaFduDqtoMyTt2ST5/G
-	 C3B8VAdb1thSmlSnjLJx8DvFJ+RwGxUvec7MMbysH/L3CpKe6MJ/x9hhIZ3RY4989ZCzI
-	 5ZRhytd4YxBCG26JQjIaKaX9n2vL0TbHgat8C8T+y+gyDDubhHUOo9kH+8DZsU/vieU/v
-	 zFxCg1a+h5yJW/6if9BEMm6usLUhN8g0zk7XooFlfQ3UUjTvGrZvp6CJcINnFyLKOUMBm
-	 Mr2Q9O3X0L4AURI5v8nTZTDsINB5aiabkx+XA8oeq0qfASdc4UOi/6doebKBt3gA5ew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793910825;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=AooaoAilJ+hgjnSAd1rqqNaAAjXN6UUVw/jzA7syHSc=;
+	b=5StkMvCs5XPF1De8XE8xxnUPvGMZEn8zsI0GVl1JTNL3odPOxqbxEkPkSBPU6oekR5l4
+	 pu0LInJWz4fWWqoYISx4bjlYidPbOSh4CXACl4tYcZNqL7S2eXAGFdmSx33P5PjSctOym
+	 i2aBI9rWPqev/aNj7x0EpvoD0aARySZl43APE6HDJbrtVIoMt0uabBkElPWRwTmpqlaIN
+	 g+fKJI7b0fwfAnflFxqG1MbbbSlPOQmUbNhqSzNmAemdKB2V5dTp+aLH0iKi9NNIzX5zJ
+	 EclN3EFexGblYIrLsDmsgWTQ2HoBND6IMrTDh2UqWrMKggrZ2d4nliY/fm7Agmv2/bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XuBmlLW9;
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.210.70
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746B2606A326
-	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 20:21:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 746B2606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XuBmlLW9
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so21493305e9.3
-        for <linux-staging@lists.linux.dev>; Thu, 05 Nov 2026 12:21:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793910078; x=1794514878; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VhzRY2mKH6ORtaSBser4RPtg8SfuX9F5vDH2pAGGfas=;
-        b=XuBmlLW9UiXs2BXXBKrb440yEoYH303SKkcT0LYJ7DSUIiUzSHQ5An7k6RudlwkTfO
-         RxJIYD11sDQxPXda+RDBdb/KNAqoF0J1pMivMhSrqdPr0PTelyAlqWlsyaHpPJWR9ugI
-         62T53aqOmhOubc2YuWOM+f6pr8RrfIM2NDVgSV55+e2L1zQypwl2Ut5lLhhAFsvWNFZu
-         mkjNPtI0ZZL7rEFpc03dlwXmtIMOZh72eoCD0BfMhBd/SgNSpeUJZstOwxmzbhdx+ukv
-         4Cx2sAO5qe0NJz5XYwSupn6Vbm/0HpHK9zsgEqK00fs1xoe470KBNoRU7iLL8AE+69Lg
-         zYgg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218C9606A32F
+	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 20:33:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 218C9606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-8437834ad7eso3220784a34.1
+        for <linux-staging@lists.linux.dev>; Thu, 05 Nov 2026 12:33:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793910078; x=1794514878;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VhzRY2mKH6ORtaSBser4RPtg8SfuX9F5vDH2pAGGfas=;
-        b=PJLYiAI/kZ5lkL+oSZbk8EfONmw2gGEkN633ltiMl/JBEav9Iv9wf9YOWDMCwGTB8J
-         QEaAumYq7oRX3ctYFwXduSFIhS88NWOlm8Xk4iDzAU1c09f4AeqxeVso+57Hj6VvCFeL
-         KSzzur5YAXkCTxwd0atbZcmIDdCM9/1MVz5izuNQO2hLtvCCNOuMfApGa4n44j+yERwZ
-         nWZlvsoczaA/uVLWuNgg3j2CzgCQ6e1NhI7MTPWuxWepjs69S9fEsPFbr6QqaSnkbAdb
-         GCG829eqZ1G0lijLDmtXJja4WyIyksPRJ9yTN5QQbQM2QhvAX59102+C62HrKDo8XpzX
-         2PHw==
-X-Forwarded-Encrypted: i=1; AKwUvByUXkfJlV6rPQr/x6U+WnGgoRp30sp4OG6VZYWNj5T6SHfUinMEqXgoVgxMqKK2zgTk/lvy80pUiEsxZ2wn@lists.linux.dev
-X-Gm-Message-State: APuU4Z+NTxBiKpo+wAjq9M/wFfNuP2pYjGm4rYtUa663Bsd1ELYQt40C
-	HPpmurQ0UzkcJXAG2KDf8jcEamVe2R46SChU+5Hg//EA/RfCl6vjW5Jr
-X-Gm-Gg: AYBFou0wj3FYKtacfW+ZVJiNOh4BnH4HdMvyGoDp2yJCmpTAZkqz1nck0FUIhAZkct5
-	mnyZ2WYKGXT29Hr17tZ8RNbKLBcL8p0TXccOYFPcYG+w4yT7E3KwbQQ5Oyu5Q7CPCUvVIgXb41d
-	Ib8urrpPVbXC1jCefCuLs5sLff7MB0+wJLwwcF+yEU84/0XVCDrLX858eJp5zZOofIdevzqy0AT
-	StD4N7FI+oEtLslyQTc/xp3o7P7wGfHUBqL9PozTzAdE+gI1IxJU6YxthexqbbHiIYBQUP5Ttxi
-	fqWbdOXcdT5bPyE957IidfNdnAQjRWLo7oaJgVWrbfqBUaudhgOOFxMox8JwoVVKysxH5ms+6NT
-	jDotW9Ys53VaFbBLfPvnjlh0GVY1aIKuVSNyFVDttTQYoawreOtZ90ojOvrb0UjrFQcMcfuVbC3
-	F6YPn49x9S+/q4oCZn9KSI9niRMVKKanu44cWxyn0y7p9dMsocKSJNiMELzRFSv1dMPC3tUQ+R+
-	fgyRRncCNk/9JRDokHSY74MyIRyQ8LDicr4ggZBbd41coHjiTLGCDpWEzyUzozofg6pUKCP4iTv
-	aXCaUmsaE/3uiiD81UgzSVxEi+Up671+tLSs9+RXnYShf7FD/hE=
-X-Received: by 2002:a05:600c:4443:b0:4b6:b2cf:3088 with SMTP id 5b1f17b1804b1-4b6ddcf59abmr4348165e9.14.1793910077589;
-        Thu, 05 Nov 2026 12:21:17 -0800 (PST)
-Received: from pop-os.. ([87.248.177.225])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b413312a4fsm71869865e9.1.2026.11.05.12.21.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 12:21:17 -0800 (PST)
-From: Albu Victor-Marian <albu.victor.m@gmail.com>
-To: albu.victor.m@gmail.com,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Cc: christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	parthiban.veerasooran@microchip.com
-Subject: [PATCH v2] staging: most: dim2: add missing Return: documentation
-Date: Thu,  5 Nov 2026 22:21:10 +0200
-Message-ID: <20261105202110.1081296-1-albu.victor.m@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261104205108.1041666-1-albu.victor.m@gmail.com>
-References: <20261104205108.1041666-1-albu.victor.m@gmail.com>
+        d=1e100.net; s=20260707; t=1793910824; x=1794515624;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AooaoAilJ+hgjnSAd1rqqNaAAjXN6UUVw/jzA7syHSc=;
+        b=1qmpiYuofOVXC48BDqeVbqhBlH5DDNk3nptwLjiYZ1vUdQb0HszjU6eL7DUUii/jiM
+         V7CLIa5sgJW59dyofx3N2/b3NpbGqECTEpJqd/XmkbkospX6FiUcgJeYVgi2D8qicuNY
+         ScsbZz410Zk1HmIyDO1Kdn7nTmqygutX/JgLi3L0ElZLj820Y0ajU65irA09xtMRnyTn
+         gW6pfwq2YZfJbM/e9sY+V2tD0dKFd+1ZaVw9j5/8uyRI6fyf9IY6ofTzQHSVegbpAo3b
+         j/CSSrWAqV0CLiPGFlLULuM781r7ssVe/CtAUqklhsOMU7DSkTz6W81CqEaqI+01+gEX
+         8Qyg==
+X-Forwarded-Encrypted: i=1; AKwUvByCjxhq5kfNV/E4ac3fiY3lMC+fhLdCsHTj7B5zl/Ava/6QhLo+SMDn6P6altvr0Bf/qKRX5oo4NTwodOyw@lists.linux.dev
+X-Gm-Message-State: APuU4Z9+MakAT0P4bdW8R4CAAgftf3sBwS6JLmYQVJU9ODCHORjAyVsi
+	imFL+IE9Px3UTHasN20sEghXV+6wk9ffKxXV7S/GQSLvFZmVZbSApf7VH61MUYqvHT8esWszceD
+	4G4EuFgYbTVZXlLUPBT65tEZTMBJCj3IriRMq18SABdPWlrhZ8A4Kd03KndA=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -101,104 +58,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:4f61:b0:4c4:a240:9c3a with SMTP id
+ 5614622812f47-567e0993ebcmr356219b6e.4.1793910824203; Thu, 05 Nov 2026
+ 12:33:44 -0800 (PST)
+Date: Thu, 05 Nov 2026 12:33:44 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aece828.ae8774f5.3905c1.0000.GAE@google.com>
+Subject: [syzbot] Monthly greybus report (Nov 2026)
+From: syzbot <syzbot+list4050b078885043dc999b@syzkaller.appspotmail.com>
+To: greybus-dev@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Add missing Return: descriptions to functions in dim2.c.
+Hello greybus maintainers/developers,
 
-Signed-off-by: Albu Victor-Marian <albu.victor.m@gmail.com>
+This is a 31-day syzbot report for the greybus subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/greybus
+
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 4 issues are still open.
+
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 233     Yes   KASAN: slab-out-of-bounds Write in gb_operation_message_alloc
+                  https://syzkaller.appspot.com/bug?extid=2fd6aefc361af86911d5
+<2> 119     Yes   WARNING: ODEBUG bug in gb_operation_put
+                  https://syzkaller.appspot.com/bug?extid=61464b62b688791cc24c
+<3> 40      Yes   WARNING: ODEBUG bug in gb_operation_sync_timeout
+                  https://syzkaller.appspot.com/bug?extid=a2e50fb40695811c2dab
+
 ---
-Changes in v2:
-	* Simplified the Return: descriptions
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-	modified:   drivers/staging/most/dim2/dim2.c
----
- drivers/staging/most/dim2/dim2.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index 0e2512d166329..34c0eb796c291 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -156,6 +156,8 @@ void dimcb_on_error(u8 error_id, const char *error_message)
-  * @hdm_ch: channel specific data
-  *
-  * Transfer a buffer from pending_list if the channel is ready
-+ *
-+ * Return: 0 on success, negative on failure.
-  */
- static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
- {
-@@ -211,6 +213,8 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
-  * @data: private data
-  *
-  * Wait for network status and deliver it to mostcore once it is received
-+ *
-+ * Return: 0 when the thread stops without error.
-  */
- static int deliver_netinfo_thread(void *data)
- {
-@@ -392,6 +396,9 @@ static irqreturn_t dim2_task_irq(int irq, void *_dev)
-  *
-  * Acknowledge the interrupt and service each initialized channel,
-  * if needed, in task context.
-+ *
-+ * Return: IRQ_WAKE_THREAD after acknowledging the interrupt and
-+ * servicing each initialized channel.
-  */
- static irqreturn_t dim2_ahb_isr(int irq, void *_dev)
- {
-@@ -442,7 +449,9 @@ static void complete_all_mbos(struct list_head *head)
-  * @ccfg: structure that holds the configuration information
-  *
-  * Receives configuration information from mostcore and initialize
-- * the corresponding channel. Return 0 on success, negative on failure.
-+ * the corresponding channel.
-+ *
-+ * Return: 0 on success, negative on failure.
-  */
- static int configure_channel(struct most_interface *most_iface, int ch_idx,
- 			     struct most_channel_config *ccfg)
-@@ -561,7 +570,9 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
-  * @mbo: pointer to the buffer object
-  *
-  * Push the buffer into pending_list and try to transfer one buffer from
-- * pending_list. Return 0 on success, negative on failure.
-+ * pending_list.
-+ *
-+ * Return: 0 on success, negative on failure.
-  */
- static int enqueue(struct most_interface *most_iface, int ch_idx,
- 		   struct mbo *mbo)
-@@ -637,7 +648,9 @@ static void request_netinfo(struct most_interface *most_iface, int ch_idx,
-  * @ch_idx: corresponding channel ID
-  *
-  * Destroy a channel and complete all the buffers in both started_list &
-- * pending_list. Return 0 on success, negative on failure.
-+ * pending_list.
-+ *
-+ * Return: 0 on success, negative on failure.
-  */
- static int poison_channel(struct most_interface *most_iface, int ch_idx)
- {
-@@ -710,6 +723,8 @@ static struct {
-  *
-  * By success stores one of the CLK_{NUMBER}FS in the *val and returns 0,
-  * otherwise returns -EINVAL.
-+ *
-+ * Return: 0 on success, negative on failure.
-  */
- static int get_dim2_clk_speed(const char *clock_speed, u8 *val)
- {
-@@ -746,7 +761,8 @@ static void dim2_release(struct device *d)
-  * @pdev: platform device structure
-  *
-  * Register the dim2 interface with mostcore and initialize it.
-- * Return 0 on success, negative on failure.
-+ *
-+ * Return: 0 on success, negative on failure.
-  */
- static int dim2_probe(struct platform_device *pdev)
- {
--- 
-2.43.0
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
+You may send multiple commands in a single email message.
