@@ -1,82 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793873483;
-	b=kCdqEd1hRCPxqpcHtnZqPPSgJJIP5svMmWswxCEK8i2YgDUxiEy5BY4n7BinRE3qY2Z3
-	 fdQlJrQ6TxCoB7fWhqMPdm2pHhPGesBe2OIwtri0oEpyl5GrTfAJ5eZ6Sg4PvfV+z9zhi
-	 BduQTPGK4cXwFwbXLOshmFS2GzbEhJHB4TB0aVPt5aC5Sadm/OiUG3fL/RIPOvV7CsGis
-	 o/uY1EW3OrmR9n4Z4h92z65C7wsFkb3o0kRFK9ZNrMdw+M+SzZ1dsIspiubh3iVA6WH2S
-	 2ZCRZPbaRhdB08w+qPNrJwLe0nrZQzelNUwevIM11NyY7qYB6j3m4s4kW1sSFperHjw==
+	t=1793873573;
+	b=27+nUxKeW4lJ2DIQPi8XEMcNFBulLikeeYQEJnoeALUOwx5e0in4ZlbMg/AkigOyRjiO
+	 x5jCWoJMw9o+R8ZGP4EnPIrlGnQ2OIFY5SBI7IuKJ5HIYRpljP8LZroVJNz+M10gNz/M/
+	 Y4tM3VUp79DWjwpVWqHcs1++yQqAR76nYIUv66VUqBACINMdH/yRBsdZ1I69g8MEtih5E
+	 oX9i+FCV0H0LrsCx1XpzkRg6K3Hcqva/IdSfoGOBSUMVYMmowM/TfhRXLpUMuMQMp6JbC
+	 3qIwzg/td9RWcQFFX6kmQsAQ7IT1IbKtcpHtvhm03hprVm78JXz4re7VPldauBWOGqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793873483;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:
-	 Organization:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=wsdgcA9vaCSEKoIEPaFm6fxJFmWhFKqHok8lRNdUQUA=;
-	b=e+e++U1YyTbzydZwmBZ59AeFWUrcGJVaIGlJu85AUcjbVheIR4E545c4upeKowWuikTH
-	 z602jm45WgKczA45+zMvN34hKpdBLCevGX1AtAp1dpysU06Z72LL0nIMxfMXNjx0NOuWt
-	 6J5/sCtax0Nkqx6vrgPUwp2KlAzKgZpDvco+wQVZ8Dx2XmT6qwm3TxwloCIjkE4apaNcW
-	 5Gq0GiB3GuYkYvFu4wg/0OMIQRJe9o0uzuCf4oOO8+59TuHkbMQIsWczz8j7HHLu7/a0V
-	 8J7fHmpjWYXmfC50nrvMvBJ6kFrBAsFEQCM0PL7htcoPvFhDBxZo+Zq1RzyasFDpkVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793873573;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=P+/zfjidL1R10zub9C45JZCt5+i82Kyb9zsDu0eixEE=;
+	b=3d+ndgHlOu42ATtvg+ZJNiD9sFx4bIao7shmbhgXpsMJ2jf75U+nNjwC2Cfy+qtBN6wm
+	 GrzWFCBFIe1/7lMCaB09nk97GrJTtEQVoZAg7aQMdwE43Vm+idxAFd7rwy5lHXzDcDt6i
+	 hAYS/ZZAvT8l3c/yS0ik3hUZkID7qGU3dBzacxnqXzB9iezqwytgM3w/qMNLFF7uxjxLS
+	 dcqgRup9g8Ytt85y/k9hyXQI1/RnGVPzKEXYG8u+mnhMPWHCoTZbzYgiQmyPiUWCigRk0
+	 pNbL3Ll+xNhvFm1dpeThXKuSWzIsxGoGH2McSCw3SiovFXKXOMS1Mn4wHKVG8a+m9aQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b7XnIbvf;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Uhil/rYd";
+	arc=none smtp.remote-ip=74.125.82.180
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36694606B8D3
-	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 10:11:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36694606B8D3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD54606D814
+	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 10:12:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDD54606D814
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b7XnIbvf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793873483; x=1825409483;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cweAt+G5hJEjWG5u8FMoAhY7j0vIg+95aauQT9On/go=;
-  b=b7XnIbvfFrumMlxZVIQGa3cV2wlRuH2Ozed5ydAaS8e8ijBfNWseXQHJ
-   G6wLViIBvuvvxOjFyb2DJnyx1c77L9iCzXx0aP6+/kK+aVMidtGls6Byd
-   L1/oWrrI0QlDXUVrug7yXO8fjU4oQN8RNDgDPsOBl00NUa6mOFNLv5OZY
-   xiFtccthzTCn6CQJPrxViKyj4Y4D4kjABmJ0rGGZjixGd0uSXw2/TwYqC
-   JqPU5XOLAfAwgILqCaRt6fhpOP4e2OPfmDdNmcI7CpT6A2fDjtZI82uKJ
-   1E+whCOVpe+JJGK4zKMgFD4NWfKpfbzc0LAFW6bWpSw9f2QkAggmEIrwI
-   g==;
-X-CSE-ConnectionGUID: yMyovkXlRjixYij7paOsZg==
-X-CSE-MsgGUID: gGSPylnvSUesyuFUTl3IkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2673919"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2673919"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 02:11:23 -0800
-X-CSE-ConnectionGUID: +GylQFaiR6qSOiSg1gzRGg==
-X-CSE-MsgGUID: c5UrPFLITOWTTwaBoDkmmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7084246"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.182])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 02:11:22 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id F18C5121B97;
-	Thu, 05 Nov 2026 12:11:31 +0200 (EET)
-Date: Thu, 5 Nov 2026 12:11:31 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurian Iacob <laurian.iacob@yahoo.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging/ipu7: use guard(mutex) and simplify retry
- loop in buttress
-Message-ID: <auxWU5QgfZ8hrSAH@kekkonen.localdomain>
-References: <20261104222832.32471-1-laurian.iacob.ref@yahoo.com>
- <20261104222832.32471-1-laurian.iacob@yahoo.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Uhil/rYd
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35c76e9614aso2212681eec.0
+        for <linux-staging@lists.linux.dev>; Thu, 05 Nov 2026 02:12:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793873572; x=1794478372; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=P+/zfjidL1R10zub9C45JZCt5+i82Kyb9zsDu0eixEE=;
+        b=Uhil/rYdzzdzznA7I/mc+Av9KMnDeZU712gSpRiyB1WDvIQPgEJeBJGRH2woXW4VGR
+         0ekpp4UGYw6wV7W6sCE2vLsFj9wr+X1JW50hpZCIs8+6hTOZhd1PZga3bbqNDpiUgD9l
+         VqBTPav8KN6uI9lkhSoDwu8zTCt9tn2uaTqbrosONni+yxCKir38ja+rNkklfzA/2uN+
+         feF05TqjpV3PgoRiVWuZb/GieGVJ9EhxH+oIopiRz3P/ePRPsgWPDuuwMbcGJMR/u3nO
+         7K9ZSCiMf9dQx6kSXOtoQacEz8GWZU3P+5HhO5dOLEgIB4FrYt73tl69WqSBrL9VoITx
+         wjqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793873572; x=1794478372;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=P+/zfjidL1R10zub9C45JZCt5+i82Kyb9zsDu0eixEE=;
+        b=r+ihbB5eCBupHTtFq0vLIfxQ1CR9tkTF7OLHKyq2s1aWKaQE0WjI59iElV8qVcxvap
+         apRgukcJeWLT/y+nvn5H57ciYjnpBHNLXA7huF7Gw9rX3svWmPJJRw1J4n6GRXLIAjvi
+         Rr4SzF+7AUiUSS05HvAbouUnpPKSRyxQpRnSdFVAEVZEm2nmtVP11MuwFd45ZLfzrcBU
+         JjgLifWQITdgvEduLgpeyeuwLADTwdqJew5CpkZAZ0jWFlIV2tLT/dK50WS793nJUTml
+         UGsQS84Utd91KkcyU/DzE97bgMuB1KdkZuzye7Qb+tHIC2nUYFmpGdGWg5ZxCP8n5M4x
+         Q8+w==
+X-Forwarded-Encrypted: i=1; AKwUvBwHr2QeBUsXshfOwUQgH8hhMWVjDwDN+qGD95jIQcFhfbYjJt1Kypnk4MOcCoIaPh1ViccIrHN9IZUJ/jix@lists.linux.dev
+X-Gm-Message-State: APuU4Z9nyz7VULUexMKwt+lh5jsf44mX71sDbB/lnl8TaR1whBLEkXiX
+	GZ0vSHpAmt9Khny4FST9YL16MjTF7+MadGxdAqfUeMkuZskAhvMK7/I0
+X-Gm-Gg: AYBFou1NLjAbAIg9IRZCvI/68IgST6lzW3QE/nHiKCUQ78pTKv4DqcPYIvcmVeMuZ71
+	RnHADjjwLH0KDSazKdM1BO5LbutOkZyvjVndQbSnj+MbVhpx8s4Ql1YPXCLgWZEW3+fsWr2Iwkn
+	158sJMpJrHoePAN7SpeFbSJx3UPdLqBZuI1l31xhNnFIQft6oHBLwFIn3VlYqh0IMLWztTDqFAZ
+	+uIcHbkX5ov0lYoaTx6hlIm4j3PfLGC+GEgT88Fs1SvwurHDWciTUlP2l3rBx35xPqCJtbiIaK1
+	7KLiUOO7Ua3RR+4Ke/tIWjyLb3/hYQSeCta/H/B2v2SX+xUF+/gQsXwV7eYfx4yP0IpRxapEaL7
+	U29pWa9ViXfceo6nJt5lgLqw2a3MR6JVYGRejYlamaUIQCCPV24tYcI2Muf6WPIkC8I8UikB6b7
+	GXIoVUY6Eb27nAoWcoFTpf8Ff9BxJquxmwV+J9OQfNc7KfnX/tTp2Jbv0hPEJ3wOoh+8TGuG36f
+	PPd0Wje+0oNL4of97Xkyng1OCAXVmJbfmgLmcMTr2aAlZjTH4qU9Sa1bopm+SqF91W0uIE+zHDR
+	JILG9bMBg9ICb8hwY6b3Z5BBcHgBBfOmXYYLHWutNYte+XjXXn0=
+X-Received: by 2002:a05:7301:d589:b0:36c:9e26:88b6 with SMTP id 5a478bee46e88-36c9e268949mr9074147eec.9.1793873571639;
+        Thu, 05 Nov 2026 02:12:51 -0800 (PST)
+Received: from Anonymous.localdomain ([223.181.63.2])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38a6d3dsm18812234eec.7.2026.11.05.02.12.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 02:12:51 -0800 (PST)
+From: Hussain Sitamouwala <husainsitamuwala21@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hussain Sitamouwala <husainsitamuwala21@gmail.com>
+Subject: [PATCH] staging: most: video: document lock fields
+Date: Thu,  5 Nov 2026 10:12:22 +0000
+Message-ID: <20261105101222.5478-1-husainsitamuwala21@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -86,29 +98,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104222832.32471-1-laurian.iacob@yahoo.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Laurian,
+Fix checkpatch.pl checks:
 
-On Thu, Nov 05, 2026 at 12:28:32AM +0200, Laurian Iacob wrote:
-> Use scope-based guard(mutex) from linux/cleanup.h in
-> ipu_buttress_ipc_send_msg() and ipu_buttress_authenticate() to simplify
-> error handling and remove redundant goto unlock paths.
-> 
-> Additionally, replace the backward goto retry label in
-> ipu_buttress_ipc_send_msg() with a standard for (;;) loop to improve
-> control flow readability.
-> 
-> Signed-off-by: Laurian Iacob <laurian.iacob@yahoo.com>
+CHECK: spinlock_t definition without comment
+CHECK: struct mutex definition without comment
 
-Thanks for the patch.
+Add a comment to each lock in struct most_video_dev describing what it
+protects. No functional change.
 
-Unfortunately the ipu7 staging driver will be removed soon, therefore it's
-a target of fixes only.
+Signed-off-by: Hussain Sitamouwala <husainsitamuwala21@gmail.com>
+---
+ drivers/staging/most/video/video.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 3a0445ff62f4..d60be8a741ed 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -33,14 +33,14 @@ struct most_video_dev {
+ 	bool mute;
+ 
+ 	struct list_head pending_mbos;
+-	spinlock_t list_lock;
++	spinlock_t list_lock; /* protects pending_mbos */
+ 
+ 	struct v4l2_device v4l2_dev;
+ 	atomic_t access_ref;
+ 	struct video_device *vdev;
+ 	unsigned int ctrl_input;
+ 
+-	struct mutex lock;
++	struct mutex lock; /* serialization lock used by the V4L2 core */
+ 
+ 	wait_queue_head_t wait_data;
+ };
 -- 
-Kind regards,
+2.53.0
 
-Sakari Ailus
