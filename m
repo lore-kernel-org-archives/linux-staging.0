@@ -1,77 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793915232;
-	b=KMeMJUgcJgzplpRm0EGaxGqrCE6GL9LLmZu643CW/uUiyEWHcHX8SEEdDGPpomB6BLp+
-	 wPd4uYr8RIKVrmaFl18h53tDhU44C0DhRCsQYWrkuZV5mcZhNW5yqdY33+kPhSqy3MB66
-	 IIzJHQ4jCZhWzwxSERW9/xwU7qCMihirzZ0FROnueRn72K2Fgabec2QB4KbXJ1vZaquyS
-	 oF4InGp6T350bBWane3cfxiJYfiMsTNdt7wpMKSqSN6glx4v6ZJswuBLvsP5QJEx+N0/p
-	 RPFMtlXFQVjo5PL9xuPAPhKC0Ip7jlfIi3nsU1UNt4eqMt5b69jSefQ95kpGSG2NGow==
+	t=1793924536;
+	b=eWZE5bLqfredTHe9ks3sX1qKq0og887SzxbDCnyKVR//LscRldpTO/5bxeuL+gnPLWGI
+	 QNOeeuR5FebtStfffc9JtKrEHCdr4EFB1Mz/ic6agQzJIlqjKCeVLNvNarxZAEVpv+9Nf
+	 dz/4cT7VusWJHJEFXWtxh5UJeRdiuVp+WjC4L5X+dtIoXnuuc7t+akG0Cg2mlU+iRC6rR
+	 2EI1rXLxV0R2dgfgwdJFmkDV5zZBjwfVduTRA44b8VxsBhI55B5Okkztp5iLGtjiTSRCi
+	 9n/+b78P2DUH6Jig9hvcPgt9Hr2n5DbKwRaI5BPwqXOrE3m1t+g4CBd1WEgI4A+nknA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793915232;
-	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=fWEq7ANjuAxT0SsQWCA6NNqlsk5fygPVddvQlmahPzI=;
-	b=1Vx7menPR2I6fOrenBpqIBS8hpfT7HQNBt5eXgUhZIZzhSPPbKpAzf31aT+aIqTKdZYq
-	 U7pi8SF/pBR9ygwfk9isr99CTqpdRxjMXAnksf3ZUX6JpxKG9D5hk3yf+9WesvRKsUBAQ
-	 zz5ShaEpJAZjNTj2aFiRv15MmmLrPXgjD/hF4t7ipHW88eXiGhKzYa066CgpB0KcraVuF
-	 lDUFHQXMcm7ljhI7VzgZgLOslgQhlPzVU6aB+5j8iA/osf9bi7ZpbhO1itCRY8yo2WRsa
-	 IHTxbEV7nsJM62BJcu7myYhkuqZTq0WAVb9xxJrS+ROYKv0ou+/p9/jqPCjLfpxJfwg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793924536;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
+	bh=sUCl/9f3hEKU1jzVhTQT9nv09NWVWMgehGoFAgkpdGM=;
+	b=Ormlounu7WJhPosjsqsmVK6CY/1xHsMsqEiclwW/me9Kmh/UcmyS9wxVPTmK46Vjzw5m
+	 e0zTExIGcPS+H2kYrMSrVXmeqCXrrNdEn3B29Nd2tWDM7nzO7VgmJafWY4FGb9XVw01PT
+	 hddLpb4MPCPzSgPaq+85ZhwKzebTiBdCJhUHUIxr0zYTl42W+m2XC2FVE5S6N8Ya5iLkE
+	 I1Ibby5KU0kZ4b+3DCq931HIpvyKkd77AKRMJDzUDYZP2kTHl3QFrZfLNxKtT/Mrlbi93
+	 vCSpV4NKj9LFZHVJVG8I3KObxKHK26bThhUih+18aL4yWDRUHc9v7cT06XAaf/jmn0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=oY6hUsF2;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=Kzv9OIGZ;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=byOhpzE8;
+	arc=none smtp.remote-ip=209.85.128.174
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A514606A32C
-	for <linux-staging@lists.linux.dev>; Thu,  5 Nov 2026 21:47:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A514606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F31606A326
+	for <linux-staging@lists.linux.dev>; Fri,  6 Nov 2026 00:22:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39F31606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=oY6hUsF2;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=Kzv9OIGZ
-From: Nam Cao <namcao@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1793915229;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fWEq7ANjuAxT0SsQWCA6NNqlsk5fygPVddvQlmahPzI=;
-	b=oY6hUsF2Jx+NRaoHk81kEfoNEY+zkReOYRbyvhWrJy4CqaCVDc/BA2X+16JJnZXeTPyy5K
-	rnI7LOgaXmNRBNvXnGM+EgGTyQOBt8xy/GPCJJQgaXzTHvc7YbxvJ4P6tk8gUAgkWAlsmf
-	sNr9aArKBucyyonucqvG9lGYA164GHmgyRp09lEuQIQWmaIW1MF/zmnBWSXF/Xj/QF5MUF
-	X4yocNFsZcXQ+IAchbLZ4X70PhEHRpRBxSGeefm1GAopDbSo8s3fyeOCVTnH/EEe1rA1ra
-	ApljPya+O4QdZIWd0iQpY1uie2Jn9IvWO6fry+v2OK1AqHjstIqp+DhfZfJCIA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1793915229;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fWEq7ANjuAxT0SsQWCA6NNqlsk5fygPVddvQlmahPzI=;
-	b=Kzv9OIGZXm3GfDja/e1kGOPpANmqPEdnG3/UWpLWsZ3yo+uGUbKbLNxSzBkZkOCvBFQ7qN
-	Yv7wNl+KWROkx+Aw==
-To: Daniel Matyas <matyasdaniel006@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: Daniel Matyas <matyasdaniel006@gmail.com>,
- linux-staging@lists.linux.dev, Andy Shevchenko <andy@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Lanzano
- <lanzano.alex@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Conor Dooley <conor@kernel.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul
- Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [RFC] staging: fbtft: Moving fb_ili9341 (and others) to DRM
-In-Reply-To: <20261105201154.37294-2-matyasdaniel006@gmail.com>
-References: <20261105201154.37294-2-matyasdaniel006@gmail.com>
-Date: Thu, 05 Nov 2026 22:47:06 +0100
-Message-ID: <874idv2bol.fsf@yellow.woof>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=byOhpzE8
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8b335eeb340so211087b3.0
+        for <linux-staging@lists.linux.dev>; Thu, 05 Nov 2026 16:22:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793924535; x=1794529335; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=sUCl/9f3hEKU1jzVhTQT9nv09NWVWMgehGoFAgkpdGM=;
+        b=byOhpzE8/sJWhGl+BJ6ZvZJ6aGnZda18q5+idyymfy9zupKE/GhVc9HYak9ft5laGM
+         //eB+iF/ydq2Rg3QwI8SiQJQkc4jmMg7JpFSNcVMjwPgGbHUfRSTj6Tu4q29uUR40Nrw
+         0GCq1FbKEmQAZFVkmVjFFFkD0x6+Je3xkNdHjV8p4uJE3o7YwgjviMvZwmA2ksuedRWl
+         bHsjH70JmRbKttAuLulzWxTm6PXPU3mxVCjrBFwjO+u/b3pLlg84t36rCwpiIM6JLdib
+         1kqGXP1r74v5tAGReFPOIVbXBtk4W5KC0vfV7EToBz38GFrBm5NizDDmcbI5Jlp0SnSu
+         I7zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793924535; x=1794529335;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sUCl/9f3hEKU1jzVhTQT9nv09NWVWMgehGoFAgkpdGM=;
+        b=nu5e5V3UnGK8C3A22riRBhRzW0DIgiyictD373JlA3HWMgGfWWV7M1H6x/7Md5BBA/
+         PJLHwVVb5YySBVJEhoTNCvuYhhZLlFGgbrberOWr4Kc1VpNZYiPoG5yGUq+EKLmdpX6y
+         DOJFH1rxSxwMbl9lLXp2yPTkrw0OEntpqj+VYmWn9EvH1TdgG4n4rX4GWmiY/y1565Rt
+         bWacptp2o+IHdEA8S6dJkcm7nJulDfPpM8g+oT7GmB+m77e74ewcH0+6HuHRqa0kNJ2u
+         gyWdkvi4t/YZ55UjfWMWTB3cWjsVkqzP+2t0hi1fEsmXANBnx8oi1//VluKnklMx4u0o
+         M/uw==
+X-Forwarded-Encrypted: i=1; AL+hErEt3Mhx8SPFBC8Lc56lvjiOUihGrsVBItCZq31VTDMCt5itVcax6VOKb9KvHQhnATWcuEgDCvs3P+suEG+u@lists.linux.dev
+X-Gm-Message-State: APuU4Z+B5Ektd90nETUxxLYhmVegVa5nCcbGu9QplUE+/dhNbOcDFGqQ
+	qggntHs5yW8zAoBUfd+u0KbJRncsltq+ZGAJn+MuYh2lr76KnWezMbyF
+X-Gm-Gg: AYBFou1JHpff+bPNl95PSK/6x7mvAlGdhY3JxFz1+ZXcS9vAh4sdl1Ot417zOdglziB
+	S1F0lPgdzeG1jVPR9Q92dW8ZsJ7RXHyOFikDpUHe9XBmefjYkInjn60WpbvTsQYfDmLv4NUAbrj
+	koS3azaIEM+k55rymi8epHzBPY9/1TXyg3WDrBVxAjLKbh27XvZ7iGzEdyqGgeBS/ll9k/Ed4DG
+	ZRRH2/8L3aeXelGuXtodeRxoyFZolhZr4lGwD77AOjybUIsGZGwc+qDuMBCdDD1VifulrZhav/p
+	AGkLrpN8VRLNumwgk70kHj9/fE1dJhSq00W/+/w0+UonUyiVSRJj4JqP7YOt6tvYk75LVgqAAJl
+	sngLqJQy9W7bk26GMn1/U9DFC42OiRgJFGeqjTLsKGgROxRAXOzEzNlugItwkh4u/lYHLAtDCWN
+	CjKFOKHl7q5wOZdoo4pakTNp2dmY23/0jZcOBKKWkV0ICMu7HhAKLDHtqgaUIPuvbLJTwRPx+dF
+	lVpJ1+pTJnMDTQopu2cEk1vhMehQN0Kbs64Xw410FgQ0Ps5jMWYr+Ssjw89k68k1ZpIV6B3J1WB
+	OQS6JsrIZcuISCJ0
+X-Received: by 2002:a05:690c:1c:b0:8ab:415c:d733 with SMTP id 00721157ae682-8b34178baa9mr3874997b3.7.1793924535092;
+        Thu, 05 Nov 2026 16:22:15 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:135::7da0])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b33f8394b9sm7441337b3.31.2026.11.05.16.22.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Nov 2026 16:22:14 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -80,20 +87,32 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Nov 2026 18:21:32 -0600
+Message-Id: <DMNP5QPGP3Y1.2V7SL7MODHHC5@gmail.com>
+Cc: "Teddy Wang" <teddy.wang@siliconmotion.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "open list:STAGING - SILICON MOTION SM750
+ FRAME BUFFER DRIVER" <linux-fbdev@vger.kernel.org>, "open list:STAGING
+ SUBSYSTEM" <linux-staging@lists.linux.dev>, "open list"
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: sm750fb: make g_fbmode constant array
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Francesco Giandinoto" <testata.nucleare13@gmail.com>, "Sudip Mukherjee"
+ <sudipm.mukherjee@gmail.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261105211344.17532-1-testata.nucleare13@gmail.com>
+In-Reply-To: <20261105211344.17532-1-testata.nucleare13@gmail.com>
 
-Daniel Matyas <matyasdaniel006@gmail.com> writes:
-> Questions:
->  a) Is removing fb_ili9341 acceptable, pointing users of other ILI9341
->     modules to panel-mipi-dbi? The KD233 node would then have no driver.
->  b) Or should KD233 panel support go into a DRM driver first? I don't have
->     its init sequence or physical size, or the board...
->  c) Is removal of all of fbtft already planned?
->  d) Several other fbtft drivers have drm counterparts. Should I inspect those
->  to see if removal is needed?
+On Thu Nov 5, 2026 at 3:13 PM CST, Francesco Giandinoto wrote:
+> The g_fbmode variable is used as an array of constant string pointers. Ad=
+d the missing const qualifier to clean up the source code and adhere to ker=
+nel coding standards
 
-IIRC the main reason fbtft needs to stay is because it supports parallel
-interface which is missing in the DRM drivers.
+This doesn't compile. Also, please keep log messages at 75 characters
+per line.
 
-Nam
+Thanks,
+
+ET
