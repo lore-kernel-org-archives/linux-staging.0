@@ -1,84 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.6.128.82
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793924536;
-	b=eWZE5bLqfredTHe9ks3sX1qKq0og887SzxbDCnyKVR//LscRldpTO/5bxeuL+gnPLWGI
-	 QNOeeuR5FebtStfffc9JtKrEHCdr4EFB1Mz/ic6agQzJIlqjKCeVLNvNarxZAEVpv+9Nf
-	 dz/4cT7VusWJHJEFXWtxh5UJeRdiuVp+WjC4L5X+dtIoXnuuc7t+akG0Cg2mlU+iRC6rR
-	 2EI1rXLxV0R2dgfgwdJFmkDV5zZBjwfVduTRA44b8VxsBhI55B5Okkztp5iLGtjiTSRCi
-	 9n/+b78P2DUH6Jig9hvcPgt9Hr2n5DbKwRaI5BPwqXOrE3m1t+g4CBd1WEgI4A+nknA==
+	t=1793953703;
+	b=eJt+fnKgl5v+OYiD3BmgQK6bZBfYgJxw0DrKMp741BntNW6/iu/4uZvqENaiIpLFueMU
+	 R0q4sb7X/qKMVFxlntcznq4WgX1wDkECC6Z4pWzS/sOTC8E7JXOmdNqAIEDkaKN2v/deq
+	 Eb3ffabBPTDpVQpky8e7eISk25xkrzb8wpa852ywj/SMGIkXrs//9lP7zzEZRKpqG8mg4
+	 KotXo+20S6n9hDua8CKdP04NL89fzcAQ58uOmnG7DXSjaZ9fklPzki55zXc5tpUZ9nFk7
+	 tDt6DTf4cX2Yzi8MDnnQq1N6mg03RRWGpAYQ6Z/9BhRRVMLlUlck292BiSO+sc2mJ2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793924536;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=sUCl/9f3hEKU1jzVhTQT9nv09NWVWMgehGoFAgkpdGM=;
-	b=Ormlounu7WJhPosjsqsmVK6CY/1xHsMsqEiclwW/me9Kmh/UcmyS9wxVPTmK46Vjzw5m
-	 e0zTExIGcPS+H2kYrMSrVXmeqCXrrNdEn3B29Nd2tWDM7nzO7VgmJafWY4FGb9XVw01PT
-	 hddLpb4MPCPzSgPaq+85ZhwKzebTiBdCJhUHUIxr0zYTl42W+m2XC2FVE5S6N8Ya5iLkE
-	 I1Ibby5KU0kZ4b+3DCq931HIpvyKkd77AKRMJDzUDYZP2kTHl3QFrZfLNxKtT/Mrlbi93
-	 vCSpV4NKj9LFZHVJVG8I3KObxKHK26bThhUih+18aL4yWDRUHc9v7cT06XAaf/jmn0g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793953703;
+	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
+	 X-Sonic-ID:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=AyrEz68c4VXjkE63VyLdaVtnntlu4dIYI0ACzIZ48uQ=;
+	b=GQUm0YA9TxCJTM3/TIx7l92NnDXd6Cz7MpH3r1I63coPI3TXWMVcvQ/dIwL0zNAMwnnh
+	 PE9iCpi46ItgmB//3QmC6vpfRtdIX/deqaWABlbJEOyv94opYYF4+jCfOd3mGmzWnXJDH
+	 j1EUTtNW/5Xgf/Kgzax8o0ZOwfL3U6o+d/9pdZ8zG9WPhstY/VOieO+FIRNmAR4UCs6/h
+	 EBgZYC7AKB2+9WUzjSzK6x0YWvnSOTjv4oFFuplUVNzN08/Tae62TMhk+9IZKS3WcLson
+	 U27hUcdZaC+hklF/+W9zD0Jm0J3d7wvExbMy6tCFTFvFpdX6eyn7jbQ2S0mhisu/xmw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=byOhpzE8;
-	arc=none smtp.remote-ip=209.85.128.174
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	dmarc=pass header.from=yahoo.com;
+	spf=pass smtp.mailfrom=yahoo.com;
+	dkim=pass header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=TuLOvMqF;
+	arc=none smtp.remote-ip=74.6.128.82
+Received: from sonic312-20.consmr.mail.bf2.yahoo.com (sonic312-20.consmr.mail.bf2.yahoo.com [74.6.128.82])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F31606A326
-	for <linux-staging@lists.linux.dev>; Fri,  6 Nov 2026 00:22:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39F31606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34897606A32D
+	for <linux-staging@lists.linux.dev>; Fri,  6 Nov 2026 08:28:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34897606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=byOhpzE8
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8b335eeb340so211087b3.0
-        for <linux-staging@lists.linux.dev>; Thu, 05 Nov 2026 16:22:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793924535; x=1794529335; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=sUCl/9f3hEKU1jzVhTQT9nv09NWVWMgehGoFAgkpdGM=;
-        b=byOhpzE8/sJWhGl+BJ6ZvZJ6aGnZda18q5+idyymfy9zupKE/GhVc9HYak9ft5laGM
-         //eB+iF/ydq2Rg3QwI8SiQJQkc4jmMg7JpFSNcVMjwPgGbHUfRSTj6Tu4q29uUR40Nrw
-         0GCq1FbKEmQAZFVkmVjFFFkD0x6+Je3xkNdHjV8p4uJE3o7YwgjviMvZwmA2ksuedRWl
-         bHsjH70JmRbKttAuLulzWxTm6PXPU3mxVCjrBFwjO+u/b3pLlg84t36rCwpiIM6JLdib
-         1kqGXP1r74v5tAGReFPOIVbXBtk4W5KC0vfV7EToBz38GFrBm5NizDDmcbI5Jlp0SnSu
-         I7zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793924535; x=1794529335;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sUCl/9f3hEKU1jzVhTQT9nv09NWVWMgehGoFAgkpdGM=;
-        b=nu5e5V3UnGK8C3A22riRBhRzW0DIgiyictD373JlA3HWMgGfWWV7M1H6x/7Md5BBA/
-         PJLHwVVb5YySBVJEhoTNCvuYhhZLlFGgbrberOWr4Kc1VpNZYiPoG5yGUq+EKLmdpX6y
-         DOJFH1rxSxwMbl9lLXp2yPTkrw0OEntpqj+VYmWn9EvH1TdgG4n4rX4GWmiY/y1565Rt
-         bWacptp2o+IHdEA8S6dJkcm7nJulDfPpM8g+oT7GmB+m77e74ewcH0+6HuHRqa0kNJ2u
-         gyWdkvi4t/YZ55UjfWMWTB3cWjsVkqzP+2t0hi1fEsmXANBnx8oi1//VluKnklMx4u0o
-         M/uw==
-X-Forwarded-Encrypted: i=1; AL+hErEt3Mhx8SPFBC8Lc56lvjiOUihGrsVBItCZq31VTDMCt5itVcax6VOKb9KvHQhnATWcuEgDCvs3P+suEG+u@lists.linux.dev
-X-Gm-Message-State: APuU4Z+B5Ektd90nETUxxLYhmVegVa5nCcbGu9QplUE+/dhNbOcDFGqQ
-	qggntHs5yW8zAoBUfd+u0KbJRncsltq+ZGAJn+MuYh2lr76KnWezMbyF
-X-Gm-Gg: AYBFou1JHpff+bPNl95PSK/6x7mvAlGdhY3JxFz1+ZXcS9vAh4sdl1Ot417zOdglziB
-	S1F0lPgdzeG1jVPR9Q92dW8ZsJ7RXHyOFikDpUHe9XBmefjYkInjn60WpbvTsQYfDmLv4NUAbrj
-	koS3azaIEM+k55rymi8epHzBPY9/1TXyg3WDrBVxAjLKbh27XvZ7iGzEdyqGgeBS/ll9k/Ed4DG
-	ZRRH2/8L3aeXelGuXtodeRxoyFZolhZr4lGwD77AOjybUIsGZGwc+qDuMBCdDD1VifulrZhav/p
-	AGkLrpN8VRLNumwgk70kHj9/fE1dJhSq00W/+/w0+UonUyiVSRJj4JqP7YOt6tvYk75LVgqAAJl
-	sngLqJQy9W7bk26GMn1/U9DFC42OiRgJFGeqjTLsKGgROxRAXOzEzNlugItwkh4u/lYHLAtDCWN
-	CjKFOKHl7q5wOZdoo4pakTNp2dmY23/0jZcOBKKWkV0ICMu7HhAKLDHtqgaUIPuvbLJTwRPx+dF
-	lVpJ1+pTJnMDTQopu2cEk1vhMehQN0Kbs64Xw410FgQ0Ps5jMWYr+Ssjw89k68k1ZpIV6B3J1WB
-	OQS6JsrIZcuISCJ0
-X-Received: by 2002:a05:690c:1c:b0:8ab:415c:d733 with SMTP id 00721157ae682-8b34178baa9mr3874997b3.7.1793924535092;
-        Thu, 05 Nov 2026 16:22:15 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:135::7da0])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b33f8394b9sm7441337b3.31.2026.11.05.16.22.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 16:22:14 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=TuLOvMqF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1793953702; bh=AyrEz68c4VXjkE63VyLdaVtnntlu4dIYI0ACzIZ48uQ=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=TuLOvMqFAVxvp4TRoiBRJzzXf86qD1+billAbVMaCX4HtX5egU3Bc8kjlCbFfJN7Fs67I7/RMz885ioITdU1HORxtv+xcf+fUbfMIt4jUBOWA/Ac+JAGZuCkb5MNLOYoilttofdFRC3jBr73pOGMsJBPiz9+akul/K6QZWdO+3an/Wohm3cSVYwXSW2AY8JhuZcCO9qidWamLrQxOinsMYbMYaT6jrQArZ5Y2DvkgktAEYwqqERgjjCM1YU6uQavEB8lsigxCAia4TryIsEnIlnjqIOu4u0EFtBQRiOggQUfRGbVPNPUQ3WYLr7BRN0XLxW34e717Px4KYJO4XjpwA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1793953702; bh=ll9/EtSQe8lPn1juqfwP4UnDM3itVGpehm/EsO1dCZF=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=BwY4lEDqeqLM0SYEVbF2DpSvR0XrJFtwDTeNp1kuUrJFOl8ziSdHLBx+lRX7RsPs8myT9PxMF3wVYBM6iRfvV6Qdr2GPivHOWOwTwGjq7UjiSHT1AS0CrwLuyuSniNVoV3rwPJtl6gZJd4FKhxW44hZseuZVZpioGUwvJpgwQHdb1nmdjwitkfUVV3GYquaGoWOSiZMfE4g1rhlS/WF3oesZLmNAqmaZStHdukvOQqO0jE6ZFgxCN2xr4daZqsdyxT97jdGDiSvjOXhvehAF4b2IDtdOLJFq8afWt0fW7JLhFKH2JylZkqNQwWWmM5+EnphqLBPpCC6QpEq2FaRFsQ==
+X-YMail-OSG: 9AIiAmoVM1l9jHphb0ZchRqS4G08oSc5Ajgy0HtQNo0cwh4wYldNPq8YFFFU9gu
+ VpPNulzu8rNOX5nWHV8BdEoqOhlVU15JDsutcBsM6VByAGHWEuPHZZqbUgMP5O.jF84X3bXW.5d8
+ 6Ghy.yJo1Wm3sbon.fi8ZKIAKIinIfD8Vi4axdG0xjz6b2jSS3uk_cmd1NyBwnalg3T2X8sFJt6o
+ 1RUEi4hafWV0XpUERmxGLRhE5D0eBQkJ6aSzhnHneMsGU4mMUW4J0nkxv9b0q0fNMmUxkpKwMFRj
+ mzeQwz6E5u_aanbylkychAoY3Um7.OzzLCLgOqPI0JiFI2F4RmYELfslYr_krXXVKSusJFz1hb0w
+ vme38oAHK.5jO01ij729Kqve2szsj9Whfsp8hWEte4FH8LGkaYiiL.3MQ89iK4OBGvDo6gEvibty
+ A.1uRjTQdDyKQsdEoOk7d.toDSxpnxV._DrM8ghXr3y0tbh3V1KaZ6Ca5ri_R.FkRGRHT_ALY5JQ
+ jrW67ct1fSSNNiBgU6VzK7CLSdMyRcDyYcanSWiZFuaLgrn4hiMz3j8Zr41TJEMiHnxEfpCK2cm4
+ 11d_T7gU8ochaXfA3HgzmFh3FqbRV4bcvh_1Mw3Wsl66cXZ9p3H5T6Hj2Jly.ouMHM.MUpKxvYPf
+ 9VpQZq7Hv3gZcvwu12f8bJn1ZwBt7aZAbZYfY1udgBpn6cl9DQfWzUEpg7QenvAqy2CMYglKuPvM
+ 41zdBHBZDJPRLE5JAb5eFgf.i2wEdewnhYWZcfClXelj6ZnQsqHSjETryQArFXoLCxKudBSAsv40
+ fOwC7Jw78amBrUKGPbHVedDdaZCPbArPDAjcJL2zbp_OYkTUj.QbOPsWAQpUX9cng4RQICVyJSjr
+ ifog4jWF1GNjx0Bx5STlmCpRRmiR_ZeB6epIJgW.MiqLZzBblGbyR2XzbmPuwVXyd2r9cUVpYc6v
+ 9SXsVxB2CzIZp8ek2cAk7mIzxuUgfMGL0AMFYSKONVxhBVgl2hoCPH4La7162BPEsQaAavUCqrwn
+ r.Az8TN0hD2QpTLkReIFGgWuCkCJ9azWRlup9hvWX63OKZzAxzXOgv_NzHJL7qGdPZ.xFGyA_YMk
+ z90cQQjQw2SqdinG3U.xGGTa6_TT4sKr.LVBt_ztilEtbznDtazVXkHdsilQsvkLa2EQ9RAOar_m
+ B4Bz07pEO8XjkVQWPCBQ_9CT4sdnE8whESmudpA1Pl7kkkJ1Jpe7EX508P40wPWWEgP3mJIhgeid
+ MQ6rrB08hTFOIWQqBw4.LuRHHBrZn9fken.a2sHqJIKfcY5Zta0NZ0pmsKELIYEZJ9uUG8kJv1YJ
+ E0j7bNOT2vMvHyoQyaKSZmgQaUXKQsv624kOpdxxia91UH6BuATitfN.df.YF1i7nI.SoIZVdVPi
+ 9agXb88r7EdgvVV.SpEDAmtYniuoxWoohhhECFNEsTNbWX.IQ49KUoUqufMku.MZ3f0FLVNArht6
+ 90WTtemN4yoeMmGUkHNXOWg6hhLccvQYeGXHw6m5YptztOzKKtpzEZv8c565RBOXdDqsPTTFnLaP
+ uZJlISCuxOiGRr.v9Z.SbK5eziEGmo9XsOrIIO8qXzfnBPVBqLnv3EjPjPxisRhKxTun6Z9cIkac
+ ucQXB139uaRxBmhuNfZ4kHap1NCHeR1mqnoH4.DdXBMdSmyg5v57VKmmsh2Qsd2t5SKu.i0A31rN
+ 8FIFwxCZ8xPYC96Zat7ZBlYVXag27rW_8771yglQwfU7G8jmza4Jy4OEi8.1DQXj0kD.XYGyssIL
+ UfsU9mGSHxVDL0xb3QX7H7u7e_sDcxGTkiMMQ25dxhJ116uOw3swK_9wQkHY6xoBof1pHw5wbNxx
+ YsN8vA2yMMM.0QlUA0H3AdsrG6Xb3F7oTIqcfTjpSu4oauFi3i_d8wRTBUm1HA9xwKeKNX3KiACB
+ pursb.lomZSAH_xvY3l2U1JmijajqmIAhXS0YGKxfKZ5rnWsjR7ffLz.BH9K7pb.teVMoT_LDrOi
+ RBD1CGT8qB2Fu60ZKy6AleDvIVGxXIqzkHvM5JIlPGgqtnucUSjmg.kWjIVljgyqx6u2xBx_JWtW
+ sQoizicdanRMvme9Rf7uab.Nuibyahm1wahWDB92NvLNOwG5qj3owIDvuhLyrczbYon_siyh7s5W
+ vrQM5MFiMms8P0T5.elM_mxBuJMsyAIm8vy_ss9zECZd7ZlCgVLcS8BHen04KAlgbHLTjqRc9Zli
+ FyRmIZFgiC8DJE_FRGTfmn5iDSuK2JazhGO5xT4bF0GmDtsfwvMClS.xTwwdGFDWJWGA1.wCb7Pm
+ Ki9bBzLsZoeLMV.HI7taAu7mEKGapn.plbtUjBWUMVFVNH.N_F2jfDft.xetsmzkK37f6uQ2adKN
+ eQoij8q7Bf2wM
+X-Sonic-MF: <laurian.iacob@yahoo.com>
+X-Sonic-ID: 028e7991-cf75-4c7e-881c-e1bdadfdd0a5
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.bf2.yahoo.com with HTTP; Fri, 6 Nov 2026 08:28:22 +0000
+Received: by hermes--production-ir2-5dd9bf4598-xpdvn (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID b16bd38e526c6a11bd1e2ee5539bf549;
+          Fri, 06 Nov 2026 08:28:20 +0000 (UTC)
+From: Laurian Iacob <laurian.iacob@yahoo.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: staging/ipu7: use guard(mutex) in ipu7-buttress.c
+Date: Fri,  6 Nov 2026 10:28:18 +0200
+Message-ID: <20261106082818.2293-1-laurian.iacob@yahoo.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <auxWU5QgfZ8hrSAH@kekkonen.localdomain>
+References: <auxWU5QgfZ8hrSAH@kekkonen.localdomain>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -87,32 +96,13 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Nov 2026 18:21:32 -0600
-Message-Id: <DMNP5QPGP3Y1.2V7SL7MODHHC5@gmail.com>
-Cc: "Teddy Wang" <teddy.wang@siliconmotion.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "open list:STAGING - SILICON MOTION SM750
- FRAME BUFFER DRIVER" <linux-fbdev@vger.kernel.org>, "open list:STAGING
- SUBSYSTEM" <linux-staging@lists.linux.dev>, "open list"
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: sm750fb: make g_fbmode constant array
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Francesco Giandinoto" <testata.nucleare13@gmail.com>, "Sudip Mukherjee"
- <sudipm.mukherjee@gmail.com>
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
-References: <20261105211344.17532-1-testata.nucleare13@gmail.com>
-In-Reply-To: <20261105211344.17532-1-testata.nucleare13@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Nov 5, 2026 at 3:13 PM CST, Francesco Giandinoto wrote:
-> The g_fbmode variable is used as an array of constant string pointers. Ad=
-d the missing const qualifier to clean up the source code and adhere to ker=
-nel coding standards
+Hi Sakari,
 
-This doesn't compile. Also, please keep log messages at 75 characters
-per line.
+Understood, thanks for the heads up! I will drop this patch and look for other cleanup targets.
+Sorry for the inconvenience, this was my first technical patch, still learning the ropes.
 
-Thanks,
-
-ET
+Best regards,
+Laurian
