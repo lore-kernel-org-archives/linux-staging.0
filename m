@@ -1,92 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793983788;
-	b=YKAK9dWDidYaGQXinYsMz+436KXT+qjCD2AzgZWqFEZiOuGcc9nTRzG+jgIHghZQagbl
-	 BXaumdk1H4e7lWHe07MHfQCpaLPthMARGsBUU7wMnSK309gM0Jf7jGxOa801gQCXteuz9
-	 Zd46XfV2EewJusj7gFSunfbE00mBz/oKdx3xFUZ5aEvbQWJLNDLnEg3CfMrynD+4tkFZy
-	 efhc/eejUoASJumbYmtsvLZ0ZtyrDkS1kBi6UB5cJUKYT/Auqp6847QOtW53gY0Xa5uFD
-	 EDk3Kjclpvbz2d/Jkdkpe2IGrR3h/6CFzFrsYdsQ1cQqfP7Fx+qsjnI3tHi+dEMCbiw==
+	t=1793985023;
+	b=YmJx2xG+y5Txl9bkVmc4dok4f/Q13PvmPgxutoLtnF2E/2z7tXQYugkC4eRdFpiezNBo
+	 wfCzhXQHe6/PJqvHeVOetY7Tkj4BRoUHCmMMrDI5Z/fDlOuPdd0kLsikT7+0ufUQQYUmJ
+	 yDqEAJom/QrV42LvJYs2S6ZU3DhpK1TMYSofqnfuuHgXrXChFdzWLZfnJEQ9e8VM3MpYT
+	 q0KGCUw9FVFbr728n4btDkgGQ6vAP7Y1jXAQZcweYORZ8XG1H6CgYbbesrvl6t1FZ+uSE
+	 DqJcplgi1GnREPTf8mYo9WjutMpD8Vlh7hiMZU0UzYrXtUYbNawonG85FcZYJ5yE5zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793983788;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793985023;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=XqDNg4W7673UpH/nlCNn5xwA3tbLFD35COXqGvji1qM=;
-	b=k24L4yKeN71fmshGuD8416ObmS2navXSw0iDs59DAS22Biy7Rzxh1/5Q7m5/zFbC/JNl
-	 3HBpXTH6+6y0EL9aEqH1DOvuAxw9AjeaNwMDcpyH1nDY5sGU3A/sVwyb/Oxe3q/2L5K/D
-	 6Awdih62U6g/e1HFx/kVRrVkS0N+CS64TPR92qgRxokru+BpHZFusimPyPRqiA/Gc93rH
-	 U5EH/rTrMi1N8k7/m9ZbfBjWUFsR5PdABKW8XdirwoSESi+nrrAjAuTjxhuIxGNOGTrGY
-	 cIS5bWIgvJKgysesFVcBqlIAgvsrPvssxdh/K9TMtJzifWfEWttLl7lHbz//oalgPsA==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:X-Mailer;
+	bh=V9n1CV17mWoyinWHCGFvDxtvvBlrLNzZtRYoJJeVLOM=;
+	b=VJzlFV/PUTUsC70GcgXiEUJepPKMnNBHWxbYtMeoc/jjovJ9aRf12i+2pwtcvECCP0W+
+	 YOUbyIFyvtx/KjRYiTdOf2jKY0YRX5DSVipFWcZQsi+bSi6IxZIU9o5qCDavcpAwJk2Oq
+	 q9RA/kLyOo2hI4ureC1sFUGlwFVqRlO6Aqbr1BCKdZac9MABnQ3N05WeGFIBxt5dThM+g
+	 F4UFMb7NVP/f6r5zZqIhaqG9f03MO0Tun/wGPU8Lh8oFOKqQjZdRN7L8KGaUP5VldxjAK
+	 lZHhBcBw/aCCUxUdQfk+rlMKpRlu64c75KN/NxFp4vEtgZuBQIjRFPbLFjPRc8Nflhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bitmesra.ac.in;
-	spf=pass smtp.mailfrom=bitmesra.ac.in;
-	dkim=pass header.d=bitmesra.ac.in header.i=@bitmesra.ac.in header.a=rsa-sha256 header.s=google header.b=Q6i16dxe;
-	arc=none smtp.remote-ip=209.85.215.170
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DJxEP2Ku;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BDB606A32D
-	for <linux-staging@lists.linux.dev>; Fri,  6 Nov 2026 16:49:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44BDB606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmesra.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bitmesra.ac.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF753606A32E
+	for <linux-staging@lists.linux.dev>; Fri,  6 Nov 2026 17:10:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF753606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=bitmesra.ac.in header.i=@bitmesra.ac.in header.a=rsa-sha256 header.s=google header.b=Q6i16dxe
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cc4be0e5351so338327a12.0
-        for <linux-staging@lists.linux.dev>; Fri, 06 Nov 2026 08:49:45 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DJxEP2Ku
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4ac95761c85so6360115e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 06 Nov 2026 09:10:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitmesra.ac.in; s=google; t=1793983785; x=1794588585; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XqDNg4W7673UpH/nlCNn5xwA3tbLFD35COXqGvji1qM=;
-        b=Q6i16dxeFb6ZCex/yXi9k0TAGi6CTa3jj/CtP99UFc6CUo/UFfwLMRb82iSM9z6AsJ
-         6fy46GBzsM84H3kneHUFoq2/jAR8EVhisijeSZnHUprbRjY9iaZBCk3JipTYXp7a+BbN
-         F7zD0IRVzvd+Er0e2HHNfFpU4b294ab5FMsLg=
+        d=gmail.com; s=20260707; t=1793985021; x=1794589821; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=V9n1CV17mWoyinWHCGFvDxtvvBlrLNzZtRYoJJeVLOM=;
+        b=DJxEP2KuRCDYGvjUkgsVY+s+wgi0cpgAba8OP8+6tjOsLQ6I8tTf90y/HKLP3vdouW
+         8ct7tq6oQ81ezUR2mwIQ6LsePGw4ElDi2P0jdueBtP/+noKiOylwGtbV81mqgUre6AJQ
+         wOSGT9968cUB9qcYaeOCd3fvSrydkITIeLC5ZwGnbYAf9/f98wftzKmCvy11OWpC434H
+         Uf+x+A4+JH03v109ezPqohzTUj1Jas1otectBzMxbfQfBcUekMh06iDBkImUm20YTveT
+         4OpvKpu48Wl7PnvDgCCz3ROgDt2Bgj31cHfyGbWCut0Tuh5ZwN0Yju7auIhpConFLL7I
+         plTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793983785; x=1794588585;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XqDNg4W7673UpH/nlCNn5xwA3tbLFD35COXqGvji1qM=;
-        b=v0nOZMRuxSjIMD7fOfIw5EYoYJhk/L+H7R0aQoWqGmWXDTk26C5MFMXaczMAifsm4P
-         QNbKNP2APu/rBojyKNuxe8qCYN9iHUluzEIwFSOicszwpUFFHKgTztnJRsvBL8ExVBz1
-         iAivfMnaOhUUfjFc6dzwwPyKnII9MrBCYzmMTyVWic+ohuznL4qZvDpMjUdffr6QkdBJ
-         jpT3ZtPVWYMiPr344HDdMFv3btojpcCA9LCu6Eqx2aM/xH5Qq/hwg472sTTt9dlq09XP
-         HXgJXsVupWMqyGgb5pB3AtLdgqX6785POHO2OsrCKduHTMqQOEJhhG9IMyp5VCugM4G9
-         SwZg==
-X-Forwarded-Encrypted: i=1; AL+hErFw14Op2Vs/pUqPh1jsue8xrFYoTNHRaDl6w0XXSSQof3qCORyMFVl0Dhc84rGZXPba33ErO2t/08rDKKZB@lists.linux.dev
-X-Gm-Message-State: APuU4Z+cs9V9dM4B4A7/wGnnU2mfr4RtXC1sJtMZJ661UnrDBhRTHDC+
-	GcP1m28fptYcLhssMaH3OFW8OM5y5vsvhZzLIxVwTA9loaqH5FUqd/QYps+Dudse1w1aJlcAU2l
-	Jg6bcFzXR
-X-Gm-Gg: AYBFou3kWpanjliUfZoNmovRwWXzBLml02ZCOFtD94kC8fKfmkCB1MCtgXj81frZykC
-	NUmhGh2uMT8Bz86fAdjii/tZQf2XPpvxxXxsxl7/iHwSO1Yx1KOCOsHm9A3mxmtO+JuA0HLpl1j
-	Ejl5jBcFz+qtPM/RnFM6moMWVfYaZokG3XmVVuKLqM5vk9s0d1eXTaX4cPJEc5+NQ+Lw2kxqb6a
-	tafGgSdORczbqyC03daxX0WkI5XElsGZ/VY0end8si5j3YY6UrTAdglEZeyF6aisNnm0tVo0q+x
-	CHJOqIP8XAzKle7IriOSmp6KZrcFu/nBosxZ8lRp9aAPkk94SrnZhBT2A77x8VAT+XSBISJnVMv
-	UgWi9M3XFc4hv7Jq7CXz36YgEsvdKyUJaiusrEM1kn7VfBe6Q8+4Jas/0fhZOQ6wpLvWc2HB2LE
-	8Yw3Cc4GsjiMMFYJ/4sFqXFw0zdyfTgcTBfvhyuJ3fogEDDRmKyENX+MkTrxT30vzBAg2hBpNaO
-	FMUcHIcQPtUvWdw6EQLR0ipnpJobct2+WQKz1EUA0gem/1eJZmZAGdiRaHe/kuN8CgBjaW1PCUW
-	3iwrwnmixIANmugtEzf7l7p957Xa6osHXZ6qOrbC4ldniNl0tCqtOQ==
-X-Received: by 2002:a17:90b:540f:b0:3ac:80dc:f40c with SMTP id 98e67ed59e1d1-3b0db6d7586mr3040386a91.14.1793983785266;
-        Fri, 06 Nov 2026 08:49:45 -0800 (PST)
-Received: from fedora.bitnetwork.com ([115.245.53.98])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0fc4dc7a8sm264494a91.3.2026.11.06.08.49.42
+        d=1e100.net; s=20260707; t=1793985021; x=1794589821;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=V9n1CV17mWoyinWHCGFvDxtvvBlrLNzZtRYoJJeVLOM=;
+        b=iiATZ559usB7nf5lIQWazicuJ7eqegfJmrRazj6mnm3BjtICiI2YpdWeOPT93cpJx5
+         HD4FPRywdrhTiR8fKRFCz6tOIQuhwzxmz+AyLkXN39xeSOD95Xhi6U60KhsbyKvk8mkZ
+         SoEV1vfrmK8xFa53P2x8yaupj/XjL/Fk1Kx+VM3gvBlltjxL5NQdpIYB/UNeV5IXj359
+         mL0d7PNZW6cUm8Q5U5+hMlqgrKTaRytU4K31FM30pSm/gT+klhjsblyYzxus8rg9rX18
+         cFnkDA583AsRPaQoa10jDwzoDij7Df9Mgpt8GUmV+zOkAXUhDe+3ItPaQvm1OYjL9S2q
+         dveg==
+X-Forwarded-Encrypted: i=1; AKwUvByf0+5dz2y25fm/JMpn9e5e+PpBmt/mmi6Q5vua6JYZg34eSqKTgO47WgrXPDQUKrfxEP9Mt0Vpz+BMC6QA@lists.linux.dev
+X-Gm-Message-State: APuU4Z8TEDkhdg9bLhLp1T9KyzX1o2IWnUWAVWjHS7thEjVS4yrB6o/c
+	D0aIb470f7bXtAD6s6IjYY3fcets440AwlA9wJPT8BHXhmxiuOW8ARsE
+X-Gm-Gg: AYBFou25rPbHpm2Iu+prgNAGAxSRlIRm+pdGWG/c1fOa0Vxqy5zW80kKGcDZNk1l9vU
+	K2WF01u47QJLK44voFTadg1ZgnaeZXluM41KkpDOrx8H1sxo9+UgnrgasIUczNDSD9lSiUeHPFD
+	kHxnI4WRb2sr4eaou3GNdsiWXREUZpTHzdvGV+d34gTk+rZ3KHdawHej3r5X4keN1+sd+17tyNh
+	Ef8bCXzojVQkkTNqDMspp8xKU5VMdr61WGrXokj055Y2N6ZGmh7wRNejTKnicv93OZ/V+HdjwFg
+	kbhbZZZB69LMY3Clhdb2Jq5Tu7s8cWHlc17YaO1xZ1LXByaNekC5++Ubi4lO4ohdjsNEUqVhXF6
+	Xx8zSkMs8SU2wFXxblysYJ6gpGKAlIHBmD179EC5hQhKEhRREZePeTBWxUvxPfAmalPyDqOSekx
+	m9VzKedeeFfKZeLFPpu5vmjHOS5vlzhWyoAFo+miCkOQZT2Wuz6ivMiK8rPowdaRAq0/DP8dk2u
+	52a/GB8UkuPz/pdy5aR7bunQPQ+D1BLRq7RAnf1XGpwc9NS8MDwB/L3UOqf6f4O1qAqLK16ufCf
+	5Hot+Wc9l2I7alnr9EOztzO8sBFqoFV5
+X-Received: by 2002:a05:600c:64c5:b0:4b0:a7aa:843 with SMTP id 5b1f17b1804b1-4b6df4f1dfdmr55413875e9.25.1793985021160;
+        Fri, 06 Nov 2026 09:10:21 -0800 (PST)
+Received: from localhost ([82.77.126.113])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b57317cae5sm238886225e9.12.2026.11.06.09.10.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 08:49:44 -0800 (PST)
-From: Kurmapu Sai Devansh Prasad <btech10487.26@bitmesra.ac.in>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kurmapu Sai Devansh Prasad <btech10487.26@bitmesra.ac.in>
-Subject: [PATCH] staging: sm750fb: constify g_fbmode array
-Date: Fri,  6 Nov 2026 22:19:35 +0530
-Message-ID: <20261106164935.18502-1-btech10487.26@bitmesra.ac.in>
-X-Mailer: git-send-email 2.56.0
+        Fri, 06 Nov 2026 09:10:20 -0800 (PST)
+Date: Fri, 6 Nov 2026 19:10:19 +0200
+From: Daniel Matyas <matyasdaniel006@gmail.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [RFC] staging: fbtft: Moving fb_ili9341 (and others) to DRM
+Message-ID: <au4J-0GOUuueHLZe@rabbit>
+References: <20261105201154.37294-2-matyasdaniel006@gmail.com>
+ <874idv2bol.fsf@yellow.woof>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -96,34 +109,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <874idv2bol.fsf@yellow.woof>
+X-Mailer: mutt
 
-The g_fbmode array contains string pointers that do not need to be
-modified. Add the 'const' keyword to lock these pointers, making
-the entire array read-only. This allows the compiler to safely move
-it into the .rodata section.
+On Thu, Nov 05, 2026 at 10:47:06PM +0100, Nam Cao wrote:
+> Daniel Matyas <matyasdaniel006@gmail.com> writes:
+> > Questions:
+> >  a) Is removing fb_ili9341 acceptable, pointing users of other ILI9341
+> >     modules to panel-mipi-dbi? The KD233 node would then have no driver.
+> >  b) Or should KD233 panel support go into a DRM driver first? I don't have
+> >     its init sequence or physical size, or the board...
+> >  c) Is removal of all of fbtft already planned?
+> >  d) Several other fbtft drivers have drm counterparts. Should I inspect those
+> >  to see if removal is needed?
+> 
+> IIRC the main reason fbtft needs to stay is because it supports parallel
+> interface which is missing in the DRM drivers.
+> 
+> Nam
 
-Fixes checkpatch warning:
-WARNING: static const char * array should probably be static const char * const
+Thank you for clarifying. However, the fb_ili9341 driver uses only the
+SPI interface. Is it alright then to move (or remove) those drivers that only use
+SPI interface and have DRM counterparts?
 
-Signed-off-by: Kurmapu Sai Devansh Prasad <btech10487.26@bitmesra.ac.in>
----
- drivers/staging/sm750fb/sm750.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Furthermore, would there be a need to enable parallel interface support
+in the DRM subsystem?
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 21e310274330..47d2917cc1d6 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -12,7 +12,7 @@
- static int g_hwcursor = 1;
- static int g_noaccel __ro_after_init;
- static int g_nomtrr __ro_after_init;
--static const char *g_fbmode[] = {NULL, NULL};
-+static const char * const g_fbmode[] = {NULL, NULL};
- static const char * const g_def_fbmode = "1024x768-32@60";
- static char *g_settings;
- static int g_dualview __ro_after_init;
--- 
-2.56.0
-
+Daniel M
