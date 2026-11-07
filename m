@@ -1,79 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.50
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794050922;
-	b=nN3CmWVeSXtS53zIsas65LNBhk6QfNwiaBAikK8pFv7i7T/RlMtg56dY+wfeOWIwM/Re
-	 Biou2RueOQooXUFnKI/2RS33G8py13nAtuBD7NiljgaOOYFuTO1ycBa+ErqFxj38g1SqX
-	 b0ngmq3sJ5LStHstCY+Gxm2tefabXwvxLTHda2bPynbC0gpVcNvrpYK821bYqjGqswChI
-	 y/qhAV+6vwktiTR0eUt/DkYfkombhFFRBXyqFUxkYlWY+J4sxAezuGAnoZHLgL6eO+Vgr
-	 t3PrwSXKkFftT/EFl1rzb0q1t76nDgUbQEJyWn+p9ApiUdsjzTBRWNnxiiCHg0mxtUw==
+	t=1794051665;
+	b=gM2W0/aRd6yeMVOhTC9NLBwrTgd7+QlB2A1rgyXs99DHAgWi1WbkCoTWNcM9yK12OstR
+	 3X3vjdnT5wq59PvAVzzFgECk7lB5hBhSPKNOgYOnkGZuMYyrsdC6tu60m/uEw4fO4O3ZH
+	 bikNtP9NeFA0mYUo9Tq+t7KDKbtMrEPBRAQ398rw8x802GLWpQth6Ykm9youI4iJCx7Hb
+	 BTjlhs5Pn5uLRHziBsuoO9DSG0uyQdBgEva0/o1ZcnOUzF5hOp/NHq0bMBpO7ZtZ1T0hI
+	 p5RyM6uwOj+Vwp03DuDCFhXMt5a531kwFr3Rq4au4ptx0U3qrH+hKJG9VbaddbS0iNA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794050922;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=cv66KK32Ayr6RQFReAmYKAI8E1Tl9jHQrKRRdKZDR7s=;
-	b=tdSBIXzBw3ocmoOF+otFtN7Yj4t/WwtYGXlVYVGyPmgsVLBgkT9sZ+m+LQb8zzqJjFh/
-	 euA3/sAkHZzbO4S4nLZXt0srmDo6zTiASBGo8SzzBWG0WwmbYMv9LvksrxQ96CvL6T1bp
-	 k9pPwiwxohUIKlABKq2p2sBNJEf+DcQ2KBCAzF60uhjCTN6UIAOlVgk2Wn0LkqOutPEBr
-	 PlKC5WhOoMYJoOb4WtD4+bQ9ZXG1n70PsEmCZQh2I2/Rt4PkU3TsLJp1JYekJnC+z1NmD
-	 bEbqSPfcjv6zwEttHrthd//1lGMU9wWJS6haHrQJUWm2JnJ8XNqtoitPw7LBRiGwy6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794051665;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=6fTH6XXWW1XsqnJehduXCj5gyuC0EEdV5T9p2wxK7S4=;
+	b=bLyBPUuaaby8xmH5JJFyyN/oN8440a1WD5hsa4kUxU4I0HXH0NZ7rQ8Jif9UQsUBQVRk
+	 AXp04kPH4uRNHV1fPVU2OGi19FZNNYtFNTR1Nds323qOMIzMzasWaQcpQUC3eOaZozjdZ
+	 AsLwECGCO//epoTqyqjUevM97XXQ9SmW8WwhfIeAYejxvT8HHNOfG4BjZu/z24ZVdYePL
+	 XYmUMk1mqQuOxqmBVhQ9fXUPmHUxtaUiwkWjz44DMTP3T6ZWvjxRH3GhtypN/wlLB26lO
+	 2XBsQytnHC72EIfhRztXuDwvWIZhb1/Uv0bSooTnmR3vhmCsTrng0cXCvbSKei8IQYg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hW6nN1tC;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769D2606A32E;
-	Sat,  7 Nov 2026 11:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hW6nN1tC
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794050922;
-	b=hsyQgcd9g1JqZoRkyZ39lGTtcfhivuMmOlq1Smqrk8yc7halyLAqtOxFsO5dkQcHlHhm
-	 Owgposdl7iQxkjJUMxr83ihIk1mVSSk98P9sYx95ObTYO/BWtlwMbNDIXehewtAaQ1sDw
-	 z3I9Wq6uY80P8ya9QW4iZoYmzsa/TzGy+V8Drt1bRE1z0FUHr7uak+Z9vZ/UYFwZLCnwm
-	 U13rBRB9SQ2WG1G5V2kuwXn8ylrqQmaicBHQuQ9nPixpquxhwGI+SRNqlU9KdVViHN9VQ
-	 gRi2hzn8wFO5mxAeQd/bCQ9syNyGFFqEzBLUaa2Scu+9mlyqUUoaZnIdTQ/CCL49ehg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794050922;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=cv66KK32Ayr6RQFReAmYKAI8E1Tl9jHQrKRRdKZDR7s=;
-	b=QoOVeAJklzH5z7WdQmFOmURnuNWw0T/VteA/9TsDoGxPQUO3sfNbcZMJCVxokokMzlvK
-	 vkOJ9QPjbjkCbGcvru8ukyACjhuMEBaO3ec0Y2iUyI8Ew+vVyPmfonMXUBBVmHLtsM5Xx
-	 XNBaxpl4nAheXbKDD8ydwC69jJfkp4tWk2kOIXmcoQWG+jOS6a1LiTgCLlmOeCn/7/bam
-	 JnWFnvvttAY9pwNNPjl9nDp7wAJtWr/xA1GMBTwH9OkbpXd++Oqjfe8j4J46JBDHFdJxz
-	 E7SCCUgTUZvUoqfVLE+eUc3NI4U0uUzdPtScuWGPUKcOsBKINSfy4GLXnXgqH5d1fwA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jY183eFp;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.50
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8A32F1F008A3;
-	Sat,  7 Nov 2026 11:28:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794050922;
-	bh=cv66KK32Ayr6RQFReAmYKAI8E1Tl9jHQrKRRdKZDR7s=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=hW6nN1tCztcQJUuSXOFfWmOzEEizT2aqQ70LiAO5jKzDpDX/ECsGVpOztTOVEN64A
-	 GkmKm4KBDlK0Dx1vzCqVFSDrTQlP0kW2DnTiRQVF3kfKXdBswbge1qGHq57J8uoN0b
-	 f7Wi6KLGZ3truCqVTAtjVSmVvIcrKBcsvVjdRoQ+dzstk+bzYQARChNsABQs1ftxbq
-	 rqf4n+ClXimVw0TbCU4D2/Tsg5JLuJXL4cw2S7x2RKGV+iBIixjla1tCP0MjHoZFbf
-	 sXAiQWgYN4JCeFHqGkH1IiaujXqryCleqZNDeKnkZfZfT6qyPD7Y1BupM6ANxmsxwo
-	 rD6AIAAjor6sA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 1808047BBD;
-	Sat,  7 Nov 2026 11:28:41 +0000 (UTC)
-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
-Date: Sat, 07 Nov 2026 05:28:41 -0600
-Subject: [PATCH 2/2] staging: octeon: prevent buffer overflow in
- cvm_oct_xmit_pow()
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493E8606A32C
+	for <linux-staging@lists.linux.dev>; Sat,  7 Nov 2026 11:41:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 493E8606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jY183eFp
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-675617e81f9so1200177d50.3
+        for <linux-staging@lists.linux.dev>; Sat, 07 Nov 2026 03:41:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794051664; cv=none;
+        d=google.com; s=arc-20260327;
+        b=I7i8e5qIM8Bmdb64GFTSPoXSmSQifmecHxp60onEBl8vtmprvwtsDgautID5vsKcWH
+         +it1iC3TdJDUJ3q70r8LL37iLFLQ9o8F/YtbSMx5Cof6M9jlybhky1Dzv1y0PVO4ffLy
+         dndES9K10zDfc7GPDiFvDS1VVRco5iAqAwrCvdTX1rcOa00mRL7Rv8TcDouhIt9dsoIv
+         fcj97P+wK1FKlnWnvMlnESQWlrk+lwn4MhBpUYMmUFWrCw2LkD8HFxzfwVjQqWZ/7C2r
+         UTWJi2l0Jnl6A8oTJPE4rvdao354sR5OIdRkej4s69HGj4pwQnmr2KkkrPo3a+oeqmSx
+         TEXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6fTH6XXWW1XsqnJehduXCj5gyuC0EEdV5T9p2wxK7S4=;
+        fh=XinN/WNOIF3Tc9C1/K9ItKUw/8iT9moyHsrnQrLUcrM=;
+        b=QA9DEEtQSf7p0GpSo3ccW/RROGy919Yy77TwiZ2L/7jL7jW13459uqPg+Z+QJMiIZ+
+         G99f0i21TBhcbxHoRws2k7cga5UV4h7CXcwjGMUbn5JX+UF+YOEvGU9N/Vyif4UTOgEe
+         Vp+qC8T466rIIrjExokWWKeOaB0bFJdHJB5HyzNdxGvfuEx636l83IhP9iGCkzuxiypf
+         KpOS5qyT1X5hH5Gu6LaMO9zb9zTwf28zdWZFpwmxUxduXdTicMVJCvb2HUXt+zib1VPu
+         kFHdqXN93AjruRyA8mCXVixF8aZOj96xA4zrmEuzZVNC5BbRUMfS2y3ySVcjcfr5mlmn
+         6FUw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794051664; x=1794656464; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6fTH6XXWW1XsqnJehduXCj5gyuC0EEdV5T9p2wxK7S4=;
+        b=jY183eFpU6uOg5qeK6VpxteyRG/2c6Gp3C1XJ734+C78Nd1CAYVhiuKhFzRhS0y0OR
+         hQKCZSpLnTz2VYEWqgi9V4BZKD0pPvinYr/VFMaMJgm1hJNArfsi435q5CAzv5WBmXqq
+         2QFH5PiTR4xf5YOkXgRA7avvsildQe9cVjK4iMqJ5GtjpZa0RTyK8aUH/tC8j6xVGq7I
+         dOQXKCmpJuozYJ9B230chhMgOv64+seSjc9DRJCmzZ/Na7l423lpDplmj9RVfkD5YWc0
+         jFLGuY1USu6tU6FpMknRDAGeCzz237imKlYYOhqDzvb6u0JMjRxMxsCN5PVmjpKfeUR3
+         dYrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794051664; x=1794656464;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6fTH6XXWW1XsqnJehduXCj5gyuC0EEdV5T9p2wxK7S4=;
+        b=HIwIjNajld2TI6ABDsm4fPQEq26PdDH7N2vDDnyXfLTntf+iEBHDuGQKtAPA3BPJBA
+         Od9OoArZcnK9dmMHw/erJ7ODKUau1ajYA6KKM8ar/s0atTsL/qyZD/09Hxzw+SpgPEYt
+         /6a0MRK0PQyY36sd/dT0FN0xynzodhRo7n+JAIzFQY8Y5kx/lH8z+QNIhKRININ+1Wne
+         27cjiJ3GQdKE0Ce1w7t/FPG9h127dxjDepiCGxCVOBYFeoCck6noWYk9vAVJEL39zMML
+         leTD5iWCHYoNK3j9EFn3KeOHpBL1Lv7qTxyJGXsiI1s+C2To5r/6D3EAxOLPcXYey2mS
+         pyfQ==
+X-Forwarded-Encrypted: i=1; AL+hErFm7oR5Yf/Xj7ojNXhL3tGQnOsTVp0HmmLtMineUi6/Dcy8XCvwtytglw5P3+MeiAg3wKvXgrjpoD7KnAjj@lists.linux.dev
+X-Gm-Message-State: APuU4Z/DwE1nwrrajz+bWtcvCwjT13MLgNzJMpPBZZcGAKNAWcTnBPW7
+	j4Uw1+vTdCQV//woSKCsWeVPEvpqAf8fSmZpzUnIa2Ktxcf1wGzbPK2lUVQFuipq0QTN7POOwaQ
+	Z3l601l6nbOJSbogd/3sGdcxmcWylNrk=
+X-Gm-Gg: AYBFou2O3Bg6SJ/b8k4SJBI0LVScotcvhqsqhpTddS1ltaFP+cPfrg/VwSkbjIslh4c
+	6C1WhzqSwRMcRDzANqfy12JxxjoT36Lc3cPrOtea7Jlevkqj7GmAQuMrJR+JLmJpNr4OIj87gjB
+	T7cPj04QZt+VFW/HC7Ow4ZFSNt6hJOoA5POMsPZNA1XiIra92PfI37Fv609Dy0XDPloFQtfFDaI
+	bJ43KtdDGj7P1jahhi7BejzpeagSmoA2fgFfYZzwSTGYiEnI4BFL9xTEjAWLlghBdTc5c2VkEgk
+	keHaV0qUVmDdL6GxGGsP63fkH+6Bpn0xzYT1aiy+bzJW7ImhPB3ZBYFeKcs8D4TFlub2EDXvIDV
+	olJxZVn3RGW81uVsxxpA2/GSmPj4mtQ8MpmJxwesW7CN0rdivkp9KaZANM2Kq3/U4ZUfjjA6bkS
+	LIRqYwzjfhh8pl6TGBMF8t7WBEa3fyCEsk2TPQg8sxNeqxYOwz0nj07vu7ww6a80fMtxbQpXrWP
+	3C5Yy2XU7MiO71Bk05WAG8GfZuGYUAs8nsTkK/AbWjYBmk68jNS4P/NjOQY0A==
+X-Received: by 2002:a53:c056:0:20b0:677:c18f:7257 with SMTP id
+ 956f58d0204a3-67c141e4301mr2310364d50.23.1794051664343; Sat, 07 Nov 2026
+ 03:41:04 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -83,103 +106,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261107-octeon-tx-fixes-v1-2-db03f73a6e6f@gmail.com>
-References: <20261107-octeon-tx-fixes-v1-0-db03f73a6e6f@gmail.com>
-In-Reply-To: <20261107-octeon-tx-fixes-v1-0-db03f73a6e6f@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794050920; l=3088;
- i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
- bh=A73cNrYJxl0LgvL86wV5fevUF4EgHv5VLNNXVCqJff4=;
- b=8Ohcw2vIma8Mg7JGcXtgSkTTw2bGrzFslZyZUPh1Dc32Izwc+uKQjFsCQN1LmFjihMSUd16kl
- wujqUh13KwFCFCp66N2MIoiHiPKMfemd5eYFM3ldJnuLKrYeMR53jXc
-X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
- pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
-X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
- auth_id=1410
-X-Original-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
-Reply-To: aleszlucero@gmail.com
-Content-Transfer-Encoding: 8bit
+References: <20261105201154.37294-2-matyasdaniel006@gmail.com>
+ <874idv2bol.fsf@yellow.woof> <au4J-0GOUuueHLZe@rabbit>
+In-Reply-To: <au4J-0GOUuueHLZe@rabbit>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 7 Nov 2026 13:40:28 +0200
+X-Gm-Features: AclHuK9O7PUmgPlP4zevfIOy9d0EnpN6X7geLvTsMFUAaD8AWKettmZPb3yRw48
+Message-ID: <CAHp75VedGBBd8qk5fO9-DkGwmuLQk77_igefAwTbrfcPCMW8Fg@mail.gmail.com>
+Subject: Re: [RFC] staging: fbtft: Moving fb_ili9341 (and others) to DRM
+To: Daniel Matyas <matyasdaniel006@gmail.com>
+Cc: Nam Cao <namcao@linutronix.de>, dri-devel@lists.freedesktop.org, 
+	linux-staging@lists.linux.dev, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Lanzano <lanzano.alex@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, linux-fbdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+On Fri, Nov 6, 2026 at 7:10=E2=80=AFPM Daniel Matyas <matyasdaniel006@gmail=
+.com> wrote:
+>
+> On Thu, Nov 05, 2026 at 10:47:06PM +0100, Nam Cao wrote:
+> > Daniel Matyas <matyasdaniel006@gmail.com> writes:
+> > > Questions:
+> > >  a) Is removing fb_ili9341 acceptable, pointing users of other ILI934=
+1
+> > >     modules to panel-mipi-dbi? The KD233 node would then have no driv=
+er.
+> > >  b) Or should KD233 panel support go into a DRM driver first? I don't=
+ have
+> > >     its init sequence or physical size, or the board...
+> > >  c) Is removal of all of fbtft already planned?
+> > >  d) Several other fbtft drivers have drm counterparts. Should I inspe=
+ct those
+> > >  to see if removal is needed?
+> >
+> > IIRC the main reason fbtft needs to stay is because it supports paralle=
+l
+> > interface which is missing in the DRM drivers.
+> >
+> > Nam
+>
+> Thank you for clarifying. However, the fb_ili9341 driver uses only the
+> SPI interface.
 
-cvm_oct_xmit_pow() copies packet data into an allocated FPA packet pool
-buffer without checking if skb->len plus the header offset fits within
-CVMX_FPA_PACKET_POOL_SIZE, which can cause a buffer overflow. Drop
-oversized packets before allocating hardware buffers.
+Only two drivers use that macro, indeed:
+drivers/staging/fbtft/fb_ili9341.c, line 136
+drivers/staging/fbtft/fb_sh1106.c, line 173
 
-Additionally, fixed-size memcpys into work->packet_data read directly
-from skb->data without checking skb->len, risking out-of-bounds reads
-on short packets. Bound these copies using min_t().
+> Is it alright then to move (or remove) those drivers that only use
+> SPI interface and have DRM counterparts?
 
-Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
----
- drivers/staging/octeon/ethernet-tx.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+You can suggest removing it, but it might break some users (yes, I
+understand that FBTFT is a staging driver), but doing such only for
+two out of dozens drivers seems to me a bit inconsistent approach.
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-index 13a205648f8b..0a350faec591 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -507,10 +507,18 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 	u8 *packet_buffer;
- 	u8 *copy_location;
-+	size_t header_skip = sizeof(u64) +
-+			     ((CVMX_HELPER_FIRST_MBUFF_SKIP + 7) & 0xfff8) + 6;
-+	struct cvmx_wqe *work;
- 
--	/* Get a work queue entry */
--	struct cvmx_wqe *work = cvmx_fpa_alloc(CVMX_FPA_WQE_POOL);
-+	if (unlikely(header_skip + skb->len > CVMX_FPA_PACKET_POOL_SIZE)) {
-+		dev->stats.tx_dropped++;
-+		dev_kfree_skb_any(skb);
-+		return NETDEV_TX_OK;
-+	}
- 
-+	/* Get a work queue entry */
-+	work = cvmx_fpa_alloc(CVMX_FPA_WQE_POOL);
- 	if (unlikely(!work)) {
- 		printk_ratelimited("%s: Failed to allocate a work queue entry\n",
- 				   dev->name);
-@@ -538,8 +546,7 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
- 	 * calculation may add a little extra, but that doesn't
- 	 * hurt.
- 	 */
--	copy_location = packet_buffer + sizeof(u64);
--	copy_location += ((CVMX_HELPER_FIRST_MBUFF_SKIP + 7) & 0xfff8) + 6;
-+	copy_location = packet_buffer + header_skip;
- 
- 	/*
- 	 * We have to copy the packet since whoever processes this
-@@ -586,8 +593,10 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
- 		 * ethernet header to align the same way hardware
- 		 * does.
- 		 */
--		memcpy(work->packet_data, skb->data + 10,
--		       sizeof(work->packet_data));
-+		if (skb->len > 10)
-+			memcpy(work->packet_data, skb->data + 10,
-+			       min_t(size_t, sizeof(work->packet_data),
-+				     skb->len - 10));
- 	} else {
- 		work->word2.snoip.is_rarp = skb->protocol == htons(ETH_P_RARP);
- 		work->word2.snoip.is_arp = skb->protocol == htons(ETH_P_ARP);
-@@ -596,7 +605,8 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
- 		work->word2.snoip.is_mcast =
- 		    (skb->pkt_type == PACKET_MULTICAST);
- 		work->word2.snoip.not_IP = 1;	/* IP was done up above */
--		memcpy(work->packet_data, skb->data, sizeof(work->packet_data));
-+		memcpy(work->packet_data, skb->data,
-+		       min_t(size_t, sizeof(work->packet_data), skb->len));
- 	}
- 
- 	/* Submit the packet to the POW */
+> Furthermore, would there be a need to enable parallel interface support
+> in the DRM subsystem?
 
--- 
-2.56.0
+If you can do it, I will agree on retiring the FBTFT drivers that will
+gain such a support. I can test 8347d (IIRC I have that panel at
+hand).
 
-
+--=20
+With Best Regards,
+Andy Shevchenko
