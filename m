@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794037017;
-	b=P90aWv5u2n0XRfclwJMK3yoX76rgHHc/D/ax2McrB6c/lAXGEULrRRKZ4nX81QusJFm3
-	 S/qeyNGLzrSO4HuDbZrtZ+WCIhQBlRiddG4sziO64OO5stfTTXqJPg+fURo2KPFnc3DR1
-	 ++mNPFwuwmBQ2t2Hl1zLYxD5kXMMkLri1LI0tUe5AHNIl+JOKah3gAg5hhSUrHtrSByGt
-	 +M9djXwBptZOIVX2OhVt0y/2/zhBjze8OPhq+dYOIjvB8uWKei2vw07UTVgqalEZWIg9M
-	 RP+NnBitsPDwpZy99p+x9RBu1CoJDHavCdjNYZtwv4nQAfXSQ2e3Ji/8LQW+hTGVDUQ==
+	t=1794039234;
+	b=m35HUqryXF5fPh5Gs5HJIjYQKw4NwfTHmKNJyfnzDm6Y3AOwvCZ+AskobMyzqksDRvHX
+	 SwUirSq+wzO0YtWoVfo1iL23hpZToHiejnfMzT5X5RYOEXuXCqMpEbJ3q0wOtAc4CJcNZ
+	 lauqg+84H4XQVwz78kwB0X1+rHTnANtdsLQyWSfT77eE33r7zSMXY/ETCQvpjH+MXfI65
+	 XI/QCudP9P/uPr+UBTb5iFFBBp0wBJyS19amNcU/hGrbk/QwkZ8MQDAezUxhtX1HdVjqe
+	 2A4VALCWFIz/L0jm0jZQkVsxK6C7G04ZGHxAgn6Hr2S7fG0qK2jEv+vqpwTDokPcErg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794037017;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794039234;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=gTVhkDIuv1lUbwGdIPo4ekZg7TBzPBYY7NN5YsMWTlk=;
-	b=pXi42zEUuZFq4aofAdm0pIeEI9XPVz6Dwlkk37ES/0gYOoSeO4L9cULQ29ezX3UFMfEq
-	 hyqBN0m61Qi+ViIXuECzA5mTJhySHTXIbyaOdb3vO7s9px3LahIX91UqMLaESEsdMLpvp
-	 Cs07Nhrl0b61Ppg45i9n+2esXhx1PR7htHtKPCFKGBNbKWpjMnRkluC4Hg0q1CgB9BhDS
-	 TjZAypcjSZACNIdqiCrvmUTu8ItFieug5lGe9HN03IhHES8RTT6FE96LpG2zB7Ly9kttP
-	 hZNCSbxAdzJ27yUwTKCs3RuP/s2EX3I3wDZ7CRTQZ5upxqzVz1WcPtIUyfazb7fgaYA==
+	bh=3UgaVUMTazCqkUjPb+NK9SOhfNMM9f3Jk8NTZVck/G0=;
+	b=U+iAsDBupoArJUD8hwXuPK8qVDS/pmYW1zRkFdGG/w1isRSIfqArZJWLm1m2Pj179nw5
+	 j5C4ak3U6n852Tq8xqDaa6ZcTR3h1m1f2ECLb8wUtBZpQhX3Xgh+3SSPAuM76bWNa4/uB
+	 mQlXEpG6zada+4N4CufeFbLZoG5rGSSp7nJ83xdDEj4oTYX12pgLNO0oRnJyximuoXJM3
+	 x3Y+9P08Uk/gpYYiAXcYiXRL+TFZoXIbpJQbpSDqk6YbNev8xm2x7viPK3Msxflac2WH9
+	 bi5VVy23uK8PYUGV8mEPG/k46BpY7Pzya1kJClTvX/5yt0jMEk6Vuqj6CwBI5qyxKSg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="XvlL6E/1";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ohnOnvtI;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35A0606A326;
-	Sat,  7 Nov 2026 07:36:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEB3606A32C;
+	Sat,  7 Nov 2026 08:13:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XvlL6E/1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ohnOnvtI
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794037016;
-	b=FqFXt26yGnG3dOcK0zWftjyDfrqB5GxpxSI57MWpsPCfSvKfuBLqR1FJP0slZ1SmHQWB
-	 C9+aOBU4nzAhCAdPyhDqcdQIdgkV1hlmD2FTWOb6Z3SKR4qS7oiQVP/sg3JsIv5OdvIrs
-	 qW8fJN4XNErjOlZFJbII9TnbjDghOR8UTeXv2Sfgmh+/+WPy+GqnnTRJtoidXV6Qf9qkr
-	 N6O/qFFMmG5O9tqr6PI5dbweUdsNl1QE+nfA4fMkTjFM7rGPSX5eOoB8GlIzzpWEgFe3Q
-	 9YM13mWzQM3oHg2LW8G9F6SPtcMmJz/pNc7Mrn/WnWJ0zX+YE0uAQArm/xMx3x8lCTg==
+	t=1794039233;
+	b=xwGqpTv5V/8h8rMLKtgzBCLJPVr+9sDRSJ2PcVnT0cafFlhbfFn+snvQQp7mD19Qd6VK
+	 /JiloyljY08FfTTq85lapOtQSO64KWtZXOpFhFIrQ6MmGKzflBntyaUQtWxR+IOah0Hyc
+	 PjwhU+a4VKiZ7zNF91KighAbf2xGJjBsa1/uHl70mF1fQaJKI2BLATq34Q4fBIdXFk71R
+	 RfpaU2zSjb+OfbVXQPFNSiZkn+u6c6X47hKB4hWvzzpivYb5U/FnxyOSqbd8hppAQkahr
+	 Dn/jnGtfw0XNsy/s5TdXb2Goc611G7Oo0VhkWPXN9+b+UfEGC1XXBpNapkztsvroxBg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794037016;
+	c=relaxed/relaxed; t=1794039233;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=gTVhkDIuv1lUbwGdIPo4ekZg7TBzPBYY7NN5YsMWTlk=;
-	b=2QO+LlnSf9lGT95betfHeoyp1Woix+TBRT7x6HEcqSEZzDyTdrHa+T4hEfVbN18rp2tA
-	 XeKLwGJKCWA9zSGjam11Ysfy/wbu1CoSAJQZN6ES0oOlqzlx04+qHs34NnWlV5+qnEdWG
-	 fpre4EPokTsojvUg0WqzNWTZg+e0Wbaw5zxq1rd/JHTmzIXkt5JeuxJwidCFiuJOev6W5
-	 BGIUjpUG8RhwNYtgjLgZsVBHn1IXoCxAueMkK2wZbbJv8syp/WrKraIoUVrK5qPH96i4u
-	 dG0FBgC/woS1Con3QFNhhCIaMDVl55IR7BqeV016U8mNfnWzt7M2QA017RF7OKrYKaw==
+	bh=3UgaVUMTazCqkUjPb+NK9SOhfNMM9f3Jk8NTZVck/G0=;
+	b=QflwAfGWBzteyNsqPdkFXem9EhWYppVoRn2w52Mx02yf2p5xyfPg0zX0zL7I7hnzY+ET
+	 PYyxnsd7AQaENKY79SHTx8OQY8qylLo8Bgb9cPnGNI41jpT7EokojPqQaPP6g/Z8mv3n8
+	 U36F5zK7bYU6uhBHtM4TB1CM4n4U56kLbgiQID+tFvR7i0ITczOs9m8dtlJ3yJxdLBUpW
+	 Zq+2fM8PiMIliFTwQHP8dsk8HHv6dPjcNGoVfBBQaHuF0To6lkNHYucj6rezoqW7G5lEO
+	 3fTKTXpd/rXqhh/T9yOX3GRv9B83e8PeLjRhiXilQQwCjsGn4XeQLT1ycI0775Kw7kA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E9F9F1F0089F;
-	Sat,  7 Nov 2026 07:36:55 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 874CB1F008A1;
+	Sat,  7 Nov 2026 08:13:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794037016;
-	bh=gTVhkDIuv1lUbwGdIPo4ekZg7TBzPBYY7NN5YsMWTlk=;
+	s=k20260515; t=1794039233;
+	bh=3UgaVUMTazCqkUjPb+NK9SOhfNMM9f3Jk8NTZVck/G0=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=XvlL6E/1mwyUykQ7sbJmdPxjufLbEp5V9fjb6cq/ebTwE61WPV/IqxsRjykl7Mf84
-	 wJGtEWP98jgIDYGArybE0M8nUll4w3TYy4J96tJcnKHqtVwy+shBnFCazZ14a0nbMK
-	 tRVyLsmZFmPI8oBof3dD2loq46j3oegIcALtR1qUTskzXaHEUA9feQil2xjoABZBVc
-	 ALwvkS8+GzpAAMO+vZ2/+IC8WZTKPjiyF9nkgDTLcoSKFnIz9DKZ239DKQL85gICxL
-	 vyDlRmIIUzOFQaXBkhQn632nEpgG18/z/5Bt+2zoAM0qHZzULC0dTfgt9Gk0NymTMJ
-	 aFa+Zqqv5h88w==
+	b=ohnOnvtIyqu1EECH6RffzhERRTXUbfq0qOHlWBDg9KFJMInWm7E/13IcNCLJwP/u7
+	 5prVbwakRKd75PoBZZ5QhBb8e5OG4uXIaXqz8nSiZCjBmDxKwtsG2JsIfL6Ydj27Aa
+	 mTwiYMU71chrm8kGPo/TnB4hDIqDISUE7qfY+JSCFGeEI1hJu1j7OZ3qg0ot8bYrVg
+	 FyjUG6buR1eAaAptjMClwc3RttJ2dcebsJhKtXKL0AhgTWWJTP2NhuGOPfLaYjUTri
+	 BbjbN909kagluvyW9pVu20yCtPRhngK+CL12xkaHjmTZsIdE07Aj2QbK2wckwkF1WK
+	 aiug4KODadrJQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 77AF447B04;
-	Sat,  7 Nov 2026 07:36:55 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id DAF9247B14;
+	Sat,  7 Nov 2026 08:13:51 +0000 (UTC)
 From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
-Date: Sat, 07 Nov 2026 01:36:54 -0600
-Subject: [PATCH] staging: octeon: match exact interface names in
- pow_send_list
+Date: Sat, 07 Nov 2026 02:13:51 -0600
+Subject: [PATCH] staging: octeon: convert from ndo_get_stats to
+ ndo_get_stats64
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,20 +84,20 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261107-octeon-pow-send-list-v1-1-2d28dac15e88@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MMQqAMAxA0auUzAYakYpeRRxKjRqQVhpRQby7x
- fEN/z+gnIUVevNA5lNUUiygykBYfVwYZSqG2taOyLaYwsEp4p4uVI4TbqIHdl3TsnOe7GyhpHv
- mWe5/O4zv+wFlhsHGZgAAAA==
-X-Change-ID: 20261107-octeon-pow-send-list-9947e66a10f0
+Message-Id: <20261107-octeon-get-stats64-v1-1-94cdedd8e9f6@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MTQqAIBBA4avErBvI7Ie6SrSwHGs2Go5EIN09a
+ fkt3ssgFJkE5ipDpJuFgy9QdQX7afxByLYY2qYdlGpGDHui4PGghJJMkqFDPVltOjdtTvVQwiu
+ S4+efLuv7fnJlqaZkAAAA
+X-Change-ID: 20261107-octeon-get-stats64-39d3a4f9bf15
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794037015; l=1785;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794039231; l=5749;
  i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
- bh=LZq7fls08J5yskhU+V6oLqK+G4OJgckR9NNE461HpQk=;
- b=R565vkHb4kNeLNhL4BNL6i0osW23mL9ij/xRVWJrd12UEoNI1JiVQB/l3CSD4StUXHrJ+H60z
- wwfgmMKoINgBPEsCJ1zP/TCVRF8zMwLkP3FPAXImfu5FwvEeV791yAh
+ bh=930QtnvR+WyHyNhL3+z3ix4Trio4JE/UI2vQH0/G6+I=;
+ b=Qq8eUm8nI7O48uCTmo+hq1hLVmpOTKwmflK/g5TrenJCfHgJB3m08+eJwnKjmgpyN5O9tovDd
+ fZyPcYqn6FaAzpVbN22AezCFHwElo2/5CU5/isHyW6G4ohRZW41kPgY
 X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
  pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
 X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
@@ -108,54 +108,141 @@ Content-Transfer-Encoding: 8bit
 
 From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 
-cvm_oct_common_init() checks whether dev->name is present in the
-comma-separated pow_send_list module parameter using strstr(). This
-causes false positives when one interface name is a prefix of another
-(for example, matching "eth1" when pow_send_list contains "eth10").
+Migrate the network device operations from the legacy ndo_get_stats
+callback to ndo_get_stats64, populating the caller-provided
+rtnl_link_stats64 structure via netdev_stats_to_stats64().
 
-Copy pow_send_list to a temporary buffer, tokenize it with strsep(),
-and compare each comma-separated entry with strcmp().
+Update cvm_oct_periodic_worker() and cvm_oct_common_init() to avoid
+calling the removed ndo_get_stats pointer directly.
 
 Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 ---
- drivers/staging/octeon/ethernet.c | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ drivers/staging/octeon/ethernet.c | 33 +++++++++++++++++----------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 42ec4b8324a8..6684eeb3fc8f 100644
+index 42ec4b8324a8..c61b1ad3f9b3 100644
 --- a/drivers/staging/octeon/ethernet.c
 +++ b/drivers/staging/octeon/ethernet.c
-@@ -431,9 +431,23 @@ int cvm_oct_common_init(struct net_device *dev)
- 	 * Force the interface to use the POW send if always_use_pow
- 	 * was specified or it is in the pow send list.
- 	 */
--	if ((pow_send_group != -1) &&
--	    (always_use_pow || strstr(pow_send_list, dev->name)))
--		priv->queue = -1;
-+	if (pow_send_group != -1) {
-+		if (always_use_pow) {
-+			priv->queue = -1;
-+		} else if (pow_send_list[0]) {
-+			char list[sizeof(pow_send_list)];
-+			char *p = list;
-+			char *token;
-+
-+			strscpy(list, pow_send_list, sizeof(list));
-+			while ((token = strsep(&p, ",")) != NULL) {
-+				if (!strcmp(token, dev->name)) {
-+					priv->queue = -1;
-+					break;
-+				}
-+			}
-+		}
-+	}
+@@ -141,12 +141,12 @@ static void cvm_oct_periodic_worker(struct work_struct *work)
+ 	struct octeon_ethernet *priv = container_of(work,
+ 						    struct octeon_ethernet,
+ 						    port_periodic_work.work);
++	struct rtnl_link_stats64 stats;
  
- 	if (priv->queue != -1)
- 		dev->features |= NETIF_F_SG | NETIF_F_IP_CSUM;
+ 	if (priv->poll)
+ 		priv->poll(cvm_oct_device[priv->port]);
+ 
+-	cvm_oct_device[priv->port]->netdev_ops->ndo_get_stats
+-						(cvm_oct_device[priv->port]);
++	dev_get_stats(cvm_oct_device[priv->port], &stats);
+ 
+ 	if (!atomic_read(&cvm_oct_poll_queue_stopping))
+ 		schedule_delayed_work(&priv->port_periodic_work, HZ);
+@@ -208,12 +208,12 @@ int cvm_oct_free_work(void *work_queue_entry)
+ EXPORT_SYMBOL(cvm_oct_free_work);
+ 
+ /**
+- * cvm_oct_common_get_stats - get the low level ethernet statistics
+- * @dev:    Device to get the statistics from
+- *
+- * Returns Pointer to the statistics
++ * cvm_oct_common_get_stats64 - get the low level ethernet statistics
++ * @dev:     Device to get the statistics from
++ * @storage: Pointer to stats64 structure to populate
+  */
+-static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
++static void cvm_oct_common_get_stats64(struct net_device *dev,
++				       struct rtnl_link_stats64 *storage)
+ {
+ 	struct cvmx_pip_port_status rx_status;
+ 	struct cvmx_pko_port_status tx_status;
+@@ -239,7 +239,7 @@ static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
+ 		dev->stats.rx_dropped += rx_status.dropped_packets;
+ 	}
+ 
+-	return &dev->stats;
++	netdev_stats_to_stats64(storage, &dev->stats);
+ }
+ 
+ /**
+@@ -421,6 +421,7 @@ static int cvm_oct_common_set_mac_address(struct net_device *dev, void *addr)
+ int cvm_oct_common_init(struct net_device *dev)
+ {
+ 	struct octeon_ethernet *priv = netdev_priv(dev);
++	struct rtnl_link_stats64 stats;
+ 	int ret;
+ 
+ 	ret = of_get_ethdev_address(priv->of_node, dev);
+@@ -449,8 +450,8 @@ int cvm_oct_common_init(struct net_device *dev)
+ 	 * Zero out stats for port so we won't mistakenly show
+ 	 * counters from the bootloader.
+ 	 */
+-	memset(dev->netdev_ops->ndo_get_stats(dev), 0,
+-	       sizeof(struct net_device_stats));
++	cvm_oct_common_get_stats64(dev, &stats);
++	memset(&dev->stats, 0, sizeof(dev->stats));
+ 
+ 	if (dev->netdev_ops->ndo_stop)
+ 		dev->netdev_ops->ndo_stop(dev);
+@@ -540,7 +541,7 @@ static const struct net_device_ops cvm_oct_npi_netdev_ops = {
+ 	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
+ 	.ndo_eth_ioctl		= cvm_oct_ioctl,
+ 	.ndo_change_mtu		= cvm_oct_common_change_mtu,
+-	.ndo_get_stats		= cvm_oct_common_get_stats,
++	.ndo_get_stats64	= cvm_oct_common_get_stats64,
+ #ifdef CONFIG_NET_POLL_CONTROLLER
+ 	.ndo_poll_controller	= cvm_oct_poll_controller,
+ #endif
+@@ -556,7 +557,7 @@ static const struct net_device_ops cvm_oct_xaui_netdev_ops = {
+ 	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
+ 	.ndo_eth_ioctl		= cvm_oct_ioctl,
+ 	.ndo_change_mtu		= cvm_oct_common_change_mtu,
+-	.ndo_get_stats		= cvm_oct_common_get_stats,
++	.ndo_get_stats64	= cvm_oct_common_get_stats64,
+ #ifdef CONFIG_NET_POLL_CONTROLLER
+ 	.ndo_poll_controller	= cvm_oct_poll_controller,
+ #endif
+@@ -572,7 +573,7 @@ static const struct net_device_ops cvm_oct_sgmii_netdev_ops = {
+ 	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
+ 	.ndo_eth_ioctl		= cvm_oct_ioctl,
+ 	.ndo_change_mtu		= cvm_oct_common_change_mtu,
+-	.ndo_get_stats		= cvm_oct_common_get_stats,
++	.ndo_get_stats64	= cvm_oct_common_get_stats64,
+ #ifdef CONFIG_NET_POLL_CONTROLLER
+ 	.ndo_poll_controller	= cvm_oct_poll_controller,
+ #endif
+@@ -586,7 +587,7 @@ static const struct net_device_ops cvm_oct_spi_netdev_ops = {
+ 	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
+ 	.ndo_eth_ioctl		= cvm_oct_ioctl,
+ 	.ndo_change_mtu		= cvm_oct_common_change_mtu,
+-	.ndo_get_stats		= cvm_oct_common_get_stats,
++	.ndo_get_stats64	= cvm_oct_common_get_stats64,
+ #ifdef CONFIG_NET_POLL_CONTROLLER
+ 	.ndo_poll_controller	= cvm_oct_poll_controller,
+ #endif
+@@ -602,7 +603,7 @@ static const struct net_device_ops cvm_oct_rgmii_netdev_ops = {
+ 	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
+ 	.ndo_eth_ioctl		= cvm_oct_ioctl,
+ 	.ndo_change_mtu		= cvm_oct_common_change_mtu,
+-	.ndo_get_stats		= cvm_oct_common_get_stats,
++	.ndo_get_stats64	= cvm_oct_common_get_stats64,
+ #ifdef CONFIG_NET_POLL_CONTROLLER
+ 	.ndo_poll_controller	= cvm_oct_poll_controller,
+ #endif
+@@ -615,7 +616,7 @@ static const struct net_device_ops cvm_oct_pow_netdev_ops = {
+ 	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
+ 	.ndo_eth_ioctl		= cvm_oct_ioctl,
+ 	.ndo_change_mtu		= cvm_oct_common_change_mtu,
+-	.ndo_get_stats		= cvm_oct_common_get_stats,
++	.ndo_get_stats64	= cvm_oct_common_get_stats64,
+ #ifdef CONFIG_NET_POLL_CONTROLLER
+ 	.ndo_poll_controller	= cvm_oct_poll_controller,
+ #endif
 
 ---
 base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
-change-id: 20261107-octeon-pow-send-list-9947e66a10f0
+change-id: 20261107-octeon-get-stats64-39d3a4f9bf15
 
 Best regards,
 -- 
