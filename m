@@ -1,96 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794061083;
-	b=zg1FZcH+tCLwEdyHyMjsqdq7t5sbaHlxBpvvx8+vZs+YyJK+FSM4IaPNvFMt+lBgNdiY
-	 L287+Vi3afDwTG+CmtDI0+JRWpKoZyBv0RIaJGARWk8Thg7DUrOMGSWoZTYGiNUTHu4Lj
-	 lgdiNEIPRkSr52hvmjlqYTzgz8xuanWx99fqDCwNWbaWbdtDmP+XVlis1u0iXD7dSLq4a
-	 5Z2ShrH0BnBnRMvNfujsYL6hl2GM3s6jqs0fGX2eqbG/ePYdsdL2MkNCCNycq71ENS0Ux
-	 hUtXPx7Sc6k0GFCz4Xr3YWMty1xZTcHMZtrQ2iaahjM4cMqiJRu6RkBFyoe+7Y5T4uQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794061083;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=ZIuiohscteJo2hp38Rebuh7m/8NNcOKtecBPcT79lyA=;
-	b=4qhBeJLubTkuoc1Cp0x/E8xQ2/h+7GwJ38gwTcsFN1a4yn4i6U/O8fXpE/unvxQK0+zT
-	 fjQGxaN+eLfu2tkfDaIzR2KlIyoRZGB1S8A+1ZUo5iOxQHJgAkyKW4Ps7vTWmeAqwKFyU
-	 lx0qfHkx3pEE4TU8T/tAh87P24WXIiqFeDEo/HFkydvUhPwGfbiof92I/OOQxQt1iHTqC
-	 I+CWRX8KmRB+OrqJAHhmpqfpOHGDibfePQRgR375lgzAUVL5pwqJ+ttRlRzET308Awtl0
-	 mCS6/EZUKf1o0jvl8TcXaUcXlnswdShiSMwCJ1wXcv34DElEqecGOhBsLcAIFYpjLXA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=afxuE3Tr;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794063999;
+	b=owyXfQvTeR/bBfgX/OBjwzysXC9+VixkUdRLZydNGo9ZHKDwvOGQ1XgjGhfCdBvTCr5l
+	 UtTGejeExHll5swDJDRvU0NZSPd0/Vg17/8VnENLzCEybNi+7aCzu71LMX2c+Jw+Plyd9
+	 gK92tivVrBvUDUkHlvFB0pwmrD2/+aYX2/V4EBOzhvc+iZCqpR/YLsdC5342DXLfHhVZh
+	 xXW2GJp0WV1QeZkvpFnQmL5FGImp9h6Qi//fEcd7aCcfPsBVBEXfiZqnS4gu8B7Twuthc
+	 ZslI/I3epazvk3ZBUdcsZR5zaReo3bigIh2JlB2zo6+zuwXhkPfO8jKXJuqjK7jm/qA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794063999;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=cxr3dU8XiH5bi2u1dg6SGQxZyh/jEU0GS+krtHvgiEQ=;
+	b=06VBJUnki/weQTa88VaBhrNPZOVb+tRoqn/9cDVQoWLWnTVDgKO02Sini0eDQegdanJf
+	 Rctj1hY5IeF8TDenVNB5IUv8K5O40xyVfW//EUblsKUQwilodsbCYXE3TpfDX5g8FA20a
+	 5/WLK3E+bvUEabsXyXCqgmvlKQ30YQ1c4cPWSMrkGgdSJfiEmlGjRXPJddzAfNWyux3fd
+	 n/OCmnEarWNuqDSeksXo3wIubSbairQWah1gyYDjYRBHlZWejQ1oY+CrJrFAYHEL7HlWL
+	 qDbhVJ0RzZBNR/j92GKEha2aNWNBn801Y+77Cse037MlRbB+Jv5FECMAQrfRSMCIJnA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RvGZrorQ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5790960A2620;
+	Sat,  7 Nov 2026 15:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RvGZrorQ
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794063999;
+	b=u1/fl+N4yU/DaxvVlUFDhjKrNjmEg+Do4FOuLih92TDXuS8yOZR09RLOm/OY5+FR2/cV
+	 KVHwU5dxBPRCJh4MFNbIbgJ25SD0QeslH9GUNcSr5l+HQY3SrKHumRjkWicoG3x2Trub6
+	 pSmkkMLLLs7OIQaygNenJph1MxhffrDGTLM4TxkJvaiQQyuqtRVoh8XGwaK/ur8daBkx6
+	 f5asy0vhJPhFi1B0JdtxPc/AYn2PX2Qce4vYdTUm+s6CSLFZLnmS+h3Ct1aDIIu9lDJwH
+	 BTP8g08647mNYFRHrQ5kE+mZQdHX8UybJldMW4MSAB+rk663Ajl5mOZOUncHJK8Shpg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794063999;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=cxr3dU8XiH5bi2u1dg6SGQxZyh/jEU0GS+krtHvgiEQ=;
+	b=RXMYWNZVTXVUtFH5yDMjeN67a8D/xhftL7T0XWmYRnjrB/SbEfKOvyY8mMHDw46DaMMx
+	 7rtZzwrr6tz6MLn6oSUs+7AXv2TdJljGSjWTFIU+EhTEfoopXlnoveOyKLDh2qbeufnMX
+	 yT49R0nJ3Dz9Km1056Xjdps45TY3ICzA5Awgj3CeRId1iTtV8ZAKxOpbjg+tG30QyoE7K
+	 zKS2VBIfB5VNipipAvWIeg9cfY397OLrOswUPHxYr8v+/1Cz1Xobm1Vk4vCs8mqtXcYf8
+	 Or5pa5HprEKy/JAn2znJnQW1nKHMhzLnriA0G+9L74gf4WmaFZC5SL19yaCHRKMNmWw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6B9606D819
-	for <linux-staging@lists.linux.dev>; Sat,  7 Nov 2026 14:18:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB6B9606D819
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=afxuE3Tr
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-3282db206d3so3547870eec.0
-        for <linux-staging@lists.linux.dev>; Sat, 07 Nov 2026 06:18:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794061082; x=1794665882; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZIuiohscteJo2hp38Rebuh7m/8NNcOKtecBPcT79lyA=;
-        b=afxuE3TrQi96wVrH7pYPEGxCdOESSaqOuhcqq4QpD2KfShfAxfYnS6WDl/T/NaL5QD
-         qVk27arTlt8GV0uvGK5Rx4kt+x7MtUcuLhyhDdZAEi6JyCdDvC6gWyiJbyBS0cC7FA9M
-         Y/kvJDCMNDKkpiuWWu443FeGPHhFizOG6a03OOikE10oCw+eTf33NoLF21ausDpZ8605
-         xPlKG9niqGEf1pkRuZ+nj8EK05ch97KDUjDy/DvNd8qfdEvhRqB9PKRMCtgHbL5JU+IO
-         A/Zx6Atn8GJQIRODJQFPamRM3k2MF3pD2MURdBxUjPNPpfPcrjQRp+VeVMF75C3Fykz9
-         4suA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794061082; x=1794665882;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZIuiohscteJo2hp38Rebuh7m/8NNcOKtecBPcT79lyA=;
-        b=PHBKth3LJxhh+bjJ3Ju1FsZZXafvxldDV1+u5Xcxi8MRpCgA1CCzTsKMtqXdEW45mT
-         i6mtvbygFViA3bEMUOKzzPEIywjjjSEfaLzuacBwvc2qg/6VfZhGUUid0l89kM1nRWMe
-         WjjW8rLN9/zXG4gcnmpLZiyHN3hfnNMAIT+JXc6Lr7QRTByRafyysnDlk8bG6VPeMHh6
-         Ij20ERsHYkuHio4qrQ2HpZjHRUquzhR4x5SltDNgw68hLv+EQPAobqISgJiEc+l2CGD2
-         d6n1JWf8TzL/boStnYouj2OmgAlvFe1CLAUzkcXdtz/P5c7yvW85QhyEQEeyQa36nICs
-         0USQ==
-X-Forwarded-Encrypted: i=1; AL+hErHzfZktloKZCb4krMPUGQiYLldw2XHl10rwSdqurZ6n+yXBGOveYZqgcjFYSTEKRPr0e14RU2BF1ecZUFdt@lists.linux.dev
-X-Gm-Message-State: APuU4Z8S1VtDPDrGQvlkXPCKdU41t5GJoMNMSx5BfsGijWrp12HiXsQH
-	vhctoPqShvhZujNIw9f6bUrIiK9EyTuJ2XXFbdEYPUNqN5xK6S2FDPAp
-X-Gm-Gg: AYBFou3TWhDdFwbmCiRTDxtOmO/JV30dmZE0UprxIBf8J3xOJJrfHs/zq2bKOULNo/k
-	URKykkPcVm/0qscb55MPMKKcDbovxK0xuWpNRgBL1LcpCxPjBksJKjnF7MRexcKfAKFNMdQ6ASd
-	eu6kQsgMTr8u6Z+2uiYhWqoiM7+rzTzVHGbNe7PKqM1XR1Axs+sGlBQ/JDgHfmg/r1ZzauNr2IL
-	B2ryRFxD12dqI8qV6f7qTe3MPiNhN5lcrkl4exQGoO7MGichqmM9BcKk/8UiAYksGku0Fot85tb
-	3HeGWnNBPBa5S6zaOFiE2mS/DI6Y0S5Ut2+QwwWHc5Vz44jKZBRNXgOhag5T48OzpCsFYB+Sn3H
-	eJ+EYbqE+VsePcDxnfCnWd8vWBSULjsh+Ao0eM/YiAHuIgu+n1Wf6jetCGLx4xb//yLT2En27zl
-	j04X3YmeubfH9OepG8EvgVVLBy0o1ylnqGmuzJhXICKCpKJr0W7dkdhmwsP/+5JCVVPz8dTvuCk
-	vCcLCR5LvS3H3pMaBq4Gxe6A8nkzc67CLhF176IsX0bVoGo9AI1d9YzMJPhh4I6wNgGmBsicEHz
-	7k2K6P6Z0ddjV1mfQgomMzd+qCFiYJMfngcALqINlg7OO18OENZbrHc45sA=
-X-Received: by 2002:a05:693c:87c7:10b0:36f:26a7:968e with SMTP id 5a478bee46e88-36f770062cfmr7560876eec.40.1794061081678;
-        Sat, 07 Nov 2026 06:18:01 -0800 (PST)
-Received: from TheRealOne ([2409:40e1:407:758:265f:d54e:2491:df90])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa9ed126csm16251949eec.18.2026.11.07.06.17.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 06:18:00 -0800 (PST)
-Date: Sat, 7 Nov 2026 19:47:51 +0530
-From: Chandradhar Kumar <chandradhar.2003@gmail.com>
-To: Alex Elder <elder@ieee.org>
-Cc: syzbot <syzbot+693652ded53d3eb9cb91@syzkaller.appspotmail.com>, 
-	elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
-	johan@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [greybus?] [usb?] KASAN: slab-out-of-bounds Read in
- gb_svc_request_handler
-Message-ID: <au8s1_tIBa0mpTSL@TheRealOne>
-References: <6aec63fd.5f5735a5.290c1c.0002.GAE@google.com>
- <46a139a9-198c-45c1-b41c-521def10a0df@ieee.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id A78A41F0089F;
+	Sat,  7 Nov 2026 15:06:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794063999;
+	bh=cxr3dU8XiH5bi2u1dg6SGQxZyh/jEU0GS+krtHvgiEQ=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=RvGZrorQy1WVyUVTlPZAHIGEym2mWW++qFiUu0oLDvkFSCKEi1gpBWlSXYxcFEwUS
+	 Rvk1ycjAXHGuGpZazav9AhYrsfRXu59TXrJ1WhPNyHou+yakSACacFMype4Gmd0Sbv
+	 FTRVolWLJ+DAGTyiCMXByKsvjCb52z3Wf3dKsFilplBXW3JGNcNuCO8FULCZDRqAoK
+	 bLkVwe5/0ji3rLzb30BWJPcuYVL91cU4vGKFV4hB6bFmZ94U4GEfnN5ofWrgc0AJql
+	 O293jDzuSKPz1C57MjVDwSi3N1vX+gYvAS2Y5FdIxnvi1dOIAqR57vjV22UuKYjfGO
+	 UyhMFdbZVq7rQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 39D1F47C43;
+	Sat,  7 Nov 2026 15:06:38 +0000 (UTC)
+From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
+Date: Sat, 07 Nov 2026 09:06:37 -0600
+Subject: [PATCH] staging: octeon: fix OF node leak and kernel-doc in
+ ethernet-mdio.c
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -100,50 +83,72 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <46a139a9-198c-45c1-b41c-521def10a0df@ieee.org>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261107-octeon-mdio-fixes-v1-1-9620a30952eb@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3LQQqAIBBA0avIrBvQEo2uEi3EpppFGhoRiHdPW
+ j4+v0CmxJRhEgUSPZw5hgbVCfCHCzshr83Qy94oJS1Gf1MMeK4cceOXMtpBj8poPThnoX1Xoj+
+ 0bV5q/QDGU87uYwAAAA==
+X-Change-ID: 20261107-octeon-mdio-fixes-734816443aa7
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794063997; l=1411;
+ i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
+ bh=vNQzcWCw6v+GGPCU8kFndUmRbbBQdBJ6gMhfqAvp8Dc=;
+ b=FC+6l190WVFl95b+7mKRrFwTrjPz9j+cS6JFhICFLvALpgRLRoLfkU2CmJZ11q6sFVRCFjUEj
+ IktMsPrQelKBx6nMVvV9yTFTsTsqdH6t4Wrh3nN00qMNE+qMtbgmvSl
+X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
+ pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
+X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
+ auth_id=1410
+X-Original-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
+Reply-To: aleszlucero@gmail.com
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 05, 2026 at 08:08:01AM -0600, Alex Elder wrote:
-> Here is what I see happening at the beginning of gb_connection_recv():
-> - If the connection is disabled or offloaded, return immediately
-> - If the size of the buffer (passed in as the "size" argument) is less
->   than the size of an operation message header, return
-> - If the 16-bit size embedded in the message header is less than the
->   size of the buffer, return
-> 
-> In other words, after these checks, we know:
-> 
->   sizeof(header) <= buffer size (size)       AND
->   buffer size (size) <= size encoded in the header (msg_size)
-No, it does not verify this, it verify:
-	size encoded in the header <= size (buffer size)
-> 
-> Therefore (transitive property), this is true:
-> 
->   sizeof(header) <= size encoded in the header (msg_size)
-So, the transitive property is not true.
+From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 
-I have sent a patch for this bug which verify the msg_size and header
-separately, which fixes the out of bounds read.
-patch link: https://lore.kernel.org/all/20261106094303.55158-1-chandradhar.2003@gmail.com/
+Fix a reference count leak in cvm_oct_phy_setup_device() where the
+device_node pointer 'phy_node' was not released if of_phy_connect()
+returned NULL on a probe deferral scenario. Balance the reference count
+by calling of_node_put() within the error path block.
 
-Hey please review the patch if there is something wrong or there are any
-other way to fix the bug.
+Additionally, correct the documentation style of the function by
+replacing 'Returns' with the standard 'Return:' keyword to comply with
+kernel-doc scripting requirements.
 
-Thanks.
-> 
-> And it's not possible after these checks for this to be true:
-> 
->     header.size < sizeof(struct gb_operation_msg_hdr)
-> 
-> or put another way:
-> 
->     msg_size < sizeof(header)        cannot hold
-> 
-> 
-> It surprises me this would be missed in the AI summary--and I
-> fear I'm mistaken.  If I'm missing something or wrong about this,
-> please feel free to say so.
-> 
-> 					-Alex
+Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+---
+ drivers/staging/octeon/ethernet-mdio.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/octeon/ethernet-mdio.c b/drivers/staging/octeon/ethernet-mdio.c
+index 211423059e30..05bc536ebded 100644
+--- a/drivers/staging/octeon/ethernet-mdio.c
++++ b/drivers/staging/octeon/ethernet-mdio.c
+@@ -151,11 +151,13 @@ int cvm_oct_phy_setup_device(struct net_device *dev)
+ 
+ 	phydev = of_phy_connect(dev, phy_node, cvm_oct_adjust_link, 0,
+ 				priv->phy_mode);
+-	of_node_put(phy_node);
+ 
+-	if (!phydev)
++	if (!phydev) {
++		of_node_put(phy_node);
+ 		return -EPROBE_DEFER;
++	}
+ 
++	of_node_put(phy_node);
+ 	priv->last_link = 0;
+ 	phy_start(phydev);
+ 
+
+---
+base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+change-id: 20261107-octeon-mdio-fixes-734816443aa7
+
+Best regards,
+-- 
+Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+
+
