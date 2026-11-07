@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794065095;
-	b=S3rOONS3KS7Ja7L14OqRvurNVtzR0WrIPclBHCKSbd12C/z2bNlHsPrDEZQvzfGx4g2q
-	 j/80+1plFtCm0BpAB6Vpg6DHE/lgxwBkIrAk7bvYHXdxR9KeChoCCLrcH219HIf9PPNRQ
-	 mdjzbKElpGX4z76cWMXJrrIGtGapdaXzIg6QhlJJdgrm1Dcc5nx7ryph4MdIw9MC1K9NV
-	 bqpamaDMWaai2HY56f8LvdliWhjnQLo6kTOWtFHGBZm/b0NWIh2JGG0r67WMYXkhThzlF
-	 yGer+hl4iQtXiA1HDWrEVXoIY2YFBVE2NSGIAWPOuabiO/fxqrZoCayod5A/KDZzH6A==
+	t=1794066733;
+	b=ZJvhTPSK07PrCStOBFmQoNrkwxcOHSgzbO25GxcSx/lZljPEgEgSdJhFvmtc/xgXv4OZ
+	 XK+TYZqhz2LOJEMK2SQL83z2+MtEwZWFVefE0pkRcd+azRST55ylAVLqKU2D8ah+9qyaB
+	 ddJ6uAueUsDyyxMPXfYTcflHgc/H6W8mSr/j0UzRJwGz1GiyVc38ACSU+nKZYzA9PsJP6
+	 Op2ElPOD/1E6PjZEFki673DgbuCDX+etTB1WiaCEw57CVfKKeKkjqG4cN+cY7oedjPcFl
+	 VKL6a/V41EeWQJzsOHbqSyv7CUT2ba73wbzGslYgrQLT+Owt2inElIPvEeiQBMiFx9w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794065095;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794066733;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=OMgwGkUYlxjWjFHWudYWbUzxlat71Jg28kxm9X022/k=;
-	b=NZeP4yjL5wdNpjTW4t/U2YHL+cP/P6nx5E+o/BeGMRxXjlQLEviOdUGIBV74h4wOl7Ja
-	 lRpQsnFxmcmF9uzkUbgH2xmc2z34poWJluLiSDEhpMZNz+hGpM4hhHwFsom0G6SHPTmGS
-	 y2iqr5PkRiPqQ1RdeCs9c8YjWZPIQL2W2POCvCeaSnM77M4ukSOjFDGVVjqBMMteyx9GS
-	 wIW6Nay/J/SuUKTNcKl2FfLNCROl3Z1fkVQ2NHv/O7WuNNZg6LeU1IbXq3xJSEoYr2AXW
-	 zENC6pdKE++XzEZA20s7sev6GVYMwF1cMHMjcxDYi/RmsmEx57GklIplvhOzcpYmVWw==
+	bh=AD5AAn8yuhO9x2szXVSoncfmQo2pH4jsIMh8652qAUw=;
+	b=KSZ1tyAZ6bi0No2UxUBHT3YsIbCZ0YrAoEFLsb8SB9BfX4KvqKJU6q2dPNkXoxXoT/MV
+	 8WCDksXwc7TOxzvWq+iJfO5hUoWhSlKLE+NvPaRcjRbIkXreqwSUhy+/h3Bw9kb97YHw3
+	 AK8a27xSZ2rwhKkFPzV9sVRNmklQbawNVTCN5RK21aPbYaptGRZOPNUWjOIqmKpypYVZR
+	 Hyj9xK2dbx5KH3jo0AxLTfbqpdo3pBmpiT7k7hLB/JbwqaMCyliLXGPSWVFSOyf+UbJqx
+	 Z49awcfHnxqmDuKJAfW/F2UOMp/jL44sypn3+T2VFzhklAinmWOejRgIh1QKy6stBbA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OonpIJjN;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Huf4SNAK;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB1F606A32E;
-	Sat,  7 Nov 2026 15:24:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C92C606A32D;
+	Sat,  7 Nov 2026 15:52:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OonpIJjN
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Huf4SNAK
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794065095;
-	b=p70mQuVC/JrOXnWZ+DhJel2AFHYwvQz4XioUH5/DAh7oZFQIvA7SnOHE+zQPjtxvdEab
-	 rXkwe6re4il0bCL4MvkxQ8rproRTrl175/vkg8F6/m/2drMd6V3EGqAELZtNFxD3nbcID
-	 1G/jI/MjOFzj6laEBxCxxJ6cAj34aQxH2RGEqKiqRd5bhVCBf6XugVEMbdgTA8E7W/zyA
-	 /dJgirqSdFQy/O89ZnIbCeauCDHmbuO175jpkSFYP/sJAmtfSnBaqVqfZGubm9cMHFxiA
-	 MugEdmqzqMJ7C010gQK9Z1V9O0tWsFGbTzFsK/mlVTSKabUonIRP70yN+Sg8mquZusQ==
+	t=1794066732;
+	b=crkiwngtUBkhry1b6/I1i8Oix9l9Ky4TZiDk8CatPEW6MJIFrbVcLFE9UeNA2fPY873y
+	 A9z34qkKDkhdfdrf0NsYBOMcOM5K9wKuW2E5Qs9OWRporRuDYCMRpLwxNHZA/B+YCyzac
+	 3e5q9V8himhd38aOZuMrzf/8bZxT8z6oq8SoWudAhr0uV0zvm2+NSh7+aASwLiMnsJOeL
+	 KmuvWCDaoKvH4jCcYa4Caf8BvS8zkWzlvbjZNrzRbYEi0kPNmNdtq2qs8jMrg9rgF8IH+
+	 RijcZv6h1ik53Cvr/+vKXAYmQVvqOAS6f/QbSXXHGkZU6MIoTMHsObBvCIUH1XsgiOg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794065095;
+	c=relaxed/relaxed; t=1794066732;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=OMgwGkUYlxjWjFHWudYWbUzxlat71Jg28kxm9X022/k=;
-	b=hiuxd2fyi3qmaMhMIeLHOeDYWpk2/ZU/K3YsGMjlDMxse04y5LEHgqilql3jXnkZx0cp
-	 pc5lVmgiRjT5AJ7Mwj+i8rHETSgBk62xxvD/XiGyhqhy7C5WL0YlH/Gbc2jLqL38l9AiM
-	 bfelxhJai+16ke7dxGDGwoYu+AYjzsTUN7XgeJpbiJXoEwF26AlY3MAb86TI0BRY57xSD
-	 dmZXT2ZVIIaW+UFGTH9PT8oZ6ALdjyy/+Fa65xOkvIB6gKYTDNhkckDr83YEYjGRj9A67
-	 4AOSgX79H9oPDXiBxz+pVzDhTezxp2z3bF2sbWcwfmJK4Uvyr7B+jKDrMqoUZEJC11Q==
+	bh=AD5AAn8yuhO9x2szXVSoncfmQo2pH4jsIMh8652qAUw=;
+	b=UXbV01vV6aIyJnoqSulg6Mwn75vu/AuJoqSeqWyHzqBEnPgU9DaibY/9JRdbnGQ14M3+
+	 AqDCV2NqGDmwBdQE7nMUoZGpMjvvbzC9l5o/HARzKP80rIGhfPd5dWnbh/UWDWTkNlKeu
+	 KhPlnBkRrMLO4FCkHNR7Aw/0mEpYuIlIni2Q37TWkWnCtOIgI0MtmtWmsJG87sMf1tMs7
+	 84U2epzsEN5PyQXY4t8HJHEvQpcQCwI3b7dqB+vUCp05A6tgjFob7OOsEWimdD4r0g0R9
+	 B9uyVglepqBMJERD9ZTznrSOxh9S2cnIFxhB4auOfpVDw3VuVU1OZesiVCGurQEBvQw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7EC901F008A1;
-	Sat,  7 Nov 2026 15:24:54 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 333C91F0089F;
+	Sat,  7 Nov 2026 15:52:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794065094;
-	bh=OMgwGkUYlxjWjFHWudYWbUzxlat71Jg28kxm9X022/k=;
+	s=k20260515; t=1794066732;
+	bh=AD5AAn8yuhO9x2szXVSoncfmQo2pH4jsIMh8652qAUw=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=OonpIJjNyW5Tk9Ba+MrlBpjXZpI096JfI26KRl0n1wsQJKkGt34NF0+sLQ2piin0F
-	 4bGF8RMBoEXQgwXHVjjVuakKjpsAm6oZedNWwuoy2ow7aZTBmxhFGqYyGpfMWm5JWp
-	 +Cu1i4YE2dYYwI2FcwwQKfmk6Xp8mocDfFgNLhT6asiHzM8zQT1WyG1+3zz05SyS70
-	 uKR7KDp226zQGfj86HBLG6YtnXScnHI7pWnYFN0vRHe1FZW6gdFX04XHSZL1/ZgJf7
-	 FZFkRIDv1nod+VTjx+auLdMZy1p1neCSWWo6FihGL2lb7qv+I4nc7oiFCiOaf2MFEb
-	 878CiZFO8k/Ug==
+	b=Huf4SNAKhfHxs71r8uEJHAkKdoHiInO8G/kbddrzoy8idYKDqjuPq9amOA7UqFFeo
+	 HHAlwa5+DDrX1Qe3QYF64ndCasKfatgKHXp7dUH+Ka14yA06MAmsM1JJbv021Rwath
+	 CObDV0rsnvkewXYYX4GT9v6bWytVbwR3lwRODxBwS8tQVA130B0QZMnTsakMGAEIjw
+	 Y/IqNR7+h8MTOY9WUz/TdFkUASlQsqO9tR/q2ms7SZyHUdYEMiy9q9wHu+WqZgKvVm
+	 sKtNmoHLOoMmKzFLj2rcAIjD486yxdF8vKLst1meMYP1jCBlSrH7gzliO9H8UuDo62
+	 10KMMHqWDi+wQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 0DB8F47C43;
-	Sat,  7 Nov 2026 15:24:54 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id B40A747C63;
+	Sat,  7 Nov 2026 15:52:11 +0000 (UTC)
 From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
-Date: Sat, 07 Nov 2026 09:24:53 -0600
-Subject: [PATCH] staging: octeon: add kernel-doc to ethernet-sgmii.c
- functions
+Date: Sat, 07 Nov 2026 09:52:10 -0600
+Subject: [PATCH] staging: octeon: fix race condition and log macro in
+ ethernet-rgmii.c
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,20 +84,20 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261107-octeon-sgmii-fixes-v1-1-7a5b0fe7d830@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3LQQqAIBBA0avIrBtQi6KuEi3MpppFGk5EIN09a
- fn4/AxCiUlgUBkS3SwcQ4GpFPjdhY2Ql2Kw2rbG6A6jvygGlO1gxpUfEnR9PZtm1Y3vPJTxTPS
- H8o3T+3491QgeZAAAAA==
-X-Change-ID: 20261107-octeon-sgmii-fixes-a93b14f04c7c
+Message-Id: <20261107-octeon-rgmii-fixes-v1-1-3cd7734fd2ee@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3LQQqAIBBA0avIrBtwTAy6SrTImmoWaWhEEN49a
+ fn4/BcyJ+EMvXoh8S1ZYqigRsG8T2FjlKUajDaOSHcY54tjwLQdIrjKwxknto6sbj15A3U8E/+
+ hfsNYygehzEmMZAAAAA==
+X-Change-ID: 20261107-octeon-rgmii-fixes-ae461403b1b2
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794065093; l=1423;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794066731; l=2577;
  i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
- bh=UMDYflhe5DeZfL7ZUgNBxR1G7QGPyWtztw2kj8SfazU=;
- b=2jhsNCj8V23riUFLlbR3NbdlBXGlGBN8PCCNf/+fDNzpalgM/lc9l1OVLgk5k6/6QzR7VbOT8
- a19xdGTxT3BAxIimYjZ9Qyc3ak7LlmIBAzHvZ6j1oqZgh6jirc9jaLN
+ bh=DrxoTmYjSJi2uco1KKjsDaAerIlUruP9wlDfDiu5NnM=;
+ b=BBI6s3s35XDFSbS2Qs7f4cj1adJOdDAd9JORcFBSunyGF0FefVDt3OVkGhTSalf1X2URDja6O
+ YFW+tRVwFQYBQUDT0fPdLmgTtQdzg5+jiPDeV+OX3u01JeH9HyOnAAT
 X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
  pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
 X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
@@ -108,48 +108,73 @@ Content-Transfer-Encoding: 8bit
 
 From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 
-Document cvm_oct_sgmii_open() and cvm_oct_sgmii_init() by adding standard
-kernel-doc comment blocks. This fixes styling inconsistencies across the
-octeon staging subsystem and allows documentation scripts to correctly
-parse the function parameters and return values.
+Fix a race condition in cvm_oct_check_preamble_errors() by moving the
+read assignment of priv->link_info inside the global_register_lock
+protected critical section. This prevents unsynchronized read-accesses
+concurring with status mutations from concurrent polling contexts.
+
+Additionally, modernize the message output by replacing the obsolete
+printk_ratelimited() call with netdev_notice_ratelimited().
 
 Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 ---
- drivers/staging/octeon/ethernet-sgmii.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/staging/octeon/ethernet-rgmii.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/octeon/ethernet-sgmii.c b/drivers/staging/octeon/ethernet-sgmii.c
-index d7fbd9159302..2cd717709414 100644
---- a/drivers/staging/octeon/ethernet-sgmii.c
-+++ b/drivers/staging/octeon/ethernet-sgmii.c
-@@ -16,11 +16,23 @@
- #include "ethernet-util.h"
- #include "ethernet-mdio.h"
+diff --git a/drivers/staging/octeon/ethernet-rgmii.c b/drivers/staging/octeon/ethernet-rgmii.c
+index 0c4fac31540a..a9a245b5580a 100644
+--- a/drivers/staging/octeon/ethernet-rgmii.c
++++ b/drivers/staging/octeon/ethernet-rgmii.c
+@@ -9,8 +9,6 @@
+ #include <linux/netdevice.h>
+ #include <linux/interrupt.h>
+ #include <linux/phy.h>
+-#include <linux/ratelimit.h>
+-#include <net/dst.h>
  
-+/**
-+ * cvm_oct_sgmii_open - open the SGMII interface
-+ * @dev:    Net device to open
-+ *
-+ * Return: Zero on success
-+ */
- int cvm_oct_sgmii_open(struct net_device *dev)
- {
- 	return cvm_oct_common_open(dev, cvm_oct_link_poll);
- }
+ #include "octeon-ethernet.h"
+ #include "ethernet-defines.h"
+@@ -56,14 +54,14 @@ static void cvm_oct_check_preamble_errors(struct net_device *dev)
+ 	union cvmx_helper_link_info link_info;
+ 	unsigned long flags;
  
-+/**
-+ * cvm_oct_sgmii_init - initialize the SGMII interface
-+ * @dev:    Net device to initialize
-+ *
-+ * Return: Zero on success
-+ */
- int cvm_oct_sgmii_init(struct net_device *dev)
- {
- 	cvm_oct_common_init(dev);
+-	link_info.u64 = priv->link_info;
+-
+ 	/*
+ 	 * Take the global register lock since we are going to
+ 	 * touch registers that affect more than one port.
+ 	 */
+ 	spin_lock_irqsave(&global_register_lock, flags);
+ 
++	link_info.u64 = priv->link_info;
++
+ 	if (link_info.s.speed == 10 && priv->last_speed == 10) {
+ 		/*
+ 		 * Read the GMXX_RXX_INT_REG[PCTERR] bit and see if we are
+@@ -74,7 +72,7 @@ static void cvm_oct_check_preamble_errors(struct net_device *dev)
+ 		union cvmx_gmxx_rxx_int_reg gmxx_rxx_int_reg;
+ 
+ 		gmxx_rxx_int_reg.u64 = cvmx_read_csr(CVMX_GMXX_RXX_INT_REG
+-							(index, interface));
++		(index, interface));
+ 		if (gmxx_rxx_int_reg.s.pcterr) {
+ 			/*
+ 			 * We are getting preamble errors at 10Mbps. Most
+@@ -83,8 +81,8 @@ static void cvm_oct_check_preamble_errors(struct net_device *dev)
+ 			 * disable preamble checking and do it in software.
+ 			 */
+ 			cvm_oct_set_hw_preamble(priv, false);
+-			printk_ratelimited("%s: Using 10Mbps with software preamble removal\n",
+-					   dev->name);
++			net_notice_ratelimited("%s: Using 10Mbps with software preamble removal\n",
++					       dev->name);
+ 		}
+ 	} else {
+ 		/*
 
 ---
 base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
-change-id: 20261107-octeon-sgmii-fixes-a93b14f04c7c
+change-id: 20261107-octeon-rgmii-fixes-ae461403b1b2
 
 Best regards,
 -- 
