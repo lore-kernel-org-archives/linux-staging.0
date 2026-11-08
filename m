@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794106023;
-	b=Z7Ajl5sq1ppT27aK4ZnDkPNPlq3Fz5DJcxTg2ggG3Es9upi5cfMFKR9Q99gZHUyh6LgN
-	 SY5jb/9jtCNQMsoenmG2yXHeF5kCA0O0FrLUMSXeE9jkE8Ma9nEKc+41HXODsLJaktVTD
-	 O/YjZ0CYvFnVUClI7W5Se+vGdkOkfKyfPTXXC2pW8f8mHXfZ3Czs9c9PTThUaNun1xG2t
-	 BnjoGQFHqguMv5PC2V937UIDq3a9kwk2s1g87RYnsU1FhtpviSslIOv8ZITyXCU0nTs44
-	 FgQZWhqkqx1MAo1mOS9jHG86dHd/7D8iqiJ6VoF8Iq9zh6tbWHUBPHoa/NNbqnq4RIw==
+	t=1794107684;
+	b=w9YkCaLvcp4nVfPyhDqxj2tw+7kBSnFbPvBm/SiX8pApAMiQnO+AltkNk15Sae9JEK7+
+	 1phFzUwYoulmmbJLvyCY93p7Yphh/OiwUe4VHnEcyDWdcd6aow1fvFSIiaoAXPf8kijtD
+	 nfwg4ts1y7K/s1zVCKpXeoA0b9j7JIp41jkiFgYa4QPuNo7x954qjymHenviC+0g5u32p
+	 CRTDo7IHKQ2JgUmG0hN8riR0uFy3MT/CCiCsRWAdJwx8YosMiRwAmg1ptInEl6RKBfsW1
+	 K2z56W/dFOtS/aXJrAexHWKXaYiRuBGHhUKDzbyld2RzXDT1Unp4of00LXBSprkErIA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794106023;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794107684;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Jw5WrrpD4rkxZry1Jgz9645HneA+oD0QP510BD17yrI=;
-	b=NtEPfTkG11s8mGi0W91ZJaNJ7ci+D3NUiEpeBd3OV0uBRaJ7d8PTXPdgl+5KY0U0qtz/
-	 VGrW9UCDamVFQecUkm1EG/esFLrra4/ZFInOeYLWKYK22mvUbYb/5at5NUp5LHYeK671Z
-	 ZYjQnJrhDPFDahg0LZSRo0qFnUt4ywEgAg6GNOpFbyKOV5eoMVJ0AxtX28HS9etMxCGeu
-	 uzE5JKhRqYZERknjatZMM9fbgL5y98a97gr1L1tRkANgGCuGtCzUI+HRL8ztmDNPIjiQx
-	 Y0+dt2mKR+9bgKc9kUnz5AmL0vhPcWhxt094NeyUWfCRe9Y6LBDlQV59oUAZM/WC2Zw==
+	bh=YHRvZIgqVzcYKoSUOa2Xqv2YSwqjHTEgDzR6R5zPtgs=;
+	b=3fZ4gXtp2bb+m1M/Hq6IEVFDHFT0TxpGWnFMq4yjYR8eNEYxUqAJLrB4rz9wZuoKJAYL
+	 LD9USIvfjEJO0ZkDBOF6+DKFOz9ivCPxY+zg1La8MuwM2gBUS5sd0hIGyxWBF363Wf0ah
+	 Q24Nt/tvCMVv0lMibGJEd+dSMlyQU732WZ4h7QTQuM7hVMFEOaESrOpGCYJldUj6gtI0D
+	 /pyuaLak8bjEnOZT/lMRb71bZSFCkvMhD32k6m3oxQWDW+UskTgngclZQoYj8QIV64ody
+	 oBOfPdrC4hKhTNCIzV3ab0hEobFBaQ5KNZtmDtNnk5zaipg6MXlxqNnAaVeLZPXvMTQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EYaVgxhL;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ew0vOkk/";
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2111606A31A;
-	Sun,  8 Nov 2026 02:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48740606A326;
+	Sun,  8 Nov 2026 03:14:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EYaVgxhL
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ew0vOkk/
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794106022;
-	b=FZCTjwbfr39Tb1vxQOIIloMEY7D+1tmrIf1KGgVlHdYXZj/9T1h4s/4lU+MjCgqggfeI
-	 TNdWQxqfD5KsLQbF14715FD2NJxndj0ayVTd8MBxmxG5X5IlxSp23m9q01IzS8vVq3BiZ
-	 zk2MLEs+O97X5dfIW7bI1ZUWQOThu6eV4IrdHxHh//r+o6bqeYKpwJT1p/DvFI87iuCTR
-	 jjfzsOrUF3BQeZUSk3aOg+rWxmCI903bLOLaoIwsHQUS0rvAKTEIxaOX4j+rWQHafC0e8
-	 vVwqbkL8bvhGCKzjINLZ/Mx4xq7YSUnwEHUH8n0QP9UnWxJ554LHkXDZ/p74edwYilQ==
+	t=1794107683;
+	b=3vJ2OBkdktjppsQ4RJsKhXQBFQIwIGZm2p40ebNIdIaZGaK3KXc8lKV3yDU++AfE/d98
+	 Xb5LrwkifV1TmIkEzBmLCapvwYvoNnBKm1lSu7z5EYvG81At+7U6ffS/CxceuyUAXjOeN
+	 1DvHFUb/pT+iFGoiSFemgTFqZEpGE0iaxsIu/AC1WNKSsqR6NkHCSeJx6LRyC6jHrQiWF
+	 KeLz0oE23P87/SQ0FOE0OvVwlctydKLXCnItRDzoQ0/r3uJwB83XUVvnS477tot6Lf5UP
+	 xr9OrYZmqtMhNMJZL+WFk7Ler38ASARXAHRLeIHAznIqSj/pfkLhvPCwAiKv+slvOow==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794106022;
+	c=relaxed/relaxed; t=1794107683;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Jw5WrrpD4rkxZry1Jgz9645HneA+oD0QP510BD17yrI=;
-	b=VbKbJdVa124/5syaFzQOiKnGH5FOWlikU3fYIc1kFpqoYFtb278+HEe0TNf5ZUaIXyHb
-	 ol8hgBURtFFdzo3HAED0IZU4zED+De5d5yfWi0c6qFwXWTBx4ss2FIsNgu3ljba5FyrNF
-	 mZQrjccCvkZBpDFNy1sNnPXBu2s7x3Y1ZN4VJsallo6ERGNGMfA/xkf7BuWXn9gErqRqj
-	 r9GKiZMjaLDnbCjX0GXAnVYnzXGGYElTH5NeHwwc5GPxxLK4Ou7MqiHunLDJOQMecmdpX
-	 6oNINWWS2YsoKZ6k4N57JDc0o2eLvMd4p/H+S3GhT3Q0GQhM9zMMCcWQo98CfcNAjDA==
+	bh=YHRvZIgqVzcYKoSUOa2Xqv2YSwqjHTEgDzR6R5zPtgs=;
+	b=eIx/VCgdTijb+D7vzUcvs9riO4FSszhTrcDMbpfJoR9Xhy2YLtQWWlg2nY3LdP+bqOO3
+	 9XnQu8t+Yl8hLGQaPqyyb9+QR8RG3SEIFErhh2LHtgc12zT33OJmiY242joi06ISnU7wC
+	 JbmWa0I/5hwK5xwFKzTJQzKRHWaSK/D8Pf2QbpWeq+3KPhkIXyKM2Z3BQBOo3K26BMYHk
+	 WToDgopJZWlP5GQDCQ5cQSqF4+VoUlbBNvBF2wXkokBSmAI+y5JXMtMgE7PsgtboAwv4T
+	 6wD4F3PzBOVydBE/O+xdCiFs6qXyTpR8Mikw4irSAzWuBijeWJBX1blc4KX96Kbj2BA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A52A01F0089F;
-	Sun,  8 Nov 2026 02:47:01 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 8DB861F008A2;
+	Sun,  8 Nov 2026 03:14:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794106022;
-	bh=Jw5WrrpD4rkxZry1Jgz9645HneA+oD0QP510BD17yrI=;
+	s=k20260515; t=1794107683;
+	bh=YHRvZIgqVzcYKoSUOa2Xqv2YSwqjHTEgDzR6R5zPtgs=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=EYaVgxhLCQQ+gpqwGRWq5zu7V5PLhu3Ib+5j8mFD35EgUwUjbVq8/4zaan15GvBu7
-	 bGE4zfFy3ZBRWcvq1zlYFbe/pWFC2qhhJOFVl/hvyAAlcd0dbDLHLIc5RlikthTkLv
-	 s+iTIXZnyqTlYh6819J4jMn59jy224YZyyA/lJeVCpnGvDrfYji1y3jaFey2sZkGFE
-	 Oggw+uyV7MZ+d8pdtQubv97vXXbAHr2DPJ88v3b71dzqlmofJso0IAQWOMAwavvE5P
-	 dOB9S5SEcB0+Z2/sr6ugK0iWwSLz60cNKATTsUCx3n9uPjBL6zAt5W3cQd7Tg+enM3
-	 E7tq77+MgR7oA==
+	b=ew0vOkk/fv0JsLqlRi9fUmJxvC4fwSKt4u6E/QLg6U0sKPMJf8l2RYEIHRk7f+8Fu
+	 Kb0vMZpaNvs7W7jpP5WoDUYW1JxkkO1EMxdIAXv/aKEHCA2O6u6y6QWBm8tu2t4/dR
+	 wTruaGwUByw1Q7et4eUZprsgV+uCWozfpWdPtKebEieXTGpWU2Qv7SjE0HS6Qioe7V
+	 uvL+vF3u9TkP3orgYVO6Sp1hnjH9wCNEcIFWWqs/BB1XCuzKF6XDpXIwXZEv6wQ8Mc
+	 6fnuTW3jptTR3/PQgxPMvRiZF2XDEfo32aGU2GS0cJT/5SuJjNOj6itsACuUf5HOaN
+	 zyo65jeZqtzDw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id F3FE747DB8;
-	Sun,  8 Nov 2026 02:47:00 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id E3D8B47DC2;
+	Sun,  8 Nov 2026 03:14:41 +0000 (UTC)
 From: DelaySystem via B4 Relay <devnull+DelaySystem.tubot.lat@kernel.org>
-Date: Sat, 07 Nov 2026 18:47:00 -0800
-Subject: [PATCH] media: staging: tegra-video: csi: use active state for
- frame interval
+Date: Sat, 07 Nov 2026 19:14:42 -0800
+Subject: [PATCH] staging: most: dim2: use atomic_t for channel state
+ counters
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,25 +84,25 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261107-staging-csi-interval-v1-1-4860ac021065@tubot.lat>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrDtgQo3VqxQXMU7TKRIlk4og3
- t2oy7f4fwOhyCTQFhtEWlh4ChnqUYD72uAJecgGXWqjVFmjJOs5eHTCyCFRXOyIjal19ewb44Y
- X5HSO9OH12r672/Lvf+TS+YJ9PwCILw1reAAAAA==
-X-Change-ID: 20261107-staging-csi-interval-967254b96cd8
-To: luca.ceresoli@bootlin.com, gregkh@linuxfoundation.org, 
- thierry.reding@kernel.org, skomatineni@nvidia.com, mchehab@kernel.org, 
- jonathanh@nvidia.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org, 
+Message-Id: <20261107-staging-dim2-atomic-v1-1-6eb4e8f1f63a@tubot.lat>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrDtgAo3Bq5QupnESRzCWTCwF8
+ e5N2+Vb/H+AchFWGLsDCr9EZcsN5tJBmCknRpmawfbWGdMPqJWS5ISTrBapbqsEdJ78NfrIFB2
+ 08lk4yvt3vd3/1v2xcKjfFZznBymVmeZ3AAAA
+X-Change-ID: 20261107-staging-dim2-atomic-68a85f8feaf6
+To: christian.gromm@microchip.com, rajveer.chaudhari.linux@gmail.com, 
+ gregkh@linuxfoundation.org, error27@gmail.com, 
+ parthiban.veerasooran@microchip.com, shyamsunderreddypadira@gmail.com, 
+ marusik.adamenko@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  DelaySystem <DelaySystem@tubot.lat>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7208;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3065;
  i=DelaySystem@tubot.lat; h=from:subject:message-id;
- bh=RFWR0QKV3z3LtnLnQBGjQGyiW1c3/1+A78zjLwzdzP8=;
- b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFnvHy2x/CDdoV5ypyZpyY8UJ5EawcRpNpc3Fc/bKZdis
- UrdksOgo5SFQYyDQVZMkUVMhud9/X2dOGurOSdg5rAygQxh4OIUgImUuTIyPJ//pfI+89ODqx4u
- 31aZVZORPuPOs0X3pK+3FebrrL+/q4aR4fgm51j9gq9+nM/FSuWaTZxvbIhqXVLQVm/wf5XN91I
- jNgA=
+ bh=Ii9BCHVX5TgM8cAejB89bBMykIT8SDp5IxFLV81pPhs=;
+ b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFnvXypmejyLT3GKnGHGu+GXwwQNIe6H0mGvu1L7fpxSC
+ XA/zb+ho5SFQYyDQVZMkUVMhud9/X2dOGurOSdg5rAygQxh4OIUgIlIJDD8D7Zhqf3NFRbAzVoz
+ 76/5qaBAXefeSh0np+0X121hqNMqY/hnVxD5PTTLqvhznszz+O0/TH3mmr3rzVZ7v3L3uv1VxmI
+ 8AA==
 X-Developer-Key: i=DelaySystem@tubot.lat; a=openpgp;
  fpr=161C0CEF7FDF2C5E3B3A9CC8E22333A79A058D4B
 X-Endpoint-Received: by B4 Relay for DelaySystem@tubot.lat/default with
@@ -113,205 +113,96 @@ Content-Transfer-Encoding: 7bit
 
 From: DelaySystem <DelaySystem@tubot.lat>
 
-Convert tegra_csi_{get,set}_frame_interval to the V4L2 subdev active
-state API, resolving the FIXME asking for TRY format support via the
-active state.
+Replace the volatile int channel state counters with atomic_t and
+convert all access sites to the atomic API.
 
-The interval now lives in the per-pad subdev state instead of the
-driver-private csi_chan->framerate field:
-- add csi_init_state() to seed each pad's interval from the TPG
-  framerate table at the channel's current format,
-- initialize the state with v4l2_subdev_init_finalize() in channel
-  probe and release it with v4l2_subdev_cleanup() on teardown,
-- re-sync the interval in csi_set_format() when the format changes,
-  matching the previous behavior where the format path refreshed the
-  stored framerate,
-- validate the pad index against the entity's num_pads in both the
-  get and set paths.
+request_counter is incremented in the AHB interrupt handler
+(channel_service_interrupt) and read from task context
+(channel_service), while service_counter is updated in task context.
+Plain volatile provides neither atomicity nor ordering for such
+cross-context sharing, see
+Documentation/process/volatile-considered-harmful.rst.
 
-With the state handling both ACTIVE and TRY buffers, the TRY path now
-works instead of returning -EINVAL, and the .set_frame_interval op
-(which wrongly pointed at the get helper) is fixed to the new set
-helper.
+Use atomic_set() at init, atomic_inc() for updates and atomic_read()
+for the comparison in channel_service().  No functional change is
+intended.  Unlike the earlier attempt that only dropped the
+qualifier, this converts the access sites as well.
 
-Non-TPG builds keep returning -ENOIOCTLCMD as before.
+Compile-tested only; I don't have this hardware, so testing on real
+hardware would be appreciated.
 
+Link: https://lore.kernel.org/linux-staging/2026072515-domestic-cardboard-f657@gregkh/
 Signed-off-by: DelaySystem <DelaySystem@tubot.lat>
 ---
- drivers/staging/media/tegra-video/csi.c | 80 ++++++++++++++++++++++++++++-----
- drivers/staging/media/tegra-video/csi.h |  2 -
- 2 files changed, 70 insertions(+), 12 deletions(-)
+ drivers/staging/most/dim2/hal.c | 11 ++++++-----
+ drivers/staging/most/dim2/hal.h |  5 +++--
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 5a5fca378ae6..629b543c76c1 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -111,7 +111,6 @@ static void csi_chan_update_blank_intervals(struct tegra_csi_channel *csi_chan,
- 	if (index >= 0) {
- 		csi_chan->h_blank = frmrate[index].h_blank;
- 		csi_chan->v_blank = frmrate[index].v_blank;
--		csi_chan->framerate = frmrate[index].framerate;
- 	}
+diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
+index 4f137ef846a3..ca931782b06c 100644
+--- a/drivers/staging/most/dim2/hal.c
++++ b/drivers/staging/most/dim2/hal.c
+@@ -419,8 +419,8 @@ u16 dim_dbr_space(struct dim_channel *ch)
+ 
+ static void state_init(struct int_ch_state *state)
+ {
+-	state->request_counter = 0;
+-	state->service_counter = 0;
++	atomic_set(&state->request_counter, 0);
++	atomic_set(&state->service_counter, 0);
+ 
+ 	state->idx1 = 0;
+ 	state->idx2 = 0;
+@@ -634,7 +634,7 @@ static bool channel_service_interrupt(struct dim_channel *ch)
+ 		return false;
+ 
+ 	state->idx2 ^= 1;
+-	state->request_counter++;
++	atomic_inc(&state->request_counter);
+ 	return true;
  }
  
-@@ -178,6 +177,9 @@ static int csi_set_format(struct v4l2_subdev *subdev,
- 	struct v4l2_mbus_framefmt *format = &fmt->format;
- 	const struct v4l2_frmsize_discrete *sizes;
- 	unsigned int i;
-+	const struct tpg_framerate *frmrate;
-+	struct v4l2_fract *interval;
-+	int index;
- 
- 	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
- 		return -ENOIOCTLCMD;
-@@ -199,6 +201,16 @@ static int csi_set_format(struct v4l2_subdev *subdev,
- 	format->code = tegra_csi_tpg_fmts[i].code;
- 	format->field = V4L2_FIELD_NONE;
- 
-+	/* keep the frame interval in sync with the format */
-+	frmrate = csi_chan->csi->soc->tpg_frmrate_table;
-+	index = csi_get_frmrate_table_index(csi_chan->csi, format->code,
-+					    format->width, format->height);
-+	if (index >= 0) {
-+		interval = v4l2_subdev_state_get_interval(sd_state, fmt->pad);
-+		interval->numerator = 1;
-+		interval->denominator = frmrate[index].framerate;
-+	}
-+
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
- 		return 0;
- 
-@@ -217,20 +229,53 @@ static int tegra_csi_get_frame_interval(struct v4l2_subdev *subdev,
- 					struct v4l2_subdev_state *sd_state,
- 					struct v4l2_subdev_frame_interval *vfi)
+@@ -682,8 +682,9 @@ static u8 channel_service(struct dim_channel *ch)
  {
--	struct tegra_csi_channel *csi_chan = to_csi_chan(subdev);
-+	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
-+		return -ENOIOCTLCMD;
-+
-+	if (vfi->pad >= subdev->entity.num_pads)
-+		return -EINVAL;
+ 	struct int_ch_state *const state = &ch->state;
  
-+	vfi->interval = *v4l2_subdev_state_get_interval(sd_state, vfi->pad);
-+
-+	return 0;
-+}
-+
-+static int tegra_csi_set_frame_interval(struct v4l2_subdev *subdev,
-+					struct v4l2_subdev_state *sd_state,
-+					struct v4l2_subdev_frame_interval *vfi)
-+{
- 	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
- 		return -ENOIOCTLCMD;
+-	if (state->service_counter != state->request_counter) {
+-		state->service_counter++;
++	if (atomic_read(&state->service_counter) !=
++	    atomic_read(&state->request_counter)) {
++		atomic_inc(&state->service_counter);
+ 		if (state->level == 0)
+ 			return DIM_ERR_UNDERFLOW;
  
--	/*
--	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
--	 * subdev active state API.
--	 */
--	if (vfi->which != V4L2_SUBDEV_FORMAT_ACTIVE)
-+	if (vfi->pad >= subdev->entity.num_pads)
- 		return -EINVAL;
+diff --git a/drivers/staging/most/dim2/hal.h b/drivers/staging/most/dim2/hal.h
+index 5d69a5e7d299..70b10793cf84 100644
+--- a/drivers/staging/most/dim2/hal.h
++++ b/drivers/staging/most/dim2/hal.h
+@@ -9,6 +9,7 @@
+ #ifndef _DIM2_HAL_H
+ #define _DIM2_HAL_H
  
--	vfi->interval.numerator = 1;
--	vfi->interval.denominator = csi_chan->framerate;
-+	*v4l2_subdev_state_get_interval(sd_state, vfi->pad) = vfi->interval;
-+
-+	return 0;
-+}
-+
-+static int csi_init_state(struct v4l2_subdev *sd,
-+			  struct v4l2_subdev_state *state)
-+{
-+	struct tegra_csi_channel *csi_chan = to_csi_chan(sd);
-+	const struct tpg_framerate *frmrate;
-+	struct v4l2_fract *interval;
-+	unsigned int i;
-+	int index;
-+
-+	frmrate = csi_chan->csi->soc->tpg_frmrate_table;
-+	index = csi_get_frmrate_table_index(csi_chan->csi,
-+					    csi_chan->format.code,
-+					    csi_chan->format.width,
-+					    csi_chan->format.height);
-+
-+	for (i = 0; i < sd->entity.num_pads; i++) {
-+		interval = v4l2_subdev_state_get_interval(state, i);
-+		interval->numerator = 1;
-+		interval->denominator =
-+			index >= 0 ? frmrate[index].framerate : 0;
-+	}
++#include <linux/atomic.h>
+ #include <linux/types.h>
+ #include "reg.h"
  
- 	return 0;
- }
-@@ -438,7 +483,7 @@ static const struct v4l2_subdev_pad_ops tegra_csi_pad_ops = {
- 	.get_fmt		= csi_get_format,
- 	.set_fmt		= csi_set_format,
- 	.get_frame_interval	= tegra_csi_get_frame_interval,
--	.set_frame_interval	= tegra_csi_get_frame_interval,
-+	.set_frame_interval	= tegra_csi_set_frame_interval,
- };
+@@ -34,10 +35,10 @@ struct dim_ch_state {
  
- static const struct v4l2_subdev_ops tegra_csi_ops = {
-@@ -446,6 +491,10 @@ static const struct v4l2_subdev_ops tegra_csi_ops = {
- 	.pad    = &tegra_csi_pad_ops,
- };
+ struct int_ch_state {
+ 	/* changed only in interrupt context */
+-	volatile int request_counter;
++	atomic_t request_counter;
  
-+static const struct v4l2_subdev_internal_ops tegra_csi_internal_ops = {
-+	.init_state = csi_init_state,
-+};
-+
- struct v4l2_subdev *tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
- {
- 	struct media_pad *pad;
-@@ -642,6 +691,16 @@ static int tegra_csi_channel_init(struct tegra_csi_channel *chan)
- 		return ret;
- 	}
+ 	/* changed only in task context */
+-	volatile int service_counter;
++	atomic_t service_counter;
  
-+	subdev->internal_ops = &tegra_csi_internal_ops;
-+	ret = v4l2_subdev_init_finalize(subdev);
-+	if (ret < 0) {
-+		dev_err(csi->dev,
-+			"failed to initialize subdev state: %d\n", ret);
-+		media_entity_cleanup(&subdev->entity);
-+		subdev->dev = NULL;
-+		return ret;
-+	}
-+
- 	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG)) {
- 		ret = v4l2_async_register_subdev(subdev);
- 		if (ret < 0) {
-@@ -696,6 +755,7 @@ static void tegra_csi_channels_cleanup(struct tegra_csi *csi)
- 		if (subdev->dev) {
- 			if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
- 				v4l2_async_unregister_subdev(subdev);
-+			v4l2_subdev_cleanup(subdev);
- 			media_entity_cleanup(&subdev->entity);
- 		}
- 
-diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
-index f0277cb42446..25aff2581f06 100644
---- a/drivers/staging/media/tegra-video/csi.h
-+++ b/drivers/staging/media/tegra-video/csi.h
-@@ -53,7 +53,6 @@ struct tegra_csi;
-  * @csi_port_nums: CSI channel port numbers
-  * @pg_mode: test pattern generator mode for channel
-  * @format: active format of the channel
-- * @framerate: active framerate for TPG
-  * @h_blank: horizontal blanking for TPG active format
-  * @v_blank: vertical blanking for TPG active format
-  * @mipi: mipi device for corresponding csi channel pads, or NULL if not applicable (TPG, error)
-@@ -71,7 +70,6 @@ struct tegra_csi_channel {
- 	u8 csi_port_nums[GANG_PORTS_MAX];
- 	u8 pg_mode;
- 	struct v4l2_mbus_framefmt format;
--	unsigned int framerate;
- 	unsigned int h_blank;
- 	unsigned int v_blank;
- 	struct tegra_mipi_device *mipi;
+ 	u8 idx1;
+ 	u8 idx2;
 
 ---
 base-commit: a41e364995bbcfa627418a70fe913c35b7510728
-change-id: 20261107-staging-csi-interval-967254b96cd8
+change-id: 20261107-staging-dim2-atomic-68a85f8feaf6
 
 Best regards,
 --  
