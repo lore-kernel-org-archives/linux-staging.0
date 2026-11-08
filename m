@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794107684;
-	b=w9YkCaLvcp4nVfPyhDqxj2tw+7kBSnFbPvBm/SiX8pApAMiQnO+AltkNk15Sae9JEK7+
-	 1phFzUwYoulmmbJLvyCY93p7Yphh/OiwUe4VHnEcyDWdcd6aow1fvFSIiaoAXPf8kijtD
-	 nfwg4ts1y7K/s1zVCKpXeoA0b9j7JIp41jkiFgYa4QPuNo7x954qjymHenviC+0g5u32p
-	 CRTDo7IHKQ2JgUmG0hN8riR0uFy3MT/CCiCsRWAdJwx8YosMiRwAmg1ptInEl6RKBfsW1
-	 K2z56W/dFOtS/aXJrAexHWKXaYiRuBGHhUKDzbyld2RzXDT1Unp4of00LXBSprkErIA==
+	t=1794114416;
+	b=yT3noetZcfDaehYt/deuMBw7+gFpBdEueLAGPPsgNzx/xLASL+XCdFjkoDJdQr2BdHy2
+	 PsdsS2pBah8uNr/FxO4s7DT+24JRIJrCwkxjrocPF+/4J1ZToxmmD1ndY2qoTIXYwffVn
+	 D0u8qjKfNqQST6Tq1A9hKup6eOsxtie32pwtOeJu4d9dqDpT1uzFpd7PQWqjHSlpLX3lE
+	 G3/mB5bj2EGSdjd7FxJ84W7xF6yXmgzYALMDMO7Pmk0NOo9b90IlY9KolIuIUBNPsu3LW
+	 329n7rEVZkQpGazrDiVu90Vb+QBVQewOPodeceG9TbKXIDLVRJST66HqsrGGub5aKJg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794107684;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794114416;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=YHRvZIgqVzcYKoSUOa2Xqv2YSwqjHTEgDzR6R5zPtgs=;
-	b=3fZ4gXtp2bb+m1M/Hq6IEVFDHFT0TxpGWnFMq4yjYR8eNEYxUqAJLrB4rz9wZuoKJAYL
-	 LD9USIvfjEJO0ZkDBOF6+DKFOz9ivCPxY+zg1La8MuwM2gBUS5sd0hIGyxWBF363Wf0ah
-	 Q24Nt/tvCMVv0lMibGJEd+dSMlyQU732WZ4h7QTQuM7hVMFEOaESrOpGCYJldUj6gtI0D
-	 /pyuaLak8bjEnOZT/lMRb71bZSFCkvMhD32k6m3oxQWDW+UskTgngclZQoYj8QIV64ody
-	 oBOfPdrC4hKhTNCIzV3ab0hEobFBaQ5KNZtmDtNnk5zaipg6MXlxqNnAaVeLZPXvMTQ==
+	bh=GcD4B/NC+LPFa4i7abrIGM3Q2OUWv45Xz+W+4d/g96Q=;
+	b=a+VbGJGy8l2ttrbD/Ks/97S8hj5bYSCtINPpmd50VPDewZr5PWsW5IQNIzh6S+W8C0l3
+	 0INcyvc01EgLqyRnoDV6Qip3yb7OOVs2/8chkmmsJiVKBsiKysCKox/juMHT0VfI4FSPa
+	 CsfK5YPcG9mBENQHzwpDgviNIRNZ9NetIE6kp055yCNZVrrZ7A1T+3JMmFhR9AA+ELWbH
+	 gi4LMul9qEO/a2wK8FXuiTe+n7KvXgOBwnkhY87MLVACISuKC4iJMVps3MOYNsUlYlM5c
+	 ZHJEojHOfoLpL6D22fVKA1gU6Gnp9MDSPFsNOXD/aGBsfS041iJjE+t7nlTzWOLIXxA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ew0vOkk/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n3lOJzt1;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48740606A326;
-	Sun,  8 Nov 2026 03:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F07F606A31A;
+	Sun,  8 Nov 2026 05:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ew0vOkk/
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n3lOJzt1
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794107683;
-	b=3vJ2OBkdktjppsQ4RJsKhXQBFQIwIGZm2p40ebNIdIaZGaK3KXc8lKV3yDU++AfE/d98
-	 Xb5LrwkifV1TmIkEzBmLCapvwYvoNnBKm1lSu7z5EYvG81At+7U6ffS/CxceuyUAXjOeN
-	 1DvHFUb/pT+iFGoiSFemgTFqZEpGE0iaxsIu/AC1WNKSsqR6NkHCSeJx6LRyC6jHrQiWF
-	 KeLz0oE23P87/SQ0FOE0OvVwlctydKLXCnItRDzoQ0/r3uJwB83XUVvnS477tot6Lf5UP
-	 xr9OrYZmqtMhNMJZL+WFk7Ler38ASARXAHRLeIHAznIqSj/pfkLhvPCwAiKv+slvOow==
+	t=1794114416;
+	b=vHFcTRlLO8qvcS7kc1A2Uqh1gbeQ0U4aTjyUp9VFXdPKXZYDAGJyqppGRQZLCMLjC9jZ
+	 y5In0hX43KhjXImlRHoZmsgrQO4Aqz/HkMYhl0t9vEpgMr40h7Nv2M9wfYc7LXg6PClyU
+	 AG5BH2vgKdzotMJJ5iBvZkDsDXg2ukfa9NX5WTORnBxAXpdcx1/2yXXAbCZHPHhisRclU
+	 lKlK/wmqws0v2q8jywq3y/LeeF1JQ7Hu2ZYw9Ls2IG0m25chGQFQqdcgx/2xBvB6eTGwA
+	 BIzMe2p4gdXv8zyrbKSmua16yihsKuGEUnOG+DMfjVc78AHlx/+HZM59pdoS0f+Nw8Q==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794107683;
+	c=relaxed/relaxed; t=1794114416;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=YHRvZIgqVzcYKoSUOa2Xqv2YSwqjHTEgDzR6R5zPtgs=;
-	b=eIx/VCgdTijb+D7vzUcvs9riO4FSszhTrcDMbpfJoR9Xhy2YLtQWWlg2nY3LdP+bqOO3
-	 9XnQu8t+Yl8hLGQaPqyyb9+QR8RG3SEIFErhh2LHtgc12zT33OJmiY242joi06ISnU7wC
-	 JbmWa0I/5hwK5xwFKzTJQzKRHWaSK/D8Pf2QbpWeq+3KPhkIXyKM2Z3BQBOo3K26BMYHk
-	 WToDgopJZWlP5GQDCQ5cQSqF4+VoUlbBNvBF2wXkokBSmAI+y5JXMtMgE7PsgtboAwv4T
-	 6wD4F3PzBOVydBE/O+xdCiFs6qXyTpR8Mikw4irSAzWuBijeWJBX1blc4KX96Kbj2BA==
+	bh=GcD4B/NC+LPFa4i7abrIGM3Q2OUWv45Xz+W+4d/g96Q=;
+	b=wxxgrZ2NQbYzg+lTQwT9OXMpbDLF/jvYXWirmBfdyJDOLnZKMylZtu5v1we1b7k1ARYN
+	 l40qBT6+4mtwCOVsnMNBgYUPYva3YLYtIMYnaLPWKQeGJ9bVxoXV4hsoRIPM2EJX3qJqY
+	 9klnQsR0kkrVHHVRnTo7B/hxvA84ZCJ6B0k7HhKorpjV1r988cVC0Hv4h2NrLGPkcvbLc
+	 B2bYSLvoDjloxQ7xJ/uDMCSUplQsWOcPFpRSIBCk8xcd8WNBGvhknY0mE3osmD2DD/xTx
+	 HuAix2ElZk/o5vqOh/9LwtOf8V8nkCuTGFDBga/gNA8t0gmvhtzqBt+GKtNmSfxow2w==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8DB861F008A2;
-	Sun,  8 Nov 2026 03:14:42 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 85D421F0089F;
+	Sun,  8 Nov 2026 05:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794107683;
-	bh=YHRvZIgqVzcYKoSUOa2Xqv2YSwqjHTEgDzR6R5zPtgs=;
+	s=k20260515; t=1794114416;
+	bh=GcD4B/NC+LPFa4i7abrIGM3Q2OUWv45Xz+W+4d/g96Q=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=ew0vOkk/fv0JsLqlRi9fUmJxvC4fwSKt4u6E/QLg6U0sKPMJf8l2RYEIHRk7f+8Fu
-	 Kb0vMZpaNvs7W7jpP5WoDUYW1JxkkO1EMxdIAXv/aKEHCA2O6u6y6QWBm8tu2t4/dR
-	 wTruaGwUByw1Q7et4eUZprsgV+uCWozfpWdPtKebEieXTGpWU2Qv7SjE0HS6Qioe7V
-	 uvL+vF3u9TkP3orgYVO6Sp1hnjH9wCNEcIFWWqs/BB1XCuzKF6XDpXIwXZEv6wQ8Mc
-	 6fnuTW3jptTR3/PQgxPMvRiZF2XDEfo32aGU2GS0cJT/5SuJjNOj6itsACuUf5HOaN
-	 zyo65jeZqtzDw==
+	b=n3lOJzt1DhcnFWAcKq9WlrWuNyYvo44tVqVEa8zInf+rW+2RDVUXWqFhVNav0y/dU
+	 OqG6+fmu54V3HF4n7boBuCK90C1q+XIk8Dh+bijjf4LSRB+KlAyR8vSCLpmEBNv/L6
+	 OC1cFF8PNJKSw3gYehk3tylWQe3ha0kKywklP8W2evnj63LHTG9kkJQINvYKF4ywG5
+	 9lzlfBqagplQQ/j5nmuGNl8zMrUNKGGN3Y3PC8L4F3rDbDrTqBCdBi2IV6HzrqbmOu
+	 Go/L8f0RB+QLTOIAE0DMwFp9VHz7rqIzq0CsGZLiuFkTQS5GnQI/sE11yWNOVmtfJ5
+	 3zCIV3YELl2dg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E3D8B47DC2;
-	Sun,  8 Nov 2026 03:14:41 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id E69C447DF7;
+	Sun,  8 Nov 2026 05:06:54 +0000 (UTC)
 From: DelaySystem via B4 Relay <devnull+DelaySystem.tubot.lat@kernel.org>
-Date: Sat, 07 Nov 2026 19:14:42 -0800
-Subject: [PATCH] staging: most: dim2: use atomic_t for channel state
- counters
+Date: Sat, 07 Nov 2026 21:06:54 -0800
+Subject: [PATCH] staging: media: tegra-video: use dev_err_probe() in CSI/VI
+ probe
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,25 +84,24 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261107-staging-dim2-atomic-v1-1-6eb4e8f1f63a@tubot.lat>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrDtgAo3Bq5QupnESRzCWTCwF8
- e5N2+Vb/H+AchFWGLsDCr9EZcsN5tJBmCknRpmawfbWGdMPqJWS5ISTrBapbqsEdJ78NfrIFB2
- 08lk4yvt3vd3/1v2xcKjfFZznBymVmeZ3AAAA
-X-Change-ID: 20261107-staging-dim2-atomic-68a85f8feaf6
-To: christian.gromm@microchip.com, rajveer.chaudhari.linux@gmail.com, 
- gregkh@linuxfoundation.org, error27@gmail.com, 
- parthiban.veerasooran@microchip.com, shyamsunderreddypadira@gmail.com, 
- marusik.adamenko@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+Message-Id: <20261107-batch1-s2-tegra-probe-v1-1-b4775e6437e5@tubot.lat>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQqDQAxA4atI1g1MBmqpVyldzE/UuFBJpqUg3
+ r2jLr/FexsYq7BB12yg/BWTZa6gWwNpDPPAKLkavPMtkXtgDCWNhOax8KABV10iY879nenpsqM
+ ItV2Ve/md39f7sn3ixKkcM9j3P5PoQpN5AAAA
+X-Change-ID: 20261107-batch1-s2-tegra-probe-ddf5e190d01b
+To: luca.ceresoli@bootlin.com, mchehab@kernel.org, skomatineni@nvidia.com, 
+ thierry.reding@kernel.org, jonathanh@nvidia.com, gregkh@linuxfoundation.org
+Cc: linux-tegra@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  DelaySystem <DelaySystem@tubot.lat>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3065;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2702;
  i=DelaySystem@tubot.lat; h=from:subject:message-id;
- bh=Ii9BCHVX5TgM8cAejB89bBMykIT8SDp5IxFLV81pPhs=;
- b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFnvXypmejyLT3GKnGHGu+GXwwQNIe6H0mGvu1L7fpxSC
- XA/zb+ho5SFQYyDQVZMkUVMhud9/X2dOGurOSdg5rAygQxh4OIUgIlIJDD8D7Zhqf3NFRbAzVoz
- 76/5qaBAXefeSh0np+0X121hqNMqY/hnVxD5PTTLqvhznszz+O0/TH3mmr3rzVZ7v3L3uv1VxmI
- 8AA==
+ bh=HadRakgfetZKfm5cBPmgCO0PbLmnRqlErwjrkQRxrOE=;
+ b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFkfmPMuPLl/SnLyI83elVuCq5deXp+gs9VSV9vGtVnsL
+ 4/BnnCxjlIWBjEOBlkxRRYxGZ739fd14qyt5pyAmcPKBDKEgYtTACbyfSkjw+l9nf7nRc6vPrqd
+ +YjtL/9w3+s3g+x+RqyTSO6x9N9R9ZLhf+bJ2cf/qnf7eF06clJtf9ulDZpRR6bd+WEUENDC+O2
+ qJh8A
 X-Developer-Key: i=DelaySystem@tubot.lat; a=openpgp;
  fpr=161C0CEF7FDF2C5E3B3A9CC8E22333A79A058D4B
 X-Endpoint-Received: by B4 Relay for DelaySystem@tubot.lat/default with
@@ -113,96 +112,76 @@ Content-Transfer-Encoding: 7bit
 
 From: DelaySystem <DelaySystem@tubot.lat>
 
-Replace the volatile int channel state counters with atomic_t and
-convert all access sites to the atomic API.
+Clock, populate and other probe-time resource lookups can return
+-EPROBE_DEFER.  Convert the remaining open-coded dev_err() + return
+sites in tegra_csi_probe() and tegra_vi_probe() to dev_err_probe(),
+which suppresses the error message on deferral and records the deferral
+reason.  This matches the existing dev_err_probe() use in vip.c and in
+the regulator/MIPI paths of tegra_csi_probe() itself.
 
-request_counter is incremented in the AHB interrupt handler
-(channel_service_interrupt) and read from task context
-(channel_service), while service_counter is updated in task context.
-Plain volatile provides neither atomicity nor ordering for such
-cross-context sharing, see
-Documentation/process/volatile-considered-harmful.rst.
+No functional change other than defer handling.
 
-Use atomic_set() at init, atomic_inc() for updates and atomic_read()
-for the comparison in channel_service().  No functional change is
-intended.  Unlike the earlier attempt that only dropped the
-qualifier, this converts the access sites as well.
-
-Compile-tested only; I don't have this hardware, so testing on real
-hardware would be appreciated.
-
-Link: https://lore.kernel.org/linux-staging/2026072515-domestic-cardboard-f657@gregkh/
 Signed-off-by: DelaySystem <DelaySystem@tubot.lat>
 ---
- drivers/staging/most/dim2/hal.c | 11 ++++++-----
- drivers/staging/most/dim2/hal.h |  5 +++--
- 2 files changed, 9 insertions(+), 7 deletions(-)
+ drivers/staging/media/tegra-video/csi.c |  6 ++----
+ drivers/staging/media/tegra-video/vi.c  | 16 ++++++----------
+ 2 files changed, 8 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-index 4f137ef846a3..ca931782b06c 100644
---- a/drivers/staging/most/dim2/hal.c
-+++ b/drivers/staging/most/dim2/hal.c
-@@ -419,8 +419,8 @@ u16 dim_dbr_space(struct dim_channel *ch)
+diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+index 5a5fca378ae6..9ec04ad3a893 100644
+--- a/drivers/staging/media/tegra-video/csi.c
++++ b/drivers/staging/media/tegra-video/csi.c
+@@ -810,10 +810,8 @@ static int tegra_csi_probe(struct platform_device *pdev)
+ 		csi->clks[i].id = csi->soc->clk_names[i];
  
- static void state_init(struct int_ch_state *state)
- {
--	state->request_counter = 0;
--	state->service_counter = 0;
-+	atomic_set(&state->request_counter, 0);
-+	atomic_set(&state->service_counter, 0);
+ 	ret = devm_clk_bulk_get(&pdev->dev, csi->soc->num_clks, csi->clks);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to get the clocks: %d\n", ret);
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret, "failed to get the clocks\n");
  
- 	state->idx1 = 0;
- 	state->idx2 = 0;
-@@ -634,7 +634,7 @@ static bool channel_service_interrupt(struct dim_channel *ch)
- 		return false;
+ 	csi->vdd = devm_regulator_get(&pdev->dev, "avdd-dsi-csi");
+ 	if (IS_ERR(csi->vdd))
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index d8c77d1290ef..34507a52016e 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -1875,11 +1875,9 @@ static int tegra_vi_probe(struct platform_device *pdev)
+ 	vi->soc = of_device_get_match_data(&pdev->dev);
  
- 	state->idx2 ^= 1;
--	state->request_counter++;
-+	atomic_inc(&state->request_counter);
- 	return true;
- }
+ 	vi->clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(vi->clk)) {
+-		ret = PTR_ERR(vi->clk);
+-		dev_err(&pdev->dev, "failed to get vi clock: %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(vi->clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(vi->clk),
++				     "failed to get vi clock\n");
  
-@@ -682,8 +682,9 @@ static u8 channel_service(struct dim_channel *ch)
- {
- 	struct int_ch_state *const state = &ch->state;
+ 	if (!pdev->dev.pm_domain) {
+ 		ret = -ENOENT;
+@@ -1888,11 +1886,9 @@ static int tegra_vi_probe(struct platform_device *pdev)
+ 	}
  
--	if (state->service_counter != state->request_counter) {
--		state->service_counter++;
-+	if (atomic_read(&state->service_counter) !=
-+	    atomic_read(&state->request_counter)) {
-+		atomic_inc(&state->service_counter);
- 		if (state->level == 0)
- 			return DIM_ERR_UNDERFLOW;
+ 	ret = devm_of_platform_populate(&pdev->dev);
+-	if (ret < 0) {
+-		dev_err(&pdev->dev,
+-			"failed to populate vi child device: %d\n", ret);
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(&pdev->dev, ret,
++				     "failed to populate vi child device\n");
  
-diff --git a/drivers/staging/most/dim2/hal.h b/drivers/staging/most/dim2/hal.h
-index 5d69a5e7d299..70b10793cf84 100644
---- a/drivers/staging/most/dim2/hal.h
-+++ b/drivers/staging/most/dim2/hal.h
-@@ -9,6 +9,7 @@
- #ifndef _DIM2_HAL_H
- #define _DIM2_HAL_H
- 
-+#include <linux/atomic.h>
- #include <linux/types.h>
- #include "reg.h"
- 
-@@ -34,10 +35,10 @@ struct dim_ch_state {
- 
- struct int_ch_state {
- 	/* changed only in interrupt context */
--	volatile int request_counter;
-+	atomic_t request_counter;
- 
- 	/* changed only in task context */
--	volatile int service_counter;
-+	atomic_t service_counter;
- 
- 	u8 idx1;
- 	u8 idx2;
+ 	vi->dev = &pdev->dev;
+ 	vi->ops = vi->soc->ops;
 
 ---
-base-commit: a41e364995bbcfa627418a70fe913c35b7510728
-change-id: 20261107-staging-dim2-atomic-68a85f8feaf6
+base-commit: fa4ad798f6f681031775266044ba1b0cf3c670bd
+change-id: 20261107-batch1-s2-tegra-probe-ddf5e190d01b
 
 Best regards,
 --  
