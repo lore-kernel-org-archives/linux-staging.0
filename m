@@ -1,59 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=77.32.148.24
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794100188;
-	b=sMd9NYSRXCB8jJKdBg7Fh3F9ddAUzkiJLyFf3B7uobILZGNtNBcFvuSwOupHw0o8ckRM
-	 3ATDwcWDTJzN1lI2JvvUSEq/CovlGXMpJef3HpzslQf3Jhge+J+ek66YVNrka7mWZDtI4
-	 6DC3L68p06B+Itxov06pPoeWO0cOEX5Pn7jPO0SHFYieCshY+FVsVqqlDjHvUch0Oa++B
-	 +XNxoyF3hXEG45xm801clggTgXemxd/mkltKr1xQBbzgeerd8xgeN8+3vyhEGArcT860F
-	 Qc9x/a90Ayu+8dfTv2xq+Tf7qjh41SxIi+06wQx5W8lyLxwNutTDms1D0fR8mvt1XxA==
+	t=1794100296;
+	b=oyZP6h3a7a67F+2qwjV0G0bAUk31m5mzjKlANPvVEeZKZ+daO8h/NUcd5nTiZxrMr/lH
+	 8vYs+w9OYxPSZakrcJaTGHgyCtEDc5KnzPESCjgP5BATusvyG9r5wh7e3R9lNfMjoenW8
+	 j3vQx18SFzQ9r70QX/IN9cw27hOZ0OdB2RJSIaGUdsvpq6qQ+/V3y5Lmd2/hyG3PPy4Us
+	 6/13v+tlmluZn7XfFtRo1mZNmNRtFxpLdLjapIZby4x9qFuspCoLI8pG5oFvituabMIs4
+	 Qgudz6qSekxK/ydmVd8kMV+9hQDNtqSG9FiY75XIILvMpZ0RkWCrNalW6w064Ut9Jdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794100188;
-	h=DMARC-Filter:DKIM-Signature:List-Unsubscribe:X-Mailin-EID:Date:
-	 Subject:X-sib-id:Cc:List-Unsubscribe-Post:From:X-CSA-Complaints:To:
-	 Message-Id:Origin-messageId:Feedback-ID:Mime-Version:X-Mailer:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794100296;
+	h=DMARC-Filter:DKIM-Signature:Subject:X-sib-id:Origin-messageId:From:
+	 Date:Cc:Message-Id:List-Unsubscribe-Post:Feedback-ID:List-Unsubscribe:
+	 X-CSA-Complaints:X-Mailin-EID:To:Mime-Version:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=JklxAbPBaLydgyuBapQPXeWi+Bu2/32FWWJiqNnbyR8=;
-	b=JiQnKVRXSrFilrbLmrnyZkI1IZ7Kp4dlM+Eer9xb4DlWP0hXFktHX/Ep/ii/SW9t2NDM
-	 /7ZN9vRUJpJKLlbkTmJ/k4GGgf/l1rZ266STv7+tJhewGoon1bJ21KjPu4l5N5AEpqqsk
-	 4nbn0M0ylK6ijyPVg7t29XRHVxd0+ZMXGV64TyYWY35pfTa9Gjc3v3k2VMeu3x3mO2b5B
-	 44CuLbjSzqtVRAsn6bt3YQoXdxufd5zqwwtAGsmmGSE+Nj1e/yat3fnKa+Z7QflFRtEZm
-	 AvJS4OAQ0L0nzQeNPvIw2E4dmviuTJiCpNU6Q9xyhwDrnE8gU89687R1CXuMs/k+o6w==
+	bh=sZfzNXh4BND9cCS6sfS5q9SmaLVYUprSC4+0dzXm2Xo=;
+	b=YlHh/PLipYLRj5jt7MIrTAuWi33e9I0pyO1+smDRVwuO4ZsJEYDfXACOFmJ7uv9ulwce
+	 UJfjItWfWZE23WTgbNEcPnIvkEXuhneMqDOl01RpqX50Fj6Xp6Uj+7ALbfPdW1/K7wz8w
+	 cCFpAgCgWcAA8n/FzLzGRqZJYlBVLRdwjEnC7oEmo235GHNPEXGVGorU5JpQ6ygftUxTu
+	 zCHVKFqoq/JKN/e8iZcp6Lm3qyEDHRNGKuZreaSCADe2DMS2RS2tr5nRMkhzaROnApMm4
+	 pDnvgEWuuh2ZVy9lcrX4gYHoQZBhCs9iJG9BmJd1NKX8iWUEYCeiLcUjt5pomUcNfDQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=tubot.lat;
 	spf=pass smtp.mailfrom=gx.d.sender-sib.com;
-	dkim=pass header.d=tubot.lat header.i=@tubot.lat header.a=rsa-sha256 header.s=brevo1 header.b=B4C5SVYd;
+	dkim=pass header.d=tubot.lat header.i=@tubot.lat header.a=rsa-sha256 header.s=brevo1 header.b=k60BzePF;
 	arc=none smtp.remote-ip=77.32.148.24
 Received: from gx.d.sender-sib.com (gx.d.sender-sib.com [77.32.148.24])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA924606A331
-	for <linux-staging@lists.linux.dev>; Sun,  8 Nov 2026 01:09:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA924606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C870606A326
+	for <linux-staging@lists.linux.dev>; Sun,  8 Nov 2026 01:11:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C870606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tubot.lat
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gx.d.sender-sib.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tubot.lat header.i=@tubot.lat header.a=rsa-sha256 header.s=brevo1 header.b=B4C5SVYd
+	dkim=pass (2048-bit key, unprotected) header.d=tubot.lat header.i=@tubot.lat header.a=rsa-sha256 header.s=brevo1 header.b=k60BzePF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tubot.lat;
- q=dns/txt; s=brevo1; bh=JklxAbPBaLydgyuBapQPXeWi+Bu2/32FWWJiqNnbyR8=;
+ q=dns/txt; s=brevo1; bh=sZfzNXh4BND9cCS6sfS5q9SmaLVYUprSC4+0dzXm2Xo=;
  h=from:subject:date:to:cc:mime-version:content-transfer-encoding:list-unsubscribe:x-csa-complaints:list-unsubscribe-post:message-id:x-sib-id:feedback-id;
-        b=B4C5SVYdIbooUozD8VDsoIvGQZtkqsMUu8VG1BGPBo9WeX64RHgxuJ7j3Xz3o3RoYa906onKwftc
-        /RMFXmNx++yC44hRBkU1KGZ+3M/TA8h23mpPEh0cb+2RtZeo9k+sQ1sobwb/xWgZU22QQFr5Vw+X
-        LL67/FG/daVSSmYZwp3Ej5bKV4x24Xkusnmu480vDgHxcDpRGR8Qbbtf/SicjM6Hdl/3iIIBOjT+
-        KjAz2Ljl2cvgFk4L5tJbA4GY8lq92zYuVjGeOlfxInN+FDQx4oPrKX9K5zX135BtuQ0f0GgUn6Uv
-        QrW2rDwAmrXGOrGbJD4KrwmUa0sw1tbI8JZtHA==
-X-Mailin-EID: NDczOTMwODc4fmxpbnV4LXN0YWdpbmdAbGlzdHMubGludXguZGV2fjwyMDI2MTEwODAxMDk0MS4xMTIxNDMzLTEtRGVsYXlTeXN0ZW1AdHVib3QubGF0Pn5neC5kLnNlbmRlci1zaWIuY29t
-Date: Sat,  7 Nov 2026 17:09:41 -0800
-Subject: [PATCH] staging: nvec: convert to DEFINE_SIMPLE_DEV_PM_OPS()
-X-sib-id: A9Lmf9iLlegeQ7gMqjTfyvk1X6cyPsXwRE82nP30X2g37x_4nNzU2fyFrmNifw6SbtvAJ7evML6lgtTv-_Oy3nnfVu3n0W4cfDnA_XI-bNqIClGsh9u_MHIAHLkwV8anwnEsqre-JNm36o_23z8paUPNvltO-IMTI31lF030Tt-JjOMuTVqQu6h7tYI
-Cc: <ac100@lists.launchpad.net>,  <linux-tegra@vger.kernel.org>,  <linux-staging@lists.linux.dev>,  <linux-kernel@vger.kernel.org>,  "DelaySystem" <delaysystem@tubot.lat>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
+        b=k60BzePF9M1s3+5gWxQjMM69tloGzZ6YciE3vmmhyH05+Vx+wHfGy9tzunUwJ5zmoo9D75TXEb+A
+        yvbbEZimBw8dIvKyOW4Z6sqWRO85Q6Oev2vnytkxlfPg2C4n4DhP87tvrKShcFisyH0vwvjELFRK
+        ImydluAupIteRvFjSer6RdLcmM5wDl31W37vtwtq+XdmEpeLMnEjZJO+JA8eqGW1af/w1EBtBIYs
+        9wOkCTu8NjBykO7ZMO93n5yU+9L+xG0tzfyjZWioYS2+cmRJeA/93tjkkiWwJoBxkFJWvkSOUxBI
+        rD1y3zLLnkSfoc1qg9kCyOD77zSOpZlEZ9L7hg==
+Subject: [PATCH v2] staging: sm750fb: fix remaining spelling mistakes in readme
+X-sib-id: aN3w1nBwXx1KQJMfnR2FQekITOco47tc9-VZrcZCRa-W-fY9Hros_9xA2B2_s72kMjuaJCUTs74KDybnaP00y6pUNzY0HEa9Ggak5lyTrBuqpoyfv04uzB4dNMvO2XeSzmtPMOUnYiVtaX1Wd_IVzoA0HKFvA4XHVvVvZroMCYCjyTdppAZoNRfQTDU
+Origin-messageId: <20261108011131.1124831-1-DelaySystem@tubot.lat>
 From: "DelaySystem" <DelaySystem@tubot.lat>
-X-CSA-Complaints: csa-complaints@eco.de
-To: <marvin24@gmx.de>,<gregkh@linuxfoundation.org>
-Message-Id: <20261108010941.1121433-1-DelaySystem@tubot.lat>
-Origin-messageId: <20261108010941.1121433-1-DelaySystem@tubot.lat>
+Date: Sat,  7 Nov 2026 17:11:31 -0800
+Cc: <linux-fbdev@vger.kernel.org>,  <linux-staging@lists.linux.dev>,  <linux-kernel@vger.kernel.org>,  "DelaySystem" <delaysystem@tubot.lat>
+Message-Id: <20261108011131.1124831-1-DelaySystem@tubot.lat>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
 Feedback-ID: 77.32.148.24:11287567_-1:11287567:Sendinblue
+X-CSA-Complaints: csa-complaints@eco.de
+X-Mailin-EID: NDczOTMwODc4fmxpbnV4LXN0YWdpbmdAbGlzdHMubGludXguZGV2fjwyMDI2MTEwODAxMTEzMS4xMTI0ODMxLTEtRGVsYXlTeXN0ZW1AdHVib3QubGF0Pn5neC5kLnNlbmRlci1zaWIuY29t
+To: <sudipm.mukherjee@gmail.com>,<teddy.wang@siliconmotion.com>,<gregkh@linuxfoundation.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -67,108 +67,45 @@ X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: quoted-printable
 
 
-Convert the deprecated SIMPLE_DEV_PM_OPS() to DEFINE_SIMPLE_DEV_PM_OPS()
-and pm_sleep_ptr() in the nvec core and nvec-mouse drivers.
+Fix two spelling mistakes in the driver readme:
 
-This lets us drop the CONFIG_PM_SLEEP guards around the suspend and
-resume callbacks, and reduces kernel size when CONFIG_PM_SLEEP is
-disabled. No functional change.
+"Silicon MOtion" -> "Silicon Motion"
+"otherparm" -> "otherparam" (matching the example above it)
 
 Signed-off-by: DelaySystem <DelaySystem@tubot.lat>
 ---
 v2: resend in plain text via git send-email; v1 was corrupted by the
-webmail send path (HTML part rejected by vger, tabs expanded to spaces).
+webmail send path (HTML part, whitespace mangled).
 
-Build-tested: arm64 defconfig with MFD_NVEC=3Dm and SERIO_NVEC_PS2=3Dm,
-under both CONFIG_PM_SLEEP=3Dy and =3Dn; both build with zero warnings.
+Note: this complements Hussain Sitamouwala's unmerged patch
+<20261104112629.180890-1-husainsitamuwala21@gmail.com>, which fixes
+"defaulty" and "althernative" in this same file. The two patches touch
+different lines and do not conflict.
 
- drivers/staging/nvec/nvec.c     | 8 ++------
- drivers/staging/nvec/nvec_ps2.c | 6 ++----
- 2 files changed, 4 insertions(+), 10 deletions(-)
+ drivers/staging/sm750fb/readme | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index 41cbdfdc1da6..afe384cbd960 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -763,14 +763,12 @@ static void tegra_init_i2c_slave(struct nvec_chip *nv=
-ec)
- 	enable_irq(nvec->irq);
- }
+diff --git a/drivers/staging/sm750fb/readme b/drivers/staging/sm750fb/readm=
+e
+index cfa45958b9d2..dd8ba1a85695 100644
+--- a/drivers/staging/sm750fb/readme
++++ b/drivers/staging/sm750fb/readme
+@@ -1,5 +1,5 @@
+ Introduction:
+-	SM750 of Silicon MOtion is pci express display controller device.
++	SM750 of Silicon Motion is pci express display controller device.
+ 	The SM750 embedded graphics features include:
+ 	- dual display
+ 	- 2D acceleration
+@@ -27,7 +27,7 @@ About the kernel module parameter of driver:
+ 		ahead of parameters,so,it looks like:
+ 		video=3Dsm750fb:noaccel,1280x1024@60,otherparam,etc...
+ 		it equal to modular method with below command:
+-		insmod ./sm750fb.ko g_option=3D"noaccel:1280x1024@60:otherparm:etc..."
++		insmod ./sm750fb.ko g_option=3D"noaccel:1280x1024@60:otherparam:etc..."
 =20
--#ifdef CONFIG_PM_SLEEP
- static void nvec_disable_i2c_slave(struct nvec_chip *nvec)
- {
- 	disable_irq(nvec->irq);
- 	tegra_i2c_writel(I2C_SL_NEWSL | I2C_SL_NACK, nvec->base + I2C_SL_CNFG);
- 	clk_disable_unprepare(nvec->i2c_clk);
- }
--#endif
-=20
- static void nvec_power_off(void)
- {
-@@ -910,7 +908,6 @@ static void tegra_nvec_remove(struct platform_device *p=
-dev)
- 		pm_power_off =3D NULL;
- }
-=20
--#ifdef CONFIG_PM_SLEEP
- static int nvec_suspend(struct device *dev)
- {
- 	int err;
-@@ -942,9 +939,8 @@ static int nvec_resume(struct device *dev)
-=20
- 	return 0;
- }
--#endif
-=20
--static SIMPLE_DEV_PM_OPS(nvec_pm_ops, nvec_suspend, nvec_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(nvec_pm_ops, nvec_suspend, nvec_resume);
-=20
- /* Match table for of_platform binding */
- static const struct of_device_id nvidia_nvec_of_match[] =3D {
-@@ -958,7 +954,7 @@ static struct platform_driver nvec_device_driver =3D {
- 	.remove =3D tegra_nvec_remove,
- 	.driver  =3D {
- 		.name =3D "nvec",
--		.pm =3D &nvec_pm_ops,
-+		.pm =3D pm_sleep_ptr(&nvec_pm_ops),
- 		.of_match_table =3D nvidia_nvec_of_match,
- 	}
- };
-diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nvec_ps=
-2.c
-index e6234d29e264..2fb34f0d0dca 100644
---- a/drivers/staging/nvec/nvec_ps2.c
-+++ b/drivers/staging/nvec/nvec_ps2.c
-@@ -134,7 +134,6 @@ static void nvec_mouse_remove(struct platform_device *p=
-dev)
- 	serio_unregister_port(ps2_dev.ser_dev);
- }
-=20
--#ifdef CONFIG_PM_SLEEP
- static int nvec_mouse_suspend(struct device *dev)
- {
- 	/* disable mouse */
-@@ -156,9 +155,8 @@ static int nvec_mouse_resume(struct device *dev)
-=20
- 	return 0;
- }
--#endif
-=20
--static SIMPLE_DEV_PM_OPS(nvec_mouse_pm_ops, nvec_mouse_suspend,
-+static DEFINE_SIMPLE_DEV_PM_OPS(nvec_mouse_pm_ops, nvec_mouse_suspend,
- 			 nvec_mouse_resume);
-=20
- static struct platform_driver nvec_mouse_driver =3D {
-@@ -166,7 +164,7 @@ static struct platform_driver nvec_mouse_driver =3D {
- 	.remove =3D nvec_mouse_remove,
- 	.driver =3D {
- 		.name =3D "nvec-mouse",
--		.pm =3D &nvec_mouse_pm_ops,
-+		.pm =3D pm_sleep_ptr(&nvec_mouse_pm_ops),
- 	},
- };
-=20
+ 	2) if you put 800x600 into the parameter without bpp and
+ 		refresh rate, kernel driver will defaulty use 16bpp and 60hz
 --=20
 2.34.1
 
