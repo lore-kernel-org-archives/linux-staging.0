@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794114973;
-	b=VEEugvMYahaHO70h4cv3jnziT8ktyN4FDogYOL4BNNGFohRM1Ixd2KadxnGDpW+i/Fk2
-	 59XsorgC4c+1DoO47fF9GXmdh1kHcvKwDy0r9/C6cm2ajB5c/IXd3vgv+rSNKdIxIjYg6
-	 DhEu/Ps8hrZbj1bm577cQd6N/hRG6nWmevBN87lgmROFUPuPJ7WEglejZc7ARCTg07wFB
-	 +DA3n45+4QOf+exDFMk3mvAlZCJJ615O2ae0dDJcsXX1PORfzG1EpNI7VzMhl84MM2kU8
-	 3JGKCZ3dmEKFR5YIlIy5uTEeaO9dRC8TZ/M2LjSL9d8nUurnoLuGns+5fQ5NfrIhc4g==
+	t=1794115042;
+	b=g74igoqny6wb5slLo6NQtV0zy7AIIJ0TPuGkvrQJaJYZ6OLdgJAhh1OJtzzR2DalKb2L
+	 7nhwOxNNvNsbzADY5sS8/6DRGZfoNc2RpQ2olQvzUE7UPa+bQaNdMYDnVE7gKx2wkei5X
+	 7VnB2HY0/mKPZNjcNvG0rpX5m8UWFiFMc5astMEMamzNsfZZWWdSrKBB2nWxMOuF3sObf
+	 FYesXAGiy1A02VegpeoLTcL/7sXnR41qE8YskzQZR9fv7WqFBkQdt5PoCP76DCXrbU0LF
+	 HJxYpiVKU3Y67/QWVRfqhGUHcs0EZ+rhnzDW49gVTWqxqyR7dohrma1Bn6AXLBokZSg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794114973;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794115042;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=GaJ0kJ7iGwr4NJdNnl3p/qA/RRPtTceFFlBooGp8kRY=;
-	b=Xz66yJtOiQzCVYhtxVebiFtauBHgWpqjJGKa9UBOEQpo0cceuE0+VLNWaxHTvoHmMC2p
-	 +1RL7lOwjx7Jzs0AO58FMxp/fmZ+OJWrdYZJO2GOMTv79wp+0YCmvDkxHMUfS6FnQFKQf
-	 +8sM5M8kXpniEYzzMXOc9XXgDE+oZszsbhGRqFdKspvW51mFJcAdF62XxsgJTsAJtLbx/
-	 giMUDUqu/OWB3QDXf1oAeI0aJqeyyVBp02nRWioT7hsVeiPhjV4BXvOnCbRT5FGhoYlB1
-	 ybbIJHwf5VH41xz/IJaZolq9eT/taKNcYx0roOQ941qz7FfkYvbvnx471xNOz6mqvLw==
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=jcRlgwbaeCWN8RyyDDQL9tJxHF6EIJ8eLZHyMDZk2Sw=;
+	b=fX2bAIudfZPMd0My7vBLdozwVKFuSIwDepI+wbWxGTzAJu/sdXVU2szmPSkdlWtHrMgS
+	 fL1eCRmqN9Hiza5aqOipYVkdhPfBiiGc+lLJ0mSey2vRpTLsDcf/a5t2eKCyLpryG38p4
+	 bqlFzEkRcwHOrtXqBc8LBbguhrXGfg4VDKP4mf2IIqtojHZXwJfANVIOuuidcjPvtPUW8
+	 XDwffCIIvNAjaol+5UjAuG9zCBILWU64skiAGZErmeKTZoiTJGAS7zFOExZEw6dgqcWqy
+	 KyRj/6bbXW8z+e/UatWOzDEb19/CuzHxDl+wroQY1lcRPWJXh6xm5BtSelJZdcTN1SA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ee7vqJqb;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q2LwJS6Y;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5996C606A31A;
-	Sun,  8 Nov 2026 05:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CB3606A31E;
+	Sun,  8 Nov 2026 05:17:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ee7vqJqb
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q2LwJS6Y
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794114972;
-	b=oL0FJ9NN6kD2oz6KZ7Te742CtBSLQavRBod0mI3N1fe0f/Duc/E62roypS2UWZQ1Vap7
-	 r7lH0bWSNTyTGWptPK3sEBNPmTzXCHsnSn82e3RvXqKZXGrp137+EGlXXnY1PUuCTAlbv
-	 UsVngdUQ+wEX4uciZcnkz+UonWYb6Tt0/HncZIwTGj2bcXtt7cQToH2aAjVlTbowk16b2
-	 jg/pCwy0GTeMD8EZwJ21ZMjWfw/MEmDAL0Pyvgni4T8mPAs+4G9VfpJ+pY0y1K2VPaZmx
-	 eTkd7QDUhKEd8RaHqBX4huFeHYG6AoO/mw6yT1qhYpkwQC2PqLg3JZRwI1V2Otg+jLg==
+	t=1794115041;
+	b=qJRx+Lme/bCduvppugh57TSLujs4f4/yNAMMoIHwnRJHyxxqnaxHjuPZz+5YuwZwGWRH
+	 7q43XMthUIDYC7EdVw7OkgQlmxlEOKnLMGNdiL6pVgmo2n+U7cCYZliJ7dcbqbgDzrsS7
+	 lhfjQiTJBK003Bi4EGM0pLhyIHUeJIxFoGISH948mcIJ+4T2x1lEcFLjPt0jWxjO80BlX
+	 Ag1+zFeWl0cfmFWe7ldZj1bHRsPwLKnV8/z49UIm6ZPig/O1qc3iZtDQ6Xvb4vQbfXVwd
+	 eDkJ4M8DJp5V6t/nqVQ06CoiSsAHBPwUWlEG8OLX5Q1L9hqHDb6KKl+pzM92z60NbQQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794114972;
+	c=relaxed/relaxed; t=1794115041;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=GaJ0kJ7iGwr4NJdNnl3p/qA/RRPtTceFFlBooGp8kRY=;
-	b=dI08UNewVADlCq7KxMnXpkgJXsUspY8ZOuSKzIRiAO6P71L2SC8/cKMGV7jdR/R6ytUV
-	 OIfdSu6dvH+GkT8Z3WcAY0lDL7uNPj3EhMI5CooIUrA94TiIVCPwky6eDRL0mTJUDbLlJ
-	 6SbjxxAAK/qikYHSYwkUFO+CmPsYlPtTr965sqT8PEfXaMh8JsvpudaTUQCutsMOBnkmt
-	 a4x7AQG7dLpQuJnzG/0ZBv1/yLRJR9Ab287JTrNDuY7jFE/R9xcT26SBnaeKs7nLcVVsY
-	 hXAtaDKoJVhFCZVo2WPmMCpOpy80fUt//QNLlPYEE7MC/2NQ9aSEUMFnny3IZRYvJ1g==
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=jcRlgwbaeCWN8RyyDDQL9tJxHF6EIJ8eLZHyMDZk2Sw=;
+	b=pWfak7dST7CldP4S4ihACmGv6EG298gvDMBUXo3ClqGYCioMXwsi0xFbjFpW6AckF49d
+	 zjq77cHUbHQp4jXgDoVtk+x6jMSp2d2sBr3ljx+ZNDTn/zkdpuYbpQc+PCn/Jc05k71yU
+	 TJbpn2gqkS3rCEbe/L6O+Hx06XRTgYSoYIITCsDNz6tXTMghVEqrMrPoOiJLaqUThGD53
+	 JarvT85v8jnLtn3+WKPDSl4X2RgdjSpylY1AVl43pUHT65qc6WPMNl44mfJqNsGtqq83E
+	 Pg7hatNOqktAxGwXU1/CvGKzicseQJ1vjJ6QA6CqfkAcjO7QllYAt1D897adBGv0cfA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D85BE1F0089F;
-	Sun,  8 Nov 2026 05:16:11 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id A34571F0089F;
+	Sun,  8 Nov 2026 05:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794114972;
-	bh=GaJ0kJ7iGwr4NJdNnl3p/qA/RRPtTceFFlBooGp8kRY=;
+	s=k20260515; t=1794115041;
+	bh=jcRlgwbaeCWN8RyyDDQL9tJxHF6EIJ8eLZHyMDZk2Sw=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=ee7vqJqbfoVpzwntvymbHhBetWeh4SBmLaPCjXyh4JvGWODgkrXTJmSmT8PAafYF7
-	 SRDZ6W6lAsjVFAvODwDe6cUcDx0eAZJjj7XoTzX0o8puqeUkFYBKGiYklIX1sjGIEG
-	 PcCmKcUUeYyZf64OCTxT13xtCj3d85Tpp74O/hhpsYAwFHAhW4ERWIRIDEH+U5/QqV
-	 91JRePqZJV/wO8iDMfUdbqmaZ3Vk33dVoaZnG6KRxiJRBQuGX1owO5Gfh3XPfMbuH/
-	 B7vrUW4+Aw11CkxEp74UlcC092+aJyCIJsvOdS2HrOFz6TVLui53uWB2deay4dD/SK
-	 fkBJMuwqx/n5Q==
+	b=Q2LwJS6YRVSA7H5rAo4pGDLu3sIVFCllungGR5JvDwrBDLy4rh5u0niImuajTMVxa
+	 EF2V5fU+zsUOW/C9AAyJvKpPEi+SNfyzJnKFzRymyQxKIVfSTxPao2Fkr0SVL9lnbn
+	 0DAyJgm1BgM2zMcWeT4ZmQzYf7kYang4utw5nLSjRwy7SVd/UNAZhaz+WyDHibZn01
+	 YhDXBAjkb9Uu1DbpXguz1GOI5bp0SNgohsrVcA76eWcCP7iWDxMKxvnTEa44+NpmX/
+	 iT9A2GBalHLxasAmmZTojj7j38+jJ6bXhHDFLd4tRKi4q46abvzG2ugVQXvVPiE3yy
+	 IhMajjFVyPU6Q==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 539F447DF7;
-	Sun,  8 Nov 2026 05:16:11 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 3624247DF7;
+	Sun,  8 Nov 2026 05:17:20 +0000 (UTC)
 From: DelaySystem via B4 Relay <devnull+DelaySystem.tubot.lat@kernel.org>
-Date: Sat, 07 Nov 2026 21:16:11 -0800
-Subject: [PATCH] staging: media: imx: ic-prp: add FORMAT_TRY frame interval
- support
+Date: Sat, 07 Nov 2026 21:17:20 -0800
+Subject: [PATCH] staging: media: imx: ic-prpencvf: add FORMAT_TRY frame
+ interval support
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,57 +84,58 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261107-batch1-m1-prp-try-v1-1-56a08f54791b@tubot.lat>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ6CMAyA4VchPdukRYTEVzEetlGlJOLSDYIhv
- DtTj9/h/zdIYioJrtUGJosmfU8FfKogDG56CmpfDDXVLTN16F0OA+OLMVrEbB88d+ToQuKb3kP
- poslD19/zdv87zX6UkL8j2PcDkrMvbnUAAAA=
-X-Change-ID: 20261107-batch1-m1-prp-try-370a050eb4db
+Message-Id: <20261107-batch1-m2-prpencvf-try-v1-1-76bd9f505710@tubot.lat>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrDvgRIixVyldaBx1hKZhkkqLe
+ PemdfkW/++QWIUTXKsdlDdJ8gwFdKnAL32YGWUsBlMbS1S3OPTZL4QPg1EjB79NmPWDDTlyjW2
+ dHTsocVSe5P0f3+6n02tY2effDY7jC/Ai2gZ6AAAA
+X-Change-ID: 20261107-batch1-m2-prpencvf-try-3181836786d9
 To: slongerbeam@gmail.com
-Cc: linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, 
- vickramk.207@gmail.com, linux-staging@lists.linux.dev, 
- linux-media@vger.kernel.org, mchehab@kernel.org, imx@lists.linux.dev, 
- p.zabel@pengutronix.de, DelaySystem <DelaySystem@tubot.lat>
+Cc: linux-media@vger.kernel.org, gregkh@linuxfoundation.org, 
+ mchehab@kernel.org, linux-kernel@vger.kernel.org, p.zabel@pengutronix.de, 
+ linux-staging@lists.linux.dev, imx@lists.linux.dev, 
+ DelaySystem <DelaySystem@tubot.lat>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5034;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5259;
  i=DelaySystem@tubot.lat; h=from:subject:message-id;
- bh=WVwUtRUjTKbxdRiEtnEo30aSNjX2ZGooES481TnxQgg=;
- b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFkfWGd9fOqwyWtq5BOrH5nv1DU/vb/7omYJ/+TszM3r1
- mhZaXyX7ChlYRDjYJAVU2QRk+F5X39fJ87aas4JmDmsTCBDGLg4BWAij14yMmwO4DdmCFppdeZt
- 3zWtkF+P/rv9OcNbaPl0Z+PTJUlKn34w/A94EjT/0BobpxkrN/Y+8Res3C9p1r7QOz2Rs/fG+YV
- 1N5gB
+ bh=5HNjdHC/xxY5VCXD5VgvsdQGoGczC6JvCiyidff7vH4=;
+ b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFkfWO+bm21Jdir2dl3r5mT283n1slhX+49NaznbKiuDp
+ yt+SbDtKGVhEONgkBVTZBGT4Xlff18nztpqzgmYOaxMIEMYuDgFYCKz7Rn+qR3wzs4N4qv+x5Bv
+ vWum/q38jm/cj0VaVf5qie5/X+n2mOE3a/aGyn3Lp6+2lJY2nuqtvU/sR6tdjcV6J4UXsyf88zB
+ gBwA=
 X-Developer-Key: i=DelaySystem@tubot.lat; a=openpgp;
  fpr=161C0CEF7FDF2C5E3B3A9CC8E22333A79A058D4B
 X-Endpoint-Received: by B4 Relay for DelaySystem@tubot.lat/default with
  auth_id=1447
 X-Original-From: DelaySystem <DelaySystem@tubot.lat>
 Reply-To: DelaySystem@tubot.lat
+Content-Transfer-Encoding: 7bit
 
-From: Vickram Kapoor <vickramk.207@gmail.com>
+From: DelaySystem <DelaySystem@tubot.lat>
 
 Implement frame interval handling for V4L2_SUBDEV_FORMAT_TRY
-by storing and retrieving per-pad intervals from the subdev state.
-Also add a PRP-specific init_state callback to initialize TRY intervals
-from the active default, and move default interval initialization to
-prp_init().
+by storing and retrieving per-pad intervals from the subdev state,
+following the same pattern the driver already uses for TRY formats:
+ACTIVE intervals stay in priv->frame_interval while TRY intervals live
+in the subdev state.  Add a PRPENCVF-specific init_state callback to
+initialize TRY intervals from the active default, and move default
+interval initialization to prp_init(), which runs before any state can
+be initialized.
 
-Link: https://lore.kernel.org/all/20260426002659.119625-1-vickramk.207@gmail.com/
-Signed-off-by: Vickram Kapoor <vickramk.207@gmail.com>
 Signed-off-by: DelaySystem <DelaySystem@tubot.lat>
 ---
 Compile-tested only: x86_64, VIDEO_IMX_MEDIA=m via COMPILE_TEST, zero
 warnings. No i.MX hardware here for runtime testing; hardware testing
 by others is welcome.
 ---
- drivers/staging/media/imx/imx-ic-prp.c | 87 +++++++++++++++++++++++++---------
+ drivers/staging/media/imx/imx-ic-prpencvf.c | 87 +++++++++++++++++++++--------
  1 file changed, 64 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-ic-prp.c b/drivers/staging/media/imx/imx-ic-prp.c
-index b2c648149964..3f1690d22483 100644
---- a/drivers/staging/media/imx/imx-ic-prp.c
-+++ b/drivers/staging/media/imx/imx-ic-prp.c
-@@ -87,6 +87,18 @@ __prp_get_fmt(struct prp_priv *priv, struct v4l2_subdev_state *sd_state,
- 		return &priv->format_mbus;
+diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
+index 3430ddeac356..fd70c9a36f7e 100644
+--- a/drivers/staging/media/imx/imx-ic-prpencvf.c
++++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
+@@ -795,6 +795,18 @@ __prp_get_fmt(struct prp_priv *priv, struct v4l2_subdev_state *sd_state,
+ 		return &priv->format_mbus[pad];
  }
  
 +static struct v4l2_fract *
@@ -150,9 +151,9 @@ index b2c648149964..3f1690d22483 100644
 +}
 +
  /*
-  * V4L2 subdev operations.
-  */
-@@ -398,22 +410,25 @@ static int prp_get_frame_interval(struct v4l2_subdev *sd,
+  * Applies IC resizer and IDMAC alignment restrictions to output
+  * rectangle given the input rectangle, and depending on given
+@@ -1208,22 +1220,25 @@ static int prp_get_frame_interval(struct v4l2_subdev *sd,
  				  struct v4l2_subdev_frame_interval *fi)
  {
  	struct prp_priv *priv = sd_to_priv(sd);
@@ -166,7 +167,7 @@ index b2c648149964..3f1690d22483 100644
 +	struct v4l2_fract *interval;
 +	int ret = 0;
  
- 	if (fi->pad >= PRP_NUM_PADS)
+ 	if (fi->pad >= PRPENCVF_NUM_PADS)
  		return -EINVAL;
  
  	mutex_lock(&priv->lock);
@@ -187,7 +188,7 @@ index b2c648149964..3f1690d22483 100644
  }
  
  static int prp_set_frame_interval(struct v4l2_subdev *sd,
-@@ -421,24 +436,50 @@ static int prp_set_frame_interval(struct v4l2_subdev *sd,
+@@ -1231,24 +1246,50 @@ static int prp_set_frame_interval(struct v4l2_subdev *sd,
  				  struct v4l2_subdev_frame_interval *fi)
  {
  	struct prp_priv *priv = sd_to_priv(sd);
@@ -201,7 +202,7 @@ index b2c648149964..3f1690d22483 100644
 +	struct v4l2_fract *interval;
 +	int ret = 0;
  
- 	if (fi->pad >= PRP_NUM_PADS)
+ 	if (fi->pad >= PRPENCVF_NUM_PADS)
  		return -EINVAL;
  
  	mutex_lock(&priv->lock);
@@ -239,7 +240,7 @@ index b2c648149964..3f1690d22483 100644
 +
 +	mutex_lock(&priv->lock);
 +
-+	for (pad = 0; pad < PRP_NUM_PADS; pad++) {
++	for (pad = 0; pad < PRPENCVF_NUM_PADS; pad++) {
 +		interval = v4l2_subdev_state_get_interval(sd_state, pad);
 +		if (interval)
 +			*interval = priv->frame_interval;
@@ -247,27 +248,27 @@ index b2c648149964..3f1690d22483 100644
  
  	mutex_unlock(&priv->lock);
  
-@@ -450,10 +491,6 @@ static int prp_registered(struct v4l2_subdev *sd)
- 	struct prp_priv *priv = sd_to_priv(sd);
- 	u32 code;
+@@ -1274,10 +1315,6 @@ static int prp_registered(struct v4l2_subdev *sd)
+ 			return ret;
+ 	}
  
 -	/* init default frame interval */
 -	priv->frame_interval.numerator = 1;
 -	priv->frame_interval.denominator = 30;
 -
- 	/* set a default mbus format  */
- 	imx_media_enum_ipu_formats(&code, 0, PIXFMT_SEL_YUV);
- 
-@@ -487,7 +524,7 @@ static const struct v4l2_subdev_ops prp_subdev_ops = {
+ 	priv->vdev = imx_media_capture_device_init(ic_priv->ipu_dev,
+ 						   &ic_priv->sd,
+ 						   PRPENCVF_SRC_PAD, true);
+@@ -1335,7 +1372,7 @@ static const struct v4l2_subdev_ops prp_subdev_ops = {
  };
  
  static const struct v4l2_subdev_internal_ops prp_internal_ops = {
 -	.init_state = imx_media_init_state,
 +	.init_state = prp_init_state,
  	.registered = prp_registered,
+ 	.unregistered = prp_unregistered,
  };
- 
-@@ -504,6 +541,10 @@ static int prp_init(struct imx_ic_priv *ic_priv)
+@@ -1352,6 +1389,10 @@ static int prp_init(struct imx_ic_priv *ic_priv)
  	ic_priv->task_priv = priv;
  	priv->ic_priv = ic_priv;
  
@@ -275,13 +276,13 @@ index b2c648149964..3f1690d22483 100644
 +	priv->frame_interval.numerator = 1;
 +	priv->frame_interval.denominator = 30;
 +
- 	for (i = 0; i < PRP_NUM_PADS; i++)
- 		priv->pad[i].flags = (i == PRP_SINK_PAD) ?
- 			MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
+ 	spin_lock_init(&priv->irqlock);
+ 	timer_setup(&priv->eof_timeout_timer, prp_eof_timeout, 0);
+ 
 
 ---
 base-commit: fa4ad798f6f681031775266044ba1b0cf3c670bd
-change-id: 20261107-batch1-m1-prp-try-370a050eb4db
+change-id: 20261107-batch1-m2-prpencvf-try-3181836786d9
 
 Best regards,
 --  
