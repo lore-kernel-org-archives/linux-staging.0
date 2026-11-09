@@ -1,86 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794246669;
-	b=I/kDvXVDFwmkQohh3aEmz7QqQxyGEeq4Jmb7FfM0ss/tiZ+yAKbyLSGtJLEffGzjmRd4
-	 NjmdJzQVXWvc10hJDkKRQGT0CDdHP/pezrPuMeMfDoe66A81024Sg+amCkUSsemHZnrvH
-	 qe6nAOhn3wdmY4cyxeE76hmz3FkXUwuWSO2bWzSBEc5GV141p8j+b37GhXq3AyrXrJi0X
-	 hDL9/cQuRsCvbXsABOmUMi5Q7FhQe2BfTVey0mkLIuqSBUMCi/Zo472tRLWun6MMfRUbv
-	 +bzup2OwQYw5qMixS0JSCDvoinlsu9fk0OPRHHmn5tmAEI9i0wEz8JtNmYFK2a6vKMg==
+	t=1794246670;
+	b=zj/8G3XyU5cAuI6zHgsd5N+9adhdynSi70/Y8zSyV8ELHwcpNTaSApasAyX1mODvuxOk
+	 M08ZHSGBkplBIuxtLpcfEEip+rq764il9cOLQmBalhEX7EDDqKNJhLixGpClNW/2YUXod
+	 eX/zAeSVBbaVbgYjb+OkTVvwxPa278ocCQ7Jk3x8tUA2tGuwFL0J30VAiQG2clK2k1Jex
+	 FLSug/OUuLaniqrb/gAR07zBtOvd4xYBDu4XbdFH9EkCw4CLliMtKICEZp17bxSF8FCU2
+	 5pdLvUL5FTW1QFKqqy7kHQycjVZjE6vnZKjDvQVqeqerzUU2yx+z4SvLokEY3/iOd6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794246669;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794246670;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=EHFCx52QXB+dxM1oRGEYW8olq3Iv2zM5Gz/ZhK7pFLA=;
-	b=VtYA4XxIu+I/Qp2yg48kGEdx2YDFVxnGORb0l67jlj0F+jZHgVRKhvXxA7TPZ6QN48PC
-	 8o+4z1D5ul8wUX71PmZ3AJlTWQ0vcvQSW5zKbFvWizvnMh19Tnc/qB2peiOSTpyy06VNN
-	 GJAeuO3eWQb5ekP/fac+apx72Xo4Lf6JVzkfgRqBenDfnJAIqOZoYQPjsXM61unBqgFn7
-	 Ga4Uq2E7yhwXEvJ1az/aysY9RfPLswVIspF7s9HwPugpqYQE5UURS8UMDDsHnK00EP2JW
-	 cgL83ZC4gt4CYOBtgiTgaooPsR3KhdwJ6hAUKkqCE11+xEt0C4w0HbQrvtj1HHUbIsA==
+	bh=PRBCcyxG7vdWjrF56CJga6rW7J1Hfqypo5bq8n0AjVE=;
+	b=eU2soRjE7EFu9qyb+U/37jv/P0kXSCzzGfLpLticTCphGOUaDz7rFjsryK3k7UX37O9S
+	 1dD7+qk3r3kX7HzuZMCZ3R8jazyjHfj2D1t8pluDCP7GWmIvZ3n2fyvEWqwEmsCsg4DjJ
+	 f0KrpwBfBDYeHxWV1J7dfe9bPjYzU+lveyLaNfcjkK8vtAP3PniDnXGMZXnCSr3lY0Y3F
+	 rGp2L29ZS4s5L8F5w5TcQWhluCJj20lBUUnmIv4cYYQWTx7FkdLctOFZcfox9T9WQ1U3X
+	 VkdO0oorQs0GucjVKEXIGdSx9+1dXhsibQMfEyRvQ+e4nk2RdZo3gfN/f2kYCn1tjJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=v2sSRnxt;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xkQXVfM3;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0583F60A2601
-	for <linux-staging@lists.linux.dev>; Mon,  9 Nov 2026 17:51:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0583F60A2601
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2729260A2622
+	for <linux-staging@lists.linux.dev>; Mon,  9 Nov 2026 17:51:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2729260A2622
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=v2sSRnxt
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-492690dd5daso829671f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 09 Nov 2026 09:51:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xkQXVfM3
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so11955075e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 09 Nov 2026 09:51:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794246667; x=1794851467; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794246668; x=1794851468; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EHFCx52QXB+dxM1oRGEYW8olq3Iv2zM5Gz/ZhK7pFLA=;
-        b=v2sSRnxtVLVXn62j8lI/G3D+FSs9liIWpWCm1QsysqOdTklzT3e54Aj29fJri0ZLHw
-         9NXUps5sHjywXSajSNxV7+72eqnST7GZW6D5U0YrSk8YrF5+W62ztZh1Mno4+lXK3Qkj
-         +yYDBZWlIYOW0rDKh6yPPj33dJZAWRBuwhhyoEvwfN5K7tw4kjZ5nxJV4HV8oJH3cgrN
-         OJ7HEGOdc+WOZMwzBH9ww+1NvQT++fhlVhE3HZ1eiOsJHLP5oD9gDH0tGUtAaMSuJeVt
-         2HZW8mPQMuoUTPtfbfUfWw2s/SRCFieCexpJAMtqMIuOouC1tubSGfsrCIoUQdUyLQZ/
-         ZeaA==
+        bh=PRBCcyxG7vdWjrF56CJga6rW7J1Hfqypo5bq8n0AjVE=;
+        b=xkQXVfM3q/4ki7nP5BJvlXKb2BsBMVjW2CEzbEgk0bmciU0YbPJqTS592xX2kYqnSX
+         yXZRswtipyVWFKHUYHGcPKuYnLGS6OPaY4uyqQGQZJjpA4k1ppHH4aD162F3nxC9xxJK
+         F/RsBAEl0YobD7MCvCTaDn5R0Bkjp+8HTbhjBTzEcqv2sN5PJ4Xf+YKaSFgON0lz6cmI
+         XaZF67hiOdkkSD6E9qLGmyU6ZjUOi4Ltk2DmjlsQ2j3u7Z7cuf2wguUOVGHOKteCUCTt
+         PnuUUxe1wKvKRrde3EfHzd/divtik53lKNhavlbfsAV2GZcNfxD1hg0g1wjWBpgLRi8k
+         46YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794246667; x=1794851467;
+        d=1e100.net; s=20260707; t=1794246668; x=1794851468;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EHFCx52QXB+dxM1oRGEYW8olq3Iv2zM5Gz/ZhK7pFLA=;
-        b=2oCF4DiM1N/3udidg5pstpyT++78Fb4csKNA11DVToR1Aqb8LbTRWUT6EdqUT4as4T
-         g/h5H97c9PVumcK3YmoPUcESDPIJHzLiEvtSKptAJ0X7tvqYTH+ICr4uRE09C4gfMiPb
-         HOFhNK6uQFzAFQE27IJ9bLER5kEbHQX2+lhtmhsMvaC/ax58gSf5M2asvXnZ4QT1TD5K
-         rQQTnLfnthaErriR0tVRrPB542bBxWU/1R2Tfs44dL3JLZn1R6iQhsg1NVntvFEP+7nB
-         sNpS3NgI6aKeq5hB+YvarknqEOzquLmqx5iJ/0zrdMNQ9tZF9yg3prGEABet1o2S8LiB
-         paGw==
-X-Forwarded-Encrypted: i=1; AL+hErHOZwkXU6bJq+xJgEV1I/QqVKV5IMv2GkgOZj/1himsVAhzzF/8yjxDuPlmj1wtlMPzhhKeXpYShdqegavb@lists.linux.dev
-X-Gm-Message-State: APuU4Z8NSNW+LA3n4aYeGbH3JsQVR/JJlGJu4T409IfqMMXadCuYCh/b
-	c8S8an6aDKtLSt15PbcSHcIBwt3ImogAxlmqDVF/cPFaWjTnjW8iNKQT
-X-Gm-Gg: AYBFou1wWdER/8B/iCvHzPwzQB+AIbxHq4oxUrkGsjR+v3mf3WoatN9oJp4VH3EZOiB
-	KwMOlTq8KPrnF5wF7xkBUEkHGM7BJ8Ra/OB5qcBOis1kR3ZJShM1LcwtvtNG2glpR756VN/QlZW
-	HiTLmK7ZB6FpTT2ap9agryCnhtkB7obLdKscWtmVk0GHudvIBM9AmuRYubzofUjiEjepgU8vwCX
-	oYTs/FQeazTD1XqN8pwqBUcjqUNxafmeT2q3yw5VAJX8vQgLvJRJls7hxCOH+WAUVOgry4v04O8
-	aSZQ6JPwIDTAxfdLNtkW0bPYk2OH4sqmPqQOmkQoAxw7lZ8xPcktd6Z6TTxgi3H6rDB6EACnFif
-	aFbTIOY0BQg9jUOxPeFC8xTdFXtTDAt2aa6+F/QoHnWDJ76y24voUzIDEOu1IgoT0GAJa9P1Zbk
-	EEv1HCNOIREWNSddObd3xaoODLscxSLJXVDA6NGTe9QjfusEfo5eeiKzjZGgjoHE4J4PYRHXVEc
-	M68YI05J1akhrFC9Glhslc44689wXkAviAq5i/GLx4lNowRAOwmBqVVy+hF0cvViTv0rBwMTA58
-	uDafebcrzpSDkNEm6cOz6wNkVlrQFBei3HZgkv97WcdCQgps/iVohV8Qe9KjUkemmc8GGne138G
-	e8NNlJnw/w2qCNiEyhSfGFv/b7voGvHzZsf74YaFYpNm19DnBKMb7fb4yJ75b50OlW1CInuFjll
-	1X0pfxi2LKx74xQnqjOfMv9XfrVmRAYHFP9slUtiB/Fr5RArQjgRUcQHaWwX6VwSudmNo1YEQnw
-	hVf61osOnL59lwiVrnahB2LpnEiB49ItRTu+J1uR5kvXKcVZvYKiOlAxQ==
-X-Received: by 2002:a05:6000:26cb:b0:491:da8f:7276 with SMTP id ffacd0b85a97d-4982eb0b774mr396069f8f.26.1794246667071;
-        Mon, 09 Nov 2026 09:51:07 -0800 (PST)
+        bh=PRBCcyxG7vdWjrF56CJga6rW7J1Hfqypo5bq8n0AjVE=;
+        b=yLUdvuEsGmfX1GgXHpPQPuHky7nVerCwnBXrPDovaZQg9g3lUz7mgZ6VBftlKT2hkq
+         9j/uB+Ooo3uaBbDw1ZPjfknBF9NStSlEEO42qXMQm7lkyF6xWCzTY48yy8IqTJP4YJc1
+         Gdfd2+d2SXG55195UsZ5PBHM0tkTdsxJ5dxS2pyg4rbErJO7KenVTtM+Yv+92VtJAju3
+         d8SFyqR1TcaSXnR2i9NeIZWzDIMzGr4dQWC8YXT/7k5VTycuLdHtGhd0OxY9tSn+KSbW
+         y7Ujz9SnSpNw69bLbUDj9zSm8JRvpcZUeBgbB32rpDgKHE/YuzP8VDf+QzKmb0bzP/+u
+         hmwg==
+X-Forwarded-Encrypted: i=1; AL+hErEpzMxWepWxOWX/o1PxAPPWpIDqCVSJOvy+dzso/93+kMQTzrYDtlSe4Vfx9qU16wSVpQ9U3i64E7UX7l3k@lists.linux.dev
+X-Gm-Message-State: APuU4Z93k6hxT+dcVKVweeRPHbeOMTw39XBBT9tMAIWxB7BLejuKkpHc
+	WvVGuW7l/+RZfQtYjcHxADbBjyln7PL9gdL7CT7C5qU4xxfGCy52oREV
+X-Gm-Gg: AYBFou1/BgpRKYVY+4YZBiSXdTohImqYAX4+JSWJPAiwFE0L5Z0UpoRSUXDs+MAK2VH
+	k1gv8jD0QLRE+nip29q1rV5aNsLZLUYuYLMdgYyqsq1TFPV+Mo6bSb5kxWwi6zb7mbJBg0dUgOw
+	dQPAjn1hx5mnr0C3h6tNJEueAfFhi+vwy0KcTIQdKl/M/BlWSZmHWYuYcHA2SN1H9J0vp0bL5i7
+	ad2ZHoKTv0JHqpWhDzazRXCF1ekp0UYVn/BL55riEShxKs/d+AUdr8ZgPXIIArc0nlJ7WaJquwq
+	ZcM9OwhwdXBxmTpTL7ATlntP/TIg1yyc6M/HzdsCcLt7VFQT4qpTCZW+PZwqnySIpNM8kOM6flq
+	rDDn4XRC+zbn/gDrY9GYQO60aPsh0XN31eQaQBp1mb0kjl3jZh1FZAR6wLAOa5R/3kxVZ2LjZFt
+	/aGPPW4iqVcGSVW+vIaHkd8/upVDRQvHOBJF8tQtl6XuwIq25zPJTnUdT/cdIQFPRy+VHpOJ9Sv
+	KYMPxKvIS+tXY9sZ+Ala/W5wYmhhBFvMzhZamJmhu5gfLdpgDR88ZiwTZvTDNYRWzrg4Kgo7G++
+	qCwFwezZwtHwYCcG1PmhFNNtL9oc92J51fukyjixw9/Xg/rot7IrNEacCk+bicNG0XXTHwhyIRw
+	T8XTuntjDv5qaDSj2YdaEWoXjqLnhBRupmaXBj8bpTn7ltzifs/1tF+fCoItYeBqst6pWcfIjtj
+	qZrsw1WqWtXziapNLUVQ4p53NXlh1bRJHkFq1VyrNObhzwo6ahI1WZn1LD1ronVn0RVYVD7CnBG
+	Ss2gLs05NBLx/dWEP4rVepx+v8I0ftpxOw6yANPiqru+HVg4XA=
+X-Received: by 2002:a05:600c:1906:b0:4af:79ee:f660 with SMTP id 5b1f17b1804b1-4b963c8153cmr86011895e9.31.1794246668365;
+        Mon, 09 Nov 2026 09:51:08 -0800 (PST)
 Received: from jernej-laptop (86-58-12-36.dynamic.telemach.net. [86.58.12.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498369a4238sm200717f8f.54.2026.11.09.09.51.05
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498369a4238sm200717f8f.54.2026.11.09.09.51.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 09:51:05 -0800 (PST)
+        Mon, 09 Nov 2026 09:51:07 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>
@@ -96,9 +96,9 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 01/11] staging: media: cedrus: free MV-col buffers in buf_cleanup
-Date: Mon,  9 Nov 2026 18:50:06 +0100
-Message-ID: <20261109175016.42061-2-jernej.skrabec@gmail.com>
+Subject: [PATCH v2 02/11] staging: media: cedrus: reject too large H.264/HEVC SPS
+Date: Mon,  9 Nov 2026 18:50:07 +0100
+Message-ID: <20261109175016.42061-3-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261109175016.42061-1-jernej.skrabec@gmail.com>
 References: <20261109175016.42061-1-jernej.skrabec@gmail.com>
@@ -113,180 +113,187 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-v4l2_m2m_ctx_release() releases the CAPTURE queue before the OUTPUT
-queue. When userspace closes the file handle without STREAMOFF, the
-CAPTURE buffers are already gone by the time the OUTPUT stop_streaming
-calls the codec stop() callback, so the per-buffer H.264/HEVC MV-col
-buffers are never freed. This is easily reproduced by killing a player
-during H.264 or HEVC decoding. Each killed 1080p session leaks about
-2.3 MiB.
+The H.264 decoder takes the picture size from the SPS, and the HEVC
+decoder the position of the slices. An SPS beyond CEDRUS_MAX_WIDTH/HEIGHT,
+or beyond the capture buffers, makes the hardware overrun memory and
+hang. On H616, the JCT-VC PICSIZE_A..D streams (1056x8440, 8440x1056,
+528x4216 and 4216x528) leave the hardware wedged, so that every
+following job times out until reboot.
 
-Add a buf_cleanup codec op, called from the vb2 buf_cleanup of the
-CAPTURE queue, and free the MV-col buffer there. stop() keeps using the
-same helper.
+Reject an SPS beyond the hardware limits in try_ctrl, and move the
+limits to cedrus_video.h for that.
 
-Fixes: fec94f8c9954 ("media: cedrus: h264: Optimize mv col buffer allocation")
-Fixes: 0ee952c2f484 ("media: cedrus: h265: Associate mv col buffers with buffer")
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Whether the picture fits the buffers can only be checked when a job
+runs: the SPS can be set before the buffers are allocated, while the
+OUTPUT format they are sized from can still change, and a request
+doesn't have to carry an SPS at all. Check it in the setup callbacks,
+so that such a job fails with an error buffer instead.
+
+Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
+Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
- .../staging/media/sunxi/cedrus/cedrus_h264.c  | 28 +++++++++++--------
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 28 +++++++++++--------
- .../staging/media/sunxi/cedrus/cedrus_video.c | 10 +++++++
- 4 files changed, 43 insertions(+), 24 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c   | 16 +++++++++
+ drivers/staging/media/sunxi/cedrus/cedrus.h   | 34 +++++++++++++++++++
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 ++++
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  4 +++
+ .../staging/media/sunxi/cedrus/cedrus_video.c |  5 ---
+ .../staging/media/sunxi/cedrus/cedrus_video.h |  5 +++
+ 6 files changed, 65 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index c3331b4f3f02..197213911bf7 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -28,6 +28,15 @@
+ #include "cedrus_dec.h"
+ #include "cedrus_hw.h"
+ 
++/*
++ * Reject picture sizes beyond the hardware limits. Whether the picture fits
++ * the buffers is checked when a job is set up, see cedrus_check_pic_size().
++ */
++static bool cedrus_pic_size_supported(u32 width, u32 height)
++{
++	return width <= CEDRUS_MAX_WIDTH && height <= CEDRUS_MAX_HEIGHT;
++}
++
+ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+@@ -42,6 +51,9 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+ 		if (sps->bit_depth_luma_minus8 != 0)
+ 			/* Only 8-bit is supported */
+ 			return -EINVAL;
++		if (!cedrus_pic_size_supported(cedrus_h264_sps_width(sps),
++					       cedrus_h264_sps_height(sps)))
++			return -EINVAL;
+ 	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
+ 		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+ 		struct cedrus_ctx *ctx = container_of(ctrl->handler, struct cedrus_ctx, hdl);
+@@ -52,6 +64,10 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+ 			/* Only 4:2:0 is supported */
+ 			return -EINVAL;
+ 
++		if (!cedrus_pic_size_supported(sps->pic_width_in_luma_samples,
++					       sps->pic_height_in_luma_samples))
++			return -EINVAL;
++
+ 		bit_depth = max(sps->bit_depth_luma_minus8,
+ 				sps->bit_depth_chroma_minus8) + 8;
+ 
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index c4b1217c14b6..54f867949fba 100644
+index 54f867949fba..c2318521d7e5 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -167,6 +167,7 @@ struct cedrus_dec_ops {
- 	int (*setup)(struct cedrus_ctx *ctx, struct cedrus_run *run);
- 	int (*start)(struct cedrus_ctx *ctx);
- 	void (*stop)(struct cedrus_ctx *ctx);
-+	void (*buf_cleanup)(struct cedrus_ctx *ctx, struct cedrus_buffer *buf);
- 	void (*trigger)(struct cedrus_ctx *ctx);
- 	unsigned int (*extra_cap_size)(struct cedrus_ctx *ctx,
- 				       struct v4l2_pix_format *pix_fmt);
+@@ -274,6 +274,40 @@ cedrus_is_capable(struct cedrus_ctx *ctx, unsigned int capabilities)
+ 	return (ctx->dev->capabilities & capabilities) == capabilities;
+ }
+ 
++/*
++ * The decoders take the picture size, or the position of the slices, from
++ * the bitstream headers. Check that the picture fits the buffers, which are
++ * sized from the OUTPUT format and padded to at least 16 pixels in both
++ * directions, so that the hardware doesn't overrun them and hang.
++ */
++static inline int cedrus_check_pic_size(struct cedrus_ctx *ctx,
++					unsigned int width, unsigned int height)
++{
++	if (width > ALIGN(ctx->src_fmt.width, 16) ||
++	    height > ALIGN(ctx->src_fmt.height, 16))
++		return -EINVAL;
++
++	return 0;
++}
++
++static inline unsigned int
++cedrus_h264_sps_width(const struct v4l2_ctrl_h264_sps *sps)
++{
++	return (sps->pic_width_in_mbs_minus1 + 1) * 16;
++}
++
++static inline unsigned int
++cedrus_h264_sps_height(const struct v4l2_ctrl_h264_sps *sps)
++{
++	unsigned int height = (sps->pic_height_in_map_units_minus1 + 1) * 16;
++
++	/* Map units are macroblock pairs, unless only frames are coded. */
++	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
++		height *= 2;
++
++	return height;
++}
++
+ void *cedrus_find_control_data(struct cedrus_ctx *ctx, u32 id);
+ u32 cedrus_get_num_of_controls(struct cedrus_ctx *ctx, u32 id);
+ 
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-index fc54d993b11f..892193c12b2f 100644
+index 892193c12b2f..e8229c60d3f5 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -647,10 +647,23 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 	return ret;
- }
+@@ -518,9 +518,15 @@ static void cedrus_h264_irq_disable(struct cedrus_ctx *ctx)
  
-+static void cedrus_h264_buf_cleanup(struct cedrus_ctx *ctx,
-+				    struct cedrus_buffer *buf)
-+{
-+	if (buf->codec.h264.mv_col_buf_size > 0) {
-+		dma_free_attrs(ctx->dev->dev,
-+			       buf->codec.h264.mv_col_buf_size,
-+			       buf->codec.h264.mv_col_buf,
-+			       buf->codec.h264.mv_col_buf_dma,
-+			       DMA_ATTR_NO_KERNEL_MAPPING);
-+
-+		buf->codec.h264.mv_col_buf_size = 0;
-+	}
-+}
-+
- static void cedrus_h264_stop(struct cedrus_ctx *ctx)
+ static int cedrus_h264_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
  {
++	const struct v4l2_ctrl_h264_sps *sps = run->h264.sps;
  	struct cedrus_dev *dev = ctx->dev;
--	struct cedrus_buffer *buf;
- 	struct vb2_queue *vq;
- 	unsigned int i;
+ 	int ret;
  
-@@ -662,17 +675,7 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
- 		if (!vb)
- 			continue;
++	ret = cedrus_check_pic_size(ctx, cedrus_h264_sps_width(sps),
++				    cedrus_h264_sps_height(sps));
++	if (ret)
++		return ret;
++
+ 	cedrus_engine_enable(ctx);
  
--		buf = vb2_to_cedrus_buffer(vb);
--
--		if (buf->codec.h264.mv_col_buf_size > 0) {
--			dma_free_attrs(dev->dev,
--				       buf->codec.h264.mv_col_buf_size,
--				       buf->codec.h264.mv_col_buf,
--				       buf->codec.h264.mv_col_buf_dma,
--				       DMA_ATTR_NO_KERNEL_MAPPING);
--
--			buf->codec.h264.mv_col_buf_size = 0;
--		}
-+		cedrus_h264_buf_cleanup(ctx, vb2_to_cedrus_buffer(vb));
- 	}
- 
- 	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-@@ -710,5 +713,6 @@ struct cedrus_dec_ops cedrus_dec_ops_h264 = {
- 	.setup		= cedrus_h264_setup,
- 	.start		= cedrus_h264_start,
- 	.stop		= cedrus_h264_stop,
-+	.buf_cleanup	= cedrus_h264_buf_cleanup,
- 	.trigger	= cedrus_h264_trigger,
- };
+ 	cedrus_write(dev, VE_H264_SDROT_CTRL, 0);
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 780da4a8b5af..6c643862ab73 100644
+index 6c643862ab73..aa772a8d71c8 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -858,10 +858,23 @@ static int cedrus_h265_start(struct cedrus_ctx *ctx)
- 	return 0;
- }
+@@ -445,6 +445,10 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+ 	cedrus_buf = vb2_to_cedrus_buffer(&run->dst->vb2_buf);
+ 	slice_bytes = vb2_get_plane_payload(&run->src->vb2_buf, 0);
  
-+static void cedrus_h265_buf_cleanup(struct cedrus_ctx *ctx,
-+				    struct cedrus_buffer *buf)
-+{
-+	if (buf->codec.h265.mv_col_buf_size > 0) {
-+		dma_free_attrs(ctx->dev->dev,
-+			       buf->codec.h265.mv_col_buf_size,
-+			       buf->codec.h265.mv_col_buf,
-+			       buf->codec.h265.mv_col_buf_dma,
-+			       DMA_ATTR_NO_KERNEL_MAPPING);
++	if (cedrus_check_pic_size(ctx, sps->pic_width_in_luma_samples,
++				  sps->pic_height_in_luma_samples))
++		return -EINVAL;
 +
-+		buf->codec.h265.mv_col_buf_size = 0;
-+	}
-+}
-+
- static void cedrus_h265_stop(struct cedrus_ctx *ctx)
- {
- 	struct cedrus_dev *dev = ctx->dev;
--	struct cedrus_buffer *buf;
- 	struct vb2_queue *vq;
- 	unsigned int i;
- 
-@@ -873,17 +886,7 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
- 		if (!vb)
- 			continue;
- 
--		buf = vb2_to_cedrus_buffer(vb);
--
--		if (buf->codec.h265.mv_col_buf_size > 0) {
--			dma_free_attrs(dev->dev,
--				       buf->codec.h265.mv_col_buf_size,
--				       buf->codec.h265.mv_col_buf,
--				       buf->codec.h265.mv_col_buf_dma,
--				       DMA_ATTR_NO_KERNEL_MAPPING);
--
--			buf->codec.h265.mv_col_buf_size = 0;
--		}
-+		cedrus_h265_buf_cleanup(ctx, vb2_to_cedrus_buffer(vb));
- 	}
- 
- 	dma_free_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
-@@ -918,6 +921,7 @@ struct cedrus_dec_ops cedrus_dec_ops_h265 = {
- 	.setup		= cedrus_h265_setup,
- 	.start		= cedrus_h265_start,
- 	.stop		= cedrus_h265_stop,
-+	.buf_cleanup	= cedrus_h265_buf_cleanup,
- 	.trigger	= cedrus_h265_trigger,
- 	.extra_cap_size	= cedrus_h265_extra_cap_size,
- };
+ 	/*
+ 	 * If entry points offsets are present, we should get them
+ 	 * exactly the right amount.
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index ad4ec3490775..adc7f255d7cf 100644
+index adc7f255d7cf..2521315abdb7 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -560,6 +560,15 @@ static void cedrus_stop_streaming(struct vb2_queue *vq)
- 	cedrus_queue_cleanup(vq, VB2_BUF_STATE_ERROR);
- }
+@@ -29,11 +29,6 @@
+ #define CEDRUS_DECODE_SRC	BIT(0)
+ #define CEDRUS_DECODE_DST	BIT(1)
  
-+static void cedrus_buf_cleanup(struct vb2_buffer *vb)
-+{
-+	struct cedrus_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+-#define CEDRUS_MIN_WIDTH	16U
+-#define CEDRUS_MIN_HEIGHT	16U
+-#define CEDRUS_MAX_WIDTH	4096U
+-#define CEDRUS_MAX_HEIGHT	2304U
+-
+ static struct cedrus_format cedrus_formats[] = {
+ 	{
+ 		.pixelformat	= V4L2_PIX_FMT_MPEG2_SLICE,
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.h b/drivers/staging/media/sunxi/cedrus/cedrus_video.h
+index 8e1afc16a6a1..367e52158f01 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.h
+@@ -22,6 +22,11 @@ struct cedrus_format {
+ 	unsigned int	capabilities;
+ };
+ 
++#define CEDRUS_MIN_WIDTH	16U
++#define CEDRUS_MIN_HEIGHT	16U
++#define CEDRUS_MAX_WIDTH	4096U
++#define CEDRUS_MAX_HEIGHT	2304U
 +
-+	if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
-+	    ctx->current_codec && ctx->current_codec->buf_cleanup)
-+		ctx->current_codec->buf_cleanup(ctx, vb2_to_cedrus_buffer(vb));
-+}
-+
- static void cedrus_buf_queue(struct vb2_buffer *vb)
- {
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-@@ -579,6 +588,7 @@ static const struct vb2_ops cedrus_qops = {
- 	.queue_setup		= cedrus_queue_setup,
- 	.buf_prepare		= cedrus_buf_prepare,
- 	.buf_queue		= cedrus_buf_queue,
-+	.buf_cleanup		= cedrus_buf_cleanup,
- 	.buf_out_validate	= cedrus_buf_out_validate,
- 	.buf_request_complete	= cedrus_buf_request_complete,
- 	.start_streaming	= cedrus_start_streaming,
+ extern const struct v4l2_ioctl_ops cedrus_ioctl_ops;
+ 
+ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
 -- 
 2.43.0
 
