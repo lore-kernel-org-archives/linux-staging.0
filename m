@@ -1,107 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794246682;
-	b=fJ76bjJVawuZVdkddtH5Zx7Ve1IFnUCUB6xzLgNbwFk+XCKzGAOQEQn1rHvuCgZsiC8P
-	 iMspSksKelovFW0JAQz/RWuv6yKaKxfqOZGZFELNMs7er+ErcLkvI9mZ06irm5MA7zIIG
-	 8AiaIpttgjgwQjVdZ6kiIYtxPG8Oc4ArVJCl1EOKx//oBeFz53U5rG8gArVxfuzTlZEIf
-	 PXs1Ld//T8EWDuI5uuGz4nhtk4gYpL7D5JhNaZIt+lFtAjc7mlOGF67ECkVKTGvkhiRIK
-	 fTn3XHoVyB5rB1AuJNE2yD8Iv/AFpGka5DvTUg6PGoIgAsO8mFBb6TceM1r5iJtVjVg==
+	t=1794265277;
+	b=0v9dCPDKR4yagfdgzrofFgt9/trNsFsoqKwY6VKHiD8Z9PaRlcoBD+A/ca7CJeWtkZPH
+	 wo5fXToRgbZAgGgbiqfSi1uTTbOO0KLu+7KGqW6QjAIj8GXz63a5dUVzCDN189SqPYy9q
+	 gmJUOrETIq18YdrdQjH9DhILTgfGojYRER7VXXg99XYtpQ13hokZQVWONUM5AMCFdoSq/
+	 eLJduu9YG6BKH+f3bheNFbDd9SXs1Xffo7ZRtVuCtjeLUXJscu2aWn7j8cwiKqJoQnDgv
+	 I7uVYFBGdPhX+P1d3xxT/qnYlpuXCOU4+aoufIq1Ev6Zw0RxFPbXDIKq05X5n32c/4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794246682;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794265277;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=i+XCxxAzlvX4gdjOWVlK9Z6T5fYWDEYFJTp9nSjumow=;
-	b=YY1mGNILrSZvLHMhmoF58FJMEpbZDmQD7jmCWfh9xsFPbixyC4YaSfznQfOpdlj3Qveo
-	 Iira4Yq7DNaFlABBG09JfZTXN91oX1Lj+vkgkW+wiAKneWiZQJqYWtqQhZEp9y9+3Lewi
-	 8EJbISHd4kAGiSxLh2cHCm0B/Urkuft+cSZpho9PFfABR+O/g6ipMFGrv/6FCiaVHP99/
-	 uYOUJ15k5RlHXo+C6sI/mtEWiBJkBfAf/IBN0/rek3IXMsgQdvc9gcL3oc2vtL2DVcVO+
-	 1lomKaBKWIaM/0R4lp9UnjWaHk0o8Cg7TuCza9ovvTjiBdw7mDEZqQd3U9tAwBn48aA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=4ZCxpFg3sggMqB6xZf7RlXros3d1gScbU1ZLbBo7GTI=;
+	b=ekRRztP8hhQZpRQgsf3KIIaTWhEl2hWj9IeGOASDnCOxa20XI5QFe3xBHsWUyacbw8T9
+	 SC4h0Sx3/cR6aw8fBP8UYsoXtfc5K1m7d/Nue07aynQxvkUA64PBhWh7JA5hXN5SKsGos
+	 2laYcU6DzkxkWGmqA3Y4gGhQmOeLa8+YAuXuh/G5Vz8bMq6Vp2Clp4rSaEgQ95zxtkwjb
+	 UJIHUXg8ClPl8ygQs8Z0Co5V2BQXNkup9lpRXkf9IQhet6BReVPfAvaiLm2E0qQXtHpPq
+	 TuFrmNsqNEhVmxwkZ1o++g4WJkrIDA19zvA1ugZkU6+/H6fBF7y9qjOIOjJR2JqD7HA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KufMoKX9;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Jl7zZpsX;
+	arc=none smtp.remote-ip=209.85.208.41
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17335606A8E0
-	for <linux-staging@lists.linux.dev>; Mon,  9 Nov 2026 17:51:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17335606A8E0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676C0606A321
+	for <linux-staging@lists.linux.dev>; Mon,  9 Nov 2026 23:01:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 676C0606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KufMoKX9
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48e4831c028so1266330f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 09 Nov 2026 09:51:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Jl7zZpsX
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6b596afb4c5so1644948a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 09 Nov 2026 15:01:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794246680; x=1794851480; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=i+XCxxAzlvX4gdjOWVlK9Z6T5fYWDEYFJTp9nSjumow=;
-        b=KufMoKX99ft0G8RJJxauF4oCBhq2d+bVnpT6QfjVx/L6WDkelgIv/dFWNXKd8+pv++
-         YF6AVSp3oW7szSvLn9GaC+Rp7GOP2j/XEjPwFMCI022WXsGMyd9vkJWwmYZ3LEfiaDOc
-         Ex6+qZjKgOLXPOELrd71cZClOOHTTDtFXOqOkY2jhjKp/PYNNnaPYUfFeDy092HZHRQO
-         wQSxMVhZy3Eeh9y3fzYGOjh2+PyAL3J6akiOkvlltn7HILBSbgF/qoFigoEVQLpEkMX0
-         gYAkCxaCISw7ddan7VglW1oPeXBD5SxNejhCeOV8CiXf66MmpOUqnDWXIpg9zwnDEG8X
-         ONIg==
+        d=gmail.com; s=20260707; t=1794265276; x=1794870076; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4ZCxpFg3sggMqB6xZf7RlXros3d1gScbU1ZLbBo7GTI=;
+        b=Jl7zZpsXUMuQA8wI9Me1n8EbPoaN5A9HNR5CNWlUMYpXwlkuiKPKQHE8LcS8RPqeQD
+         KkxkXtQt4vDexcuPm8vJYDRKF20MJ9jIEKTeqZ5/RlGUBibj1HZReXS4Q9OCUoYTqVWc
+         jmmVLuzJSxCHehQMKpCh/d4KCYg9iU1jLOtJE/JA8kHJLVlvR9Hbts5njsTH/0HwFdZ6
+         BLqu+IYWZMYtTgZb0EiamNBWI+WOe2SGAnDp0eqQrlOi6yb4x/+Iveq34iYXd4iEytUq
+         3XvYsqJzyWfZgXX71TrpLOP3+yoe4Ht9mZkSdfuYDQ97T3Y/KwxJNOQMhRJYjgIhwrZJ
+         BWew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794246680; x=1794851480;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=i+XCxxAzlvX4gdjOWVlK9Z6T5fYWDEYFJTp9nSjumow=;
-        b=fGdqVy5xurV4JmztGzITa0ZTgaU0qLXLhtBoYG9eG7NyjuvXSEzkcAMdkGEte8cYCD
-         JXYFlH3HS7LflFWeS96C9fjrRNY9gHnlNo6H2zLLRAdTUUN3X8MwtgPyRI8wF6Dfofjw
-         blClvEDOPwUZez45NSO8yDI/Xm45SVWXVu6d+US+JzTtewJ2pv+NL5E6NasBSVFGiuUA
-         7yL+a+tjZasTiLUIAVfz67SxObBXjgtmEk0UYFKC2Kt4J4Nr+akQlyJCL4/qc5NshU33
-         8P0F0yiXqOaaRLoD0hMBny6ChWDojGnDkRMuCGKKHwqZ2my822sTqY4KShBFXxCJZ948
-         9QiQ==
-X-Forwarded-Encrypted: i=1; AL+hErGgFPU0Nl3e3aoEmKRx4LwJ601OXLVVo7UFWdpLbLd/HbpbDzir7JiLIr+EidBNxStE+QAGZhZ4u6PZ4rdK@lists.linux.dev
-X-Gm-Message-State: APuU4Z+Hi8cZnJ+LFbcJOhD6kufmzJ8XNVSrft9h1qcMyIbMuc2yHOLX
-	NEJ4x7jDp9X7P6CWbI9KZO5ucXCjmCJtMiJisWYOWNVPcmywI1Ovmovy
-X-Gm-Gg: AYBFou0nohod9jMbESk8kd9irdHfkh6PqM8rAkJZgDeJJRq3GddPgR20QAsua39i+r4
-	bZIu36DG7+SoB9Q4TuWAmovf2zqihqbtq2BsXkYE2B+qcPKoFSULEvmCtkxRCHsjoQF44Fx+DVa
-	oQqA4LKkOCHBogQOiV92My4H1UhLqZe38BCNzf4G16Mxgoe0Li/1Qmm/FXY6QaWrjRxz5YJn90V
-	Gntshl9FJZtMHCP0KEfHbQEXFYrWwTdoGRfBrtRt2+RpHjuyM3LmMB8RHqNvqjt6THXG/L/WIBd
-	Nd/snfo3MwuzWXmDvWtAaqN1vxFoyciRNBsNvDD6D/OHzz1PggEGyBg2mn27UASVNeZoSlMZDBL
-	Bsq+scWKVgr7qaT3oPC4QnyUK70ijCiwySURB04q7OjEPPnZSnmT11478NFDr/AQ83WP8qoBEXu
-	PphUw4LVjfjR6pFIAqrWnmhULrP1hjg/CES4fDi77K8vUQRAwlxGpbWnqxpZ/0VMbZFQUxmJM43
-	wC5uA+jselgyK8auXIWMOFauXiZ4uJE7jzCAE8JH73zmMUtFXVmbzo+gw4cj394EVMKOoaAkFDe
-	qF40pUun7f1in56pRqHYboZdZYGjiwj36OlxkMi2o+AtJ5wgr0MyArMvPNPKDPO1S4gkVRTp47p
-	/O8SvsW1kobqgo6ENu4D1kTFdseyY8ngxzQLDsiW8oe0TekhYUAQe0fL7ggSFkYDw6NFA9HHkHR
-	F63sSBkeAGnoxtRayDR3wtuNEb+pVBBNqQBuEY+CsHdollIV2yGQIP1Nsus6GXmE5YGuS/wl0mx
-	IO2RtTnjlF+zIcVWIng51HXzLvDwT1wenZ6yWuI/S2T+Bz4UMY=
-X-Received: by 2002:a05:6000:469a:b0:48e:fdd:41d9 with SMTP id ffacd0b85a97d-4982f968989mr173933f8f.31.1794246680224;
-        Mon, 09 Nov 2026 09:51:20 -0800 (PST)
-Received: from jernej-laptop (86-58-12-36.dynamic.telemach.net. [86.58.12.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498369a4238sm200717f8f.54.2026.11.09.09.51.18
+        d=1e100.net; s=20260707; t=1794265276; x=1794870076;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4ZCxpFg3sggMqB6xZf7RlXros3d1gScbU1ZLbBo7GTI=;
+        b=gCxU6rXIFZTzoObvIGt0auM77ZlFwG5KSy9P66wjygHNoBHPI7NnrCOTfeVok7K0W2
+         tMn3q9rVv3yitIVY+P1xUZmwtO57AUyTVCnIeNWfp+GOJcGMBi52hLyAkAwwpeN2NTko
+         2qNRxfBaEYRMNwRbpc7CZ66g5utKy4zw2FjNdOpGvNXkDbzY1mBNI7sSTE83z0WE7JSZ
+         tMbtiD09DFd3qaHqi2nhLPi5Pm+lrRNpViQqxBBchrsQijaCWd886tBBKUFdfs5w5dZY
+         qFPf55LIRSgnoBROVqaLECWhbxuNc4Kf8ie4ez0akQxf5auCBFH5e78JPVS8G2J3Dkc+
+         kAbw==
+X-Forwarded-Encrypted: i=1; AL+hErEaoCSEngcWDZse6oW4BWa3XOMKMlbVpzhWzn2lUwGb8FrAP6PescyP3motW+2PtIv9v/VrogfHogGlWByf@lists.linux.dev
+X-Gm-Message-State: APuU4Z+Kposz276y28EYUDVHUF2QK9dT7g+gwIt4H5pTTgGWUHmZlLsq
+	97EBJg+9eBctrAqOwLKQ5l7aaD8wWWnUyeQxfRRTtTf6HNddgJq96ozI
+X-Gm-Gg: AYBFou2QUp3ax7XrO4FdHhVyL7mzBEe3sS81w9EHW191geSrKR2/vcjmjeDHStNbVkV
+	ku8nqELec+Stg6Dx+9nSs9SeEwCq0IGji9rZZDGfoeWXSzb/waZajT5ObwbpBa5QOYwnPtOWXwS
+	/DnjaBAgnIj3m0AZ/XEKi3BSIjeAAWIA4GClM+r20nFEHtpkNNl2RiTWRF7m8Cy+twveY87BWGQ
+	V0hL2mKAFYN5yiDCw9ex2yD1l3/+et6ycft6gjP9yeI1aK3jC/2d6/CeSKHMApS1YIj/pnhjB9+
+	izQozPgr61yf392lbVoWKnm1o3YsHPDd3zw979EwClaDo4g7+DIDyHbVqSeIf4u/a/hX/jRq392
+	TKjrMJ/tQ6+Gn3xMhl7EpNv8RiWJmH2ba3LtkrCzoHMM461KgDV5PiX9cUPWRvgIuxhmGhazYVe
+	6HHudJ1BNPCWVT6jyTMIo57HaTAAEj3mMNcM3e7KjQXBGr53a+ad80m0tqk2vy6KCg8hU+BqaD8
+	u7NsdGpBYfSQx+gFpa2xUGyLO2y4dU3Gl43lq0LmLAMzRz9aNxBOJwH6xcIqhYBMHUQ+7AXewwL
+	LOt6yRpJ/l8YOU3XKLLrOICYuqdDMS8mOjp9RSUL9QrlL5O2DRUlzcL83fnhoSzwKyzO3NGj+zf
+	xhnK3DaZDcnzfwQ==
+X-Received: by 2002:a05:6402:c4ca:10b0:6b7:1c:ead7 with SMTP id 4fb4d7f45d1cf-6b7569d88d0mr547971a12.20.1794265275825;
+        Mon, 09 Nov 2026 15:01:15 -0800 (PST)
+Received: from fedora.tailb87685.ts.net (ip-194.15.124.140.laito.net.pl. [194.15.124.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7578beb01sm265789a12.6.2026.11.09.15.01.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 09:51:19 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	linux-media@vger.kernel.org,
+        Mon, 09 Nov 2026 15:01:15 -0800 (PST)
+From: Platon Miller <platon.ksenzenkokk@gmail.com>
+To: gregkh@linuxfoundation.org,
+	rmfrfs@gmail.com,
+	johan@kernel.org,
+	elder@kernel.org
+Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 11/11] staging: media: cedrus: vp8: support frames wider than 2048 pixels
-Date: Mon,  9 Nov 2026 18:50:16 +0100
-Message-ID: <20261109175016.42061-12-jernej.skrabec@gmail.com>
+	Platon Miller <platon.ksenzenkokk@gmail.com>
+Subject: [PATCH] staging: greybus: light: Use sysfs_emit() instead of sprintf()
+Date: Tue, 10 Nov 2026 00:00:59 +0100
+Message-ID: <20261109230059.24572-1-platon.ksenzenkokk@gmail.com>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261109175016.42061-1-jernej.skrabec@gmail.com>
-References: <20261109175016.42061-1-jernej.skrabec@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -113,142 +102,38 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Above 2048 pixels, the deblocking and intra prediction row buffers don't
-fit into the internal SRAM anymore. Put them into DRAM like H.264 does.
-The vendor library sizes the deblocking buffer as 24 bytes per column.
+Use sysfs_emit() instead of sprintf() in sysfs show attributes
+(fade_##__dir##_show and color_show). sysfs_emit() is specifically
+designed for sysfs attributes, is PAGE_SIZE-aware, and avoids potential
+buffer overflows.
 
-The buffer sizes also tell whether the buffers are in use. Set them only
-once both buffers are allocated, and clear them first, as the codec data
-is shared with the other codecs.
-
-Tested on H616 with 2560x1440 and 3840x2160 libvpx streams, which are
-bit-exact with the FFmpeg software decoder.
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Platon Miller <platon.ksenzenkokk@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.h   |  7 ++
- .../staging/media/sunxi/cedrus/cedrus_vp8.c   | 67 +++++++++++++++++++
- 2 files changed, 74 insertions(+)
+ drivers/staging/greybus/light.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index 78efd3938c77..e26bbbf2e55d 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -156,6 +156,13 @@ struct cedrus_ctx {
+diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
+index cab02b5da..2689f9a75 100644
+--- a/drivers/staging/greybus/light.c
++++ b/drivers/staging/greybus/light.c
+@@ -173,7 +173,7 @@ static ssize_t fade_##__dir##_show(struct device *dev,			\
+ 	struct led_classdev *cdev = dev_get_drvdata(dev);		\
+ 	struct gb_channel *channel = get_channel_from_cdev(cdev);	\
+ 									\
+-	return sprintf(buf, "%u\n", channel->fade_##__dir);		\
++	return sysfs_emit(buf, "%u\n", channel->fade_##__dir);		\
+ }									\
+ 									\
+ static ssize_t fade_##__dir##_store(struct device *dev,			\
+@@ -220,7 +220,7 @@ static ssize_t color_show(struct device *dev, struct device_attribute *attr,
+ 	struct led_classdev *cdev = dev_get_drvdata(dev);
+ 	struct gb_channel *channel = get_channel_from_cdev(cdev);
  
- 			u8		*entropy_probs_buf;
- 			dma_addr_t	entropy_probs_buf_dma;
-+
-+			void		*deblk_buf;
-+			dma_addr_t	deblk_buf_dma;
-+			ssize_t		deblk_buf_size;
-+			void		*intra_pred_buf;
-+			dma_addr_t	intra_pred_buf_dma;
-+			ssize_t		intra_pred_buf_size;
- 		} vp8;
- 	} codec;
- };
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-index 84bf18fd231d..bb32232d37ff 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-@@ -669,6 +669,20 @@ static int cedrus_vp8_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 
- 	cedrus_write(dev, VE_H264_CTRL, VE_H264_CTRL_VP8);
- 
-+	if (ctx->codec.vp8.deblk_buf_size) {
-+		cedrus_write(dev, VE_BUF_CTRL,
-+			     VE_BUF_CTRL_INTRAPRED_MIXED_RAM |
-+			     VE_BUF_CTRL_DBLK_MIXED_RAM);
-+		cedrus_write(dev, VE_DBLK_DRAM_BUF_ADDR,
-+			     ctx->codec.vp8.deblk_buf_dma);
-+		cedrus_write(dev, VE_INTRAPRED_DRAM_BUF_ADDR,
-+			     ctx->codec.vp8.intra_pred_buf_dma);
-+	} else {
-+		cedrus_write(dev, VE_BUF_CTRL,
-+			     VE_BUF_CTRL_INTRAPRED_INT_SRAM |
-+			     VE_BUF_CTRL_DBLK_INT_SRAM);
-+	}
-+
- 	cedrus_vp8_update_probs(slice, ctx->codec.vp8.entropy_probs_buf);
- 
- 	reg = slice->first_part_size * 8;
-@@ -837,6 +851,11 @@ static int cedrus_vp8_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- static int cedrus_vp8_start(struct cedrus_ctx *ctx)
- {
- 	struct cedrus_dev *dev = ctx->dev;
-+	unsigned int deblk_size, intra_pred_size;
-+
-+	/* The codec data is shared with the other codecs. */
-+	ctx->codec.vp8.deblk_buf_size = 0;
-+	ctx->codec.vp8.intra_pred_buf_size = 0;
- 
- 	ctx->codec.vp8.entropy_probs_buf =
- 		dma_alloc_coherent(dev->dev, CEDRUS_ENTROPY_PROBS_SIZE,
-@@ -852,7 +871,42 @@ static int cedrus_vp8_start(struct cedrus_ctx *ctx)
- 	memcpy(&ctx->codec.vp8.entropy_probs_buf[2048],
- 	       prob_table_init, sizeof(prob_table_init));
- 
-+	/*
-+	 * Above 2048 pixels the deblocking and intra prediction row buffers
-+	 * no longer fit into the internal SRAM. The vendor library sizes the
-+	 * deblocking buffer as 24 bytes per (32 aligned) column.
-+	 */
-+	if (ctx->src_fmt.width > 2048) {
-+		deblk_size = ALIGN(ctx->src_fmt.width, 32) * 24;
-+		ctx->codec.vp8.deblk_buf =
-+			dma_alloc_attrs(dev->dev, deblk_size,
-+					&ctx->codec.vp8.deblk_buf_dma,
-+					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
-+		if (!ctx->codec.vp8.deblk_buf)
-+			goto err_probs;
-+
-+		intra_pred_size = ALIGN(ctx->src_fmt.width, 64) * 5 * 2;
-+		ctx->codec.vp8.intra_pred_buf =
-+			dma_alloc_attrs(dev->dev, intra_pred_size,
-+					&ctx->codec.vp8.intra_pred_buf_dma,
-+					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
-+		if (!ctx->codec.vp8.intra_pred_buf)
-+			goto err_deblk;
-+
-+		ctx->codec.vp8.deblk_buf_size = deblk_size;
-+		ctx->codec.vp8.intra_pred_buf_size = intra_pred_size;
-+	}
-+
- 	return 0;
-+
-+err_deblk:
-+	dma_free_attrs(dev->dev, deblk_size, ctx->codec.vp8.deblk_buf,
-+		       ctx->codec.vp8.deblk_buf_dma, DMA_ATTR_NO_KERNEL_MAPPING);
-+err_probs:
-+	dma_free_coherent(dev->dev, CEDRUS_ENTROPY_PROBS_SIZE,
-+			  ctx->codec.vp8.entropy_probs_buf,
-+			  ctx->codec.vp8.entropy_probs_buf_dma);
-+	return -ENOMEM;
+-	return sprintf(buf, "0x%08x\n", channel->color);
++	return sysfs_emit(buf, "0x%08x\n", channel->color);
  }
  
- static void cedrus_vp8_stop(struct cedrus_ctx *ctx)
-@@ -864,6 +918,19 @@ static void cedrus_vp8_stop(struct cedrus_ctx *ctx)
- 	dma_free_coherent(dev->dev, CEDRUS_ENTROPY_PROBS_SIZE,
- 			  ctx->codec.vp8.entropy_probs_buf,
- 			  ctx->codec.vp8.entropy_probs_buf_dma);
-+
-+	if (ctx->codec.vp8.deblk_buf_size) {
-+		dma_free_attrs(dev->dev, ctx->codec.vp8.deblk_buf_size,
-+			       ctx->codec.vp8.deblk_buf,
-+			       ctx->codec.vp8.deblk_buf_dma,
-+			       DMA_ATTR_NO_KERNEL_MAPPING);
-+		dma_free_attrs(dev->dev, ctx->codec.vp8.intra_pred_buf_size,
-+			       ctx->codec.vp8.intra_pred_buf,
-+			       ctx->codec.vp8.intra_pred_buf_dma,
-+			       DMA_ATTR_NO_KERNEL_MAPPING);
-+		ctx->codec.vp8.deblk_buf_size = 0;
-+		ctx->codec.vp8.intra_pred_buf_size = 0;
-+	}
- }
- 
- static void cedrus_vp8_trigger(struct cedrus_ctx *ctx)
+ static ssize_t color_store(struct device *dev, struct device_attribute *attr,
 -- 
-2.43.0
+2.56.0
 
