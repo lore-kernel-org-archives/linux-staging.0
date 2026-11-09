@@ -1,95 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794203502;
-	b=ppByev7jiM9CkvGMq2x+gVcwM3CQM70s1G7QXH9aSKjX9bwgfjRWZ7r8VA1D81RzdDvQ
-	 teYXv4af3cQyodp1KGuUW16vCDxlVAWnS3sad0ezWNHSMW1ns994q8xSSIDMlGaxokZBJ
-	 YgnEUqeWaOLggjEsp+Xth7q0la3QMNL/Kpfl4IAAj3L+WsIYNIJt3i+ypgcH9rcqb2o0E
-	 1rO0XN1C/r5+LTRPW/0gS9QCaGhUPNdYPHpjRPcqUwXWyohVLrDI/LXHBv2hpuoZmUE2Q
-	 ZsoaGB0D0iroKV5cy4G8XdoCwo40Q7nbTuLcYE3br/CbIXl95ybCku6yM+w2GUnVW1A==
+	t=1794204756;
+	b=O4V3BHtPgtXWE1lpWjC6QCYBzLAANymbsy4zabTUMD3sJeFV02lRUjQ+MkEaM6K0IY0B
+	 IrjSIZvgq9C2oUdcnQqFBlCqiutmDLTl5szwe4nu5iSBag8o7YJvKNxea2t/Y6SKf5uAo
+	 EOSB49OaDE05DJnsywb3HgLmdQT03j9ScbNuZ6m0zWw+mbW5O0do9azvvhnNug+OwCaru
+	 OpmijgbxXXdDMMZAzvfBtSbTBBRIG/l/vPSSbaxT8eFxtXozzVjNhtTWIb+Wop/qMyBuB
+	 mVNB/mmguN6KDJpan8FXiyPa3L2qbOJeje/UlYsbOTUVsCmaQ+AmX3XdIblWBXnYhDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794203502;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794204756;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=VwgfRQAB9Bn+sLq8sfKEfMs/lmXrqxvASZHK8XhqIgY=;
-	b=PDW1mgYwsrAHbNXpi9rEv9s6E0tHvGvA9OXlnhpE/T+jJ3azYQTgoZS+MnNFFNj02KB/
-	 Tj5Pv5ayCH4lIrVgomOFLIFrRgxnt71HOADQGImBWFLwpU5+Rt0ZrpicFVqDDLZUWQkJm
-	 wvvfdmCHHre1bLn7Teh4gIAZ97dq5MrUAyvnkUCsl7sw0LlVVjksgUJhqN3MFThllOAn0
-	 e7mBhfJraX8pPTyxQgEFGpUGFcEvWAzD6WyD+w02O/M9hJ1SZvgUSH6jyTI4d7kCifkVA
-	 BFvo5tgSOhYqnenoxr/oDIJJlVNELHhS+v5IHe3sVfc/kd8J+leo2GXchBUD3sAjn6g==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=1UcMxn0eRaSO2tdKlZvKawz2XVhbWZCZbyW9cb8JhqU=;
+	b=D9QpEncchjEQPxNU7o0Vc3Nf82t76syHVHgkiK+/PU10UNkE1hjOcv6cFnxaVq7BGSHG
+	 S40bf2c0sa/GtTpcc2G2LWU6iz9oNsKzO5c76bYZAAgyDru1ttVndPnqO6u6Zo7Ih7wbF
+	 zd/KlMUSj0XVQcT4cqhguHCceWz0P50MqMQDDg0nC9WxGqCr+AoFzTb+et+tsFeofmZkY
+	 QfYdK1WhU6Huv3+YT/H7U3zFuTeBozapadc5e1QXvIUWqYbrFUFHGwsE5H6ZJaY/vTqRv
+	 xYgPkp7nGBufGnfvIk1TEWl1+BeyZ5vpX0hpnZpgmVTVTiIm2HydXrjZXo8UeEglBVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="I9nJj/R4";
-	arc=none smtp.remote-ip=209.85.221.43
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lLd0clmY;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963EA606A321
-	for <linux-staging@lists.linux.dev>; Mon,  9 Nov 2026 05:51:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 963EA606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95291606A322
+	for <linux-staging@lists.linux.dev>; Mon,  9 Nov 2026 06:12:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95291606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=I9nJj/R4
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48e46e449e8so280363f8f.3
-        for <linux-staging@lists.linux.dev>; Sun, 08 Nov 2026 21:51:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lLd0clmY
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-36e99cf7bb3so936646eec.0
+        for <linux-staging@lists.linux.dev>; Sun, 08 Nov 2026 22:12:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794203500; x=1794808300; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VwgfRQAB9Bn+sLq8sfKEfMs/lmXrqxvASZHK8XhqIgY=;
-        b=I9nJj/R4zR5asqYuk7XgWiUtZB/2z8zjn1+jKy7UEJdsOyDOUV+Je6NQh9HRV9QtKd
-         53KfqoG5UC4GzYQONdZmF+HV6kyfmPZhKaqTbpBEHeZMlgoFo4K9k8zVeupH+6rpKrtV
-         ctpElTcaaQjQnDLxn90OOGRQkTFJIWSZVAGJDBW6O1fZ5WwyWaTk4MYKP+/yPcKIG0ug
-         PShFubntD722j16vZj/FZ/5gTVx3EydcjPKf8HUDUTGSwGS7uZVxzrxGPPZ21YJ6rXea
-         RjhU+tSdvuijmEu3DFkp0FZvG/dx7hI0JGTr3hjw/+fp2SSodvBblpNe0yamMs9VYB58
-         JwUA==
+        d=gmail.com; s=20260707; t=1794204756; x=1794809556; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1UcMxn0eRaSO2tdKlZvKawz2XVhbWZCZbyW9cb8JhqU=;
+        b=lLd0clmYzHmGIfIQQEkaB5NXx9CcP02GRGYBvWokhxBNPqiTNq+pk6Raoa+6qjno5W
+         r23OUKQu2vNGx6L8eqqugUibI4XoDES0IsQVkob8BCvnY8nsqVoinceXUABOSU4ovqWL
+         hGOZfgk3PAE5K/hDLRlmWUb0XBirWSocB/4/c737I1wG+ewnapiZOlPn7YrM2YBPeWAe
+         LY6VY5fHYQ5Kr0PxrdjDcrWhhXuwlXgPnC8rPEXyOv7biSXfX7yJyFMnjQ+I8QmPZkSG
+         IHajixPmoZP1b5a6PVkeQ+SKcFSPKbGbmI/bPxbQFo+lS9j+op9DbBBHx2DTXUY7jPdp
+         wEow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794203500; x=1794808300;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VwgfRQAB9Bn+sLq8sfKEfMs/lmXrqxvASZHK8XhqIgY=;
-        b=zhO7KH2K8ua5RK7dXZcm5UTsRsTo+f574dPBiWT15kJzyOWLgiAZxuhQQuVJl/DGpH
-         mmM9+/YMflcV6VLCbsDEcGMK6bZJ+aV5VmMEPxP3c1ilCQciGIYse1b5JJEYwkBlpVPX
-         JtaORmfLXotYPqcvd0kkXqkQ5WUNYxs2M0kn93TO0YwuEBxcqKXBNJU8dymZNk9jkCzD
-         aMyVDPHKadH2eKmKFQXcXWWKCm094z5GLmp8363+awuyHbABtwmMpOdkfKnkCpWmYHYq
-         x2WlDY2VMxD1TelXjKLzt2qRzL7nSWSPbmQysyRDsY9V5sshkWFY1ZmdeQWLDFshM2oS
-         SWKg==
-X-Forwarded-Encrypted: i=1; AL+hErHnYeyYgXhJ0eQjLN9CwMnsifozQRc338PIPnZAjgNSMSQ0ZaShUq5PSUPW4ZPPCOBnNts05n/DEHMrlFoZ@lists.linux.dev
-X-Gm-Message-State: APuU4Z8rDOvgXnnqEF5jJMZSOTCUrTVQRvgh5okuoQvzCKxDVHrG5Nz/
-	5nmvY0X3FNxjT9SuG4Dp5J8NQXEDxEGFO58tXFuQD7fW90vdNLg2X+cK
-X-Gm-Gg: AYBFou0yjxVsmNZFrSuh/xmqGwg5d1B9d1Nl2FLuzBykDOWczYq5aP0yFYdNlwQjSrj
-	ZbfK6cYDYvVS6CwKIBKN40O4uy5M+lXA93n/1OKYjZmExBMgGePxXLFuh4M2+fub2ETHHu9Qrkc
-	6CsIZ5HiTw33Wm7GOcSkKCUCDLB2g0fWel7/hpJLylkFgtnUNP6xkjCfiqhz7/n8OJVtiCCDZmk
-	X5bBrPi8d+hBKEeIYhGgujjnNr51jXS0rm9hXYlrMvItLyNfrYQj4cIHf2AzFiLsZf3/p7opWy0
-	jjvJ0cvkTz4pSbX3/CGzI2qaq3EV7K03xSQIJCuCW9re9KWiTOSi0Nv2SJZV1KWTlnFoiUxSicd
-	H0EIPZXm38jEXERUbmkSvpy9LezVvIyYPt+64y7rU/D6WrJ+0h1/eiylT4R955/+TPmaXv/j+OI
-	MwrH/J5AbDnk8+cin4sGN0CLcKIQktkUR5buAO0HPLEtBOTwdQR2QDsPbTxPEXzFzuY8DKZ7Eo+
-	XWbBR4JrUDob5ASQWnt3/EFWbJwCkArHlMqcxnmdnSih4teIAybHhWcqJ5/J8DRRA050tjfLNqF
-	7Gv9k+QxBm7BHgtmKHtC1yphfHYT9sxMwBOW19Bq/k48M+z37KHG7S5IJdD3HBBkbEY+GDl2p+n
-	tfPMmSh5C8A3tdiePcYtlQk8Vz8L4mXrSC4FwKftt5gcUh8TsRdVppTBNoVGh9tc28Q==
-X-Received: by 2002:a05:6000:4614:b0:490:6e0f:a024 with SMTP id ffacd0b85a97d-4958ac94f8bmr5349051f8f.13.1794203499894;
-        Sun, 08 Nov 2026 21:51:39 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4959783fd04sm7968081f8f.47.2026.11.08.21.51.38
+        d=1e100.net; s=20260707; t=1794204756; x=1794809556;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1UcMxn0eRaSO2tdKlZvKawz2XVhbWZCZbyW9cb8JhqU=;
+        b=YXHHVoHaF0cd2qHUeNglEzjHcMJuq3PxH8BE/9svq+PrZg6tB2Qsdak76scAr1b1Tf
+         0oyir1UCvQOxfnS5IVt6p2/PY6s/CwsUk18bTtVTjSCsTMvq3og96Grwxj1qTsVv2WD6
+         5D0hDoZ4zCe03GWm+VGUMTq9n53OUEboJt8J30Rde5CqkPUiE906U18ynzb7AY5BrA7y
+         GRpFbvteycfGBmJfrIgks13hkqjMtRLR3XBdRJ5qWKeNYHOqkOZNC40s3ilIpB7xajDY
+         zfEBHhVpHVMjY6lZDPsoQVmV8Hf5xPDNdnx3T7Mw5v4wtT7ljs9sovUPaaLkkMKuou/9
+         z7jQ==
+X-Forwarded-Encrypted: i=1; AL+hErGinSt3NqveudUSz77jOA1f7Xj0z/HYQjpb8W/pvkBLfxdFRR/76lDJ/pJjLUwKJ3/A82WYoxN4Mq1WZk4Z@lists.linux.dev
+X-Gm-Message-State: APuU4Z9Dt/y7XsD1WASyPRBmbw5CRCc1bT0vDg/X/hUahecsQEZgOIQ/
+	05I0yodATSKOF4gYezeD1HsS9TbE3+x1nOTL9d4WWj8zg7QvTykfejXk
+X-Gm-Gg: AYBFou2w8FtTBAMLYKLcZTL9bQvQQfxApzbvMTV32qKxSziaKAuyrby+tw/TGr+Fhw+
+	DThA62UAbJmaTkXAXKsTryfwGLeV9nTIJqX0nHBLh7hAY9ew8f6/TlgQ4Uu6qhb+AvvhrmvAuLA
+	AbJ2Vpo8Y66F/+gVrHxACBr64LVGt3nfhC55/IsfI/NKZFrV4ybpR2gjCTY4X7swO6F3vIHhOMY
+	HijqrtnuOKYDicRbsgcge758Fj5T/pEMcljiaKdJFi0oKyZ0eP85xdko9zzLzCoFZD9PNiMlSjU
+	W9oJuU/vVBu23pTxcLFXmmQAQZ4P33OforNFxVnP6pnS93U/NOnt1kRHZvnb48cD51aO1VYZWPN
+	cd4WXsUyYJW9c97zwXUIEj7SbPpuD/yW0dIsAcCua5WR4Pbs7xyk+ZpDgLOpjieRuQZMsz0MC7D
+	pwsLhNAEuDaHF1KmZh647bITEW/Zj9jT7yMvirEDPpk4UP0jSf1jf0h/ah54oiUu/8QzQX2BPtO
+	6yc8xC0AIbpmEgt7SgEgQ4TdRh1UZYEmwbdQEZsbNkVWrmQ6mAFyL0IvpOy/eEJkFUDt2OMi05Z
+	3Ib4ErROf4WqDsPO4kg/ShCLBCIjB2PgIVL03w03g9C6DpaNbqYEtqs1UG5JJQB8CZWoyQ/GD46
+	V0ezsBWQRNK2Xpgu26pEOJbnoh3gw5mC6zw==
+X-Received: by 2002:a05:7300:d20b:b0:36a:7b3c:4e0a with SMTP id 5a478bee46e88-372571d7f02mr4839228eec.24.1794204755480;
+        Sun, 08 Nov 2026 22:12:35 -0800 (PST)
+Received: from codespaces-88e7e5.mimvmn1ww3huhhjmzljqefhnig.rx.internal.cloudapp.net ([4.240.39.203])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37265a16c49sm9835409eec.10.2026.11.08.22.12.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 21:51:38 -0800 (PST)
-Date: Mon, 9 Nov 2026 08:51:35 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Priyanshu Singh <singhpriyanshu9838@gmail.com>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
-	elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: add missing newline in sysfs_emit
-Message-ID: <avFfZ0-IYSlUhk4Q@stanley.mountain>
-References: <20261109034126.402391-1-singhpriyanshu9838@gmail.com>
+        Sun, 08 Nov 2026 22:12:34 -0800 (PST)
+From: Lame Morupisi <lamemorupisi12@gmail.com>
+To: hansg@kernel.org
+Cc: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Lame Morupisi <lamemorupisi12@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: Clarify MIPI frame layout comment
+Date: Mon,  9 Nov 2026 06:12:23 +0000
+Message-ID: <20261109061223.17144-1-lamemorupisi12@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261108122840.85622-1-lamemorupisi12@gmail.com>
+References: <20261108122840.85622-1-lamemorupisi12@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -99,20 +104,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109034126.402391-1-singhpriyanshu9838@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 09, 2026 at 03:41:26AM +0000, Priyanshu Singh wrote:
-> Add  newline '\n' to sysfs_emit() format strings to
-> resolve checkpatch.pl warnings.
-> 
-> Signed-off-by: Priyanshu Singh <singhpriyanshu9838@gmail.com>
-> ---
+Clarify the description of the MIPI frame memory layout by
+explaining the meaning of optional fields and payload words.
 
-Nope.  Search the archives (lore.kernel.org) to see why this is
-not correct.
+Leave the frame layout diagram unchanged to preserve its
+existing representation.
 
-regards,
-dan carpenter
+Signed-off-by: Lame Morupisi <lamemorupisi12@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_mipi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+index 971b685cd..09c2b1286 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+@@ -130,7 +130,8 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
+ 		even_line_bytes = odd_line_bytes;
+ 	}
+ 
+-	/*  a frame represented in memory:  ()- optional; data - payload words.
++	/* Frame representation in memory: () denotes optional fields;
++	 * data denotes payload words.
+ 	*  addr		0	1	2	3	4	5	6	7:
+ 	*  first	SOF	(SOL)	PACK_H	data	data	data	data	data
+ 	*		data	data	data	data	data	data	data	data
+-- 
+2.56.0
 
