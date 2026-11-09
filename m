@@ -1,97 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.3
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794194960;
-	b=jxRHQEXYvs/lTdT50PZXA0keDdC9lrfHEiYG7fGIgai5lZw9ZOBkdq3IL11rgXHlUhfL
-	 GoZ0laYr5P5hKI/iZhhdHuw0/gxBl1XJ3AWvPE4HuRVUPLZcmkcr53WXopU2Cu+3toj0D
-	 DOtrL/ZwbK2oRGD8aUUOJQf3QmBKeyI64x/q012Z7BL3sHSezCJGuv163hW1VfS8aKkE+
-	 4+taXlVNqLSB2Lh26flp79v9Oxb86VTlzJp+JvrwMYjqfyHXVr5RiUv+itceDPxJS6lQo
-	 tF/8Bl8bNowpI3Tg67wmNQCKL5oxIVRm/s3uYr9f9JGwepo9GTmQqZZE9yMmQESop4A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794194960;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:In-Reply-To:References:Content-Transfer-Encoding:
-	 Content-Type:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:
-	 X-MS-Exchange-AntiSpam-MessageData-1:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=4rVSozZBEFOpbkbnGY6wiHwL82FFRs6WlS61KbRBroI=;
-	b=U3Iu4g3anH7eUR2A+tbxENCnEnxzGmN6zyVCd3XntolKDQYACXkxYAW/yTbv+Z9Dpryu
-	 AbGrDZY00ilpQrMr05vBJ3x8cZov4vuZqr6Ntv3kH11oVvGKh7ihJsbRAzZEPNQhbn7LO
-	 /inlZIqTsYxVt44riYHCQIaGa743wZd26z1KX3LdbpD7UuDIX9j+H1N3kAm/twgiK8jsd
-	 Z1jFQlRnotstB0WYxas2CU2qgUM+GJvXp6w2U2jy95DNOThuOPCIOJ5smSC5Zvbg0ZRHs
-	 CW0n6lYrjMKJb2RMZD1HlcBb1iPYyfIhv6TN9tA2ho85XZOeHqNY91xtH5oUrLkdeww==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=OdTwl9BS;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.3
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010003.outbound.protection.outlook.com [52.101.46.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794195740;
+	b=C2gpr1YTOdNRrfrVfpKn3eA8QJnyxVb+csfkXDMajdbC7qmTv44k+MNWXGI8ZixRSoo3
+	 8xRchdR6Je6ceKfTDq+jqT1F32OUwV2rcxaHx6O+XMybZ/4dl8W3c4+N8wHfDXFNwleAf
+	 Vdb+Pyz7lkeqeoxx+T77lhrXqM48l9HRKjKeo5dbKRddbisHzboCwpVdrH160LetZa86+
+	 8LfOsHgyT5mUpMbdrDrDHyBxLUhpkiE6j8/6l8TVmAddBISqCe4HFqfffp28yx6OBaSas
+	 d66eyNOk7R6TKQootDINmeSOG+btKzHPSwVk1z0dWc8xUSOQ+IVpL/ehCMKVoRQ1/vQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794195740;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=VDRRIAOPMvAyme5rrZYSdHK5HezA3cmZQYqbZeADUVQ=;
+	b=jobZl1/ZZOwccpX+Cp5vE9WE1nM2FuMqB8YE/V9BDAYV9gRDeQYtoy64WbZyvtteZmSV
+	 DL5kAP7CS6YYjoDxupDFXbPqaqeZDF07z+lUbVuXd0TLpES/4lVkcCB+U614goxuX5zx4
+	 uhfT3YTm/C9kmvaHaDnl3W3vRq5oh9ZJ+qBHiQpt9bGGzlBmNVAZaU1P5e3NOV3ZI/br3
+	 FTZZ7nTUXA3E945wJzkxFJqKDtVcsw7SU68KFGdiknkQTGzqCNjyzpvDl/tk2esXaYGut
+	 HuvoPkOg87O7w0ulb96gu4ZENzBRn/kUKKrRz0Z1Z9bVHFBKe/x1ua3mQKH1wUwaBlg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MCF8twlU;
+	arc=none smtp.remote-ip=209.85.215.171
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE1F606A31C
-	for <linux-staging@lists.linux.dev>; Mon,  9 Nov 2026 03:29:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3BE1F606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C21606A321
+	for <linux-staging@lists.linux.dev>; Mon,  9 Nov 2026 03:42:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2C21606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=OdTwl9BS
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R5c5fOuBcwe00oFoL7KRQuyfe2MWJ/+KnhwJoMMk6kHKlFasTkhw/uGJGu5yMU26qx3sE1VbljpcbOvzCKNFD3bGGp6+z1bTcQ8O3yA+njKy4UP32nSUEtesipsAwt7hy5F/oIBx0TA+3iAMyOrQcBVx+yU2GzysgXcmYPnNIr/fjTXwBzNtnoZ9+jQJH84uL1AeQovcQvO6cnRMRcUMGXzazKyaMIvEtTjdYEwdQFdot6r6SEVSiBp9HGL+dB2jDlL4UavsDCE25vdvOowJ+7qVo5me9xLU39v1USJ9Cyq5BwhK2KMNZ5RHnGll9mwxEE4Po3pBr5bConkaJ4txIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4rVSozZBEFOpbkbnGY6wiHwL82FFRs6WlS61KbRBroI=;
- b=CQH9cgkGAP/SxwmKzEiGnnjfztMfEs4QekiOBHY4SeeQL7GP1I0mIHLn48DO+INjNgjo6duxxbf9abGC5nU28TENcoX+XTpuWG49Jo1uyK3elyhMcZFQlvhBQjsjd8cNfABFoYuqHXq8zkJucD4CTTD1pWsASv1Rrg+upR4qbtkoFVhVXpxX41tCX9Q0NggltjRu2eRZ8IxiK2LG3vlxX+tukoy6n8ywtN/kokdEeapf1tG07C+mMZ+Eg2NjPedY6cGc7WGi7SixpxMwue48LhguY8m3p0tGwcegePlKp5LvITV8PT01t9h/EKyg2JZn6F0MkiLpLZKHN95yCmFXvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4rVSozZBEFOpbkbnGY6wiHwL82FFRs6WlS61KbRBroI=;
- b=OdTwl9BSjeCPTjjlc8DXS2NIAHOKnmFt1vTXGIOAm3yg2z9bbWr0GDq8buRtDM4m92dSMBQwkqpBJ9xITxLZKbpJMYg7b0rWlJC4R8jFjSXEwKpBN5KcnR5Iqqht1hyP533WsYlD7SoDHdGlHP4uyXufAA53uelID9JC0GMDmr/fWzi7YxcNqgU0v5KBvJzq2xsTlniaQNT8OFskkQ9f2JpcE0IXRCmdBUUTQexJTTwTLn35gqtM0HIh2T9czMxpaXwG4Kfr9dzTUfuPA4Ed8Zdrgj1JVTCVB0AXFW/UGuAnBWq1VLxWMzXwl7GaoIVTuS+C11TI+vtQG/W49yMksQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20)
- by IA4PR12MB721289.namprd12.prod.outlook.com (2603:10b6:207:10b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Mon, 9 Nov
- 2026 03:27:33 +0000
-Received: from SJ2PR12MB9161.namprd12.prod.outlook.com
- ([fe80::d9d1:8c49:a703:b017]) by SJ2PR12MB9161.namprd12.prod.outlook.com
- ([fe80::d9d1:8c49:a703:b017%5]) with mapi id 15.21.0592.010; Mon, 9 Nov 2026
- 03:27:32 +0000
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: thierry.reding@kernel.org, linux-staging@lists.linux.dev
-Cc: DelaySystem <DelaySystem@tubot.lat>, dri-devel@lists.freedesktop.org,
- luca.ceresoli@bootlin.com, gregkh@linuxfoundation.org, mchehab@kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- clamor95@gmail.com, jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
- skomatineni@nvidia.com, linux-media@vger.kernel.org, DelaySystem@tubot.lat
-Subject:
- Re: [PATCH RFC 0/2] Uninterruptible host1x syncpoint wait for Tegra video
- capture
-Date: Mon, 09 Nov 2026 12:27:29 +0900
-Message-ID: <L2SDRXLsTSiAzYTWAeJY9A@nvidia.com>
-In-Reply-To: <20261107-batch1-b1-host1x-wait-v1-0-8c8198adf600@tubot.lat>
-References: <20261107-batch1-b1-host1x-wait-v1-0-8c8198adf600@tubot.lat>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TYCP286CA0006.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:26c::14) To SJ2PR12MB9161.namprd12.prod.outlook.com
- (2603:10b6:a03:566::20)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MCF8twlU
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cdb45e96d2bso106056a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 08 Nov 2026 19:42:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794195739; x=1794800539; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VDRRIAOPMvAyme5rrZYSdHK5HezA3cmZQYqbZeADUVQ=;
+        b=MCF8twlUB3SqdmELK9gNbc2mjDjJ5/hkuhBTvxvThN5SzkyT7Py6Edpp3w7QAp+WOS
+         ElQFkn3hEPR1KDd4fskAvrdiek5BnKzRUHe+TLrF8KfMwnuUXFGBGNBZ2+cKt5yXCVE6
+         i59DuxnXPQJnTjETLnCokKrdCdUeZogDfj7m9QJDqySGRZaFYwGwRisi/OH5NXG1Y1y+
+         grBDJOt1D1QCQuO4tn/tKjplWNCSvEgPpqTDhFNJSAdeZHmeu9YuI/fX6+QxDodbK8L+
+         0m4YkFkYHUNvWcPnOnHHQRdcrED/xXYbCAsRD8pXEmk41W4MV/2GU3EgZLwH4dvVGf8W
+         VyXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794195739; x=1794800539;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VDRRIAOPMvAyme5rrZYSdHK5HezA3cmZQYqbZeADUVQ=;
+        b=Ptfjl3yX5XYjiqMIB87AYx0mdCZ/frckoe2HHe5JvKCtZAVMZbsV6YP0AnzPOOkDU4
+         miWrZgjus+e8/Q+SNvN6RJGbYh3YHLacWlFCY4VzLyR6WPKRdiwBauEQRYXJ7eB4gZZ8
+         LsWru04dR9ZX/Dv+CONSVEqFAeKoR+QfJlJzMBEF5hjlEubaYAnumPQQJNZRlYnES0jJ
+         Ad5a7ZnBmk8DvSxUyD25xB47fhANTjd9DAyzzx203XpD2UPLMW/qFq/G2iK/IX3YIsAf
+         6U5hH3z6ZYCcp40OYbskj4pfkaQTVKLoqkpC9fox+bY2YhfT7swuGIkWF8g9Sw9KJwRd
+         fWDQ==
+X-Forwarded-Encrypted: i=1; AL+hErFyFV4TNbamDHL+lRfgduNg3V2O4Ze8s03IXSgkYSu26QOrhWiZ8nd67t1tK3Xl63hg/608VrBLSUytxVLc@lists.linux.dev
+X-Gm-Message-State: APuU4Z90H00TODuAQv6FqZ6wvapznDn3bOh++E8UXoepsFqO2wq+C0Qp
+	34skgCA9dDLpyVCyJcQ+shDGhaKnU72adL7GMoyh0Yz7jBK/Ox3Ci6gh
+X-Gm-Gg: AYBFou3L8x/Now15GpHgT/U+9QDK817j5U8tOQO9auE9dpH7mrNQI8q78gkALSoI9aX
+	rkl11fmv83M5FiPbxlpx5C6j4aRQl8SKE7E8lDJ6c1bEXDV5/SkrvTPdsaVCBC1qp+i1Kvt8G5z
+	4TwUvUddeWnDtBzAPuOmbEeoYTcaTEQb1SZ2SdGEUIdONTSLzef8oYX2++ShgzODw5c6vvZU39m
+	twPnC7wL2npffF0IqdNtS3guybfJT7YXqsnkblVbV1YxysjzA/JY9Fn0GoB69Dj/2nBNwqfwwXN
+	LsNLO1fplqmP8LCvct+1FG8a1P/zEZqxdEpTLeksaCt6AyloNquoPPt0opzf5GUcBWnT7rsC/Tn
+	GAgoJVbASYM64kxiyNfw+hyG/m9bwKZ6iGZ//XaM1YXmsHPcaIUwUBUC5iL439hotA9RzLnHnjU
+	YhSYyqPlH8jCIOBSxn4cuqzuheK8hPc/cncBQZnRLrzm58VP/10EIT9bx7nk//whOL385jBefYm
+	DyFZYlVyRiaw/1hNyOEgCUyZRd2CrBb00+6cK3tCs4iMgwe9pIEDywMs5izTwpFvZUUdDhHhhq5
+	PThUcDWRSf9IEDy6jUHSkWI6Ob3/LFMqSxL8EwnGuElliPLQWjMMy24Jj8w40YYQcAlzMw==
+X-Received: by 2002:a17:90b:4b83:b0:3b0:a3eb:759b with SMTP id 98e67ed59e1d1-3b12d3300famr2937645a91.23.1794195738942;
+        Sun, 08 Nov 2026 19:42:18 -0800 (PST)
+Received: from lenoq.localdomain ([49.43.114.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b103435561sm5174399a91.3.2026.11.08.19.42.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 19:42:18 -0800 (PST)
+From: Priyanshu Singh <singhpriyanshu9838@gmail.com>
+To: vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Priyanshu Singh <singhpriyanshu9838@gmail.com>
+Subject: [PATCH] staging: greybus: add missing newline in sysfs_emit
+Date: Mon,  9 Nov 2026 03:41:26 +0000
+Message-ID: <20261109034126.402391-1-singhpriyanshu9838@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -101,134 +100,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR12MB9161:EE_|IA4PR12MB721289:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92cf8a36-28b7-4e05-1909-08df3e116429
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|10070799003|376014|7416014|18002099003|22082099003|6133799003|10067099003|11063799006|261028144727099003|261026121527099003|261102123227099003|261022075727099003|261022105027099003|261021121427099003|261021123027099003|56012099006|261026140227099003|261009223027099003;
-X-Microsoft-Antispam-Message-Info:
-	OPjOmMbjsaM7Y7Z+DkAIEE4Iq1ULNWICsEpaFsvZ4nclGBCNUo+9IkZHgaTL8+t9s0sAUPR9kEffa8FmjcPe9jzWgJ47V6pBFeNP4RQSEXeeWjYFmmO5aYj/BOip9ml+Gkq9tdeizpU1a2gpUjQP7PxxOpEv/+MW2j04cXVvmFdoJrkzTnessa6atcCnAdi44hBkQtCicsIxRbDxuz8hvXNKVlc2ZrngSfd+77rE+IWfA68eB6dB2/wnD+2CMAE33dk7zKl+uPNrvO6GFUKDFDg8W9O+ytpIM/64SH0mTQS57TyJpmA34ZGpjTKNQjmf6CTOUY+8FSghINiA0VZPw0elg7WnpZiRTI1WNqEjKY8LE2ykwlRPwP2yba8YJaQlrWeCX96Mw6iDeQStMoDPjvLJaGagi2bwmZgbnIcGo66eyBleEYC9WGNJmorwIR9gVjgiaAAx9K8loR0ryOhj0zBUpG0wthzu9I6oWIM10jIoj6TjoAx2kC+9xFDAVGZIeet+N5Ik8tlmHW2QtUUFU2QvnOthcjkfT69y0H+XERXQMsj6rUwRNrOuDP5nT0ilaspWIrADHdr1VjSv4jWm1P1ARHoaRDKnprTu83UODr7AGUWDfmTPYG5xmWvaL0zE8m2oHBWY7w5x3JB+hj9E0sWALwd7dyTDgbg1vOcFMzA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB9161.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(10070799003)(376014)(7416014)(18002099003)(22082099003)(6133799003)(10067099003)(11063799006)(261028144727099003)(261026121527099003)(261102123227099003)(261022075727099003)(261022105027099003)(261021121427099003)(261021123027099003)(56012099006)(261026140227099003)(261009223027099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?S3lFU0hjRzhaejhaVHM2anZDbWpRQ3NDcDdHRXlacE5saXZaY3BnaXJ4ditN?=
- =?utf-8?B?MG5rVGZkWmNNbS9TLzhUY2hpbWR1RDZGcjROOFdnUEhFdkNiRUR0U2VEc0s1?=
- =?utf-8?B?Mlk4bHRQRFJONEh6MDFoU1ZBb0FoRzZEMktLMTVldlNPQnlxc3QwUkh5NkxE?=
- =?utf-8?B?ajZyb3Bjekc5a1BlZVk1OFZVSTlvSnAvSGpMRncvMzZpVVVrZTU3clJvRFNJ?=
- =?utf-8?B?MFNaR1hBSUVHelRtVXE1bWlwT1lMRWNQT202NGlwSi9TeHhRaWpnZUtocEhm?=
- =?utf-8?B?ZVpDbnhPWDFaT1Q5NTF3cjNaQW5JTkp2WGg0VThkem1GRDZwMDVYUGZFYldD?=
- =?utf-8?B?MXRkdVFMYmY5Z0FTcGtyZ1l5TUJpOUdDdjI1MXdFeUp0TlIwRUh1WklHSzNU?=
- =?utf-8?B?YWFscndNUFVsNFhtaHBVTmU2S2ZIOTRLWG5Eb3JaQzNsWjh2YzFWdkExbE5D?=
- =?utf-8?B?emxmRUFXb0N6NmxsV2FqajYyNHdnYk9iS3FYQTNwajN5WUpaQVNPc3RZSWNC?=
- =?utf-8?B?dDZDNUV0VjdEYlBkeTlZa3QvelkybTA5NmpMb0xwVEVoZ205cHZtR1l6QkVa?=
- =?utf-8?B?VXJ3M0twMDNMSnFjVkZhSGFiQnNab3NIOTlXTWpvZE5wcGRobWpKZk9RTG1D?=
- =?utf-8?B?TmswT21TL1RHVi84M0lQQytFaUFtbDRYcVhxV3BWZGRkb1VEdEJyOGk5cUlO?=
- =?utf-8?B?aG05SlcwR2tWVWFGRTJad0hVKzFLMms3UVZGQkd0OGxibWZGdktSMTUrMkp2?=
- =?utf-8?B?ZnloelE2c2ZBN1Rncnl2L0JuRTJmbGNMUWYxYlRvOTBCM3ROYmRyYmlaeTRT?=
- =?utf-8?B?OXYycmdNcXdSTHpGQ0hJb3NHSFpRNUxzTDdYRHBtWHMrM0JGY3cwWnFkUVNa?=
- =?utf-8?B?WTNiNFBpOU55NktUZTJVOGRlZlJyb29OWEdSdlV0eXNaUy9yNWhMalBVVWtG?=
- =?utf-8?B?ZnpVUlV2REpFRUZJQmlGNFYrRW9DeWZsMlozeTJiZThtamNJWFZlczlwTmJ5?=
- =?utf-8?B?Qm4za1AzREcwZVB4eDdMeldueXZ2dWR0NW1vMGFjY3Y3RFdsNk1HY3BzdjlS?=
- =?utf-8?B?dXlWaXo5MWNaVlRDQnB3OWdZV2lERVI3U1JwMW1Pb2Rva2FDcHBRMkM4RS9s?=
- =?utf-8?B?UkY3cWl6NXpycmhNMXhiL05JQUZyS0JmWkErbG1Ia1RCTVRISFFlU2dhTDU5?=
- =?utf-8?B?YTlrVjZDa2QxMDRNYTBKd3pyMVpDeThXaXpSeFFFWlRmYVNyV3hOaUUxN2Q2?=
- =?utf-8?B?Tk8yNUw5SDNqU3pFQlV3Q0xKZ2VSU1RidXluY3FXUnlsOWpyS0dVSVZPcW9Y?=
- =?utf-8?B?YUh1VW80bnptTS9Wd1IzY1ViRjBHZmxQTEJOcmZKd25ER3J4YVVaa1N4K05p?=
- =?utf-8?B?YUdUSEV6VXRQMmlXZVVuQnRIZkM0Z2hZN1Q4SkJkelRuNHNnT0tlaGM2bi9i?=
- =?utf-8?B?YmkyVE9FclFkaWpqRm1kYkZickxNTHMrTUh6OWt6bVpIbTJGK2YxSkFYT0py?=
- =?utf-8?B?QTRBYlJOeDVZZWQvVWhXYlBIaE1BWWRPQUhBQ2NnQ2U5WUhKK0xrOXVkeUdl?=
- =?utf-8?B?ZU1Gd0NtUzE1aDJBaXdERlBRbG9hQUE4cGdlNzNmUy9nQTFDdTdJc0dtUlB1?=
- =?utf-8?B?MnVaYmYxeGh3ZG1hdXVteHJRNG5DUmVMQklDNTNneGVRak1yZXlsZERhc1Br?=
- =?utf-8?B?SmJSM1ZEcjFxWjBRa1hPWExrOGFxREFJazRINk9WVkdHWk1CNDQ3a2FvNzJP?=
- =?utf-8?B?MHl2T2NrTW51ZkxhNEVvMXhTOUNJTnZRdmZFZURWZENtWW5IdHRyNWpxVWl4?=
- =?utf-8?B?NGdtakxjRVB4cmtIRVl2RzdEM3hUUG0wcEhpUFE5Y2xOYmtzajVqb0lYZUhU?=
- =?utf-8?B?OVpmMGtXbzJ5cHBsOTk1ZFc5b3VXTk9YUGEwN09uY0kvdVNLQ2RZZGJUZ2o1?=
- =?utf-8?B?V3Z6bGFpMFdlTmZXNmVWcllyR3NqZDdXUG1OMHMrMk1pc2M1aE94T25ESE9h?=
- =?utf-8?B?YXVPNXlERTA1K0xCKzIwVWVoYW9ieEIrdE9XQzRkY2Z2cGJ0UDRrWklyWk1I?=
- =?utf-8?B?alJxQjYrZWlJTUVlUVlHb2FQWTByZVZQWlFzQ3ptV1hWWTBZYTZRNko1VDEv?=
- =?utf-8?B?bmJYNUNSbGdTUzFncVJubXpmN3VwU0FXS2E0VXhSa1V6bVNwYlVUNllZaUR1?=
- =?utf-8?B?VGJOS0h2Sm9VRmF3SDRaR0hUTk1Xd09sRis1c3VXU0ZncUZQcW1wRzNWOWQz?=
- =?utf-8?B?WVEvalNUTVliNTZIemNyYnIvZnRPQ3M4K3VhelA0cEs5T0ZsaVFyK3EyZlF2?=
- =?utf-8?B?dUxxZE53VXYyRGc0TFAwQWkxWlFTTllxS01VMVRPcUd0UkhqN3JrM2RlVWxv?=
- =?utf-8?Q?VbqJCoIAdegUrZOKvmNQmzTA02L1ND7X1OHiehYZUi5/j?=
-X-MS-Exchange-AntiSpam-MessageData-1: nP6/RyOToViRgA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92cf8a36-28b7-4e05-1909-08df3e116429
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB9161.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 03:27:32.6963
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CDODJY+8KeY4BiCbWRxWVEIvZZM2w2l4Q8hhuqhAQXzrpPl05aEzVGu+aBsl0N0CgH0r/FEf1jznUWAXzYObQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR12MB721289
+Content-Transfer-Encoding: 8bit
 
-On Sunday, November 8, 2026 2:21=E2=80=AFPM DelaySystem via B4 Relay wrote:
-> Signed-off-by: DelaySystem <DelaySystem@tubot.lat>
-> The Tegra20 video capture path runs in a kernel thread and waits on
-> host1x syncpoints with host1x_syncpt_wait(), which is unconditionally
-> interruptible: any signal aborts the wait with -ERESTARTSYS. At high
-> resolutions and framerates these spurious failures are common, so the
-> driver wraps both waits in do/while retry loops, with a TODO asking
-> for an uninterruptible variant of the wait.
->=20
-> This series proposes one: patch 1 refactors host1x_syncpt_wait() so
-> the interruptible behavior is preserved exactly for existing callers
-> (including two DRM ioctls that are userspace ABI and must stay
-> interruptible) and adds host1x_syncpt_wait_uninterruptible() for
-> in-kernel users. Patch 2 converts the Tegra20 capture waits and drops
-> the retry loops and the TODO.
->=20
-> This is sent as an RFC because the API shape and the scope need
-> agreement before a final series:
->=20
-> 1. Is a separate _uninterruptible() variant the shape host1x wants,
->    or would the maintainers prefer something else (for example an
->    internal helper with a flag, or a different name)?
-> 2. Tegra210's two waits (tegra210.c) have no retry loop: a spurious
->    -ERESTARTSYS currently fails the buffer. Should they convert to
->    the uninterruptible wait as well, or is failing on signal
->    intentional there?
-> 3. drivers/crypto/tegra/tegra-se-main.c also waits with
->    MAX_SCHEDULE_TIMEOUT; left out of scope here, but flagging in
->    case its maintainer wants the same treatment.
->=20
-> drivers/staging/media/tegra-video with VIDEO_TEGRA=3Dm, zero warnings).
-> The tegra20.c change itself has no compile coverage here: that object
-> builds only for 32-bit ARM (ARCH_TEGRA_2x_SOC/_3x_SOC) and no ARM
-> toolchain is available, and there is no Tegra hardware for runtime
-> testing. Hardware testing help is needed before any final series.
+Add  newline '\n' to sysfs_emit() format strings to
+resolve checkpatch.pl warnings.
 
-nak
+Signed-off-by: Priyanshu Singh <singhpriyanshu9838@gmail.com>
+---
+ drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
->=20
-> Testing: compile-tested only (arm64: drivers/gpu/host1x and
-> ---
-> DelaySystem (2):
->       gpu: host1x: add uninterruptible syncpoint wait variant
->       staging: media: tegra-video: uninterruptible syncpt wait for tegra2=
-0
->=20
->  drivers/gpu/host1x/syncpt.c                 | 46 ++++++++++++++++++++++-=
-------
->  drivers/staging/media/tegra-video/tegra20.c | 37 +++++++----------------
->  include/linux/host1x.h                      |  2 ++
->  3 files changed, 48 insertions(+), 37 deletions(-)
-> ---
-> base-commit: fa4ad798f6f681031775266044ba1b0cf3c670bd
-> change-id: 20261107-batch1-b1-host1x-wait-3cb3b92e9199
->=20
-> Best regards,
-> -- =20
-> DelaySystem <DelaySystem@tubot.lat>
->=20
->=20
->=20
-
-
-
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index dc90cc2d2308..5737f2a32f5a 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
+ static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
+ 					 struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%s", module->desc.name);
++	return sysfs_emit(buf, "%s\n", module->desc.name);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+ static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.vid);
++	return sysfs_emit(buf, "%d\n", module->desc.vid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+ static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.pid);
++	return sysfs_emit(buf, "%d\n", module->desc.pid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
+ 					    struct gb_audio_manager_module_attribute *attr,
+ 					    char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.intf_id);
++	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+-- 
+2.53.0
 
