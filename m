@@ -1,102 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794301260;
-	b=A/fyKMNleSkLfkCOn16nWNyhHUxXa83DPUWIfp4SJml35qzCDBkQEDgfC/Jg453buCW/
-	 gYq61B+mKOb6aA7Q8aHzectJcMQ4Vb/Qy13Uj1bsHCYAhLMRs+oXB6XJOqoriFT6UEziB
-	 sJDngnx8+70ly+4IlKo4szbfKK44d0xnXtoRpdU7bLZu3PQXt/3Myoj1rlZeDJOVB4ZUx
-	 q6DSyUt2xx+I1OVzeHI9Ft9A+ECRKrbluhAggSDPcvclE4gzWurv1C1c93VqxQxnCAWNW
-	 HFsr2PCKN6vCHvJ+RSNGR3BPcgJaySO0juU+MYwiH6y8Aqp28zoBfOhCHlk8AudoB6A==
+	t=1794303453;
+	b=r8QaWluqajHlmo5S45F4BqZz55hpwoPkzMdYG69Wr+neIiJdTwuUbvrWGd4Xh8n91W0U
+	 mOSN8sYvk+LVY/aJE508OWojogVyKSq9fn4o1dj/EQK88qrVyYF0MSr0OksSflmWdtYJL
+	 f0KIG0lZh7snfaGekAZbMe5+lr3wQdbSGlEqTiWgSfgHQktiBFcgtrTl+r7sId4U1hXbN
+	 Lwfv0ncjR6rGu0fZ2E4/MjuKm95KltzamEXJtCe8l7YjRUdn7EcpR4ySoJtcrnNZCLCDf
+	 QsdjGBrVDrtpu2chpJUZH5KIdJLPo/A4F58UI1FeZ1AbL+ejEN1MIh20LNwKe/eNVqw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794301260;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=D/l1DG9pW0EG2fGxLRQvmW7PF5RxeWs5LWhd8jRdOqg=;
-	b=T6jeNfznqtk5D1VtWRjFXWb0fxgDSCZlwTql89usL7kqPjlN4Pt49h5CRd08G9ianLcG
-	 3jOA9kQq2gHh8MfwNp+Nkown118TV34JEcjMbikzpNnc3QlouZQwwfkh/b32840Sr886I
-	 VbyUy6VFw905KE2/N6+yXKqoxMr+31U1GTMTI2pGI4LooEZTKLgknd2bho2SJM1q4uPLJ
-	 hs2RVL50bRx/L0x8rzblYNFI8ahEd5jKwfvDcYoQ9QAsGxyVQn6I71hnUqJcYNWTnVFcf
-	 5PWLmPyMi3WlEFRRKlC1u/pQ+nepPzwCzJDUwcIYINp/4IE9Uj1d6ExK/vGPKQOy8PA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794303453;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=kgzZMDeQ9yD5lUTY6CXHw+dsm63catiIaqcb5N1fBu8=;
+	b=mpEkUlbt1JORLfYnslc4bs5T1cuP2acu07ajawALw57vhJmD7UucC+iy4d3WeJGcT5Ji
+	 0ltt3RoNznTXhzwwfYKNZkK8CpdeOiV2Y3/PY+bpa+o1AzF06a+Xe8dsYWci4nB6cbtbu
+	 jLkL2MAiA+zNlplVvI0LqdscV2VYrSupXAwF+h4S00P3CBr9rt+mPaQiPZytv0nIBzj3v
+	 ZixJmx9+A1J8648XtCksMA/oX3ua9So+fruPl7mbJ4nfy5ptMv99ePQy99+rvMDoBmeLI
+	 lvelsY7fvoDpsUmJO0VVpljOhHdSTQwjwbkhKKud8+uAtuHg8p5da9oKSNc42XjPPMA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O4Xp+jeT;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.177
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ROCrzN2l;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152FC606A919;
+	Tue, 10 Nov 2026 09:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ROCrzN2l
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794303452;
+	b=e1I1CcFtcu7xS1QsnFMfKly9Ut6ldUm79AnemUyRpvrslYg2LfRVbKvSyXF8JVqi+uIa
+	 IOU/C847kG8Dn2rt+ziHHdaCg8WPsY0QZGWdRX/8Xo7R9UaaG1LwUkR/B9eHFnN4taDbx
+	 fzRarIhAkHoCvBsJKl/nRbJOALVl3/meQiDuA7u8egP9oIq8IbOueMhKvSJujCU0RnY3K
+	 1o66Q7Z3yV//b9DNzzRtc1sX9QcDf2bCiVOMYkwozmw0zwFLgeS2WkzKAkLPTK/M9mu6J
+	 xjVn8f2ECKbosA+TxAfILGSVB3xaMu5WWcnNL8zkqF94khVI68Cs0XbU5OHNP+H4W4A==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794303452;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=kgzZMDeQ9yD5lUTY6CXHw+dsm63catiIaqcb5N1fBu8=;
+	b=fqUBFIraJ8g85VpQkyGDByGm82/P3pWifFTIOIAYX8lOzsq7Ju1idNxgNSg9skjElVVL
+	 eANKM26duHEbzVXf8uJncJdGTIPC5QNdKlBpQIUdxxWntQAEgzrNAyJHkyS6LeYrWcpvf
+	 HN6r3idz2e5ogzOZb+WAqHrHcJPEMIavE1rI1jD/nuRzWiFbCPQRwn7ELinyQELQVnnhh
+	 X/3SVyhVnSaRv04yQE0iHcFoWNA1qlQ8ySCuOwXbRLJeZg7BH2mTcUXdObkI20Z/4XO+m
+	 Plk4JlahXZPvhLyzAqLpilvQks2D+o7DODbe2n71Zd9gPjxDm63cPL/28V6rrAeeIVg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABED3606A31C
-	for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 09:00:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ABED3606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O4Xp+jeT
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-8b331cad3cfso13728957b3.1
-        for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 01:00:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794301258; cv=none;
-        d=google.com; s=arc-20260327;
-        b=hgRpVTZc6UxETel3NPR6yQF/2KdZ4lYRZiIALzXIk6ZLbkxUVYqkk08IqXHOXlMeJE
-         S3uwKDAC/vhqyEPZN3RxXfbKC/8XFT/p69nrTW0filu66CY6M0q8DXjMSSOtabRjZB2w
-         s3LehLM/0eVoAcX2nPa7MPMEG0vN+FSSJJCb8Hy6wshA8yOlGvoPDOQUQjBkhKiSQhuV
-         MOPx9Nmz1PH/sYKQoEAopvpEJ09k+p0xT5EG4c2YDJgC8/nDbaSKorBo6l1XlcjzCmwG
-         yP7Tq+S6W7JlBPsamLR6O3iNDz6bRLgld24cYlse46wFjJNg6k8g6dc3Bsw1+Aj07jLd
-         aQdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=D/l1DG9pW0EG2fGxLRQvmW7PF5RxeWs5LWhd8jRdOqg=;
-        fh=r2uMFsaiiobtnHQ8yXzohCeFP1tVX4sb2zNiJczKzNY=;
-        b=jGsxOVloLgFdEA1FETly4gMQcW4D7W/BgWFBjPNLwM1/72ZLI6pt13D8uLtDpSVW/0
-         fqMf/MfLbM3osOrWKKryeEzSwfcugLVUp5oDd+5rBdkTn4wWpFfNW9mxMMHBn2zikbEg
-         LMpTc4DJJSndDja0P5N7BmdahXNz+eDn2Sm7Ver4oTSWlfZCANN3HpAKkOkJdYsFlHs8
-         C95YbHcveD7eJk4+wqg1qSZCnKrfcENQxrnlGPvyJRMdwXkpFt1Pv71OGfi8L/udDJLy
-         ay/rnQLJQv+DDj0pBDH9lsMPKTbWBSIuv/L0MJ3QfKWwrq61pXY3g4IRsf7FjJw6jUAe
-         VR7w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794301258; x=1794906058; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=D/l1DG9pW0EG2fGxLRQvmW7PF5RxeWs5LWhd8jRdOqg=;
-        b=O4Xp+jeTj2R8Z3fW0uoIbG7I1IUaSyW7LF0KN8g9yotE8LDr7iTcZ+mXkRuk5OIPOt
-         s1T4nQfaUzLbYt1Qx96hdQC4XuyFm0XHmpzg9cPHlAkBhfKDqrklHoHWM6Xgrm3/cX+R
-         CiJcaanajfT/3SUm9ldjzFL4thPXCNpGdV8Gz51rHKYtY6qYVmYdRxhWGaQEsfosJBDD
-         zJ2CFdQ8AmpDzgojLJQ2g9hOvmE+6EHsMhHHS+51JAVjibZrrwQwb2PoFEADmE9qQymI
-         gD+UmA6vz+YIKujtccEkj9uMmtuWDEsFdEKZapyGi4vbgiuP5ZJpKaBGhuIdew4XpbdG
-         zzUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794301258; x=1794906058;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=D/l1DG9pW0EG2fGxLRQvmW7PF5RxeWs5LWhd8jRdOqg=;
-        b=KTqsbh/3nEqZIG9ErCWiJIyPeYwzvfRymH63djKCWPOS6kMpKHsB4Qd5lnaqyCFV5k
-         D2l1sDfJfl0lwJFRoomGVhm55zPADJKWeGml/XCE/4TfEiMI3uV/QdKg99ZTiozZhz0d
-         Xi5DFpm0Gqizf8F3l8zIK8/3mMEzzLpVjOf4zx5n+cyn5LSzjkn9kCOMZiDuo8Rrse73
-         wN29YwVaysOO4KZLkOT/BwolOGbfI6bV7SiRf/pvKzktPEE/IQ03j4u0zl/MdHug+vlG
-         F4fpanXeF8tSo//6flYLcZNweZTXr0ounKZBnUc+Vd/XmmCLx1nMAgt+Fnv0dlnMX8g+
-         eAAQ==
-X-Forwarded-Encrypted: i=1; AL+hErG4RZBj0mbQSnATKv8/CLRp4YSmspGwCbS070plhPa5ychk8YvVR/vaFEn+z1sn/fGv0Ee1A/zs+0YDVKxF@lists.linux.dev
-X-Gm-Message-State: APuU4Z85rpXef+A6tvbkaVx8UDuE8jhVn0jVB+g9J5IAWT6yLdyQpYKQ
-	tlYShSvnEaczfAfyXJbKNl4w3VUEoojRdXBrLZ1hSSxqybSDo2dLcNk9lERmxEgalsFApCisRWg
-	hOmjSCW3ADtXTl8BNECiT8p9flduBshQ=
-X-Gm-Gg: AYBFou1piguHv8h7YCW73309K+fPgI8BdWODRz1D0MsSyHo1lZAb0mjYWLk2Qr/QK31
-	L2jqSsRIyDAx5A+ZjJa8FPKp4sPQ1ELxQQr0IsZDi5up8rKC18bQSI9y5AFArBt1SC3ZN8y0mLp
-	H55/Eu9aSLvn13ZIE1p/MA6DosImkV3HbVE/nLySNnTzHA6a46NjWcIAEL461YSdt+h48+lIlR+
-	r3bPi02fbSRJ005KRoARsvHoKaV3PaQVwiOY/lDlVxegfwjVCsHO8EpWsJzUhVaa6ZIc3p0PWQu
-	1RsCTyJRU7cg4BcWgt7yDofp+9b5vI+2yAleKg1bcH32tC0Nhwx5cJYPFf+utda53RDaP4qjoGu
-	RSM9mMwRim1wFBH6TQc9kbPhzuhQEH6rsl3UgnPoBZT9J+14UYgultETmqFM6593qf2Vs0ddUQi
-	edjuHeUsHODenJtzKW0iYmMNSq2cQn9U5sVS0hBQ9wCZhyTU2hvecSfyD65u/6/RfwO4O1a8GcK
-	p6LOSg18khddnYd2ovQ2lM/sU0w40qv/nAXFaY1L4N7XkYivzs67zWVKDFEjoY=
-X-Received: by 2002:a05:690c:6e83:b0:8af:1843:a9e5 with SMTP id
- 00721157ae682-8b3929e7519mr14686337b3.23.1794301258389; Tue, 10 Nov 2026
- 01:00:58 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6DB111F008A1;
+	Tue, 10 Nov 2026 09:37:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794303452;
+	bh=kgzZMDeQ9yD5lUTY6CXHw+dsm63catiIaqcb5N1fBu8=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=ROCrzN2lCDlIq4p7Btk0zb2VaWcHXLFrydvYsM+i3N69NmWtKqp6BdsUw9pXNsFD+
+	 ek9PPrTZcBeuPmE77oEbkzlFsAZDwmgxmeJEjSJ/YVhj5jtreQ9oOGUKzGmLsdQZD/
+	 L2OkE8wdxzTaQge4jvlvBiOUrG/PZeJy33v/LRkHx8TGgFnPb9cqW81fmOIzXNAYjG
+	 +fz1yqL9esH5q+zA8k6fVu7TgHsSk0vESfAOyFJ0hAYhV4y6I9oFd3y76XkrMFfGRc
+	 zDY0eJmy8ezy/fmIFgkeDKsnaXWSogmk9ikq1iirQKVYWp5aqPMTdVmKHkmhbQ/UtY
+	 O4LZ3i0AZibGg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id F2BAA48A71;
+	Tue, 10 Nov 2026 09:37:31 +0000 (UTC)
+From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
+Date: Tue, 10 Nov 2026 03:37:24 -0600
+Subject: [PATCH v3] staging: octeon: remove unnecessary parentheses
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -106,51 +82,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110050448.69521-1-patelshivani2283@gmail.com>
-In-Reply-To: <20261110050448.69521-1-patelshivani2283@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 10 Nov 2026 11:00:21 +0200
-X-Gm-Features: AclHuK9lhRV4tkWDS8XhwM4LHpotMMW9vXUbmZoMQV9ygME13b4eHzMp8NHQLR4
-Message-ID: <CAHp75Ve3E7qCXOQi_q9SmTkwhfSnPdWZy1cse0G=BFJ0FBoptg@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: Fix leading space indentation
-To: Shivani Patel <patelshivani2283@gmail.com>
-Cc: outreachy@lists.linux.dev, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	linux-staging@lists.linux.dev, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261110-octeon-parentheses-cleanup-v1-v3-1-ea6d4ecf2ec5@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQqDMBBFryKz7pSM0SJd9R7iIqajDmgiSSot4
+ t2beoLC37y/eG+HyEE4wr3YIfAmUbzLoC8F2Mm4kVGemaFU5Y1INehtYu9wNYFdmjhyRDuzca8
+ VN0JLg9a6NhURQ3asgQd5n/62yzxJTD58ztxGv/dfcx5hbXvFWnOlmv4xLkbmq/ULdMdxfAGlb
+ hUWygAAAA==
+X-Change-ID: 20261108-octeon-parentheses-cleanup-v1-c1f3335a411e
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794303451; l=2525;
+ i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
+ bh=HpVvmqNpd6mNraRfdV9oEnBYW18VRLrqlhVstvdAHTU=;
+ b=TQ5u1kxGwAjDY2wRn/wXd14s2gGSPQSFf2DU5pzJ1HqRG7WLvhstwC2z92TswZLzfKj3UDyTw
+ zj9INZOfSFsAULsAFP6WgwuXGSJPABHepQgesXywvIqU8wCnGKqN0lP
+X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
+ pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
+X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
+ auth_id=1410
+X-Original-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
+Reply-To: aleszlucero@gmail.com
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 10, 2026 at 7:05=E2=80=AFAM Shivani Patel
-<patelshivani2283@gmail.com> wrote:
->
-> Replace spaces at the beginning of the line with a tab in
-> atomisp_find_in_fmt_conv_by_atomisp_in_fmt() function parameter list
-> to conform to the Linux kernel coding style.
+From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 
-Nice try! But, sorry, no.
+Fix checkpatch.pl warnings by removing redundant parentheses around
+conditional checks.
 
-...
+Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+---
+Hi Greg,
 
->  const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv_by_atomisp_in=
-_fmt(
-> -    enum atomisp_input_format atomisp_in_fmt)
-> +       enum atomisp_input_format atomisp_in_fmt)
+This patch fixes checkpatch.pl warnings in ethernet.c by removing
+unnecessary parentheses.
 
-The whole format of this prototype is broken (in v4l2 is a strong
-requirement to follow the 80 character per line rule). On top of that
-is it really the only issue of a kind?
+The v2 text was AI-generated because I don't speak English well
+and I tryng to learn b4 workflow.
+I try being concise in this v3. Sorry for the noise.
+---
+Changes in v3:
+- Rewrote the cover letter and commit message manually.
+- Removed the AI-generated text.
+---
+ drivers/staging/octeon/ethernet.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
->  {
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index 42ec4b8324a8..f374fdf8f7a9 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -262,9 +262,9 @@ static int cvm_oct_common_change_mtu(struct net_device *dev, int new_mtu)
+ 
+ 	dev->mtu = new_mtu;
+ 
+-	if ((interface < 2) &&
+-	    (cvmx_helper_interface_get_mode(interface) !=
+-		CVMX_HELPER_INTERFACE_MODE_SPI)) {
++	if (interface < 2 &&
++	    cvmx_helper_interface_get_mode(interface) !=
++		CVMX_HELPER_INTERFACE_MODE_SPI) {
+ 		int index = INDEX(priv->port);
+ 		/* Add ethernet header and FCS, and VLAN if configured. */
+ 		int max_packet = new_mtu + mtu_overhead;
+@@ -308,9 +308,9 @@ static void cvm_oct_common_set_multicast_list(struct net_device *dev)
+ 	struct octeon_ethernet *priv = netdev_priv(dev);
+ 	int interface = INTERFACE(priv->port);
+ 
+-	if ((interface < 2) &&
+-	    (cvmx_helper_interface_get_mode(interface) !=
+-		CVMX_HELPER_INTERFACE_MODE_SPI)) {
++	if (interface < 2 &&
++	    cvmx_helper_interface_get_mode(interface) !=
++		CVMX_HELPER_INTERFACE_MODE_SPI) {
+ 		union cvmx_gmxx_rxx_adr_ctl control;
+ 		int index = INDEX(priv->port);
+ 
+@@ -360,9 +360,9 @@ static int cvm_oct_set_mac_filter(struct net_device *dev)
+ 	union cvmx_gmxx_prtx_cfg gmx_cfg;
+ 	int interface = INTERFACE(priv->port);
+ 
+-	if ((interface < 2) &&
+-	    (cvmx_helper_interface_get_mode(interface) !=
+-		CVMX_HELPER_INTERFACE_MODE_SPI)) {
++	if (interface < 2 &&
++	    cvmx_helper_interface_get_mode(interface) !=
++		CVMX_HELPER_INTERFACE_MODE_SPI) {
+ 		int i;
+ 		const u8 *ptr = dev->dev_addr;
+ 		u64 mac = 0;
 
-...
+---
+base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+change-id: 20261108-octeon-parentheses-cleanup-v1-c1f3335a411e
 
-Also note, this kind of patch for _this_ driver will be ignored, it's
-not a priority for it *at all*. Try something better like [1].
+Best regards,
+-- 
+Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 
-[1]: https://lore.kernel.org/linux-media/20261027230807.2407261-1-vladurare=
-s@gmail.com/
 
---=20
-With Best Regards,
-Andy Shevchenko
