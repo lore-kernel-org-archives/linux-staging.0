@@ -1,80 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.2.82.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794266190;
-	b=b1aWNdmhPfRWlrroFVao39ryo/tQOF7f0aKdJcAnANvE6FOosSLKMzNq72lOXKb24/q0
-	 108c/Zq+9pMEJKOb/ggAna33NJl1+nORIkEtKVA9y+q7twpHoMpGgJ3HNqd4AvFYq2dR7
-	 M2QKdL0AeajFVN0XIMT+PzTqZIobKhFLuqjph50o1gXAL1blDDGITMCOY4S/dTqwz3rj8
-	 4IlHprrDjMUoxVclRFeYF6ZFRVZ6tgWFFZnwV8FsCkuFoo4wLhwgkMLJXNlOwxUvJhMBy
-	 qJ/TsTX7CG/GkETnzc6Fp8VS0JBkY7Fptb+d6liJvCSjtROxSfaC2pMmzxivbMYNLJw==
+	t=1794286834;
+	b=NQ46HVEoX5zw4ucXCxJFiIuxDK1tk0BbgAGmqGnslR4wmE0Ya9NbAfrh55qmhgz9QByE
+	 IfBPUhsAt5zDOanZ0GMEDWG1MHKji59VcqWqO/D//ElZGF4sT1/UYdmM8oq3WQM9RByK7
+	 +he8qqeI/O0fr8OH4pqO7GO7UGCZutmdJ78Q9g+jpw6kQ6BB0G+jJoTguzmcGD+ZKBPSx
+	 bYhXiXNLfMn/vd1XKEPbZPBUGOJzyZMW6IbK1ofvKRBJ7H9jOYZpn2INGcPBpNLVw02J1
+	 s3+xSGZiK83gwTf1HYIDacL+l8iYe/gFf5ieRLCCk0tJSVuZBzszZi3eX6+zqnH2ebQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794266190;
-	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
-	 X-Sonic-ID:Received:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 References;
-	bh=ltnr/+G+3z7GhzFVAEBSNNIy+NSu2Lv4d3u3TtzEZtU=;
-	b=Xb5AX//mvxqJxAkEft5Zy+P/DXx+KswS7lzJ9c2kbVPm1Hc/VKW0kl9aByBepnkL8tFX
-	 8wk2Cdben+3y5MghhKVJUZEhQ19AFfY3wyZ92HCVqpNpCjDGA6KQv9plqvNiDsw09Y5Y/
-	 ViKrf8PSapWmxivmEyXNRJJKvPtR0h6K+xN0p1DgwH+a4HfCey2App6scdgFRfW7g+s7H
-	 HjOCYl7WE3nH5KgAo5i7NMF3alyybY8ZBBfGFxpxt0N5mVoebTAnHSHfFzns/RcEwHJOM
-	 tCXLPTv37/9nRJjYm9sENTQK950VY17Dak1lQnqq8YAc6QAoSXRkqyCzr7HZnxYe0OA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794286834;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=4O0eqh0/2N6SuevRIz4jY1zAOHwLnJqMFnfAmlKu68o=;
+	b=L3rURF1IsJtd7pHXfYJDBIDlJd5t0klWX9XT+7w8TJtghFmyZPp+XKtGkp4N1uuAneUE
+	 Knkd96IsxQiCaDCOghgShWl5FqSQ8w9I06k+p1L2sr21zoZUQ2d5eOWWeKyBcd7kGrysB
+	 rxHOoayrs8gN7CmOuLpiWn0sXQWoonH+uCuSNqVJB6eAiG+QdR9moT7rqgU+G1TFN94Iq
+	 KBWuMzv+J3xEaiZQV/dWF3xi64t/ms9jPzJ40NMI6Lk1fi3cNSIeeRP8NK0K3ij47MxNV
+	 r8+I2mjlhCy5lNgDz2pPlJuyuEbY6m2GYMsNU6ACk63epc4legQr4Lbut/x70tYD0Dg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=yahoo.pl;
-	spf=pass smtp.mailfrom=yahoo.pl;
-	dkim=pass header.d=yahoo.pl header.i=@yahoo.pl header.a=rsa-sha256 header.s=s2048 header.b=kxHFFzIF;
-	arc=none smtp.remote-ip=34.2.82.16
-Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
+	dmarc=none header.from=cryspen.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF03606A325
-	for <linux-staging@lists.linux.dev>; Mon,  9 Nov 2026 23:16:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4AF03606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=yahoo.pl header.i=@yahoo.pl header.a=rsa-sha256 header.s=s2048 header.b=kxHFFzIF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1794266187; bh=ltnr/+G+3z7GhzFVAEBSNNIy+NSu2Lv4d3u3TtzEZtU=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=kxHFFzIFI9s+fT2cRQiWF0EV2klmDt9uTiUbl94uKx5arcZ3JfOoSQYaXlXIgAYwgVP8TVBDCZFLID7Xm6F1gm0NUhz73kWLHRp/rHVC0Gwz3n3VKEaqAkn/6aZM36isosKymDATCuk2iplJy9q6qss9BSpeAkUYiYVjCzniOt8ySSEYf+JCqX/+aSfb08v/XdEQlDccX649FwvKpX7duk+zOhAj1BXSj8we2J8cuHSctbh7JkFnDLzkAJlARte7FhUxkSxmK0vtteAsKgLHsfAE9O1JhajBBx4ma/u1b8KTuhNEIine90ZB38i7ELBYNdp10R7+wgDz80VL7Hqutw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794266187; bh=ujjZToLGF/dNgRfErsyg9RSGiqWvxnqDWgUYtKWrwla=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=MdmLwmEDvwjvkg8E21jh8BkQamV1RCMgQOxWoBEAXIMJKa33bte1Sy+6R3Tgh71WGKHxvcWDBKFtIuCQ9jqYfgNI7cqp0qSlW0u5qLveF/gzSdaDdHOh7wPlgltwvwanjNBUiddBdrrIrTZhI/Y4ZrE2sXyBa1/IIc32vEpqZgNPFlJiWKaEoHOMngTfcnJspOesUVQLEPsi5rpLEPNOMu/V4GioNoU0zYHmqmAKqGXHkO1JHhYZ0kzJm48N/6PI+QAxDm3pR3VHfhPVD6eiLZeVf+BpZJZk+ygeRE79bse7HkXO1ehoD6fxFwItLxASsW0TH8SXet5mfFORkY5iYA==
-X-YMail-OSG: WSBXLAoVM1kzegwyILIQ4bV70tIvWNhLI47AQ.Purmnegym10mkmYYKfn0IwFQB
- CkFKdTgKdqll3SgCXbR2lAlEMUOnzhwxaaukjM2_iTdWYLOphjiHTKycARpvYPYx027D19MWEp.h
- adAmHWO_zZHQF7Kui47c6L52IsSB5CAFeNFyaS10torClpaZuMTn4vsDjcbY69N8kJEC3QYFbaqb
- TlYHzqdQSZESiqaFJ_ZvLrb0VBMROAaIKQ3DfHth8j0gVXCMsik6WXKLBDGNl6s1T6mAYNkqzopq
- H20W6GdeL0WgkEjCDS8VcFfByXRSn60BHiggkDDLhPPlPYr32LItnHGehnUT.ApmckXtHU_H4d_A
- 5F7Kc8bLG.JBL6tXtdeYWDUyQX6csoVrWlyAqyMnA_KvG4HX0HKwMV2pA533vrHtDhTcNwzjmduI
- biPlClb9bDmSmtAgOBXSn.a7GTN0cQ6zclZMFjLngCQKOTF9JqERQTcPBtXFrV1fvd6Ic4TudmzN
- v9LeeO1LRrd.Ev8teEH4KnrfS44gpRyMFXrIQpzTvrDDNzQSf6.ESgAk7oi8I4G_3pLD_ICZ5y65
- AcH0xEoD4bowoPHKcaEXXnuchQeEVMrieSdGxJzuJNLikOpFJdzVdwpNqL2MA7s.DPKh3KneWc.D
- etK9ZNIFujdi.XSnZCv4tbNG4lDSvm0LAtMVq2P2BBM30NNRDdZ1e_ODPLsN7OchkFn4x.Pkhys9
- Yjj8IRukB_u.FVjlOSxRYuMzmBTE2uv6oGI.wSCk1sfN4BBFemKkyONuiXGvQPt5KJwoDZGKkFjD
- Cl.Y2MxgtS0P084r_vIJPUwOTQiJ.Hep98lTtonxZbVnv8uAFFB_v4T7W7N70PS3H8fC5Ezzo0pk
- au_.Pa9dHtMkz9Lf66uCUz58KjHBTBsSyTQbUimrIkMLcCEpxVEb8.Lnkp49yAn_wI6XsSyYQVFF
- w11IGjQcGVNjQTF6uOhB4KRGG1QxrfrLtUTTPy0YkQdRrBt4.yF6JeY0RyMd7kxqyKaLeeu5i3Mx
- PuTsxRv.t9Lb8Zut_bVz30Wy0tfBBBRRRCa3ZxZ618KWINpG4w9auv_KPR2fjdp07RxLHorT7258
- Q4_SSTIv0z6tOFFLvap0S1hppgOP6MgxjLMkxnLuAqpJRZb_.le31t1ZsgguSe3X39Bx6w.r28NM
- F7Goy06xRFfftq2OmM5cRtBXzkJ5vubOLHG0iNNtSXU35eBPB5jhxLperQasEEJrhAl4LyvSDpxb
- ey0v8g3wLkEVcxNF1VKh9wxMqVTYM3r1zhrpXVj8hK3ClupPO2y7eGsskG0WCiRo9QOrNkJrNfse
- BnKOcdpqYlE42RGSY7cyndJQvqn1Q4P9YCq3rDjgD80uFJztjn0ljrC5b6rElV2qdYnyvjG5u9_1
- EwQ05og.e0N7vEmZPCoj2RXiwqdD6Rbm592hTYHKo9BkW36ICbOajLUQxlnGOqvHao9cUUDOvvKp
- KKF9B8emnYxvf_sriPC2kgHKO8SrhuoBlEGNYPq0t55XARtH.EZY_WHYndT8HgHNgIUoaAXWznov
- xHeZOrGXoJQL_jsp06ZH_N1_0LY3_X4a50gjx5srUNRj.rafBq2jK7rktWgeU0hFAsjwoHjNfaZU
- iznrmXo2bv9ynEFUM36I0az398EgIcRhdAM6.yIUJEC5BOUhAccjePhbfDMNkIoWhXh_eze1cFxy
- 4A5uoZa5KimrJCusy5Xru4yZBN_vU_YVyUSEzURm8b.ElLyxj1pp4KW1NGK3CN22bfBMjJ27TNSY
- Q7pjatwEyJWaVNWXb2Rwo1TQ7c3slosWYbHI9gavsqbNt_JJlBuiiOBHsMDcwqPgNTvdenJ5Hbcr
- Y0duLk92idBNc9MA1l2U3PfS2CK7w3_IJfChF1blRybaMLxFUmDDHfIJ7JlhgQcUp24TGMdEqynQ
- d161Ay1RLE4BrfZX0SJEvta01vmQv9eUstCjMY89IsfAoN42oqH7HEGWpvrx.YO8JSXY0VnM.Yri
- YpfcfP4hzuC8mVjDWIvHwY2I-
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 8f642e59-6e65-4565-a8a9-eba782ec6a9d
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-101 with HTTP; Mon, 9 Nov 2026 23:16:27 +0000
-Received: from dip144.lsn.ir2.yahoo.com ([87.248.99.153])
-          by hello (SMTP) with SMTP ID d24e8f6e67628daad9045ce19de4aea3;
-          Mon, 09 Nov 2026 23:16:22 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Tue, 10 Nov 2026 00:16:20 +0100
-Subject: [PATCH] staging: media: av7110: remove commented-out code in
- av7110_hw.c
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4F9606A32E
+	for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 05:00:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D4F9606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cryspen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-490c1d337d8so1085249f8f.2
+        for <linux-staging@lists.linux.dev>; Mon, 09 Nov 2026 21:00:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794286832; x=1794891632;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4O0eqh0/2N6SuevRIz4jY1zAOHwLnJqMFnfAmlKu68o=;
+        b=B4fvpLxQb3ZHt5DXH8nwnqsP1Fxze/FvNlZLW0g/TZAwhbTVVtNZSYex+kyTVZaRv1
+         ZPCRprx70fTBh66YCthlpki3EDhFhFM1KXJTyf2syfU5RmHt0Z2nds+kuH2H9zzN2ue4
+         Bi+MXr0Pwz7MMzXubGRFXwqZgDLkNQUhRVOPW2epQOoXCMfQMriUYW+woye9TEaUAmzH
+         L8gcAGP+wm5/Psf5WVdmPAck3A/vpXDJaB7QoK009ZOH6AAic+om6Sni0SH6+UoDa+JV
+         mcwi6tMl4EeaKCQG/NcHMFIHqtUOp/31K/r7BcWtRU1JGO+SSTJpvMEF3OSCayN2YoeA
+         yWIg==
+X-Forwarded-Encrypted: i=1; AL+hErGOUvMddZrDnks52lynVMqhTtqGvZ73rlsDd0a/YNwtiZYjMOI2+zjpByVimDMlIidngWaqGPZdweiuS8eg@lists.linux.dev
+X-Gm-Message-State: APuU4Z8hNlFTcRESaJIND3ZBQIv+2LZQgDLoqrbganRUHJSZFs5q4ghw
+	NhoAf4brnn+mjRmUWkVOsZ4TsxCgFWpiKpSnILEikl0qloyE++iRKw26
+X-Gm-Gg: AYBFou2I0/9+J/mTHTOYlftrPUU9+zEUTblcxnMHiprmjL7CBoCjC583lpXPFcFQ+Jz
+	Ixjr/B4Su7rMe7bQXrol9zDmXtTVmn9kBALadkS2Q7cd8c1pPS1uI3k/RAzH6ogYie+Zc+/CD3t
+	+w9YBi0xvdZav//xd2EKGKO51wWr6OHotpQ94iJ33U+NF9x+Q+lD2CLKTgcpv7cewfeKPsb57Ex
+	P50WSEZrLh9B6RcGRhsEKR+dur3nthUGue8d5RFmQBQ25M09KHNceutr6LgJlzJddSbwzCzcQEJ
+	Yrn06FIdSsAH0jyzdl/5DbfqLFsjwGE1wNPLsTHkuzf/KpDiGdt0BFV1Si03muo7uqm0KQu4Zpn
+	R9pacfIoCMXIDtzIy5d9uF6cfZ3XArrJP+3BIIbgjziH/QBDgJWQQQ+Tp38CV97xV3D2VDLlBLu
+	Hfdie7K/YIPSHgNjnt7hFxWAEkYDx+3jL0eXX2ASNKp3dWZEKJUMsuzRVNxHDcMEh+sa1I7WATF
+	LJr56VMgnyY8zA/f9XjslLY/6W/q0fV2zPB7RcDCMIcAUETNu5k6Fu3zzgSFdKh8ScvW3yoQyNl
+	x7ptdXoAMhHrV3HOqnqxdHDcAAiBiHiHTFambJ654fBrDTP3Y6jT46qY2apCVGmniqit+PWZOrJ
+	0TRdBAVbQT8wuMW9DYeEysvHY6jul5PCsEOlgltP+j1R9gG9SVXdkavepYAwRShso
+X-Received: by 2002:a05:6000:2006:b0:48e:5e20:1371 with SMTP id ffacd0b85a97d-4982b28a89bmr2510103f8f.4.1794286832242;
+        Mon, 09 Nov 2026 21:00:32 -0800 (PST)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498361f674fsm2715343f8f.33.2026.11.09.21.00.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 21:00:31 -0800 (PST)
+Date: Tue, 10 Nov 2026 08:00:27 +0300
+From: Dan Carpenter <dan@cryspen.com>
+To: Platon Miller <platon.ksenzenkokk@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: remove unused macros in sm750_cursor.c
+Message-ID: <avKk63Z5_ofZZcGk@stanley.mountain>
+References: <20261109231414.25021-1-platon.ksenzenkokk@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,96 +83,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-av7110-hw-commented-dead-code-v1-1-3ef26d2673df@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw6CMBBG4Vchs3aSDgsuvopxUTq/MiYU0yKaE
- N7doquTb3M2ykiGTOdqo4TVss2xQE4VhdHHO9i0mGpXNyLi2K/tkfHNYZ4mxAXKCq+FCg591w/
- iusa1QuXxTLjZ5/e/XP/Or+GBsBxT2vcv1mReLYEAAAA=
-X-Change-ID: 20261110-av7110-hw-commented-dead-code-c989b1086071
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794266181; l=2420;
- i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=8L0SKizL+Q76ZAVeVC8cUXjbPIjPKGIzYD7kON3gByI=;
- b=VIgdqiaP729AfNuiNU5zXY4DYf6KGLEQ/aE6L8JoWqUgBLZtvxAw+T4c4U08pZ/uQV/fPliXh
- 4LrABBUUhPdDw8VB1zpCswjj5ewzw8qCWjQnOp1Xq8LpBNhazG4X55Q
-X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
- pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20261110-av7110-hw-commented-dead-code-v1-1-3ef26d2673df.ref@yahoo.pl>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109231414.25021-1-platon.ksenzenkokk@gmail.com>
 
-Remove commented-out code from av7110_hw.c: two saa7146_setgpio()
-calls and an ARM_ClearIrq() call in av7110_bootarm(), and three
-dprintk() debug calls in __av7110_send_fw_cmd(), av7110_send_fw_cmd()
-and av7110_fw_cmd().
+On Tue, Nov 10, 2026 at 12:14:14AM +0100, Platon Miller wrote:
+> The macros HWC_ADDRESS_EXT, HWC_ADDRESS_CS, HWC_LOCATION_TOP, and
+> HWC_LOCATION_LEFT are defined in sm750_cursor.c but are never used
+> anywhere in the driver. Remove them to clean up unused code as
+> specified in drivers/staging/sm750fb/TODO.
+> 
+> Signed-off-by: Platon Miller <platon.ksenzenkokk@gmail.com>
+> ---
 
-All of these lines have been commented out since the beginning of git
-history (Linux 2.6.12-rc2). They serve no purpose and only clutter the
-source.
+Leave this sort of macro.  It documents the hardware and doesn't
+hurt readability at all.
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/media/av7110/av7110_hw.c | 9 ---------
- 1 file changed, 9 deletions(-)
-
-diff --git a/drivers/staging/media/av7110/av7110_hw.c b/drivers/staging/media/av7110/av7110_hw.c
-index b0bd7666d48b..13ed214e6ef9 100644
---- a/drivers/staging/media/av7110/av7110_hw.c
-+++ b/drivers/staging/media/av7110/av7110_hw.c
-@@ -209,8 +209,6 @@ int av7110_bootarm(struct av7110 *av7110)
- 	/* boot */
- 	dprintk(1, "load boot code\n");
- 	saa7146_setgpio(dev, ARM_IRQ_LINE, SAA7146_GPIO_IRQLO);
--	//saa7146_setgpio(dev, DEBI_DONE_LINE, SAA7146_GPIO_INPUT);
--	//saa7146_setgpio(dev, 3, SAA7146_GPIO_INPUT);
- 
- 	ret = request_firmware(&fw, fw_name, &dev->pci->dev);
- 	if (ret) {
-@@ -248,7 +246,6 @@ int av7110_bootarm(struct av7110 *av7110)
- 	saa7146_setgpio(dev, RESET_LINE, SAA7146_GPIO_OUTHI);
- 	msleep(30);	/* the firmware needs some time to initialize */
- 
--	//ARM_ClearIrq(av7110);
- 	ARM_ResetMailBox(av7110);
- 	SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);
- 	SAA7146_IER_ENABLE(av7110->dev, MASK_03);
-@@ -303,8 +300,6 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, u16 *buf, int length)
- 	u32 stat;
- 	int err;
- 
--//	dprintk(4, "%p\n", av7110);
--
- 	if (!av7110->arm_ready) {
- 		dprintk(1, "arm not ready.\n");
- 		return -ENXIO;
-@@ -430,8 +425,6 @@ static int av7110_send_fw_cmd(struct av7110 *av7110, u16 *buf, int length)
- {
- 	int ret;
- 
--//	dprintk(4, "%p\n", av7110);
--
- 	if (!av7110->arm_ready) {
- 		dprintk(1, "arm not ready.\n");
- 		return -1;
-@@ -452,8 +445,6 @@ int av7110_fw_cmd(struct av7110 *av7110, int type, int com, int num, ...)
- 	u16 buf[MAX_XFER_SIZE];
- 	int i, ret;
- 
--//	dprintk(4, "%p\n", av7110);
--
- 	if (2 + num > ARRAY_SIZE(buf)) {
- 		pr_warn("%s(): len=%d is too big!\n", __func__, num);
- 		return -EINVAL;
-
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261110-av7110-hw-commented-dead-code-c989b1086071
-
-Best regards,
---  
-Tomasz Unger <tomasz.unger@yahoo.pl>
+regards,
+dan carpenter
 
