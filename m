@@ -1,79 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794286834;
-	b=NQ46HVEoX5zw4ucXCxJFiIuxDK1tk0BbgAGmqGnslR4wmE0Ya9NbAfrh55qmhgz9QByE
-	 IfBPUhsAt5zDOanZ0GMEDWG1MHKji59VcqWqO/D//ElZGF4sT1/UYdmM8oq3WQM9RByK7
-	 +he8qqeI/O0fr8OH4pqO7GO7UGCZutmdJ78Q9g+jpw6kQ6BB0G+jJoTguzmcGD+ZKBPSx
-	 bYhXiXNLfMn/vd1XKEPbZPBUGOJzyZMW6IbK1ofvKRBJ7H9jOYZpn2INGcPBpNLVw02J1
-	 s3+xSGZiK83gwTf1HYIDacL+l8iYe/gFf5ieRLCCk0tJSVuZBzszZi3eX6+zqnH2ebQ==
+	t=1794287101;
+	b=hYT12Q0TOVBDyXL/t76+zqGF/qVjaqT2/smd8hqE8x5W+03+5zbRWfpEt2J7jhW/UIW5
+	 zegXXP3GhPa3Ll8JViS5nuK/Iy99tf9nHfuP6QajjEJi1P9EwHHOQqjaTMTS8iUc66tGU
+	 LofWbeXfsX2lD9BwmOw3wqeSmIJwNHF9xZQt4F/0zxBW96PEmiRWC41cUMRfhzM5e10qB
+	 Zu4UcKLmVAQF0EvWWiIV9JmdLnpZAsh6UYoQ4X8Wv06ME0H0lJGvrkZQaxVrCxOcL/CJ3
+	 J5TPYwnrweaVhc55F3GT+K4u5ZLdE7FsUcGouGIrTeB63QgMPl+FoaTK6ov/f7Z5f6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794286834;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=4O0eqh0/2N6SuevRIz4jY1zAOHwLnJqMFnfAmlKu68o=;
-	b=L3rURF1IsJtd7pHXfYJDBIDlJd5t0klWX9XT+7w8TJtghFmyZPp+XKtGkp4N1uuAneUE
-	 Knkd96IsxQiCaDCOghgShWl5FqSQ8w9I06k+p1L2sr21zoZUQ2d5eOWWeKyBcd7kGrysB
-	 rxHOoayrs8gN7CmOuLpiWn0sXQWoonH+uCuSNqVJB6eAiG+QdR9moT7rqgU+G1TFN94Iq
-	 KBWuMzv+J3xEaiZQV/dWF3xi64t/ms9jPzJ40NMI6Lk1fi3cNSIeeRP8NK0K3ij47MxNV
-	 r8+I2mjlhCy5lNgDz2pPlJuyuEbY6m2GYMsNU6ACk63epc4legQr4Lbut/x70tYD0Dg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794287101;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=x28Xh8Kl636Xj0Syxm9iILHuaCS0bk0qyS/PVv+3B/0=;
+	b=VEJXInjdDlij4Q7tCAvfJ6l4i9SX4vV0bZwATHBWp8NMNicPu9pBSx9/pJUWEa/VTOdq
+	 jJ+m/6QFeiurG0USX/dbVzVTDkLwwZH4FIyPiKfiSAgV8GJdANklHsfp8vI4qKRetLwjc
+	 keanuyAXHBpRXEoWhCFd7Xkr7VpwM3X9ZZ9wWnFhLnYRkZTxUHZ75enaNT6RUtYRRT+n5
+	 Am00iSUMPxcwFBKCAbO/svK2FJgvH8rGgYYfxPs/wgocby4LjUBOg1HzhTPy4wovx10Rx
+	 dBMUYUq1Jz4oIFh1Q60kTtujAAXUmWr78YM9kk9Rs/0rUtNh22N73QIP1wESuOA+0gw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=cryspen.com;
+	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.221.53
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=A3gFn72e;
+	arc=none smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4F9606A32E
-	for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 05:00:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D4F9606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cryspen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAD8606D6B9
+	for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 05:05:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DBAD8606D6B9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-490c1d337d8so1085249f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 09 Nov 2026 21:00:33 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=A3gFn72e
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso2858223eec.0
+        for <linux-staging@lists.linux.dev>; Mon, 09 Nov 2026 21:05:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794287100; x=1794891900; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=x28Xh8Kl636Xj0Syxm9iILHuaCS0bk0qyS/PVv+3B/0=;
+        b=A3gFn72eurXMtrSluasD2njgHMGwLgyxSh20ZtNcUqWs0BRBVU3ar+8OtBWPmq9IUs
+         k1y5U+rX9vMPxqY3gPzLxRnw6cqgEcfTxZIUsXY+q/Dyn5ouGwLUsm7W6p0xnqhrj9qT
+         +D2mpMq59K2S3hR+5XnixLt+WPNBa9THhaaiRlOeNepI8OmTJKM3RPO1nCGh/I/Ck6BB
+         WIxEJ1cFcbDyOwYOlrVlEpl+fUVnpa9H9ub3ZQr+apyw/e3zO42iDqA6g7gK18qAJBQ5
+         J1Y16ZXC3rETcpbGHt+YaiutcUB1GRA7SJw816izH+Ow47R4kjJ57PIQuYCm3lxI6xmh
+         ZTkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794286832; x=1794891632;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4O0eqh0/2N6SuevRIz4jY1zAOHwLnJqMFnfAmlKu68o=;
-        b=B4fvpLxQb3ZHt5DXH8nwnqsP1Fxze/FvNlZLW0g/TZAwhbTVVtNZSYex+kyTVZaRv1
-         ZPCRprx70fTBh66YCthlpki3EDhFhFM1KXJTyf2syfU5RmHt0Z2nds+kuH2H9zzN2ue4
-         Bi+MXr0Pwz7MMzXubGRFXwqZgDLkNQUhRVOPW2epQOoXCMfQMriUYW+woye9TEaUAmzH
-         L8gcAGP+wm5/Psf5WVdmPAck3A/vpXDJaB7QoK009ZOH6AAic+om6Sni0SH6+UoDa+JV
-         mcwi6tMl4EeaKCQG/NcHMFIHqtUOp/31K/r7BcWtRU1JGO+SSTJpvMEF3OSCayN2YoeA
-         yWIg==
-X-Forwarded-Encrypted: i=1; AL+hErGOUvMddZrDnks52lynVMqhTtqGvZ73rlsDd0a/YNwtiZYjMOI2+zjpByVimDMlIidngWaqGPZdweiuS8eg@lists.linux.dev
-X-Gm-Message-State: APuU4Z8hNlFTcRESaJIND3ZBQIv+2LZQgDLoqrbganRUHJSZFs5q4ghw
-	NhoAf4brnn+mjRmUWkVOsZ4TsxCgFWpiKpSnILEikl0qloyE++iRKw26
-X-Gm-Gg: AYBFou2I0/9+J/mTHTOYlftrPUU9+zEUTblcxnMHiprmjL7CBoCjC583lpXPFcFQ+Jz
-	Ixjr/B4Su7rMe7bQXrol9zDmXtTVmn9kBALadkS2Q7cd8c1pPS1uI3k/RAzH6ogYie+Zc+/CD3t
-	+w9YBi0xvdZav//xd2EKGKO51wWr6OHotpQ94iJ33U+NF9x+Q+lD2CLKTgcpv7cewfeKPsb57Ex
-	P50WSEZrLh9B6RcGRhsEKR+dur3nthUGue8d5RFmQBQ25M09KHNceutr6LgJlzJddSbwzCzcQEJ
-	Yrn06FIdSsAH0jyzdl/5DbfqLFsjwGE1wNPLsTHkuzf/KpDiGdt0BFV1Si03muo7uqm0KQu4Zpn
-	R9pacfIoCMXIDtzIy5d9uF6cfZ3XArrJP+3BIIbgjziH/QBDgJWQQQ+Tp38CV97xV3D2VDLlBLu
-	Hfdie7K/YIPSHgNjnt7hFxWAEkYDx+3jL0eXX2ASNKp3dWZEKJUMsuzRVNxHDcMEh+sa1I7WATF
-	LJr56VMgnyY8zA/f9XjslLY/6W/q0fV2zPB7RcDCMIcAUETNu5k6Fu3zzgSFdKh8ScvW3yoQyNl
-	x7ptdXoAMhHrV3HOqnqxdHDcAAiBiHiHTFambJ654fBrDTP3Y6jT46qY2apCVGmniqit+PWZOrJ
-	0TRdBAVbQT8wuMW9DYeEysvHY6jul5PCsEOlgltP+j1R9gG9SVXdkavepYAwRShso
-X-Received: by 2002:a05:6000:2006:b0:48e:5e20:1371 with SMTP id ffacd0b85a97d-4982b28a89bmr2510103f8f.4.1794286832242;
-        Mon, 09 Nov 2026 21:00:32 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498361f674fsm2715343f8f.33.2026.11.09.21.00.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 21:00:31 -0800 (PST)
-Date: Tue, 10 Nov 2026 08:00:27 +0300
-From: Dan Carpenter <dan@cryspen.com>
-To: Platon Miller <platon.ksenzenkokk@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: remove unused macros in sm750_cursor.c
-Message-ID: <avKk63Z5_ofZZcGk@stanley.mountain>
-References: <20261109231414.25021-1-platon.ksenzenkokk@gmail.com>
+        d=1e100.net; s=20260707; t=1794287100; x=1794891900;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=x28Xh8Kl636Xj0Syxm9iILHuaCS0bk0qyS/PVv+3B/0=;
+        b=pWHu6bdEjawQNAaQ0BjK3FYf3U9sDJScFrRIv2raTl3OjM9KKjXSrIPQ0q8RCsbXiW
+         qhiPRRwf7EePGiifyEFnSW3/T+65dta5VIjHYlZVFgnY686RuBSNllnrMyymdFfsP/Jx
+         QrPHRpt7hAlFu4F21ES33JlHkQ3bNxD6Oq6xH0N2mnSwBnAwc3MtOtruqRt6axLqBH++
+         glnLZtpbMTjINrrwv7EQNnTbTKgb0BbE/5/8CnrPbrSBAq7OHuP8G/RY0jaS5HwRmgp4
+         wtv02a3/F2LzztBe/6isP5/WWHBERhv79ul1ap6t/PBkBuBReIL0NIJM7sDZS7JpGG7S
+         zKpg==
+X-Forwarded-Encrypted: i=1; AL+hErFsD6JMJr/P3Ze4tdPDItD42yJE9g+fI86zVPtUqtyDb914jYGQBXyEby/kfv9fxl1uZ2+neRWyCK9thTut@lists.linux.dev
+X-Gm-Message-State: APuU4Z9Ao1YyN1m9r7qGx4pYNHeYRIVUkg5LS6JAs92P4hWu8yuK5Xxn
+	eNKfI6C2gFSh1bfVi2Q68BApMGO6ss494faUgZjtCLP1ffSO+zIpH/4+
+X-Gm-Gg: AYBFou3ipY38T1ok/tW9p1D84hKcGjjGPM0wC3ZdIAxLzZnHeUEGg8qOrS36hNxlRld
+	OVv4XFZi7McP7/G6IAnVUyc1rLtpG3VzfyH9geTvMUTCNX9kRw+A7rJdGlYFhx87w5fSIBtMn9O
+	Y3FchmypSHeGa2vdDtOzhI+Wihokj07Izr0tDG/i9UNglYe3GS77xin72xYVOIHa1U+arN8tzvq
+	tDtqx7JGzWiz9J3jKp6+2O57WwBjWWs5UmPJy2vugMufyzz1exSP6odwot64EBGk9E/vUYG1Kdi
+	qiDTRp1DOyzggXbbalFtRWi+85L2uLjml9N1TcOKLKvrRKxZ72ABeJzPO/5aEpjan7kqSay6DTs
+	mw4VfbF8+XgtaNuKgDQSf09/eWoJxWQklZD+KpTfq15XmsuG6CGVtjR/E5dOkMT83gSv4z88i3l
+	anup3xN8fe3R1foCY8qyJBZka284JQM2Y4ESrfh9YkXMW/pgpA3KpqCSC8nAHgKND6L1WHpxGRN
+	o4LVYbY4KLVGrUHbMgFLNV2Oz1b1Hj39Rckq5p2kB2hrXHwl5hDqUV//5pv0zvb5LuqxgjVVLEN
+	r16kKm4dpKkBTak6l5ZdRk6D5qWxBNyZm0uIejtUn4rsxmaLf5yrqnVIxG8yGAr2lPzc9BP9fCd
+	QJBngmiiaYLHAjDv6RXhVHog04XnRJfexxvozfgg=
+X-Received: by 2002:a05:7301:4d14:b0:375:4f3e:643d with SMTP id 5a478bee46e88-3754f3e6572mr1368404eec.27.1794287099742;
+        Mon, 09 Nov 2026 21:04:59 -0800 (PST)
+Received: from localhost.localdomain ([203.92.58.30])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212e9e03sm6550235eec.23.2026.11.09.21.04.55
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 09 Nov 2026 21:04:58 -0800 (PST)
+From: Shivani Patel <patelshivani2283@gmail.com>
+To: outreachy@lists.linux.dev,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Shivani Patel <patelshivani2283@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Fix leading space indentation
+Date: Tue, 10 Nov 2026 10:34:48 +0530
+Message-ID: <20261110050448.69521-1-patelshivani2283@gmail.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -83,22 +101,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109231414.25021-1-platon.ksenzenkokk@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 10, 2026 at 12:14:14AM +0100, Platon Miller wrote:
-> The macros HWC_ADDRESS_EXT, HWC_ADDRESS_CS, HWC_LOCATION_TOP, and
-> HWC_LOCATION_LEFT are defined in sm750_cursor.c but are never used
-> anywhere in the driver. Remove them to clean up unused code as
-> specified in drivers/staging/sm750fb/TODO.
-> 
-> Signed-off-by: Platon Miller <platon.ksenzenkokk@gmail.com>
-> ---
+Replace spaces at the beginning of the line with a tab in
+atomisp_find_in_fmt_conv_by_atomisp_in_fmt() function parameter list
+to conform to the Linux kernel coding style.
 
-Leave this sort of macro.  It documents the hardware and doesn't
-hurt readability at all.
+Signed-off-by: Shivani Patel <patelshivani2283@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_subdev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index bdd2d9b18..773fcea56 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -96,7 +96,7 @@ const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv(u32 code)
+ }
+ 
+ const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv_by_atomisp_in_fmt(
+-    enum atomisp_input_format atomisp_in_fmt)
++	enum atomisp_input_format atomisp_in_fmt)
+ {
+ 	int i;
+ 
+-- 
+2.50.1 (Apple Git-155)
 
