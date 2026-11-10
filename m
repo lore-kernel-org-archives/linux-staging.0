@@ -1,78 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.172
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794303453;
-	b=r8QaWluqajHlmo5S45F4BqZz55hpwoPkzMdYG69Wr+neIiJdTwuUbvrWGd4Xh8n91W0U
-	 mOSN8sYvk+LVY/aJE508OWojogVyKSq9fn4o1dj/EQK88qrVyYF0MSr0OksSflmWdtYJL
-	 f0KIG0lZh7snfaGekAZbMe5+lr3wQdbSGlEqTiWgSfgHQktiBFcgtrTl+r7sId4U1hXbN
-	 Lwfv0ncjR6rGu0fZ2E4/MjuKm95KltzamEXJtCe8l7YjRUdn7EcpR4ySoJtcrnNZCLCDf
-	 QsdjGBrVDrtpu2chpJUZH5KIdJLPo/A4F58UI1FeZ1AbL+ejEN1MIh20LNwKe/eNVqw==
+	t=1794311882;
+	b=MQHh79xyFh/yg+URrSuyStb0fm+T3BEMR3OEdiP9v5je4ONXU9FjFJT8gtpBQAPNLNUN
+	 TeKDFH/ur9xTYXIrf6eTnvNHs9SDmUP811zbPo6NAG8+BNwpMIHVekfCWCOZkj2AQ8Dwi
+	 yM0YmTeDZ+TBepJC1d0atYCmH6wQXnMsK/9SXuDDiMKsZk1EzZd5LZrRGZU+BQ4AuXx2d
+	 tYUoSBJk6Ize4eaQbxaAHEYysJK64EhpOb4PRYQVeRLx4Q6VrOaByspLPmbJzB6obSlZb
+	 H31z5XWP6cpcmpQdys10hVXUl4mH7wP6yLtf7TAFuLUTL7/Xxko39cqLQcZlGBQSVGA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794303453;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=kgzZMDeQ9yD5lUTY6CXHw+dsm63catiIaqcb5N1fBu8=;
-	b=mpEkUlbt1JORLfYnslc4bs5T1cuP2acu07ajawALw57vhJmD7UucC+iy4d3WeJGcT5Ji
-	 0ltt3RoNznTXhzwwfYKNZkK8CpdeOiV2Y3/PY+bpa+o1AzF06a+Xe8dsYWci4nB6cbtbu
-	 jLkL2MAiA+zNlplVvI0LqdscV2VYrSupXAwF+h4S00P3CBr9rt+mPaQiPZytv0nIBzj3v
-	 ZixJmx9+A1J8648XtCksMA/oX3ua9So+fruPl7mbJ4nfy5ptMv99ePQy99+rvMDoBmeLI
-	 lvelsY7fvoDpsUmJO0VVpljOhHdSTQwjwbkhKKud8+uAtuHg8p5da9oKSNc42XjPPMA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794311882;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=NtZdO6nOLG1xCmYrcxMOJxxZ01jNgWBM1JEvDfWm2HM=;
+	b=p8/E8YCcBj0EMRByxEMLNJ/ZQf05OupYIi9n4P05DBk6DsWwcLlbrVEodIzswb2ZUFsJ
+	 LSU2SC81dT2PsjFiJOX2kg+gWbvaq7ujpG9kznlukZmGOoWkUPt58E5dMFly/6JtQeskm
+	 daN6vT3Me1/qLS5oLEpxC4XJfTlYvoJFgM2mbeIR2/a9Z6sK6ynr7DaWcFO+cqIBz9fav
+	 mcJZFHw21sdGGwimgVJ71jCGSmrHyVNFd1POMnzxPVqOTn+O1laqZIxsYNrpNNq/EgFy2
+	 3KCw8LTCnEo7tYfrQ3zppYna3FtEkLFbNWJL80o5YKcqaIY6YTZvif7Ov5BYb5K1QYg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ROCrzN2l;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152FC606A919;
-	Tue, 10 Nov 2026 09:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ROCrzN2l
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794303452;
-	b=e1I1CcFtcu7xS1QsnFMfKly9Ut6ldUm79AnemUyRpvrslYg2LfRVbKvSyXF8JVqi+uIa
-	 IOU/C847kG8Dn2rt+ziHHdaCg8WPsY0QZGWdRX/8Xo7R9UaaG1LwUkR/B9eHFnN4taDbx
-	 fzRarIhAkHoCvBsJKl/nRbJOALVl3/meQiDuA7u8egP9oIq8IbOueMhKvSJujCU0RnY3K
-	 1o66Q7Z3yV//b9DNzzRtc1sX9QcDf2bCiVOMYkwozmw0zwFLgeS2WkzKAkLPTK/M9mu6J
-	 xjVn8f2ECKbosA+TxAfILGSVB3xaMu5WWcnNL8zkqF94khVI68Cs0XbU5OHNP+H4W4A==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794303452;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=kgzZMDeQ9yD5lUTY6CXHw+dsm63catiIaqcb5N1fBu8=;
-	b=fqUBFIraJ8g85VpQkyGDByGm82/P3pWifFTIOIAYX8lOzsq7Ju1idNxgNSg9skjElVVL
-	 eANKM26duHEbzVXf8uJncJdGTIPC5QNdKlBpQIUdxxWntQAEgzrNAyJHkyS6LeYrWcpvf
-	 HN6r3idz2e5ogzOZb+WAqHrHcJPEMIavE1rI1jD/nuRzWiFbCPQRwn7ELinyQELQVnnhh
-	 X/3SVyhVnSaRv04yQE0iHcFoWNA1qlQ8ySCuOwXbRLJeZg7BH2mTcUXdObkI20Z/4XO+m
-	 Plk4JlahXZPvhLyzAqLpilvQks2D+o7DODbe2n71Zd9gPjxDm63cPL/28V6rrAeeIVg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=P31J6kYI;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.172
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6DB111F008A1;
-	Tue, 10 Nov 2026 09:37:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794303452;
-	bh=kgzZMDeQ9yD5lUTY6CXHw+dsm63catiIaqcb5N1fBu8=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=ROCrzN2lCDlIq4p7Btk0zb2VaWcHXLFrydvYsM+i3N69NmWtKqp6BdsUw9pXNsFD+
-	 ek9PPrTZcBeuPmE77oEbkzlFsAZDwmgxmeJEjSJ/YVhj5jtreQ9oOGUKzGmLsdQZD/
-	 L2OkE8wdxzTaQge4jvlvBiOUrG/PZeJy33v/LRkHx8TGgFnPb9cqW81fmOIzXNAYjG
-	 +fz1yqL9esH5q+zA8k6fVu7TgHsSk0vESfAOyFJ0hAYhV4y6I9oFd3y76XkrMFfGRc
-	 zDY0eJmy8ezy/fmIFgkeDKsnaXWSogmk9ikq1iirQKVYWp5aqPMTdVmKHkmhbQ/UtY
-	 O4LZ3i0AZibGg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id F2BAA48A71;
-	Tue, 10 Nov 2026 09:37:31 +0000 (UTC)
-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
-Date: Tue, 10 Nov 2026 03:37:24 -0600
-Subject: [PATCH v3] staging: octeon: remove unnecessary parentheses
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD29606A336
+	for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 11:58:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BAD29606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=P31J6kYI
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8b3402105b9so14129767b3.0
+        for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 03:58:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794311880; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YVXdqN8XSYIwov36Oxcy0HW6KzBqDdHstvztCwRMVOZTGa8C3OtMO22OCDryZoCf5R
+         ZP0Ghay9z2Ercl5ngCRgFJvbXbRGD3tiYlxOC8xQFGOb1Sjy71LMoLczBunstr/c9TwR
+         Dr0K0O84Z8djr2HchkLGG+fo+ixDiFIhs9NFIsxhVqEAUJaGQKMrhdmyzBArfG989Jp9
+         SeZc8bPRFait17IGPJulzjzxHeHc6TETXIFfII1pSzcn3PFZtZOvRt5IUi5oaLneAULr
+         HcYB56KxXrhiSk5RfWT406isP6mmL2OZLozFYLSvyNZLl2n6pzLz7m8a54mQFowLsNUl
+         jGYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=NtZdO6nOLG1xCmYrcxMOJxxZ01jNgWBM1JEvDfWm2HM=;
+        fh=oyOC6W33SE8Z+o8aNzOVD3F/IudzfMbORz/sSKPekTo=;
+        b=ThR5PiVW6x1shoeB2F6cEzjqXsC+ToS1BcEdH1TxT2RSCOcKNNR9qGiH1axaslupae
+         2M8A0GYoV8ab2E7BDdHlAx+pBYs43qc+WJXte+usggPVB99OT77i+7Ej+iiAuFxC7aKp
+         FH5Bae+M8t5ODR5nAXAxJBAry6hXpRwQsXfaMLs2ZCTUUP03kLO3faGsvdPzzP3dXQ7k
+         KGtJQ4Pwr0R0L+FYQSQ9k9YsNg6UCsiDvzkX84SF7GS0nb4/NdbcQ+xFQj1OMAxKHpII
+         thPvQplU5sjoP876Mg463yHeU1pnOdA1Ynm0RmJTV1xlKeLUBNmfi3S56a/jejaFwxIk
+         ceFg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794311880; x=1794916680; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NtZdO6nOLG1xCmYrcxMOJxxZ01jNgWBM1JEvDfWm2HM=;
+        b=P31J6kYIsEGTz2UbhHeJ3py5LSunOsjGtSdB6n+9NRHZ2McFYQTTJPegPRwUNiaWP+
+         Os/I49BPMUI3EdBx5mq2vBdCrigvc88p6Bc8Q4yRMe6IXmIzFBhMkNbOV2mRQ6thRdGi
+         WAKZXFug6UnKWd65Tgws4UAV4kX9/NgYgha0DBmEvcdxR6eOqxZUSO43Rw5Y6LoiETyU
+         BxAfiNrdR7Jd9uGj/K4WrsA1LMtLsACzKbnZlo4/l9zb1cU5F9p6HODN6EJSvMg1EZ7m
+         u/ETootTBWz0/8HSRtZ7Q1mLsT4wKBDTPKE5Jy8FWVQRMvfZbiekcYvW69CWKH6rVh2I
+         g0Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794311880; x=1794916680;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=NtZdO6nOLG1xCmYrcxMOJxxZ01jNgWBM1JEvDfWm2HM=;
+        b=AqC59jdWh/+obzRxfGQm+oV6Zaqv66fzSTcMzBQSTF5gJ8AW1Ds0NQXEgO6CW4l175
+         97Hb3nk+UxiJj7IgwvlT73McXcHQ/GOOwSLTH3CVf9+0kF7uzZLNG71tB1CjIw+2Q1tg
+         De7CqCe+XjMHfzyopU1gqiiCVYwJzNNS41QV/72S/rn+EwSCenb1RgCDXyhtSsnSuwLg
+         9fr82Kq08xkMubA49mX4ZJRyYrwasqa89PJZYX5xWby9XcT+34ZB3RAZouktDpONiATv
+         gttacwEtL28Vvgj4rz9VqvAOi4LW7bp94RJR2GsD5Frypt71HkTfq2ohad7dkjGc6jJj
+         /hgQ==
+X-Forwarded-Encrypted: i=1; AL+hErGm/+TS3FOwCLKJ92DQVfQ45VDoTiS0LP2X1PLjcahaGreChrRlF1ZdueEoVSzWzjaAJ/zT22lx4vVysrCs@lists.linux.dev
+X-Gm-Message-State: APuU4Z/SVcbQry+70w7J9G0vv27QBuSzA3fqE1gL8s7uQaNvTJgFMEzU
+	p+MSWIaemQSI4H5Q8YMvcImmqVfmW2YW4kPDpKxp521DaEQB3yVPePx7cN3ySM9DcY4WQv2HpAA
+	vkhS/WoJEcnW4FZdeP4aeuiuWg37ODQE=
+X-Gm-Gg: AYBFou3iPetrYtNAxbnbEL/jBBKNm3D8I2pH2ym6/5bQdm6YKcWPL819H6O5vCsXa8B
+	Q/DXo18RCU3EjTyvXwwfPkM24Fl1kZMcZEAn4q9uALVCO2bytr1hs7AWcrhfBkWph4VL9lJ82L8
+	Tslu7Y7wmdlqb8o48+eEwNVV4venNXlWqv8yd6DESY0UvPMFgKBCQK54cxyQ6P9SnHbpZhnUyo3
+	nRT/yjvyq85ROYpKwmfgacVS+MK7FhQoNZdMoUTve3lIIVvT5B7ynyFOivM+PXXJJ56BUF4lLDV
+	K+dKUlYJG/DHcMbnZyk1rziIWRkmULffIBwcV3PaH0LLa1kicagfZw4Klny2buVTA2Kx9/GC70u
+	aCWcQquDO0lTQlXauZKleQCuFXdjB5lJUGwXIljq2LxwYiwPH09Spwg==
+X-Received: by 2002:a05:690c:dc6:b0:8b0:f0cc:db0e with SMTP id
+ 00721157ae682-8b392c3d7b0mr12234627b3.78.1794311880452; Tue, 10 Nov 2026
+ 03:58:00 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -82,103 +101,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261110-octeon-parentheses-cleanup-v1-v3-1-ea6d4ecf2ec5@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQqDMBBFryKz7pSM0SJd9R7iIqajDmgiSSot4
- t2beoLC37y/eG+HyEE4wr3YIfAmUbzLoC8F2Mm4kVGemaFU5Y1INehtYu9wNYFdmjhyRDuzca8
- VN0JLg9a6NhURQ3asgQd5n/62yzxJTD58ztxGv/dfcx5hbXvFWnOlmv4xLkbmq/ULdMdxfAGlb
- hUWygAAAA==
-X-Change-ID: 20261108-octeon-parentheses-cleanup-v1-c1f3335a411e
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794303451; l=2525;
- i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
- bh=HpVvmqNpd6mNraRfdV9oEnBYW18VRLrqlhVstvdAHTU=;
- b=TQ5u1kxGwAjDY2wRn/wXd14s2gGSPQSFf2DU5pzJ1HqRG7WLvhstwC2z92TswZLzfKj3UDyTw
- zj9INZOfSFsAULsAFP6WgwuXGSJPABHepQgesXywvIqU8wCnGKqN0lP
-X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
- pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
-X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
- auth_id=1410
-X-Original-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
-Reply-To: aleszlucero@gmail.com
-Content-Transfer-Encoding: 8bit
+From: =?UTF-8?Q?Kincses_Benj=C3=A1min?= <kincses.benjamin2007@gmail.com>
+Date: Tue, 10 Nov 2026 12:57:49 +0100
+X-Gm-Features: AclHuK-790e-YG3XMXcbn9JCn1hGEUSurN1poH3-rodvAOagUfzcQKHK3R5q3Ng
+Message-ID: <CAB9ndWsADtrZNFLafOoO7qAdgWncBbKbBkLVv4P8b6jyTwx4qw@mail.gmail.com>
+Subject: [PATCH] staging: media: atomisp: fix spelling in hmm_bo log messages
+To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+Three hmm_bo log messages misspell the past tense of 'bind'.
+Fix them to use 'bound', as listed in scripts/spelling.txt.
+Only string literals are changed; no functional change.
 
-Fix checkpatch.pl warnings by removing redundant parentheses around
-conditional checks.
-
-Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+Signed-off-by: Benjamin Kincses <kincses.benjamin2007@gmail.com>
 ---
-Hi Greg,
+ drivers/staging/media/atomisp/pci/hmm/hmm_bo.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-This patch fixes checkpatch.pl warnings in ethernet.c by removing
-unnecessary parentheses.
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 0a8f401..1fc5c1e 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -448,7 +448,7 @@ void hmm_bo_release(struct hmm_buffer_object *bo)
+        }
 
-The v2 text was AI-generated because I don't speak English well
-and I tryng to learn b4 workflow.
-I try being concise in this v3. Sorry for the noise.
----
-Changes in v3:
-- Rewrote the cover letter and commit message manually.
-- Removed the AI-generated text.
----
- drivers/staging/octeon/ethernet.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+        if (bo->status & HMM_BO_BINDED) {
+-               dev_warn(atomisp_dev, "the bo is still binded, unbind
+it first...\n");
++               dev_warn(atomisp_dev, "the bo is still bound, unbind
+it first...\n");
+                hmm_bo_unbind(bo);
+        }
 
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 42ec4b8324a8..f374fdf8f7a9 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -262,9 +262,9 @@ static int cvm_oct_common_change_mtu(struct net_device *dev, int new_mtu)
- 
- 	dev->mtu = new_mtu;
- 
--	if ((interface < 2) &&
--	    (cvmx_helper_interface_get_mode(interface) !=
--		CVMX_HELPER_INTERFACE_MODE_SPI)) {
-+	if (interface < 2 &&
-+	    cvmx_helper_interface_get_mode(interface) !=
-+		CVMX_HELPER_INTERFACE_MODE_SPI) {
- 		int index = INDEX(priv->port);
- 		/* Add ethernet header and FCS, and VLAN if configured. */
- 		int max_packet = new_mtu + mtu_overhead;
-@@ -308,9 +308,9 @@ static void cvm_oct_common_set_multicast_list(struct net_device *dev)
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 	int interface = INTERFACE(priv->port);
- 
--	if ((interface < 2) &&
--	    (cvmx_helper_interface_get_mode(interface) !=
--		CVMX_HELPER_INTERFACE_MODE_SPI)) {
-+	if (interface < 2 &&
-+	    cvmx_helper_interface_get_mode(interface) !=
-+		CVMX_HELPER_INTERFACE_MODE_SPI) {
- 		union cvmx_gmxx_rxx_adr_ctl control;
- 		int index = INDEX(priv->port);
- 
-@@ -360,9 +360,9 @@ static int cvm_oct_set_mac_filter(struct net_device *dev)
- 	union cvmx_gmxx_prtx_cfg gmx_cfg;
- 	int interface = INTERFACE(priv->port);
- 
--	if ((interface < 2) &&
--	    (cvmx_helper_interface_get_mode(interface) !=
--		CVMX_HELPER_INTERFACE_MODE_SPI)) {
-+	if (interface < 2 &&
-+	    cvmx_helper_interface_get_mode(interface) !=
-+		CVMX_HELPER_INTERFACE_MODE_SPI) {
- 		int i;
- 		const u8 *ptr = dev->dev_addr;
- 		u64 mac = 0;
+@@ -830,7 +830,7 @@ int hmm_bo_bind(struct hmm_buffer_object *bo)
 
----
-base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
-change-id: 20261108-octeon-parentheses-cleanup-v1-c1f3335a411e
+ status_err2:
+        mutex_unlock(&bo->mutex);
+-       dev_err(atomisp_dev, "buffer object already binded.\n");
++       dev_err(atomisp_dev, "buffer object already bound.\n");
+        return -EINVAL;
+ status_err1:
+        mutex_unlock(&bo->mutex);
+@@ -882,7 +882,7 @@ void hmm_bo_unbind(struct hmm_buffer_object *bo)
+ status_err:
+        mutex_unlock(&bo->mutex);
+        dev_err(atomisp_dev,
+-               "buffer vm or page not allocated or not binded yet.\n");
++               "buffer vm or page not allocated or not bound yet.\n");
+ }
 
-Best regards,
--- 
-Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
-
-
+ int hmm_bo_binded(struct hmm_buffer_object *bo)
