@@ -1,78 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794317307;
-	b=t04l5Gpf2hfMq3RgKIb8MYJHYXxINWOKEWAWx6LysBx4oupllN9U7fvaIWHyG/zON3f5
-	 JEx5JmzHKQqE1rS1q5mvTri42BfKyE7DJFftMvfTTHF4NG5RBEfT++5zVWTtZBq/dzxRQ
-	 SuRTav/pS+3k1kobmYuMX4JMXCQreX0dM6UGli1e1Gy1PZ4VK4cBQ2t4czcdlT/ecEXp0
-	 44S+kqXRDiE+Aogt7O0s0vMUeLX3fnuGf8WCmnfL9oe23ZLTwCJAx2T3YQgA/23TkvVxE
-	 6w+XehMsMDXZdk+ECLNyqELWA4Qcmjw7qj4UGu5EzupJN7M+4hV8GRINdF5sc4Nx9Vw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794317307;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=fUWl3obGCUO3NiGQKuqWXiuDxi7JouGoPBYumWeiMf0=;
-	b=SYxmbs+yea+rYLAQEHD0OczgyKKyb5AmOylDBWY/mxIlEWVYF92Le3y5Rj7Os8pyls+l
-	 h+NNsi889Qmb2g3VahPLkW3iVVb08TJQ5fqtsZlt1ioUTGy7Twe4iHgIqSnX1OL3qxiZg
-	 Eic/nC1iSPDk5Z/N9mkkN274cynMr2tf3O2t5lDeate+F7cR8JgN9/Lzxp0OzgCFBYXv6
-	 XdIieZ0zBcXv1Vdq9mvzZbLVj9M5ziWtNq7GajgDYlSY7mGB4hBUaDV7Oi6g4iqQfisXK
-	 D+YzUJYtMGOLb5+DkFho3QplgT5sI6ye3A15T6NDO/ShL3OpZkfFaDErvwxfFpkk7LQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b9jeyRzO;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7286B606A755;
-	Tue, 10 Nov 2026 13:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b9jeyRzO
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794317307;
-	b=B7O8RYbXV8Ry498NtzReeW16APhjoVUWcnv5iLVfD3x3zaSt2DOH0E8yg7Reu/gPX+WM
-	 LH2wR8Riiuidy+ExGDeHuXQjS4gtA69T9SDF2batE5kaHVdMyj7u5Mt60Sd4CeWP7tWEF
-	 Dfj4s4Q2kT+1wCgRvzLfVdmm0RzMLMovqucR5nYN1dI9iHk9/8+21NLfGsBZpuQhSJqsz
-	 bk8PCd1vWO2/qx7UfKYohgyul3h5ZfnkmQ4S3t9RgVlXRB7hnBJoqVWiWNvu7JQ/Z0we9
-	 Ccf/vCmRwIyt6z8k4K2eHdAp609e0xSouzjWdpbZQv3QIF96OqcoxIKAvDBZctIqGxg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794317307;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=fUWl3obGCUO3NiGQKuqWXiuDxi7JouGoPBYumWeiMf0=;
-	b=eBotnDiQFgNz8011cY7LpHD2OPeH/RiJxyxZXp328LRVsgh6PqoOElc5JpkXK53jGnPN
-	 mhqs6NHxUgo+BKY+rriklNKLgrxumIO3LPgAuPBYWOdW7efBhCf+G0bkpOGblj2OHb6Xt
-	 3BTLoDnZAZ9UcxA9awTMxfzgOp39uBm97j89IM8MB0+Kc9YFTwip0kQ0df4j6ZabKM9/X
-	 tqIqeCpdtKY7CDA/n0ML1BpUqeJKcc/ZDi9LDKUxftaLDkZFVlNSRyvkK1wh4kJL89PvY
-	 nIwT4mJ+lM0mtpMQe3Av2qdA1z+zM1SUB83kjoVJuz1IJKZOGMSt4NaTFOnFkRpIxng==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794318015;
+	b=sK7jWax2diynVBYZhd0dgKEDNcwQcb5dTe4UyE1fkuxYYcdwpprHGj3v9NGTmdbRSmd2
+	 DxrIxy1mkrBAzLZTKotvEuGqYt2a8VGVgCpQhPpxaLAj+yoH3/43bn0I8pzHDzq2LhO8t
+	 xco1esD0ALCOSEkubvyezvSVLSAroUbjIxIHa5cikJbAGMtkbchzsAu/w+oVgqb4aU4iW
+	 sT9Jp8wP1daAOZpBVaT6BuwOfA/wdhK67SEBhIxPSE14OcY/pIm2qVO7ByP8OnLh8OgpH
+	 vU4cJsS+NOCzDLyhwYcoFcGLTCjTi5Nrvl5WMLxRtHsRWm2CNfzm6poEbjs0EcUxQPw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794318015;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=3c2WpukRa6d5qbdvXnuRxcTvhXaqbpkaY6h5ED2Zn2k=;
+	b=gvGsW6EHYh25b5DcuZaUJkNM7XhvSdYc+CRMxc50WKu1u+GM3Kjb6nUdVC7UVS1bDek4
+	 Ye1g3CuwuMIPef0PvR8xMqxgqWneEyWR112g4AFWT5jiak00i6LU2gQSSJxz8tZM6mqzQ
+	 zLvFseUN4n8nZSz7Kvlg53ja1QPZB+Tw1QF85t8J1RJhKPQleW4SuKnyKEk6BBpgDMRAv
+	 SIpBivUg2c9CtKqLTbIJxzKEKe0WezJHZfDriUBPql+StQfu6irmVKhUOeV1GXNVyOe0d
+	 VSH9DiRZBoDsSPWVJHd9o649i6yulRvMVplPSW/I2kghq6UQhGSgTc5VzXN8iO7LPag==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=cryspen.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.47
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 806651F0089F;
-	Tue, 10 Nov 2026 13:28:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794317306;
-	bh=fUWl3obGCUO3NiGQKuqWXiuDxi7JouGoPBYumWeiMf0=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=b9jeyRzOzhEF45p5gyS4/IWd0QPb27b/wLqtCDgdhDqgY5aKKzbiicEtmvzNWzYl/
-	 +en+t6IifTecZ3YQ5z6of58zllbxa3cdDtZHldCLdYTu6BH42idNyoQAAo3S/1521i
-	 5B2YGOmsG45dTNSD/0W7Ko4PObIchvKBrsQJLCWwouU2Rayz/jWGKeKRwPlkKUwKRe
-	 0wDgl+3KlB6ZsB3f+ym5jjIanHflDLUA2/Kxqg6ku9VgYm6jRvKvWw4B62NfCBoahj
-	 Zikh33rvOBhp0fWqZIfjLR34TCaZpCs+syi/b0oZLsNR+Vg24cF21ePuBhBUaOPfTv
-	 vB9FfTW5pn1SA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 012B848B66;
-	Tue, 10 Nov 2026 13:28:25 +0000 (UTC)
-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
-Date: Tue, 10 Nov 2026 07:28:25 -0600
-Subject: [PATCH v3] staging: octeon: fix OF node and fixed-link leaks
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5288D60A2624
+	for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 13:40:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5288D60A2624
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cryspen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4919a880834so1260954f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 05:40:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794318014; x=1794922814;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=3c2WpukRa6d5qbdvXnuRxcTvhXaqbpkaY6h5ED2Zn2k=;
+        b=CYRBh7lORc/ElWl8bMuU0Pl44B2nEfkvZ0//xxEj+/foF133K8ZsVUlRHC+paemJMb
+         gFlGUG2C3rFmvUnXxmrLDgnN8K+F5XQd2Oo67vhLefuD98RGNBi1e2D/8c5LKls0RC0G
+         +oYfIK+haGMq8fUcQveP0zPqUKzTSsrR8GNATPRhFvhWYSF9wrhmVf4LhQbB/wHPFMNu
+         vZn6vxUEiZ8jx9ru2JWlJDIJn+ZaROjlDSpQfr5dCjP1ILd9o7buC4Bvkd4QBEQj3ipj
+         dn14OqnBpK7iMff1Y/RsdvwL6QjeumODYbqs5ABNAtxCzdJixHw16vWYeEoJYF6YEoRW
+         VKhQ==
+X-Forwarded-Encrypted: i=1; AL+hErHR4ZpJcltWY+oZi+ZjRGCPkGpXFQqsCJ0/isHgrfwZ9IXj3WGmEEUqtdyWu5tI6ufLBlmo+SpN3xHJw82q@lists.linux.dev
+X-Gm-Message-State: APuU4Z+6LgVAwfuJGhDAZukz6RAfsI3bQ8BD6S9ur16EZ8VhTrQOgDKs
+	AfcdqvKK98BKE5tTLBL5gdAh9TGqeREKqeyQMLm8nvnYCAAMd03bNKHl
+X-Gm-Gg: AYBFou0MMGhveI+uNYIAh38t0upGq4mVZd1xUR/jktdtAJLJXOvjF7WLfi1Us0Qrbce
+	s/sdyTJkssOEz65nXTVt02c5h4zgnwcm9yLbwEavWWQOnd/MWUNs3w/JbVg70QR3NwJpijw0Acw
+	KKpz9l7ecP5FOphNiriLZRcRS8bUCZ9NG2m6LpU8FoFHZIjPNZPahFOj00mJ2ctq9+30JCCGf9V
+	zZlP0OOrrv5OikxUhw7X3s5eiYCqmUS83Xy5z5oAH191Oy1rZ9QWqZvlvPXSCqCvUR8bO1vbw/o
+	/Wej/HvY1VHlanu0bEPDM1tk8zJ+neAobDqHCyoyFl7CD/L/zUO7zPsG34o8pPBv0HTpqUVSbq9
+	5iE8IkZvlSaLmyy8mbRzq6s6vYAQ+svLEzHNIqg8hlktu/1uhk4wnjOS3d4x1cvA0y2YKKHnMvD
+	sGoyivhp3RoiGSrVCbnPebeBeA48axKckTbh9OOCVME5nr3g1Px9IeztouENpF9r0t1RQ0BGiLn
+	oUU0a/eurRoOgDWAfDGm0MdM9BnKiiZ2ch7sYYcN4Hqym67Hd0rcaOwejQMl6UkxYGSzaE6AHA2
+	+NcSunXQCg6HfeHWxY7BcrXb/swug7CQZnWljVFlHXFpPoRXQCCqmKAEqZgZ57mxouaU96A7Do7
+	sFBS/H0JcYMlJkcZ4g1BtIhGPMHfoDmxQAf4dxGcL4U2EFPbxXLvow1Iy3aKo1Ygd
+X-Received: by 2002:a5d:584f:0:b0:488:823d:5086 with SMTP id ffacd0b85a97d-49827fd20ffmr5377884f8f.0.1794318013331;
+        Tue, 10 Nov 2026 05:40:13 -0800 (PST)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498362eb158sm5074218f8f.36.2026.11.10.05.40.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 05:40:12 -0800 (PST)
+Date: Tue, 10 Nov 2026 16:40:09 +0300
+From: Dan Carpenter <dan@cryspen.com>
+To: Kincses =?iso-8859-1?Q?Benj=E1min?= <kincses.benjamin2007@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: fix spelling in hmm_bo log
+ messages
+Message-ID: <avMeucyFU9r_nfP2@stanley.mountain>
+References: <CAB9ndWsADtrZNFLafOoO7qAdgWncBbKbBkLVv4P8b6jyTwx4qw@mail.gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -82,86 +88,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261110-octeon-of-node-leak-fix-v3-1-9cdd7e1d48fa@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNQQ6CMBBFr0Jm7Zi2pCiuvIdhUcoUGqFjWkI0p
- He3cgGX7yX//R0SRU8JbtUOkTafPIcC9akCO5kwEvqhMCihGinFBdmuxAHZYeCBcCbzROffeNW
- 16G1vlBIEZf2KVPRRfnSFJ59Wjp/jaJM/+7+5SZSotNOtdH3bWH0fF+Pns+UFupzzF8XjBrS+A
- AAA
-X-Change-ID: 20261107-octeon-of-node-leak-fix-8530bcba220e
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794317305; l=1834;
- i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
- bh=jl1zaHvHGKs1nPczUORm41xcESZsx9ReVkyvB9xAjJ8=;
- b=wcq4qyYEf6+zZd6aBylkQJrPRqr6AWFbWWGX6sThGne0nm2+1AkoNb+krQ4VFyS0rh54QeCWz
- vVnVMZmaWxkDbrQfEthwB27z4oaDKvpe+HA7u19OHwv0vHx3yQXO28T
-X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
- pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
-X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
- auth_id=1410
-X-Original-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
-Reply-To: aleszlucero@gmail.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAB9ndWsADtrZNFLafOoO7qAdgWncBbKbBkLVv4P8b6jyTwx4qw@mail.gmail.com>
 
-From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+On Tue, Nov 10, 2026 at 12:57:49PM +0100, Kincses Benj�min wrote:
+> Three hmm_bo log messages misspell the past tense of 'bind'.
+> Fix them to use 'bound', as listed in scripts/spelling.txt.
+> Only string literals are changed; no functional change.
+> 
+> Signed-off-by: Benjamin Kincses <kincses.benjamin2007@gmail.com>
+> ---
 
-Deregister fixed link and put OF node on probe failure and device removal
-to prevent memory leaks.
+The patch is corrupted.  Read the first couple paragraphs of
+Documentation/process/email-clients.rst
 
-Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
----
-Oscar Alejandro Sánchez Lucero (1):
-  staging: octeon: fix OF node and fixed-link leaks on error and teardown
----
-Changes in v3:
-- Rebase into mainline and perform cross compilation validation for MIPS64.
----
- drivers/staging/octeon/ethernet.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 42ec4b8324a8..13df64d3f498 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -114,6 +114,11 @@ static void cvm_oct_remove_device(int port)
- 
- 		cvm_oct_tx_shutdown_dev(dev);
- 		unregister_netdev(dev);
-+		if (priv->of_node) {
-+			if (of_phy_is_fixed_link(priv->of_node))
-+				of_phy_deregister_fixed_link(priv->of_node);
-+			of_node_put(priv->of_node);
-+		}
- 		free_netdev(dev);
- 		cvm_oct_device[port] = NULL;
- 	}
-@@ -919,10 +924,16 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 			}
- 
- 			if (!dev->netdev_ops) {
-+				of_node_put(priv->of_node);
- 				free_netdev(dev);
- 			} else if (register_netdev(dev) < 0) {
- 				netdev_err(dev, "Failed to register ethernet device for interface %d, port %d\n",
- 					   interface, priv->port);
-+				if (priv->of_node) {
-+					if (of_phy_is_fixed_link(priv->of_node))
-+						of_phy_deregister_fixed_link(priv->of_node);
-+					of_node_put(priv->of_node);
-+				}
- 				free_netdev(dev);
- 			} else {
- 				cvm_oct_device[priv->port] = dev;
-
----
-base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
-change-id: 20261107-octeon-of-node-leak-fix-8530bcba220e
-
-Best regards,
--- 
-Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
-
+regards,
+dan carpenter
 
