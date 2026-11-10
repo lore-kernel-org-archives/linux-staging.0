@@ -1,97 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.100
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794287101;
-	b=hYT12Q0TOVBDyXL/t76+zqGF/qVjaqT2/smd8hqE8x5W+03+5zbRWfpEt2J7jhW/UIW5
-	 zegXXP3GhPa3Ll8JViS5nuK/Iy99tf9nHfuP6QajjEJi1P9EwHHOQqjaTMTS8iUc66tGU
-	 LofWbeXfsX2lD9BwmOw3wqeSmIJwNHF9xZQt4F/0zxBW96PEmiRWC41cUMRfhzM5e10qB
-	 Zu4UcKLmVAQF0EvWWiIV9JmdLnpZAsh6UYoQ4X8Wv06ME0H0lJGvrkZQaxVrCxOcL/CJ3
-	 J5TPYwnrweaVhc55F3GT+K4u5ZLdE7FsUcGouGIrTeB63QgMPl+FoaTK6ov/f7Z5f6w==
+	t=1794293502;
+	b=Ino9NYWJW6xXU6kfKy67MIRGfkOJVQcQ3hbJEoGZMjvXYYkGAgpnAadmcAjAHV3Dcxzh
+	 LRNT5+btatQJj/M4HnLFF1MxPlKRHje4L8PQP3FkWgjGFO3EiFZtihR1CZ4LYlraAPHxC
+	 QbA0+XJiYmsGx9E21QFWNYRYiHsc7vpFB46NfkqCMVx0rt8woiWPc3PxJdRwkShbOczXe
+	 t5NkPKxFWpbMCAN6QvRbVzTY1+G9z/SEzNHgTKUnMXyp8A6V21lPbxyjmAQCGfB6TBH3h
+	 mcu1sr18CKH49XLEfUvm3cBhGoMZOtK0Km88E6iOUJUTu/UEIxvgFw9IMvuDF3esYTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794287101;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=x28Xh8Kl636Xj0Syxm9iILHuaCS0bk0qyS/PVv+3B/0=;
-	b=VEJXInjdDlij4Q7tCAvfJ6l4i9SX4vV0bZwATHBWp8NMNicPu9pBSx9/pJUWEa/VTOdq
-	 jJ+m/6QFeiurG0USX/dbVzVTDkLwwZH4FIyPiKfiSAgV8GJdANklHsfp8vI4qKRetLwjc
-	 keanuyAXHBpRXEoWhCFd7Xkr7VpwM3X9ZZ9wWnFhLnYRkZTxUHZ75enaNT6RUtYRRT+n5
-	 Am00iSUMPxcwFBKCAbO/svK2FJgvH8rGgYYfxPs/wgocby4LjUBOg1HzhTPy4wovx10Rx
-	 dBMUYUq1Jz4oIFh1Q60kTtujAAXUmWr78YM9kk9Rs/0rUtNh22N73QIP1wESuOA+0gw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794293502;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=AQk2bWnn9qEiJB55CfKKDZX/EDk/uqfS9SOxZvrUyFI=;
+	b=bm/RN83DvsvkfeO7ZxCEArOkOTWbRBt23GagD7QM8/vxNUwGLwPzRx51vt3ywyCEeSHo
+	 mtDuVtW2BlL7q5xM9SnDGAjnmM0nMUEZOJjYHmMtZ8UOz56oqv5owG9DKBkLPCQKwR9MM
+	 Ih0l1ZiZzY3ySu+uGLfYswu05bBncY5xtNvj4KlLjg5qxYEMSgyLtPnmCsa3Gho2QvQWZ
+	 CokB2B1Cwq/JSGZD2NjT4w6ozoeoAUl7wNkkwASEG6WS/cS6kP/NHuv0cPe+EjEj/qkd0
+	 WaLoYfR6iiZgXanPZKEAXEkWGmriICjoFVKlN8ACuiDAg0U424RTJU+W3k6XFwbEZ4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=A3gFn72e;
-	arc=none smtp.remote-ip=74.125.82.175
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=pm.me;
+	spf=pass smtp.mailfrom=pm.me;
+	arc=none smtp.remote-ip=185.70.43.100
+Received: from mail-43100.protonmail.ch (mail-43100.protonmail.ch [185.70.43.100])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAD8606D6B9
-	for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 05:05:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DBAD8606D6B9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=A3gFn72e
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso2858223eec.0
-        for <linux-staging@lists.linux.dev>; Mon, 09 Nov 2026 21:05:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794287100; x=1794891900; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=x28Xh8Kl636Xj0Syxm9iILHuaCS0bk0qyS/PVv+3B/0=;
-        b=A3gFn72eurXMtrSluasD2njgHMGwLgyxSh20ZtNcUqWs0BRBVU3ar+8OtBWPmq9IUs
-         k1y5U+rX9vMPxqY3gPzLxRnw6cqgEcfTxZIUsXY+q/Dyn5ouGwLUsm7W6p0xnqhrj9qT
-         +D2mpMq59K2S3hR+5XnixLt+WPNBa9THhaaiRlOeNepI8OmTJKM3RPO1nCGh/I/Ck6BB
-         WIxEJ1cFcbDyOwYOlrVlEpl+fUVnpa9H9ub3ZQr+apyw/e3zO42iDqA6g7gK18qAJBQ5
-         J1Y16ZXC3rETcpbGHt+YaiutcUB1GRA7SJw816izH+Ow47R4kjJ57PIQuYCm3lxI6xmh
-         ZTkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794287100; x=1794891900;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=x28Xh8Kl636Xj0Syxm9iILHuaCS0bk0qyS/PVv+3B/0=;
-        b=pWHu6bdEjawQNAaQ0BjK3FYf3U9sDJScFrRIv2raTl3OjM9KKjXSrIPQ0q8RCsbXiW
-         qhiPRRwf7EePGiifyEFnSW3/T+65dta5VIjHYlZVFgnY686RuBSNllnrMyymdFfsP/Jx
-         QrPHRpt7hAlFu4F21ES33JlHkQ3bNxD6Oq6xH0N2mnSwBnAwc3MtOtruqRt6axLqBH++
-         glnLZtpbMTjINrrwv7EQNnTbTKgb0BbE/5/8CnrPbrSBAq7OHuP8G/RY0jaS5HwRmgp4
-         wtv02a3/F2LzztBe/6isP5/WWHBERhv79ul1ap6t/PBkBuBReIL0NIJM7sDZS7JpGG7S
-         zKpg==
-X-Forwarded-Encrypted: i=1; AL+hErFsD6JMJr/P3Ze4tdPDItD42yJE9g+fI86zVPtUqtyDb914jYGQBXyEby/kfv9fxl1uZ2+neRWyCK9thTut@lists.linux.dev
-X-Gm-Message-State: APuU4Z9Ao1YyN1m9r7qGx4pYNHeYRIVUkg5LS6JAs92P4hWu8yuK5Xxn
-	eNKfI6C2gFSh1bfVi2Q68BApMGO6ss494faUgZjtCLP1ffSO+zIpH/4+
-X-Gm-Gg: AYBFou3ipY38T1ok/tW9p1D84hKcGjjGPM0wC3ZdIAxLzZnHeUEGg8qOrS36hNxlRld
-	OVv4XFZi7McP7/G6IAnVUyc1rLtpG3VzfyH9geTvMUTCNX9kRw+A7rJdGlYFhx87w5fSIBtMn9O
-	Y3FchmypSHeGa2vdDtOzhI+Wihokj07Izr0tDG/i9UNglYe3GS77xin72xYVOIHa1U+arN8tzvq
-	tDtqx7JGzWiz9J3jKp6+2O57WwBjWWs5UmPJy2vugMufyzz1exSP6odwot64EBGk9E/vUYG1Kdi
-	qiDTRp1DOyzggXbbalFtRWi+85L2uLjml9N1TcOKLKvrRKxZ72ABeJzPO/5aEpjan7kqSay6DTs
-	mw4VfbF8+XgtaNuKgDQSf09/eWoJxWQklZD+KpTfq15XmsuG6CGVtjR/E5dOkMT83gSv4z88i3l
-	anup3xN8fe3R1foCY8qyJBZka284JQM2Y4ESrfh9YkXMW/pgpA3KpqCSC8nAHgKND6L1WHpxGRN
-	o4LVYbY4KLVGrUHbMgFLNV2Oz1b1Hj39Rckq5p2kB2hrXHwl5hDqUV//5pv0zvb5LuqxgjVVLEN
-	r16kKm4dpKkBTak6l5ZdRk6D5qWxBNyZm0uIejtUn4rsxmaLf5yrqnVIxG8yGAr2lPzc9BP9fCd
-	QJBngmiiaYLHAjDv6RXhVHog04XnRJfexxvozfgg=
-X-Received: by 2002:a05:7301:4d14:b0:375:4f3e:643d with SMTP id 5a478bee46e88-3754f3e6572mr1368404eec.27.1794287099742;
-        Mon, 09 Nov 2026 21:04:59 -0800 (PST)
-Received: from localhost.localdomain ([203.92.58.30])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212e9e03sm6550235eec.23.2026.11.09.21.04.55
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 09 Nov 2026 21:04:58 -0800 (PST)
-From: Shivani Patel <patelshivani2283@gmail.com>
-To: outreachy@lists.linux.dev,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Shivani Patel <patelshivani2283@gmail.com>
-Subject: [PATCH] staging: media: atomisp: Fix leading space indentation
-Date: Tue, 10 Nov 2026 10:34:48 +0530
-Message-ID: <20261110050448.69521-1-patelshivani2283@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32729606A321
+	for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 06:51:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32729606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1794293489; x=1794552689;
+	bh=AQk2bWnn9qEiJB55CfKKDZX/EDk/uqfS9SOxZvrUyFI=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=nvcJZWW5UYLD+L8c0CIhmpOFLYBxA/XgI2e3MQNTIZ9dezhvbModSbSWDbNG6NMru
+	 tz94klciV1ccErUrZgATbxtZlFW27+oiTkJ732ruO5TvcMhGC5AeOCGEI02FrIMH5i
+	 FLYVU4tK+LY6wmYpp7V5/6aMaNIFqcHNkoo/z5kzEbDwHLDmy6zbHXwO+CFXdSGNzV
+	 N075A9DOC6CW+WgzUU+/+TchZoRylwTVTFGsothmWm4tpu/pUGzLiXl4E1/21eTJWN
+	 dalYu7erMAR4WGWkLZSl6WUQYN7FsKy/HgB3QHjaTRPy611vZZbueiOiigwq6k0fOA
+	 IA1YK/QvGJX4Q==
+Date: Tue, 10 Nov 2026 06:51:25 +0000
+To: Manik Bajpai <manik.bajpai@intel.com>, Divyamani Tripathi <divyamani.tripathi@intel.com>
+From: Sergey Lebedev <lsa.uz@pm.me>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@amd.com>, Antti Laakso <antti.laakso@linux.intel.com>, German Pablo Lindo <germanpapulindez@gmail.com>, Christian Murphy <christian@themurphys.eu>, Hans Verkuil <hverkuil@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: staging/ipu7: snoop ISYS writes to capture buffers
+Message-ID: <20261110065119.20575-1-lsa.uz@pm.me>
+In-Reply-To: <asaywQrMq-GSrI2r@kekkonen.localdomain>
+References: <20261007183311.24637-1-lsa.uz@pm.me> <asaywQrMq-GSrI2r@kekkonen.localdomain>
+Feedback-ID: 113843758:user:proton
+X-Pm-Message-ID: 90cce48b7b9b0d962718d9c5e3831106eccc5c1f
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -101,30 +61,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Replace spaces at the beginning of the line with a tab in
-atomisp_find_in_fmt_conv_by_atomisp_in_fmt() function parameter list
-to conform to the Linux kernel coding style.
+Hi Manik, Divyamani,
 
-Signed-off-by: Shivani Patel <patelshivani2283@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_subdev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sakari added you to this patch in October. Is is_snoop =3D 1 on the
+capture pin right for IPU7, and for IPU 7.5, which I could not test?
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index bdd2d9b18..773fcea56 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -96,7 +96,7 @@ const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv(u32 code)
- }
- 
- const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv_by_atomisp_in_fmt(
--    enum atomisp_input_format atomisp_in_fmt)
-+	enum atomisp_input_format atomisp_in_fmt)
- {
- 	int i;
- 
--- 
-2.50.1 (Apple Git-155)
+Christian Murphy sent a different fix for the same rows in August,
+which I missed: a clflush of each capture buffer in buf_prepare and
+buf_finish, with is_snoop left at 0. If the snoop bit cannot be relied
+on, his is the one to take:
+https://lore.kernel.org/all/20260824224139.21256-1-christian@themurphys.eu/
+
+With is_snoop =3D 1, frames holding rows of the buffer's previous fill
+went from 301 of 698 and 684 of 697 to none, reading every frame with
+the CPU, and 4224x3136 raw at about 790 MB/s still ran at 29.95 fps.
+The patch applies to v7.4-rc1 unchanged.
+
+It carries an Assisted-by tag, which 7.4-rc1 no longer accepts; Sakari,
+please drop it when applying, or I will resend without it.
+
+Sergey
 
