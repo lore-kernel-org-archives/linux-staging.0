@@ -1,81 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794320278;
-	b=zSmA4OYe6cQJCTC4xa6a82PtSULgbv4NDF4H0esNchDACMEvr21ogodJTmd34nLtac35
-	 i63I2dKzoejsVCps5s+Raof7sIwCj909Fxp1YQSfhAUM5zHfvENWmIlbnu3TljSFnJTGX
-	 2UBFL90KHHqy3DK7T//uxsF5imOxu3KJU4erKOMX5IWYIdRmJy6b0NuJQxIDu6naqP7D7
-	 VgONH6sE2i3PWUAcrnKW7j7uhLCNEhJdmKHObo+TaJLV+2RIgEK58eIam0iB3WWUNvqol
-	 owRd4RJaixgqlIqnLNCwrzXT05nUQLQbfcUlst5gAXgQXjv6hEK+JBLdA6Bl53BMLbA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794320278;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794329242;
+	b=c/7M0rx/ytYNpMn0mEZNf9Uz8Nyuy/OVWwWUNz7fdtN7ZFvDjg+elbTo1MpotR5ZliM/
+	 RQ1UHw1QwhLat9zD+MaoRYELwAStYHZ9BNDog6t6oKYdP06Nza1JjsTXgnSWr9Xlz6mY/
+	 GQf7YRdpHGQoBq8bIA5fL7BI6KS/A0FGZXmYa6iQFpDLo3//nUKSON7oZLxV4Wb53yXgb
+	 OEvChh2mK5DQ/HRk0rSpnYp+hvkZR1EY/OVScGEJ2vTNREFFCYTCLiMNWiVaFK7M7yGzg
+	 r9Y6fmD6Swu0tCWemoqtVsvEs0vo9wbsg/RPj5uiiXi+9zvsPi2J4C3ViQzSlKmCGsw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794329242;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=m9cQN4Mf0HNTTXs9cCLTRamxoxvLO8N57TLPiFrWzX8=;
-	b=laRD8v88nxR6TrcYtcQOxGNi2itYl+7CxqXXDRCJx43FRP7933koehD+kaSJcA4tSK2+
-	 v1x6MAykffOCSc4sk6y7oGyf07QFPrWuaC7oBxB+53jId/iZqqRo/sL3p+kb6+s3lTR+C
-	 jSeHQ6RiSqJ0U43pyLL6zVoQGmQynEfYSI50OvzKcfu1lq2e6atjyo4V4UDR4xnVIuiWN
-	 q5zqZ5NMNoBARQyaIo7Oji3K17RiMZar1Grkp60i6r97FWvU7V5uOYqiZ3ZXtlW6kB/Oi
-	 1apXW0RU8gf3EKc4PiEuXh5prUjxEWqRIQjHXUW8WU7p10teyEtHZq2WYEqBQHxsbjg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=juMN8x4b;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	bh=UDRMQaN490Igz0plCrZ/DYl/p/Z4M+tLu42qQn9xGzM=;
+	b=KV9elh3CvozhPAE0Lsw+pXXmozr/RGpNAaYczYbecrmtDtUr6FfkB67wx7qJcpLLxPOz
+	 4mULpGSMU1lfIKhbcwV1apm9HSjoRSD6cOPv212LaEN7PSoti6fpZlMqsQ8l8xsmUuWfJ
+	 zaCMAr8+jkod+K6nNTIfSDqdqGSEHqbByefQ7UyIly2HmGdbjAJiMdudLg4cQ3TAdIbR6
+	 rdo8FyULpk2htrrQkZ6smKc6jzIbXF50EXp8Atm5zwYaRELJKdpe1KqKfubOxeQr16v0w
+	 ABSzHCf0wHGZNLqxwz3maMFzzpcidMHWnCkGmLSKGpcpmiDVctEHJ06m8nXzUWJ1nUw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=frD+eKgh;
+	arc=none smtp.remote-ip=74.125.82.54
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDF2606A31C;
-	Tue, 10 Nov 2026 14:17:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0CF606A33B
+	for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 16:47:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D0CF606A33B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=juMN8x4b
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=90.182.112.124
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794320278;
-	b=AX6SZpWCLnUiQkXqK4X2KlUeaN7A8fyGX/6VO3jyPinqPVLeruzdYhwc8Wp7eip4Ci0M
-	 O6mY/i9VRcVNlM9LtMK0wWm1moVINJ5/2LlGhCK3td14rnnpr2cWz+ZWH5g1J1A4flCdF
-	 zLhYo4B24n8sM+zt3na5tU+GmPbPE4Xg0Hq7DcC0aQJ1DKHlR8yomeXzX527cQxe20uGp
-	 cQIB791nlSZ9IewTWwLs7FCr7++QDXVuL/TZwFEhj75Lgr3igteenJMcXShsvuDwHMV0K
-	 6yHeQYoLXT6JbF0UCc8eYqzeo2Tj3g4xYsKN0lugNEaQ8WpwoYAE3vcGA6ezwTkYBXA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794320278;
-	h=DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:
-	 References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=m9cQN4Mf0HNTTXs9cCLTRamxoxvLO8N57TLPiFrWzX8=;
-	b=YXUrvbZ5KvAbrDzkcq39ZxuHvPs8syJ/sQ/5WPUJ8EYxPSe1pXYNTRA/v5OH/jLgUGnK
-	 XGMN1WOkk62lZx/xrStfhp/1xYtXK74YG2r4qjXeOUBr08pS9oKqlbZaBrv0edFoYMAZw
-	 F+kHpTgUWWowIqqaJZVX7nh8+Ey5yCuhFzyUcfNA8Y0AoM/D6EbK7ysCgwYh/xuvbT/Vr
-	 zWcUZtaxEwFDCMp5bGU0VSccl2qKo8iEUxpgC17UcLjrwkwVb7SobKPEC6uKWEwS6TSWi
-	 A5zZKKkJMLp1n1h1qAE6v/BH0MXUy6HgLj0P2Aag2sjoQh5pG20hLML+DJHV6OGrzpQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=90.182.112.124
-Received: from localhost (90-182-112-124.rcp.o2.cz [90.182.112.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPSA id DA2591F0089F;
-	Tue, 10 Nov 2026 14:17:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794320277;
-	bh=m9cQN4Mf0HNTTXs9cCLTRamxoxvLO8N57TLPiFrWzX8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=juMN8x4bvCrGZXtwdC4hPdomY9HNv6NJfQvZBY8ZKCSKsEyC4dQ1ft/v/31rfubLS
-	 q5zESKor7iHwbbb9fM5rW5qGC9ZM3zP69xXlNuEStwpCBP2yDyotk2MBq28UEStAyX
-	 zUvjrWWr3Ef/VNnoYFyXYzaYpLpKKUl/nj7I/c1WqCJKOZK3ZEefh9Wrf/GzgPV6Ql
-	 U+r0NRTzCXrxuSFW7+2bGivK1U3phApESe6ZZcgFqfCvdG7kWY0yDBN7bYUqgAq9oG
-	 kRpm9SzFJVeiymfaT7YLoXP3sNVP3147PFn8u1sGYdtjV/ssBQgFYKkAmFmtfD1WaL
-	 dS9pvdegMUXwQ==
-Date: Tue, 10 Nov 2026 15:17:51 +0100
-From: Joshua Crofts <crofts@kernel.org>
-To: Nick <nick21042013@gmail.com>
-Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re:
-Message-ID: <20261110151751.0000582f@kernel.org>
-In-Reply-To: <20261110140354.2047-1-nick21042013@gmail.com>
-References: <20261110140354.2047-1-nick21042013@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=frD+eKgh
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-170135e43c7so3484817c88.0
+        for <linux-staging@lists.linux.dev>; Tue, 10 Nov 2026 08:47:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794329241; x=1794934041; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UDRMQaN490Igz0plCrZ/DYl/p/Z4M+tLu42qQn9xGzM=;
+        b=frD+eKghZtgQYY0XJiDwIG9+bA4/icNiMVbJ8scGPK0qEH9VBafE4JKiWDrY0zueXz
+         f82M5fSb7hmsKgSobMtXvNQtn/1HlVIpv1n06GiT7EduYVATw91oxOfCy5CT0xBpi0Im
+         YIDN0Pvy5dSPm/TOgRRg7/ENZZK+acksOQgY96lfHeO1iDxKaZKwr550Os6oUA4kjDm0
+         l0wLedKD76zKF6VcY+LzdK6Kzmn8rJDhwU9rI5OCHJ3hq7zruDzRTPRsb0WcgwgUmh11
+         sYqfFBgSDsHFWMx3D6aIqLTAtcvQZHGsJD+tJoRaiitYk8WAH/7SdWQwTOsrjYXcyMrn
+         a5OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794329241; x=1794934041;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UDRMQaN490Igz0plCrZ/DYl/p/Z4M+tLu42qQn9xGzM=;
+        b=O8OmWwFNlhUpQnwqyutT4miSXOfgiDrKCjW8t7zS+QF7n0grjRxMSw5iqQnU/LcOD7
+         0ueQneF2myoKbUMlbt6nsvO1LXKGshU0F8SKYo6GbQ3l9TTJ4HXB47BZRgBQaV/BPwMI
+         8Orv+RG1ElE3nuTxCdSryA0yIEyTwLnOV/APSuQYixo++o8K+NnOrUHNvmdpYuOnJkMa
+         kFtSTHeCGVorqEOv1gwNumJrw3R2u2qXxYHLME0+Tl+O56woCRw2tXRDsvMA+WcoBScd
+         0uyUrRwtR8wGmL+GzQxYl3nra+kKbD1PGUIDkyr5uK0E8y5nxMSkPH11xxpph9jrsiXv
+         YAug==
+X-Forwarded-Encrypted: i=1; AL+hErFQn+uY13HOqfG0jFxfgjaJNuJ+mm4xwLbgZYedpoW7Jh72yl6dJVCi0QuWwJmeIDiXZConwzo++DgPGxH2@lists.linux.dev
+X-Gm-Message-State: APuU4Z9InaiLWa5kQCO2las2nab9pFRnl9i0YYcodK9YKBvC78DIv1Go
+	TXu8AXwPYH2CcnwXSY7sfJCUYWvUI4+HWC7SiK7vJP3hcg7ECkGNlJ5k
+X-Gm-Gg: AYBFou0XGCnocfcZ0Lz3QzzJw/S7uFpj4+dPNgx5DisfZRFtwzJA2HgThnbz82Jn+1r
+	WDPshdgR378WzQIC2/vpiR7AhrnRqyvGtkOL9SUm9UKhx79k1eKJmQM4J4yCWykXjSaN06z4Uvy
+	SDF6JPUZhtl/TAlZFLGaeeIZ5n6FR2sHEIXvNjr1NIls9wd3c2D1NPbpqj9FIensTF/0hvuVB8H
+	0kWOWSYCqMtm6JIEKvTDIPKvg7tOsQQrFNJOAHA8u39w3+NQeG7M6LNsblaUPNopo30wow0m0+q
+	zjuFr1FnIPqC0vnhPexQL1glSN5/5NDi8Pqculr95m6mO0jtHCRhuAYGXz/jsOWoijJKBt+ispY
+	CIkogAdAIblgT8N/w//ibbiOFKwoC93ppevJz/82ZRp5uSsvtCQDpUVRimLNPMNwPRp3sBm86k/
+	nxRQOrP9fCuj+vtVQcaoxGsqA4aTxSfVpl80uVnD2qh+GtILHI8fu+2tzlfFG/B//1qJpphD2o6
+	Tg1K+66Zyofh/l32U/JwKWyn7w2CZsJl1P6PswmwyNDItQ9S0WB6PZvmYyopBKGuEF9dVCfm9HY
+	B1wyYxAxP71eVeNKrpV9I79IturQVQP7/mnXpLSSJMDobl72
+X-Received: by 2002:a05:701b:281c:b0:1b2:5f31:21c9 with SMTP id a92af1059eb24-1b3b5e651e9mr3703067c88.6.1794329239066;
+        Tue, 10 Nov 2026 08:47:19 -0800 (PST)
+Received: from NithishVelan.localdomain ([27.60.174.111])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b54431sm7882587c88.17.2026.11.10.08.47.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 08:47:18 -0800 (PST)
+From: Nithishvelan M <mnithishvelan@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Nuno Sa <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nithishvelan M <mnithishvelan@gmail.com>
+Subject: [PATCH] staging: iio: frequency: ad9832: use guard(mutex)
+Date: Tue, 10 Nov 2026 16:47:11 +0000
+Message-ID: <20261110164711.552-1-mnithishvelan@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -85,48 +101,130 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Nick,
+Use guard(mutex) to automatically manage the state lock in
+ad9832_write(). This simplifies error handling by allowing direct
+returns from each switch case and error branch, eliminating the
+manual mutex_unlock() calls and the goto error label.
 
-Several issues with this patch unfortunately :(
+Signed-off-by: Nithishvelan M <mnithishvelan@gmail.com>
+---
+ drivers/staging/iio/frequency/ad9832.c | 47 +++++++++++++++++---------
+ 1 file changed, 31 insertions(+), 16 deletions(-)
 
-On Tue, 10 Nov 2026 20:33:54 +0630
-Nick <nick21042013@gmail.com> wrote:
-
-> From: Nick <nick21042013@gmail.com>
-> 
-> Date: Tue, 10 Nov 2026 19:57:26 +0630
-> 
-> Subject: [PATCH] staging: iio: adt7316: fix camelCase violations
-
-This shouldn't be in the body of the commit. Additionally, you're missing a
-subject.
-> 
-> 
-> Rename Vref and AIN to lowercase characters.
-> 
-
-What's going on with the spacing? This unfortunately fails to apply, as
-the patch is malformed. I see that you sent it with git send-email, but
-was the patch created correctly with git format-patch?
-
-> This fixes the style violations and brings
-> 
-> the driver into line with the kernel style
-> 
-> guidelines.
-> 
-
-Additionally, the camelCase is intentional, as this is standard
-notation for things like voltages.
-
-> 
-> Signed-off-by: Nick <nick21042013@gmail.com>
-
-Also, we need a full name in the Signed-off-by tag.
-
+diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+index 35f823f24..227dcd739 100644
+--- a/drivers/staging/iio/frequency/ad9832.c
++++ b/drivers/staging/iio/frequency/ad9832.c
+@@ -8,6 +8,7 @@
+ #include <linux/array_size.h>
+ #include <linux/bitfield.h>
+ #include <linux/bitops.h>
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/dev_printk.h>
+ #include <linux/err.h>
+@@ -188,52 +189,65 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+ 
+ 	ret = kstrtoul(buf, 10, &val);
+ 	if (ret)
+-		goto error_ret;
++		return ret;
++
++	guard(mutex)(&st->lock);
+ 
+-	mutex_lock(&st->lock);
+ 	switch ((u32)this_attr->address) {
+ 	case AD9832_FREQ0HM:
+ 	case AD9832_FREQ1HM:
+ 		ret = ad9832_write_frequency(st, this_attr->address, val);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9832_PHASE0H:
+ 	case AD9832_PHASE1H:
+ 	case AD9832_PHASE2H:
+ 	case AD9832_PHASE3H:
+ 		ret = ad9832_write_phase(st, this_attr->address, val);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9832_PINCTRL_EN:
+ 		st->ctrl_ss &= ~AD9832_SELSRC;
+ 		st->ctrl_ss |= FIELD_PREP(AD9832_SELSRC, val ? 0 : 1);
+ 
+ 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
+-						  st->ctrl_ss);
++				       st->ctrl_ss);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9832_FREQ_SYM:
+ 		if (val == 1 || val == 0) {
+ 			st->ctrl_fp &= ~AD9832_FREQ;
+ 			st->ctrl_fp |= FIELD_PREP(AD9832_FREQ, val ? 1 : 0);
+ 		} else {
+-			ret = -EINVAL;
+-			break;
++			return -EINVAL;
+ 		}
+ 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+-						  st->ctrl_fp);
++				       st->ctrl_fp);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9832_PHASE_SYM:
+-		if (val > 3) {
+-			ret = -EINVAL;
+-			break;
+-		}
++		if (val > 3)
++			return -EINVAL;
+ 
+ 		st->ctrl_fp &= ~AD9832_PHASE_MASK;
+ 		st->ctrl_fp |= FIELD_PREP(AD9832_PHASE_MASK, val);
+ 
+ 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+-						  st->ctrl_fp);
++				       st->ctrl_fp);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	case AD9832_OUTPUT_EN:
+ 		if (val)
+@@ -242,16 +256,17 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+ 			st->ctrl_src |= FIELD_PREP(AD9832_RESET, 1);
+ 
+ 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
+-						  st->ctrl_src);
++				       st->ctrl_src);
+ 		ret = spi_sync(st->spi, &st->msg);
++		if (ret)
++			return ret;
++
+ 		break;
+ 	default:
+-		ret = -ENODEV;
++		return -ENODEV;
+ 	}
+-	mutex_unlock(&st->lock);
+ 
+-error_ret:
+-	return ret ? ret : len;
++	return len;
+ }
+ 
+ /*
 -- 
-Kind regards,
-Joshua Crofts
+2.53.0
+
