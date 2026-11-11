@@ -1,79 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794438056;
-	b=oiJpu+soyARkeJ8MIEp3BlwQGgU6v1x3F/vH0fW2DXOOEB+6C4YIALy5TMneYyrNHF0e
-	 Hy1DiT00sHisc78ZWK85btOgzsYmNWTu6EQpRBLWL1i/cxxmAt+6pTXdmD+SuUqQj8g0m
-	 GXDRddmGfEYiomKINR+LNCwEfE0buyl2pNMyJCUT6uO4eR2Qr1tsewfjaGd40y1JmMDyb
-	 cUtHmKFGXRoBONme9FwJpa47cVgQd9vHODE/qoFIclqUeRQMB9evdMm9r9y6Xi+Qp20xj
-	 M9Xi/bVnq7gh0C0xJ19ycK3155nRjzMQknxh5nDXpMOjwjJZIbdKJaLTLy7sk2fz2Pw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794438056;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=TyXtHtu3OECNJfqdDcu5ERNFYoJ3LlrWoOJQ/Vs1r9A=;
-	b=xbgJ5O8VhI3Psn5ogFKiaNQ58GO9qtM/pG2/dhBLzk5+17T6pTWFwkQbncxODuzSj+2w
-	 tksHtp839HwkSKYiay9rBZ1klnXwyjmQYaocMmb/TZljHuCszTPx9aJ011CTNBXt8egdg
-	 codd1NNDyYYxuyNejyhkhHad9XMxceBSJG3T1hLx+nABOShI3wlRXOUD1sc2qQ2pgM/oa
-	 Fz5MmdJ4kiwTH5J7Dju5ZpGzumE3z4IVh9SOdDDMncq5tPnSOrOyzPAQb454DrNbe2QRj
-	 yUC1/xC9i0dzI4rkdvGPRQWYXV++ceNJyK86ILMF1HiLD6clMhRtOa3SzA2Xde759CA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jRClQJX9;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729DA606A880;
-	Wed, 11 Nov 2026 23:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jRClQJX9
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794438056;
-	b=RjOfZn2UE2nB0YcgfvuqzWCMtq5lO9kgacUapjlXgpe863kM0u2TCuNPEFtBrvBFcU5N
-	 I1Q8jCwRlzB5ZeO4ew5PrWUt+Dh6ObJXm81MWgH2RH4M115PMPMFHnFbVL1wFTCZq8q5O
-	 YYssMxai0HnS0uYxskk+emPX8pn7sQlwtcDHQVkWJIZujHb/Z1IlF4VphSEk0wJSeyE9T
-	 pDd/xKUgCePpziqhBSpc2isxYlex/uv3nmmo33nx39ggq3rj7OOxHOjnV2BkqrdAQJ7xe
-	 GJR4ebGQXWawQwIJ6xfNwPD2pX0jZ1guLCwkQyahy8u1wSlj5Gy+mQnQRrDc0H7Z1pA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794438056;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=TyXtHtu3OECNJfqdDcu5ERNFYoJ3LlrWoOJQ/Vs1r9A=;
-	b=I0fD+qd8beWQWrj685a0Ek+mdL+wM4mJfEggtlTp14NIuF/CrbmmeMhFzkcGeZU5soDQ
-	 ilpXqvpxapveDk0f4HBRwyLCxANByvgTpoYjlT5kasgQDVwWE8mCTLgOODx68Vte3bDHY
-	 RQ6amOvzd5EzmEgj64A3QkvYqv6YWTbFZmXthLPNdz/QRA7xSaZoiqnJBNFOyVMMxvi4c
-	 Lq6n/g0nRM56GckuK2CwZs8tpR5ov3bb80xRDDVmJHeR6ekmpCJTMpZFPh5REOuZJwhcf
-	 bCh4yjdKAdfzhFt7XKvg0VT1o0ZgjlPAhY+VRGtsw7kI9qoORjT0HFc6o+bOqZyIYDw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.225.73
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794438103;
+	b=lqjSdeGJ2ppOzaht9K1EHA7xpR5tBIuQ/QmBSYCVpVPIWt6V4XM+B3YCyLgTFEWHJZEJ
+	 aZmIgs9QZPnyipGqQHw2rRx3j/DDTswNlpUYwOrtXQ5n9fEUMVoQZQFskeVL2YuEjESi9
+	 dv9keLr5uD9O94a83GH85V3SVZaU41wGlm1BlNipg7UNwIm8NWjk6D8vKPIkL1GCVIh0A
+	 J9hBtNyPUf5P7D/KobLU62+3n2CrftiuIzJt/yO676tYPfce+L2K6KwwlEB27VZc9hFTG
+	 j8dKI8ViPaKtXaa5CA4reo/mo5cjWkToTK2ysdr2k6nZtzeTyW7p82pad5UH25EYtAA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794438103;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=L/DNryozJcI+bS61jpTo9uGJwCePakmBfNnW7ssrmHM=;
+	b=wQMdrSr8MP7xDYLguP+Pkxujnf+KBhhRUC9HmIyOnHjFSm45wwP4Q91N9jawTzee+YFx
+	 YVBDss/Z3tqD5253+uzqwbw8B2QcHh7XIporeSFD554g4szrxiJ2jP5UluS72alBKFJm4
+	 raSD4tlwFrR4gw7b+xe2FQcuXRwMQVcffxMfrhH9M7ocnwR79FejMmxvoK9P2QBxpRyM+
+	 NPT1U32yqlaSiG3YRCRReRPrxUnyumSowfasq5frKzk3TvuM2qEucr1Z8P8rbRACtXJPx
+	 AHoaV8LevnWkUwA+CMwQup5jtDSKM78InGQaox9yfZZW1Mii/nZAFewyJWuBDxPNAFA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oHXZnyve;
+	arc=none smtp.remote-ip=74.125.225.73
+Received: from mail-wr2-f9.google.com (mail-wr2-f9.google.com [74.125.225.73])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 89D191F00A12;
-	Wed, 11 Nov 2026 23:00:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794438056;
-	bh=TyXtHtu3OECNJfqdDcu5ERNFYoJ3LlrWoOJQ/Vs1r9A=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=jRClQJX91BQ06lUIKYw8GSdukmSz8cA04YgrmqohehkxocyZ8Xs8e0OQVJagTxIsw
-	 X7g39ILTgbQq8Sc/QZLDwTpSeDjUpxZolEVTkdG7MjktIFKijkoqgt69Bzgz51KfQy
-	 C0dUFjlCgDKAPLLlzshIhP4Mm0ap00o3pjy3WouCrj0nX5Ceg3EX/xmxSnjBYxNJjv
-	 iUzr0v2HpHyF9PlIYPfekpDTk4v2KBrwLqsNTNd6mIsW9MpgZ9rVwUWI2OcYRzW/37
-	 QYSoAhOl9gKzkCz1HDeG6c4nM0jYnTamf5qvdxEenzKFMbmU3gm4nRmTqMjPokjsEn
-	 +fwBfphE3Zb+Q==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 15A854914D;
-	Wed, 11 Nov 2026 23:00:55 +0000 (UTC)
-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
-Date: Wed, 11 Nov 2026 17:00:53 -0600
-Subject: [PATCH v3] staging: octeon: clean up RX groups on request_irq()
- failure
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30811606A336
+	for <linux-staging@lists.linux.dev>; Wed, 11 Nov 2026 23:01:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30811606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oHXZnyve
+Received: by mail-wr2-f9.google.com with SMTP id ffacd0b85a97d-4912e5f330dso1626209f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 11 Nov 2026 15:01:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794438101; x=1795042901; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=L/DNryozJcI+bS61jpTo9uGJwCePakmBfNnW7ssrmHM=;
+        b=oHXZnyvezAgX5LnlgCmHgsUak2Hx5kBtQYkbnUpTOZ/lPMWd13cYpypazZontvQHHD
+         CfZvL6Wb2h/lDnDd/NmoG0kkclVF4Jnf37nz4BqrDOY2F1sxGluHt8VcGvZO127Q22n/
+         ZvGEIF8x8gpK2IL0ztPRodpt3t1D1I/tZjmUryGgmodW2NwRsb3F7+W8HACr0BpXbDmM
+         gPu2J02BV4A7hGRnwXpnj9SbnzdMjNoduc5nDdOOQNj7EyaEkTluxPNS0FLpFe4vQYRg
+         eqGb1aItF3yH6tMpzcKNnVkgeLxtHmzShDeWJ6zERo0q88qjCs/pOTcvJ5y8NBsCzXos
+         8EJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794438101; x=1795042901;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=L/DNryozJcI+bS61jpTo9uGJwCePakmBfNnW7ssrmHM=;
+        b=ppd2ViIDVGpUHzUat4j301dgKYDSjlBmIReaVpWKybisSI0SqEm1Wwf2v2CS8CFEvx
+         peNVK/F+rd083FXu4LKjdaobc0cBKhLvj7UPMg5WSFHO1LpCeK8I87p86Mse2+kHG37T
+         ARUCc9W7PGAEmLTcsrbge6Bt1TRHyO6XR1fAwd+2d39i993QxONLldaaCqhTBIJ5qUBT
+         JCGLVqdO0oyD2vfIL2EjkuRpUfNupEqK/5k69ltrUCRCcvJfwYS/UPUw/RBCHArgDOEN
+         1OeGY1XttJSHiyXk9CN61qql+2fqCbr6DR3L0WpU0ltILsjZHBX4l88Iqes71k/wT48b
+         U/sQ==
+X-Gm-Message-State: APuU4Z/FUwazGqI6TXeHJ7fpx+QUuOo4/Qr+NQVrLefzj4ACCjYHd/FH
+	jYuyhHRRCMEQ8M9ENiuX6MGD7vrK8Ro0Rguv53zhbb34ubq8IdkXRGM8
+X-Gm-Gg: AYBFou30ADeFYEgwdM5o1S3wXorfnb+rqMwGi319nNYiv7SoDdKDKMZXFvKof5bLnKo
+	z0lug406MsY5GqS3fuveIKgzyjOtSKaw1hVnD1Wt6II3qO2r74F702KcbyQIhmo/swBHL86V8q1
+	thQjUF5H1gH4b2BMYGLTy4GN+vlamMZ3hB+EAGEsPPvmHdaRu/b8JSc8a2+184eU1a1hfaVNt/z
+	JiGPyLz/4PGrTXUOzdrkt0Dbw+ZtTPaiUnOSO+Yhrlre6Sa1JcZmgT16imlEm0KSi8OOqwRaFDo
+	e/MQYRVDyvSbrVpHAQuPsP5xqCZ4wJIWlxYi400JsOdEElzxiQ+0sYZLuA612nGshufHxWOFD6H
+	loA/vq7TNENhPO3mA7ymLwZHyzv3awey76z4ENxDB/Z4v3L2P3fXdX70kY4zn6hWNgAMGZijFCJ
+	wJwycJw6r9vcKHNVSSy+4arii2hbwjQ4hwwEuB0TFR0mKx4cfy86nxoe/V8uBReOR/K7clmYtFl
+	UczbrfuBrQCfUojyG9qLt5G0uuFy/Z4o3/zVB2Up81+atiMchm2Nfotgs0eErR8JK6StRJkG57z
+	Czywxoztd7LFk/wF0ZI7aFcCQQbDoP/1hInu
+X-Received: by 2002:a05:600c:64c6:b0:4a1:e69d:90e8 with SMTP id 5b1f17b1804b1-4ba0937fedcmr69091665e9.22.1794438101294;
+        Wed, 11 Nov 2026 15:01:41 -0800 (PST)
+Received: from cachyos-x8664 ([105.98.136.70])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e265a0csm22047415e9.9.2026.11.11.15.01.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 15:01:40 -0800 (PST)
+From: Mohamed Anis Ben Azza <benazzaanis783@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Marc Dietrich <marvin24@gmx.de>
+Cc: linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	ac100@lists.launchpad.net,
+	linux-kernel@vger.kernel.org,
+	Mohamed Anis Ben Azza <benazzaanis783@gmail.com>
+Subject: [PATCH] staging: nvec: kbd: bound keycode table lookups
+Date: Thu, 12 Nov 2026 01:01:34 +0200
+Message-ID: <20261111230134.200561-1-benazzaanis783@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -83,113 +96,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261111-octeon-rx-fixes-v3-1-a0f0dc40460f@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNwQqDMBBEf0X23C1JWo321P8oHkJcdaEaSSRYx
- H/v1nuPb4Y3s0OiyJTgUewQKXPiMAvcLgX40c0DIXfCYJSptFYWg18pzBg37HmjhN29s5W0Ze0
- bEGuJdBYivVrhkdMa4uc8yPqX/t/KGhX2pTO6UdbXrn8Ok+P31YcJ2uM4voSf2D+uAAAA
-X-Change-ID: 20261107-octeon-rx-fixes-d4d7620258c9
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794438054; l=2648;
- i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
- bh=feZBSqgjCCOTQMrEkcv/uvbFiG3VcgYBGhrXWs8srLQ=;
- b=dclUB8kWbnACr8T1uS6cXq5hVmi5AKo9LW48Mi0iRMaNRx7OG9x8+K/OTmUHXaLeVBd0PbgzI
- G9P6yol3+wcDKmOkPy8yrhoZhIgCDmlb9lJvfxV/PCVhrDppGnME5OU
-X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
- pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
-X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
- auth_id=1410
-X-Original-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
-Reply-To: aleszlucero@gmail.com
 Content-Transfer-Encoding: 8bit
 
-From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+nvec_keys_notifier() indexes code_tabs[_size][code] using values taken
+directly from the embedded controller's event message without checking
+them against the tables:
 
-If request_irq() fails in cvm_oct_rx_initialize(), the function returns
-early without removing the current NAPI context or freeing the IRQs and
-NAPI instances from earlier iterations.
+ - _size is a 2-bit field (0..3) from the message header, but code_tabs[]
+   only has entries for NVEC_2BYTES and NVEC_3BYTES. NVEC_VAR_SIZE is
+   rejected, but the reserved encoding 3 is not, so code_tabs[3] reads a
+   pointer past the end of the array and then dereferences it.
 
-Clean up the failed NAPI context and release the previously registered
-RX groups in the error path.
+ - code is msg[1] & 0x7f (0..127), but code_tab_102us[] has only 126
+   entries and extcode_tab_us102[] only 110, so scancodes at or above
+   those sizes read past the end of the tables.
 
-Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+Reject any size encoding without a table and any scancode beyond the
+end of the selected table, dropping the event as is already done for
+the power button.
+
+This only matters for an EC that sends malformed or out-of-spec
+events, so it is a robustness fix rather than a security issue.
+
+The issue was found and the fix drafted with the help of an AI coding
+assistant (Claude). It was compile-tested with
+ARCH=arm LLVM=1 tegra_defconfig + MFD_NVEC/KEYBOARD_NVEC at W=1 with no
+new warnings, and the lookup logic was exercised in a userspace harness
+under AddressSanitizer for all 4 size encodings x 256 scancodes: the old
+code reports a global-buffer-overflow, the new code none. It has not
+been tested on real Tegra/AC100 hardware.
+
+Fixes: 32890b983086 ("Staging: initial version of the nvec driver")
+Signed-off-by: Mohamed Anis Ben Azza <benazzaanis783@gmail.com>
 ---
-Oscar Alejandro Sánchez Lucero (1):
-  staging: octeon: clean up RX groups on request_irq() failure
----
-Changes in v3:
-- Drop the void pointer arithmetic patch.
-- Clarify commit message and validate MIPS64 cross-compilation.
----
- drivers/staging/octeon/ethernet-rx.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ drivers/staging/nvec/nvec_kbd.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/octeon/ethernet-rx.c b/drivers/staging/octeon/ethernet-rx.c
-index 5be43bbf6a1d..f3d2a764d920 100644
---- a/drivers/staging/octeon/ethernet-rx.c
-+++ b/drivers/staging/octeon/ethernet-rx.c
-@@ -449,7 +449,7 @@ void cvm_oct_poll_controller(struct net_device *dev)
+diff --git a/drivers/staging/nvec/nvec_kbd.c b/drivers/staging/nvec/nvec_kbd.c
+index d2b91318f..9b976f0f5 100644
+--- a/drivers/staging/nvec/nvec_kbd.c
++++ b/drivers/staging/nvec/nvec_kbd.c
+@@ -28,6 +28,11 @@ enum kbd_subcmds {
+ static unsigned char keycodes[ARRAY_SIZE(code_tab_102us)
+ 			      + ARRAY_SIZE(extcode_tab_us102)];
  
- int cvm_oct_rx_initialize(struct platform_device *pdev)
- {
--	int i;
-+	int i, ret;
- 	struct net_device *dev_for_napi = NULL;
- 	struct octeon_ethernet_platform *plat = platform_get_drvdata(pdev);
- 	struct oct_rx_group *rx_group = plat->rx_group;
-@@ -467,8 +467,6 @@ int cvm_oct_rx_initialize(struct platform_device *pdev)
- 	}
- 
- 	for (i = 0; i < ARRAY_SIZE(plat->rx_group); i++) {
--		int ret;
--
- 		if (!(pow_receive_groups & BIT(i)))
- 			continue;
- 
-@@ -485,7 +483,9 @@ int cvm_oct_rx_initialize(struct platform_device *pdev)
- 				  "Ethernet", &rx_group[i].napi);
- 		if (ret) {
- 			dev_err(&pdev->dev, "Could not acquire Ethernet IRQ %d\n", rx_group[i].irq);
--			return ret;
-+			napi_disable(&rx_group[i].napi);
-+			netif_napi_del(&rx_group[i].napi);
-+			goto err_rollback;
- 		}
- 
- 		disable_irq_nosync(rx_group[i].irq);
-@@ -524,6 +524,22 @@ int cvm_oct_rx_initialize(struct platform_device *pdev)
- 	}
- 	atomic_inc(&oct_rx_ready);
- 	return 0;
++static const unsigned int code_tab_sizes[] = {
++	ARRAY_SIZE(code_tab_102us),
++	ARRAY_SIZE(extcode_tab_us102),
++};
 +
-+err_rollback:
-+	while (--i >= 0) {
-+		if (!(pow_receive_groups & BIT(i)))
-+			continue;
-+
-+		if (OCTEON_IS_MODEL(OCTEON_CN68XX))
-+			cvmx_write_csr(CVMX_SSO_WQ_INT_THRX(i), 0);
-+		else
-+			cvmx_write_csr(CVMX_POW_WQ_INT_THRX(i), 0);
-+
-+		napi_disable(&rx_group[i].napi);
-+		free_irq(rx_group[i].irq, &rx_group[i].napi);
-+		netif_napi_del(&rx_group[i].napi);
-+	}
-+	return ret;
- }
+ struct nvec_keys {
+ 	struct input_dev *input;
+ 	struct notifier_block notifier;
+@@ -59,8 +64,11 @@ static int nvec_keys_notifier(struct notifier_block *nb,
+ 	if (event_type == NVEC_KB_EVT) {
+ 		int _size = (msg[0] & (3 << 5)) >> 5;
  
- void cvm_oct_rx_shutdown(struct platform_device *pdev)
-
----
-base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
-change-id: 20261107-octeon-rx-fixes-d4d7620258c9
-
-Best regards,
+-/* power on/off button */
+-		if (_size == NVEC_VAR_SIZE)
++		/*
++		 * NVEC_VAR_SIZE is the power on/off button; the fourth
++		 * encoding is reserved. Neither has a keycode table.
++		 */
++		if (_size >= ARRAY_SIZE(code_tabs))
+ 			return NOTIFY_STOP;
+ 
+ 		if (_size == NVEC_3BYTES)
+@@ -69,6 +77,9 @@ static int nvec_keys_notifier(struct notifier_block *nb,
+ 		code = msg[1] & 0x7f;
+ 		state = msg[1] & 0x80;
+ 
++		if (code >= code_tab_sizes[_size])
++			return NOTIFY_STOP;
++
+ 		if (code_tabs[_size][code] == KEY_CAPSLOCK && state)
+ 			nvec_kbd_toggle_led();
+ 
 -- 
-Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
-
+2.56.0
 
