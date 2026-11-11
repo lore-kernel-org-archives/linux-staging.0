@@ -1,95 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794421449;
-	b=oq4PROyud4nVM+HyzMLjWqVd1uHRpVCONCD4RrFYzXnFl+1sMziZmY5p/mBMTJfaDgD0
-	 fG59QRuUFZHJ+7/HCTLwrqPBZ9B616veTkPY0Qv5d548CyGLhSAM6rBBIhwAkPfwqic9S
-	 pEF2fUIk4DHsdOP16me20UIIpocToLyFSTP0oTg769oP41KZ+9eIwEGOXXB8IMkZMfWgY
-	 +p8Bb1cWxr2k5pZuYbvlG9TuEFE58REaYxvZiavQntfrE23E6wyfe3YQqn9t2JtSyQiz0
-	 nZfYdzlEg8K3WuDQVckebwWXNj4RG8epoOF8G3JotLqeJ4b4pbV4SJHBCYCVQGdIxuA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794421449;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=347Pp69Py5INxphdKhJwVesDtm7rdLRoZQ/uEcxqqXo=;
-	b=rdN/f4z0i0tcTkqXzfsArDwV7BI3bUoxVYV8awDa10wYaNPbfRebMdwF7Q7oP/pQ1abC
-	 kqbFrzeXauQiw0T4dx6f+tEVaYD176rclaqefw0qVFEg8xwgp3OuRffzrL85y+EpGlBFd
-	 OPyQH3jTSRHX06/OUjHfYas0iN6g+RTFpBy5f1ejnN/qRdyjAsamyNRJ4EqChrauW075f
-	 r+gTlnQ5b/hqCWOur7xjtJ1JPzJ8F38DUsBNMi9O6Ku+EaEczq279vM4d29YlyTi9AaYH
-	 xCWsR89DxK9L4hv37F3ld/5pxFH/dX9d3nfaGhBQewOnwtdwt6dGNu+9HQhe3SYD5nA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OokSH9gl;
-	arc=none smtp.remote-ip=209.85.221.44
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794436573;
+	b=e1gzwsBiccCvaPOiCLdKpe13Dj5O7RdXerarDFsN7NULO7SUrSxiyF+WusifuQkOUgcz
+	 Ltk/RhvXiEtA+FsnLQqYtjOtimPX7eztoTdCeWTGLuaN91ROBHN40Xq4oFOqM5fe5oAvs
+	 eby7W9agNOHiHEl6z+rLMT+cp1o7Qt7N+xyTNybfHwmPxXx49URQ0mXHnmz3bLkn6N+e9
+	 Fj06+HH1zrZLtpE30HTmce07gCrihQTIbz5wymxdujo1AJnjU/lLpHs0cQMCxGe+zC7eU
+	 LS//OcGHmBzXZVimVQzyz1NCy8kSe+1iU7Z88toAggEqSsvrzvKjlB/3pm9Zd0dkF4w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794436573;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=1ZawJBPyuBDiML0n+1bmU5TYwAzwZ5CqAMTW269qMUo=;
+	b=gDHab5KuDKlY7lBYjlsDO+ebGPQ9OWHIUGRT3kkj/U2jBnvDHtavY7vTD0YZvlFR000D
+	 Px1MQiwM17D68Ih6JySRN5ndqQW5SNuMmbtlnSH5Pz3wvfdefib+RRgevJiobNCtjRKM5
+	 L/D9jXFnvyUCYn70MWCQNqn6myGZwFqplOfoFuB2vkShE+FNH+59Sk1Cep/iUu0cNGmPQ
+	 lpPFgO9em6EOQ482vwp6qI21K7DlQTCf4LQRLoHlG5c3jY+UEtNyf/P9YabnGKVrmlT8y
+	 tuoNXZ42CwsdLcvk/uSRKs8BRKa9c74GZWpfzMerhWXQWomzzVqyYqlYJFHe9uZDkSA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kd0kXE5A;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA40606A321;
+	Wed, 11 Nov 2026 22:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kd0kXE5A
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794436572;
+	b=vUv64cBvH8+IsJ1/MWTHCqJwQIDMg1/dAazIYMTD6FsZe2Wxh4cDKQhPpZarKwy0vn25
+	 rpmJPE69iwjzjipG9pZTWbMH/uJunFONFte6cZUOipk8PrzXgYT/ao99H3z7/UxQJbBPa
+	 qSXVOqktNTBzoIwAoJ7r4e6Ej5aADkdOeTdJOF3o0msTFtBHRI2z7+DXLtKXO20oq9mKg
+	 bgWvJvgOS75FIwwLTO8hy9gLs15hisPZZ0qh8hk/N50r/JcikK7x5meaWn3X4XwSrNFHY
+	 viGBJnPwxma4/G4YCztVtzhjGYvtgkGF6NkpuAwksIxxicKCkFrFtSwuWNmOV6L75NA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794436572;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=1ZawJBPyuBDiML0n+1bmU5TYwAzwZ5CqAMTW269qMUo=;
+	b=QBgfLYECdnueApss31l+3nCDW3c5+LLpwPkeDLYgteDBvpPbSem7VBDaWzPbCJIANGJy
+	 RGFOdp3UukXYAJwvBrbUiZ9JOuCduMrZ1PPv62GhqIv+2YHJZHmcKXx7/HdMxeWhbVYn3
+	 1eE3K3wXbTsXRwMKUCOMR/1yQYGBTrzhrYfIJzYfQ1cBppSRH14ri8Dls3P9QVAicPmDy
+	 3PD6yqIqW8Y+0V8kHfbyYq+j3xsVOvKk+UBWZdzem5R5tkp0cD0SDQq7AmrBAuxwaDqjz
+	 u4p5bzKXvQ6afJoLagkqtSlG3AYG2Cik6ddpvplyuSZmNFsunQmd0hhG7Cxh4aM4VvA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D39606A324
-	for <linux-staging@lists.linux.dev>; Wed, 11 Nov 2026 18:24:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2D39606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OokSH9gl
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-490f38e9688so96725f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 11 Nov 2026 10:24:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794421447; x=1795026247; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=347Pp69Py5INxphdKhJwVesDtm7rdLRoZQ/uEcxqqXo=;
-        b=OokSH9glo2BjJ9q02F4T0o1YNLMFIQFOfi03n61XNfKL6IkHx9s11lC7rR/2R2eHYq
-         GfXJyJtXObp5b+c01xwcmhX7soinmw1n2oT0zIhewR8paz8RyGLSlaZnr+rZsbplz2H2
-         WMah3IGsoJMI5UajaG1DNoTaTGYBaEZ2VRiXtERRDuQlLDQNEW3MWLN3lLUVCilWLhPN
-         x8lmyvAMUt6ZWiceh6zYomL4Gipi/qG1Skf2pCthFQBrjtrakux76JF0dqTF6g3qym1S
-         ST/ZWexokCuzHGXQkRYaA1q/34+MDlSVgAaIcWy7YDRbQdGshxHf6Vo310FG+9bWGTdg
-         Uhng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794421447; x=1795026247;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=347Pp69Py5INxphdKhJwVesDtm7rdLRoZQ/uEcxqqXo=;
-        b=jadVGujDXa9VZzK3pSyqM+aQCrjkw/oWYozwSfg8M/UOsbXoCdZPMHW/bBQbj8NsXj
-         IlBO8OQR/aGrvYOFSwSJ2LfITgg5sZ5Kyg9U2dlTgPq/s630P5fpL6m/KN5oI96fgtSu
-         1wRXpX43M18mV++UNky6IXoyUk55soJCfrQPqAMnAulO97USalaUfUgQYkNqQN+fM/KL
-         ZowiWdNthoyG+GxxYneDv1f3fGekTM0maq47ie0KiSUQFMaLLHvapef12zLjtYKZtQYX
-         0Chd3jk2R2v/8WtyoXgBHrTG7siCHUIxX5nvS0d5ubRvw+K+SMOyaf09jdoot2yKE9k7
-         rVaA==
-X-Forwarded-Encrypted: i=1; AL+hErF2PBLQ2pUZyxHIaNj+YxsuHzh+htd1/Cm487FvJuFIDoytRbivANPpODspS+xYCzQJ2erSW6kggi3RbpCX@lists.linux.dev
-X-Gm-Message-State: APuU4Z9Av9dpyOJURmuiuvUDUJiLxnv1Ae413OBas0EOWMXUEXSDUANm
-	YdfcGQ6pqxH10iTLgj79upR3YCsYcoe8KOu/xbdmX846qzVE+LHSZfrH
-X-Gm-Gg: AYBFou2H8SpkNxG8h2oaf3+yEUicHHANqtrkMWiw2y/r3uqhPRGErY4cjF8FZ0RhLa7
-	FxoyubYj1oO83S4FW6AkFcmZeTnnm8KuuFXnTcoTinJcFsB9/xgjJPCSdpSsUp8CvyRK7xFSqnr
-	Q8e4f8vahLC7QZdqz2IW9lVjTSX2AhL0kRfJxtZT8usIApXdvWfBbNoPDBbWDjIv6w5Mz4Hopx4
-	rmBbLqdVlqOqfmI5y7jbs5S1Rh5sSnqV1v8Qw/TDOpHfJ8LFY1w8JNTGqnIMMxZmafntS82yXB2
-	PjfROenCToLTsSHpLK9s8UvIicifo+w2RueknnanTDvXnlhelFKWi9/sk24D4F794Z3v6qAfVqQ
-	EdsW3s8k2+PeM4uYzMc34fy0VWr/NFOHdPHnMZTXC2HhlL4XsIkq7hQW8K0XftrPnRHIS6OIoUK
-	T/6XsQFJEhWHe09gfvXf1pT667h2UAnpqKZEdVk7mLBwEpmKdCo9jB6VTvw8+GivdNoSm1BopRK
-	ek2wvQiZ51h6SQjhSdlah+97HSRGd9cn48uw22o6q2naLPl8SbkZ4xcb0aM1HNc/rPUbd4LwXka
-	kirPOYIKMSrndr4yZcwIvNLvcfxr9E7xGOBXAbzhamif08/Pz8Oa5YbbIOjY
-X-Received: by 2002:a05:6000:27d3:b0:492:aff5:da60 with SMTP id ffacd0b85a97d-49b01cf341fmr341199f8f.13.1794421446431;
-        Wed, 11 Nov 2026 10:24:06 -0800 (PST)
-Received: from AVIV-PC (89-139-9-231.bb.netvision.net.il. [89.139.9.231])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983585c4fdsm12564099f8f.10.2026.11.11.10.24.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 10:24:05 -0800 (PST)
-From: Aviv Levinson <levinson.aviv@gmail.com>
-To: dtwlin@gmail.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Aviv Levinson <levinson.aviv@gmail.com>
-Subject: [PATCH] staging: greybus: uart: replace IDR with XArray
-Date: Wed, 11 Nov 2026 20:23:30 +0200
-Message-ID: <20261111182330.77824-1-levinson.aviv@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	by smtp.kernel.org (Postfix) with ESMTPS id D842F1F00A05;
+	Wed, 11 Nov 2026 22:36:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794436572;
+	bh=1ZawJBPyuBDiML0n+1bmU5TYwAzwZ5CqAMTW269qMUo=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=kd0kXE5AhTl8HM8OEbb5QiCfybCSMpCqxWiXRjM2I6ZeryVcSn7tj4cwOAtId2PBr
+	 aGrr8uajNyCfXK8AlqDhcxF8GWnl5dMR1fbfLA6jbLwIuT0Yc3yW8cQX9YEeFTOiMf
+	 O50xdAN0K7f+rN0+N2Wsb2Lwzy4RgSkKGxv6sCQNLYDAUiIb6ZMIoHw144D9PQqPP8
+	 f9uCNqKgomzbVZFCddu8sTr/3ii5lFnLjkXECqZCIvlExCv00Zqns2LBYZyAZDQ33z
+	 g2fT389cQWxGoWDHFr0PacE/hxvGplo4yYnHd0ULc7H4SzOLDhniqf11+tyQ2SFPLr
+	 06lSAS8bxMDtA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 64CA449145;
+	Wed, 11 Nov 2026 22:36:11 +0000 (UTC)
+From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
+Date: Wed, 11 Nov 2026 16:36:11 -0600
+Subject: [PATCH v3] staging: octeon: fix FPA output buffer pool leak on
+ teardown
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -99,113 +83,100 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261111-octeon-fpa-leak-fix-v1-v3-1-17a3bd578f76@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNwQqDMBBEf0X23C1uFI099T+KhzSuulSNJCItk
+ n9v6g8U5vJmmJkDAnvhALfsAM+7BHFLguKSgR3NMjBKlxhUriqiXKOzG7sF+9XgxOaFvbxxJzT
+ UFcRNra1WkMqr55Scw4828Shhc/5z/uz0c/9OJhFqNuWzbOqKc3UfZiPT1boZ2hjjFxj1wjS8A
+ AAA
+X-Change-ID: 20261108-octeon-fpa-leak-fix-v1-a1d31e978c82
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794436571; l=2498;
+ i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
+ bh=VsRJsJ5u/AeZd4M/f4kMGa+p6KbxKOVR4bmA4sspaeo=;
+ b=FkRMy4Coc2K/wSuYzU3NxfRtZMrUSizT1i/oaecJONEppMZYrctq5AYVw7Lr4Er+HAApXep7P
+ R0VPTcgJ7J3Cn+wVT1/vKfgen06NzscdWWuU5Rwf7/8kVnzhkxl4aYI
+X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
+ pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
+X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
+ auth_id=1410
+X-Original-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
+Reply-To: aleszlucero@gmail.com
 Content-Transfer-Encoding: 8bit
 
-Migrate the minor number allocation from the legacy IDR API to the
-modern XArray API to take advantage of its built-in thread safety.
+From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 
-As part of this migration, the global `table_lock` mutex has been
-removed. Mutating operations now rely on XArray's internal spinlocks,
-and the lookup logic in get_gb_by_minor() has been updated to use
-rcu_read_lock() combined with kref_get_unless_zero() to safely
-pin the device reference without blocking.
+cvm_oct_configure_common_hw() fills CVMX_FPA_OUTPUT_BUFFER_POOL with
+1024 buffers, but cvm_oct_probe() and cvm_oct_remove() only empty 128
+buffers, leaking the remaining 896.
 
-Signed-off-by: Aviv Levinson <levinson.aviv@gmail.com>
+Introduce OCTEON_NUM_OUTPUT_BUFFERS to fill and empty all 1024 buffers
+consistently.
+
+Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 ---
- drivers/staging/greybus/uart.c | 37 ++++++++++++++++++----------------
- 1 file changed, 20 insertions(+), 17 deletions(-)
+Oscar Alejandro Sánchez Lucero (1):
+  staging: octeon: fix FPA output buffer pool leak on teardown
+---
+Changes in v3:
+- Clarify commit message.
+- Validate cross-compilation for MIPS64.
+---
+ drivers/staging/octeon/ethernet.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index e1b73db6a17c..2b1a5d4671dd 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -22,7 +22,7 @@
- #include <linux/serial.h>
- #include <linux/tty_driver.h>
- #include <linux/tty_flip.h>
--#include <linux/idr.h>
-+#include <linux/xarray.h>
- #include <linux/fs.h>
- #include <linux/kdev_t.h>
- #include <linux/kfifo.h>
-@@ -66,8 +66,7 @@ struct gb_tty {
- };
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index 42ec4b8324a8..a74d122d9bb1 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -29,6 +29,7 @@
+ #include "ethernet-util.h"
  
- static struct tty_driver *gb_tty_driver;
--static DEFINE_IDR(tty_minors);
--static DEFINE_MUTEX(table_lock);
-+static DEFINE_XARRAY_ALLOC(tty_minors);
+ #define OCTEON_MAX_MTU 65392
++#define OCTEON_NUM_OUTPUT_BUFFERS 1024
  
- static int gb_uart_receive_data_handler(struct gb_operation *op)
- {
-@@ -340,31 +339,37 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
- {
- 	struct gb_tty *gb_tty;
+ static int num_packet_buffers = 1024;
+ module_param(num_packet_buffers, int, 0444);
+@@ -162,7 +163,8 @@ static void cvm_oct_configure_common_hw(struct platform_device *pdev)
+ 			     num_packet_buffers);
+ 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
+ 		cvm_oct_mem_fill_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
+-				     CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 1024);
++				     CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
++				     OCTEON_NUM_OUTPUT_BUFFERS);
  
--	mutex_lock(&table_lock);
--	gb_tty = idr_find(&tty_minors, minor);
-+	rcu_read_lock();
-+	gb_tty = xa_load(&tty_minors, minor);
-+	if (gb_tty) {
-+		if (!kref_get_unless_zero(&gb_tty->port.kref))
-+			gb_tty = NULL;
-+	}
-+	rcu_read_unlock();
-+
- 	if (gb_tty) {
- 		mutex_lock(&gb_tty->mutex);
- 		if (gb_tty->disconnected) {
- 			mutex_unlock(&gb_tty->mutex);
-+			tty_port_put(&gb_tty->port);
- 			gb_tty = NULL;
- 		} else {
--			tty_port_get(&gb_tty->port);
- 			mutex_unlock(&gb_tty->mutex);
- 		}
- 	}
--	mutex_unlock(&table_lock);
-+
- 	return gb_tty;
+ #ifdef __LITTLE_ENDIAN
+ 	{
+@@ -974,7 +976,8 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 			      num_packet_buffers);
+ 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
+ 		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
+-				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
++				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
++				      OCTEON_NUM_OUTPUT_BUFFERS);
+ 
+ 	return ret;
+ }
+@@ -1009,7 +1012,8 @@ static void cvm_oct_remove(struct platform_device *pdev)
+ 			      num_packet_buffers);
+ 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
+ 		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
+-				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
++				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
++				      OCTEON_NUM_OUTPUT_BUFFERS);
  }
  
- static int alloc_minor(struct gb_tty *gb_tty)
- {
--	int minor;
-+	unsigned int minor;
-+	int ret;
- 
--	mutex_lock(&table_lock);
--	minor = idr_alloc(&tty_minors, gb_tty, 0, GB_NUM_MINORS, GFP_KERNEL);
--	mutex_unlock(&table_lock);
--	if (minor >= 0)
--		gb_tty->minor = minor;
-+	ret = xa_alloc(&tty_minors, &minor, gb_tty, XA_LIMIT(0, GB_NUM_MINORS - 1), GFP_KERNEL);
-+	if (ret)
-+		return ret;
-+	gb_tty->minor = minor;
- 	return minor;
- }
- 
-@@ -373,9 +378,7 @@ static void release_minor(struct gb_tty *gb_tty)
- 	int minor = gb_tty->minor;
- 
- 	gb_tty->minor = 0;	/* Maybe should use an invalid value instead */
--	mutex_lock(&table_lock);
--	idr_remove(&tty_minors, minor);
--	mutex_unlock(&table_lock);
-+	xa_erase(&tty_minors, minor);
- }
- 
- static int gb_tty_install(struct tty_driver *driver, struct tty_struct *tty)
-@@ -991,7 +994,7 @@ static void gb_tty_exit(void)
- {
- 	tty_unregister_driver(gb_tty_driver);
- 	tty_driver_kref_put(gb_tty_driver);
--	idr_destroy(&tty_minors);
-+	xa_destroy(&tty_minors);
- }
- 
- static const struct gbphy_device_id gb_uart_id_table[] = {
+ static const struct of_device_id cvm_oct_match[] = {
+
+---
+base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+change-id: 20261108-octeon-fpa-leak-fix-v1-a1d31e978c82
+
+Best regards,
 -- 
-2.53.0
+Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+
 
