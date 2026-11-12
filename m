@@ -1,98 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794499554;
-	b=G7GSSBhZUtitoXvxTOCMgZ+wOO9FfI5l5y9OmyxR82cAHdACJMEpK7mYCR6lajb6QSu8
-	 0uOF0G7aoRtHANmvj/z/tC9l+IvNiUFisDbVi77NBMFcjuBTS8iVD6awtPiKejDYRJPZ1
-	 PHS6ImhlGOrE8DhFtsmuiXs2Q+3eeDxptIb9zcsmuTbGCedgUz/1xQeiMF8iqEYSxG0/S
-	 8HH7j1XMpkEBPdpVaUNxBHbfiq3Et5d6BwbJna/izBrJf5nYijWCnC0nYjHvIIH65vhWl
-	 NicQOqBTd79SFIr3IIfODvQ7c6/qH8F4DGlYCKtJkEnz3hpmBhQwdARqD3rYFaj/3Ww==
+	t=1794502022;
+	b=SK0ynyujsvnVhTbB6V2EH7hZmIIYJbPZ45IvtX9h5S+4sb/+wE1LiwMUiMQMECO3M48O
+	 Cr6V8PGCAlcYstMDk1AaCHfN4lIsIIfsCabk+NlQBkaEQ1nPyptiSvJFFaV/+eopxRDB8
+	 b0PqyuhJU/PEkJXC1L6hKZhU+UglW4tsi27apLhxBZuCv4Rocxw+9TD+0X+DSSgcTGaaH
+	 SIPf165GsV0THxes5KZbBB2g6jiJObI/aCcWTwFuORa7TqwupF+nod/zJphY0q7kdKbh3
+	 BFi/VcIPfB9LTAzQICdujyeVf3gbWoQULZMzGlytGzd2XQUOcFCP8txELUo3ghMQDVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794499554;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794502022;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=o8iTVgOTiZT73c0h3+A1eigD9lE2pHsZudl5pIAmkQI=;
-	b=iqFRvB1iaUpV5H4S3cAtyyTrWszPlJeZXs4db4FT8YdX43K+uQdO+upk+/5nP8yAUz2w
-	 oOf4tGA4NKFh//aJm05ih0oDA+S6Oicebl86TSTota84efliPaQaVH7rXhjF/xHCZKJvr
-	 YNlzSO7wIoQwSptM7Bhh0a2i+u6LMiG1QdVoifO0NLXkin4A48n7MwRsm+TA0CXPSTsBo
-	 239SmeEpdyreehCYh5UlQ4YH/vV5+tBBWxczPwCnwWG0Y0mjDFZWILJPTEdmODPP3zhPa
-	 0w4Wbotxp46zxjszmuMnSOrKbEbrVg9/QqXdU66oh0AAm2Tpunl6aYxCYeWuX5nlmmA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=0dKN0COIptcZp6LUQ9g82bvQApFBYtce8GNc+voVkvk=;
+	b=2jHBgwDOMF1DZyZKXtmrT4HUh60/yBBcEeo9SnFsUYV4rakIAFV4tOCswAxicX8WCjBT
+	 wH+RrZcAR15d9N5RNEpTja9mwn3kNZikLLj4him0mbi9bO7CqZQ553AdLPMlWYnLh1NAG
+	 gm1Nf2Mpemsj8qK19KsBOsGwL4H8kdi04GqbFTs7110Ha0qdh+dqnDyLiXsI352W/woAe
+	 Px5fJpE8QazeWRpPRbP5v34VxF0qbHo6atnJVVTytoVghrJD8lRnTIcVyK9q28B4kLvs3
+	 2R5YHQl0bMmmhjFXgcs37qKT2ueugwK29ouxf0nDgTViVN9x4+upqgl9FUyQr12dQsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IRWOxejG;
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0bzSyWhF;
+	arc=none smtp.remote-ip=74.125.224.133
+Received: from mail-yx2-f5.google.com (mail-yx2-f5.google.com [74.125.224.133])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47A5606A331
-	for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 16:05:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B47A5606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B1360A3827
+	for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 16:47:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39B1360A3827
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IRWOxejG
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso4044207f8f.2
-        for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 08:05:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0bzSyWhF
+Received: by mail-yx2-f5.google.com with SMTP id 956f58d0204a3-679b4ca950fso1966638d50.1
+        for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 08:47:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794499552; x=1795104352; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=o8iTVgOTiZT73c0h3+A1eigD9lE2pHsZudl5pIAmkQI=;
-        b=IRWOxejGDTZ33t7wAaJe78oQ/Yr1Oy/JMWswsm/hJXvfZpwL8PPGHyfETDw/RWBe3v
-         k06Llv43c9dVaG7kKxnhufk6p1dQQSBEWiF7zYd97KVrXBSo1LO9gc4dHP57ziGOCyba
-         f+Iv7f4tTI9/I363E5GB8whRmdO6c59uqI21dZZlb0xDCQeVcwSUcptHYpFcZ6C+bQ/7
-         ZCHT0Dxik57Y1BlGAD81SXlZ2p87h4Ynlw2NZUUQlL8qovieA3BjrS0FxCv0IJEL5kXD
-         7VwM8GANL+IOkE11841FzTYZWjPa8KjOWupia4JK+xWuu/3MMbeejgi4BQ6hJ24U/XbW
-         evzA==
+        d=gmail.com; s=20260707; t=1794502021; x=1795106821; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0dKN0COIptcZp6LUQ9g82bvQApFBYtce8GNc+voVkvk=;
+        b=0bzSyWhFRUH3j2xqJZ7qSgqbcjHxohuxiVo+QMGdkbxDpxrlU0SKrbEgOQMjafPGRl
+         0+wazYZC3E4a6ghz6Hz24gI5CfEQq2hJmf613396B4NVgxWEmpC7d4938Bt2oZVieNnP
+         uwUwcM852kAtmXiDm64NVZKmUOHkBAumMx7bnPLd0IqkwZ0T5PHjEmUhw3lrNY5Fex79
+         NlmxkwIqinAex86gKR8X1XwVpnBIJCk8e/S46Z5mTpCIWqvfewfqGjDP5Zu4ZsIi1434
+         /fO4pk9NIreTYmSUs1UNMCbT5VOlvUlVHzpzE2T2Uq7ibKc24cnUjOJRvELxLT0vubJg
+         DtOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794499552; x=1795104352;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=o8iTVgOTiZT73c0h3+A1eigD9lE2pHsZudl5pIAmkQI=;
-        b=TAdYFVBzkXbxPuddhxKvyaMlbr3bS0e9sq3Uss5OEOyCteCjVj689mpR70yk47rPfi
-         6iP+0BhEbgICzKSPhA52uJSsb394ECASz9iRIWBTAr+RpxpIbrgR9tEk73MX9UNNjCH6
-         OdxEJBUNXQJzmuooyEkCyNy23TRvz01PiIk6TbqNSnis6O46ZzKFLEIkvMLiCJxr1OUn
-         eRpyPn4IisKsXlGElw1F9C3TqkNdzcz8EgHiI1R103CkA1rvyRoCnnyx719u4YIoyAbY
-         iTiRJi6/vudz04lBFBFFmnqgunVSZsIT7g3BL/VRjsHZ9eZ+thre8hkO0UxteH6QaTiV
-         xU+w==
-X-Forwarded-Encrypted: i=1; AL+hErG/b99LtU9E0vXw4UPHJha8yqr2PDrzIvegUL6a9Q6Fjq1oZT8x5rsoZ7HIxq6LcoJhCn6OgSSlcg+vU548@lists.linux.dev
-X-Gm-Message-State: APuU4Z9TSBs/9LBlUAj1UY1QonWbqJH7PfMs/j9jXKzOjqt8O/pwLSZI
-	Yt3jH58fmI2NGZ4Zd0e625BYTOWUI6eZXCcpnVsUd7ikKsMqM48CGhAw
-X-Gm-Gg: AYBFou0A9iBUJRUQ4xJlUu2Nhn7+RcV736WO0zGWHp1cumiLMzT8zapejUPLFnFc57t
-	jOEbNO1y4YNSTLL7cUVDkeH4qbTxMH5+j57J6ZrZMOioZE3OCbaBb+FUumG6mrRRa08feu92ib1
-	m3uEsnp80SOGuiKeM+xGddpKVLohsS7eYQLIh4RK1jcTnBI8mLlqPxOonYClZQJTpjT5kD5W658
-	cHBWODDPw9q4gKS4cDNrC2zXefBt5FHsfIXMazF26jEB2qaqx3NPiIUnTBYBFdVuec8HUxqb+M3
-	bDABDGwus6Jta8GYhGNmTVpYVLMvMVeKtLJBk7HzibwkbtzxZD+Nm6XrjQS1AXkYA8VZNVuPrhj
-	nFj3q6/Dd8CpQ8KGVB0DFSt3YmODXhfm3lf2VHmE0Zxs4Ia/jKmG77yNmXOcfaQdUVQEwbdbYN2
-	+MR3buBN5//H4gxW1Tbzaq32FaozIkliYYS5448KlPlVt6j0VeK5kUg3cV7w4BHn7RB0Y1HNMUv
-	W2WmKO7661PRwkrOObfc47oy8DCORmaOM80i9H3UxQAiE5BurRoj8jPCSf5hxXLilk+tx7fmJm7
-	XlYf8Mm45cmGCTiz3CwKNUlAWTU+dyyWZoL0pCqC42hoQuLGMozvT/1pP+48
-X-Received: by 2002:a5d:588c:0:b0:48c:414f:cc12 with SMTP id ffacd0b85a97d-499c792de9emr11285652f8f.40.1794499551691;
-        Thu, 12 Nov 2026 08:05:51 -0800 (PST)
-Received: from AVIV-PC (89-139-9-231.bb.netvision.net.il. [89.139.9.231])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f78214dsm23615f8f.25.2026.11.12.08.05.50
+        d=1e100.net; s=20260707; t=1794502021; x=1795106821;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0dKN0COIptcZp6LUQ9g82bvQApFBYtce8GNc+voVkvk=;
+        b=a5TOICKHE3VbpWJ7YOdcg7Gppf85nZdgY1mR+lVxuuUsmh8UjwGyEcGay4wE7gcJvR
+         RarpIdwgK4gBX+ikEXoiTVsa296bqjodOlgVx+/HPp6rZXH4mrOM6K4yrX7R5BrOk+7j
+         yO5/C7rbEA8u1gho7URRsOkZpzSkltPiqvFzYbqBCfBsnbpRSuRlgid8QVRscXRahGXz
+         4oq+Os24mf76a5ONg0OQHaUc7c4Wtsg3i8IAP5nPO0X4TnYCXYRk4TSa74cuf86VM7LQ
+         mDlEnc+wVQ1U5A2kXEpWHtmwRGZXZ6p158qooSRr236Bg3OSAyz58EfaDPbVvjk9NBVb
+         RZSg==
+X-Forwarded-Encrypted: i=1; AL+hErFQHdBAVxWG5viHipNm2AxcP2PtLmsyKvh19nEDRuyDmCQA8BOKGrrwcREhPAzRZc+9cYL8Waz/6gFWqL3S@lists.linux.dev
+X-Gm-Message-State: APuU4Z8siEM3/y2ROXVPl+F2vaef7hpI6YuVFr0AoF3gSuaNFrgiRbqF
+	jsKHRnYUo6N9SMfWP7CrosZqnuI84C0ALXWKqb0Uac4WltitpkCkjoGv
+X-Gm-Gg: AYBFou2lQ6egRGhTeREDSYo5UpToyqgJVw8Kjs7IgkThTSIEAsuUt/A3n383l27XG9k
+	azKZPMRWfYUec5dByyzvU0LQEPETwCkBstLz6Hul4RIGUDY/jeJPfnw3MicFsBHSrBE6WWRbHkE
+	J+az2+QgWnW88UtJ4eszDuJf24nTT+UNyGYnZtWdW6verlueUVp2Hv7AmXjcXk/824zycERD0n/
+	c9KqjT1bzFkXfAwL5t5gGNz47Y9lDuHvbVBlDhla2EGfJJm8N0FsMywMibMutKPi/x0twANaJO8
+	Io+I5IiqhG8YhVqjJQgFBlrDRDlQmCUPG/wvCTxw0rV6vEtt1h3e4RUTK8hhO5VqGJcQ8PDvxMF
+	gCD9Dk1AUAXokYy2fJYJq9SHp1TYOp6Vz8NZyXw5KMDw26juXF66ozBdgJ2QQRmLa2m7SFxqFwf
+	bdO9rJERTBGyhhbnwWN4xeMPkzIlTyBuYHJ+vzSZywpubd1yHdpq5MI0kEjGFlQKTfi9YbtST/O
+	SMm2RfQOE30EiN9yjQfijNhYcpISRx+EpErZ0iVa3bPEM/0D6la3AZXbARuJj267JOzA6yjki5f
+	DcpQLmS2he+c6CzEev8xbtgRa+L4pnt2JeSPtuAMdw==
+X-Received: by 2002:a05:690e:b87:b0:67d:83c7:ddd2 with SMTP id 956f58d0204a3-67d895e51afmr1023d50.37.1794502020995;
+        Thu, 12 Nov 2026 08:47:00 -0800 (PST)
+Received: from athenadria-developer.attlocal.net ([2600:1700:1350:96b0::42])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c589ea7acsm7787339d50.14.2026.11.12.08.47.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 08:05:51 -0800 (PST)
-From: Aviv Levinson <levinson.aviv@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dtwlin@gmail.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	greybus-dev@lists.linaro.org,
+        Thu, 12 Nov 2026 08:47:00 -0800 (PST)
+From: Hezekiah Mogere Joseph Mayaka <hmjm081106@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Aviv Levinson <levinson.aviv@gmail.com>
-Subject: [PATCH v2] staging: greybus: uart: convert idr to xarray
-Date: Thu, 12 Nov 2026 18:05:46 +0200
-Message-ID: <20261112160546.27094-1-levinson.aviv@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026111219-guacamole-quality-2ecf@gregkh>
-References: <2026111219-guacamole-quality-2ecf@gregkh>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: media: atomisp: Remove unneeded return statements
+Date: Thu, 12 Nov 2026 10:46:42 -0600
+Message-ID: <20261112164642.38692-1-hmjm081106@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -104,60 +101,691 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The legacy IDR API is deprecated in favor of the modern XArray API.
-Convert the tty_minors IDR to an XArray.
+Remove the bare return statements at the end of void functions
+throughout the driver, along with the blank lines before them. They
+have no effect and checkpatch.pl warns about them:
 
-To prevent locking the entire gb_tty object while loading the minor,
-switch IDR to XArray and use the internal XArray's spinlock (xa_lock).
-To respect TTY encapsulation, use tty_port_get()
-instead of direct kref_get_unless_zero().
+  WARNING: void function return statements are not generally useful
 
-Signed-off-by: Aviv Levinson <levinson.aviv@gmail.com>
+Signed-off-by: Hezekiah Mogere Joseph Mayaka <hmjm081106@gmail.com>
 ---
- drivers/staging/greybus/uart.c | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+v2:
+ - Cover the whole driver instead of only irq.c (Andy Shevchenko)
 
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index 2b1a5d4671dd..054bdc232942 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -339,24 +339,21 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
- {
- 	struct gb_tty *gb_tty;
- 
--	rcu_read_lock();
-+	xa_lock(&tty_minors);
- 	gb_tty = xa_load(&tty_minors, minor);
--	if (gb_tty) {
--		if (!kref_get_unless_zero(&gb_tty->port.kref))
--			gb_tty = NULL;
--	}
--	rcu_read_unlock();
-+	if (gb_tty)
-+		tty_port_get(&gb_tty->port);
-+	xa_unlock(&tty_minors);
- 
--	if (gb_tty) {
--		mutex_lock(&gb_tty->mutex);
--		if (gb_tty->disconnected) {
--			mutex_unlock(&gb_tty->mutex);
--			tty_port_put(&gb_tty->port);
--			gb_tty = NULL;
--		} else {
--			mutex_unlock(&gb_tty->mutex);
--		}
-+	if (!gb_tty)
-+		return NULL;
-+	mutex_lock(&gb_tty->mutex);
-+	if (gb_tty->disconnected) {
-+		mutex_unlock(&gb_tty->mutex);
-+		tty_port_put(&gb_tty->port);
-+		return NULL;
- 	}
-+	mutex_unlock(&gb_tty->mutex);
- 
- 	return gb_tty;
+v1: https://lore.kernel.org/r/20261112011025.101375-1-hmjm081106@gmail.com
+
+ .../hive_isp_css_common/host/event_fifo_private.h    |  1 -
+ .../pci/hive_isp_css_common/host/fifo_monitor.c      |  5 -----
+ .../hive_isp_css_common/host/fifo_monitor_private.h  |  3 ---
+ .../atomisp/pci/hive_isp_css_common/host/gp_device.c |  1 -
+ .../pci/hive_isp_css_common/host/gp_device_private.h |  1 -
+ .../pci/hive_isp_css_common/host/gpio_private.h      |  1 -
+ .../pci/hive_isp_css_common/host/input_formatter.c   |  8 --------
+ .../host/input_formatter_private.h                   |  1 -
+ .../media/atomisp/pci/hive_isp_css_common/host/irq.c | 12 ------------
+ .../pci/hive_isp_css_common/host/irq_private.h       |  1 -
+ .../media/atomisp/pci/hive_isp_css_common/host/isp.c |  1 -
+ .../pci/hive_isp_css_common/host/isp_private.h       |  6 ------
+ .../media/atomisp/pci/hive_isp_css_common/host/mmu.c |  2 --
+ .../pci/hive_isp_css_common/host/sp_private.h        |  8 --------
+ drivers/staging/media/atomisp/pci/hmm/hmm_bo.c       |  2 --
+ .../media/atomisp/pci/isp2400_input_system_private.h |  4 ----
+ .../media/atomisp/pci/runtime/binary/src/binary.c    |  1 -
+ .../media/atomisp/pci/runtime/bufq/src/bufq.c        |  1 -
+ .../atomisp/pci/runtime/debug/src/ia_css_debug.c     |  9 ---------
+ .../media/atomisp/pci/runtime/frame/src/frame.c      |  4 ----
+ .../media/atomisp/pci/runtime/ifmtr/src/ifmtr.c      |  2 --
+ .../staging/media/atomisp/pci/runtime/isys/src/rx.c  |  7 -------
+ drivers/staging/media/atomisp/pci/sh_css.c           |  4 ----
+ 23 files changed, 85 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h
+index e77d7cf61356..f9823b9c2246 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h
+@@ -20,7 +20,6 @@ STORAGE_CLASS_EVENT_C void event_wait_for(const event_ID_t ID)
+ 	assert(ID < N_EVENT_ID);
+ 	assert(event_source_addr[ID] != ((hrt_address) - 1));
+ 	(void)ia_css_device_load_uint32(event_source_addr[ID]);
+-	return;
  }
+ 
+ STORAGE_CLASS_EVENT_C void cnd_event_wait_for(const event_ID_t ID,
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c
+index f0de78815456..9aee5ebb2004 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c
+@@ -492,8 +492,6 @@ void fifo_channel_get_state(
+ 		assert(0);
+ 		break;
+ 	}
+-
+-	return;
+ }
+ 
+ void fifo_switch_get_state(
+@@ -514,8 +512,6 @@ void fifo_switch_get_state(
+ 	state->is_none = (data == HIVE_ISP_CSS_STREAM_SWITCH_NONE);
+ 	state->is_sp = (data == HIVE_ISP_CSS_STREAM_SWITCH_SP);
+ 	state->is_isp = (data == HIVE_ISP_CSS_STREAM_SWITCH_ISP);
+-
+-	return;
+ }
+ 
+ void fifo_monitor_get_state(
+@@ -537,7 +533,6 @@ void fifo_monitor_get_state(
+ 		fifo_switch_get_state(ID, sw_id,
+ 				      &state->fifo_switches[sw_id]);
+ 	}
+-	return;
+ }
+ 
+ static inline bool fifo_monitor_status_valid(
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h
+index 53a3fb796aab..123cb89cf3ee 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h
+@@ -31,8 +31,6 @@ STORAGE_CLASS_FIFO_MONITOR_C void fifo_switch_set(
+ 	(void)ID;
+ 
+ 	gp_device_reg_store(GP_DEVICE0_ID, FIFO_SWITCH_ADDR[switch_id], sel);
+-
+-	return;
+ }
+ 
+ STORAGE_CLASS_FIFO_MONITOR_C hrt_data fifo_switch_get(
+@@ -56,7 +54,6 @@ STORAGE_CLASS_FIFO_MONITOR_C void fifo_monitor_reg_store(
+ 	assert(FIFO_MONITOR_BASE[ID] != (hrt_address) - 1);
+ 	ia_css_device_store_uint32(FIFO_MONITOR_BASE[ID] + reg * sizeof(hrt_data),
+ 				   value);
+-	return;
+ }
+ 
+ STORAGE_CLASS_FIFO_MONITOR_C hrt_data fifo_monitor_reg_load(
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c
+index b934d20c88ea..35366da05390 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c
+@@ -96,5 +96,4 @@ void gp_device_get_state(
+ 				   _REG_GP_SYNCGEN_FRAME_CNT_ADDR);
+ 	state->soft_reset = gp_device_reg_load(ID,
+ 					       _REG_GP_SOFT_RESET_ADDR);
+-	return;
+ }
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h
+index 71f20992ee98..f43e79a39f4d 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h
+@@ -22,7 +22,6 @@ STORAGE_CLASS_GP_DEVICE_C void gp_device_reg_store(
+ 	assert(GP_DEVICE_BASE[ID] != (hrt_address) - 1);
+ 	assert((reg_addr % sizeof(hrt_data)) == 0);
+ 	ia_css_device_store_uint32(GP_DEVICE_BASE[ID] + reg_addr, value);
+-	return;
+ }
+ 
+ STORAGE_CLASS_GP_DEVICE_C hrt_data gp_device_reg_load(
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
+index bcf6538ac0dc..27809117dde6 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
+@@ -18,7 +18,6 @@ static inline void gpio_reg_store(
+ 	OP___assert(ID < N_GPIO_ID);
+ 	OP___assert(GPIO_BASE[ID] != (hrt_address) - 1);
+ 	ia_css_device_store_uint32(GPIO_BASE[ID] + reg * sizeof(hrt_data), value);
+-	return;
+ }
+ 
+ static inline hrt_data gpio_reg_load(
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
+index c353461dcdf2..d2ac87fdfb4a 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
+@@ -64,8 +64,6 @@ void input_formatter_rst(
+ 	 */
+ 	if (!HIVE_IF_BIN_COPY[ID])
+ 		input_formatter_reg_store(ID, addr, rst);
+-
+-	return;
+ }
+ 
+ unsigned int input_formatter_get_alignment(
+@@ -87,7 +85,6 @@ void input_formatter_set_fifo_blocking_mode(
+ 		input_formatter_reg_store(ID,
+ 					  HIVE_IF_BLOCK_FIFO_NO_REQ_ADDRESS, enable);
+ 	}
+-	return;
+ }
+ 
+ void input_formatter_get_switch_state(
+@@ -120,8 +117,6 @@ void input_formatter_get_switch_state(
+ 					   _REG_GP_IFMT_input_switch_fsync_lut);
+ 	state->if_input_switch_ch_id_fmt_type = gp_device_reg_load(GP_DEVICE0_ID,
+ 						_REG_GP_IFMT_input_switch_ch_id_fmt_type);
+-
+-	return;
+ }
+ 
+ void input_formatter_get_state(
+@@ -201,8 +196,6 @@ void input_formatter_get_state(
+ 				HIVE_IF_FSM_VECTOR_SUPPORT);
+ 	state->sensor_data_lost = input_formatter_reg_load(ID,
+ 				  HIVE_IF_FIFO_SENSOR_STATUS);
+-
+-	return;
+ }
+ 
+ void input_formatter_bin_get_state(
+@@ -230,5 +223,4 @@ void input_formatter_bin_get_state(
+ 			 HIVE_STR2MEM_DUAL_BYTE_INPUTS_ENABLED_REG_ADDRESS);
+ 	state->en_status_update = input_formatter_reg_load(ID,
+ 				  HIVE_STR2MEM_EN_STAT_UPDATE_ADDRESS);
+-	return;
+ }
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h
+index 6b6ba49656e5..823861f2abe3 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h
+@@ -22,7 +22,6 @@ STORAGE_CLASS_INPUT_FORMATTER_C void input_formatter_reg_store(
+ 	assert(INPUT_FORMATTER_BASE[ID] != (hrt_address)-1);
+ 	assert((reg_addr % sizeof(hrt_data)) == 0);
+ 	ia_css_device_store_uint32(INPUT_FORMATTER_BASE[ID] + reg_addr, value);
+-	return;
+ }
+ 
+ STORAGE_CLASS_INPUT_FORMATTER_C hrt_data input_formatter_reg_load(
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
+index 61dea386361a..6ca8fcd61b36 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
+@@ -60,7 +60,6 @@ void irq_clear_all(
+ 
+ 	irq_reg_store(ID,
+ 		      _HRT_IRQ_CONTROLLER_CLEAR_REG_IDX, mask);
+-	return;
+ }
+ 
+ /*
+@@ -104,8 +103,6 @@ void irq_enable_channel(
+ 		      _HRT_IRQ_CONTROLLER_MASK_REG_IDX, mask);
+ 
+ 	irq_wait_for_write_complete(ID);
+-
+-	return;
+ }
+ 
+ void irq_enable_pulse(
+@@ -120,7 +117,6 @@ void irq_enable_pulse(
+ 	/* output is given as edge, not pulse */
+ 	irq_reg_store(ID,
+ 		      _HRT_IRQ_CONTROLLER_EDGE_NOT_PULSE_REG_IDX, edge_out);
+-	return;
+ }
+ 
+ void irq_disable_channel(
+@@ -150,8 +146,6 @@ void irq_disable_channel(
+ 		      _HRT_IRQ_CONTROLLER_CLEAR_REG_IDX, me);
+ 
+ 	irq_wait_for_write_complete(ID);
+-
+-	return;
+ }
+ 
+ enum hrt_isp_css_irq_status irq_get_channel_id(
+@@ -212,7 +206,6 @@ void irq_raise(
+ 			    (unsigned int)addr, 1);
+ 	gp_device_reg_store(GP_DEVICE0_ID,
+ 			    (unsigned int)addr, 0);
+-	return;
+ }
+ 
+ bool any_virq_signal(void)
+@@ -251,7 +244,6 @@ void cnd_virq_enable_channel(
+ 			irq_disable_channel(IRQ0_ID, IRQ_NESTING_ID[ID]);
+ 		}
+ 	}
+-	return;
+ }
+ 
+ void virq_clear_all(void)
+@@ -260,8 +252,6 @@ void virq_clear_all(void)
+ 
+ 	for (irq_id = (irq_ID_t)0; irq_id < N_IRQ_ID; irq_id++)
+ 		irq_clear_all(irq_id);
+-
+-	return;
+ }
+ 
+ enum hrt_isp_css_irq_status
+@@ -302,8 +292,6 @@ void virq_clear_info(struct virq_info *irq_info)
+ 
+ 	for (ID = (irq_ID_t)0 ; ID < N_IRQ_ID; ID++)
+ 		irq_info->irq_status_reg[ID] = 0;
+-
+-	return;
+ }
+ 
+ enum hrt_isp_css_irq_status virq_get_channel_id(
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h
+index ae0a8466a70a..5e27f053f00c 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h
+@@ -21,7 +21,6 @@ STORAGE_CLASS_IRQ_C void irq_reg_store(
+ 	assert(ID < N_IRQ_ID);
+ 	assert(IRQ_BASE[ID] != (hrt_address) - 1);
+ 	ia_css_device_store_uint32(IRQ_BASE[ID] + reg * sizeof(hrt_data), value);
+-	return;
+ }
+ 
+ STORAGE_CLASS_IRQ_C hrt_data irq_reg_load(
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c
+index 39cccbfa3fca..17a04ac623ff 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c
+@@ -27,7 +27,6 @@ void cnd_isp_irq_enable(
+ 		isp_ctrl_clearbit(ID, ISP_IRQ_READY_REG,
+ 				  ISP_IRQ_READY_BIT);
+ 	}
+-	return;
+ }
+ 
+ /* ISP functions to control the ISP state from the host, even in crun. */
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h
+index 177770a9bc1d..b699a1c3af0b 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h
+@@ -30,7 +30,6 @@ STORAGE_CLASS_ISP_C void isp_ctrl_store(
+ #else
+ 	hrt_master_port_store_32(ISP_CTRL_BASE[ID] + reg * sizeof(hrt_data), value);
+ #endif
+-	return;
+ }
+ 
+ STORAGE_CLASS_ISP_C hrt_data isp_ctrl_load(
+@@ -64,7 +63,6 @@ STORAGE_CLASS_ISP_C void isp_ctrl_setbit(
+ 	hrt_data	data = isp_ctrl_load(ID, reg);
+ 
+ 	isp_ctrl_store(ID, reg, (data | (1UL << bit)));
+-	return;
+ }
+ 
+ STORAGE_CLASS_ISP_C void isp_ctrl_clearbit(
+@@ -75,7 +73,6 @@ STORAGE_CLASS_ISP_C void isp_ctrl_clearbit(
+ 	hrt_data	data = isp_ctrl_load(ID, reg);
+ 
+ 	isp_ctrl_store(ID, reg, (data & ~(1UL << bit)));
+-	return;
+ }
+ 
+ STORAGE_CLASS_ISP_C void isp_dmem_store(
+@@ -91,7 +88,6 @@ STORAGE_CLASS_ISP_C void isp_dmem_store(
+ #else
+ 	hrt_master_port_store(ISP_DMEM_BASE[ID] + addr, data, size);
+ #endif
+-	return;
+ }
+ 
+ STORAGE_CLASS_ISP_C void isp_dmem_load(
+@@ -107,7 +103,6 @@ STORAGE_CLASS_ISP_C void isp_dmem_load(
+ #else
+ 	hrt_master_port_load(ISP_DMEM_BASE[ID] + addr, data, size);
+ #endif
+-	return;
+ }
+ 
+ STORAGE_CLASS_ISP_C void isp_dmem_store_uint32(
+@@ -123,7 +118,6 @@ STORAGE_CLASS_ISP_C void isp_dmem_store_uint32(
+ #else
+ 	hrt_master_port_store_32(ISP_DMEM_BASE[ID] + addr, data);
+ #endif
+-	return;
+ }
+ 
+ STORAGE_CLASS_ISP_C uint32_t isp_dmem_load_uint32(
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
+index 70d118fe1e70..87d89eab7f2c 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
+@@ -12,7 +12,6 @@ void mmu_set_page_table_base_index(
+     const hrt_data		base_index)
+ {
+ 	mmu_reg_store(ID, _HRT_MMU_PAGE_TABLE_BASE_ADDRESS_REG_IDX, base_index);
+-	return;
+ }
+ 
+ hrt_data mmu_get_page_table_base_index(
+@@ -25,7 +24,6 @@ void mmu_invalidate_cache(
+     const mmu_ID_t		ID)
+ {
+ 	mmu_reg_store(ID, _HRT_MMU_INVALIDATE_TLB_REG_IDX, 1);
+-	return;
+ }
+ 
+ void mmu_invalidate_cache_all(void)
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h
+index c69778411f2f..b03ae6658df3 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h
+@@ -21,7 +21,6 @@ STORAGE_CLASS_SP_C void sp_ctrl_store(
+ 	assert(ID < N_SP_ID);
+ 	assert(SP_CTRL_BASE[ID] != (hrt_address)-1);
+ 	ia_css_device_store_uint32(SP_CTRL_BASE[ID] + reg * sizeof(hrt_data), value);
+-	return;
+ }
+ 
+ STORAGE_CLASS_SP_C hrt_data sp_ctrl_load(
+@@ -51,7 +50,6 @@ STORAGE_CLASS_SP_C void sp_ctrl_setbit(
+ 	hrt_data	data = sp_ctrl_load(ID, reg);
+ 
+ 	sp_ctrl_store(ID, reg, (data | (1UL << bit)));
+-	return;
+ }
+ 
+ STORAGE_CLASS_SP_C void sp_ctrl_clearbit(
+@@ -62,7 +60,6 @@ STORAGE_CLASS_SP_C void sp_ctrl_clearbit(
+ 	hrt_data	data = sp_ctrl_load(ID, reg);
+ 
+ 	sp_ctrl_store(ID, reg, (data & ~(1UL << bit)));
+-	return;
+ }
+ 
+ STORAGE_CLASS_SP_C void sp_dmem_store(
+@@ -74,7 +71,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store(
+ 	assert(ID < N_SP_ID);
+ 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
+ 	ia_css_device_store(SP_DMEM_BASE[ID] + addr, data, size);
+-	return;
+ }
+ 
+ STORAGE_CLASS_SP_C void sp_dmem_load(
+@@ -86,7 +82,6 @@ STORAGE_CLASS_SP_C void sp_dmem_load(
+ 	assert(ID < N_SP_ID);
+ 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
+ 	ia_css_device_load(SP_DMEM_BASE[ID] + addr, data, size);
+-	return;
+ }
+ 
+ STORAGE_CLASS_SP_C void sp_dmem_store_uint8(
+@@ -98,7 +93,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store_uint8(
+ 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
+ 	(void)ID;
+ 	ia_css_device_store_uint8(SP_DMEM_BASE[SP0_ID] + addr, data);
+-	return;
+ }
+ 
+ STORAGE_CLASS_SP_C void sp_dmem_store_uint16(
+@@ -110,7 +104,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store_uint16(
+ 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
+ 	(void)ID;
+ 	ia_css_device_store_uint16(SP_DMEM_BASE[SP0_ID] + addr, data);
+-	return;
+ }
+ 
+ STORAGE_CLASS_SP_C void sp_dmem_store_uint32(
+@@ -122,7 +115,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store_uint32(
+ 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
+ 	(void)ID;
+ 	ia_css_device_store_uint32(SP_DMEM_BASE[SP0_ID] + addr, data);
+-	return;
+ }
+ 
+ STORAGE_CLASS_SP_C uint8_t sp_dmem_load_uint8(
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 0a8f401a1ca1..4ceb8cb41156 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -483,7 +483,6 @@ void hmm_bo_release(struct hmm_buffer_object *bo)
+ 	__bo_insert_to_free_rbtree(&bdev->free_rbtree, bo);
+ 
+ 	mutex_unlock(&bdev->rbtree_mutex);
+-	return;
+ }
+ 
+ void hmm_bo_device_exit(struct hmm_bo_device *bdev)
+@@ -957,7 +956,6 @@ void hmm_bo_vunmap(struct hmm_buffer_object *bo)
+ 	}
+ 
+ 	mutex_unlock(&bo->mutex);
+-	return;
+ }
+ 
+ void hmm_bo_ref(struct hmm_buffer_object *bo)
+diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h
+index a6762683a0ac..00e6574f186a 100644
+--- a/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h
++++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h
+@@ -22,7 +22,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void input_system_reg_store(
+ 	assert(INPUT_SYSTEM_BASE[ID] != (hrt_address)-1);
+ 	ia_css_device_store_uint32(INPUT_SYSTEM_BASE[ID] + reg * sizeof(hrt_data),
+ 				   value);
+-	return;
+ }
+ 
+ STORAGE_CLASS_INPUT_SYSTEM_C hrt_data input_system_reg_load(
+@@ -43,7 +42,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void receiver_reg_store(
+ 	assert(ID < N_RX_ID);
+ 	assert(RX_BASE[ID] != (hrt_address)-1);
+ 	ia_css_device_store_uint32(RX_BASE[ID] + reg * sizeof(hrt_data), value);
+-	return;
+ }
+ 
+ STORAGE_CLASS_INPUT_SYSTEM_C hrt_data receiver_reg_load(
+@@ -67,7 +65,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void receiver_port_reg_store(
+ 	assert(MIPI_PORT_OFFSET[port_ID] != (hrt_address)-1);
+ 	ia_css_device_store_uint32(RX_BASE[ID] + MIPI_PORT_OFFSET[port_ID] + reg *
+ 				   sizeof(hrt_data), value);
+-	return;
+ }
+ 
+ STORAGE_CLASS_INPUT_SYSTEM_C hrt_data receiver_port_reg_load(
+@@ -95,7 +92,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void input_system_sub_system_reg_store(
+ 	assert(SUB_SYSTEM_OFFSET[sub_ID] != (hrt_address)-1);
+ 	ia_css_device_store_uint32(INPUT_SYSTEM_BASE[ID] + SUB_SYSTEM_OFFSET[sub_ID] +
+ 				   reg * sizeof(hrt_data), value);
+-	return;
+ }
+ 
+ STORAGE_CLASS_INPUT_SYSTEM_C hrt_data input_system_sub_system_reg_load(
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+index e9016d7775dc..8ee20947b20e 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+@@ -345,7 +345,6 @@ ia_css_binary_dvs_stat_grid_info(
+ {
+ 	(void)pipe;
+ 	sh_css_binary_common_grid_info(binary, info);
+-	return;
+ }
+ 
+ int ia_css_binary_3a_grid_info(const struct ia_css_binary *binary,
+diff --git a/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c b/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
+index 0f0d16f4ce7c..51f7c9d6f378 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
++++ b/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
+@@ -176,7 +176,6 @@ static void map_buffer_type_to_queue_id(
+ 	}
+ 
+ 	assert(i != SH_CSS_MAX_NUM_QUEUES);
+-	return;
+ }
+ 
+ static void unmap_buffer_type_to_queue_id(
+diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+index 5113aa5973f3..f9be7743d006 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
++++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+@@ -136,7 +136,6 @@ void ia_css_debug_dtrace(unsigned int level, const char *fmt, ...)
+ void ia_css_debug_set_dtrace_level(const unsigned int trace_level)
+ {
+ 	dbg_level = trace_level;
+-	return;
+ }
+ 
+ unsigned int ia_css_debug_get_dtrace_level(void)
+@@ -315,7 +314,6 @@ static void debug_print_fifo_channel_state(const fifo_channel_state_t *state,
+ 			    state->fifo_valid);
+ 	ia_css_debug_dtrace(2, "\t%-32s: %d\n", "sink accept",
+ 			    state->sink_accept);
+-	return;
+ }
+ 
+ void ia_css_debug_dump_pif_a_isp_fifo_state(void)
+@@ -364,7 +362,6 @@ void ia_css_debug_dump_all_fifo_state(void)
+ 	for (i = 0; i < N_FIFO_CHANNEL; i++)
+ 		debug_print_fifo_channel_state(&state.fifo_channels[i],
+ 					       "squepfstqkt");
+-	return;
+ }
+ 
+ static void debug_binary_info_print(const struct ia_css_binary_xinfo *info)
+@@ -386,7 +383,6 @@ static void debug_binary_info_print(const struct ia_css_binary_xinfo *info)
+ 	ia_css_debug_dtrace(2, "enable_uds = %d\n", info->sp.enable.uds);
+ 	ia_css_debug_dtrace(2, "enable ds = %d\n", info->sp.enable.ds);
+ 	ia_css_debug_dtrace(2, "s3atbl_use_dmem = %d\n", info->sp.s3a.s3atbl_use_dmem);
+-	return;
+ }
+ 
+ void ia_css_debug_binary_print(const struct ia_css_binary *bi)
+@@ -441,7 +437,6 @@ void ia_css_debug_binary_print(const struct ia_css_binary *bi)
+ 			    bi->sctbl_width_per_color);
+ 	ia_css_debug_dtrace(2, "s3atbl_width = %d\n", bi->s3atbl_width);
+ 	ia_css_debug_dtrace(2, "s3atbl_height = %d\n", bi->s3atbl_height);
+-	return;
+ }
+ 
+ void ia_css_debug_frame_print(const struct ia_css_frame *frame,
+@@ -526,7 +521,6 @@ void ia_css_debug_frame_print(const struct ia_css_frame *frame,
+ 		ia_css_debug_dtrace(2, "  unknown frame type\n");
+ 		break;
+ 	}
+-	return;
+ }
+ 
+ #if SP_DEBUG != SP_DEBUG_NONE
+@@ -808,8 +802,6 @@ void ia_css_debug_print_sp_debug_state(const struct sh_css_sp_debug_state
+ #endif
+ 
+ #if SP_DEBUG != SP_DEBUG_NONE
+-
+-	return;
+ }
+ #endif
+ 
+@@ -823,7 +815,6 @@ void ia_css_debug_dump_sp_sw_debug_info(void)
+ #endif
+ 	ia_css_bufq_dump_queue_info();
+ 	ia_css_pipeline_dump_thread_map_info();
+-	return;
+ }
+ 
+ /* this function is for debug use, it can make SP go to sleep
+diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+index 8614efc28b19..ae952df03cc6 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
++++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+@@ -525,7 +525,6 @@ static void frame_init_nv_planes(struct ia_css_frame *frame,
+ 	frame_init_plane(&frame->planes.nv.y, y_width, y_stride, y_height, 0);
+ 	frame_init_plane(&frame->planes.nv.uv, uv_width,
+ 			 uv_stride, uv_height, y_bytes);
+-	return;
+ }
+ 
+ static void frame_init_yuv_planes(struct ia_css_frame *frame,
+@@ -558,7 +557,6 @@ static void frame_init_yuv_planes(struct ia_css_frame *frame,
+ 		frame_init_plane(&frame->planes.yuv.v, uv_width, uv_stride,
+ 				 uv_height, y_bytes + uv_bytes);
+ 	}
+-	return;
+ }
+ 
+ static void frame_init_rgb_planes(struct ia_css_frame *frame,
+@@ -575,7 +573,6 @@ static void frame_init_rgb_planes(struct ia_css_frame *frame,
+ 			 width, stride, height, 1 * bytes);
+ 	frame_init_plane(&frame->planes.planar_rgb.b,
+ 			 width, stride, height, 2 * bytes);
+-	return;
+ }
+ 
+ static void frame_init_qplane6_planes(struct ia_css_frame *frame)
+@@ -599,7 +596,6 @@ static void frame_init_qplane6_planes(struct ia_css_frame *frame)
+ 			 width, stride, height, 4 * bytes);
+ 	frame_init_plane(&frame->planes.plane6.b_at_r,
+ 			 width, stride, height, 5 * bytes);
+-	return;
+ }
+ 
+ static int frame_allocate_buffer_data(struct ia_css_frame *frame)
+diff --git a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
+index 50b0b31d734a..9739ab25000c 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
++++ b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
+@@ -471,8 +471,6 @@ static void ifmtr_set_if_blocking_mode(
+ 			input_formatter_set_fifo_blocking_mode(id, block[id]);
+ 		}
+ 	}
+-
+-	return;
+ }
+ 
+ static int ifmtr_start_column(
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+index 9cfb8bc97e24..5d90587bac73 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+@@ -43,8 +43,6 @@ void ia_css_isys_rx_enable_all_interrupts(enum mipi_port_id port)
+ 	 * The CSI is nested into the Iunit IRQ's
+ 	 */
+ 	ia_css_irq_enable(IA_CSS_IRQ_INFO_CSS_RECEIVER_ERROR, true);
+-
+-	return;
+ }
+ 
+ /* This function converts between the enum used on the CSS API and the
+@@ -196,8 +194,6 @@ void ia_css_isys_rx_clear_irq_info(enum mipi_port_id port,
+ 	receiver_port_reg_store(RX0_ID,
+ 				port,
+ 				_HRT_CSS_RECEIVER_IRQ_ENABLE_REG_IDX, bits);
+-
+-	return;
+ }
+ 
+ static int ia_css_isys_2400_set_fmt_type(enum atomisp_input_format input_format,
+@@ -637,8 +633,6 @@ void ia_css_isys_rx_configure(const rx_cfg_t *config,
+ 	 *                INPUT_SYSTEM_CSI_RECEIVER_SELECT_BACKENG, 1);
+ 	 */
+ 	input_system_reg_store(INPUT_SYSTEM0_ID, 0x207, 1);
+-
+-	return;
+ }
+ 
+ void ia_css_isys_rx_disable(void)
+@@ -650,5 +644,4 @@ void ia_css_isys_rx_disable(void)
+ 					_HRT_CSS_RECEIVER_DEVICE_READY_REG_IDX,
+ 					false);
+ 	}
+-	return;
+ }
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 4a182dc384ca..5b12ff8ec32d 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -2928,8 +2928,6 @@ ia_css_get_crop_offsets(
+ 	in_frame->crop_info.start_line = row;
+ 
+ 	IA_CSS_LEAVE_PRIVATE("void start_col: %u start_row: %u", column, row);
+-
+-	return;
+ }
+ 
+ static int
+@@ -3326,8 +3324,6 @@ static void send_raw_frames(struct ia_css_pipe *pipe)
+ 							    pipe->continuous_frames[i], pipe->cont_md_buffers[i]);
+ 		}
+ 	}
+-
+-	return;
+ }
+ 
+ static int
 -- 
-2.53.0
+2.56.0
 
