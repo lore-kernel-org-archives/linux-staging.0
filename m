@@ -1,84 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794473002;
-	b=rT3oOiv11nY2IfLPcjbRN7TAAQgnYBx9uYMDE39Euz34ozx4nYaSI54MPX9FcPvqOSOZ
-	 oNH4NRSP5B35jDmdm47c6uU4Kck1jVhA3zNRngtLlQ2iTg7qtAAaVinMrlEqzUErn6u5W
-	 dE1NDY13poJnNYUdUdmToujIa92iUXtdc3l2Q74rGjyUFOi3Wd3wOvIN61CZYyIaF185P
-	 oP3KrYyCyaZ71TbYPdRSLNN/alLCiDPirfINkLfgmdvwNFZvuL3DCq68PaVtFK5xRHrTE
-	 WaT8hreO48wWF8RnfkhCCURW20lg8RmFbYJU/joloq+PWoWdJjkVwcRop6D2NNX9p6Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794473002;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=Ccrg0Ah5/raiZe23O01HRQmfIbLS9+N0hKSJNBgmJXY=;
-	b=EJJMX/c6TFyvKkUJ+YPEt00rSpg1x9crsmAsZU/72mcX34B8lv8KlHuV5pVry0d2W9V4
-	 zMjbGuHGSr4851FdjINlsvz7UnahbCXgjRgbOchVJ6ebj3ggMcnSMM+LzqQPtmcW4CMWe
-	 zTV0lsgiarGWSs6htuRa2ycf4A/9CvO4F23nhAMt9Tb5ODN2+AkA9kX07hhcRd0qiLeuv
-	 G2tbzkaGBQXoX9IWE74m+kBYlwoS1B/LsfqirACHJdvTq4QrhNKZ/++I5c1Sch+6ub2yV
-	 E1adGS16aSOEeJqkOW0+3l9UI6FfXo/3XmAyzZ3yOhgkWzklxkTx9fPHKpBAkpyPlFQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=pereq.eu;
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=74.125.231.72
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794484209;
+	b=tarUi8irNtFukF62YqRlvW7P4IVatznAsSwVEEuV5H7H0UbYGuFZypj2oRWW4N4TtM9d
+	 vmi+55NmZX8rODCQzxV75neobOYQeJlflvxtRU54OxYy/t2V+wjzlRiARaxDQ+lJVh83f
+	 /GeAnAvI6sGbw/w6vtpkUm0Z2/8QhZSVQs4XiPTV9shUU3EE0Bnd9GSWXMEdVEe1/OnjN
+	 Lv9lvfl8xBvK6YRt+xYeKzkXy0KH4rGJ6B7c/t3kc3y50Kj1+wLqRREIoY/ABBDX+0B7L
+	 agXi9lthU8pTKpUfnH10Eee5q0UTAti9Ufx6Wi+/qUI6Yw/FC9vSqoAiSInbS7iaKBA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794484209;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=PW0k9eDKFqfRkgSsOSdWK+l0uZcCJyw9dSbPkXAxN3s=;
+	b=jM3LzGOLA/qzXndf0e+p6xEM2kaL06Y+zzXlXUt76ubw/UcTaBbBTv0C1G+wbqzzkCwm
+	 F3/KCslAIMru69O5YeAoWg3JWUrV671JgvoQ4iw3GkJI+YTX0DqcEt85qmlZ2BVDlcs7Y
+	 79G8Ogt2xdXWlTW6tiLqpxIYvpsANM/M0A9lQR7+aDfk9LeOOigKPbYHOcwWixCyFogDt
+	 lm9ZbORD7EWh1ZdtZ1spj6buvwwpxzPdiJMTcyTFV/qxoklpt4Kd7GUbqcmElB7Oqd0Io
+	 N2MS9fJbmwnmMVyBRO+mGbxQPPXtJ6QjqRH92kRIhijueSDEojq+JHYiwCA931PRhCQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WAOsqqgn;
+	arc=fail smtp.remote-ip=74.125.231.72
+Received: from mail-oa2-f8.google.com (mail-oa2-f8.google.com [74.125.231.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D62B606B242
-	for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 08:43:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D62B606B242
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=pereq.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406F8606A332
+	for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 11:50:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 406F8606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so46982425e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 00:43:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794473000; x=1795077800;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WAOsqqgn
+Received: by mail-oa2-f8.google.com with SMTP id 586e51a60fabf-4adade2ee63so906794fac.1
+        for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 03:50:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794484208; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Ix4ElS1MBcwKFP20rrRanpEACNoJlVv6CX59AyNS3HDvxnVW76Qru6D/txpwgfOT8c
+         ypXdP6VaYl8yNKbqR+PF57mbQXltYtDKDHBqE6yPkH2cWfHE01pin7K2bHvwDCz2iou/
+         igPijm8TtJZYOzY9wDHSbDq6j5m0fyum5ZnVfLl2d56WdeQvgOvcTcBza8kWvy/2FSWA
+         Y6O3viy5hFajH8GYYYG0Sp5MIW6l7LQsh2v/34+k2iD/jeIjDV4bPLtq2TXnS27AlwIW
+         IKE3uFDvz0XzIfbfOq5ZBsqHEUTRgbH02mQpEd3jXT0ZnQ6Wk+Hr/n65oQwAqjoUKVE9
+         pvQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=PW0k9eDKFqfRkgSsOSdWK+l0uZcCJyw9dSbPkXAxN3s=;
+        fh=bj0ts/G1C1NaPYzhGz8nWt7s43+Txy0aDgA+VIebpWM=;
+        b=bw5FzdQBAX389ttTxiKLVUyi4nRUqJGCOcLVHm1HYPpqYmsxdtY/VrpnHKu4ynenSS
+         tLCLohOSXL9/u1RgniKGGEhVyJB9cON4lg19kTz7F/WADr7MQbz8wTHaiIwqVAoG4vMN
+         EzGH7wase7ikjKks6zespmkq+C6DyiIcDzIfFXYzEb012cqvrpgkhmEI6nLpNEbyQhyq
+         126eVWvTpG8HhSUyi/RonSB2AeyhuV5yG66Kwt5Nf91M1UwqpkoTqBFG9ptKmUyxQPCN
+         /XMw5EjzB2xB6yH4OiP9VjJrxDB+e0UfbIQWaSkkXHrXI6JZ8UXNrFSaHd1wc+MF3J7p
+         9DuA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794484208; x=1795089008; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Ccrg0Ah5/raiZe23O01HRQmfIbLS9+N0hKSJNBgmJXY=;
-        b=AdLG6EXbBDxbJVvDz7hhrILuBMQOEvh2wo/zmMzFAqMsMHEaBNrhLcF9L3alHUINms
-         pc0XMIuLJ+s9jS3LbjxnWm4KHGDcljuXUei2tD/jeXGHPPM1tpzBje/4wELk0OrGYd/I
-         CeZy6jnaK+pRlhCepbqAecI9LT2KVIaayGJhlaCgraDr3ZWujmZV1DPr1LucXij3zqJr
-         gm1vXN0s6oBumOaV9cKHIHFGP6FIhQIKQ5ikaeu3KdOXK1vs8jLuASFnDndIUIcs5hBu
-         GV2ewTb4CtK9evqPdY0k62TbFBPp8fsPsjjbrxCrQxjZ1jJnV8jzKjeD9ux28asmRnzk
-         FS6g==
-X-Forwarded-Encrypted: i=1; AL+hErG/qro/OahD3uY/aoIhqsvpza3Jx5Rwt/9Idb5Y9zivvMoo6A+06bLW1Ct2epMIr3PpFwfWaYPkVWTezR/l@lists.linux.dev
-X-Gm-Message-State: APuU4Z/0r6L3rNl01NQ0p91bvGOIz/IibxbPoiKIv4o/SwMPivyq3D1K
-	Hk3ERtZD1poU1yoiZUu8x9MhLNsMgqec0g0/0a+GbRh5FIKHm4TJmBgK
-X-Gm-Gg: AYBFou03JBW2YRwfEDlPmTJsZZTbSgEgMi/GCPvPH/pDcRKmtSD60XQH0bxiP52dYmt
-	r0YrF7L7rABRo+d4ZFPbLh1mSIfIZbPpL6BhG72wa5Zys3Cjn/4ank6tQN+Mxlnk7GS6g6evNpR
-	cnBkWJdxnl0nKWhZZWkN+4zlJeT9p+Q7fuY4I0hExKOPEXTJ5PMJFKwJ7basa6chUddCOJW1yZX
-	Awv2y/pp75S9ZX0JUDSiaOu4iK4qKBPB+EA+0uSHKpfwxHqPMt1vfrQ2A8l0lW1yNw17CK8Vtex
-	ZMpkxK3pYwCLd9uRIuoRDzyJzt36VQnlhyBMU4EeWkzCXrYcXCpyW4V5r3aodLisWEGjb0+k+Mp
-	mrsoiLIBRNpj1N0+y5plkbKIzqQKQopGoaky0nRc2RWmO7e2eqfrPgUtk0BrQqZSkQ31sogLmVq
-	Jn/I64RlXuA8vsMjfk1194kmGUsTDZ1V9yUkhWisLqS7ykXIRj4iPDunwTWubwnerOYOClA+2KD
-	VaThU9zebYrKZayR4q1ZP5YqLz0u1SiAIi4bBS6PTTyHi2ykyu7DWmgnmGThIALKvhC8O6sEpNU
-	Dsj0yfL7xNY67pW5A82pO/hlpCN9lJ0IYp/aXVIu2GbDOzxrAKt2y2TOoGn8nhKIFRkqmjo9eEL
-	3z88t3xphMrzTVsl+LudumkckduxuXRyKqYSX6QACc9d4d8BaDdlwmIBqyIwCfg5U00Uio6qmeE
-	ffdHIJEg==
-X-Received: by 2002:a05:600c:470d:b0:4b1:4017:c4f4 with SMTP id 5b1f17b1804b1-4ba093805b3mr88234605e9.20.1794472999607;
-        Thu, 12 Nov 2026 00:43:19 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e258e8dsm82532545e9.4.2026.11.12.00.43.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 00:43:18 -0800 (PST)
-Date: Thu, 12 Nov 2026 11:43:15 +0300
-From: Dan Carpenter <dan@pereq.eu>
-To: Shunbo Shi <shishunbo@cmss.chinamobile.com>
-Cc: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com, elder@kernel.org,
-	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	johan@kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] greybus: verify the received message size covers the
- message header
-Message-ID: <avV8I97uZJgX8Osk@stanley.mountain>
-References: <6af55517.a0c627da.5d811.0010.GAE@google.com>
- <20261112082230.33584-1-shishunbo@cmss.chinamobile.com>
+        bh=PW0k9eDKFqfRkgSsOSdWK+l0uZcCJyw9dSbPkXAxN3s=;
+        b=WAOsqqgnIfggaPlUIzOvmO8Ege0rJnWi4LQhK6T4C/OkT2JNdRIUGwcYJoRvp2bFJF
+         7/EnOLOudmaNHNuc/UbTPTnGXCHb5xJ6ZFB7bAjZpaJgMr58peGabkQxCAyMNFuROZAa
+         VQZ9+5hWdUmo1RyCkRq7GcaxZ1X4GYsTbuISdSxTavrIZBNjYSZ5ZOeVgaEGRoyUXeMQ
+         X6WW2cfWVMW3RhkVHbuHh0YQQpgL0/fvZfhx8GYaEOt23J/LyERboIU5ne57d/xADfEn
+         QctSKNN2JvesswfsbWDyWDLYt3U3TkDWWwQ3btdQGW+puwO4wMUDLyLaXaMRBXqkWEIB
+         d5/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794484208; x=1795089008;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=PW0k9eDKFqfRkgSsOSdWK+l0uZcCJyw9dSbPkXAxN3s=;
+        b=0jn0e/R48vHbHDxgc2htRbp/z95La7xKHxmh5k3aSD3vezC+15lGP+g72Azz1S7ISC
+         J3qG7cwslat7nnaXy8qPeT0s6jD9po4rjA2RBnCiDlJVC2MxOrPK7XCPgIdYC2lSHPPC
+         OOvDsX5GHw4UKKbE61U4XN8dpwa4rj0X2tCLRs9YEPlptd/QMASEBZzMYlDijTzq3KUV
+         BxLY0Y94lRaj3vBSQFHY0tzQrA7EYpvCaKbPUC1WBNeTWx3FfOTkEYt3tUTut/4KAucJ
+         kt7zqW4F8eVePrOXHKX+TeXDjvSDDZW47AqB8xfs4H1sbjUaHY0s09pNKIxd7udIzsJy
+         dmbw==
+X-Forwarded-Encrypted: i=1; AL+hErE8JDP+1DWnYLx9evr6Iyag05qVe1MtTjsHtGHRquSzMo/K46zqSuL2gJOOZqK97pb+0edCYKYAvfFT2rZt@lists.linux.dev
+X-Gm-Message-State: APuU4Z/1hDbsJwg64wFs3tKYw8P6KXMBOBjB07UNCaKeijR+IWXVjW07
+	IyE5Ax4XvnFWc8c2ZoTNFvO2J++Vl3c70sFhtWYiXT523PIc/amPUdk+BmqmFPztbnKHEcPLdSo
+	rkXdEJ0pPtgDBdm9amiVrY9Oi04WJubE=
+X-Gm-Gg: AYBFou2Vv3YwNzLC3+3G6xz/E/IOcDniHnE0pIckLvrFvbESD+vKhRJrzgH4H3VRW73
+	5qWK+0eOzs2t+VywcbGL+13hAM/UN2H5lM5L5TJu+rtKHMnetuxr2OQoCCAp3GoS+5sMehEgEq3
+	bGaop4hkZu7QJKYQ1K9JVWMD5MQVxN9oY9RUowwHGik1zL/pu8hS+xqG/K9bVdVPgOj2re7JiOa
+	fXdH9WTYrbZwzAQVamzqgiQ+uyuxPHdzb4MfuEiEbjPOXoUMGTCpc4yTKNsVzOgqP0Ex8c7Ax/a
+	j7DEFUfYPvip1NhoIU94xC8tc0OR1DWLig5vEGLpywJZ6T9Cp8gYr81gPIpevP4OSw4kpDXL00h
+	Az9NoUtkQbJzj3hO/XurBLMAQvh9D6QMcD8eQeCwJFVUmOAm0DyoW3YORChgbPt2rseacgsUSLc
+	bK1q8n41FqHCZ1RzxjDHaV4Mtis2qeiPtwoJckQNSfWTT001wh9JVHkiYAwfvil8o0lUejv+H/i
+	ck=
+X-Received: by 2002:a05:6808:250d:b0:539:dfe8:9960 with SMTP id
+ 5614622812f47-56b97d2052cmr4847599b6e.56.1794484208172; Thu, 12 Nov 2026
+ 03:50:08 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -88,79 +105,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112082230.33584-1-shishunbo@cmss.chinamobile.com>
+References: <20261111163819.143147-1-himanshu.bakshi478@gmail.com>
+In-Reply-To: <20261111163819.143147-1-himanshu.bakshi478@gmail.com>
+From: Hungyu Lin <dennylin0707@gmail.com>
+Date: Thu, 12 Nov 2026 03:49:56 -0800
+X-Gm-Features: AclHuK99jfCHnUnNfvAVzgTNdsDa1C0fS3B-XZ44SaSca81MyWnGtLd2YK_PCFw
+Message-ID: <CAGEkeHdBri8mbX9zctroRZeoMb=u6mYSn4xAum1x_UkyUZKRdg@mail.gmail.com>
+Subject: Re: [PATCH v4] staging: fbtft: remove unused fbtft_init_dbg()
+To: himanshu bakshi <himanshu.bakshi478@gmail.com>
+Cc: gregkh@linuxfoundation.org, andy@kernel.org, error27@gmail.com, 
+	cenzhang@linux.microsoft.com, dri-devel@lists.freedesktop.org, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Andy Shevchenko <andriy.shevchenko@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 12, 2026 at 08:22:29AM +0000, Shunbo Shi wrote:
-> In gb_connection_recv(), the size of the received data is checked
-> against sizeof(struct gb_operation_msg_hdr) and against the message
-> size encoded in the header (msg_size), but msg_size itself is never
-> checked against the header size.
-> 
-> If a peer sends a message whose header claims a size smaller than
-> the header itself (e.g. header.size == 3), the two existing checks
-> both pass (size >= sizeof(header) and size >= msg_size), and the
-> message is dispatched with the undersized msg_size.
-> 
-> In gb_operation_create_incoming(), this leads to an unsigned
-> integer underflow in:
-> 
-> 	request_size = size - sizeof(struct gb_operation_msg_hdr);
-> 
-> The underflowed request_size then wraps back around in
-> gb_operation_message_alloc():
-> 
-> 	message_size = payload_size + sizeof(*header);
-> 
-> causing kzalloc() to allocate a buffer that is too small to hold
-> the message header.  When the response is later prepared in
-> gb_operation_response_alloc(), reading
-> request_header->operation_id reads past the end of the undersized
-> allocation, triggering a KASAN slab-out-of-bounds report.  When
-> header.size is zero, kzalloc(0) returns ZERO_SIZE_PTR and the
-> same read dereferences an invalid address.
-> 
-> Verify msg_size >= sizeof(header) in gb_connection_recv() so that
-> the "Caller has made sure we at least have a message header"
-> assumption in gb_operation_create_incoming() actually holds.
-> 
-> Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
-> Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
-> Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
-> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
-> ---
->  drivers/greybus/operation.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/greybus/operation.c b/drivers/greybus/operation.c
-> index 7e12ffb2dd60..da53c0e026f0 100644
-> --- a/drivers/greybus/operation.c
-> +++ b/drivers/greybus/operation.c
-> @@ -1047,6 +1047,13 @@ void gb_connection_recv(struct gb_connection *connection,
->  	/* Use memcpy as data may be unaligned */
->  	memcpy(&header, data, sizeof(header));
->  	msg_size = le16_to_cpu(header.size);
-> +	if (msg_size < sizeof(header)) {
-> +		dev_err_ratelimited(dev,
-> +				    "%s: invalid message header size (%zu < %zu)\n",
-> +				    connection->name, msg_size,
-> +				    sizeof(header));
-> +		return;
-> +	}
->  	if (size < msg_size) {
+On Wed, Nov 11, 2026 at 8:39 AM himanshu bakshi
+<himanshu.bakshi478@gmail.com> wrote:
+> - Verified that fbtft_init_dbg() has no call sites in the kernel tree.
 
-Combine the conditions:
-
-	if (msg_size < sizeof(header) || msg_size > size) {
-
-regards,
-dan carpenter
-
->  		dev_err_ratelimited(dev,
->  				    "%s: incomplete message 0x%04x of type 0x%02x received (%zu < %zu)\n",
-> -- 
-> 2.53.0
-> 
-> 
-> 
+Reviewed-by: Hungyu Lin <dennylin0707@gmail.com>
