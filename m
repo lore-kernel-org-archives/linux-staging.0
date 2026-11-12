@@ -1,95 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.133
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794502022;
-	b=SK0ynyujsvnVhTbB6V2EH7hZmIIYJbPZ45IvtX9h5S+4sb/+wE1LiwMUiMQMECO3M48O
-	 Cr6V8PGCAlcYstMDk1AaCHfN4lIsIIfsCabk+NlQBkaEQ1nPyptiSvJFFaV/+eopxRDB8
-	 b0PqyuhJU/PEkJXC1L6hKZhU+UglW4tsi27apLhxBZuCv4Rocxw+9TD+0X+DSSgcTGaaH
-	 SIPf165GsV0THxes5KZbBB2g6jiJObI/aCcWTwFuORa7TqwupF+nod/zJphY0q7kdKbh3
-	 BFi/VcIPfB9LTAzQICdujyeVf3gbWoQULZMzGlytGzd2XQUOcFCP8txELUo3ghMQDVg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794502022;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=0dKN0COIptcZp6LUQ9g82bvQApFBYtce8GNc+voVkvk=;
-	b=2jHBgwDOMF1DZyZKXtmrT4HUh60/yBBcEeo9SnFsUYV4rakIAFV4tOCswAxicX8WCjBT
-	 wH+RrZcAR15d9N5RNEpTja9mwn3kNZikLLj4him0mbi9bO7CqZQ553AdLPMlWYnLh1NAG
-	 gm1Nf2Mpemsj8qK19KsBOsGwL4H8kdi04GqbFTs7110Ha0qdh+dqnDyLiXsI352W/woAe
-	 Px5fJpE8QazeWRpPRbP5v34VxF0qbHo6atnJVVTytoVghrJD8lRnTIcVyK9q28B4kLvs3
-	 2R5YHQl0bMmmhjFXgcs37qKT2ueugwK29ouxf0nDgTViVN9x4+upqgl9FUyQr12dQsQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0bzSyWhF;
-	arc=none smtp.remote-ip=74.125.224.133
-Received: from mail-yx2-f5.google.com (mail-yx2-f5.google.com [74.125.224.133])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.185.170.37
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794517493;
+	b=fYdfpGslhBj8wW+M46QoQ87lhNaVfO5v5sb8KnqnJi955Q/rPKOkJws0Z9bBoaolwZmF
+	 jqFFfHfImdpw59tH3L2yupA7qnS/QpLWMd48cs9bNEW4hsZnERSxkiKW/UHg9Sdf4VuyR
+	 T9Qf2iF35a9X4EJlzCttkMt5DAWzroYR8Yb88edT1iCvxNVKVgS6OVpuypF8LadAUd5S8
+	 DZrditYnaYx86QZX+u1l48fFgFvLH0MhduLBXKRf41NMdod0cvFnNivYCxabNsZbiTUIs
+	 7yWZCJA82YmsOmPwdqbwwTO0sVaaC1V+FsFLuuSnnRwpLt4Rdf6WsZz0mvRtp3KDzBQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794517493;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=O5gco7lHoYOygwHEP3RxfzTMIYTl8gyDFQ4fgofww90=;
+	b=f5nwXR2r138lAplkU4GKBXgrLP515A6gRKHDaQWcdam1uro44qClMRicTYDxR5604xq/
+	 0+XBW/70ZJpKjDsoJE9rBz/GuNDgmGGU3sq07JbyOqIVwR3eyng7E/JTEKOzPbueOnFEj
+	 jLTMaAwvl4eqgtgvbnXuteJd31aU3ul3xlFE/foPKSXHiuqN7bm/GjempJXSqnyERDtiq
+	 22MkuQBbYlKwz2orjNnhWNX+jLI+6zbPxiAqEy5eaIbECs7wPtfZAkqgLGZI3mYJi5Vuw
+	 4Xh2snLtYdb9a8TJwGb8YhJNpP7BuSx4IJYEC+gGLAtHDDW4QulW6SU50zvVc4aRtzA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=iki.fi;
+	spf=pass smtp.mailfrom=iki.fi;
+	dkim=pass header.d=iki.fi header.i=@iki.fi header.a=rsa-sha256 header.s=lahtoruutu header.b=Ntf9RyoF;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=185.185.170.37
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B1360A3827
-	for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 16:47:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39B1360A3827
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D2D606A321
+	for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 21:04:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6D2D606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0bzSyWhF
-Received: by mail-yx2-f5.google.com with SMTP id 956f58d0204a3-679b4ca950fso1966638d50.1
-        for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 08:47:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794502021; x=1795106821; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0dKN0COIptcZp6LUQ9g82bvQApFBYtce8GNc+voVkvk=;
-        b=0bzSyWhFRUH3j2xqJZ7qSgqbcjHxohuxiVo+QMGdkbxDpxrlU0SKrbEgOQMjafPGRl
-         0+wazYZC3E4a6ghz6Hz24gI5CfEQq2hJmf613396B4NVgxWEmpC7d4938Bt2oZVieNnP
-         uwUwcM852kAtmXiDm64NVZKmUOHkBAumMx7bnPLd0IqkwZ0T5PHjEmUhw3lrNY5Fex79
-         NlmxkwIqinAex86gKR8X1XwVpnBIJCk8e/S46Z5mTpCIWqvfewfqGjDP5Zu4ZsIi1434
-         /fO4pk9NIreTYmSUs1UNMCbT5VOlvUlVHzpzE2T2Uq7ibKc24cnUjOJRvELxLT0vubJg
-         DtOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794502021; x=1795106821;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0dKN0COIptcZp6LUQ9g82bvQApFBYtce8GNc+voVkvk=;
-        b=a5TOICKHE3VbpWJ7YOdcg7Gppf85nZdgY1mR+lVxuuUsmh8UjwGyEcGay4wE7gcJvR
-         RarpIdwgK4gBX+ikEXoiTVsa296bqjodOlgVx+/HPp6rZXH4mrOM6K4yrX7R5BrOk+7j
-         yO5/C7rbEA8u1gho7URRsOkZpzSkltPiqvFzYbqBCfBsnbpRSuRlgid8QVRscXRahGXz
-         4oq+Os24mf76a5ONg0OQHaUc7c4Wtsg3i8IAP5nPO0X4TnYCXYRk4TSa74cuf86VM7LQ
-         mDlEnc+wVQ1U5A2kXEpWHtmwRGZXZ6p158qooSRr236Bg3OSAyz58EfaDPbVvjk9NBVb
-         RZSg==
-X-Forwarded-Encrypted: i=1; AL+hErFQHdBAVxWG5viHipNm2AxcP2PtLmsyKvh19nEDRuyDmCQA8BOKGrrwcREhPAzRZc+9cYL8Waz/6gFWqL3S@lists.linux.dev
-X-Gm-Message-State: APuU4Z8siEM3/y2ROXVPl+F2vaef7hpI6YuVFr0AoF3gSuaNFrgiRbqF
-	jsKHRnYUo6N9SMfWP7CrosZqnuI84C0ALXWKqb0Uac4WltitpkCkjoGv
-X-Gm-Gg: AYBFou2lQ6egRGhTeREDSYo5UpToyqgJVw8Kjs7IgkThTSIEAsuUt/A3n383l27XG9k
-	azKZPMRWfYUec5dByyzvU0LQEPETwCkBstLz6Hul4RIGUDY/jeJPfnw3MicFsBHSrBE6WWRbHkE
-	J+az2+QgWnW88UtJ4eszDuJf24nTT+UNyGYnZtWdW6verlueUVp2Hv7AmXjcXk/824zycERD0n/
-	c9KqjT1bzFkXfAwL5t5gGNz47Y9lDuHvbVBlDhla2EGfJJm8N0FsMywMibMutKPi/x0twANaJO8
-	Io+I5IiqhG8YhVqjJQgFBlrDRDlQmCUPG/wvCTxw0rV6vEtt1h3e4RUTK8hhO5VqGJcQ8PDvxMF
-	gCD9Dk1AUAXokYy2fJYJq9SHp1TYOp6Vz8NZyXw5KMDw26juXF66ozBdgJ2QQRmLa2m7SFxqFwf
-	bdO9rJERTBGyhhbnwWN4xeMPkzIlTyBuYHJ+vzSZywpubd1yHdpq5MI0kEjGFlQKTfi9YbtST/O
-	SMm2RfQOE30EiN9yjQfijNhYcpISRx+EpErZ0iVa3bPEM/0D6la3AZXbARuJj267JOzA6yjki5f
-	DcpQLmS2he+c6CzEev8xbtgRa+L4pnt2JeSPtuAMdw==
-X-Received: by 2002:a05:690e:b87:b0:67d:83c7:ddd2 with SMTP id 956f58d0204a3-67d895e51afmr1023d50.37.1794502020995;
-        Thu, 12 Nov 2026 08:47:00 -0800 (PST)
-Received: from athenadria-developer.attlocal.net ([2600:1700:1350:96b0::42])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c589ea7acsm7787339d50.14.2026.11.12.08.47.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 08:47:00 -0800 (PST)
-From: Hezekiah Mogere Joseph Mayaka <hmjm081106@gmail.com>
-To: Andy Shevchenko <andy@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=iki.fi header.i=@iki.fi header.a=rsa-sha256 header.s=lahtoruutu header.b=Ntf9RyoF
+Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4jQXvh3xyLz49Q3S;
+	Thu, 12 Nov 2026 23:04:48 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1794517489;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O5gco7lHoYOygwHEP3RxfzTMIYTl8gyDFQ4fgofww90=;
+	b=Ntf9RyoFS7ANT10yvOzT0aZIEdWNZj+HgpPm9deg+Yg8/nCchphZAgEjEx3u5MdWSthDrB
+	bE05ivGc9kQq7Lh4+8d2ke/d69JddZL9wQ76zHc3kMxn+BgjmXvp6gdj/zz0I0deEN1MXC
+	VaMSCf3eohzDbPJ47lQ+2xkCf6CA79lJ1krUsfuaQ5hlyoAM+H6wGtAtRGUnoYBW3wPf7m
+	Cfa2lAZ/KFsJt8qhD2+9U8zSXKzimqSdNtKmT3JFY2SY72GNgfVGU1IrQwIPg+qyA4Pscl
+	y7jzEwSmCx8vjABfs+6SM7o8DUBj6gkvySsTFDJP1ftFdsCQxxUH6WFc24oXUA==
+ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=lahtoruutu; cv=none; t=1794517489;
+	b=LTt2iSm1JbODNpX4huvzAYLb/04YXj6EYZHFtRPKfX4WW95nwqQuV1P8f9J8VZKCEMHh6n
+	NPxY7AMq+040l5Q4Z+WMgOvVUFWk7runbQBihvJZXAbeJNLek45eOGAunmTAi1t7DX2bCB
+	Fxxm9cJAA9zd7QiYN3XmLURFWbJm0SZFdZ2nrvyEpLixNQYRxWcfzM7paIF8rRm+3zIi1Z
+	W+MlOJtzd1wFR86IWleiRILNfSO9NB8KujH/N2wfPkkI8C9Ltmq+auYNOUsqraN0uG/mpr
+	7BZ8BwHGEP7l0ZG9GZgQCfo6hbnjOFxScL/bV4RD4LiL5UOc51Pc/dVsxnKO3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1794517489;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O5gco7lHoYOygwHEP3RxfzTMIYTl8gyDFQ4fgofww90=;
+	b=hLJ8ueaLm+Uq6EcSySnN8dUqucLtbCVfn0lI+SN7MNS6kBs2S5RJpSv89lteoTCymet1CU
+	y2uAjN2p5hibHES0CU5ybv+ccOG+lConQcyKi3dW258kxoifMwibA/yzY4qdFMSVvps56Q
+	xAXVN9y8nDygMWHCrDa8vsq1YYvnjVoFpakgaM+PZR+xZoq4thSVmeL8JpbUMlokYIvCI3
+	3xV5oaujKp8oToqqpEX6qp1jfoFtdpGX5KlcxEPtm1CgsMKYxYZ1YttWxp52TKVDxFnvRc
+	L4OUvL9WO62NCnascCZMw+yyRcsggHacm2jC8Uo/OSi71P+wh0O3La6nRqf1Lg==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 10CCC634C4E;
+	Thu, 12 Nov 2026 23:04:48 +0200 (EET)
+Date: Thu, 12 Nov 2026 23:04:47 +0200
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: mauriziocasciano7@gmail.com
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
+	Bingbu Cao <bingbu.cao@amd.com>,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: media: atomisp: Remove unneeded return statements
-Date: Thu, 12 Nov 2026 10:46:42 -0600
-Message-ID: <20261112164642.38692-1-hmjm081106@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v10 02/15] media: ov8858: support 19.2 MHz clock and
+ manual white balance
+Message-ID: <avYp7y9Vvh2Oo5c6@valkosipuli.retiisi.eu>
+References: <20261002-submission-media-yogabook-v10-b4-final-v10-0-817ec765b257@gmail.com>
+ <20261002-submission-media-yogabook-v10-b4-final-v10-2-817ec765b257@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -99,693 +106,194 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261002-submission-media-yogabook-v10-b4-final-v10-2-817ec765b257@gmail.com>
 
-Remove the bare return statements at the end of void functions
-throughout the driver, along with the blank lines before them. They
-have no effect and checkpatch.pl warns about them:
+Hi Maurizio,
 
-  WARNING: void function return statements are not generally useful
+On Fri, Oct 02, 2026 at 10:57:40AM +0200, Maurizio Casciano via B4 Relay wrote:
+> From: Maurizio Casciano <mauriziocasciano7@gmail.com>
+> 
+> Support both 19.2 MHz and 24 MHz input clocks. Move the PLL and
+> global-timing registers out of the common mode tables and select register
+> settings for the detected revision, lane count, input clock and 360 MHz
+> link frequency when starting the stream. Use the actual input-clock rate
+> when calculating the reset delay.
+> 
+> Add standard red and blue balance controls for the sensor's manual white
+> balance registers. V4L2 defines red and blue balance relative to green but
+> does not define a standard green-balance control, so keep green at unity.
+> Accumulate errors while programming all three channels.
+> 
+> The manual white-balance register definitions and programming follow
+> Intel's GPL-2.0 OV5670 driver, so retain its 2017 Intel copyright notice.
 
-Signed-off-by: Hezekiah Mogere Joseph Mayaka <hmjm081106@gmail.com>
----
-v2:
- - Cover the whole driver instead of only irq.c (Andy Shevchenko)
+Any others notices that should be added?
 
-v1: https://lore.kernel.org/r/20261112011025.101375-1-hmjm081106@gmail.com
+> 
+> Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
+> Assisted-by: LLM sparse
 
- .../hive_isp_css_common/host/event_fifo_private.h    |  1 -
- .../pci/hive_isp_css_common/host/fifo_monitor.c      |  5 -----
- .../hive_isp_css_common/host/fifo_monitor_private.h  |  3 ---
- .../atomisp/pci/hive_isp_css_common/host/gp_device.c |  1 -
- .../pci/hive_isp_css_common/host/gp_device_private.h |  1 -
- .../pci/hive_isp_css_common/host/gpio_private.h      |  1 -
- .../pci/hive_isp_css_common/host/input_formatter.c   |  8 --------
- .../host/input_formatter_private.h                   |  1 -
- .../media/atomisp/pci/hive_isp_css_common/host/irq.c | 12 ------------
- .../pci/hive_isp_css_common/host/irq_private.h       |  1 -
- .../media/atomisp/pci/hive_isp_css_common/host/isp.c |  1 -
- .../pci/hive_isp_css_common/host/isp_private.h       |  6 ------
- .../media/atomisp/pci/hive_isp_css_common/host/mmu.c |  2 --
- .../pci/hive_isp_css_common/host/sp_private.h        |  8 --------
- drivers/staging/media/atomisp/pci/hmm/hmm_bo.c       |  2 --
- .../media/atomisp/pci/isp2400_input_system_private.h |  4 ----
- .../media/atomisp/pci/runtime/binary/src/binary.c    |  1 -
- .../media/atomisp/pci/runtime/bufq/src/bufq.c        |  1 -
- .../atomisp/pci/runtime/debug/src/ia_css_debug.c     |  9 ---------
- .../media/atomisp/pci/runtime/frame/src/frame.c      |  4 ----
- .../media/atomisp/pci/runtime/ifmtr/src/ifmtr.c      |  2 --
- .../staging/media/atomisp/pci/runtime/isys/src/rx.c  |  7 -------
- drivers/staging/media/atomisp/pci/sh_css.c           |  4 ----
- 23 files changed, 85 deletions(-)
+The Assisted-by: tags are no longer used, please remove them.
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h
-index e77d7cf61356..f9823b9c2246 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h
-@@ -20,7 +20,6 @@ STORAGE_CLASS_EVENT_C void event_wait_for(const event_ID_t ID)
- 	assert(ID < N_EVENT_ID);
- 	assert(event_source_addr[ID] != ((hrt_address) - 1));
- 	(void)ia_css_device_load_uint32(event_source_addr[ID]);
--	return;
- }
- 
- STORAGE_CLASS_EVENT_C void cnd_event_wait_for(const event_ID_t ID,
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c
-index f0de78815456..9aee5ebb2004 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c
-@@ -492,8 +492,6 @@ void fifo_channel_get_state(
- 		assert(0);
- 		break;
- 	}
--
--	return;
- }
- 
- void fifo_switch_get_state(
-@@ -514,8 +512,6 @@ void fifo_switch_get_state(
- 	state->is_none = (data == HIVE_ISP_CSS_STREAM_SWITCH_NONE);
- 	state->is_sp = (data == HIVE_ISP_CSS_STREAM_SWITCH_SP);
- 	state->is_isp = (data == HIVE_ISP_CSS_STREAM_SWITCH_ISP);
--
--	return;
- }
- 
- void fifo_monitor_get_state(
-@@ -537,7 +533,6 @@ void fifo_monitor_get_state(
- 		fifo_switch_get_state(ID, sw_id,
- 				      &state->fifo_switches[sw_id]);
- 	}
--	return;
- }
- 
- static inline bool fifo_monitor_status_valid(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h
-index 53a3fb796aab..123cb89cf3ee 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h
-@@ -31,8 +31,6 @@ STORAGE_CLASS_FIFO_MONITOR_C void fifo_switch_set(
- 	(void)ID;
- 
- 	gp_device_reg_store(GP_DEVICE0_ID, FIFO_SWITCH_ADDR[switch_id], sel);
--
--	return;
- }
- 
- STORAGE_CLASS_FIFO_MONITOR_C hrt_data fifo_switch_get(
-@@ -56,7 +54,6 @@ STORAGE_CLASS_FIFO_MONITOR_C void fifo_monitor_reg_store(
- 	assert(FIFO_MONITOR_BASE[ID] != (hrt_address) - 1);
- 	ia_css_device_store_uint32(FIFO_MONITOR_BASE[ID] + reg * sizeof(hrt_data),
- 				   value);
--	return;
- }
- 
- STORAGE_CLASS_FIFO_MONITOR_C hrt_data fifo_monitor_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c
-index b934d20c88ea..35366da05390 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c
-@@ -96,5 +96,4 @@ void gp_device_get_state(
- 				   _REG_GP_SYNCGEN_FRAME_CNT_ADDR);
- 	state->soft_reset = gp_device_reg_load(ID,
- 					       _REG_GP_SOFT_RESET_ADDR);
--	return;
- }
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h
-index 71f20992ee98..f43e79a39f4d 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h
-@@ -22,7 +22,6 @@ STORAGE_CLASS_GP_DEVICE_C void gp_device_reg_store(
- 	assert(GP_DEVICE_BASE[ID] != (hrt_address) - 1);
- 	assert((reg_addr % sizeof(hrt_data)) == 0);
- 	ia_css_device_store_uint32(GP_DEVICE_BASE[ID] + reg_addr, value);
--	return;
- }
- 
- STORAGE_CLASS_GP_DEVICE_C hrt_data gp_device_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
-index bcf6538ac0dc..27809117dde6 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
-@@ -18,7 +18,6 @@ static inline void gpio_reg_store(
- 	OP___assert(ID < N_GPIO_ID);
- 	OP___assert(GPIO_BASE[ID] != (hrt_address) - 1);
- 	ia_css_device_store_uint32(GPIO_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
- }
- 
- static inline hrt_data gpio_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-index c353461dcdf2..d2ac87fdfb4a 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-@@ -64,8 +64,6 @@ void input_formatter_rst(
- 	 */
- 	if (!HIVE_IF_BIN_COPY[ID])
- 		input_formatter_reg_store(ID, addr, rst);
--
--	return;
- }
- 
- unsigned int input_formatter_get_alignment(
-@@ -87,7 +85,6 @@ void input_formatter_set_fifo_blocking_mode(
- 		input_formatter_reg_store(ID,
- 					  HIVE_IF_BLOCK_FIFO_NO_REQ_ADDRESS, enable);
- 	}
--	return;
- }
- 
- void input_formatter_get_switch_state(
-@@ -120,8 +117,6 @@ void input_formatter_get_switch_state(
- 					   _REG_GP_IFMT_input_switch_fsync_lut);
- 	state->if_input_switch_ch_id_fmt_type = gp_device_reg_load(GP_DEVICE0_ID,
- 						_REG_GP_IFMT_input_switch_ch_id_fmt_type);
--
--	return;
- }
- 
- void input_formatter_get_state(
-@@ -201,8 +196,6 @@ void input_formatter_get_state(
- 				HIVE_IF_FSM_VECTOR_SUPPORT);
- 	state->sensor_data_lost = input_formatter_reg_load(ID,
- 				  HIVE_IF_FIFO_SENSOR_STATUS);
--
--	return;
- }
- 
- void input_formatter_bin_get_state(
-@@ -230,5 +223,4 @@ void input_formatter_bin_get_state(
- 			 HIVE_STR2MEM_DUAL_BYTE_INPUTS_ENABLED_REG_ADDRESS);
- 	state->en_status_update = input_formatter_reg_load(ID,
- 				  HIVE_STR2MEM_EN_STAT_UPDATE_ADDRESS);
--	return;
- }
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h
-index 6b6ba49656e5..823861f2abe3 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h
-@@ -22,7 +22,6 @@ STORAGE_CLASS_INPUT_FORMATTER_C void input_formatter_reg_store(
- 	assert(INPUT_FORMATTER_BASE[ID] != (hrt_address)-1);
- 	assert((reg_addr % sizeof(hrt_data)) == 0);
- 	ia_css_device_store_uint32(INPUT_FORMATTER_BASE[ID] + reg_addr, value);
--	return;
- }
- 
- STORAGE_CLASS_INPUT_FORMATTER_C hrt_data input_formatter_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
-index 61dea386361a..6ca8fcd61b36 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
-@@ -60,7 +60,6 @@ void irq_clear_all(
- 
- 	irq_reg_store(ID,
- 		      _HRT_IRQ_CONTROLLER_CLEAR_REG_IDX, mask);
--	return;
- }
- 
- /*
-@@ -104,8 +103,6 @@ void irq_enable_channel(
- 		      _HRT_IRQ_CONTROLLER_MASK_REG_IDX, mask);
- 
- 	irq_wait_for_write_complete(ID);
--
--	return;
- }
- 
- void irq_enable_pulse(
-@@ -120,7 +117,6 @@ void irq_enable_pulse(
- 	/* output is given as edge, not pulse */
- 	irq_reg_store(ID,
- 		      _HRT_IRQ_CONTROLLER_EDGE_NOT_PULSE_REG_IDX, edge_out);
--	return;
- }
- 
- void irq_disable_channel(
-@@ -150,8 +146,6 @@ void irq_disable_channel(
- 		      _HRT_IRQ_CONTROLLER_CLEAR_REG_IDX, me);
- 
- 	irq_wait_for_write_complete(ID);
--
--	return;
- }
- 
- enum hrt_isp_css_irq_status irq_get_channel_id(
-@@ -212,7 +206,6 @@ void irq_raise(
- 			    (unsigned int)addr, 1);
- 	gp_device_reg_store(GP_DEVICE0_ID,
- 			    (unsigned int)addr, 0);
--	return;
- }
- 
- bool any_virq_signal(void)
-@@ -251,7 +244,6 @@ void cnd_virq_enable_channel(
- 			irq_disable_channel(IRQ0_ID, IRQ_NESTING_ID[ID]);
- 		}
- 	}
--	return;
- }
- 
- void virq_clear_all(void)
-@@ -260,8 +252,6 @@ void virq_clear_all(void)
- 
- 	for (irq_id = (irq_ID_t)0; irq_id < N_IRQ_ID; irq_id++)
- 		irq_clear_all(irq_id);
--
--	return;
- }
- 
- enum hrt_isp_css_irq_status
-@@ -302,8 +292,6 @@ void virq_clear_info(struct virq_info *irq_info)
- 
- 	for (ID = (irq_ID_t)0 ; ID < N_IRQ_ID; ID++)
- 		irq_info->irq_status_reg[ID] = 0;
--
--	return;
- }
- 
- enum hrt_isp_css_irq_status virq_get_channel_id(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h
-index ae0a8466a70a..5e27f053f00c 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h
-@@ -21,7 +21,6 @@ STORAGE_CLASS_IRQ_C void irq_reg_store(
- 	assert(ID < N_IRQ_ID);
- 	assert(IRQ_BASE[ID] != (hrt_address) - 1);
- 	ia_css_device_store_uint32(IRQ_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
- }
- 
- STORAGE_CLASS_IRQ_C hrt_data irq_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c
-index 39cccbfa3fca..17a04ac623ff 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c
-@@ -27,7 +27,6 @@ void cnd_isp_irq_enable(
- 		isp_ctrl_clearbit(ID, ISP_IRQ_READY_REG,
- 				  ISP_IRQ_READY_BIT);
- 	}
--	return;
- }
- 
- /* ISP functions to control the ISP state from the host, even in crun. */
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h
-index 177770a9bc1d..b699a1c3af0b 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h
-@@ -30,7 +30,6 @@ STORAGE_CLASS_ISP_C void isp_ctrl_store(
- #else
- 	hrt_master_port_store_32(ISP_CTRL_BASE[ID] + reg * sizeof(hrt_data), value);
- #endif
--	return;
- }
- 
- STORAGE_CLASS_ISP_C hrt_data isp_ctrl_load(
-@@ -64,7 +63,6 @@ STORAGE_CLASS_ISP_C void isp_ctrl_setbit(
- 	hrt_data	data = isp_ctrl_load(ID, reg);
- 
- 	isp_ctrl_store(ID, reg, (data | (1UL << bit)));
--	return;
- }
- 
- STORAGE_CLASS_ISP_C void isp_ctrl_clearbit(
-@@ -75,7 +73,6 @@ STORAGE_CLASS_ISP_C void isp_ctrl_clearbit(
- 	hrt_data	data = isp_ctrl_load(ID, reg);
- 
- 	isp_ctrl_store(ID, reg, (data & ~(1UL << bit)));
--	return;
- }
- 
- STORAGE_CLASS_ISP_C void isp_dmem_store(
-@@ -91,7 +88,6 @@ STORAGE_CLASS_ISP_C void isp_dmem_store(
- #else
- 	hrt_master_port_store(ISP_DMEM_BASE[ID] + addr, data, size);
- #endif
--	return;
- }
- 
- STORAGE_CLASS_ISP_C void isp_dmem_load(
-@@ -107,7 +103,6 @@ STORAGE_CLASS_ISP_C void isp_dmem_load(
- #else
- 	hrt_master_port_load(ISP_DMEM_BASE[ID] + addr, data, size);
- #endif
--	return;
- }
- 
- STORAGE_CLASS_ISP_C void isp_dmem_store_uint32(
-@@ -123,7 +118,6 @@ STORAGE_CLASS_ISP_C void isp_dmem_store_uint32(
- #else
- 	hrt_master_port_store_32(ISP_DMEM_BASE[ID] + addr, data);
- #endif
--	return;
- }
- 
- STORAGE_CLASS_ISP_C uint32_t isp_dmem_load_uint32(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
-index 70d118fe1e70..87d89eab7f2c 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
-@@ -12,7 +12,6 @@ void mmu_set_page_table_base_index(
-     const hrt_data		base_index)
- {
- 	mmu_reg_store(ID, _HRT_MMU_PAGE_TABLE_BASE_ADDRESS_REG_IDX, base_index);
--	return;
- }
- 
- hrt_data mmu_get_page_table_base_index(
-@@ -25,7 +24,6 @@ void mmu_invalidate_cache(
-     const mmu_ID_t		ID)
- {
- 	mmu_reg_store(ID, _HRT_MMU_INVALIDATE_TLB_REG_IDX, 1);
--	return;
- }
- 
- void mmu_invalidate_cache_all(void)
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h
-index c69778411f2f..b03ae6658df3 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h
-@@ -21,7 +21,6 @@ STORAGE_CLASS_SP_C void sp_ctrl_store(
- 	assert(ID < N_SP_ID);
- 	assert(SP_CTRL_BASE[ID] != (hrt_address)-1);
- 	ia_css_device_store_uint32(SP_CTRL_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
- }
- 
- STORAGE_CLASS_SP_C hrt_data sp_ctrl_load(
-@@ -51,7 +50,6 @@ STORAGE_CLASS_SP_C void sp_ctrl_setbit(
- 	hrt_data	data = sp_ctrl_load(ID, reg);
- 
- 	sp_ctrl_store(ID, reg, (data | (1UL << bit)));
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_ctrl_clearbit(
-@@ -62,7 +60,6 @@ STORAGE_CLASS_SP_C void sp_ctrl_clearbit(
- 	hrt_data	data = sp_ctrl_load(ID, reg);
- 
- 	sp_ctrl_store(ID, reg, (data & ~(1UL << bit)));
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_dmem_store(
-@@ -74,7 +71,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store(
- 	assert(ID < N_SP_ID);
- 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
- 	ia_css_device_store(SP_DMEM_BASE[ID] + addr, data, size);
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_dmem_load(
-@@ -86,7 +82,6 @@ STORAGE_CLASS_SP_C void sp_dmem_load(
- 	assert(ID < N_SP_ID);
- 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
- 	ia_css_device_load(SP_DMEM_BASE[ID] + addr, data, size);
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_dmem_store_uint8(
-@@ -98,7 +93,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store_uint8(
- 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
- 	(void)ID;
- 	ia_css_device_store_uint8(SP_DMEM_BASE[SP0_ID] + addr, data);
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_dmem_store_uint16(
-@@ -110,7 +104,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store_uint16(
- 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
- 	(void)ID;
- 	ia_css_device_store_uint16(SP_DMEM_BASE[SP0_ID] + addr, data);
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_dmem_store_uint32(
-@@ -122,7 +115,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store_uint32(
- 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
- 	(void)ID;
- 	ia_css_device_store_uint32(SP_DMEM_BASE[SP0_ID] + addr, data);
--	return;
- }
- 
- STORAGE_CLASS_SP_C uint8_t sp_dmem_load_uint8(
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index 0a8f401a1ca1..4ceb8cb41156 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -483,7 +483,6 @@ void hmm_bo_release(struct hmm_buffer_object *bo)
- 	__bo_insert_to_free_rbtree(&bdev->free_rbtree, bo);
- 
- 	mutex_unlock(&bdev->rbtree_mutex);
--	return;
- }
- 
- void hmm_bo_device_exit(struct hmm_bo_device *bdev)
-@@ -957,7 +956,6 @@ void hmm_bo_vunmap(struct hmm_buffer_object *bo)
- 	}
- 
- 	mutex_unlock(&bo->mutex);
--	return;
- }
- 
- void hmm_bo_ref(struct hmm_buffer_object *bo)
-diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h
-index a6762683a0ac..00e6574f186a 100644
---- a/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h
-+++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h
-@@ -22,7 +22,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void input_system_reg_store(
- 	assert(INPUT_SYSTEM_BASE[ID] != (hrt_address)-1);
- 	ia_css_device_store_uint32(INPUT_SYSTEM_BASE[ID] + reg * sizeof(hrt_data),
- 				   value);
--	return;
- }
- 
- STORAGE_CLASS_INPUT_SYSTEM_C hrt_data input_system_reg_load(
-@@ -43,7 +42,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void receiver_reg_store(
- 	assert(ID < N_RX_ID);
- 	assert(RX_BASE[ID] != (hrt_address)-1);
- 	ia_css_device_store_uint32(RX_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
- }
- 
- STORAGE_CLASS_INPUT_SYSTEM_C hrt_data receiver_reg_load(
-@@ -67,7 +65,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void receiver_port_reg_store(
- 	assert(MIPI_PORT_OFFSET[port_ID] != (hrt_address)-1);
- 	ia_css_device_store_uint32(RX_BASE[ID] + MIPI_PORT_OFFSET[port_ID] + reg *
- 				   sizeof(hrt_data), value);
--	return;
- }
- 
- STORAGE_CLASS_INPUT_SYSTEM_C hrt_data receiver_port_reg_load(
-@@ -95,7 +92,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void input_system_sub_system_reg_store(
- 	assert(SUB_SYSTEM_OFFSET[sub_ID] != (hrt_address)-1);
- 	ia_css_device_store_uint32(INPUT_SYSTEM_BASE[ID] + SUB_SYSTEM_OFFSET[sub_ID] +
- 				   reg * sizeof(hrt_data), value);
--	return;
- }
- 
- STORAGE_CLASS_INPUT_SYSTEM_C hrt_data input_system_sub_system_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index e9016d7775dc..8ee20947b20e 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -345,7 +345,6 @@ ia_css_binary_dvs_stat_grid_info(
- {
- 	(void)pipe;
- 	sh_css_binary_common_grid_info(binary, info);
--	return;
- }
- 
- int ia_css_binary_3a_grid_info(const struct ia_css_binary *binary,
-diff --git a/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c b/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
-index 0f0d16f4ce7c..51f7c9d6f378 100644
---- a/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
-@@ -176,7 +176,6 @@ static void map_buffer_type_to_queue_id(
- 	}
- 
- 	assert(i != SH_CSS_MAX_NUM_QUEUES);
--	return;
- }
- 
- static void unmap_buffer_type_to_queue_id(
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index 5113aa5973f3..f9be7743d006 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -136,7 +136,6 @@ void ia_css_debug_dtrace(unsigned int level, const char *fmt, ...)
- void ia_css_debug_set_dtrace_level(const unsigned int trace_level)
- {
- 	dbg_level = trace_level;
--	return;
- }
- 
- unsigned int ia_css_debug_get_dtrace_level(void)
-@@ -315,7 +314,6 @@ static void debug_print_fifo_channel_state(const fifo_channel_state_t *state,
- 			    state->fifo_valid);
- 	ia_css_debug_dtrace(2, "\t%-32s: %d\n", "sink accept",
- 			    state->sink_accept);
--	return;
- }
- 
- void ia_css_debug_dump_pif_a_isp_fifo_state(void)
-@@ -364,7 +362,6 @@ void ia_css_debug_dump_all_fifo_state(void)
- 	for (i = 0; i < N_FIFO_CHANNEL; i++)
- 		debug_print_fifo_channel_state(&state.fifo_channels[i],
- 					       "squepfstqkt");
--	return;
- }
- 
- static void debug_binary_info_print(const struct ia_css_binary_xinfo *info)
-@@ -386,7 +383,6 @@ static void debug_binary_info_print(const struct ia_css_binary_xinfo *info)
- 	ia_css_debug_dtrace(2, "enable_uds = %d\n", info->sp.enable.uds);
- 	ia_css_debug_dtrace(2, "enable ds = %d\n", info->sp.enable.ds);
- 	ia_css_debug_dtrace(2, "s3atbl_use_dmem = %d\n", info->sp.s3a.s3atbl_use_dmem);
--	return;
- }
- 
- void ia_css_debug_binary_print(const struct ia_css_binary *bi)
-@@ -441,7 +437,6 @@ void ia_css_debug_binary_print(const struct ia_css_binary *bi)
- 			    bi->sctbl_width_per_color);
- 	ia_css_debug_dtrace(2, "s3atbl_width = %d\n", bi->s3atbl_width);
- 	ia_css_debug_dtrace(2, "s3atbl_height = %d\n", bi->s3atbl_height);
--	return;
- }
- 
- void ia_css_debug_frame_print(const struct ia_css_frame *frame,
-@@ -526,7 +521,6 @@ void ia_css_debug_frame_print(const struct ia_css_frame *frame,
- 		ia_css_debug_dtrace(2, "  unknown frame type\n");
- 		break;
- 	}
--	return;
- }
- 
- #if SP_DEBUG != SP_DEBUG_NONE
-@@ -808,8 +802,6 @@ void ia_css_debug_print_sp_debug_state(const struct sh_css_sp_debug_state
- #endif
- 
- #if SP_DEBUG != SP_DEBUG_NONE
--
--	return;
- }
- #endif
- 
-@@ -823,7 +815,6 @@ void ia_css_debug_dump_sp_sw_debug_info(void)
- #endif
- 	ia_css_bufq_dump_queue_info();
- 	ia_css_pipeline_dump_thread_map_info();
--	return;
- }
- 
- /* this function is for debug use, it can make SP go to sleep
-diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-index 8614efc28b19..ae952df03cc6 100644
---- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-@@ -525,7 +525,6 @@ static void frame_init_nv_planes(struct ia_css_frame *frame,
- 	frame_init_plane(&frame->planes.nv.y, y_width, y_stride, y_height, 0);
- 	frame_init_plane(&frame->planes.nv.uv, uv_width,
- 			 uv_stride, uv_height, y_bytes);
--	return;
- }
- 
- static void frame_init_yuv_planes(struct ia_css_frame *frame,
-@@ -558,7 +557,6 @@ static void frame_init_yuv_planes(struct ia_css_frame *frame,
- 		frame_init_plane(&frame->planes.yuv.v, uv_width, uv_stride,
- 				 uv_height, y_bytes + uv_bytes);
- 	}
--	return;
- }
- 
- static void frame_init_rgb_planes(struct ia_css_frame *frame,
-@@ -575,7 +573,6 @@ static void frame_init_rgb_planes(struct ia_css_frame *frame,
- 			 width, stride, height, 1 * bytes);
- 	frame_init_plane(&frame->planes.planar_rgb.b,
- 			 width, stride, height, 2 * bytes);
--	return;
- }
- 
- static void frame_init_qplane6_planes(struct ia_css_frame *frame)
-@@ -599,7 +596,6 @@ static void frame_init_qplane6_planes(struct ia_css_frame *frame)
- 			 width, stride, height, 4 * bytes);
- 	frame_init_plane(&frame->planes.plane6.b_at_r,
- 			 width, stride, height, 5 * bytes);
--	return;
- }
- 
- static int frame_allocate_buffer_data(struct ia_css_frame *frame)
-diff --git a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-index 50b0b31d734a..9739ab25000c 100644
---- a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-@@ -471,8 +471,6 @@ static void ifmtr_set_if_blocking_mode(
- 			input_formatter_set_fifo_blocking_mode(id, block[id]);
- 		}
- 	}
--
--	return;
- }
- 
- static int ifmtr_start_column(
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-index 9cfb8bc97e24..5d90587bac73 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-@@ -43,8 +43,6 @@ void ia_css_isys_rx_enable_all_interrupts(enum mipi_port_id port)
- 	 * The CSI is nested into the Iunit IRQ's
- 	 */
- 	ia_css_irq_enable(IA_CSS_IRQ_INFO_CSS_RECEIVER_ERROR, true);
--
--	return;
- }
- 
- /* This function converts between the enum used on the CSS API and the
-@@ -196,8 +194,6 @@ void ia_css_isys_rx_clear_irq_info(enum mipi_port_id port,
- 	receiver_port_reg_store(RX0_ID,
- 				port,
- 				_HRT_CSS_RECEIVER_IRQ_ENABLE_REG_IDX, bits);
--
--	return;
- }
- 
- static int ia_css_isys_2400_set_fmt_type(enum atomisp_input_format input_format,
-@@ -637,8 +633,6 @@ void ia_css_isys_rx_configure(const rx_cfg_t *config,
- 	 *                INPUT_SYSTEM_CSI_RECEIVER_SELECT_BACKENG, 1);
- 	 */
- 	input_system_reg_store(INPUT_SYSTEM0_ID, 0x207, 1);
--
--	return;
- }
- 
- void ia_css_isys_rx_disable(void)
-@@ -650,5 +644,4 @@ void ia_css_isys_rx_disable(void)
- 					_HRT_CSS_RECEIVER_DEVICE_READY_REG_IDX,
- 					false);
- 	}
--	return;
- }
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 4a182dc384ca..5b12ff8ec32d 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -2928,8 +2928,6 @@ ia_css_get_crop_offsets(
- 	in_frame->crop_info.start_line = row;
- 
- 	IA_CSS_LEAVE_PRIVATE("void start_col: %u start_row: %u", column, row);
--
--	return;
- }
- 
- static int
-@@ -3326,8 +3324,6 @@ static void send_raw_frames(struct ia_css_pipe *pipe)
- 							    pipe->continuous_frames[i], pipe->cont_md_buffers[i]);
- 		}
- 	}
--
--	return;
- }
- 
- static int
+> ---
+>  drivers/media/i2c/ov8858.c | 183 ++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 147 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
+> index 2a0e2b08b9aa..64532237e8b5 100644
+> --- a/drivers/media/i2c/ov8858.c
+> +++ b/drivers/media/i2c/ov8858.c
+
+...
+
+> @@ -1541,6 +1606,23 @@ static int ov8858_set_long_digital_gain(struct ov8858 *ov8858, u32 gain)
+>  	return ov8858_write(ov8858, OV8858_REG_LONG_DIGIGAIN, long_gain, NULL);
+>  }
+>  
+> +static int ov8858_set_mwb_gains(struct ov8858 *ov8858)
+> +{
+> +	int ret = 0;
+> +
+> +	ov8858_write(ov8858, OV8858_REG_MWB_RED_GAIN,
+> +		     ov8858->red_balance->val, &ret);
+> +	/*
+> +	 * Green is the unity reference for the red and blue balance controls.
+> +	 */
+
+UAPI-wise this doesn't look great. There's a digital gain control, too, so
+you can still control the entire digital gain. But the hardware has
+per-component gains and in this case the (likely analogue TV inspired?)
+UAPI limits this. A few other sensor drivers appear to be doing the same.
+
+Cc Laurent, too.
+
+> +	ov8858_write(ov8858, OV8858_REG_MWB_GREEN_GAIN,
+> +		     OV8858_MWB_GAIN_DEFAULT, &ret);
+> +	ov8858_write(ov8858, OV8858_REG_MWB_BLUE_GAIN,
+> +		     ov8858->blue_balance->val, &ret);
+> +
+> +	return ret;
+> +}
+> +
+>  static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct ov8858 *ov8858 = container_of(ctrl->handler,
+> @@ -1589,6 +1671,10 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_DIGITAL_GAIN:
+>  		ret = ov8858_set_long_digital_gain(ov8858, ctrl->val);
+>  		break;
+> +	case V4L2_CID_RED_BALANCE:
+> +	case V4L2_CID_BLUE_BALANCE:
+> +		ret = ov8858_set_mwb_gains(ov8858);
+> +		break;
+>  	case V4L2_CID_VBLANK:
+>  		ret = ov8858_write(ov8858, OV8858_REG_VTS,
+>  				   ctrl->val + format->height, NULL);
+> @@ -1623,9 +1709,6 @@ static int ov8858_power_on(struct ov8858 *ov8858)
+>  	unsigned long delay_us;
+>  	int ret;
+>  
+> -	if (clk_get_rate(ov8858->xvclk) != OV8858_XVCLK_FREQ)
+> -		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
+> -
+>  	ret = clk_prepare_enable(ov8858->xvclk);
+>  	if (ret < 0) {
+>  		dev_err(dev, "Failed to enable xvclk\n");
+> @@ -1644,7 +1727,7 @@ static int ov8858_power_on(struct ov8858 *ov8858)
+>  	 * transaction, but a double sleep between the release of gpios
+>  	 * helps with sporadic failures observed at probe time.
+>  	 */
+> -	delay_us = DIV_ROUND_UP(8192, OV8858_XVCLK_FREQ / 1000 / 1000);
+> +	delay_us = DIV_ROUND_UP(8192, ov8858->xvclk_rate / HZ_PER_MHZ);
+>  
+>  	gpiod_set_value_cansleep(ov8858->reset_gpio, 0);
+>  	fsleep(delay_us);
+> @@ -1710,7 +1793,7 @@ static int ov8858_init_ctrls(struct ov8858 *ov8858)
+>  	u32 h_blank;
+>  	int ret;
+>  
+> -	ret = v4l2_ctrl_handler_init(handler, 10);
+> +	ret = v4l2_ctrl_handler_init(handler, 12);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1752,6 +1835,19 @@ static int ov8858_init_ctrls(struct ov8858 *ov8858)
+>  			  OV8858_LONG_DIGIGAIN_STEP,
+>  			  OV8858_LONG_DIGIGAIN_DEFAULT);
+>  
+> +	ov8858->red_balance =
+> +		v4l2_ctrl_new_std(handler, &ov8858_ctrl_ops,
+> +				  V4L2_CID_RED_BALANCE,
+> +				  OV8858_MWB_GAIN_MIN, OV8858_MWB_GAIN_MAX,
+> +				  OV8858_MWB_GAIN_STEP,
+> +				  OV8858_MWB_GAIN_DEFAULT);
+> +	ov8858->blue_balance =
+> +		v4l2_ctrl_new_std(handler, &ov8858_ctrl_ops,
+> +				  V4L2_CID_BLUE_BALANCE,
+> +				  OV8858_MWB_GAIN_MIN, OV8858_MWB_GAIN_MAX,
+> +				  OV8858_MWB_GAIN_STEP,
+> +				  OV8858_MWB_GAIN_DEFAULT);
+> +
+>  	v4l2_ctrl_new_std_menu_items(handler, &ov8858_ctrl_ops,
+>  				     V4L2_CID_TEST_PATTERN,
+>  				     ARRAY_SIZE(ov8858_test_pattern_menu) - 1,
+> @@ -1805,15 +1901,20 @@ static int ov8858_check_sensor_id(struct ov8858 *ov8858)
+>  
+>  	if (id == OV8858_R2A) {
+>  		/* R2A supports 2 and 4 lanes modes. */
+> -		ov8858->global_regs = ov8858->num_lanes == 4
+> -				    ? ov8858_global_regs_r2a_4lane
+> -				    : ov8858_global_regs_r2a_2lane;
+> +		if (ov8858->num_lanes == 4) {
+> +			ov8858->global_regs = ov8858_global_regs_r2a_4lane;
+> +			ov8858->xvclk_regs = ov8858_24mhz_360mhz_r2a_4lane;
+> +		} else {
+> +			ov8858->global_regs = ov8858_global_regs_r2a_2lane;
+> +			ov8858->xvclk_regs = ov8858_24mhz_360mhz_r2a_2lane;
+> +		}
+>  	} else if (ov8858->num_lanes == 2) {
+>  		/*
+>  		 * R1A only supports 2 lanes mode and it's only partially
+>  		 * supported.
+>  		 */
+>  		ov8858->global_regs = ov8858_global_regs_r1a;
+> +		ov8858->xvclk_regs = ov8858_24mhz_360mhz_r1a_2lane;
+>  		dev_warn(&client->dev, "R1A may not work well!\n");
+>  	} else {
+>  		dev_err(&client->dev,
+> @@ -1821,6 +1922,9 @@ static int ov8858_check_sensor_id(struct ov8858 *ov8858)
+>  		return -EINVAL;
+>  	}
+>  
+> +	if (ov8858->xvclk_rate == OV8858_XVCLK_FREQ_19_2MHZ)
+> +		ov8858->xvclk_regs = ov8858_19_2mhz_360mhz;
+
+The 24 MHz configurations are lane number (and variant) dependent. Isn't
+that applying to 19,2 MHz? If not, why?
+
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1888,6 +1992,13 @@ static int ov8858_probe(struct i2c_client *client)
+>  		return dev_err_probe(dev, PTR_ERR(ov8858->xvclk),
+>  				     "Failed to get xvclk\n");
+>  
+> +	ov8858->xvclk_rate = clk_get_rate(ov8858->xvclk);
+> +	if (ov8858->xvclk_rate != OV8858_XVCLK_FREQ_19_2MHZ &&
+> +	    ov8858->xvclk_rate != OV8858_XVCLK_FREQ_24MHZ)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "Unsupported xvclk rate %lu Hz\n",
+> +				     ov8858->xvclk_rate);
+> +
+>  	ov8858->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+>  						     GPIOD_OUT_HIGH);
+>  	if (IS_ERR(ov8858->reset_gpio))
+> 
+
 -- 
-2.56.0
+Regards,
 
+Sakari Ailus
