@@ -1,80 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1794454210;
-	b=j6B1LioeqMFfp+MidxTdVFwl772QOtEWKkJnp8hhUfEwOtLgHpoJ3SPjMfu0tOflp96T
-	 1/QphEx7DEOFYBZGuGxToFO3yAiOcDVBQcqeh/QIBbLX7kOWZ+436Zjbz0ttEMSvx/t01
-	 yw8QvdB9o1gcA2I/RaRUVU1D7xH+bV7EQj+ATxNWA7K0M+bEtIJs80nnrbKNxnH9lLqV0
-	 KB3nJkpswDCsWZaoDEVrdgmXfGmavpon5Zx/wBrxj0z5HLGsBeDqzh+1mD8MmNastxxjT
-	 hRpgPdCxmKo7oZDgbziPT3SE5AbbIxfNbBUFTIDs1+HoElBQ4IW/UszJY2F5Bl6zyvg==
+	b=hXvo3ZIOXR8zo4ICFgI8L6YrBqkrHAv5qgv5xvVSJW9EspsW8bgiDiWXoh8qj0bsiaS5
+	 XD2S+e1b701Kydupt13HYieSVKkYm1pAB4Cr+N+aCumG2JwGbxQ8iPYQDxyidW2Jyg3rZ
+	 Dymh6M+xsAfPyGFasWmQ5XKvaThQ8ANjbjqW7Hp2F5utAOCEkLP3Hp45qL76QKJyvglVY
+	 s735urSEzQGgfwcrqKdXm531m0LFYhhq9pVIc5r74TwUjBB4cWDG4jm8oNxwfuWpPdghP
+	 6pyWfvjEfkLs1uwubK1wUe+nnOLNB6QIP2/lIy5vdfoPixFcYH48mNX/H07n8wZ/yeQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794454210;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=bgGQOwFOk0Aa4x0K0E9YvcghK9Nli22UrljjDODslcc=;
-	b=gPEH4GZAYR40By9EoI7vBk1YC2RXeNTBRMwUV2zFcfO/IrV6wFS8VENiQp1Aq2+gTthZ
-	 5ZmLjeFdTo1KZY+RluNeJpSUTwTX76fVol0M0iSmM+PLif2NreXa8YJ9OrdNWAF1fGQRZ
-	 dVVLjgRMAht5JcskI+C031pxDdvj3AkN/UgArLWKw5YqC50GuREQWeMXTNsO+LaLI6F1r
-	 /QBLK4pKSkowQbq8IAB94Ajiy0dFHJ4eBBCHLEQ/nEii6A4LqHHh+NHiI3X4427QnoSzQ
-	 becTsYkiedZnjy7xkQ+hV3d4OU4dIEFHNWQxULY8qxSyhidlPwMc+auRaJEKEV3ODZQ==
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=3GgvPJagE+zuLdLjBExn5vDk3lJnEMFjBQK/8H8lWUE=;
+	b=N7k8H9MuK7in2mkX6/OXrK5+hYiz+0WrwBpOYQcfC/j4SvpMRO/KUeDcQ9Q8D7KXTyl5
+	 5zy82/3SVrtD9/atGKcIF5WdqWKJtHVz39hN7FD4sa1ermxobrkrHAZ91Tpn/uoDzozMC
+	 sUFGwQaoJ5dTIHc3EBO8Oy2YCLZohBz5KZiFoMfRjDK+zV0WateyXEdy8khtL05hLvIhK
+	 ZtlgMUI0kJ8VoRaubRVGr3khWsk/k+m18mCE3PWgQi1KjIv2rd5r6NheiTDFnTiMRqKSE
+	 +8hfG4Z96OUeNpPJgViIE1cV57IZL+MUVnYONf2I2vowt16JnRu8w1BBXFHYNdwHdbA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jmU8Qr+X;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b7bNK6uO;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12E9606A327;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7AB606A31C;
 	Thu, 12 Nov 2026 03:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jmU8Qr+X
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b7bNK6uO
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1794454210;
-	b=W3iXgai+NcODwwdoxaE87ux/aPTtDExt9xXtusuo881tE6wXRsw5YiZWjLdQV5H1VwOC
-	 P1NqSEBDdOYBpL4UX9T5P0IxDcbbM8EVwPN+MirFnPvKMre7+vM17GpHWc7I+i0yrMe0D
-	 mgFMOrs8CDTXuE4rHrXcgLU/Go5EXm96+IO97rzflW7GAt/EzGvQR7xQ9xrYIvdaYwiub
-	 Jilk95mTa4ePvDTSHZbyBivTUe+OMfJ1P8gbNpWDakdhnqhbLypSKYyZvbN/o5SyUGYPk
-	 /3OtcoqmG7ocBpaKSTzi+0s00F7oI90hiQAhNAmXnwEd5+FAUFMjZE1fSLRZb25dDzw==
+	b=2Iao//C/lS+18Byq201Ln1ZUBM1XcOp0GGLSXmBYf1SD3IBoZX8nztpE2y4Tm9RuuoCQ
+	 1BMIFZ1icfE3ubkw8V8Tz94en3XT4tUZmr61rJLOQDp7MhZotcwVmRXL/51HNBvDgf/au
+	 EUokJzvpOmQZ0r6j7KhQAVpWPItGth0gB/P9i3kNPZrDXexxM1GBu1254+MfiaaVCjXYs
+	 x1V3sWpMkDUvp0YKVKsdRnTjxFlnMe5Lc1itz9pGevA+lioDfVPeX/zsQtZtcJY/wrxgX
+	 6OPcLx/zfV2+bdbPAFjS9Or0dj08GolYhYT+win13yx9lyxfEd7izbxHv7ti3SHKgeQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1794454210;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=bgGQOwFOk0Aa4x0K0E9YvcghK9Nli22UrljjDODslcc=;
-	b=pl0DWMgRtqTL2H0zTwx/BZY91flR8dyFROYrY7Q6EqI0FwopTeMA32a83eadGpfSMIzB
-	 iFKcT9rZhwXwpRJrRXvwG7Mr7/HoZ4Lu2i5yiy7uxjEY/C9uH4mWBA89lqL+r8qorusV7
-	 Q97OrBBsibHw0ellsBKYVPBeqquYAHoffuldldQFlWJX0msoj/AO7lFnHpGtU8l275UL1
-	 9+ZJpjJwrFQDKk6UJkFxxCZ6jmEo+DevQlWpx53iKHdaRxmgpHUy0GM0mIomfn2Mcp9aX
-	 vELVGBhoMY2CKg2AcuM+Ii2p5qruZccFc5FDaBDTl2w2NeA2NoCmC8YD4CLy0YPtlVQ==
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=3GgvPJagE+zuLdLjBExn5vDk3lJnEMFjBQK/8H8lWUE=;
+	b=3faDDC/9N7H5U3W5MKx/MSnX/cvUVFmgKfk6puZq9NHyjYo1tOqhI+VR1XgnDsAAkArK
+	 MGxnf+GVZNoPluS3uOcpoyN1m9A2NcBTzO7rLsjnjOWZHTElvJ8xWIy5YTYm39oIvRZN6
+	 KxZHh9kYtQff+TNUBiKJZ2rDXY94RNJScpUf+JfUk9WM+lUUwRbyJT2cBQPCWTH2i7EnS
+	 Ue93FjEL7hwoObGU9GGTj2DOCjKlxvf5fcQv/GBJKC3y69WlPhindAwSVrfUqClK6WNce
+	 Z8ciSLpJWot8XAoLI02tg4VlSXtu8ePLRPz+CdYdQVyjMWWimvowwoydtoiBWLv0anw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id ADF831F00A06;
+	by smtp.kernel.org (Postfix) with ESMTPS id ADFB71F00A07;
 	Thu, 12 Nov 2026 03:30:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794454210;
-	bh=bgGQOwFOk0Aa4x0K0E9YvcghK9Nli22UrljjDODslcc=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=jmU8Qr+XAN3J9a7A0nhyCJysigUWIWfmtdnyHuV+dXVkolBsKVeKg69ZfddEoteQ5
-	 DueOB7jsQ4kn21J5oldUccJYEfFN+8Ps6HXbUOSbjBH3Vp0EBw10CHqp49Z8JaT+9a
-	 cuJY7zlw0rDKh8fLCO4WuBE36+nCQwAt16kHILtdG8WIzN7sL2pZb6o6BYA7Fqwr9O
-	 lowHChCEsMCKMUkAS8nFowHIE9p6FwmLVGmAqgY+UicJiEWBnpNx8mwf3ZarIpgfkm
-	 8PyKPP4LcPDEXm+7aLJbnNOoG2tO2QLtadyi85W+y/v86Sf+KZYKkGSt1sLY67FMQL
-	 99rCbl3JCAA0g==
+	bh=3GgvPJagE+zuLdLjBExn5vDk3lJnEMFjBQK/8H8lWUE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=b7bNK6uOYtgG8uR2DnO1KBYi288HwLBNQOsj82fEmTXTYwagtOeRgtUjahM2+TpBd
+	 rSDPWnbWqPuU7f5EBGL0u0mH2kLonasmhlglanPZNGe1axCxEDzjcZS+tIOpn4aPvr
+	 CEkS1EMwVUPIgVGOguT77ThldD6G2R7dIQrmBThhI6EFFQpitfQAsH9VcFfb1vG4Tg
+	 AZlBQYJ90HUSJ1id8Zh0VEb1PZJBd/bikH0d1XkXmCRYae7R/Nk1zT0SOvH2qWneoi
+	 9sqTKZ0VLnleIgYYyrlXoNrDYsdXnUp2VQrcKSi6mIUeUgTP3viIyAOHXNqxSaJCCg
+	 3RvgUxh1FtTOQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 0CFB44923C;
+	by lkml.kernel.org (Postfix) with ESMTP id 21F9A49244;
 	Thu, 12 Nov 2026 03:30:09 +0000 (UTC)
 From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
-Subject: [PATCH v3 0/2] staging: octeon: fix probe error path and
- pow_send_list matching
-Date: Wed, 11 Nov 2026 21:29:56 -0600
-Message-Id: <20261111-octeon-init-pipeline-v1-v3-0-e5581974fae4@gmail.com>
+Date: Wed, 11 Nov 2026 21:29:57 -0600
+Subject: [PATCH v3 1/2] staging: octeon: disable PKO before device removal
+ in probe error path
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -85,58 +84,54 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNQQ6CMBBFr0Jm7Zi2QLWuvIdhgXWASaBtWtJoC
- He3cgGTv3k/+e9vkCgyJbhVG0TKnNi7AvWpAjv1biTkV2FQQmkpxRW9Xck7ZMcrBg40syPMEkm
- 1ZHUzNIZqKOsQaeD3YX50hSdOq4+f4yjLX/vfWSKQnspqa1qtLuY+Lj3PZ+sX6PZ9/wKyG1pWv
- gAAAA==
-X-Change-ID: 20261108-octeon-init-pipeline-v1-e25ec64f49e3
+Message-Id: <20261111-octeon-init-pipeline-v1-v3-1-e5581974fae4@gmail.com>
+References: <20261111-octeon-init-pipeline-v1-v3-0-e5581974fae4@gmail.com>
+In-Reply-To: <20261111-octeon-init-pipeline-v1-v3-0-e5581974fae4@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794454208; l=1128;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794454208; l=895;
  i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
- bh=PijAdS24DSrt7xT4IEtyGgaWqpoeAF70HEZmMy9AdhA=;
- b=+jJNtraHj5wgm/m6oXx/umJWMJZWKSOEjQA6rHckRVEeZI0awqH3L4CjDQU0QJAuN8Am2VXfx
- 0ZMH5bBEsPMD8HdVw47QYUgXNqUWbXtElud+Dvn+hZZQX8a8fCGRrsY
+ bh=VKtuoP+mIA1EKBGbewR+SjFHAmuHlZPHPWfuOFozPpc=;
+ b=FuGbkZ/TvBP+Zo/UtEFGpfgkoU5e0byqbOTKIc8AXUZK6bw52HzwEEeE1229xXvthNdCJ9CKx
+ afLJOhu8BMRDOx51pgDlC8ShG/E18VnPkwJCP0auywX4nnsjjXZKgsx
 X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
  pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
 X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
  auth_id=1410
 X-Original-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
 Reply-To: aleszlucero@gmail.com
+Content-Transfer-Encoding: 8bit
 
-Fixed two bugs in drivers/staging/octeon/ethernet.c:
+From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 
-1. Call cvmx_pko_disable() in the cvm_oct_probe() error path to match the
-   teardown sequence in cvm_oct_remove().
-2. Split pow_send_list on commas using strsep() instead of matching
-   substrings with strstr().
+cvm_oct_remove() calls cvmx_pko_disable() before removing devices and
+shutting down PKO. The err_tx error path in cvm_oct_probe() omits this
+call.
 
-Oscar Alejandro Sánchez Lucero (2):
-  staging: octeon: disable PKO before device removal in probe error path
-  staging: octeon: match exact interface names in pow_send_list
+Add cvmx_pko_disable() to the probe error path to match cvm_oct_remove().
 
 Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
 ---
-Changes in v3:
-- Drop the ndo_get_stats64 conversion patch
-- Change commit description.
+ drivers/staging/octeon/ethernet.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
----
-Oscar Alejandro Sánchez Lucero (2):
-      staging: octeon: disable PKO before device removal in probe error path
-      staging: octeon: match exact interface names in pow_send_list
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index 42ec4b8324a8..c77678cb351f 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -959,6 +959,8 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 
+ 	atomic_inc_return(&cvm_oct_poll_queue_stopping);
+ 
++	cvmx_pko_disable();
++
+ 	/* Free the ethernet devices */
+ 	for (int port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
+ 		cvm_oct_remove_device(port);
 
- drivers/staging/octeon/ethernet.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
----
-base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
-change-id: 20261108-octeon-init-pipeline-v1-e25ec64f49e3
-
-Best regards,
 -- 
-Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+2.56.0
 
 
