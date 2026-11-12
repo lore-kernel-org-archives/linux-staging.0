@@ -1,80 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794467964;
-	b=arJVNKdvBVE7GlR6mxXQ9iy5DkSuNKz6YsGaykIV3xUsKbq7PMxkudPf/nsTPHCtAo8j
-	 EZODevKzv0L72FitA+LbKeSn+Mb2o2rOcHfonfGn+1LqAt4dUe6cmgRKphwvXNXPbcqV+
-	 BEdYTIKu89ILWbEivM15aP4XwFR9OTovLAi8XlRRa+Jqt1OBqhahu6l79+HL4Bhf4XjX0
-	 X+IlDxqy22qz636WRS+TLDOb1NmM/U+ZSRx+p3UbDDpgfPjEFvOgmomvn0ZT+yE3Lm7G0
-	 Y3tGIOPAsoykS9tVbeGWcJeR8m4QrfPQv9nxJdWfuWVsn5opxFVlxrxnRcw1TTFIe0g==
+	t=1794471757;
+	b=1y+XIBK1xmkDY8bEmWYWRB3j351ax26MDktlEyMqCd7DkxCxO3HT+fiS6a7MmMiFW0FU
+	 yn1TFabzSCtlFd5+rkPjA0aFxPu2JHPlEtOdlMX1QiXUTTKhD4EI15nPHTR1MLSaMqwwB
+	 w/LX64b2DcG3YFgSflaR4F62a52Dk6PiqIl7G/PiqjjKaZ24/4z8zU/IGqDpREHX3IwGD
+	 tBJp52QsPqJqRXFHXLUSDbwotO9/UVfKQtylrFgxvbMJQ+p3eyIW07YazV4v5JN393G+Q
+	 DvWb5qcICT5a4UQZFEqDEMUiXBJCpnb7qukcNMNYwCYsXgej+GHp1WAiI+k7l1Ra+Ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794467964;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=5t1IQ47c0TX9II5SZS9sRg3rlhGHOvDYZKROwdCbd5o=;
-	b=C5uqj5rnsk9lIbsJJFXVy3rPmXjOU4ZhJZt6h95GetajlcK0zedxYbvEtFeuqHltAaSK
-	 PlepLi0nnEa/hM+HhGGNHSu2sg6jBk56l571z6oKlasVI5jpR0Bm6TklEi4obTi8lOyuc
-	 RP6755wmTEk5V43RWA2O755/Laa/sTPZLOdehTOTstDQTla+P/BaX5vNz73BczIe+yoRy
-	 yw+n1ysjAt0rmBK53ewB4ePBmo7qYyYMIqcDkWlWsJUnxmGeDqT7mPqdOmn79Lw9A7Dfe
-	 1671V/6F7K6QUU1iitM+fNJRY6gg6LwtOuxSmHLx4m1Mp3cNUp8U2Q/FxuGr3JhiRLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794471757;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=BDpJwbTGNyEZBddgupUtTkbcG64c1MCzi1j9+WCer18=;
+	b=axpId8Y1jL+A9v0XceDi6pg45xFWQGwS7oMUVTkoqCEJbOvCnv7ccNT3XBjslcPXaC00
+	 n4a4IM4dmUA59shTsCtD4BOkDz7Bzz2VT+0CXizbO48BEFexk0dPdBnj59hQ7QAOlnIlI
+	 n7uZRNMFTBw9wLpUXpWA4DfXYim11GAAsSXKzzRvX9C7iKCN9tSqA+VVAdA18icRMakGj
+	 FURwMohX9FKrtKgqmknvquufkqK9ex15dIqbDO4sA6SWQ5PmsTAnW5kW/jjnSP3aKQph3
+	 aoP8yf8WnszICFb4JlThpwUYvBfse5aNWHuxFqxDU5y5lu/TNRi1Rt5AbqgYNyy+R0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=pereq.eu;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEF2606A323
-	for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 07:19:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAEF2606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=pereq.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a549cd7fd2so4794815e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 11 Nov 2026 23:19:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794467962; x=1795072762;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5t1IQ47c0TX9II5SZS9sRg3rlhGHOvDYZKROwdCbd5o=;
-        b=WnW59o+cMQdF/uthkplkRznvGV7hqp6plSW7VBrib/OMb4l0dty+vMY5fJHQpUBasN
-         b7x6rO2IR5SVQsFXQRZ6+8vj92Mpf94JMrIiamci9pQ62Bz/cKxgZMhSfzDB+tdV9A8n
-         ibIgrcUYDeGU1K3OhIaWH88lTzwL5dzqa1iUov5AUFC285iV14RzYB7deoxQET7hBdQm
-         pOyI1x83QzOLZfPQGRHOhMkjIMguGPkA8W8PUjcllrilWZ3uWbHTM+maHIozmKRBexej
-         GDUcPQ9fZGWMmamNSSqpYzDsKxtQneew7BTpeyCW7O9n09aE4tzhbrFeuIwIseWO/QNc
-         lTlQ==
-X-Forwarded-Encrypted: i=1; AL+hErEqsIzlc8Tj2dnqKsLLwCncMJNW+5VpqFLFASQeMSzyS/ua19u9oK80FshN7kauGY91nvGMskogfPmgjFBF@lists.linux.dev
-X-Gm-Message-State: APuU4Z+h/EHfD0sIyIj8Axmt0VxK+wz90uUK1vohnum49b6uS0OVoKTt
-	Z1bq3fR49d/96oUiuBBQykYhefHzp29hj57aMU2V+rlPtNzvUJ7865vc
-X-Gm-Gg: AYBFou0tej359PQLey6AMTeBTs/abelHlWehfXKucuwMtvTdUmqNsuH8wJenf0eMLN3
-	bLCLX3rioh9/W/67HrBdFkH2V/kJgrIGUtrQTZf3KW3ECOd5ydOoore8T43WuiKEkYAO2IeEGIC
-	hLBaMqLavsVb25UxGu2rWGgYMdK4c4iBnI09yO/qccSjgVR1TiWkl46qrJQAyRa84c1dToZas6k
-	xb+2rMRo5qSXCQl0IHv0lipZLlXaOezVqxWEsdONbJW4xXd+3jtWpeAwmUc4E2JiXz8fvlwQP/I
-	xQ7kCWTV4XxXGqsr9YOAP2xUz4EAUyBHavu8ZCYNXVeLa0YsAN6xb19lCRmYAbQD3bbQDo5FY3t
-	E4U/yk5npB95QNFYU7f2VNRMMrtfAHsdCSveTtexJcapxeedTDqWU8mcSsPvw0nCnHhtmElSObh
-	dQHZv+/13t7oankKpBFQ+dE8Z6d8r8bY33ElKPntRSFEvMklQunWCGCjXZta5j/1cr+B+hHm+co
-	5FJETQiJJ0+3mpTVdus/IaHjijbxxKdUTCqeXs4eFXALJxmyj7YJtmdx+B/TTsXnuTEFvy5W54c
-	NaEueUAIEd/wdA1vfmL3990DspOIZ6xhln3xE0ZnzonflXpQQx5D2H6D5Wt+PBZJViIKrbH/qrj
-	nzVpAzCvtOMhuR2kyQFBJZ793318d3NACveJnpfFQs3GYbA7Ue2bOVXr0YSez
-X-Received: by 2002:a05:600c:8903:b0:4a2:1104:7ca7 with SMTP id 5b1f17b1804b1-4bb4e2e9c80mr27941195e9.11.1794467962133;
-        Wed, 11 Nov 2026 23:19:22 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49944d646f9sm11633378f8f.32.2026.11.11.23.19.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 23:19:21 -0800 (PST)
-Date: Thu, 12 Nov 2026 10:19:17 +0300
-From: Dan Carpenter <dan@pereq.eu>
-To: Alejandro Lucero <aleszlucero@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] staging: octeon: fix probe error path and
- pow_send_list matching
-Message-ID: <avVodR7YhtYHN20R@stanley.mountain>
-References: <20261111-octeon-init-pipeline-v1-v3-0-e5581974fae4@gmail.com>
- <CAHDi9tqk3rHYJZ2Abu5Gn-=xVhA_AawCX9VRK_Nu0sHmNkeM7w@mail.gmail.com>
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=JMY58nXi;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68BC7606A327
+	for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 08:22:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68BC7606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=JMY58nXi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=JMY58nXirTmLFo6cDYgwP5FTqY56vSQPrYRHGbZ936HHki5HZygNb/JvGTbs4HmHbwFANl2Me0/F0
+	 8TfqMfbiMK/Dma+Yhib2L71+0mfuX0SqFgXLhODoR/TohudZXc3JS62s7V78m/tvuSF444g9Bjkff9
+	 tig0kCZ5eWn/e6zw=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16af57743c3e-bc1d5;
+	Thu, 12 Nov 2026 16:22:34 +0800 (CST)
+X-RM-TRANSID:2ee16af57743c3e-bc1d5
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from utest (unknown[223.108.79.97])
+	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66af57744de0-f911e;
+	Thu, 12 Nov 2026 16:22:34 +0800 (CST)
+X-RM-TRANSID:2ee66af57744de0-f911e
+From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+To: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
+Cc: elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	johan@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] greybus: verify the received message size covers the message header
+Date: Thu, 12 Nov 2026 08:22:29 +0000
+Message-ID: <20261112082230.33584-1-shishunbo@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <6af55517.a0c627da.5d811.0010.GAE@google.com>
+References: <6af55517.a0c627da.5d811.0010.GAE@google.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,17 +76,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHDi9tqk3rHYJZ2Abu5Gn-=xVhA_AawCX9VRK_Nu0sHmNkeM7w@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 11, 2026 at 09:34:30PM -0600, Alejandro Lucero wrote:
-> Please disregard this series, I sent it by mistake. I will send a
-> corrected version shortly.
-> 
+In gb_connection_recv(), the size of the received data is checked
+against sizeof(struct gb_operation_msg_hdr) and against the message
+size encoded in the header (msg_size), but msg_size itself is never
+checked against the header size.
 
-Please always wait 24 hours between resends.
+If a peer sends a message whose header claims a size smaller than
+the header itself (e.g. header.size == 3), the two existing checks
+both pass (size >= sizeof(header) and size >= msg_size), and the
+message is dispatched with the undersized msg_size.
 
-regards,
-dan carpenter
+In gb_operation_create_incoming(), this leads to an unsigned
+integer underflow in:
+
+	request_size = size - sizeof(struct gb_operation_msg_hdr);
+
+The underflowed request_size then wraps back around in
+gb_operation_message_alloc():
+
+	message_size = payload_size + sizeof(*header);
+
+causing kzalloc() to allocate a buffer that is too small to hold
+the message header.  When the response is later prepared in
+gb_operation_response_alloc(), reading
+request_header->operation_id reads past the end of the undersized
+allocation, triggering a KASAN slab-out-of-bounds report.  When
+header.size is zero, kzalloc(0) returns ZERO_SIZE_PTR and the
+same read dereferences an invalid address.
+
+Verify msg_size >= sizeof(header) in gb_connection_recv() so that
+the "Caller has made sure we at least have a message header"
+assumption in gb_operation_create_incoming() actually holds.
+
+Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
+Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
+Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
+Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+---
+ drivers/greybus/operation.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/greybus/operation.c b/drivers/greybus/operation.c
+index 7e12ffb2dd60..da53c0e026f0 100644
+--- a/drivers/greybus/operation.c
++++ b/drivers/greybus/operation.c
+@@ -1047,6 +1047,13 @@ void gb_connection_recv(struct gb_connection *connection,
+ 	/* Use memcpy as data may be unaligned */
+ 	memcpy(&header, data, sizeof(header));
+ 	msg_size = le16_to_cpu(header.size);
++	if (msg_size < sizeof(header)) {
++		dev_err_ratelimited(dev,
++				    "%s: invalid message header size (%zu < %zu)\n",
++				    connection->name, msg_size,
++				    sizeof(header));
++		return;
++	}
+ 	if (size < msg_size) {
+ 		dev_err_ratelimited(dev,
+ 				    "%s: incomplete message 0x%04x of type 0x%02x received (%zu < %zu)\n",
+-- 
+2.53.0
+
+
 
