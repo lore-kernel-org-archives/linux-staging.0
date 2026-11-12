@@ -1,72 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794471757;
-	b=1y+XIBK1xmkDY8bEmWYWRB3j351ax26MDktlEyMqCd7DkxCxO3HT+fiS6a7MmMiFW0FU
-	 yn1TFabzSCtlFd5+rkPjA0aFxPu2JHPlEtOdlMX1QiXUTTKhD4EI15nPHTR1MLSaMqwwB
-	 w/LX64b2DcG3YFgSflaR4F62a52Dk6PiqIl7G/PiqjjKaZ24/4z8zU/IGqDpREHX3IwGD
-	 tBJp52QsPqJqRXFHXLUSDbwotO9/UVfKQtylrFgxvbMJQ+p3eyIW07YazV4v5JN393G+Q
-	 DvWb5qcICT5a4UQZFEqDEMUiXBJCpnb7qukcNMNYwCYsXgej+GHp1WAiI+k7l1Ra+Ug==
+	t=1794473002;
+	b=rT3oOiv11nY2IfLPcjbRN7TAAQgnYBx9uYMDE39Euz34ozx4nYaSI54MPX9FcPvqOSOZ
+	 oNH4NRSP5B35jDmdm47c6uU4Kck1jVhA3zNRngtLlQ2iTg7qtAAaVinMrlEqzUErn6u5W
+	 dE1NDY13poJnNYUdUdmToujIa92iUXtdc3l2Q74rGjyUFOi3Wd3wOvIN61CZYyIaF185P
+	 oP3KrYyCyaZ71TbYPdRSLNN/alLCiDPirfINkLfgmdvwNFZvuL3DCq68PaVtFK5xRHrTE
+	 WaT8hreO48wWF8RnfkhCCURW20lg8RmFbYJU/joloq+PWoWdJjkVwcRop6D2NNX9p6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794471757;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=BDpJwbTGNyEZBddgupUtTkbcG64c1MCzi1j9+WCer18=;
-	b=axpId8Y1jL+A9v0XceDi6pg45xFWQGwS7oMUVTkoqCEJbOvCnv7ccNT3XBjslcPXaC00
-	 n4a4IM4dmUA59shTsCtD4BOkDz7Bzz2VT+0CXizbO48BEFexk0dPdBnj59hQ7QAOlnIlI
-	 n7uZRNMFTBw9wLpUXpWA4DfXYim11GAAsSXKzzRvX9C7iKCN9tSqA+VVAdA18icRMakGj
-	 FURwMohX9FKrtKgqmknvquufkqK9ex15dIqbDO4sA6SWQ5PmsTAnW5kW/jjnSP3aKQph3
-	 aoP8yf8WnszICFb4JlThpwUYvBfse5aNWHuxFqxDU5y5lu/TNRi1Rt5AbqgYNyy+R0w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794473002;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Ccrg0Ah5/raiZe23O01HRQmfIbLS9+N0hKSJNBgmJXY=;
+	b=EJJMX/c6TFyvKkUJ+YPEt00rSpg1x9crsmAsZU/72mcX34B8lv8KlHuV5pVry0d2W9V4
+	 zMjbGuHGSr4851FdjINlsvz7UnahbCXgjRgbOchVJ6ebj3ggMcnSMM+LzqQPtmcW4CMWe
+	 zTV0lsgiarGWSs6htuRa2ycf4A/9CvO4F23nhAMt9Tb5ODN2+AkA9kX07hhcRd0qiLeuv
+	 G2tbzkaGBQXoX9IWE74m+kBYlwoS1B/LsfqirACHJdvTq4QrhNKZ/++I5c1Sch+6ub2yV
+	 E1adGS16aSOEeJqkOW0+3l9UI6FfXo/3XmAyzZ3yOhgkWzklxkTx9fPHKpBAkpyPlFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=JMY58nXi;
-	arc=none smtp.remote-ip=111.22.67.139
-Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68BC7606A327
-	for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 08:22:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68BC7606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=JMY58nXi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=JMY58nXirTmLFo6cDYgwP5FTqY56vSQPrYRHGbZ936HHki5HZygNb/JvGTbs4HmHbwFANl2Me0/F0
-	 8TfqMfbiMK/Dma+Yhib2L71+0mfuX0SqFgXLhODoR/TohudZXc3JS62s7V78m/tvuSF444g9Bjkff9
-	 tig0kCZ5eWn/e6zw=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16af57743c3e-bc1d5;
-	Thu, 12 Nov 2026 16:22:34 +0800 (CST)
-X-RM-TRANSID:2ee16af57743c3e-bc1d5
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from utest (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66af57744de0-f911e;
-	Thu, 12 Nov 2026 16:22:34 +0800 (CST)
-X-RM-TRANSID:2ee66af57744de0-f911e
-From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
-To: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
-Cc: elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
-	johan@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] greybus: verify the received message size covers the message header
-Date: Thu, 12 Nov 2026 08:22:29 +0000
-Message-ID: <20261112082230.33584-1-shishunbo@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <6af55517.a0c627da.5d811.0010.GAE@google.com>
+	dmarc=fail header.from=pereq.eu;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D62B606B242
+	for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 08:43:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D62B606B242
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=pereq.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so46982425e9.2
+        for <linux-staging@lists.linux.dev>; Thu, 12 Nov 2026 00:43:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794473000; x=1795077800;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ccrg0Ah5/raiZe23O01HRQmfIbLS9+N0hKSJNBgmJXY=;
+        b=AdLG6EXbBDxbJVvDz7hhrILuBMQOEvh2wo/zmMzFAqMsMHEaBNrhLcF9L3alHUINms
+         pc0XMIuLJ+s9jS3LbjxnWm4KHGDcljuXUei2tD/jeXGHPPM1tpzBje/4wELk0OrGYd/I
+         CeZy6jnaK+pRlhCepbqAecI9LT2KVIaayGJhlaCgraDr3ZWujmZV1DPr1LucXij3zqJr
+         gm1vXN0s6oBumOaV9cKHIHFGP6FIhQIKQ5ikaeu3KdOXK1vs8jLuASFnDndIUIcs5hBu
+         GV2ewTb4CtK9evqPdY0k62TbFBPp8fsPsjjbrxCrQxjZ1jJnV8jzKjeD9ux28asmRnzk
+         FS6g==
+X-Forwarded-Encrypted: i=1; AL+hErG/qro/OahD3uY/aoIhqsvpza3Jx5Rwt/9Idb5Y9zivvMoo6A+06bLW1Ct2epMIr3PpFwfWaYPkVWTezR/l@lists.linux.dev
+X-Gm-Message-State: APuU4Z/0r6L3rNl01NQ0p91bvGOIz/IibxbPoiKIv4o/SwMPivyq3D1K
+	Hk3ERtZD1poU1yoiZUu8x9MhLNsMgqec0g0/0a+GbRh5FIKHm4TJmBgK
+X-Gm-Gg: AYBFou03JBW2YRwfEDlPmTJsZZTbSgEgMi/GCPvPH/pDcRKmtSD60XQH0bxiP52dYmt
+	r0YrF7L7rABRo+d4ZFPbLh1mSIfIZbPpL6BhG72wa5Zys3Cjn/4ank6tQN+Mxlnk7GS6g6evNpR
+	cnBkWJdxnl0nKWhZZWkN+4zlJeT9p+Q7fuY4I0hExKOPEXTJ5PMJFKwJ7basa6chUddCOJW1yZX
+	Awv2y/pp75S9ZX0JUDSiaOu4iK4qKBPB+EA+0uSHKpfwxHqPMt1vfrQ2A8l0lW1yNw17CK8Vtex
+	ZMpkxK3pYwCLd9uRIuoRDzyJzt36VQnlhyBMU4EeWkzCXrYcXCpyW4V5r3aodLisWEGjb0+k+Mp
+	mrsoiLIBRNpj1N0+y5plkbKIzqQKQopGoaky0nRc2RWmO7e2eqfrPgUtk0BrQqZSkQ31sogLmVq
+	Jn/I64RlXuA8vsMjfk1194kmGUsTDZ1V9yUkhWisLqS7ykXIRj4iPDunwTWubwnerOYOClA+2KD
+	VaThU9zebYrKZayR4q1ZP5YqLz0u1SiAIi4bBS6PTTyHi2ykyu7DWmgnmGThIALKvhC8O6sEpNU
+	Dsj0yfL7xNY67pW5A82pO/hlpCN9lJ0IYp/aXVIu2GbDOzxrAKt2y2TOoGn8nhKIFRkqmjo9eEL
+	3z88t3xphMrzTVsl+LudumkckduxuXRyKqYSX6QACc9d4d8BaDdlwmIBqyIwCfg5U00Uio6qmeE
+	ffdHIJEg==
+X-Received: by 2002:a05:600c:470d:b0:4b1:4017:c4f4 with SMTP id 5b1f17b1804b1-4ba093805b3mr88234605e9.20.1794472999607;
+        Thu, 12 Nov 2026 00:43:19 -0800 (PST)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e258e8dsm82532545e9.4.2026.11.12.00.43.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 00:43:18 -0800 (PST)
+Date: Thu, 12 Nov 2026 11:43:15 +0300
+From: Dan Carpenter <dan@pereq.eu>
+To: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+Cc: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com, elder@kernel.org,
+	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+	johan@kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] greybus: verify the received message size covers the
+ message header
+Message-ID: <avV8I97uZJgX8Osk@stanley.mountain>
 References: <6af55517.a0c627da.5d811.0010.GAE@google.com>
+ <20261112082230.33584-1-shishunbo@cmss.chinamobile.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -76,68 +88,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112082230.33584-1-shishunbo@cmss.chinamobile.com>
 
-In gb_connection_recv(), the size of the received data is checked
-against sizeof(struct gb_operation_msg_hdr) and against the message
-size encoded in the header (msg_size), but msg_size itself is never
-checked against the header size.
+On Thu, Nov 12, 2026 at 08:22:29AM +0000, Shunbo Shi wrote:
+> In gb_connection_recv(), the size of the received data is checked
+> against sizeof(struct gb_operation_msg_hdr) and against the message
+> size encoded in the header (msg_size), but msg_size itself is never
+> checked against the header size.
+> 
+> If a peer sends a message whose header claims a size smaller than
+> the header itself (e.g. header.size == 3), the two existing checks
+> both pass (size >= sizeof(header) and size >= msg_size), and the
+> message is dispatched with the undersized msg_size.
+> 
+> In gb_operation_create_incoming(), this leads to an unsigned
+> integer underflow in:
+> 
+> 	request_size = size - sizeof(struct gb_operation_msg_hdr);
+> 
+> The underflowed request_size then wraps back around in
+> gb_operation_message_alloc():
+> 
+> 	message_size = payload_size + sizeof(*header);
+> 
+> causing kzalloc() to allocate a buffer that is too small to hold
+> the message header.  When the response is later prepared in
+> gb_operation_response_alloc(), reading
+> request_header->operation_id reads past the end of the undersized
+> allocation, triggering a KASAN slab-out-of-bounds report.  When
+> header.size is zero, kzalloc(0) returns ZERO_SIZE_PTR and the
+> same read dereferences an invalid address.
+> 
+> Verify msg_size >= sizeof(header) in gb_connection_recv() so that
+> the "Caller has made sure we at least have a message header"
+> assumption in gb_operation_create_incoming() actually holds.
+> 
+> Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
+> Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
+> Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
+> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+> ---
+>  drivers/greybus/operation.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/greybus/operation.c b/drivers/greybus/operation.c
+> index 7e12ffb2dd60..da53c0e026f0 100644
+> --- a/drivers/greybus/operation.c
+> +++ b/drivers/greybus/operation.c
+> @@ -1047,6 +1047,13 @@ void gb_connection_recv(struct gb_connection *connection,
+>  	/* Use memcpy as data may be unaligned */
+>  	memcpy(&header, data, sizeof(header));
+>  	msg_size = le16_to_cpu(header.size);
+> +	if (msg_size < sizeof(header)) {
+> +		dev_err_ratelimited(dev,
+> +				    "%s: invalid message header size (%zu < %zu)\n",
+> +				    connection->name, msg_size,
+> +				    sizeof(header));
+> +		return;
+> +	}
+>  	if (size < msg_size) {
 
-If a peer sends a message whose header claims a size smaller than
-the header itself (e.g. header.size == 3), the two existing checks
-both pass (size >= sizeof(header) and size >= msg_size), and the
-message is dispatched with the undersized msg_size.
+Combine the conditions:
 
-In gb_operation_create_incoming(), this leads to an unsigned
-integer underflow in:
+	if (msg_size < sizeof(header) || msg_size > size) {
 
-	request_size = size - sizeof(struct gb_operation_msg_hdr);
+regards,
+dan carpenter
 
-The underflowed request_size then wraps back around in
-gb_operation_message_alloc():
-
-	message_size = payload_size + sizeof(*header);
-
-causing kzalloc() to allocate a buffer that is too small to hold
-the message header.  When the response is later prepared in
-gb_operation_response_alloc(), reading
-request_header->operation_id reads past the end of the undersized
-allocation, triggering a KASAN slab-out-of-bounds report.  When
-header.size is zero, kzalloc(0) returns ZERO_SIZE_PTR and the
-same read dereferences an invalid address.
-
-Verify msg_size >= sizeof(header) in gb_connection_recv() so that
-the "Caller has made sure we at least have a message header"
-assumption in gb_operation_create_incoming() actually holds.
-
-Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
-Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
-Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
-Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
----
- drivers/greybus/operation.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/greybus/operation.c b/drivers/greybus/operation.c
-index 7e12ffb2dd60..da53c0e026f0 100644
---- a/drivers/greybus/operation.c
-+++ b/drivers/greybus/operation.c
-@@ -1047,6 +1047,13 @@ void gb_connection_recv(struct gb_connection *connection,
- 	/* Use memcpy as data may be unaligned */
- 	memcpy(&header, data, sizeof(header));
- 	msg_size = le16_to_cpu(header.size);
-+	if (msg_size < sizeof(header)) {
-+		dev_err_ratelimited(dev,
-+				    "%s: invalid message header size (%zu < %zu)\n",
-+				    connection->name, msg_size,
-+				    sizeof(header));
-+		return;
-+	}
- 	if (size < msg_size) {
- 		dev_err_ratelimited(dev,
- 				    "%s: incomplete message 0x%04x of type 0x%02x received (%zu < %zu)\n",
--- 
-2.53.0
-
-
-
+>  		dev_err_ratelimited(dev,
+>  				    "%s: incomplete message 0x%04x of type 0x%02x received (%zu < %zu)\n",
+> -- 
+> 2.53.0
+> 
+> 
+> 
