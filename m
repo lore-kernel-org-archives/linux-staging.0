@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794586729;
-	b=RUi4hOlDNUHoQTjQ+/IaHZ3zglnkfZbp3YhCEDyb860mevTu+KEznAokQjpzxI5ht5O+
-	 qfRLy6g1F+4kyeVFLfPY2pyiTSQ1l3OD1tKUu7DHk3nv3ZGtX0dmj7l4bWaoVbwJjYMUo
-	 DyMPBfJLLzgWBHwJjEcrzr8X5BtKErsXfeKf/zBJN8dWvmYJnBt/Z/Eo72sD8ywzFIl5p
-	 flbfz9+iIY725VBsoQKcJojoGd1N2HOaI1QQOk+ipXHXkjY4sIxVBslvupuWb1c+8sV/P
-	 qRUFwetffC6k9kO1mYVDQeddh75kdffAtirHP3nzmFF/4huVsszwmnAoH9R46BSTvSw==
+	t=1794586726;
+	b=DaSSNzguy4PfXKq6HZAlJYTHuGBKJFQUI5qMfTgDUDv3+3pjDPljxmJRKi/6OY5AQgY6
+	 LaU740XawkEaUtq6Zl6I13oWxpaN2wxqn1lJlPTCkKhHhPHLoLTOAmS/60wBBdaQvsAe9
+	 vQvutX23z0GHJOLhW4zkJTE8Ar2yboWsmnYSM3dqNtm+gti0Jg+sJBrOhKgtBjRxS8jeM
+	 hNJ/28TijH1TLOimvoeVTduOVI5zSg2gnz5zHG13mLDwtsz7Ep/dy+jjeXSXHoM+Yrjoq
+	 y8c1UI68gebmvzmigxXAlX0z9w9zf2WvNxNXmQ/WjlHbHIOtmUTAQxwETM5rO4dZYsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794586729;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794586726;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=wB38b6je5TukLZG4QeKQmlwzA/Ycxh9nT5Bea008608=;
-	b=fBYo9TLemi66WVqbvhTCKtKv2wsIkjROAtIPbRzjJZPGNplbrPLGfIDzlVBjrBbw3BK3
-	 40qmBSLe+tyGTAJY5In8wEfxDlCYpdguuJmTQqVVCKgowrZsSHLMV8Jg4cDggMp2TkdAp
-	 UmchBT4elIE5wUvxHs3dLMVf7t8QH+NwoMgR0YAWtLINnbV3pEXVgMqDW+jCJEixit2F+
-	 eqz9RQxDn8Q+0FlN+x2OQtZRF2t1CQx/DYGPwo3uFMnHsRrnNvHKEc2ek75o0ABhxiUAz
-	 qZsplFk1ldARd/39sUjESdUa32GkypBUci7GXcNzac7/IKQw982/hq/sk+chyY99Eng==
+	bh=Y+KHlKsszZZuhdaqagwVxvQeZSNU/AaISBE1dxzUs48=;
+	b=LltMKs5pE7NuDu3G+m1rk3YSc1Ip6u6WMyMhpfhzirDL99k/p+s9r3pSafl6HC1JCfnj
+	 tSBJPKLT1l6G4b9YFx3l/CpPJS/KpgPzlGPrcwIx8giQIk00lJh9KrKtiE+IAVFI/fLjF
+	 IbShvHfWdEY8YeLJn/MrN0lyqPOzreyayeoe9jPoKU0T+TOrAy75O4f+ceCq8lwxRXwdf
+	 g7m2q9n3VZJVUuYUDswTgSe2Ux3rgFNdYedbWO+JaZkZNwlMPzGf1sKlpwZWqZIIDH74e
+	 VttoI5r+PDK1QEyPWKPM6egtB929wJVR8FHFkdD0r6A8mrKpluwA9oUD0elRSw44HAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=USAM2SbN;
-	arc=none smtp.remote-ip=209.85.218.54
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=knNaUE23;
+	arc=none smtp.remote-ip=209.85.218.50
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE3E606C54C
-	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 16:18:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FE3E606C54C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A31D606B2FD
+	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 16:18:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A31D606B2FD
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=USAM2SbN
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c40f29667e6so273645166b.0
-        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 08:18:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=knNaUE23
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c45551fa84eso305055466b.3
+        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 08:18:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794586728; x=1795191528; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794586724; x=1795191524; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=wB38b6je5TukLZG4QeKQmlwzA/Ycxh9nT5Bea008608=;
-        b=USAM2SbN/KxuOopWyIX237kimRQTkEodLDnaeffNiodMANUb9GMuComwNgzkSBS0Ta
-         lV1OAB9Veeqg5qF2BTWuVFyjeYiWRpu7e1+vPAS0IPrLceHEt97OWlBFn95tHXzfluDT
-         1RI+OLKGVtPzZYUDbcjoBKe7Z6miwDHArpVHP/g6lsK+hZOLC+zj+hWUCFJeDiwfiak7
-         UPHSJE8e2ydDCGCfETg0e8VL+77cBGLVaL7vEUBDk1o/KSQWqFurIv7q3yHZm2pQ1PHH
-         dqUUbBwIDofA1Hae+aFsvL2/XCF0pdhwlrAlWDXqKocww+r8eOSMPNqdEhc2Kh90XIrj
-         W3fw==
+        bh=Y+KHlKsszZZuhdaqagwVxvQeZSNU/AaISBE1dxzUs48=;
+        b=knNaUE23dSEnl7U+MzLBlLCsSZmvnWh3H966PFn4tfzbkWKbGEv1Mm59JOq0E58bx1
+         jnFf4FLDkeUpL4OTPhN84yw+Bmh2OgAgHfvWurnLkkDP0TV78CdjNtB/Qk1GGE8oW+Qk
+         A04LEhiimt3Q/w0aeMN0ODngrds3eGy/klFE4cThCEkREfbfVPsA8lvwUtp2LNIBqAkP
+         Y1NzntrCOXAJEb7gtjyl9pzed9hDJADHmDoRrkjccwFUloW9ty4tnppPv7GioaNi5DjL
+         kPFgBnt5pdjUnPlVZS1kpqOZ71sa1sn6Im7q2ugWN2ileuFhqzQOFZpYmoCuNnXmOFxg
+         AenA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794586728; x=1795191528;
+        d=1e100.net; s=20260707; t=1794586724; x=1795191524;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wB38b6je5TukLZG4QeKQmlwzA/Ycxh9nT5Bea008608=;
-        b=yXoLde9JVRHaRq1t0+cNpucuUElh3IXY6qoHPRkcXiVvOJrApEbJFBpaSw3/X+x+FR
-         w1WGKKkwSgNPG28tejb11wQuzePPSIZgUx9GP7h73Fk1T4NqZLUkpCsnR5+DaZ9N1GoC
-         +ebgfsI0/ZmGo6eLJtpshyQkKPbKTKjxP3PTbqBnWRWKPMCr/3Z0/x3TcahxRRnj9dI8
-         kC7z2rSJYAvZGmlU5yX5HSRzmN3hiphvMaaAIviem2M9czwL0DYCRdDpj54nphipDQoQ
-         17SYu+W/W28G4lskG9Er7afdEsNQPYynWb32mM6QWYvm+iqMT6GbJL9u/x9AxpRJp/RT
-         xZvg==
-X-Forwarded-Encrypted: i=1; AL+hErEzc1ue42zfqH7Cy8MnWWBMlJrNOrz2T4NJIXEHVc2rEZLlbM0Ecg1VcOwB0WlGWVzvxzEUAMppfBfcXZpo@lists.linux.dev
-X-Gm-Message-State: APuU4Z+ZGLbX4ak4SJTgbs6MRI2VlFz2QvRqBqcnB6CW4xDK9NOKvtmU
-	9sGSHlH6FoQ7/lHIC5d6E1J5m/7IFr5VjdTpu1WxhEe5RQsCL+IDVMRh
-X-Gm-Gg: AYBFou1OaQfd8ij1UB+7n88HpxQCqyeAiCkO5jP+JaXHPcg0BmMaxZOcxM9akH99S4n
-	aGU4TWmf6dJDh5eVL0IQklee+uNG4eFif26iWViqr6dtNho5/fPsu5FaYuXCXko72ZGXGc1a8SD
-	aRgO2HahdaFHD8gi+XU6klm8uo3zUN1stZALeYbRpKnL1BVLAKSqmWiERV8khX+aHK3glQ2+7Si
-	T7DNbkJ1dMF0P5EtYIJVRXsZ92ix29+nR2tzK719I071xNuugVOm9TEwgEWs6qmdb0vul1GjTbz
-	4DMKCVrOI9021u/OyZF1IJY5+5i3QprW0trQKv8s6+fBDERggIuUzL2/NDvP7vGix1cgkutWHSx
-	lV8EgCUrLBZAGC9Ww6bumRRe2twWL7zrJsigi1Hj2hA2LZdUCHnhKaqDHCOtI6qW1VyhC9MM+Hi
-	VSTeh1MS8SQ0EBHJp4YKYvL1SZTCkg1nCXHGoigsLvI71PJIqy5Dj5dnROSb/6T6lAwPrbl9PlU
-	IIJCDSvOJW1G0ARnlV52IXgNqGHIcqAZxVDNJC4U0SnbNiFBXDEsl3EIKU0kyfVwSzc7qxdgKnT
-	YFVCPUUkkJkwRLibykCxujh5kkFh1DRwpRrVlhC4Z3DZFPNjxPO3Amz99NK1bhJz9Gc7j9f6pSx
-	D46FI6zV0uA==
-X-Received: by 2002:a17:907:c09:b0:c49:9231:5518 with SMTP id a640c23a62f3a-c50963d4f29mr272520066b.21.1794586727949;
-        Fri, 13 Nov 2026 08:18:47 -0800 (PST)
+        bh=Y+KHlKsszZZuhdaqagwVxvQeZSNU/AaISBE1dxzUs48=;
+        b=ooFySnR6VbzU2OivTb4LRzNlw4IvV0IYxOSUFRfV5+RHA/DyFr8kDXpS8UFtEHTVCf
+         v3d4XQsn8ttlg1PJOqX8UYoYZcHv98MqLVKY0fBYIkVhlm9JdbGXkobO0kaZhtdGxMgE
+         RUhKKTWNZX+vkTI/Nf3tY/e80ESjhbHTCSjVqrPN4FhUTLvVyXYB+3Ot66io2FLTmwev
+         7tFwXGGKcnOe2i90DjfOiwKiuehdXiws0eovSaiv14pbidO5txST80IBvdMynes/+J3c
+         6mhb3YCV5mD8/8xfITto0PA5bAO7XccOTxs0eeGkPMdYBkDMZBkDrBIkd2ZycRJVBOnO
+         UTwg==
+X-Forwarded-Encrypted: i=1; AL+hErH+JFs9no0U6NOAUcZFtCGlVXdXJhJecQd708JcbH5BR7wrA9ih0dJOrQzIihYjERpB4IMpnZdM0DAVcKXf@lists.linux.dev
+X-Gm-Message-State: APuU4Z8NwlgnY/uLosExWaroRCjnpHd8vxO2YmZyS5y+kGknQfP5cbLa
+	BJvW3xWw9wmHNvZjSdZu8+DfrFlR6aewVo7J4FMJPlCgbcOhEbznCG0J
+X-Gm-Gg: AYBFou1R3tNiZJC/QzY58Z2VTifwg2PYGO94zHJ0RnG20Z8sK/JmBTtsgN3blDpcnI4
+	JvrvTA+EU3jjcH8nI41txgjGZhV1jQ90G5Eaow7+5SHUsSws6zQr9PWxEvsnLkYBK4NACmSUtTj
+	S8W0NhAlHXThJi1i98XJ7H3YAUkQ2dtOvGjbPqHJxRkYoH12n5ZOcwU6hFFM3x+0PT5aXmkQzEL
+	bLRaVyFKKewrFo05Zo1xOoLvhSfwxHAiCZEvYr9mf20A/gE94KCjzM76e+6k4OVuYZTgG30evWE
+	nSyFLeoHbOuAGXbgfrpMoHyqNMNF54Qww/+7poDbZhLTtngpShLqxtoxdKMgRN0OqkxSfEmhDvH
+	mp9y1WQOlfQ/bMMKMbbOT/OAD14wExaYmOSx/nbiI2xlow1E91BuRpYX+/mchLETX9IJNurdESN
+	sA3YqLBsLf3eJp+Ezm6aUGQzbKEriZrXpQTmbgKpcaCq1z3FLC/nGDbTFo/KJlWgiSFhrfVfLVb
+	q8BsUBNWXuRr4EDpN08HPMJGu9GE26Ql6eYpDF5WsDfsIRss0mbiQR4IRy3+EXPuoxBfqTh7ZUm
+	N/vngKDq/h5HgbrmLKgkaDGOcHMIscfjdfd1FGdaJkZpCpIThBA0mCX0Ln43V+2aLlhQ9SyNa1A
+	mqTlvpfvNxyQ=
+X-Received: by 2002:a17:907:3f20:b0:c46:c3ad:e1ca with SMTP id a640c23a62f3a-c5096396effmr277084266b.9.1794586724367;
+        Fri, 13 Nov 2026 08:18:44 -0800 (PST)
 Received: from xeon ([188.163.112.62])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b24b88sm122297266b.16.2026.11.13.08.18.46
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b24b88sm122297266b.16.2026.11.13.08.18.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 08:18:47 -0800 (PST)
+        Fri, 13 Nov 2026 08:18:43 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@kernel.org>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -107,9 +107,9 @@ Cc: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v1 04/10] media: tegra-video: vi: Switch to media_entity_remote_source_pad_unique() helper
-Date: Fri, 13 Nov 2026 18:18:13 +0200
-Message-ID: <20261113161819.36847-5-clamor95@gmail.com>
+Subject: [PATCH v1 02/10] dt-bindings: display: tegra: Remove Tegra30 fallback
+Date: Fri, 13 Nov 2026 18:18:11 +0200
+Message-ID: <20261113161819.36847-3-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261113161819.36847-1-clamor95@gmail.com>
 References: <20261113161819.36847-1-clamor95@gmail.com>
@@ -125,36 +125,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The tegra_channel_get_remote_source_subdev() helper walks up the chain
-to the initial source. It blindly uses pad 0, assuming it will always be
-the remote source pad. This may not be the case for more complex multipad
-devices — for example, the mt9m114 camera sensor with a built-in IFP,
-where the source pad is 1. Switch to
-media_entity_remote_source_pad_unique() to specifically retrieve the
-remote source pad.
+After further investigation, I have found that Tegra30 requires a slightly
+different programming model than Tegra20, the maximum VI clock differs by
+nearly a factor of two. Additionally, Tegra30 does not require the
+APB_MISC workaround.
+
+Therefore, remove the fallback compatible and add a dedicated compatible
+for Tegra30 VI.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/media/platform/nvidia/tegra-video/vi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/nvidia/tegra-video/vi.c b/drivers/media/platform/nvidia/tegra-video/vi.c
-index 12eaa89304e84..a96ef26af89eb 100644
---- a/drivers/media/platform/nvidia/tegra-video/vi.c
-+++ b/drivers/media/platform/nvidia/tegra-video/vi.c
-@@ -187,9 +187,11 @@ tegra_channel_get_remote_source_subdev(struct tegra_vi_channel *chan)
- 	if (!subdev)
- 		return NULL;
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+index bb138277d5e8c..2d5538a1804f9 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+@@ -18,16 +18,13 @@ properties:
+     oneOf:
+       - enum:
+           - nvidia,tegra20-vi
++          - nvidia,tegra30-vi
+           - nvidia,tegra114-vi
+           - nvidia,tegra124-vi
+           - nvidia,tegra210-vi
+           - nvidia,tegra186-vi
+           - nvidia,tegra194-vi
  
-+	entity = &subdev->entity;
-+
- 	pad = &subdev->entity.pads[0];
- 	while (!(pad->flags & MEDIA_PAD_FL_SOURCE)) {
--		pad = media_pad_remote_pad_first(pad);
-+		pad = media_entity_remote_source_pad_unique(entity);
- 		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
- 			break;
- 		entity = pad->entity;
+-      - items:
+-          - const: nvidia,tegra30-vi
+-          - const: nvidia,tegra20-vi
+-
+       - items:
+           - const: nvidia,tegra132-vi
+           - const: nvidia,tegra124-vi
 -- 
 2.53.0
 
