@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794586734;
-	b=BK4AbIJK2fuBJhE/9wDytFqibQZBsETH2ANUCV8ShvVRG3mbEZ7mTYfShSi0wZ3uKETd
-	 QjwJPa0DXBsP/14AD5F9skHKCi/KVE/LNe/BtzyFUzjwlnmLj2hV3l+0djuDW0YqJtYq+
-	 74hZ1rdhU7TYqhnu6p+RrU5JiuaE63u2A2bAReyobUmCTdOvn4SAofD7HsOQHRL1UEM1i
-	 +zq7pvRHiHxNrcTuPJ6NPOqxOmPcq9QMI5perg/pKURjhHQ/zQOj0wXke8dnOaYnZZ5dn
-	 y+Cb3blrzBCHE6TLx8GhGYM8Frgc/1h8pMnlv3uqtzxuuxzV6xINU7eLkZmmhSo4xew==
+	t=1794586736;
+	b=s90Dpjkvl7jnvPQudSpvhOqfO5yA95HtEES1G2r2lM9yUHEvQ4RN4aryLcz6ztex4YjR
+	 f+jgysn7qSt4qQX+D4qgBzyuHt7I1rA98MfwqVr9YF0mQcPjfpjaKuFoHtw/lL4ZoHj7i
+	 /fTYMS0Fnsraoxq4yU5tTIVMcKGB3QwpmEWZ4wrnz7iin69jN3gLZ8ZBCuWwLoBJf8Jmd
+	 IdelXnfiM7abV3bScPwgcRRT9iFKb9wLEqm2Z8CagKfTHhgGPvn7Pg8ZZZSHozhfCeLUV
+	 vzBpPBm9TKZ6Fm7KDeDoyeNpYwZJV2IcYx5x2ziE8Iex64beCVAAkOLWOJGRZuFemqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794586734;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794586736;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=3uheoZqKSe+Qa8Rhr1Yml0QAXpH3QvZRuhTv2QAVUqE=;
-	b=yUBuvd9R8u5mMtXqG12vNsHMCfVr7VvNdNHSyS/x+YSMecxD4F/C2WrPkyeQuzE1Q5Ly
-	 lwDoBc5iJRAoyvBTVfy4712Vg2Eqa1UCCTWXqjhiOj9BcQvsppBxIK+VNlMkbi3sJrdS+
-	 di2I29X1ulLykDUTskw8ZbVSKDxIlJo106kBdOeioB4MkRhSRxxn4gKl0ShieKFxVIaek
-	 7bsEes5sp+NrEehGZmO0rCtFd2CpYhjSDy+evBYxvuRggjLKbCu+QocgFflm9s9SEdn41
-	 lDoDdqhRotvrUu2nOdtXjHe3ZfAuShC4tzpmeVdxNSggwMSQllQ629b8uVcG/gB11nQ==
+	bh=fvB29j5CecJ6jZKtZEMGpW6S1Git4SOKTeuMF3fwTjM=;
+	b=hgKr3Uc/zabLKbBkKSotowF0RNuuX7P0cQw7QXCY2ExvvzGzfa1GorXDXZIBdSBUeW34
+	 NEUjnBJBsWCccu51n+JZiJwP8ZGKKFqgPLbwSVuJ2OygM5I2n0S6+QHHGhC0SW/PZB2fw
+	 HbTxmB5JWe1nmlxR1l4igtjdn2kpqHTZQHDT7RApLX+2h4GuRQf7UQ1nN4SNHhzb4cEtK
+	 WhD7nnsrA2TJpWbPtvxYuQWP3DSsX1XueFjv3M0T/vFMJ1UL96Se/LL2G9ot0P2rnYvXy
+	 BQfPfmRbWXHS1Ecjy0ekyHNrlShZCEszTXt/7cwNePzu8XKDtbMi4zR8sGDJM2B0kpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IVKgvg3Y;
-	arc=none smtp.remote-ip=209.85.218.52
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rVpnTCUo;
+	arc=none smtp.remote-ip=209.85.218.53
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB246070FEF
-	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 16:18:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCB246070FEF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8759960A2617
+	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 16:18:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8759960A2617
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IVKgvg3Y
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c4d21051042so258767166b.0
-        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 08:18:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rVpnTCUo
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c505b2e1cb9so216152466b.2
+        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 08:18:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794586732; x=1795191532; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794586734; x=1795191534; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3uheoZqKSe+Qa8Rhr1Yml0QAXpH3QvZRuhTv2QAVUqE=;
-        b=IVKgvg3YvmlMo0gbznppEIJXp6tQsJYBuSj+RkaHY5D3+VHVtF++GdQrxAAD5ufQK8
-         vdh3PEnrwSx/GQRJ+HpqRxCWUMin9gOcwExLiRd+rbrrWPkI8EWmVY/9YpVtFaKCOXVj
-         lGTadWlelO7lnkmmCKOXIqsdV6ybP5+RJtYfDiAKmyCZCtRqJdrOTz6E5g22zdexD0IE
-         7pFo1/MNB2ALj+8E5t8TONVg8/K1UmRmXkks5wY8JIW/2oD5q7UUPZzce1/xCOR1FOzj
-         05sTK0cdAj0ng3Q7y77kKLbQxLLUX8Zi+roOglMdMPj6U40E2Wb32z65l4NOpTfHeLQN
-         gEAQ==
+        bh=fvB29j5CecJ6jZKtZEMGpW6S1Git4SOKTeuMF3fwTjM=;
+        b=rVpnTCUoipZKXQrMl8yJaiCain1yEnMP1HOXq1H5fQL0+pYvUPtPQ0YOiEbw2fHrHH
+         oySv99jSMR3Tjo6DY4GFC2tPrnadrvZlKu9Lo7cyb5sET7Ko/F82hafJsoGz9gF6DeGj
+         OHFceq+vdbvvw0+OZO9B/YnXgvrgT5vhqNvYynjMEvxm6hAyVBYCP0VkxmSUmJ024hno
+         f3XwIVUotqrlcIiv4wId4eo5ok6L4yRvzUagU35MskWLyGkNZYAJiX2e2NOcGkK4/W3d
+         naa529F6EP5YSq3TdScWF/CRVKu3QnfPTCe7y09x3FapcPfc24vMLZIn4FpQHFivZtrk
+         0Lsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794586732; x=1795191532;
+        d=1e100.net; s=20260707; t=1794586734; x=1795191534;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3uheoZqKSe+Qa8Rhr1Yml0QAXpH3QvZRuhTv2QAVUqE=;
-        b=uKKgLd6FMM53Qxp5q8VkLXQ4GZIcTujcS5uwhD3zUAKC9yWTvyPOG0Rmz8ADMyGyBW
-         Jvq+WdT9Gxcd4/leDKl+/LGKU9gVEHReHP6CnX7h2tR3iXSo1nh2XrfB1ZqVfDSDLM8t
-         rAVKGjmCrEzkRDQ3ZpmIGTi9jRDG/g2XWY7XSpo98WcLHjYDIWOHhmYXj0569XcNDH0T
-         3mxuNsqWlPWDTVnQ2aRgTbIQYKi5HYFvAkbQUDeiXOWkODUnyH/mlo/6M9EqVHfRdVYg
-         fKLQMjJz0WvgyHFaIxDFYyTcwLVWS3oRGmvCkPvW5YP4BYG8VOTjCgrWTvTDQ0Ox9NMl
-         UwPA==
-X-Forwarded-Encrypted: i=1; AL+hErH3MbwnBWlCin+K8cTdWquU4fo8d+sPbM6W+eBN32jRgHCxSJbmf0htU7DkAqWiXuDa5HlOhvdx1bWy19iP@lists.linux.dev
-X-Gm-Message-State: APuU4Z8p+nSEpXTHK1+4ZNiN3TIuU6jAc8MWjEstZyUA4MJmJTpLLTy7
-	BFHQEAZTjQT7Rpq1Gvf5Z6euj8XZSFbtAVvlp/jzXSGPHzxBvMD+FYWT
-X-Gm-Gg: AYBFou1v0C9pPNZdOyNeAc+1PDC5mWS6Thvkps3MHF3ivFmkkV8J4OAonLkXThbOSq9
-	1aewuE8Xnez666U611GMcX2ZuLozcA4Cvws8nlx3OwwnGj8lgYCbQrdj2tuT7Hsa7NFq1XwEIQN
-	6EyqpxywMg8LAOE5mXFNMtzMVs0GOxLpIs08RxPItjySD1ZWjP+e8+5EY/TQuZuwtpHKJy2ZnHY
-	0v1+f8vTZfMiYk0Ey74fDNcPLao/qrIgn5pK3NuBMdtlDYCSZ6aa5EWYpn2xL5OhHsV4jVds5hT
-	yMQqwz9HyyN/Eq/OBQ0FC0ZrNBzI/DZKuazcuJ4OqfRK/m8VgqkAycNtASmt4uS8KWtW1d/ViUs
-	cif31xwmzniuGLYYNTFT8E0dZrElGp8s/0Y0WnWfmMJ2tnMDu21Yd1k12I2zeO2MPExKmX2GZlW
-	helMAT0aYNZ6Z6WVFO84tbdwY4us/+As7juFVoqUzRSo3kuS9wc4Yd1AEnNCfqsz+LmG4mAMTqc
-	P/dUhmwemgl8a9oChQNDF6nr9vOB0BFBLncPeXp9Ux3qYLOuXo7Ukj0X8WnK646PXA77kYoC83/
-	UtnL17Bonn8zEVhbZx0WIF5/AI9aAqo+u/xnj19NdeA/8SrZyMa/fK2pLfmTxz4tZj7aiJ/B9t9
-	htvIzIG6LOQ==
-X-Received: by 2002:a17:907:3f93:b0:c50:4a71:cb5 with SMTP id a640c23a62f3a-c5096325a62mr275095266b.15.1794586732058;
-        Fri, 13 Nov 2026 08:18:52 -0800 (PST)
+        bh=fvB29j5CecJ6jZKtZEMGpW6S1Git4SOKTeuMF3fwTjM=;
+        b=m69mIVZspot0ux7iznHxlZPiEnq/aXxxuwdxeG9KBGBj9TNa5PQtqxx7wsgNHAy1al
+         C4Y+kgi/aH6GGyjCo/mk6HePgvgpkW07R/9XqDzJFfF/saiOsE2WUtpVZnxZCftlSPL2
+         kP9ohD9fOVZG3fHvib3nx1ctVUiMmJIFOW6Yv9yO25Gdtf3rQZEp71zImx/Nnus8vtLR
+         i6rSMVw+y4y08D19s3Ta0h+VLPhX2f++vWp+1dghPHDidTcZNLKWSEsZLEfBVtbVno1J
+         a523/oN3GUedVse8ty2sjzgtWZ5FheyVfminpwtvKgXQP6aeqBVLqwHhwFpR5HujnuWz
+         0TiQ==
+X-Forwarded-Encrypted: i=1; AL+hErEZkwi0loMGAQ6G8ljHKDVFRlONNyxIJfm74Ek6Ws8szktuMzANuGPteb0oEx4JgprNl8tDvk6DBrJL7PCZ@lists.linux.dev
+X-Gm-Message-State: APuU4Z9JNoXGpAefztzNIg/2twPykk5hssmm6qt9MN+z1sjuYXtssxrp
+	YgwnFzJJQX6ig10c/eBPrb87yLhY2eEvYu+KrLZ7ajyBLJw9/Z8QrVya
+X-Gm-Gg: AYBFou3DO1eOLD2y2ohNYT+lR1vptLc42gul20Ju00gW7FD1gamzXRA0mhc31FnuGHI
+	cyAf6afNZSydewQfFneG0Icgw89cWlUxcrPH/Xh/EBm2KxXzM+3E5ATzk26kVq9EYJAp3mEnJEV
+	SrSF9ic/ATww863/Br2VJNkbuONoiX6W5Vnwo0Ozd8zJJer48zUeFha49NoWeeL12b1O8v3jSQs
+	T6ekgyTCcQDv8HjRdivhh85aApXX3qVP9LxJjkuJzU2Ec8dVM+3dnm5nE3jWfVzyhekSwfwDlyd
+	qIPyOaAlcqgHhLXy8sD9Ooc4DjNu5riFQgBnIbWYr7MIrEXVBgoAXQ21xW3/vRFeYQ8Vd4ikPo6
+	dy6ntRuuEP4GtrMnTnJw5SQpjqHqgkRdfRCxGxml557wNiM1Gt+5BizizhmFcfWU7sT05zAGycE
+	7Q0nLoVB5pkAV7Wg4QpZ4yFGGRSu99LpKb0NBT7+4MdFCXc4i0aWurG4X3sJCmjluZBruAw6aKq
+	0SvPLPhUiQDlKKgWfMrFBO5AQBasHmRm2EzNn7docGCLU0AXCe+wQjvqCuUwou/iM25DwodJ1IU
+	TWGQK61vlMia28Zbcrql9GyJn5lew+dqd2QiRAbx4vpOgMVu0LlKPfz8uOb5iNJfAAmiY40bANe
+	cfCcMvggxBQ==
+X-Received: by 2002:a17:907:3e9d:b0:c33:ca5e:8ddb with SMTP id a640c23a62f3a-c5096396e4fmr271748466b.28.1794586733814;
+        Fri, 13 Nov 2026 08:18:53 -0800 (PST)
 Received: from xeon ([188.163.112.62])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b24b88sm122297266b.16.2026.11.13.08.18.49
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b24b88sm122297266b.16.2026.11.13.08.18.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 08:18:50 -0800 (PST)
+        Fri, 13 Nov 2026 08:18:53 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@kernel.org>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -106,9 +106,9 @@ Cc: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v1 06/10] media: tegra-video: vi: Adjust pad assignment logic
-Date: Fri, 13 Nov 2026 18:18:15 +0200
-Message-ID: <20261113161819.36847-7-clamor95@gmail.com>
+Subject: [PATCH v1 07/10] dt-bindings: display: tegra: Document Tegra114 CSI
+Date: Fri, 13 Nov 2026 18:18:16 +0200
+Message-ID: <20261113161819.36847-8-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261113161819.36847-1-clamor95@gmail.com>
 References: <20261113161819.36847-1-clamor95@gmail.com>
@@ -123,119 +123,69 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The VI driver does not populate the pad entry in v4l2_subdev_*_enum
-structures that contain it. Leaving it unpopulated assumes that the source
-pad will always have index 0, which may not be true for more complex
-sensor drivers.
-
-To resolve this, assign the pad value in v4l2_subdev_*_enum using the
-source pad index obtained via media_get_pad_index() from the source
-subdev.
+Add a separate compatible string for the Tegra114 CSI, as it has a
+different programming model, uses three additional clocks, and does not
+contain MIPI calibration logic.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- .../media/platform/nvidia/tegra-video/vi.c    | 30 +++++++++++++++++--
- 1 file changed, 28 insertions(+), 2 deletions(-)
+ .../display/tegra/nvidia,tegra20-csi.yaml     | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/drivers/media/platform/nvidia/tegra-video/vi.c b/drivers/media/platform/nvidia/tegra-video/vi.c
-index 5c649e3162fe3..0228a11013b05 100644
---- a/drivers/media/platform/nvidia/tegra-video/vi.c
-+++ b/drivers/media/platform/nvidia/tegra-video/vi.c
-@@ -348,6 +348,9 @@ static int tegra_channel_enum_framesizes(struct file *file, void *fh,
- 	fse.code = fmtinfo->code;
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+index a1aea9590769f..0c18ac81c6d6f 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+@@ -14,6 +14,7 @@ properties:
+     enum:
+       - nvidia,tegra20-csi
+       - nvidia,tegra30-csi
++      - nvidia,tegra114-csi
  
- 	subdev = tegra_channel_get_remote_source_subdev(chan);
-+	fse.pad = media_get_pad_index(&subdev->entity, MEDIA_PAD_FL_SOURCE,
-+				      PAD_SIGNAL_DEFAULT);
-+
- 	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, NULL, &fse);
- 	if (ret)
- 		return ret;
-@@ -380,6 +383,9 @@ static int tegra_channel_enum_frameintervals(struct file *file, void *fh,
- 	fie.code = fmtinfo->code;
+   reg:
+     maxItems: 1
+@@ -24,12 +25,18 @@ properties:
+       - description: module clock
+       - description: PAD A clock
+       - description: PAD B clock
++      - description: A/B lanes clock
++      - description: C/D lanes clock
++      - description: E lane clock
  
- 	subdev = tegra_channel_get_remote_source_subdev(chan);
-+	fie.pad = media_get_pad_index(&subdev->entity, MEDIA_PAD_FL_SOURCE,
-+				      PAD_SIGNAL_DEFAULT);
-+
- 	ret = v4l2_subdev_call(subdev, pad, enum_frame_interval, NULL, &fie);
- 	if (ret)
- 		return ret;
-@@ -465,7 +471,9 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 	}
+   clock-names:
+     items:
+       - const: csi
+       - const: csia-pad
+       - const: csib-pad
++      - const: cilab
++      - const: cilcd
++      - const: cile
  
- 	pix->field = V4L2_FIELD_NONE;
--	fmt.pad = 0;
-+	fmt.pad = media_get_pad_index(&subdev->entity, MEDIA_PAD_FL_SOURCE,
-+				      PAD_SIGNAL_DEFAULT);
-+
- 	v4l2_fill_mbus_format(&fmt.format, pix, fmtinfo->code);
+   avdd-dsi-csi-supply:
+     description: DSI/CSI power supply. Must supply 1.2 V.
+@@ -125,6 +132,22 @@ allOf:
+         clock-names:
+           minItems: 3
  
- 	/*
-@@ -540,9 +548,11 @@ static int tegra_channel_set_format(struct file *file, void *fh,
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - nvidia,tegra114-csi
++    then:
++      properties:
++        "#nvidia,mipi-calibrate-cells": false
++
++        clocks:
++          minItems: 6
++
++        clock-names:
++          minItems: 6
++
+ additionalProperties: false
  
- 	fmtinfo = tegra_get_format_by_fourcc(chan->vi, pix->pixelformat);
- 
--	fmt.pad = 0;
- 	v4l2_fill_mbus_format(&fmt.format, pix, fmtinfo->code);
- 	subdev = tegra_channel_get_remote_source_subdev(chan);
-+	fmt.pad = media_get_pad_index(&subdev->entity, MEDIA_PAD_FL_SOURCE,
-+				      PAD_SIGNAL_DEFAULT);
-+
- 	ret = v4l2_subdev_call(subdev, pad, set_fmt, NULL, NULL, &fmt);
- 	if (ret < 0)
- 		return ret;
-@@ -570,6 +580,9 @@ static int tegra_channel_set_subdev_active_fmt(struct tegra_vi_channel *chan)
- 	 * is corresponding match in the Tegra supported video formats.
- 	 */
- 	subdev = tegra_channel_get_remote_source_subdev(chan);
-+	fmt.pad = media_get_pad_index(&subdev->entity, MEDIA_PAD_FL_SOURCE,
-+				      PAD_SIGNAL_DEFAULT);
-+
- 	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
- 	if (ret)
- 		return ret;
-@@ -614,6 +627,7 @@ static int tegra_channel_g_selection(struct file *file, void *priv,
- 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
- 		.target = sel->target,
- 	};
-+	u32 pad;
- 	int ret;
- 
- 	subdev = tegra_channel_get_remote_source_subdev(chan);
-@@ -622,6 +636,12 @@ static int tegra_channel_g_selection(struct file *file, void *priv,
- 
- 	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
- 		return -EINVAL;
-+
-+	pad = media_get_pad_index(&subdev->entity, MEDIA_PAD_FL_SOURCE,
-+				  PAD_SIGNAL_DEFAULT);
-+	fmt.pad = pad;
-+	sdsel.pad = pad;
-+
- 	/*
- 	 * Try the get selection operation and fallback to get format if not
- 	 * implemented.
-@@ -667,6 +687,9 @@ static int tegra_channel_s_selection(struct file *file, void *fh,
- 	if (vb2_is_busy(&chan->queue))
- 		return -EBUSY;
- 
-+	sdsel.pad = media_get_pad_index(&subdev->entity, MEDIA_PAD_FL_SOURCE,
-+					PAD_SIGNAL_DEFAULT);
-+
- 	ret = v4l2_subdev_call(subdev, pad, set_selection, NULL, NULL, &sdsel);
- 	if (!ret) {
- 		sel->r = sdsel.r;
-@@ -1041,6 +1064,9 @@ static int vi_fmts_bitmap_init(struct tegra_vi_channel *chan)
- 	 * supported video formats.
- 	 */
- 	subdev = tegra_channel_get_remote_source_subdev(chan);
-+	code.pad = media_get_pad_index(&subdev->entity, MEDIA_PAD_FL_SOURCE,
-+				       PAD_SIGNAL_DEFAULT);
-+
- 	while (1) {
- 		ret = v4l2_subdev_call(subdev, pad, enum_mbus_code,
- 				       NULL, &code);
+ required:
 -- 
 2.53.0
 
