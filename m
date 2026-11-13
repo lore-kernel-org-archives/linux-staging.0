@@ -1,79 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1794584255;
-	b=rHfswgzZk86/m53IZZtsmk8A5TnmPAWfZl+cPFo4VPmY0iYWaZpFs12ltLmmJZWOygjE
-	 qsDgzz9kRXN9ZYb85tljr4NgqPzxFY+IKyXM3cS9oGwXuxNk6PVh2rDHKngHqBzLK7vF4
-	 COdHhv7B3rx4hisIpwXCoQcUfFRru6jAwp/tHobpyOPjzajb5WLPT0zrokUJQqnZ4r5T6
-	 tpqQQlE3/tX0+3UMJlIt5foLUQxRYHZgqxT/Ve5OOLvF06tU5juCTPq84Q+6dx7+NRXEy
-	 dF/TAVPWZ+lHPRBUoGhSDE8kuIgqEm69CGSxfqP8GHYxl+8MkfeLCx5H9An9ajNP2jw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794584255;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=z9LVjNOdMQXy4dVc1hY5/8F3vca7YGl8VxbQdnJ9Aas=;
-	b=E+iM0KJ9By62DqjtWhunTxr3+bdFlpv10BRa7z5WZsgBSYRUX73u4bvXA3vT/DzFtIiJ
-	 FgwSWsLmmnMmT3eCel+yPlvF4mN5cW6gzlmr1HNYplQa7qTcFiGYjN7fS91w2LmKTO0Kc
-	 3W1cxy0c3ao/3ut5ARyEi5Vt7sVpxa3unENAZoec0OUTcHYfwfI2joqAsyMsdCXn/0FP6
-	 RGae2EaKhXdOqa/Evi+GRl/RMtqnr/2YFmzHmSsnXfdvRMAIrBz1m4ocd5426VceglyGX
-	 haBd++iGv/x5nEW3BOJLh/q8aTIf0Hd3XmbJGD1KuU3LJKmEUDmMSMR1eZJX2mmVEmg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="O/m9T7WW";
-	arc=fail smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E075606A336;
-	Fri, 13 Nov 2026 15:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O/m9T7WW
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794584255;
-	b=SWcDpEnTo0gh8KhcWRutn+aKjJNHWsOvRjq4js2ajjkWfBadoO76wl8ci0tgu6w9te16
-	 1Oc9QO3/mE16SvBReQucpCXj6BKHcPUZGO6Cv0CTw/octbG58EU1vK3oSQ+IHsnwh3pyy
-	 myTD0dIC7CqUCAeUw+x3rLfLlAQblBHISbz9i2trW5hMk8lwf57jnnva5DwIQ70E1Xc39
-	 ZaFIv48TfyyFQ9cs5sAvLPwBSg4nfwSNsT4mybgA+oRIKLXNds3opJkAXgEcBn+Oz0AXx
-	 yAMwHSiq0zWfcaZxMRDGCCzaUBcOQFyJdj/w+lzVg1+6mOQpeBpl3j/+8Q9SdLIr1RQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794584255;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=z9LVjNOdMQXy4dVc1hY5/8F3vca7YGl8VxbQdnJ9Aas=;
-	b=UFHuuabwzj5VF361DebmmiEPCHTYVVo8qm+v/VqjuuI0SuT/5JkHPeMkS1dxlljU7tWT
-	 dFqWuq0HheXwwyg6+WwNSRbu7Nnmgy7G3gC7AdIC02+Z5BR3Xn70TbBuAyBSXLOJKUY8w
-	 oU1oqJE6VuC4nyoW0Gbopa83Aw614zsXJm1NddsjJKX3ostzDWkgBfIz6jrD1H2nxczeu
-	 VXYXNcsc2QKLgl3TUK3dXLpCIbLwxR6JhEHyFvHq7GM7qisdMCRGwaCuuOsMSwr4MicSs
-	 fwce/EhSmAueUqbiWm6O/1uakVSjvPgCeouhXDD6TnV/KWO+ifHYDR3Y006zkMVcrVA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.45
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794586723;
+	b=FpWXml0Fl6Ye2AYim+9xBeSMvGck43BKpcmoDB8Cu9yHBNTYzLHw6MHRAIAcrsFM/VPb
+	 sc42/aBaZOufZYoN7o0DcXtemlqqIDZoDBFfrQfamk8QFGdfHXdeJr2/0CxVZukkocNzh
+	 FonczWDrGDcgm5NXpXKDLzI+APwf8iFGhGNCwJxFrqelDXBeltVkx1bum71iIo0xsS80s
+	 S7Jgi3HJFPQ/qevFyPnTdA+bGeLN03+CRlwiFNM3ZqkOqRG0fiR8OBsJrc8HWUw65EP94
+	 +E5YfdfbjHhoP5fez2hiVFqPfXL7Z1sftmB2X51+LOXT9wiydW//C154bFqPPMuDF2g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794586723;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Eirh/4i1JKisBRrsumJjSRboncwjaisgQnevXkb1w8M=;
+	b=AkUIKJKHgNtcBcAHM8AO2AXJu1mpqW5dsmNK5w0QjkD0eIQedKjAT4CONJYfYYJFkGaa
+	 LEQxHZ9vc6jLz9jLo0KKVMpdZkHlgTgyeWte1HugHaaRrYp4309jKELTJYAmKWw97YfHa
+	 p79VDIU9tQhs1bcWAOphCNcy1SBU8yP/iWzay7DfOQcysnPqxnjtqoSQJDwpECYR+X9f5
+	 YWXuslR8WgXZO4/YhZmBqkNckmPIODpX9m2+NDhQfCwA4XU7+zHCtNOyriGMbpNf9y9rx
+	 RQ9oEX7DoLufnlLo9ga6XYpF6qRG/TKecKkgyhV3K7GYB9MdUNPYGMQ6LhCSUZu0f3A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FR+SENgx;
+	arc=none smtp.remote-ip=209.85.218.45
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id CF9F81F000C5;
-	Fri, 13 Nov 2026 15:37:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794584255;
-	bh=z9LVjNOdMQXy4dVc1hY5/8F3vca7YGl8VxbQdnJ9Aas=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=O/m9T7WW4AEqsWLF7uaxMwMxRpD777I+sAHRhc01zMliCUR+mGoRCJw8imOl4kmM/
-	 ZhFvnMZWP+rx3TGUOjPUKHn8huQA9FfCNNwCDTxsgm9DP/WbG6RHFTURM8a4/mFHWB
-	 GeEejohPW7fBpJLvP1Eq+6OcMzgpGqBuDtoJlVcU18bAhHShr7WGBTKv9vHgIJffEW
-	 h85cNPu60Azp8OGSvtd1fxgGE5zfw/9kW4ZLGsdCg1xlVSwuLvKVQ6kWfCruWpSVFv
-	 96aItUSE39XxDm0uSTC+ms0u01tgbH8BufdfgbW6Vtwi0OFo+GnycNzOJK/p1vBmCd
-	 qMFLb55upvoUg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 4F2D747810;
-	Fri, 13 Nov 2026 15:37:34 +0000 (UTC)
-From: Davide Vitturini via B4 Relay <devnull+mdvitturini.gmail.com@kernel.org>
-Date: Fri, 13 Nov 2026 16:37:33 +0100
-Subject: [PATCH] media: staging: ipu7: isys: close the firmware stream when
- enabling the source fails
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988AE606B5FA
+	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 16:18:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 988AE606B5FA
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FR+SENgx
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4d581da0aaso191143766b.2
+        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 08:18:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794586721; x=1795191521; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Eirh/4i1JKisBRrsumJjSRboncwjaisgQnevXkb1w8M=;
+        b=FR+SENgx+R6XqitNlPeQAzymHacA2YySzCaw2r3fLBRXh9Ky05RqZWHunk4jqyPtW7
+         YzYgBan8KUd/P0JR2/No5KSkpKvG6o4UdszkvJ/B6fn3iN5Ny5497T+OH35h4BhyJjMm
+         d24leZIZk2S1T5MoGi8jZNtTFNWMJkcGgrpbjtF86s+wywwePZQeUz93YpYhzDV5wjSk
+         Zg7plffEOV/QRHi4tuASyy/1dJfKVZKMpBtueMPDGZAUZdVbMQcs4ZzBvMOwIB2fZPQz
+         1F+22nmwo2k/zo8pBFM6+/nVPdaudgF2VQO2lZ/hswWdE6mCoIvkOri9BqngMcTplz2x
+         ffsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794586721; x=1795191521;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Eirh/4i1JKisBRrsumJjSRboncwjaisgQnevXkb1w8M=;
+        b=OsmYIi9Xe6EPx4Ah6AgFt3vnyXCbNrdeHvJh+PFtj8Hzn4Zq/Ms4i54psGcn7SJJ9Z
+         aDf74LrB5GJn7WFojBgrMtP8hMaNIx8Oqr6yPrVlIxKcqMOHnxqSWWQY/yvxSWfe66Ya
+         QwySzQp+Q/c2EteQRZo7B1ggkgN1ibGi2CvZ71pWQqOCBGM9W+YLcrnXUKhmZihCkr3/
+         aiom1ZZr0bJ9wxHigyZsMwmG+QTJtiLn51eY9CHReYGRsp8MVcwhvyKAoIWtIb6h2N+c
+         HxPbfPzwkvdaY5FEO5i6tRhMKwN9jSA6yhUFztePLF058HXWAW8kXRM+e/X3F+kmO7DF
+         59qQ==
+X-Forwarded-Encrypted: i=1; AL+hErEDANV8SIeBWHqdSoOMgkPRAyaiIGRXwqb9hBpeXvEBhduoixS9RVAsEYm4SsqEbwY1rUA1LO6viiZbDDEi@lists.linux.dev
+X-Gm-Message-State: APuU4Z+kgAGiG09FQ5gYa4QOJsYDpY5aUrt6dyEQD9z5COnEw9apK2Xv
+	5x40fZEjWkLRx1sQ45JmOmgAVeRbFCYYW+pEbt5LNqafClyL9cAtP4J0
+X-Gm-Gg: AYBFou1kuW1BUyJB3IpaJfg8PJgHjJDP8EhbtzPZ5QK4QvKOf2eEBCqziTyy9tFRCuv
+	iHIs6985j7/jRl1mIk8y6QRO0haVk2csbVkxt65Dq7dZNa8f8i4Rfj9lbtB69kA7jAj7A0PEqPA
+	8a12C3ZzCpA3V0SNGSNyQpgitB9er2RjuT1R7KjIjzHI+gShWk6iXvH16FJo2YbZ0Sy59CxlIi9
+	UwabtvA8c7/46yEYqIFZAwYCkJMQPG1jq7XiDcAyrUVc/bykhnj1Sc0HvVK3vHKRUuSN+C6ii7I
+	+dwWoiKDyV3+ENHPwDfi/n5ZfmnMnFMmNR6o73sIGe+X4Ph1KDpsNCTpnSS52k7YI1qU/qoCZbT
+	/ObCAUK7PxEMzoZAgi6JzV/5jxxN7E06z3F+lr7O429rvflF49uDVa713jFSbyKB/nXozbkt2/b
+	PNrIMWRVoIXmllFtXuUqUAB0kYXXo7H5UvY8bZ/Fzn9bzlPHptYmK4q2VI1HKbDEWoBUESLDV4c
+	DflMbKPNc6OSAWGdajqjqmsjmhibv7Z9C/jH7YkuVwHnWiBvd5NcoUIZokhBHmKWbbSqWqA3+CY
+	cCQzyIKXaVYzfI1a8N4nfYYD8LN8/NJ9QDd4UP/lI5McTap4C9I/Q1jiCAJw6ZdaD5XSWBr8OeV
+	44yrFUaVPbQ==
+X-Received: by 2002:a17:907:930a:b0:c40:19dc:a24d with SMTP id a640c23a62f3a-c5096344fa5mr275778966b.9.1794586720616;
+        Fri, 13 Nov 2026 08:18:40 -0800 (PST)
+Received: from xeon ([188.163.112.62])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b24b88sm122297266b.16.2026.11.13.08.18.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 08:18:39 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Cong Nguyen <congnt264@gmail.com>,
+	Faisal Mukhtar <mukhtarfaisal03@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Hungyu Lin <dennylin0707@gmail.com>,
+	Hao-Qun Huang <alvinhuang0603@gmail.com>,
+	Yury Norov <ynorov@nvidia.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v1 00/10] Tegra Video Input updates
+Date: Fri, 13 Nov 2026 18:18:09 +0200
+Message-ID: <20261113161819.36847-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -83,110 +119,86 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261113-ipu7-isys-close-on-enable-failure-v1-1-3473e098115b@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3NQQrCMBBG4auUWTvQRIzWq0gXMf1jB0JSMrRUS
- u9ucPlt3jtIUQVKz+6gik1USm4wl47C7PMHLFMz2d46Y8yVZVnvLPpVDqkouGRG9u8Ejl7SWsF
- uCo/b4AYbg6XWWSqi7P/HazzPHxzY5tpzAAAA
-X-Change-ID: 20261113-ipu7-isys-close-on-enable-failure-6dc859692fc2
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Davide Vitturini <mdvitturini@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794584253; l=3670;
- i=mdvitturini@gmail.com; s=20261113; h=from:subject:message-id;
- bh=7DM20gbywDQPpG7hvrpaxI9Untar2fwINYVnL+pTASQ=;
- b=VKTVo4DwVQ0O1UizNU9kjONMX6xMH8fLXv9Mrq1uBBdWzccM2fcNnM9aayAoDnRouxlybBsNt
- 4qOp0KGm3jGCleg8pTcAiBELvADcIZCceL9oj2i4FbV7/EZAo2jbnL8
-X-Developer-Key: i=mdvitturini@gmail.com; a=ed25519;
- pk=qHGCynxkIIOSj9Y1SqEb12yeOmEFSgLKtIUxOhZ2o2U=
-X-Endpoint-Received: by B4 Relay for mdvitturini@gmail.com/20261113 with
- auth_id=1511
-X-Original-From: Davide Vitturini <mdvitturini@gmail.com>
-Reply-To: mdvitturini@gmail.com
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Davide Vitturini <mdvitturini@gmail.com>
+This patchset contains various updates for Tegra Video Input driver:
 
-ipu7_isys_video_set_streaming() opens and starts the firmware stream
-(start_stream_firmware(), which increments isys->stream_opened) before
-enabling the source subdevice. If v4l2_subdev_enable_streams() then
-fails, the error path only flushes the stream with
-stop_streaming_firmware(): the firmware stream is never closed and
-stream_opened is never decremented.
+1. Tegra Video Input driver is moved from staging to media since
+   the driver is quite developed by now.
+2. Fixes for Tegra20 and Tegra30 VI configuration (clock adjustments)
+3. Updates and optimizations of VI implementation itself for complex
+   media devices attached
+4. Addition of Tegra114 CSI support
 
-Since isys_suspend() refuses to suspend while stream_opened is non-zero,
-a single failed stream start (e.g. a sensor that does not answer on I2C
-right after power-up) blocks system suspend with -EBUSY until the next
-reboot, even though no stream is open any more:
+All changes were tested on:
 
-  intel_ipu7_isys.isys intel_ipu7.isys.40: enable streams Intel IPU7 CSI2 2 failed with -121
-  ...
-  intel_ipu7_isys.isys intel_ipu7.isys.40: PM: failed to suspend: error -16
+LG Optimus Vu (P895) Tegra30 device:
+ - MT9M114 front sensor with complex topology and irregular pad mapping
+ - IMX111 rear sensor which has simple pixel array and a single pad
 
-Close the firmware stream in the error path too, mirroring the stream-off
-path (stop, disable source, close).
+ASUS Transformer TF701T Tegra114 device:
+ - same MT9M114 front sensor
+ - OV5693 rear sensor which has simple pixel array and a single pad
 
-Observed on a Lenovo ThinkPad X1 Carbon Gen 14 (Panther Lake, IPU7.5) with
-the ST VD55G1 IR sensor: after five failed stream starts suspend was refused
-until reboot; with this patch applied suspend/resume works.
+Nvidia Tegra Note 7 (P1988) Tegra114 device:
+ - OV5693 rear sensor
 
-The leak was found, and this fix written, with the help of an AI coding
-assistant (Claude Code, model Claude Opus 5.5) while debugging the failed
-suspend on this laptop. I reviewed the change and tested it on the
-hardware above.
+They all work and produce images.
 
-Fixes: a516d36bdc3d ("media: staging/ipu7: add IPU7 input system device driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Davide Vitturini <mdvitturini@gmail.com>
----
-How this was tested (Lenovo ThinkPad X1 Carbon Gen 14, Ubuntu 26.04,
-kernel 7.0.0-43 with the staging ipu7 ISYS rebuilt with this patch):
-- Reproducer: a test-only module parameter in the out-of-tree vd55g1
-  driver makes the sensor's enable_streams() return -EIO, which drives
-  ipu7_isys_video_set_streaming() into the error path:
-    vd55g1 i2c-TBE20A1:00: test_fail_streams: failing this stream start
-    intel_ipu7_isys.isys intel_ipu7.isys.40: enable streams Intel IPU7 CSI2 2 failed with -5
-    intel_ipu7_isys.isys intel_ipu7.isys.40: stream stop time out
-    intel_ipu7_isys.isys intel_ipu7.isys.40: stream close time out
-  (The firmware does not acknowledge flush/close of a stream whose source
-  never started, so both calls time out; stream_opened is still dropped.)
-- The same capture node then streamed normally again (20 frames).
-- s2idle suspend/resume afterwards succeeded (suspend_stats: fail 0,
-  last_hw_sleep 8.4 s). Without the patch, real -121 failures of the same
-  kind made every later suspend fail with -EBUSY until reboot.
+Requires this patchset: https://lore.kernel.org/lkml/20261113145708.261530-1-clamor95@gmail.com/
+("clk: tegra114: Add CSI pad clock gates")
 
-Build-tested on media-committers/next (W=1, allmodconfig, drivers/staging/media/ipu7/).
+Svyatoslav Ryhel (10):
+  staging: media: tegra-video: Move driver to media/platform/nvidia
+  dt-bindings: display: tegra: Remove Tegra30 fallback
+  media: tegra-video: vi: Diverge Tegra20 and Tegra30 VI SoC
+    descriptions
+  media: tegra-video: vi: Switch to
+    media_entity_remote_source_pad_unique() helper
+  media: tegra-video: vi: Use entity function to check subdev type
+  media: tegra-video: vi: Adjust pad assignment logic
+  dt-bindings: display: tegra: Document Tegra114 CSI
+  media: tegra-video: Add CSI support for Tegra114
+  ARM: tegra: Remove fallback compatible from Tegra30 VI node
+  ARM: tegra: Add CSI node for Tegra114
 
-AI assistance: the leak was found while debugging failed suspend with
-Claude Code (Claude Opus 5.5), which proposed the fix, the reproducer and
-this description; I reviewed and tested them.
----
- drivers/staging/media/ipu7/ipu7-isys-video.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../display/tegra/nvidia,tegra20-csi.yaml     |  23 +++
+ .../display/tegra/nvidia,tegra20-vi.yaml      |   5 +-
+ arch/arm/boot/dts/nvidia/tegra114.dtsi        |  34 +++-
+ arch/arm/boot/dts/nvidia/tegra30.dtsi         |   2 +-
+ drivers/media/platform/nvidia/Kconfig         |   2 +
+ drivers/media/platform/nvidia/Makefile        |   1 +
+ .../platform/nvidia}/tegra-video/Kconfig      |   0
+ .../platform/nvidia}/tegra-video/Makefile     |   1 +
+ .../platform/nvidia}/tegra-video/TODO         |   0
+ .../platform/nvidia}/tegra-video/csi.c        |   3 +
+ .../platform/nvidia}/tegra-video/csi.h        |   6 +
+ .../platform/nvidia}/tegra-video/tegra20.c    | 171 ++++++++++++++++--
+ .../platform/nvidia}/tegra-video/tegra210.c   |   1 +
+ .../platform/nvidia}/tegra-video/vi.c         |  47 ++++-
+ .../platform/nvidia}/tegra-video/vi.h         |   8 +-
+ .../platform/nvidia}/tegra-video/video.c      |   7 +-
+ .../platform/nvidia}/tegra-video/video.h      |   0
+ .../platform/nvidia}/tegra-video/vip.c        |   0
+ .../platform/nvidia}/tegra-video/vip.h        |   0
+ drivers/staging/media/Kconfig                 |   2 -
+ drivers/staging/media/Makefile                |   1 -
+ 21 files changed, 281 insertions(+), 33 deletions(-)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/Kconfig (100%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/Makefile (84%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/TODO (100%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/csi.c (99%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/csi.h (95%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/tegra20.c (88%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/tegra210.c (99%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vi.c (97%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vi.h (97%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/video.c (96%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/video.h (100%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vip.c (100%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vip.h (100%)
 
-diff --git a/drivers/staging/media/ipu7/ipu7-isys-video.c b/drivers/staging/media/ipu7/ipu7-isys-video.c
-index 8c6730833..024d43f60 100644
---- a/drivers/staging/media/ipu7/ipu7-isys-video.c
-+++ b/drivers/staging/media/ipu7/ipu7-isys-video.c
-@@ -831,6 +831,7 @@ int ipu7_isys_video_set_streaming(struct ipu7_isys_video *av, int state,
- 
- out_media_entity_stop_streaming_firmware:
- 	stop_streaming_firmware(av);
-+	close_streaming_firmware(av);
- 
- 	return ret;
- }
-
----
-base-commit: ad6549a46748d00818483b535e5cd2a704685c98
-change-id: 20261113-ipu7-isys-close-on-enable-failure-6dc859692fc2
-
-Best regards,
 -- 
-Davide Vitturini <mdvitturini@gmail.com>
-
+2.53.0
 
