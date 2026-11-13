@@ -1,100 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.171
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794593378;
-	b=JkeKdmf914NGEXrCS3uBopi8j9bvinIy/e7RvwoRwbqNVrtIBLHJ3Tj+I4nS7sVQX6WZ
-	 9UxCSJMMEPZ0xf9i3oOrvUANmIDUSSUojLFcmnR2fvDgztuPRKVaFZW79Z0Y5W43Pz4Wq
-	 wChx6ap46fzY4EhoBNZi69SlB74yZV+BKNVvbInAkcQxN7OJhJUcShi51No2Ro3dfPmyP
-	 jSWjzv2LpYMR0TO6Y5wGQ01GYiz7CtRj4wqG8iyGAMTslB5Zm+MEdmnzCEzJ7M84lXU15
-	 HFRUB+BC50S3TWfCJZx8IPl712/jRjbzhWwIH8JBkyHLlnZZ6Y2HMsVSUkkBv3Zw8iw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794593378;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=jKYJRfOSB0/5ZynWyHsKUs3Uiriv6+4ECNMHGysdRx8=;
-	b=MxJQoSknfEBGa5InHtNfH3XJFGG3EYfElv2Yvfp7yBnUmAoTTHL5GfPVZowdxOj9nkvK
-	 yowmpkaQZA3JgW5/L4c+9myBE3f1WOeAla4+0l2duhGWJWSlBDTpeQTuVSsw5LR9ruDbe
-	 ymfwshwAZCUiZb18uz4KNtryXOGxQ7fohCUJYf/wt5a9z3sBX9ovFuSwFggAtBfYbfEfk
-	 EXjnusnGJOmW2pfeM0x0D7BjuRFmbCcFFrHYrmQg1/V1p9eHws367FWFyR+MHpsKGuvzn
-	 xH313IUS6QQL1Py9my5db3iVlIuB9TG67Fia+7Pxb6fmYhiG0F1SVHMPkreYIeuectw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wetterwald.eu;
-	spf=pass smtp.mailfrom=wetterwald.eu;
-	dkim=pass header.d=wetterwald.eu header.i=@wetterwald.eu header.a=rsa-sha256 header.s=wetter header.b=YBiXzDRw;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.171
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794593950;
+	b=B3aUdvU2M2+ZP1eJF9ZGVP2xHDHHCPheL9DdVbM8ZOBtLQNs7q5VDMptROTPm/UgtPhy
+	 4r0beAMx421KExPWE2be3HBEd0VrNEz2x6X63zhWqQgHCB8L72JNZ+f+evr9rFWG46vBS
+	 DMoHSxb3UL4BQuXgGWrbqHxcBqzM1Tc9LsVH6nNJdoMTI+xpjv+P4VekLM1aIqZzln99x
+	 Xt/iZcIu0N+SSzaZuCv9174rjwOhYLS3IFJ3BGKSWV7yJJ480Mn9TPKrKsdlUrAoDu/HA
+	 C1M3RUFs1ncyvO/qyCE5AeByMXDZgWKdtbNOKgxOywNKzApjWMGF+1+Z7B0OIJApNPQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794593950;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=/VIh85zZMfzSY6G83+v5V/TjnRLbNiLly0GYfH3nJNs=;
+	b=LGQM9fxRj7TKPqIaYHWfe3r9RYpgHu+tavRUAyii2JzaqQ5pM2lRp6FN4JZixu4kB4aK
+	 lH3N982eXvdwwgtdQjXVs5cdzW2IjN7eyP03El7mBKMqzikqb2ImA6PoqSyKx4yIe+TOY
+	 3k1riEl+jPv92CYa/LdLuUq7cyFz0Gpl/rDO5ridxPvtKN9C/LjHMmnJ5l/Gb/J0jCvvi
+	 /arSeahkCn08gYFHopVo9jqY4de8qFQL7vOhLEF6zv0Ce/IneNkYW1mGjDNQ3DhInmSm1
+	 Eekx8gptQ7ea4Q4zGWRDhss4HLpldXOKar83ngUR0bPYRE32hZyOkG6srdIMN6d37Wg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzC7cE78;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779F7606A334
-	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 18:09:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 779F7606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wetterwald.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wetterwald.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6EE606A6C0
+	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 18:19:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wetterwald.eu header.i=@wetterwald.eu header.a=rsa-sha256 header.s=wetter header.b=YBiXzDRw
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3ae25c846edso14147301fa.2
-        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 10:09:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794593375; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XcCPDvqxneQq8eOfAuLFSfflaYtnjwwNUg9BtWdlTYSi3FTnyqZ9QJGPyLCe6ZL+pf
-         3zr+/F5EOFfeiWeJqsQXoNwQ4fYcnttTvoNwz3eCPrLg2ybeIbVaT7DUSg5O9ISl0Xpt
-         TbisjxGmya1HuGdy/h13aNcT8LkwiUeQan6m2UxBzXvQ6I+QJSBxfzXZ1JdQnWpAhdRQ
-         49cuR5r0dS/6kQa8Sr1+hopH3ImXDWJWaTjMLNyydS1AILyI0ejCPWAew4Fxxqj861qn
-         SBuPTE/72uXCo/1wd0sk5HH25HjpszgU645dIZsaLP8Q+5e4YbmpWnCcSi80SlQi99oQ
-         Vt8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jKYJRfOSB0/5ZynWyHsKUs3Uiriv6+4ECNMHGysdRx8=;
-        fh=QqStEJE1zxMcoxBB86+C7qX/nCTGkL/fz1w/zwZ4cj0=;
-        b=WJBQpzOoqzEWhtW+NnZ5sh+SmzjsKeBLOOTT5l7RXId8hO6RIR2CclsN3xFfP/BuzQ
-         UqNR8flLpfXvb7sg9RVAD3ue7Gu5At4oSEkWYbBHQImO6YwuWGTiAaFKOmMsmwgpoGWA
-         wEIRYWr11j1S1+jAxzQLMbpVH8YsTxWQzmECPsAFrZ6suAA/knyQsIzh8cSgRdcYQprd
-         RKQPwKIffCG3OVG929GuiM8syGc60ix9p1vLhmEEipmlkZiCWDlUR2bRdtV7akAueL+u
-         H4rO0V8u9kiSJVqI2GlNynlOdAVtF9OVckSUIbDOr5Deu6DG6rhWrwam96W02rHizsnX
-         hqwQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wetterwald.eu; s=wetter; t=1794593375; x=1795198175; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jKYJRfOSB0/5ZynWyHsKUs3Uiriv6+4ECNMHGysdRx8=;
-        b=YBiXzDRw0l++d6f1Vx3bdkwpD6uXKvluXwZy9MEBBtcJN7nUhxuoLHtLmidbMs4blR
-         5DyoLeUP6evIme+L3/FQoZJBhn7wNkQbDP0pktcrw7q1T82qi5oXMrj5gRExFrjkXFyS
-         0XbC54z2Nuiin3fUTvcIzYSDarfrYpQVKZMRZxu5CkNywRz0NvUEDLYJKx9U0ed35s74
-         d/rLMxkDb+ZhXMtt3lr908W8HkeE/WN9RJtWGgx4bgE+A9N76wUrjO5a5cI+pb5M/0jI
-         CeEjyS9o09fMcsmjCJsR4jbF8r5p71P3RYyvt5A11+HgMuyOqaJj1CmIJqiu6ATfHf2T
-         0dHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794593375; x=1795198175;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jKYJRfOSB0/5ZynWyHsKUs3Uiriv6+4ECNMHGysdRx8=;
-        b=WSOJPqh2e3xIq0cFB+gLeIxFhBzBlDX6jC3Yq9t19GDVZM+ntPRTR6KVF60qE5V3JT
-         o/Amqok6QnKjCnN4TC9vy412pf7CE3PhxvASVSwTKWOAzFuK97gEn+I3OIH3H//+F/Qj
-         wl/vlEnC9CtrYtHtcaC/erL+1YUn3uDAEUeIMJVr/1T7BbjMhqWP8mNx0WHiQq98lQeW
-         SjdEioheQwCN17KQvpIOa0amlP8ro/jLxu8DSgmfzA7hCo4KjO3nLG97X/wxXdgmQ81E
-         CgIAh6tKY9C/jBuvf4wcsNxWgcgnwt9wQdEPBZ34Hs7Pi2Gl8HSTsQ+B/d5rdxrUlT/q
-         3LUQ==
-X-Forwarded-Encrypted: i=1; AL+hErHzA81pNBtgil1dC8JSFBagx2ElhmPre7UYhld9gOBUY3Loj06VCRjYNbuDMcPp8K4rpPeFBW8IuSQLpD7g@lists.linux.dev
-X-Gm-Message-State: APuU4Z9WOoBGu+V27zCL3q6dy12R8zQ2XHTeu7m+n615vYLPpYJ0tVbp
-	TX5CtSBOaTIJa+Ujk4IqVbD83nO5wqFedrm6mMg6llpr2CUUfQ5dYCqeVaHczvuuE/XdRKpjimo
-	ZoQUvx12YLfqhlEf25foMAFERhZTeSwLU3hJMilxizg==
-X-Gm-Gg: AYBFou3byyQS9/h6RrBazYpXg29C5Qany6vcCFg1u7d8hSvjzaJpFz6zBPn8XDsBx8Q
-	JZAWHBuWzl8OR9+Y5JAVAq6LzHpy47ez59YsAlQ4ijHP8Y9iHO73A8CvMCsCv6vMHdqvY1t5flw
-	i6FBVLNjZ7O6uasc3Z0TZeTMeswXv2HGa57fkWha/FG23DYwuf8gXl1ZPq1XaOqDD1urLlyfubQ
-	VI2niUmwxfGKyN3ccSEq6tSSuCfikF3n/XNN+QJz5u2cm1e8s0lmFRzhvz8YS7J9YhwHqRMHgMD
-	0S/9IoYfLV7TLroYs8YRuG2nxj6+qXSQ1pP9eEreL8vV2cz2/d06l6VGpH/XodX8+UsHAtSWlhS
-	rL3MaVxnyecWLjtkR1h6sZ3U9YUW6p1sVdS6i5NA0ghpyNSWc0DTvw+qQXGJOxr5vEm4A
-X-Received: by 2002:a05:6512:1188:b0:5bf:b93d:a85b with SMTP id
- 2adb3069b0e04-5c17099fafemr1222262e87.25.1794593375264; Fri, 13 Nov 2026
- 10:09:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzC7cE78
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C4651F00939
+	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 18:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794593950;
+	bh=/VIh85zZMfzSY6G83+v5V/TjnRLbNiLly0GYfH3nJNs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=TzC7cE78kKFl2rFE1ESKez8K3/v6Pqk/6PLrXGyiq2H8nW8RaKll1mNR/hvrBhoAX
+	 9WUKboDxL2p3Jax+koelb066IybY3DAyK95vGOnYrQLEWCd8zr9JB2nkLXwMD48oro
+	 eBlcvuFHizULDj5hONrf7IDExHONWpvIf77MgXaUD3OXBqfZQ67bfgb2xPq1SoAoJK
+	 T3NkAz2AcSCaHe3eo20kPD9U/cE84jkgmN3fcFTb3UIgs2jbLigXSsu2MG4WlwRKQd
+	 lN4tR2+CCuZNMvYNucVewMR1jQy7sxt8uriatRDaKQNHlu1Xb8w/7Uzi3R4wDwiNfg
+	 QeLT7VoO7hmng==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5be416e603cso1330057e87.2
+        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 10:19:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFniNkRklYSLOaJtwZ3EZnYE13IYNXeUHQJhJQl3AigAB55ZKeSR0kHDtGBgseGur3QLg5YTfjWpa1baRki@lists.linux.dev
+X-Gm-Message-State: APuU4Z+6cHPETxEWHjaYftlvnulQxS4YfIz5WhQQPMm+YX54Yv0yqLPJ
+	SlACxe2LMDhNWoNSjXJpuruy3VmAdHVT47CwaxMrRfCrgJ4ocwFzzDu7/iVq6PyIE95GBZ3x1Au
+	pjMgMlV6bmZu1iaXEQJlpwelgFtguiH8=
+X-Received: by 2002:a05:6512:1310:b0:5bf:cf80:dfd8 with SMTP id
+ 2adb3069b0e04-5c170a0bb47mr1769832e87.23.1794593948320; Fri, 13 Nov 2026
+ 10:19:08 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -104,67 +59,98 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <CAFERDQ0FpdVvA5VJxOyRAE_pgxnPVmFx1tkZio5R272j6Bs4tg@mail.gmail.com>
- <20261022082927.59030-1-martin@wetterwald.eu> <2026102218-vowel-plutonium-629e@gregkh>
- <CAFERDQ1GeAwFGBQ09eu8p69c_b3_CzAeEfTwiEaVCG_22RQdtQ@mail.gmail.com>
-In-Reply-To: <CAFERDQ1GeAwFGBQ09eu8p69c_b3_CzAeEfTwiEaVCG_22RQdtQ@mail.gmail.com>
-From: Martin Wetterwald <martin@wetterwald.eu>
-Date: Fri, 13 Nov 2026 19:09:24 +0100
-X-Gm-Features: AclHuK_YnjdCkTrewni0BQPjUqpjzPPZv35V1L4cPB8ogSTTtBU8c_5Nldb95ug
-Message-ID: <CAFERDQ2fm9u-Y3DGTFNMH+K95gnE=aox1YogRWPwGFX+6Vrghg@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/raspberrypi: vchiq: register bus at subsys_initcall
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: Jai Luthra <jai.luthra@ideasonboard.com>, Gaston Gonzalez <gascoar@gmail.com>, 
-	Stefan Wahren <wahrenst@gmx.net>, Phil Elwell <phil@raspberrypi.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Umang Jain <uajain@igalia.com>, 
-	Kees Cook <kees@kernel.org>, linux-rpi-kernel@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+References: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
+In-Reply-To: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Fri, 13 Nov 2026 19:18:55 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0jyuMjh4En_r2TYui+sNbGveJ0Rz1Da39LEK9e-HxHgGA@mail.gmail.com>
+X-Gm-Features: AclHuK9_YtJ6aWlSAf9yM8R-lWnFcHYi_anHWoQsLhZYkqzdVHJqxA51shEqA-Y
+Message-ID: <CAJZ5v0jyuMjh4En_r2TYui+sNbGveJ0Rz1Da39LEK9e-HxHgGA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] PM: runtime: change stub pm_runtime_get_if_active()
+ return 1 when !CONFIG_PM
+To: Frank.Li@oss.nxp.com
+Cc: Frank Li <Frank.Li@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>, 
+	Karol Wachowski <karol.wachowski@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Matthew Brost <matthew.brost@intel.com>, 
+	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Alex Elder <elder@kernel.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Guan-Yu Lin <guanyulin@google.com>, Mathias Nyman <mathias.nyman@linux.intel.com>, 
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-hwmon@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, netdev@vger.kernel.org, imx@lists.linux.dev, 
+	Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 4, 2026 at 3:20=E2=80=AFPM Martin Wetterwald <martin@wetterwald=
-.eu> wrote:
+On Thu, Oct 29, 2026 at 5:31=E2=80=AFPM <Frank.Li@oss.nxp.com> wrote:
 >
-> On Thu, Oct 22, 2026 at 3:31=E2=80=AFPM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Thu, Oct 22, 2026 at 10:29:24AM +0200, Martin Wetterwald wrote:
-> > > Hi Greg,
-> > > this is a regression introduced by aa125180c673 (via your tree) in
-> > > 6.19-rc1 and present in 6.19.y through 7.3.y. If the staging pull for
-> > > 7.4-rc1 has not been sent yet, could you take it there? Otherwise,
-> > > staging-linus would be great. Thanks!
-> >
-> > This is not a staging driver anymore, please route it through the prope=
-r
-> > tree after -rc1 is out.
-> >
-> > thanks,
-> >
-> > greg k-h
+> From: Frank Li <Frank.Li@nxp.com>
 >
-> Hi Florian,
-> Now that -rc1 is out, could you take the patch?
+> When CONFIG_PM is not enabled, all devices runtime PM state should be
+> treated as active.
 >
-> I've checked 7.4-rc1 and I confirm the issue is still present.
+> __pm_runtime_resume() returns 1 (called by pm_runtime_get()).
+> pm_runtime_get_if_active() is the try-and-get version of pm_runtime_get()=
+.
+> stub pm_runtime_active() also returns true. So pm_runtime_get_if_active()
+> should return the same value as the stub pm_runtime_get(), which is 1.
 >
-> Thanks!
-> Martin
+> Analysis of all callers and their behavior with old (-EINVAL) vs new (1):
+>
+> Pattern A: if (!pm_runtime_get_if_active(dev)) -- no impact
+>   Both -EINVAL and 1 are non-zero, so !ret is false in both cases.
+>   Callers: drivers/accel/ethosu/ethosu_perfmon.c,
+>            drivers/gpu/drm/msm/adreno/a6xx_gmu.c,
+>            drivers/gpu/drm/msm/msm_perfcntr.c,
+>            drivers/gpu/drm/v3d/v3d_mmu.c,
+>            drivers/gpu/drm/v3d/v3d_perfmon.c (x4),
+>            drivers/media/i2c/gc08a3.c gc05a2.c og0ve1b.c ov6211.c,
+>            drivers/media/i2c/ccs/ccs-core.c s5kjn1.c lm3560.c (x2),
+>            drivers/media/i2c/s5k3m5.c thp7312.c imx283.c ov64a40.c,
+>            drivers/media/pci/intel/ipu6/ipu6-buttress.c,
+>            sound/hda/core/device.c
+>
+> Pattern B: if (!ret) after get -- no impact
+>   Both -EINVAL and 1 are non-zero, !ret is false in both cases.
+>   drivers/gpu/drm/amd/pm/amdgpu_pm.c (comment says "allow access"
+>     in kernels without CONFIG_PM), drivers/pci/pci.c
+>
+> Pattern C: ret > 0 / ret <=3D 0 / ret !=3D 1 checks -- FIXED
+>   drivers/usb/core/offload.c: checks (!=3D 1), old -EINVAL caused
+>     -EBUSY even with !CONFIG_PM. Fixed: now returns 1, proceeds.
+>   drivers/accel/ivpu/ivpu_job.c: drm_WARN_ON(<=3D 0), old -EINVAL
+>     spuriously triggered WARN. Fixed: 1 > 0, no warn.
+>   drivers/gpu/drm/i915/intel_runtime_pm.c: checks (<=3D 0), old
+>     -EINVAL triggered error path. Fixed: 1 > 0, correct path.
+>   drivers/accel/ivpu/ivpu_sysfs.c: (> 0), old skipped freq read.
+>     Fixed: proceeds correctly without CONFIG_PM.
+>   drivers/gpu/drm/xe/xe_pm.c: wraps (> 0), all xe callers
+>     (xe_bo.c, xe_shrinker.c, xe_vsec.c, xe_ggtt.c, xe_guc_ct.c,
+>     xe_pxp.c) now correctly treat !CONFIG_PM as active.
+>   drivers/net/ipa/ipa_smp2p.c: power_on =3D (> 0), now correctly true.
+>   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: (> 0), now correctly
+>     executes stall register update.
+>   drivers/staging/media/ipu7/ipu7-buttress.c: active (<=3D 0) early
+>     return now skipped, correctly proceeds.
+>
+> Pattern D: explicit -EINVAL check
+>   drivers/hwmon/prom21-xhci.c: checks (> 0) then (=3D=3D -EINVAL).
+>     Old: took -EINVAL fallback. New: takes (> 0) fast path.
+>     Both succeed when CONFIG_PM is disabled; functionally equivalent.
+>   drivers/hwmon/eic7700-pvt.c: call is guarded by IS_ENABLED(CONFIG_PM),
+>     stub is never reached. No impact.
+>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-Hi Greg, Florian,
-
-The file I changed (drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.=
-c)
-is currently listed with Florian as maintainer by get_maintainer.pl.
-But Florian tells me he doesn't maintain VCHIQ.
-
-How to proceed now? This file doesn't seem to have any maintainer as far as=
- I
-understand.
-Any pointer to someone able to take this patch would be appreciated.
-
-Thanks,
-Martin
+People sent feedback, so I'm wondering if there's going to be a v2 or
+does someone else need to take care of this going forward?
