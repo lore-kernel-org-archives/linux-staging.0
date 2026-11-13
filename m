@@ -1,92 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.135
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794611793;
-	b=boYnIYOhKDkj1MMTRrbdqJNoPmGHa7RJDGdJfVrNagDDhp5Nu82ehbi2V2RWSefe/mvl
-	 4guYncSycKaQHOVCdHCWIGF4/dgsL8qGdoUcNDxe55vw8benXZ2SSuv4o+VGicg6xKR5X
-	 BiNOd3ofaVnx6EoQRmaI8TUQccjpXKQk93ALWVYYLvY8/5VQ/ooen2absmNVM7Ew4MpwA
-	 m7XBGNZAJyWA7hC7aN4IXO1lE5ThqHuIZ61PxklqUDq1epQtwWvduN2Ah0E88WhQcfmlC
-	 3029R0vMg/omz0iB1aSx1iFz+CFs5IA4xvQanO1DosUpWW+7P11pGWz6g1Ah1pQ0XzA==
+	t=1794613681;
+	b=qtLj0KrmiV9WhtbdAJPZU944IH7weGWd/n6R4DEa8CMH3cZr0YhXLh77B8QRsFg6bUVZ
+	 17YXjEkRvgZbXWOjR7apZZINHg2wSL8Jr5AXlq5e2xfiAk+OtM7pykzCT+faG2Xah4sat
+	 3V2dKuRilrBl3GT3LaUwntGVuX7QWae2lLeZYScRE9GiqaxQuxt6Y/ivBRmq2VFpeh59e
+	 h1yfe/NBk1y/c5nxUJVXakuoCVg5f9oPaGtm76WxsR3zDW0Onw4KKb5O8gnBkInN/iUsM
+	 uGL7CLMegcHuPxzTaeXxsv9HiKN1lvxIm35S1XJLurpNJ5tpbESAIoHrqhbIb/5tKHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794611793;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=B61Pzgho1QEzJ7TAhjDAzykpmBiR4YFWAuFRQ9Hawn0=;
-	b=gBLlVxaBgr7AxqHYcJul8z5E4UHja8eBOpbcbEwcvrQkUWcz3jWrmgbsW8PsLCsEcqga
-	 KxfBWP8OhjF+6hez4VyPvdhMdJjAGr3CeU2h9CKqXoqko7qk9miauE/7xZMaYIzf8zM0q
-	 E16hNsuy5NUDMAaYw0EZXrumzAnqSbSwvCQEzxlHpH8ETlyvW6ewHJLR80ZFUmYlWRpNY
-	 z6pOoDyGXA2yjL0iINMUHEDHEtPMOSNYw4yAMog4J2ZqWO0x9g8GHb8Gec5/3IPJudGtx
-	 K3A1Qvq62as+e9YSCIKBLVswYxIpOPhc6w3S5Wh3cTFD4z74i6sHgWui3Bv3dBfj39A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794613681;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=XAsSJNfTx4xhfOoXkTkpm3mX3Z/RpG+PiPXGvL3JZzs=;
+	b=ILB/o0CvBCCeIBIRPeuNghBsHKutGVCin8EEnk7g+mt5PxHs6jrYItFZLcObCTvhQtAk
+	 LptkwJ3dxM7ACg29IQcecTwG0+XpT8wlPGAWmRgf+Cv9PF4fSmvNaOiePAlmG6LS1LpkJ
+	 eAVVuvWZXqNGlqlDeWKTCa4gsdMkQuxPhuIGXJ8OHy97JhKDUEzlazt831OxJvt7WzsLJ
+	 swcLy83u+QlKYKgYSzvd6mzrhdH5Rp+whpIlA5E72Ei1r6AvtWgIqEJ7t8LY9ydds/jr3
+	 q0KbLuWGRoS13c0uGzixMUk2UPo4hchv/6RHIO5QWYJjjyx/k3090jm3lv/zSPmn5KA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0YyVe54a;
-	arc=none smtp.remote-ip=209.85.214.170
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8A8606A337
-	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 23:16:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE8A8606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=imeECTd5;
+	arc=none smtp.remote-ip=111.22.67.135
+Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7CA5606A332
+	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 23:47:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7CA5606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0YyVe54a
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2e8da6ef7ddso8357415ad.3
-        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 15:16:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=imeECTd5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794611792; x=1795216592; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=B61Pzgho1QEzJ7TAhjDAzykpmBiR4YFWAuFRQ9Hawn0=;
-        b=0YyVe54adAqgMOeUN3JobFkeXwcUV8pKSptUyJOp4yn7c6i852nhixXOARpgELbNpv
-         rJzgDkOwcAvjAp0Epl3fMMwlGJEsgSFGIHCX5lgYJe0RJbrRuOOEdTKhIwD4DwGL+Kwk
-         mGkxuozQhQG6Griis36/M3qqbTT4oiSzjf2DqbKiMVt6dHe+9TBW4tl6jTu3WvccX5JL
-         UYyYn1I8hu2lsxLhMNxTtswa4zSOr/KY4IK6BIIz9TsB76vf1WUReGkwIH+j5C1RO5fl
-         Y66H2LBzHfWXwJro9QHMa3iLVipO9XckWwoIpHCN68GmTfebTW46qBpAW8xWfMMLiQGp
-         aAhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794611792; x=1795216592;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=B61Pzgho1QEzJ7TAhjDAzykpmBiR4YFWAuFRQ9Hawn0=;
-        b=Y0m6zXOIVeCGrWfZowHt9G2j5RSoD5nwmXrHJq4SwyTGuAiI7ktk8ec0vKfBsUkoQ2
-         O0Dy+EzfZMbfKVbpQfzFzQxOefipGKfFvlD8CrJMVtmHDZJYR/SMhMRd4u8V/PxVzsIy
-         q6yI2hJQacbt5BWHo3GKAf2RaHwCQ6CBefsy5/L3HB9dMdXNu25k6u/3l3NLOpEwGUEt
-         gzClA/m8n8Tz5LOe/0lPyMYpbhZdoMnhJIEYYnB8xbDWezw0khKAlv56kfUkNIsiZOAx
-         i4mJImRs67YETIBxFFnHsvemi+O+Jmh0rCjpdf/kJCHOAf9S/7ElSkCBfTxQUPKk1fNZ
-         kQtg==
-X-Forwarded-Encrypted: i=1; AL+hErFThypo+3pizfUg027iuHpJlvC1rhjOrnNdaMfonpuqH7vPPmc6yRUfAfhk4MRh18GGf9M8FlQF9H0K/avE@lists.linux.dev
-X-Gm-Message-State: APuU4Z9gXfvknOjUtS5tci+KvfyFPsRo/XHKmnBwV6DNLytoJfaPm0Ze
-	lsokvD5HWGtFbZ7gY/XN9+VAI8TikW5PTJ5XPLRZmOtmyGlymjl9HaHU
-X-Gm-Gg: AYBFou1r7++fcox0fvaTRgXn3pSlKUa4qYxFBdG7zyjWIh9lx3sNjjGB+L8Yqdf2SXT
-	lPzkQFzL36eTpGBfv54Bq9XtSd6ho74hIYDRNhd+ydwKlRG7NdmTLTKv+9dMkoN4hKWhk4BYakG
-	P0jEUnBGwSOG1dtaI4Hf+oY7n8wNg1FfQS91VQttDod7O+Pnys+yhCsCCwU5sgTJ+7Pr1yhJbcZ
-	CPdGqDGFF2b/UhL8z5zj+sUj4CIQBY5T4tv8kDy938oCZyCzfiknHsp/ut8GnPgFZio0oI0PCsX
-	xFM1RAYu7e4msZzmnRdiaB91P+7vWDLexyNZa3cpmT1qcri4QwXU+g36i0QDtoj5IYpr7G6C1SY
-	E0bkS0dtuIhjSF1Lp6V9g9y9EPlz3WuQKZNAnade2dpE3xhjfgv78TdUYupKbBSQNf7Y0+wamhl
-	B7LY7rvhJGyzspm4JWIbDWvyNCNnhTD1TGnOl5zivc+4y/HKZ5xIN5VUichikJyKZUC8z4mzBWc
-	HilJ/e/FrICsefXXsL3sgouftOyL5yiS++aC2vTAin5zY+cZAkmnTVNI9L4Fr9pd/tufl+Tk3k4
-	tpciw2UvK4gP03GxfvTi/a5kMiP0X4WaHb4VwWoH7Q1WzoA=
-X-Received: by 2002:a17:902:f687:b0:2ed:3c11:67e with SMTP id d9443c01a7336-2ee0dad0688mr45369915ad.24.1794611792061;
-        Fri, 13 Nov 2026 15:16:32 -0800 (PST)
-Received: from lenoq.localdomain ([49.43.112.89])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ee0f862426sm16398055ad.46.2026.11.13.15.16.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 15:16:31 -0800 (PST)
-From: Priyanshu Singh <singhpriyanshu9838@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: =?UTF-8?q?Oscar=20Alejandro=20S=C3=A1nchez=20Lucero?= <aleszlucero@gmail.com>,
-	linux-staging@lists.linux.dev,
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=imeECTd58AxEo9BWsUiwkbbdek7fBVIPutb742Y5F7i47S2xSl9lklGoLXERF5v8hgJ48bakuUonH
+	 6f2OCqiez55Rb2wKk8BrXtWqt8x6mt5MoTx0p9GrfrYHx0QPiH3pEcoaARQ52vMpT3LjlKg4bU4D4x
+	 DAMF2ylxXUKHjdGw=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee76af7a1aabc5-ef701;
+	Sat, 14 Nov 2026 07:47:56 +0800 (CST)
+X-RM-TRANSID:2ee76af7a1aabc5-ef701
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from utest (unknown[112.23.72.224])
+	by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee16af7a19cd45-3375b;
+	Sat, 14 Nov 2026 07:47:56 +0800 (CST)
+X-RM-TRANSID:2ee16af7a19cd45-3375b
+From: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+To: dan@pereq.eu
+Cc: elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	johan@kernel.org,
 	linux-kernel@vger.kernel.org,
-	Priyanshu Singh <singhpriyanshu9838@gmail.com>
-Subject: [PATCH v2] staging: octeon: fix asymmetric output buffer pool accounting
-Date: Fri, 13 Nov 2026 23:16:22 +0000
-Message-ID: <20261113231622.17907-1-singhpriyanshu9838@gmail.com>
+	linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH v3] greybus: verify the received message size covers the message header
+Date: Fri, 13 Nov 2026 23:47:39 +0000
+Message-ID: <20261113234739.1432-1-shishunbo@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <avV8I97uZJgX8Osk@stanley.mountain>
+References: <avV8I97uZJgX8Osk@stanley.mountain>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -98,79 +78,63 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In cvm_oct_configure_common_hw(), when CVMX_FPA_OUTPUT_BUFFER_POOL differs
-from CVMX_FPA_PACKET_POOL, 1024 output buffers are allocated and added to
-the hardware Free Pool Allocator (FPA) pool. However, in cvm_oct_probe()
-(err_tx:) and in cvm_oct_remove(), cvm_oct_mem_empty_fpa() is called with
-128 instead of 1024 as the expected buffer count.
+In gb_connection_recv(), the size of the received data is checked
+against sizeof(struct gb_operation_msg_hdr) and against the message
+size encoded in the header (msg_size), but msg_size itself is never
+checked against the header size.
 
-This asymmetric accounting causes cvm_oct_free_hw_memory() to report a
-false warning ("Freeing of pool 2 had too many buffers (-896)") upon
-draining the pool.
+If a peer sends a message whose header claims a size smaller than
+the header itself (e.g. header.size == 3), the two existing checks
+both pass (size >= sizeof(header) and size >= msg_size), and the
+message is dispatched with the undersized msg_size.
 
-Define CVM_OCT_NUM_OUTPUT_BUFFERS in ethernet-defines.h and use this
-constant across cvm_oct_configure_common_hw(),
-cvm_oct_probe(), and cvm_oct_remove() to ensure symmetric allocation
-and deallocation.
+In gb_operation_create_incoming(), this leads to an unsigned
+integer underflow in:
 
-This was found via manual code inspection and is compile-tested only.
+	request_size = size - sizeof(struct gb_operation_msg_hdr);
 
-Signed-off-by: Priyanshu Singh <singhpriyanshu9838@gmail.com>
+The underflowed request_size then wraps back around in
+gb_operation_message_alloc():
+
+	message_size = payload_size + sizeof(*header);
+
+causing kzalloc() to allocate a buffer that is too small to hold
+the message header.  When the response is later prepared in
+gb_operation_response_alloc(), reading
+request_header->operation_id reads past the end of the undersized
+allocation, triggering a KASAN slab-out-of-bounds report.
+
+Link: https://lore.kernel.org/all/sashiko-outbox-210716@kernel.org/T/
+Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
+Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
+Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
+Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
 ---
-v1 -> v2:
- - Make it clear in commit message that, this was found via code inspection
-   and is compile-tested only.
- - Fix missing space typo in commit message.
+Changes in v3:
+- combine the two separate conditions and unify the error message
+ as suggested by dan. Thanks!
 
- drivers/staging/octeon/ethernet-defines.h | 2 ++
- drivers/staging/octeon/ethernet.c         | 9 ++++++---
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ drivers/greybus/operation.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/octeon/ethernet-defines.h b/drivers/staging/octeon/ethernet-defines.h
-index c060374a3da2..3ce7c125ccfd 100644
---- a/drivers/staging/octeon/ethernet-defines.h
-+++ b/drivers/staging/octeon/ethernet-defines.h
-@@ -37,4 +37,6 @@
- 
- #define TOTAL_NUMBER_OF_PORTS		(CVMX_PIP_NUM_INPUT_PORTS + 1)
- 
-+#define CVM_OCT_NUM_OUTPUT_BUFFERS	1024
-+
- #endif /* __ETHERNET_DEFINES_H__ */
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index dea5696a6642..e0e6d40602f0 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -162,7 +162,8 @@ static void cvm_oct_configure_common_hw(struct platform_device *pdev)
- 			     num_packet_buffers);
- 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
- 		cvm_oct_mem_fill_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
--				     CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 1024);
-+				     CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
-+				     CVM_OCT_NUM_OUTPUT_BUFFERS);
- 
- #ifdef __LITTLE_ENDIAN
- 	{
-@@ -974,7 +975,8 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 			      num_packet_buffers);
- 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
- 		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
--				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
-+				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
-+				      CVM_OCT_NUM_OUTPUT_BUFFERS);
- 
- 	return ret;
- }
-@@ -1009,7 +1011,8 @@ static void cvm_oct_remove(struct platform_device *pdev)
- 			      num_packet_buffers);
- 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
- 		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
--				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
-+				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
-+				      CVM_OCT_NUM_OUTPUT_BUFFERS);
- }
- 
- static const struct of_device_id cvm_oct_match[] = {
+diff --git a/drivers/greybus/operation.c b/drivers/greybus/operation.c
+index 7e12ffb2dd60..74429f3745bb 100644
+--- a/drivers/greybus/operation.c
++++ b/drivers/greybus/operation.c
+@@ -1047,9 +1047,9 @@ void gb_connection_recv(struct gb_connection *connection,
+ 	/* Use memcpy as data may be unaligned */
+ 	memcpy(&header, data, sizeof(header));
+ 	msg_size = le16_to_cpu(header.size);
+-	if (size < msg_size) {
++	if (msg_size < sizeof(header) || msg_size > size) {
+ 		dev_err_ratelimited(dev,
+-				    "%s: incomplete message 0x%04x of type 0x%02x received (%zu < %zu)\n",
++				    "%s: invalid message 0x%04x of type 0x%02x received (%zu < %zu)\n",
+ 				    connection->name,
+ 				    le16_to_cpu(header.operation_id),
+ 				    header.type, size, msg_size);
 -- 
 2.53.0
+
+
 
