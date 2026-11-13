@@ -1,117 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794586741;
-	b=kwMfoZuuXFogOpVGB+fiqFYnhbyZNupiRF9PG7vtJ4aQPBn18gafQbgEVXJbDvwoRk3i
-	 EiPry07nM/dhskgYjMKcmCEkkdOYxagciYrjXNjZYG+NuCpri0Xr9Sn1tQHUD7xBg0wC3
-	 8v73j4yYKuYawk5r2/lDlXglicZwjoOTYV54O5eS42SUXelP4c41MEcWkt/rw6r2UODa6
-	 6vOgrYbA5U3QcioxVBJADYhNXCXdQv7d616EwAfw/zhA0FAjxCBlbS6SVjlrgc7GVFbbV
-	 n41E91lxhA+0WSDOWnML3NhE9CP9BWId6zvLgHVesPJC88/69m0zOOSq+WEe4GIrPeg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794586741;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.171
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794593378;
+	b=JkeKdmf914NGEXrCS3uBopi8j9bvinIy/e7RvwoRwbqNVrtIBLHJ3Tj+I4nS7sVQX6WZ
+	 9UxCSJMMEPZ0xf9i3oOrvUANmIDUSSUojLFcmnR2fvDgztuPRKVaFZW79Z0Y5W43Pz4Wq
+	 wChx6ap46fzY4EhoBNZi69SlB74yZV+BKNVvbInAkcQxN7OJhJUcShi51No2Ro3dfPmyP
+	 jSWjzv2LpYMR0TO6Y5wGQ01GYiz7CtRj4wqG8iyGAMTslB5Zm+MEdmnzCEzJ7M84lXU15
+	 HFRUB+BC50S3TWfCJZx8IPl712/jRjbzhWwIH8JBkyHLlnZZ6Y2HMsVSUkkBv3Zw8iw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794593378;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=mQWld2rf0aUSCLxpuKReQRUF3uIzkNsM8ey4gCHu/88=;
-	b=CqLl/HW9RAR9cIs0yXFzHDl/aZr9GKpZ3zYFXfopqLd9y44ccbDC+bbwih3la/5mSY63
-	 GU0rozJNhcK1+AyKq9i43M4D8qTOJPjFk1UGwuQ15JR+iA32DmYYdwKXUkW0rNnacpDwR
-	 52Gh5FewCtCex1glbRM4BIqO28R2w97ymvR5dFT7hH64Mv/fKYtlH4f4tItwJp5eqgT+Y
-	 YNyw30QBQvs6XGLoSMKs1tBeklN4si47a8g1Ag/F7DK5YtlvaL07VzF/ILui+D8sdvH8r
-	 CHJHI9NB/WWjHsCLI6H0B/dDNUpEKiCLz94nckAZHolRLMSNMQ906STMzCM/bBfCITw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=s31v6XSH;
-	arc=none smtp.remote-ip=209.85.218.54
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=jKYJRfOSB0/5ZynWyHsKUs3Uiriv6+4ECNMHGysdRx8=;
+	b=MxJQoSknfEBGa5InHtNfH3XJFGG3EYfElv2Yvfp7yBnUmAoTTHL5GfPVZowdxOj9nkvK
+	 yowmpkaQZA3JgW5/L4c+9myBE3f1WOeAla4+0l2duhGWJWSlBDTpeQTuVSsw5LR9ruDbe
+	 ymfwshwAZCUiZb18uz4KNtryXOGxQ7fohCUJYf/wt5a9z3sBX9ovFuSwFggAtBfYbfEfk
+	 EXjnusnGJOmW2pfeM0x0D7BjuRFmbCcFFrHYrmQg1/V1p9eHws367FWFyR+MHpsKGuvzn
+	 xH313IUS6QQL1Py9my5db3iVlIuB9TG67Fia+7Pxb6fmYhiG0F1SVHMPkreYIeuectw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=wetterwald.eu;
+	spf=pass smtp.mailfrom=wetterwald.eu;
+	dkim=pass header.d=wetterwald.eu header.i=@wetterwald.eu header.a=rsa-sha256 header.s=wetter header.b=YBiXzDRw;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.171
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CBA60A5BFE
-	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 16:19:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1CBA60A5BFE
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779F7606A334
+	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 18:09:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 779F7606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wetterwald.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wetterwald.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=s31v6XSH
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c4d30639709so216227866b.0
-        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 08:19:00 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=wetterwald.eu header.i=@wetterwald.eu header.a=rsa-sha256 header.s=wetter header.b=YBiXzDRw
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3ae25c846edso14147301fa.2
+        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 10:09:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794593375; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XcCPDvqxneQq8eOfAuLFSfflaYtnjwwNUg9BtWdlTYSi3FTnyqZ9QJGPyLCe6ZL+pf
+         3zr+/F5EOFfeiWeJqsQXoNwQ4fYcnttTvoNwz3eCPrLg2ybeIbVaT7DUSg5O9ISl0Xpt
+         TbisjxGmya1HuGdy/h13aNcT8LkwiUeQan6m2UxBzXvQ6I+QJSBxfzXZ1JdQnWpAhdRQ
+         49cuR5r0dS/6kQa8Sr1+hopH3ImXDWJWaTjMLNyydS1AILyI0ejCPWAew4Fxxqj861qn
+         SBuPTE/72uXCo/1wd0sk5HH25HjpszgU645dIZsaLP8Q+5e4YbmpWnCcSi80SlQi99oQ
+         Vt8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jKYJRfOSB0/5ZynWyHsKUs3Uiriv6+4ECNMHGysdRx8=;
+        fh=QqStEJE1zxMcoxBB86+C7qX/nCTGkL/fz1w/zwZ4cj0=;
+        b=WJBQpzOoqzEWhtW+NnZ5sh+SmzjsKeBLOOTT5l7RXId8hO6RIR2CclsN3xFfP/BuzQ
+         UqNR8flLpfXvb7sg9RVAD3ue7Gu5At4oSEkWYbBHQImO6YwuWGTiAaFKOmMsmwgpoGWA
+         wEIRYWr11j1S1+jAxzQLMbpVH8YsTxWQzmECPsAFrZ6suAA/knyQsIzh8cSgRdcYQprd
+         RKQPwKIffCG3OVG929GuiM8syGc60ix9p1vLhmEEipmlkZiCWDlUR2bRdtV7akAueL+u
+         H4rO0V8u9kiSJVqI2GlNynlOdAVtF9OVckSUIbDOr5Deu6DG6rhWrwam96W02rHizsnX
+         hqwQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794586739; x=1795191539; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mQWld2rf0aUSCLxpuKReQRUF3uIzkNsM8ey4gCHu/88=;
-        b=s31v6XSH4sexB4d1EE7ySWE0lgA8BzgPL+DVa8rVg5Jy6M/nY//5KE1Su/DXssz/7p
-         3HOp7ok3PzY/g64jQRsZose4+M2em2AyZ6uqe5SdjqWty00OPK5FNNcpKP8Emrn1KPId
-         OaTe0325EHCr0GltPgW7vKcBS/Hf67DrV38bgQxiUox1QWQBFa7JNvOr0h+VLiLEUAV9
-         3zpb0hHbvWzwBU+tVSGTWt1TZxJwrU7rrnt9Dx5Vd7Y820NsjWMlm3pTkUbIzLCmMbo6
-         XQViGXiAs7iXSO0VhghS6fsg6nLQrurdmB5U3fhDVbHq30YhmA/LUtvIEzg6B1f/jg/3
-         AbPQ==
+        d=wetterwald.eu; s=wetter; t=1794593375; x=1795198175; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jKYJRfOSB0/5ZynWyHsKUs3Uiriv6+4ECNMHGysdRx8=;
+        b=YBiXzDRw0l++d6f1Vx3bdkwpD6uXKvluXwZy9MEBBtcJN7nUhxuoLHtLmidbMs4blR
+         5DyoLeUP6evIme+L3/FQoZJBhn7wNkQbDP0pktcrw7q1T82qi5oXMrj5gRExFrjkXFyS
+         0XbC54z2Nuiin3fUTvcIzYSDarfrYpQVKZMRZxu5CkNywRz0NvUEDLYJKx9U0ed35s74
+         d/rLMxkDb+ZhXMtt3lr908W8HkeE/WN9RJtWGgx4bgE+A9N76wUrjO5a5cI+pb5M/0jI
+         CeEjyS9o09fMcsmjCJsR4jbF8r5p71P3RYyvt5A11+HgMuyOqaJj1CmIJqiu6ATfHf2T
+         0dHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794586739; x=1795191539;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mQWld2rf0aUSCLxpuKReQRUF3uIzkNsM8ey4gCHu/88=;
-        b=NGoN7oRYaKRal24FBvVe66BmkeNEs3ylBMQSz2lD+BlMJfUafSqhunrQINRSGvsqIg
-         8J34urMf4zmONAg/cY2wlPeFeRfRs1AkhC4clwwaRebAxpozuORuhkehms6pdwkjntch
-         67CyAO2J+Vs12bu5fCpsHsZ05WAcaUK47Lj2M0MDTIpPqPC3AoAm4aFeYIqqKZ6YtCaw
-         9jXX5JLPxV7Ra2vZ1XQoLi5SU0ob8W6xSOM+G8vSRswRZhk5R3jiaqi+JgWvdSJhoLaN
-         A+OGnOvmKP5vqf5/d8wRSrnKgYAUwc7fEpEkI0TX/z+h3ouja27zMUw46kcJ39h+1OQr
-         h1TQ==
-X-Forwarded-Encrypted: i=1; AL+hErG7aSRcA9b1kiqJ0W+WDWEOFu22xeS6QDZMuDgizFU8pWuzrHsHpvYkHePX3Ma0951yQ7bYN49XhryW+FZv@lists.linux.dev
-X-Gm-Message-State: APuU4Z9oWp6xkuyn1AgUCQ+s/H7tWmtWE/0z3DztpzOpX81K23YUelbz
-	ofg1ioVFfl5cUzvgrw+CQWJg5Af/NcDOJb6m4qt/Nbb8meJT8MKY44CI
-X-Gm-Gg: AYBFou3U/3qPcVySAG1uxPYNttFD8i8VUqXIMgQSXAEJtE0C2RIAOsVbnTXyPBCQ1O0
-	NsAzLaB2s9z5hqxA9yB6SreTJ8qkffassyKA3MD8G9kdfcqZNpJrsEe4AxGSbWZffj6nroRvfBy
-	hRjPtXO91UrYvxgpuf7G841OvNcdS7Cbgf5vejgo49bDesv41OaJCtTPDE1UqKQ5VRl4DMuuRhI
-	gL+VZ5JfedFzI6gItskFtmNXJUzoHE4TlMAU+CNh4ktEmsy2s9vxhDBc4Zb84O6e4c+wY0JomSg
-	7CS9g6+xF9Cgec645Y3zlgaUmkDd64ahWOmAOB7FviunVp5JX51jxKZnff+7XR28ZngPt5w8HI8
-	hmxvzv6tBbHrUPmWbqHjCZ0Hikj6rlJc2jDc0gKUbAPRgZfDdLwF4sBXMHlxgFcKwUIq87RugEV
-	TgYoFYDFJICtPvNre98fXQnaAaGEdNwz6LulT2WrPlIsT3LqMX2mIzmju60DKAAoOr3V2qujkEW
-	BIel0aoJukg3FU0zJaxsWmogshyMbuQlMBgq8kOR04WXBu+1OedSljoY77GCz5+wXu4VnItqhG/
-	JqTfGr+y7ELgQoFPUnq2txGIqXUuE60z4y77JgsE492FTC/yyl0YHlp0VFRc8LkE/G626Ixxo61
-	0RKtSWfGoag==
-X-Received: by 2002:a17:907:9304:b0:c46:9ee4:8f0 with SMTP id a640c23a62f3a-c50963d470fmr299547666b.10.1794586738923;
-        Fri, 13 Nov 2026 08:18:58 -0800 (PST)
-Received: from xeon ([188.163.112.62])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b24b88sm122297266b.16.2026.11.13.08.18.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 08:18:58 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Cong Nguyen <congnt264@gmail.com>,
-	Faisal Mukhtar <mukhtarfaisal03@gmail.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Hungyu Lin <dennylin0707@gmail.com>,
-	Hao-Qun Huang <alvinhuang0603@gmail.com>,
-	Yury Norov <ynorov@nvidia.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v1 10/10] ARM: tegra: Add CSI node for Tegra114
-Date: Fri, 13 Nov 2026 18:18:19 +0200
-Message-ID: <20261113161819.36847-11-clamor95@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261113161819.36847-1-clamor95@gmail.com>
-References: <20261113161819.36847-1-clamor95@gmail.com>
+        d=1e100.net; s=20260707; t=1794593375; x=1795198175;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jKYJRfOSB0/5ZynWyHsKUs3Uiriv6+4ECNMHGysdRx8=;
+        b=WSOJPqh2e3xIq0cFB+gLeIxFhBzBlDX6jC3Yq9t19GDVZM+ntPRTR6KVF60qE5V3JT
+         o/Amqok6QnKjCnN4TC9vy412pf7CE3PhxvASVSwTKWOAzFuK97gEn+I3OIH3H//+F/Qj
+         wl/vlEnC9CtrYtHtcaC/erL+1YUn3uDAEUeIMJVr/1T7BbjMhqWP8mNx0WHiQq98lQeW
+         SjdEioheQwCN17KQvpIOa0amlP8ro/jLxu8DSgmfzA7hCo4KjO3nLG97X/wxXdgmQ81E
+         CgIAh6tKY9C/jBuvf4wcsNxWgcgnwt9wQdEPBZ34Hs7Pi2Gl8HSTsQ+B/d5rdxrUlT/q
+         3LUQ==
+X-Forwarded-Encrypted: i=1; AL+hErHzA81pNBtgil1dC8JSFBagx2ElhmPre7UYhld9gOBUY3Loj06VCRjYNbuDMcPp8K4rpPeFBW8IuSQLpD7g@lists.linux.dev
+X-Gm-Message-State: APuU4Z9WOoBGu+V27zCL3q6dy12R8zQ2XHTeu7m+n615vYLPpYJ0tVbp
+	TX5CtSBOaTIJa+Ujk4IqVbD83nO5wqFedrm6mMg6llpr2CUUfQ5dYCqeVaHczvuuE/XdRKpjimo
+	ZoQUvx12YLfqhlEf25foMAFERhZTeSwLU3hJMilxizg==
+X-Gm-Gg: AYBFou3byyQS9/h6RrBazYpXg29C5Qany6vcCFg1u7d8hSvjzaJpFz6zBPn8XDsBx8Q
+	JZAWHBuWzl8OR9+Y5JAVAq6LzHpy47ez59YsAlQ4ijHP8Y9iHO73A8CvMCsCv6vMHdqvY1t5flw
+	i6FBVLNjZ7O6uasc3Z0TZeTMeswXv2HGa57fkWha/FG23DYwuf8gXl1ZPq1XaOqDD1urLlyfubQ
+	VI2niUmwxfGKyN3ccSEq6tSSuCfikF3n/XNN+QJz5u2cm1e8s0lmFRzhvz8YS7J9YhwHqRMHgMD
+	0S/9IoYfLV7TLroYs8YRuG2nxj6+qXSQ1pP9eEreL8vV2cz2/d06l6VGpH/XodX8+UsHAtSWlhS
+	rL3MaVxnyecWLjtkR1h6sZ3U9YUW6p1sVdS6i5NA0ghpyNSWc0DTvw+qQXGJOxr5vEm4A
+X-Received: by 2002:a05:6512:1188:b0:5bf:b93d:a85b with SMTP id
+ 2adb3069b0e04-5c17099fafemr1222262e87.25.1794593375264; Fri, 13 Nov 2026
+ 10:09:35 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -121,67 +104,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAFERDQ0FpdVvA5VJxOyRAE_pgxnPVmFx1tkZio5R272j6Bs4tg@mail.gmail.com>
+ <20261022082927.59030-1-martin@wetterwald.eu> <2026102218-vowel-plutonium-629e@gregkh>
+ <CAFERDQ1GeAwFGBQ09eu8p69c_b3_CzAeEfTwiEaVCG_22RQdtQ@mail.gmail.com>
+In-Reply-To: <CAFERDQ1GeAwFGBQ09eu8p69c_b3_CzAeEfTwiEaVCG_22RQdtQ@mail.gmail.com>
+From: Martin Wetterwald <martin@wetterwald.eu>
+Date: Fri, 13 Nov 2026 19:09:24 +0100
+X-Gm-Features: AclHuK_YnjdCkTrewni0BQPjUqpjzPPZv35V1L4cPB8ogSTTtBU8c_5Nldb95ug
+Message-ID: <CAFERDQ2fm9u-Y3DGTFNMH+K95gnE=aox1YogRWPwGFX+6Vrghg@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/raspberrypi: vchiq: register bus at subsys_initcall
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Jai Luthra <jai.luthra@ideasonboard.com>, Gaston Gonzalez <gascoar@gmail.com>, 
+	Stefan Wahren <wahrenst@gmx.net>, Phil Elwell <phil@raspberrypi.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Umang Jain <uajain@igalia.com>, 
+	Kees Cook <kees@kernel.org>, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add CSI node to Tegra114 device tree.
+On Wed, Nov 4, 2026 at 3:20=E2=80=AFPM Martin Wetterwald <martin@wetterwald=
+.eu> wrote:
+>
+> On Thu, Oct 22, 2026 at 3:31=E2=80=AFPM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Oct 22, 2026 at 10:29:24AM +0200, Martin Wetterwald wrote:
+> > > Hi Greg,
+> > > this is a regression introduced by aa125180c673 (via your tree) in
+> > > 6.19-rc1 and present in 6.19.y through 7.3.y. If the staging pull for
+> > > 7.4-rc1 has not been sent yet, could you take it there? Otherwise,
+> > > staging-linus would be great. Thanks!
+> >
+> > This is not a staging driver anymore, please route it through the prope=
+r
+> > tree after -rc1 is out.
+> >
+> > thanks,
+> >
+> > greg k-h
+>
+> Hi Florian,
+> Now that -rc1 is out, could you take the patch?
+>
+> I've checked 7.4-rc1 and I confirm the issue is still present.
+>
+> Thanks!
+> Martin
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- arch/arm/boot/dts/nvidia/tegra114.dtsi | 34 +++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+Hi Greg, Florian,
 
-diff --git a/arch/arm/boot/dts/nvidia/tegra114.dtsi b/arch/arm/boot/dts/nvidia/tegra114.dtsi
-index f2766c11ee6c3..61120658f0687 100644
---- a/arch/arm/boot/dts/nvidia/tegra114.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra114.dtsi
-@@ -53,7 +53,7 @@ host1x@50000000 {
- 
- 		vi@54080000 {
- 			compatible = "nvidia,tegra114-vi";
--			reg = <0x54080000 0x00040000>;
-+			reg = <0x54080000 0x00000800>;
- 			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&tegra_car TEGRA114_CLK_VI>;
- 			resets = <&tegra_car 20>;
-@@ -64,6 +64,38 @@ vi@54080000 {
- 			iommus = <&mc TEGRA_SWGROUP_VI>;
- 
- 			status = "disabled";
-+
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			ranges = <0x0 0x54080000 0x4000>;
-+
-+			csi@800 {
-+				compatible = "nvidia,tegra114-csi";
-+				reg = <0x800 0x200>;
-+				clocks = <&tegra_car TEGRA114_CLK_CSI>,
-+					 <&tegra_car TEGRA114_CLK_CSIA_PAD>,
-+					 <&tegra_car TEGRA114_CLK_CSIB_PAD>,
-+					 <&tegra_car TEGRA114_CLK_CILAB>,
-+					 <&tegra_car TEGRA114_CLK_CILCD>,
-+					 <&tegra_car TEGRA114_CLK_CILE>;
-+				clock-names = "csi", "csia-pad", "csib-pad",
-+					      "cilab", "cilcd", "cile";
-+				power-domains = <&pd_venc>;
-+
-+				assigned-clocks = <&tegra_car TEGRA114_CLK_CILAB>,
-+						  <&tegra_car TEGRA114_CLK_CILCD>,
-+						  <&tegra_car TEGRA114_CLK_CILE>;
-+				assigned-clock-parents = <&tegra_car TEGRA114_CLK_PLL_P>,
-+							 <&tegra_car TEGRA114_CLK_PLL_P>,
-+							 <&tegra_car TEGRA114_CLK_PLL_P>;
-+				assigned-clock-rates = <102000000>, <102000000>, <102000000>;
-+
-+				status = "disabled";
-+
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
- 		};
- 
- 		epp@540c0000 {
--- 
-2.53.0
+The file I changed (drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.=
+c)
+is currently listed with Florian as maintainer by get_maintainer.pl.
+But Florian tells me he doesn't maintain VCHIQ.
 
+How to proceed now? This file doesn't seem to have any maintainer as far as=
+ I
+understand.
+Any pointer to someone able to take this patch would be appreciated.
+
+Thanks,
+Martin
