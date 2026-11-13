@@ -1,55 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794593950;
-	b=B3aUdvU2M2+ZP1eJF9ZGVP2xHDHHCPheL9DdVbM8ZOBtLQNs7q5VDMptROTPm/UgtPhy
-	 4r0beAMx421KExPWE2be3HBEd0VrNEz2x6X63zhWqQgHCB8L72JNZ+f+evr9rFWG46vBS
-	 DMoHSxb3UL4BQuXgGWrbqHxcBqzM1Tc9LsVH6nNJdoMTI+xpjv+P4VekLM1aIqZzln99x
-	 Xt/iZcIu0N+SSzaZuCv9174rjwOhYLS3IFJ3BGKSWV7yJJ480Mn9TPKrKsdlUrAoDu/HA
-	 C1M3RUFs1ncyvO/qyCE5AeByMXDZgWKdtbNOKgxOywNKzApjWMGF+1+Z7B0OIJApNPQ==
+	t=1794611793;
+	b=boYnIYOhKDkj1MMTRrbdqJNoPmGHa7RJDGdJfVrNagDDhp5Nu82ehbi2V2RWSefe/mvl
+	 4guYncSycKaQHOVCdHCWIGF4/dgsL8qGdoUcNDxe55vw8benXZ2SSuv4o+VGicg6xKR5X
+	 BiNOd3ofaVnx6EoQRmaI8TUQccjpXKQk93ALWVYYLvY8/5VQ/ooen2absmNVM7Ew4MpwA
+	 m7XBGNZAJyWA7hC7aN4IXO1lE5ThqHuIZ61PxklqUDq1epQtwWvduN2Ah0E88WhQcfmlC
+	 3029R0vMg/omz0iB1aSx1iFz+CFs5IA4xvQanO1DosUpWW+7P11pGWz6g1Ah1pQ0XzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794593950;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=/VIh85zZMfzSY6G83+v5V/TjnRLbNiLly0GYfH3nJNs=;
-	b=LGQM9fxRj7TKPqIaYHWfe3r9RYpgHu+tavRUAyii2JzaqQ5pM2lRp6FN4JZixu4kB4aK
-	 lH3N982eXvdwwgtdQjXVs5cdzW2IjN7eyP03El7mBKMqzikqb2ImA6PoqSyKx4yIe+TOY
-	 3k1riEl+jPv92CYa/LdLuUq7cyFz0Gpl/rDO5ridxPvtKN9C/LjHMmnJ5l/Gb/J0jCvvi
-	 /arSeahkCn08gYFHopVo9jqY4de8qFQL7vOhLEF6zv0Ce/IneNkYW1mGjDNQ3DhInmSm1
-	 Eekx8gptQ7ea4Q4zGWRDhss4HLpldXOKar83ngUR0bPYRE32hZyOkG6srdIMN6d37Wg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794611793;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=B61Pzgho1QEzJ7TAhjDAzykpmBiR4YFWAuFRQ9Hawn0=;
+	b=gBLlVxaBgr7AxqHYcJul8z5E4UHja8eBOpbcbEwcvrQkUWcz3jWrmgbsW8PsLCsEcqga
+	 KxfBWP8OhjF+6hez4VyPvdhMdJjAGr3CeU2h9CKqXoqko7qk9miauE/7xZMaYIzf8zM0q
+	 E16hNsuy5NUDMAaYw0EZXrumzAnqSbSwvCQEzxlHpH8ETlyvW6ewHJLR80ZFUmYlWRpNY
+	 z6pOoDyGXA2yjL0iINMUHEDHEtPMOSNYw4yAMog4J2ZqWO0x9g8GHb8Gec5/3IPJudGtx
+	 K3A1Qvq62as+e9YSCIKBLVswYxIpOPhc6w3S5Wh3cTFD4z74i6sHgWui3Bv3dBfj39A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzC7cE78;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0YyVe54a;
+	arc=none smtp.remote-ip=209.85.214.170
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6EE606A6C0
-	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 18:19:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8A8606A337
+	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 23:16:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE8A8606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzC7cE78
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C4651F00939
-	for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 18:19:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794593950;
-	bh=/VIh85zZMfzSY6G83+v5V/TjnRLbNiLly0GYfH3nJNs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=TzC7cE78kKFl2rFE1ESKez8K3/v6Pqk/6PLrXGyiq2H8nW8RaKll1mNR/hvrBhoAX
-	 9WUKboDxL2p3Jax+koelb066IybY3DAyK95vGOnYrQLEWCd8zr9JB2nkLXwMD48oro
-	 eBlcvuFHizULDj5hONrf7IDExHONWpvIf77MgXaUD3OXBqfZQ67bfgb2xPq1SoAoJK
-	 T3NkAz2AcSCaHe3eo20kPD9U/cE84jkgmN3fcFTb3UIgs2jbLigXSsu2MG4WlwRKQd
-	 lN4tR2+CCuZNMvYNucVewMR1jQy7sxt8uriatRDaKQNHlu1Xb8w/7Uzi3R4wDwiNfg
-	 QeLT7VoO7hmng==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5be416e603cso1330057e87.2
-        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 10:19:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFniNkRklYSLOaJtwZ3EZnYE13IYNXeUHQJhJQl3AigAB55ZKeSR0kHDtGBgseGur3QLg5YTfjWpa1baRki@lists.linux.dev
-X-Gm-Message-State: APuU4Z+6cHPETxEWHjaYftlvnulQxS4YfIz5WhQQPMm+YX54Yv0yqLPJ
-	SlACxe2LMDhNWoNSjXJpuruy3VmAdHVT47CwaxMrRfCrgJ4ocwFzzDu7/iVq6PyIE95GBZ3x1Au
-	pjMgMlV6bmZu1iaXEQJlpwelgFtguiH8=
-X-Received: by 2002:a05:6512:1310:b0:5bf:cf80:dfd8 with SMTP id
- 2adb3069b0e04-5c170a0bb47mr1769832e87.23.1794593948320; Fri, 13 Nov 2026
- 10:19:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0YyVe54a
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2e8da6ef7ddso8357415ad.3
+        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 15:16:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794611792; x=1795216592; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=B61Pzgho1QEzJ7TAhjDAzykpmBiR4YFWAuFRQ9Hawn0=;
+        b=0YyVe54adAqgMOeUN3JobFkeXwcUV8pKSptUyJOp4yn7c6i852nhixXOARpgELbNpv
+         rJzgDkOwcAvjAp0Epl3fMMwlGJEsgSFGIHCX5lgYJe0RJbrRuOOEdTKhIwD4DwGL+Kwk
+         mGkxuozQhQG6Griis36/M3qqbTT4oiSzjf2DqbKiMVt6dHe+9TBW4tl6jTu3WvccX5JL
+         UYyYn1I8hu2lsxLhMNxTtswa4zSOr/KY4IK6BIIz9TsB76vf1WUReGkwIH+j5C1RO5fl
+         Y66H2LBzHfWXwJro9QHMa3iLVipO9XckWwoIpHCN68GmTfebTW46qBpAW8xWfMMLiQGp
+         aAhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794611792; x=1795216592;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=B61Pzgho1QEzJ7TAhjDAzykpmBiR4YFWAuFRQ9Hawn0=;
+        b=Y0m6zXOIVeCGrWfZowHt9G2j5RSoD5nwmXrHJq4SwyTGuAiI7ktk8ec0vKfBsUkoQ2
+         O0Dy+EzfZMbfKVbpQfzFzQxOefipGKfFvlD8CrJMVtmHDZJYR/SMhMRd4u8V/PxVzsIy
+         q6yI2hJQacbt5BWHo3GKAf2RaHwCQ6CBefsy5/L3HB9dMdXNu25k6u/3l3NLOpEwGUEt
+         gzClA/m8n8Tz5LOe/0lPyMYpbhZdoMnhJIEYYnB8xbDWezw0khKAlv56kfUkNIsiZOAx
+         i4mJImRs67YETIBxFFnHsvemi+O+Jmh0rCjpdf/kJCHOAf9S/7ElSkCBfTxQUPKk1fNZ
+         kQtg==
+X-Forwarded-Encrypted: i=1; AL+hErFThypo+3pizfUg027iuHpJlvC1rhjOrnNdaMfonpuqH7vPPmc6yRUfAfhk4MRh18GGf9M8FlQF9H0K/avE@lists.linux.dev
+X-Gm-Message-State: APuU4Z9gXfvknOjUtS5tci+KvfyFPsRo/XHKmnBwV6DNLytoJfaPm0Ze
+	lsokvD5HWGtFbZ7gY/XN9+VAI8TikW5PTJ5XPLRZmOtmyGlymjl9HaHU
+X-Gm-Gg: AYBFou1r7++fcox0fvaTRgXn3pSlKUa4qYxFBdG7zyjWIh9lx3sNjjGB+L8Yqdf2SXT
+	lPzkQFzL36eTpGBfv54Bq9XtSd6ho74hIYDRNhd+ydwKlRG7NdmTLTKv+9dMkoN4hKWhk4BYakG
+	P0jEUnBGwSOG1dtaI4Hf+oY7n8wNg1FfQS91VQttDod7O+Pnys+yhCsCCwU5sgTJ+7Pr1yhJbcZ
+	CPdGqDGFF2b/UhL8z5zj+sUj4CIQBY5T4tv8kDy938oCZyCzfiknHsp/ut8GnPgFZio0oI0PCsX
+	xFM1RAYu7e4msZzmnRdiaB91P+7vWDLexyNZa3cpmT1qcri4QwXU+g36i0QDtoj5IYpr7G6C1SY
+	E0bkS0dtuIhjSF1Lp6V9g9y9EPlz3WuQKZNAnade2dpE3xhjfgv78TdUYupKbBSQNf7Y0+wamhl
+	B7LY7rvhJGyzspm4JWIbDWvyNCNnhTD1TGnOl5zivc+4y/HKZ5xIN5VUichikJyKZUC8z4mzBWc
+	HilJ/e/FrICsefXXsL3sgouftOyL5yiS++aC2vTAin5zY+cZAkmnTVNI9L4Fr9pd/tufl+Tk3k4
+	tpciw2UvK4gP03GxfvTi/a5kMiP0X4WaHb4VwWoH7Q1WzoA=
+X-Received: by 2002:a17:902:f687:b0:2ed:3c11:67e with SMTP id d9443c01a7336-2ee0dad0688mr45369915ad.24.1794611792061;
+        Fri, 13 Nov 2026 15:16:32 -0800 (PST)
+Received: from lenoq.localdomain ([49.43.112.89])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ee0f862426sm16398055ad.46.2026.11.13.15.16.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 15:16:31 -0800 (PST)
+From: Priyanshu Singh <singhpriyanshu9838@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: =?UTF-8?q?Oscar=20Alejandro=20S=C3=A1nchez=20Lucero?= <aleszlucero@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Priyanshu Singh <singhpriyanshu9838@gmail.com>
+Subject: [PATCH v2] staging: octeon: fix asymmetric output buffer pool accounting
+Date: Fri, 13 Nov 2026 23:16:22 +0000
+Message-ID: <20261113231622.17907-1-singhpriyanshu9838@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -59,98 +96,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
-In-Reply-To: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 13 Nov 2026 19:18:55 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jyuMjh4En_r2TYui+sNbGveJ0Rz1Da39LEK9e-HxHgGA@mail.gmail.com>
-X-Gm-Features: AclHuK9_YtJ6aWlSAf9yM8R-lWnFcHYi_anHWoQsLhZYkqzdVHJqxA51shEqA-Y
-Message-ID: <CAJZ5v0jyuMjh4En_r2TYui+sNbGveJ0Rz1Da39LEK9e-HxHgGA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] PM: runtime: change stub pm_runtime_get_if_active()
- return 1 when !CONFIG_PM
-To: Frank.Li@oss.nxp.com
-Cc: Frank Li <Frank.Li@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>, 
-	Karol Wachowski <karol.wachowski@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, Matthew Brost <matthew.brost@intel.com>, 
-	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Alex Elder <elder@kernel.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Guan-Yu Lin <guanyulin@google.com>, Mathias Nyman <mathias.nyman@linux.intel.com>, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-hwmon@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, netdev@vger.kernel.org, imx@lists.linux.dev, 
-	Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 29, 2026 at 5:31=E2=80=AFPM <Frank.Li@oss.nxp.com> wrote:
->
-> From: Frank Li <Frank.Li@nxp.com>
->
-> When CONFIG_PM is not enabled, all devices runtime PM state should be
-> treated as active.
->
-> __pm_runtime_resume() returns 1 (called by pm_runtime_get()).
-> pm_runtime_get_if_active() is the try-and-get version of pm_runtime_get()=
-.
-> stub pm_runtime_active() also returns true. So pm_runtime_get_if_active()
-> should return the same value as the stub pm_runtime_get(), which is 1.
->
-> Analysis of all callers and their behavior with old (-EINVAL) vs new (1):
->
-> Pattern A: if (!pm_runtime_get_if_active(dev)) -- no impact
->   Both -EINVAL and 1 are non-zero, so !ret is false in both cases.
->   Callers: drivers/accel/ethosu/ethosu_perfmon.c,
->            drivers/gpu/drm/msm/adreno/a6xx_gmu.c,
->            drivers/gpu/drm/msm/msm_perfcntr.c,
->            drivers/gpu/drm/v3d/v3d_mmu.c,
->            drivers/gpu/drm/v3d/v3d_perfmon.c (x4),
->            drivers/media/i2c/gc08a3.c gc05a2.c og0ve1b.c ov6211.c,
->            drivers/media/i2c/ccs/ccs-core.c s5kjn1.c lm3560.c (x2),
->            drivers/media/i2c/s5k3m5.c thp7312.c imx283.c ov64a40.c,
->            drivers/media/pci/intel/ipu6/ipu6-buttress.c,
->            sound/hda/core/device.c
->
-> Pattern B: if (!ret) after get -- no impact
->   Both -EINVAL and 1 are non-zero, !ret is false in both cases.
->   drivers/gpu/drm/amd/pm/amdgpu_pm.c (comment says "allow access"
->     in kernels without CONFIG_PM), drivers/pci/pci.c
->
-> Pattern C: ret > 0 / ret <=3D 0 / ret !=3D 1 checks -- FIXED
->   drivers/usb/core/offload.c: checks (!=3D 1), old -EINVAL caused
->     -EBUSY even with !CONFIG_PM. Fixed: now returns 1, proceeds.
->   drivers/accel/ivpu/ivpu_job.c: drm_WARN_ON(<=3D 0), old -EINVAL
->     spuriously triggered WARN. Fixed: 1 > 0, no warn.
->   drivers/gpu/drm/i915/intel_runtime_pm.c: checks (<=3D 0), old
->     -EINVAL triggered error path. Fixed: 1 > 0, correct path.
->   drivers/accel/ivpu/ivpu_sysfs.c: (> 0), old skipped freq read.
->     Fixed: proceeds correctly without CONFIG_PM.
->   drivers/gpu/drm/xe/xe_pm.c: wraps (> 0), all xe callers
->     (xe_bo.c, xe_shrinker.c, xe_vsec.c, xe_ggtt.c, xe_guc_ct.c,
->     xe_pxp.c) now correctly treat !CONFIG_PM as active.
->   drivers/net/ipa/ipa_smp2p.c: power_on =3D (> 0), now correctly true.
->   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: (> 0), now correctly
->     executes stall register update.
->   drivers/staging/media/ipu7/ipu7-buttress.c: active (<=3D 0) early
->     return now skipped, correctly proceeds.
->
-> Pattern D: explicit -EINVAL check
->   drivers/hwmon/prom21-xhci.c: checks (> 0) then (=3D=3D -EINVAL).
->     Old: took -EINVAL fallback. New: takes (> 0) fast path.
->     Both succeed when CONFIG_PM is disabled; functionally equivalent.
->   drivers/hwmon/eic7700-pvt.c: call is guarded by IS_ENABLED(CONFIG_PM),
->     stub is never reached. No impact.
->
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+In cvm_oct_configure_common_hw(), when CVMX_FPA_OUTPUT_BUFFER_POOL differs
+from CVMX_FPA_PACKET_POOL, 1024 output buffers are allocated and added to
+the hardware Free Pool Allocator (FPA) pool. However, in cvm_oct_probe()
+(err_tx:) and in cvm_oct_remove(), cvm_oct_mem_empty_fpa() is called with
+128 instead of 1024 as the expected buffer count.
 
-People sent feedback, so I'm wondering if there's going to be a v2 or
-does someone else need to take care of this going forward?
+This asymmetric accounting causes cvm_oct_free_hw_memory() to report a
+false warning ("Freeing of pool 2 had too many buffers (-896)") upon
+draining the pool.
+
+Define CVM_OCT_NUM_OUTPUT_BUFFERS in ethernet-defines.h and use this
+constant across cvm_oct_configure_common_hw(),
+cvm_oct_probe(), and cvm_oct_remove() to ensure symmetric allocation
+and deallocation.
+
+This was found via manual code inspection and is compile-tested only.
+
+Signed-off-by: Priyanshu Singh <singhpriyanshu9838@gmail.com>
+---
+v1 -> v2:
+ - Make it clear in commit message that, this was found via code inspection
+   and is compile-tested only.
+ - Fix missing space typo in commit message.
+
+ drivers/staging/octeon/ethernet-defines.h | 2 ++
+ drivers/staging/octeon/ethernet.c         | 9 ++++++---
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/octeon/ethernet-defines.h b/drivers/staging/octeon/ethernet-defines.h
+index c060374a3da2..3ce7c125ccfd 100644
+--- a/drivers/staging/octeon/ethernet-defines.h
++++ b/drivers/staging/octeon/ethernet-defines.h
+@@ -37,4 +37,6 @@
+ 
+ #define TOTAL_NUMBER_OF_PORTS		(CVMX_PIP_NUM_INPUT_PORTS + 1)
+ 
++#define CVM_OCT_NUM_OUTPUT_BUFFERS	1024
++
+ #endif /* __ETHERNET_DEFINES_H__ */
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index dea5696a6642..e0e6d40602f0 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -162,7 +162,8 @@ static void cvm_oct_configure_common_hw(struct platform_device *pdev)
+ 			     num_packet_buffers);
+ 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
+ 		cvm_oct_mem_fill_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
+-				     CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 1024);
++				     CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
++				     CVM_OCT_NUM_OUTPUT_BUFFERS);
+ 
+ #ifdef __LITTLE_ENDIAN
+ 	{
+@@ -974,7 +975,8 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 			      num_packet_buffers);
+ 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
+ 		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
+-				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
++				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
++				      CVM_OCT_NUM_OUTPUT_BUFFERS);
+ 
+ 	return ret;
+ }
+@@ -1009,7 +1011,8 @@ static void cvm_oct_remove(struct platform_device *pdev)
+ 			      num_packet_buffers);
+ 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
+ 		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
+-				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
++				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
++				      CVM_OCT_NUM_OUTPUT_BUFFERS);
+ }
+ 
+ static const struct of_device_id cvm_oct_match[] = {
+-- 
+2.53.0
+
