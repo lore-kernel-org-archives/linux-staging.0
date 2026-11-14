@@ -1,99 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794632500;
-	b=onNAOvAAuZq9rRiL5liPsI5q3FHyMAbzvknKlSe+wjR296ddSPswK39MhaVfGzUDuhIU
-	 QCEtW9wxtI0HWs0ujRYLoSmt7gk3s5YPqDEhXmz9zAVSlT6rb+qxOrpHAwUCLS1tPau2f
-	 fFqLKmosvlL+vBHNY/BoGJbhP0W6p63hXadUhBKiovS7v8SUOtNCKpitNDWCyxkJz7a4x
-	 FDChwDeYFfkORQyJ3uZ0ZTB34RFj+mzf8eh3Qnj9Wf9p3NLdptSnL5Sup7KZQYtqQeUej
-	 BFHMw31Z26uCIzhVchLPP/aA+ILHbfgxV/uLilLL9VRKp1s8/CNXKMFLHIa86yOsQ0Q==
+	t=1794632542;
+	b=AXzFB3bkL8hNIcpPr1lnIBvmsQmM5yKK7nB+aNkDfvyAH6azP3GlIH0HHUR2JseY/5DA
+	 ZVNt+kWYIYwO1r7yNAmbGTGukAVaUrNES6U+8lBJdWfqk8GwzbHCvQZMR7dYtwRUI4uRN
+	 8NySc53/v5xdCkrwa49Qo4l8lrjoJknmN+r5Y7GX+ICFSal9n5UH5QvuTRYdOJTY2WTR3
+	 iARz/5WUoRGIScjXcGMk4hllagZby9cyZRv0V+B+04RCVW20gEaKFKC+/AYfhE++nyf4s
+	 WzyXhvJvoyncOn2wQP2Z5jvCv5ftAEMznZ6Tzv0a+bqwUARsv8xvGaJycytpMftsE2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794632500;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794632542;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=XsyBqFQpB4uqfmK/Q9kt69A4CrjPtbiX6wa6hMkSoPo=;
-	b=zJHi2y5eMRfvw5TJ70EA+4jL9vZhY+iTk6s8LYjmQO3Pd0xFvzDtykMu+oANZtKSBS6U
-	 lyrCUier+N+mrE0H75j4jA5N/vtTWhE886Uptt8o064sEm6qaMjFas87UXf+BgTJKWB1p
-	 cNjhlEoC0qi2jmVPVbTFHxfKOgCY6KkY9rYV0fNrX0c2/ADgSeO5HmU6ayD1Ykzcvp3ev
-	 x4SkVawJ81hdPt6IU8VqQBdc5LbO5O+b1PAGgLVMMlcrvgSZKYlC3wK4IMEBUc/rQZxIk
-	 cOP0JeA7n+VHjTMLFHyoGcomf3TUZtPqhjMaalw8HyWk96CoXDvVJ3badYU4JHhHydw==
+	bh=lwHO5y1yVOzdcwLx30M+MdDMtIY8PDavuYBpBXrs2UA=;
+	b=GWG/hEk2RxXIlDS+EV576I0vxYXiEJRqDS4fsCv+be8oNdOI6jeAf7t3Jo4qiq5AJV1E
+	 RXQudhp3L5+TP+Gb0pa1NrYKKpXbVFflyBWGK2FT9Qz7M9hkLas7HYQf24mZIn4JKv1Hf
+	 yzpFug15b5TVrvda1IZxNRVJPhzv0mxWQOw9viKZETCvQUFeV89/RGmq0TORwNXlAsr4j
+	 OHP8b2t7Dc06epWEBao4lDoveeNbrSfDwhF+pALim99xT78hrRqwMUp/tDXiPdpUoBVE5
+	 aQJfy34ZNahT5unQ0Qw7OddZy+z5FrHMU9zNcYoGjFdeEux5Av1KYm0mdT3nWrpUpAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=w9r3Turt;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PEPB6FLf;
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDA3606A334
-	for <linux-staging@lists.linux.dev>; Sat, 14 Nov 2026 05:01:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FDA3606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AE7606A33B
+	for <linux-staging@lists.linux.dev>; Sat, 14 Nov 2026 05:02:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7AE7606A33B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=w9r3Turt
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so21680545e9.2
-        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 21:01:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PEPB6FLf
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4bb666304fdso294555e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 21:02:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794632494; x=1795237294; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794632540; x=1795237340; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=XsyBqFQpB4uqfmK/Q9kt69A4CrjPtbiX6wa6hMkSoPo=;
-        b=w9r3Turtc4UJ6kkOc4vKcBqhBfPZX7qUJ/MMMgSpx98yc99HHN1P0jQJNeYWY3KsOe
-         4VCYedRohBGA/onEe0x8VVXbKTZleHQmhgCKuin2Yl6bymSkIvTIx+iu1+vUx2CdqMZg
-         MMqg9ENJhz6vg7AShHWl0fmRzjOWbRWHUPpDvfdZboVMK3kWVVKQYpQfAfyBeUlK0Aq6
-         FrnLgcZYXxKmvCu9V2BRnOpGB+Har8/Z/XJSpMZGNAlgc36IG+S60IgJYuJmykPQa+tY
-         Bf9x2CNSt+fnxO9Z9SXrkgeyUDkXLg6Jcwq4Puxp22vKuUxMh6FtCVGP70pa53p0E1lX
-         dIJg==
+        bh=lwHO5y1yVOzdcwLx30M+MdDMtIY8PDavuYBpBXrs2UA=;
+        b=PEPB6FLf+BbWSQjUtzfRbTAezwKoaILcRct5fBgSoMglvxN7rBDEMuyzRJa/DgA0eH
+         K+VZCn5gPaMChCR5WivG1a86qJDIS5PFZxFjod6LlvtPUPPlYYMsPnEw7dYNHTa2+8QN
+         UPjaKN/xMmxdkhcRpJq5Tsm5l5bXKu/Afruz/JpGPv2J2SGYyFVNKqGC4Kk1kuRb5mFY
+         ECHf+iZEtYI3XpiknfyXsyw6ZTkR6thFg5pXdHYDpqmbh23Bk3ehGKrqWuCnBgppSwtO
+         14g1RT2QoVPHUdYUo8SKdKJIClIYSxNFNbt3nNmSZh0CsOyBl/DVw9hNEZyPvOFRTY3v
+         fxqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794632494; x=1795237294;
+        d=1e100.net; s=20260707; t=1794632540; x=1795237340;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XsyBqFQpB4uqfmK/Q9kt69A4CrjPtbiX6wa6hMkSoPo=;
-        b=aGVgQCbwe9xIAUKvk2KEct9WqRtOoGrGzOEObcgqy6Ce1X2vC+7YMRwho4nWKcMkgz
-         9oVKmSLFw5l+I+JY+eEfaBVmDBKhJFW5G4lbo6bPQ4Mi8mAE3hGXzFdnp8d5/gjKmh//
-         2G0Sbwn1jTvSxC3wNNxG+CXAdWeGvHSo0FO3xTk77Mt4jDM/k+4VWAif4l/IWpbFEtBU
-         f4GfHA1OjKaSS8yMwJjXUXmOHUyYQsz4TdZko4vReUf7Jp8BBKOaB5fcYfmzHlCkQFag
-         8EbWg/bWKYVe7DOnmAAptCYKv+fDyGM1WTdn93lPZp2a8SLuyifmfrFjlE0WY5/xNvOZ
-         KTRw==
-X-Forwarded-Encrypted: i=1; AL+hErEe/oL13RrW3YrzvkcSSGvxFPN1o/6z3PXxNAQeMJXszB4fv55UmFsMFxPVFwLhjmddRxqlv3DniLN2kPdv@lists.linux.dev
-X-Gm-Message-State: APuU4Z9o6sMOL5TW8Et+UWl3E/1yJIPvg6UZuzOjW99IHg2ZVQJvwIQ+
-	uuYSNzNEbYlYjgCsQDdrCMzn8FJIlq83qBXb4apPcy7PtGrTPOR1bbY+
-X-Gm-Gg: AYBFou27x/Epvc6DE3/WPzGqxmxECz2JbQNvJT2DZZ3nINKZaKu/6tcGKkFK4HQ99Q7
-	oAOd7ll7V5x5pDKVWZoEO5Yt9yNBQykG/XlbMmCZUjVzzfxFDdn2cFhqVZb3gO0olQnmKWMEhzr
-	7hQUctST+gN/Chq730DA6Z4uJZ9z5EqK1F+Bbau2zM3Tulr7uO4+VD7+qq3pfB74/h8rgaITt65
-	OinfjGK7FzfbTLF6mHZMffCQvCOooATN/bj6Dd825uUELTdzs0AKyAKUQ2yGcHWy4lL73uW63PL
-	/HDN90I1lmkTUqWnbpDtHoA8usWLFEbZZ12gs/JKTOpxgvRTf7MAvIc5wboAKCp9LknhEOQCroh
-	jWdWpd7V2Cpq7islgC7VVKVo974HCtxHUiwWbMbTlxY3dzUU323Gq1fc5bTp1lrhOsVcA7nE8AB
-	fpild/lRqEmaW7ReW2+kmTmxNn/hXfroI2SwHWExOfNlIr9Td3eIAlE82KN/KdjO5UnyrMCgZfW
-	Kg4ULPWfMPp+/gUDKTaHyaa2vASvf+PjZnyL1CtNTjckPIha0RGrjnZZt2hnfKVmCEgjoz6RVAx
-	th0jse3xb22EPqyDruaVYlWtka6f4uPDq2wTTvhh56D5ljFcEkif3B+rl4bSaQQ2sTNPbB2XQdq
-	X4RWKiAKvY9Nhc2CGDMjaEcZ0qucD4R8CclEitITDO/SouTIFBf5Gb6OwEeJHpxNeTH0=
-X-Received: by 2002:a05:600c:1913:b0:4b1:2026:6b41 with SMTP id 5b1f17b1804b1-4bb55ab021bmr98950275e9.30.1794632493836;
-        Fri, 13 Nov 2026 21:01:33 -0800 (PST)
+        bh=lwHO5y1yVOzdcwLx30M+MdDMtIY8PDavuYBpBXrs2UA=;
+        b=uII0XYev+S2peMJT30/gTdIK0M/FxiIHLs0YVixg4pOyGX18I5m+KkiQ7jzYtGdj2U
+         A/Z0sP2b+FtaGO/rH8vPQONt4Hq1JpOQ4X0sQ+cviK9ZX7GZXbEV7aogWb4Gww0D9xsb
+         Dn7XNxr+FWaPZ0Db2aGtMGxBsW+D7UXtKHBDXzhJM0dA0FYJMeBpNFu5LVb6ix2Sw57m
+         UDZXzdQcHvTtBWK3F2xieqQcTsP1CZQHX5ALzBiRf+Rk/mczZ1R2ctifX1oO5WEBWFcY
+         7X0UiRqFWmv2RBPazgqG7YR+91MQGq/qOVY6/ZTOuuHYycR7wxSviU6cEMarhwPpwpJO
+         uAeA==
+X-Forwarded-Encrypted: i=1; AL+hErHJNsq6eZocXzXF1/SOwSGxUkd0rOoMuWYwyfVrQNq+1DP7JNcuWx472/x+hzSjgn2Rb1vzbWMGuy2GbObB@lists.linux.dev
+X-Gm-Message-State: APuU4Z9i+OfCG9Yim3VR8oqdI4+MJ/6r2IvJooWFDdE3iDRbSkM6OrDy
+	2j+5qkIzBU7OQCBvAqmL4BdtoV4lVjxCbQxZbBCenNp6PHm7m4xcQODt
+X-Gm-Gg: AYBFou1FVF7y0++UxIHRE2ukNDtrrFotzv4oglVwGBuBFPxm3sVGH+PCBJsHrZnvagB
+	Yesb9YNWiTkMljXgSkum3Rrndtt00Kj0IuHQV8uNDjS881+TwY/On8tbJSB8nDEGptbIB+cGbiw
+	2PQIvkuOYuCj24d7kklfRznpscgxbC1AX0tKiHTaiMrmEw6ijulo9gHk+F2e2zRsmlvp8KWDS1f
+	oBmfGzBYTURffeq86DxEwqXKXbTESswwt7ICIq+Z1zbXo10Qi+eJiHfrp6JDhX/MA9YKolIgzTL
+	jJOoHITSAXScEGGb3o/v+w8KiHF6JEKQzKHADVL1+dYI1bNn33Sp6hkLjhqOKL3gaoZBa5RgWTz
+	gsB+0A7YUkBIcvAVLJQqVCiCcTctC9wWiRsuNYPduUHLXr0epXSsD/oWx+cBnuk57eG14g1Jm5s
+	Ff265CUigh2QFFdWmq7UXb0Un1v2z5mfv6P8gxWeF6QG635f8NkEjuEpwWu7os6tjdxIURA7GkO
+	Z++3JcRZodZaWf3dJbBq1vdOk5R/B/30JYH3gWLsUms0RxhQ4H3yoJvwLIRZR8M6yH8r12z1atW
+	ktUkl+zsLlmZla33nT04Z6uUzU+nsjTrSxQvUGtHlKdNN1Ro4v+ZWQxxXMxLoZn2sm6zw2xwm0b
+	quGupk0mrnd6GGhHqQQl7mAh45L+QT5O1APV+Zso84DAlH939mUimk3cVlnIUKdq8ilY=
+X-Received: by 2002:a05:600c:8903:b0:4a2:1104:7ca7 with SMTP id 5b1f17b1804b1-4bb4e2e9c80mr157513265e9.11.1794632540081;
+        Fri, 13 Nov 2026 21:02:20 -0800 (PST)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb5671059bsm65540875e9.1.2026.11.13.21.01.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5d22394esm9298512f8f.3.2026.11.13.21.02.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 21:01:33 -0800 (PST)
-Date: Sat, 14 Nov 2026 08:01:29 +0300
+        Fri, 13 Nov 2026 21:02:19 -0800 (PST)
+Date: Sat, 14 Nov 2026 08:02:15 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Shunbo Shi <shishunbo@cmss.chinamobile.com>
-Cc: dan@pereq.eu, elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, johan@kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH v3] greybus: verify the received message size covers the
- message header
-Message-ID: <avfrKSBbpEp7vQyO@stanley.mountain>
-References: <avV8I97uZJgX8Osk@stanley.mountain>
- <20261113234739.1432-1-shishunbo@cmss.chinamobile.com>
+To: Rishiraj Rajgor <rishirajrajgor@gmail.com>
+Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
+	elder@kernel.org, gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: audio_manager: add newline to
+ sysfs_emit formats
+Message-ID: <avfrV0bQO3nvDkbH@stanley.mountain>
+References: <20261113130324.34353-1-rishirajrajgor@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -105,48 +102,21 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261113234739.1432-1-shishunbo@cmss.chinamobile.com>
+In-Reply-To: <20261113130324.34353-1-rishirajrajgor@gmail.com>
 
-On Fri, Nov 13, 2026 at 11:47:39PM +0000, Shunbo Shi wrote:
-> In gb_connection_recv(), the size of the received data is checked
-> against sizeof(struct gb_operation_msg_hdr) and against the message
-> size encoded in the header (msg_size), but msg_size itself is never
-> checked against the header size.
+On Fri, Nov 13, 2026 at 06:33:24PM +0530, Rishiraj Rajgor wrote:
+> According to sysfs guidelines and checkpatch SYSFS_EMIT rule, sysfs
+> show functions should terminate outputs with a newline. The show
+> functions in audio_manager_module.c omit the newline character from
+> their sysfs_emit() format strings.
 > 
-> If a peer sends a message whose header claims a size smaller than
-> the header itself (e.g. header.size == 3), the two existing checks
-> both pass (size >= sizeof(header) and size >= msg_size), and the
-> message is dispatched with the undersized msg_size.
+> Add a terminating newline to all sysfs_emit() format strings in
+> gb_audio_module_*_show() functions.
 > 
-> In gb_operation_create_incoming(), this leads to an unsigned
-> integer underflow in:
-> 
-> 	request_size = size - sizeof(struct gb_operation_msg_hdr);
-> 
-> The underflowed request_size then wraps back around in
-> gb_operation_message_alloc():
-> 
-> 	message_size = payload_size + sizeof(*header);
-> 
-> causing kzalloc() to allocate a buffer that is too small to hold
-> the message header.  When the response is later prepared in
-> gb_operation_response_alloc(), reading
-> request_header->operation_id reads past the end of the undersized
-> allocation, triggering a KASAN slab-out-of-bounds report.
-> 
-> Link: https://lore.kernel.org/all/sashiko-outbox-210716@kernel.org/T/
-> Fixes: d90c25b0a279 ("greybus: let operation layer examine incoming data")
-> Reported-by: syzbot+0b456664585fa81a47f6@syzkaller.appspotmail.com
-> Closes: https://syzbot.org/bug?extid=0b456664585fa81a47f6
-> Signed-off-by: Shunbo Shi <shishunbo@cmss.chinamobile.com>
+> Signed-off-by: Rishiraj Rajgor <rishirajrajgor@gmail.com>
 > ---
-> Changes in v3:
-> - combine the two separate conditions and unify the error message
->  as suggested by dan. Thanks!
 
-Thanks!
-
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+No, see the mail archives for why.
 
 regards,
 dan carpenter
