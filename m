@@ -1,98 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794637283;
-	b=Awj8uPansvZGRwiifjh6ZhQWWCzuTe9Wi1wBQLQdPOG/P5qm6ezJBpn5gkpLLbSzRRw/
-	 qbzcH8z0zvJ9PAiWp4i6P7/MEP+3ftcvNEMXWqf0cP2nlzaGwNAVhC1zUy0am2Jv2qCXb
-	 QsInfW40R5wmthh4axniViNhWJySxujveGeU6gBL79nLlfnkSu7lZTaywNDyr6sSV2TiS
-	 jehyAHEeLFnlgbpO7NAs3cuicneFlQ1eAXFd26kwfRMIT20aknyF82plYtobpGMVZsrIF
-	 ByBb8nv3gFJKVeZk69LM4BlfUz2jzQNRQzxBLi2sfTxTwKk4jRWZsQpRKDd7ooKeYhg==
+	t=1794639246;
+	b=1hOJQHdontrSZqzFOg9lWFHruDubqQqLFz56D8m87PGbR2UO/Jn5pR0FXSh0JcWqA+DS
+	 8TfeMXvWKscaBFX/nuUPUDjOT7VFgPbd2egh9yCGxO3JWi2j2P02955fzvYu1j7NErAzk
+	 8aRBQ5740cs7nzaTl3NWaoDsMB0EZslR1pWM2Gj87C1RVOnOkTOr6aak3zVEZ/FFcZUFY
+	 JDYVNhX0jXPF6szvvDF/nY+9vkKSGaX2pglxRQ11YrPTirOKMkizl4tfrvkf6Gkw0wUH8
+	 uXbzcafPc1QJSQ9C4+DQpR65tZTgLqLX4H3aTawQboILCv5S5ZvlO1SSjlNuhXWfNpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794637283;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794639246;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=abVHe5Yq8xpjvjNcf4nXdIo33DFUomEvkrSWJnINeGU=;
-	b=sYxizOHIM0z+30Asgu3titvACIc45Pp3aFjRKdE75k/FHVUseaSoXMuEVO9+5O4i3C74
-	 V78c70Qi4EpVrNemxuM0kLc3wUrlOPHkXhUF+rsBWkF84zGGyQCmH8nBwTQnOdmL6/gb6
-	 tYBk23Puzv/4xL+YbrPmhQxQfM9XCLwbF4/5bcWcPyyiByicUOiLPb2SN/RoOPRswxt/m
-	 5QnmNKyW9ADqVz/9aoMFkJzsJdr2yK9E5K43WYp4uidEplCOJH+BvjPyTs/43kwr9E6CJ
-	 5bEfxXfH4sBxHGwr2ElmqS89blpuCyy8ZLcamlrFzwVvpXMRmtOaWQkcx/fzL+GJC6g==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=jpc7xYgRbp0PzEsHnP3QCuDwXQdtcMONN5oNV3WRItQ=;
+	b=pE/uA4qeLgWxM4XTDiU3LHZaTCWTkrLXkDHuAqtL4U7b0GPy2+A13Q2GwyB7NrXPax++
+	 b8gVoiebL0uJixTDrgDcG+dwlhCvdiumW4VKuXH5fusujkJ8sGFDxv6wSBGGGTHjkwNYM
+	 JabfYIYJ7EAMJBE5FRNn8i+Cp75qbPbt0uZs26R1uCte6dMI16Mr1vahc0ePnuYqaQjpa
+	 ixCk/nOHfroeujD01fNLPZCN9aQMxvHtof5ud8qGY/VBHDwA/xckeBEXMHW0KLHrdxbmr
+	 yAR2mgT3tmLmQiH/MWSzuLs4LFuVDGI5qnNzgUT3dUivRsZaLpA+y1z6tlzw9soLWmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dlh2rQBx;
-	arc=none smtp.remote-ip=74.125.82.42
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ihqAz0+A;
+	arc=none smtp.remote-ip=74.125.82.169
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34962606A32E
-	for <linux-staging@lists.linux.dev>; Sat, 14 Nov 2026 06:21:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34962606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4203B606A32E
+	for <linux-staging@lists.linux.dev>; Sat, 14 Nov 2026 06:54:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4203B606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dlh2rQBx
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1aefd1bf74aso1269270c88.1
-        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 22:21:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ihqAz0+A
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-37000e7234bso2917396eec.1
+        for <linux-staging@lists.linux.dev>; Fri, 13 Nov 2026 22:54:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794637282; x=1795242082; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794639244; x=1795244044; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=abVHe5Yq8xpjvjNcf4nXdIo33DFUomEvkrSWJnINeGU=;
-        b=dlh2rQBxEGALwbvRT51lrVrWSdAM8UTZZ59vic9JyJt9m7oFB0XD+Pi08KN3mncD2R
-         ESBA09dJgl5O2fdRu8mvW6pC9BYtPmkqcMtodOqv9A0WC9APhC/H+NtIs1pdLoG5HCId
-         vLqNspa5QS6vdZOAtroMCfZGY2CSNQhqbYbF7p1K7lSAz+1B6UyttYvKGi0hzFImog3r
-         lNPNbm9SfP85VE7Jmw5x9TIxjYjmS9A4HdVeukvi/7IP+GQHx6wL8XU7CWuIUVmpKN77
-         wff1tP/T0Ipb0OCP2E+nl+VdGWMz4MYDzoxKfCFit8TjUjR3F8H/HA04lN3JAdJuhj68
-         +uJg==
+        bh=jpc7xYgRbp0PzEsHnP3QCuDwXQdtcMONN5oNV3WRItQ=;
+        b=ihqAz0+AKtvyIyGCqzHfomZbn3wgh0Uqqz9E40l6X+UKJRHyM8J/Gi7BOBA7zIpsS6
+         xTILSxk9ZyaQvGO3pqByBJ7xWNQaPXGiWmTypVigO+mJ51FPtQZH2H7KDAUsfpAucqGJ
+         qfkhQO1LMgo2caV6WvA2xbCAJTyvWaDfmaq8KUlFsV7vTJh4o7o+ffDOGS31FurHQrfK
+         roJDfi6hJ1y2JSeyL2mCzV4kqWOWkRsqfhEYqKw232LUTEddagmvvIdyEao5ozBHUCG5
+         tl9hiYKfOMETtqBuF2hiJIaGOQQ4+hihCGWIdRyqWO7FI6Azh8iriIdTjE+SfDQZyOw/
+         WpRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794637282; x=1795242082;
+        d=1e100.net; s=20260707; t=1794639244; x=1795244044;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=abVHe5Yq8xpjvjNcf4nXdIo33DFUomEvkrSWJnINeGU=;
-        b=dXrpjQz6X+cidlG8mXsEsIbsQKpMrEWQ/BTKCVPXTwEJYNG+6oyoB9iVZO6ZvDfjm7
-         /gyXijWc3A45LRdFsy/2NZkNYv2Z35YLL7jI2PJED9tywDpwhyg0sfRplkPt3BW523Ob
-         nMhcwhm0rshIf78bTUnAQKxOGZARgaNuv9QFoK14iVi4ErOd7X9t/1pSpFF1JuWw8yJh
-         KbSPbt0ZFCX8SZ5vxCUnRYJHTI8wfUyO7CfwMRGI5v/XfJaVOOZ1Mp0rcpj2cCiEesbx
-         OzHkVew+C4hdLhKNqX6bXzlFNJf/iFH78EzVuCon1VrNQJzsBl69uIEz8lGSIwkPp+W8
-         THng==
-X-Forwarded-Encrypted: i=1; AL+hErH9qEsZqsMGQ4VXV9s3ui+VyDazZPCM2Zsa/3ZPDZ+J7ZsZwQeaOPsysnnFAs0RaCPCHHBS7sW71IhYgWF7@lists.linux.dev
-X-Gm-Message-State: APuU4Z9fpuWg7q5DFQSFEX26jkIkzzgQB9vZjDfemo3s6Mw2UVLmFGS6
-	x/kpgTG9UdvopjNi4whJfaT4IamzX2d3P/NgDRjJeKXF839TXpNdRXSs
-X-Gm-Gg: AYBFou1RlfBpM8GnjGhThgdOCiThBsMu+1NtX7cNG5pRC/7WaCZ8ZkVQVj6IKLKvf5R
-	dxf7BtK3qf6GazveY+94pA7/TZrsMiWmSFPc3UhCE9uBsTVtKkIS7Q8yAK3zyvkD15uPZ6AItcx
-	DgCUjTHDJSvRf+gloB59jceFxD2aEA2yMsSWnzIyXLwn4FBI/14YeaMeKgNdIKAcBBl0vqDmecs
-	DR/YHYEBV2SLu/f3abRmVZjUexXfUUWEYX4w8Yh3TTgrUbCDoteS10+ma1seNLh9bOAmprEGSC/
-	5Si+rBCwoFKgnKLsbscjHlJdMx2e8lnjQ5IVnDxz7Dop0YvzEwU2UfPZb467oND99vfeJqayE2/
-	84xeilxXVXLp2cIxRg/T42spgwndjHr9j0Msm5Lb2SlGh7uVbOTjII47SW2gbOF2BW+6WIjP+rF
-	IhwWkwBQIgL8Yp0nOzgSjw6ephXxPYwmm6a1Di2GwEvyV/6eahdbH6ZfGXDUUEP7cFDGdRBSOBm
-	ql8isv/0M2bXdVNuKqph70thhVCZsUW5LmKtsg0bahCY3CWkKzMf9VAcHstvW+3XLPL7E+qy39I
-	ib3u4xpwqYsVV4cuQSUPMziZDvPbNTRx5Arf/L0HFmDG6gZna8d+QE4LgXgGdf5unv3IVhc7+Xe
-	1dEd+3A==
-X-Received: by 2002:a05:7022:7e84:b0:1b2:6b17:28e6 with SMTP id a92af1059eb24-1b505b6c46fmr3635557c88.9.1794637282100;
-        Fri, 13 Nov 2026 22:21:22 -0800 (PST)
+        bh=jpc7xYgRbp0PzEsHnP3QCuDwXQdtcMONN5oNV3WRItQ=;
+        b=POVvF19af1u+ixAY09mTYDzvzFRM6dsfzsFlvXANhJPtgSVlFadX8rzjrcDvHIVmqo
+         5WxIKFz1YXGhRqoI2mhmwaS5LXwvAXgQcBB3EnWA+VA2Dqp94K92WxB1pKTkHR0wlzqV
+         qwX08m8RtLyvSg9a/FWywhybw9VlYBzG8VEer08V8KpXHNsvlfoLICHp72IOX8x3J9o2
+         nSrkycqblgBgf86cyMRkdeAp1saeAqmSjUXrQYKUq2BAerdLDhAg5KGRe8FuDr2SnToe
+         XIRjRR3WaaB13zGxI4NLHLgLf7rGv3IGyUOBHlH6WX/iYnlxELHUFwQuKCsz4gvBEEOL
+         q5Pw==
+X-Gm-Message-State: APuU4Z8e8k1xrZCBkVu+QRKbYlggwkACrZQ/z2/cMB11c+f1VwNMuPml
+	UmOp+58PyNZPUPcuTEbH9wTLfOGeSr13sg+zA6hb3ArCEAES8+pJaOv+
+X-Gm-Gg: AYBFou2u+Npxs9eTmMww8t0KSmvbGkj5iM52+2mqz962Xe55MLfY8xSzx0epULlI3Kw
+	/RlAE/drEOZgfkoBtP8vu4AyaSpwm50vQLNuzXv8XAJbeBFtuVhByF27y2YbAt4ENELWVWeATpE
+	hdUdkBz+WULXsJQNKHCvfb8z4YYxq/+87ogDKPsk1skZmUXgkZsC4WfWuvGzKHPqgqKx5ol4hO/
+	EJMG9Wd+PpmkwBsGjiZr/5j3AhH1aoQcS8g3qI2rNBr3tXO1DvwLz4u257OBIITe34nIKWbyZP9
+	TX6gb+1Rb8Drqv4ZJfusuJCYFLUs6Vev9OT/PtAUzB0JtVjbVUHvqLBYaOyUFI2LqfW0xlVvZ89
+	rPimlLBroi7wxwp83WPH7td0watDvIWpVUOL67/k/XkLi5w7TbNiAT/v+j303rTuwDPXEjgGJU2
+	d7C6Ol4PSVx6hSsqhi4QMhdpXkZRwcoodYd6Yk0N6t6IWNyputhSc27p0qLZ6LVhSWQHJQzyRga
+	cMMu6kMFaBX4w/zjBljq+Q4B6ozguFdbiEIHIevIZOUiUDkejG14wFe3+jo3iUIhaX28pzIVgtK
+	JR6w4HjYNNXn62ZqV6hc+Cq2mDpla9AsGLRPCrpk1mgL2342ksYRInvecXfgGzFO4H7qlS/iWis
+	/mIUUsuYodd0uXPGDRBFs5rwugQ==
+X-Received: by 2002:a05:7301:2024:b0:36a:18e2:64c with SMTP id 5a478bee46e88-379655d3d12mr4902007eec.11.1794639244069;
+        Fri, 13 Nov 2026 22:54:04 -0800 (PST)
 Received: from kdev ([131.179.133.114])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b50313d990sm15468809c88.4.2026.11.13.22.21.21
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3795378d7e5sm13297026eec.3.2026.11.13.22.54.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 22:21:21 -0800 (PST)
+        Fri, 13 Nov 2026 22:54:03 -0800 (PST)
 From: Niloy Meharchandani <niloymeharchandani@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>,
+To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Niloy Meharchandani <niloymeharchandani@gmail.com>
-Subject: [PATCH] staging: iio: frequency: ad9834: use devm_mutex_init()
-Date: Fri, 13 Nov 2026 22:20:21 -0800
-Message-ID: <20261114062021.142296-1-niloymeharchandani@gmail.com>
+Subject: [PATCH] staging: most: net: use guard(mutex) for probe_disc_mt
+Date: Fri, 13 Nov 2026 22:53:58 -0800
+Message-ID: <20261114065358.149853-1-niloymeharchandani@gmail.com>
 X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -105,37 +98,167 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Initialize st->lock via devm_mutex_init() instead of mutex_init() in
-ad9834_probe() and propagate any initialization error. Since ad9834
-already manages its remaining resources with devm_* helpers and defines
-no remove() callback, using devm_mutex_init() ensures proper mutex
-cleanup on probe failure or device removal when CONFIG_DEBUG_MUTEXES is
-enabled.
+Replace manual mutex_lock() and mutex_unlock() calls on probe_disc_mt
+with guard(mutex)(&probe_disc_mt) in most_nd_open(), comp_probe_channel(),
+and comp_disconnect_channel(). Include <linux/cleanup.h> and
+<linux/mutex.h> explicitly.
+
+This simplifies error paths by removing the unlock goto labels and
+temporary return variables while ensuring the mutex is always released
+on scope exit.
 
 No functional change intended. Compile-tested only.
 
 Signed-off-by: Niloy Meharchandani <niloymeharchandani@gmail.com>
 ---
- drivers/staging/iio/frequency/ad9834.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/staging/most/net/net.c | 57 ++++++++++++----------------------
+ 1 file changed, 20 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index 3d97502d5909..9cb1fcbcb1ba 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -412,7 +412,11 @@ static int ad9834_probe(struct spi_device *spi)
- 	if (!indio_dev)
- 		return -ENOMEM;
- 	st = iio_priv(indio_dev);
--	mutex_init(&st->lock);
-+
-+	ret = devm_mutex_init(&spi->dev, &st->lock);
-+	if (ret)
-+		return ret;
-+
- 	st->mclk = devm_clk_get_enabled(&spi->dev, NULL);
- 	if (IS_ERR(st->mclk))
- 		return dev_err_probe(&spi->dev, PTR_ERR(st->mclk),
+diff --git a/drivers/staging/most/net/net.c b/drivers/staging/most/net/net.c
+index e6e4498d33ab..e08804c8ec6e 100644
+--- a/drivers/staging/most/net/net.c
++++ b/drivers/staging/most/net/net.c
+@@ -13,7 +13,9 @@
+ #include <linux/init.h>
+ #include <linux/list.h>
+ #include <linux/wait.h>
++#include <linux/cleanup.h>
+ #include <linux/kobject.h>
++#include <linux/mutex.h>
+ #include <linux/most.h>
+ 
+ #define MEP_HDR_LEN 8
+@@ -175,21 +177,18 @@ static void on_netinfo(struct most_interface *iface,
+ static int most_nd_open(struct net_device *dev)
+ {
+ 	struct net_dev_context *nd = netdev_priv(dev);
+-	int ret = 0;
+ 
+-	mutex_lock(&probe_disc_mt);
++	guard(mutex)(&probe_disc_mt);
+ 
+ 	if (most_start_channel(nd->iface, nd->rx.ch_id, &comp)) {
+ 		netdev_err(dev, "most_start_channel() failed\n");
+-		ret = -EBUSY;
+-		goto unlock;
++		return -EBUSY;
+ 	}
+ 
+ 	if (most_start_channel(nd->iface, nd->tx.ch_id, &comp)) {
+ 		netdev_err(dev, "most_start_channel() failed\n");
+ 		most_stop_channel(nd->iface, nd->rx.ch_id, &comp);
+-		ret = -EBUSY;
+-		goto unlock;
++		return -EBUSY;
+ 	}
+ 
+ 	netif_carrier_off(dev);
+@@ -201,9 +200,7 @@ static int most_nd_open(struct net_device *dev)
+ 	if (nd->iface->request_netinfo)
+ 		nd->iface->request_netinfo(nd->iface, nd->tx.ch_id, on_netinfo);
+ 
+-unlock:
+-	mutex_unlock(&probe_disc_mt);
+-	return ret;
++	return 0;
+ }
+ 
+ static int most_nd_stop(struct net_device *dev)
+@@ -299,7 +296,6 @@ static int comp_probe_channel(struct most_interface *iface, int channel_idx,
+ 	struct net_dev_channel *ch;
+ 	struct net_device *dev;
+ 	unsigned long flags;
+-	int ret = 0;
+ 
+ 	if (!iface)
+ 		return -EINVAL;
+@@ -307,15 +303,13 @@ static int comp_probe_channel(struct most_interface *iface, int channel_idx,
+ 	if (ccfg->data_type != MOST_CH_ASYNC)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&probe_disc_mt);
++	guard(mutex)(&probe_disc_mt);
+ 	nd = get_net_dev(iface);
+ 	if (!nd) {
+ 		dev = alloc_netdev(sizeof(struct net_dev_context), "meth%d",
+ 				   NET_NAME_UNKNOWN, most_nd_setup);
+-		if (!dev) {
+-			ret = -ENOMEM;
+-			goto unlock;
+-		}
++		if (!dev)
++			return -ENOMEM;
+ 
+ 		nd = netdev_priv(dev);
+ 		nd->iface = iface;
+@@ -330,22 +324,18 @@ static int comp_probe_channel(struct most_interface *iface, int channel_idx,
+ 		ch = ccfg->direction == MOST_CH_TX ? &nd->tx : &nd->rx;
+ 		if (ch->linked) {
+ 			netdev_err(nd->dev, "direction is allocated\n");
+-			ret = -EINVAL;
+-			goto unlock;
++			return -EINVAL;
+ 		}
+ 
+ 		if (register_netdev(nd->dev)) {
+ 			netdev_err(nd->dev, "register_netdev() failed\n");
+-			ret = -EINVAL;
+-			goto unlock;
++			return -EINVAL;
+ 		}
+ 	}
+ 	ch->ch_id = channel_idx;
+ 	ch->linked = true;
+ 
+-unlock:
+-	mutex_unlock(&probe_disc_mt);
+-	return ret;
++	return 0;
+ }
+ 
+ static int comp_disconnect_channel(struct most_interface *iface,
+@@ -354,23 +344,18 @@ static int comp_disconnect_channel(struct most_interface *iface,
+ 	struct net_dev_context *nd;
+ 	struct net_dev_channel *ch;
+ 	unsigned long flags;
+-	int ret = 0;
+ 
+-	mutex_lock(&probe_disc_mt);
++	guard(mutex)(&probe_disc_mt);
+ 	nd = get_net_dev(iface);
+-	if (!nd) {
+-		ret = -EINVAL;
+-		goto unlock;
+-	}
++	if (!nd)
++		return -EINVAL;
+ 
+-	if (nd->rx.linked && channel_idx == nd->rx.ch_id) {
++	if (nd->rx.linked && channel_idx == nd->rx.ch_id)
+ 		ch = &nd->rx;
+-	} else if (nd->tx.linked && channel_idx == nd->tx.ch_id) {
++	else if (nd->tx.linked && channel_idx == nd->tx.ch_id)
+ 		ch = &nd->tx;
+-	} else {
+-		ret = -EINVAL;
+-		goto unlock;
+-	}
++	else
++		return -EINVAL;
+ 
+ 	if (nd->rx.linked && nd->tx.linked) {
+ 		spin_lock_irqsave(&list_lock, flags);
+@@ -390,9 +375,7 @@ static int comp_disconnect_channel(struct most_interface *iface,
+ 		free_netdev(nd->dev);
+ 	}
+ 
+-unlock:
+-	mutex_unlock(&probe_disc_mt);
+-	return ret;
++	return 0;
+ }
+ 
+ static int comp_resume_tx_channel(struct most_interface *iface,
 -- 
 2.53.0
 
