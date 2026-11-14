@@ -1,47 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794648166;
-	b=YYbKXWWh3lXRGH2PWIenAQ0IOShb0KZJtEPLR189NVaWP/CsteUQxkOcy9Lz6aCQXRsy
-	 Q4+//zCu3PtM7kbtmtWzoAt+/iDGZa0MpWb+o4dHD3zlPyDuiu0We1qenrT09QStOpseL
-	 Ttezd0qZTtrEaa8h03pUW8FKR7erDOWp3+PhBFePynALHa+44u4AwbZRgpXHV12Xs4ZRQ
-	 6QJLBT/HuhP4H9/m5GTT0fp8OeOwM4p1UxalfauoQIjImq4H4d95JSo1MwpWbc2f6bel4
-	 zEOPN4FSOoK3a0dJUv4kf5gqng2xkuNlYrIEPS16oAy41YTt7ZD1a8cXJHqk3WyHs0w==
+	t=1794650543;
+	b=JPQT2N0+rIYWJw9xVLzbGZgXySSFBo7nWq+AxSCpxq/ppLpIWq4SvoOpAYqY7hoWaVB8
+	 o5FPTDWT0ZoqGGzrJGZ/6q0pfyEECV7OLCGCfE/lcV4pLav8ar6vfXjZe0hPQ0iCFWG24
+	 Ll5yeZ67P2g2NhtN/Y12CDsNkTzFckwyuaYAlCqRL8I7HKuuwCzeNiwSjPqSkQrvWaios
+	 27m90xrJH0xZzhGCHGDRv6ovD35n7HES20UzNZsHalGSuoCg2MZ2OOm527bxU8BEyin/c
+	 GE+RcCg0N7/WDIs5qGWLe2gXRepODmLLn8L3T8MF25kHJMyChhq5rw/w6PIt1sXl3qA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794648166;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=mhgwU6KGKAB5eJqw93LjEwh3/oUgQTitmGjKntJY39E=;
-	b=QRVPTsuyXHCX1Gq8hcQCYjSjtTU+FAmtjWOtltoTYOjzihq01UEzyXen4ANjMIRXwytY
-	 7bcaVwj+4CxU8+VknJKmp4Wc72wh1mg4Znr6oRIUkSIVB4Z72bkcYgoS5HlOs/nN7BPl7
-	 Kg00iD8qiJhnJsKaoazy90SEMT8m0YUnoAeMws2GZytqPa+srVcMbvxOopmYKLil4M7hh
-	 c4VbBFV1CKvpHb8z/xudQoQLDQck4pSfx1VeaaRUHC3CDNhNTIKm9llm9RPeXCNsAiyFT
-	 zivDJROul7Fl+Fgsov+oKLit3f7YfM9/7PQJ21/EOxjw/Ye2el6JiUowr5Fujh1CdCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794650543;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=56kD8uC/JQs1NVPB4BPCYThtaKRA/inwI9P7GjKzDmc=;
+	b=5Wp2IY2Y5YkiXDoRbfSUPd3Hc2Tq4nPqKmeO8dVnUIpXTCw39/L8B2ip+6kvx3X2EDNY
+	 LWI+SVZHXT9fqdSUS698uTEuJuiIinuS/m8/p/riZS91FNwenXNnJqY3CyXA7SvucEpqY
+	 Ns16JrVvIoiDb9imtq+ZLjQ7d7+qejyy6Z+8upP1CKiuRq70wFRmakViT8rKVhzIZwH1o
+	 fHGWNkwH4ehL5qWlMRaS38SmduCyjZ629EJe7agA7aQ09p8auK+TsfenRi3+p0pjLd8n0
+	 h2zG4khqOLv6xe147W/tPxxdIJlis8cjB3bwh0i0LNdAeILYiECRSSxob/tFFrVbZYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="nrG/RqjO";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lWaYotiR;
+	arc=none smtp.remote-ip=209.85.128.41
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C144606A323;
-	Sat, 14 Nov 2026 09:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23E5606A32D
+	for <linux-staging@lists.linux.dev>; Sat, 14 Nov 2026 10:02:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A23E5606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nrG/RqjO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 810A21F000C6;
-	Sat, 14 Nov 2026 09:22:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794648166;
-	bh=mhgwU6KGKAB5eJqw93LjEwh3/oUgQTitmGjKntJY39E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=nrG/RqjOyQmTzJYpZalADLBfqXqb2WpNDIuol9x2PUbhMEEzW93rCWEWy9Tz18bMs
-	 dluvdPkteg6mM8d3Iu4xxC8E6Jjej3549TPwBgaiL7KsbJ0nfM1fIRYjVYJBT2xTFX
-	 x5CmB0ABhFoR6KOAYWW31YzGnbpthzcQTEysqwXqFo2NKllYQJGpi+LAEu1QzF3KKs
-	 eXv0KgnX/ruftIwLmpTdwDjCN7QfImzUmZ4QTHdhcrnliWHz7f3FY/BqlAJPV3ORUg
-	 fePOu2zvsOsg4DHYz9lSzMF6LTVna0ycXrcVSuD+uOX7MV2+UclKKVf3EiRbVclRzk
-	 PsKnQAreUSTaw==
-Message-ID: <ceb7b479-080f-4210-a1f2-be3e273779e5@kernel.org>
-Date: Sat, 14 Nov 2026 10:22:36 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lWaYotiR
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a2d6d01ecbso13861885e9.0
+        for <linux-staging@lists.linux.dev>; Sat, 14 Nov 2026 02:02:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794650541; x=1795255341; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=56kD8uC/JQs1NVPB4BPCYThtaKRA/inwI9P7GjKzDmc=;
+        b=lWaYotiR4u3JuQ2Bg6KUEFkeWOgC08qjVQYKa4Ht8XdQRA5sjSXRtyoAlhRo5t4YCR
+         RDPACWdMuRvpb9Q2VHQ/GcyTucbfiWFPq0uVjzJBStbqCU4koZIadIQfJEo+RQOGRbgQ
+         mlQbKHzRqJKdwInArOjzVYJDCFGt+iYn60HlQx3Q+jJTyhpWL0WTKyKYSpXgjlQvz+Ls
+         8Z9GXn9pYYBDvql4wwIbUsaOnK5U9L85VW/w/7JFLt4QMethg7H5HSTS6Mg/YRYrLFu0
+         7gM55LZaYUI/F2URsdM7UGxc47t6oXUnTgIAkh1zBEZu95BS/r0vq0mORPwmVmkF8zdP
+         ocUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794650541; x=1795255341;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=56kD8uC/JQs1NVPB4BPCYThtaKRA/inwI9P7GjKzDmc=;
+        b=yHNI5a0UgK8x5fodELzCUkPGmIhAfbfzp0UomcJZ1SeCYfzsDi0HFdnegDzh6WWrbF
+         QsIisH860Cf929fKA5ZU3WIHJ2sdkUlu60uTcHM9UHMri3Ty0r5T80bGbfQxa+ITyeRt
+         GPNHf2IM92pZp6clc7ZiPsOMHGQWrn50ChiT+FsqbqWA05Ny6+xHLcI84ravIXdHlc0w
+         GokGbKEfONwjEwGiGKF0tvMDtdzzUYjmoCaHffw9ALDmE1oNnyfd6InxS/iio41Fk/tK
+         wj+fx71Oxm+dGCoFtDdAmgaarv13bWilBDhkpl+TjpSncaZjWaa6prMotR3oz2ftL891
+         catg==
+X-Forwarded-Encrypted: i=1; AL+hErE7Y1VRveL0oksaCMjAZ4EvOljw9Z3z6T7fLkVm4kXzq35gZSy5pM8wi3A+Rr3BtulSVviv2mTSQLDJOUQF@lists.linux.dev
+X-Gm-Message-State: APuU4Z9U3pN/679WoSBpkakWXqEv5qsMutlkrmYlUKVXLA+mbcR/ob0r
+	K/yyF+y9Ky1DhxAHDXeLlT+ToISSyRDkpnnVgm5rJMmuDbauXAkunS1q
+X-Gm-Gg: AYBFou12JfVItT3casZTjT1HKqgZYRVI13LoIZQ5Sv7bj5hl8eCcjFOKJ2kZR/UIQVe
+	6KSV351JIFCNjWHOGQqarQAzFpRrhm3XuzyZNohS15ItEj+fEdeQvcvU8GSTOjIG9rRaI+72vn5
+	QQ4PH8DjHQ5/LY7SjvGOlZ7hD7HDulzAdR9d+1HYdqJR9kLCB1BG9DqX0BXsIhv3Wx3BC5cKBP9
+	0egM52VaGqL9w9Pb2qT8074s20tgWYAPHaL5tSau7+Hsy5UTfKGMi3DLKaGrgGgvmsTKBucBzR6
+	I5BALYocmL1RqZEO6UvLHc0xH1L2LW2+K+rRtIcwDq7kQZqD+k1IVLPt0w2BwnEhVGweFUq9QCJ
+	U7RRx/0ri2Tcgj3vdSfFUKbrBSyL1fOgmuKcs52X6V4C7/hTW3sOcs/KxjdvG3Jy/+jnt9pkugU
+	8ibNPk5xSERQAuxZla1GsYC3sMmc+2Pb7hawf/dHloYoOxvirkx0zPLRrguKQtU/NRiAtzlj9mE
+	pA0u7KVDTyqPjy9QNEAJLtzf3yAVYU7Y+O178C/kAJrEOhWFAFmcX9/n1bXcZvUT9aMOqN1T9Ad
+	Z0WZFnKzGjNqPPzzaRpiM/rZQl5yaoLs6A==
+X-Received: by 2002:a05:600c:6308:b0:4b7:6942:39bf with SMTP id 5b1f17b1804b1-4bb55a68492mr112151695e9.28.1794650540956;
+        Sat, 14 Nov 2026 02:02:20 -0800 (PST)
+Received: from DESKTOP-TMG47OE ([176.41.25.224])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c608cf46dsm10520184f8f.43.2026.11.14.02.02.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 02:02:19 -0800 (PST)
+From: =?UTF-8?q?Ali=20K=C3=B6se?= <shroot1337@gmail.com>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com
+Cc: gregkh@linuxfoundation.org,
+	rppt@kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] staging: sm750fb: Clean up helpers and fix DAC power-off handling
+Date: Sat, 14 Nov 2026 13:02:04 +0300
+Message-ID: <20261114100207.9124-1-shroot1337@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -51,91 +99,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 09/10] ARM: tegra: Remove fallback compatible from
- Tegra30 VI node
-To: Svyatoslav Ryhel <clamor95@gmail.com>,
- Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Hans Verkuil <hverkuil+cisco@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Cong Nguyen <congnt264@gmail.com>, Faisal Mukhtar
- <mukhtarfaisal03@gmail.com>, Dan Carpenter <error27@gmail.com>,
- Hungyu Lin <dennylin0707@gmail.com>, Hao-Qun Huang
- <alvinhuang0603@gmail.com>, Yury Norov <ynorov@nvidia.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20261113161819.36847-1-clamor95@gmail.com>
- <20261113161819.36847-10-clamor95@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261113161819.36847-10-clamor95@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 13/11/2026 17:18, Svyatoslav Ryhel wrote:
-> Tegra30 now has its own specific compatible string for the VI. Remove the
-> Tegra20 fallback, as it may interfere with the correct configuration of
-> the device.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+This series replaces the set_DAC macro with a local static function,
+corrects the DAC power-off bit handling, and removes an empty software
+I2C acknowledgement helper and its ineffective parameter.
+
+The first and third patches preserve existing behavior. The second
+patch maps the extracted 0/1 DAC state to bit 20 rather than OR-ing it
+into bit 0 of MISC_CTRL.
+
+Based on staging-next at 6628e7d4c6b (Linux 7.4-rc1).
+
+Validation:
+- All SM750 driver objects compiled and linked into sm750fb.o with W=1,
+  CONFIG_FB=y, CONFIG_STAGING=y, and CONFIG_FB_SM750=m.
+- A standalone mocked-register test checked 72 DAC state and register
+  preservation cases: 36 failed before the fix and none failed afterward.
+- checkpatch.pl reported no errors or warnings.
+- git diff --check passed.
+
+Hardware testing was not performed.
+
+Ali Köse (3):
+  staging: sm750fb: Replace set_DAC macro with a static function
+  staging: sm750fb: Fix DAC power-off bit handling
+  staging: sm750fb: Remove empty software I2C acknowledgement helper
+
+ drivers/staging/sm750fb/ddk750_display.c |  9 ++++++++-
+ drivers/staging/sm750fb/ddk750_power.h   |  5 -----
+ drivers/staging/sm750fb/ddk750_swi2c.c   | 19 ++-----------------
+ 3 files changed, 10 insertions(+), 23 deletions(-)
 
 
-DTS cannot be combined in this patchset and must be split. Don't mix
-patches from independent subsystems when you send something explicitly
-targeting only one subsystem (staging, USB).
-See also: Documentation/devicetree/bindings/submitting-patches.rst
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+-- 
+2.53.0
 
-Best regards,
-Krzysztof
