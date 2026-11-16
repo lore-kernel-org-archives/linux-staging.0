@@ -1,95 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794850400;
-	b=DeFYc7Iw+2Id81/hvEQzeamN5Y2RshDqho6eSc+sRZi6voz9wfAXQbAvG67sPuJVmjrI
-	 kT1iDW/Yrdzk9GOhWNpRmjkKIXJSi3Hg2Rwqi+ErR4WqKwIc0Zu1Vps06CeNdtcNtHuD8
-	 xY3Ybktu8G5Xava6SUwHMOUdE6fP4P2gNyGv14/diEz5WP6pxXutQIJ6/ejlkjmIzEaDj
-	 JyxlLDQB0ySWJXIprxudT78jgg5JD/k1WxHrQ7QPZwg+4V67M+SrEthK2la+EHcMVXCRY
-	 8WiSXTDhCH99kdyYyAgZ++YrGI2awCagoYkzH770BdY1bz0e4edfaKOJ/UHgOUz9/pQ==
+	t=1794851526;
+	b=za62FGG53R9pGuaFSjihIKybJGTDGKJKOVaMeFWJ/UuQUMfFw3BPbme9yVNgIKlpKox/
+	 27OoD5H87Noul2di4J8f3BwhpfFj9TvkW9oMAiF+hifgCBKvzWwoGbwdplORpJw576DzK
+	 V+9aGR0ldBGUUijFtHYfWmKMZCUayv36MJOCIQk0dArh2x7LY7NEMt3LmnjqFcRmYesgV
+	 6BafVMAXwSXRML9QG9dI8Uzcb/hKXs+YTyuEkJUFL7oWe9/Zt5d3m3S4I7EBCBhZITGdZ
+	 hBKMb1SOmcMA/p1+34p3YPxTfXrwATMKrNWLFrUY6PLo6Aoa68VAyIZrsmOM7hjCC2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794850400;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794851526;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=Hg9Uic1Jci3EVD6ABAnH87aOxyU3YxP5Q27E7GZD9Wc=;
-	b=WMqU444Q0gOuF7DQmLC57AyP/dw1SHH3TiKaHHArD/Ddwe2WDThob2vaB4hjOcFKaihL
-	 NPanmynNJlBDnLf0j7eDtfzpehVnMVfBbW31y3Eee4Z97gHCzANrgNLQ4tG5wzkjpGiUz
-	 R3+e0LNqZliRi+LI2ijXZkaKSzcidlD7wUKaxVYGY+PbXSSEGYY5kNbZd6G2SDYe1ETqt
-	 QhS0ZRwwXHv+gbC4g732Qx1Ng0GIHqZR6xk42QD+nrxIoryvGaM3rjCUbQxLIfzMhFf0B
-	 nob2PuFY76wHFsYhWeUgOShT/C0R35VxSrOclBkt0YWWJDh0WaIvS69G8FQ2EECPoIQ==
+	bh=gyuCA352CKmEx6btp0JZpNwIO4QYJ/q79Bii/WWiLxc=;
+	b=NtysfFoJDoeEZQQaJhlSehm+tbtP6R2Ygs5Vs8DHO0N9MnMopB4nXfgIR4gwj1zFMBOh
+	 /lyjiifWmuRh1dKD7WbU5SWNlQuLoYatJadMM4kYzLmRI/mcjiVkmCMJ/zJ9AKh3V9okm
+	 JCNl0nJpdv0eDJRXktg6bYBaiDjVsojLU5mizf0jt3IQ+0ytTp4kVMaQYfmdYBzSjZTCe
+	 cN0p2SNApDgaEHX5VduxOWh20p/GdENg6npbX4MhVBkMWhnAKY0Bo3iCRjf0RUdK87Lu5
+	 DtrHorpeW0jB2kWeinYYqWXSo47/4GFRxK1M165Wk1LBM0YN9C7FUyw7T5NisABSJ3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XHuiIyyS;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=krXkfYHZ;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170D8606A32C
-	for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 17:33:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 170D8606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD0A606A896
+	for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 17:52:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BAD0A606A896
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XHuiIyyS
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so12340485e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 09:33:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=krXkfYHZ
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a1fbd52ab6so29782595e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 09:52:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794850398; x=1795455198; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794851522; x=1795456322; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Hg9Uic1Jci3EVD6ABAnH87aOxyU3YxP5Q27E7GZD9Wc=;
-        b=XHuiIyySNIsyxY27BcQgWK+XStWv9Va1OsrL7JD3mid0XcqD3Dmt0fgb3MsSRhgkL0
-         NnCJx2rwZ7ApMk/PtY69b/dX6sP0JaX/Wj7Q+E128w35/NffyYsfOr/UkNngyLSXFAmM
-         TZOOeLw2RqKQqq6KH/CUPToEZO3QXrSuTtndCHZghtXPd2r2KV6iQ/eT5b1Ig0bn65g4
-         LmBaaA899J52ZMNKDs8BaosNMDtL66Mah0+7ikfKXMdCb1RczvrmLJZP95ykBbUvB3zY
-         T4lu5N9Tw57kDTM2X9t3DBFll5dniwNBM05fRFOJo0bvKmH6ezWx7lbtRvqS26ZFlzf9
-         JP+Q==
+        bh=gyuCA352CKmEx6btp0JZpNwIO4QYJ/q79Bii/WWiLxc=;
+        b=krXkfYHZAhyYw4GMatshlU2NgdC9tuZQiJgG1KQmJd/SJHhE0U6Q8zJ/xv35nQ2v6R
+         EcxlBjGfu+oB/3MLTS7GvMLZhw8dxmp8sdbZxa9SVhG3nOUL33wIMoBlM2FqqhiDNLs+
+         ZpSSnquxBvhmsa/4Qbeb469OaeSI0cvaSzi+egfB9W/yco3wFH2aAyFBIDkSJ29diJLe
+         pS23TR8aKyZLdf0iaaSByBZD1FJ29zL49V4rwd5I/PaI29CU7L+9KM65N3ciOqsRckcE
+         7pZe1nALRxESzVM1gIixarNs69w5fFGx47SlDM77l4UzMyl2T83RJYHuFjK7cuEb+dsd
+         /9mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794850398; x=1795455198;
+        d=1e100.net; s=20260707; t=1794851522; x=1795456322;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Hg9Uic1Jci3EVD6ABAnH87aOxyU3YxP5Q27E7GZD9Wc=;
-        b=Y4xJsVKpPwBaQalJFe60JyEzI5aDSQUCij2qE3WsOcDWo1ZHQZ9HdgGvwWSrb3Hk1l
-         VedVKjjrSWFhPLBuotKNN3yBQnVXuH/Bka2p0Yv4rqSu6oT/9wFiW9MTqADWGjo7HOac
-         vGpzvEE6NSYJ29NyB5hczJZwt6zZh24kndQLIR72NcWywCyOJB3eOlT76LHFqgWBNDXd
-         gYuiFhsf0Ohv6SCqrJCrGMG6uwslJQ7ie9dtyS4gzoyy8tVR6faMElpTnde7cl0jrp+b
-         jmL7ugqW9liK8UI9yRdTRI+XhtJKTd0owqffFXn55vKRkyKQRjFTjTZPG5eG7de1hz75
-         NDrg==
-X-Forwarded-Encrypted: i=1; AL+hErF0Q2Ui3zpB31zoTpml0byEbgOCWAnOFuy6mpzNs1yvuyeZ1z87x3s+l+7A3CHonY1dsW3wXBzLgloWEEB0@lists.linux.dev
-X-Gm-Message-State: APuU4Z+yZuyCSrTGj+FmBhp3r2bMSNrCSWS1X3QVdWSbBWlDpRHoWD0C
-	GUTiomaK12V6MlxXhuWHLSS+DA4+ibaYjG34unvenn/IKaIWToS25uN+
-X-Gm-Gg: AYBFou1NIQm70kEtBNmOwXfe5ANaLHjJMwNdE7OH4kOAF7qZdhVBHqXsRHtY+p3ThRm
-	yLPzb2prkYsWshiQuDud9C17Bw0GoY+dGmB0M8NjNeNx5Aoa46gTJTfWdVRP7ihSM3zF1wKcT+H
-	bH212U7jhxplwUbq0onpal0nof1BvWS+q+fMg9+5Ku1PHYL2IpSRvpVNIC8lE6hZJ2C44xAQ7Jx
-	wIP+VZFFpqf9CUhP5MCeaKu6HYA/c5R81HNxjeP2khuLUPN7/oJFjpIfcLbfNEV83Ho0m4io0fq
-	iL+LPjAobvLluATKZ22CwzDnbLfMYT1949k+egCs5NhXI2hlaF+FbzoVSdcS7cnc3AJm1rrW3f7
-	SAH5cg038DXZgs4poymmTVCrFL2QK3QkCGSoqx7iAewE/A6dzXWt/IFLoZTnAdUjcjWHuHCLBfq
-	rOyEdQQ3piFSrTvaSoZT/CQ1irGfb5Ma/ShBn8c/JnkVNWPgOAxoBOw9Au/RL9xhrfFx//5XPU0
-	2s4qQxygTZ0QlsDdvMwlhRN84uaaGCtZwV8o+HrcILbzK5k0Kk+KAfVl/S8alhvZ0ZiDtkl92MZ
-	IwjsrMScwnnFb8tHwtLvjDVINFGe6hzr0P7vWNgrhox54+tYPYp1jgRqWHRe5/01Xik=
-X-Received: by 2002:a05:600c:8905:b0:4a3:5a98:c279 with SMTP id 5b1f17b1804b1-4bb55a57c66mr161878745e9.8.1794850398200;
-        Mon, 16 Nov 2026 09:33:18 -0800 (PST)
+        bh=gyuCA352CKmEx6btp0JZpNwIO4QYJ/q79Bii/WWiLxc=;
+        b=p2U31UWciHwsAS8rTISjgKNOkEGPrs3+FG5UkRnO88x2/8hPVgtpkwnHvZl+qK9g7D
+         MrwCgHEdK7IhA5rKTwGI/m/8TbfS91afq/3utODbJHIaVP3RwR8qdzRG/xPqa1hLe088
+         DPJErq8OWteSs5RnZYck086M9YqyMAHNUf5ZZqS/JluFZG6OxpH7u/DOqTuIqcAVJeGG
+         VxAdJsSRlxnKhPc9eNiRRZCAQvOTxpe4yIuEqHAAz48LrG12HBExbcp/NciFxzoQg62F
+         wRrDj99Dv4j7XeINgtPO96IF0DMaCilT7S6X/RK632TaT8ADoHim03nMPEkt+F+RcIFp
+         ZFwg==
+X-Forwarded-Encrypted: i=1; AL+hErGga+48IysvbLcddqDEek2RqM9FkVZnJBT45VK9CF5FcIwDlKhARls4lkb8NHKJveu2wsNh+1CxuSBo1cVI@lists.linux.dev
+X-Gm-Message-State: APuU4Z8V/vF4MSTRltGaw5HsRYBeOWImpT/G5MMH9/bZnh0RwiGS9s0X
+	mzzLmqdk3LfKVaWPT/lfosFOZ6N4ORQT6qG0Z4eXRZanDWjp3XcF5tJM
+X-Gm-Gg: AYBFou1o4oP/y4kydPtfiUFZQSfGbGGXmGFE2WQ0vRGzh2QRTu9NYuhKICuoekLXBU0
+	jKYpnwzApzash5J2bBSTTNf15Stu/3rnc/t6lYI+6J+vBrnwzyMSzIcL+XwP4mTib1pHNxEeIRd
+	r92JjlPi3QPzZ7g4+qa+fVF4mEwyNX4ge8jjJJfkT6kgwRPoeWwHHeaj7GGyosKb4Rn8wFmLmsM
+	Pk5FqKln2LnpaI2x9xNHaugcq87cqJVk2O6pqF9uNY50FZ6Eu6LMTiXpbC3fwGmk/tuaSZvQ1SY
+	VlexEUX5+QbfgmrLKeEK/+BXlxaQjRiYN9b5vGgsGdQ9zla7Ow3C2+1Opwhb4j+dvZBK6eZ1x46
+	+PbK0Lhk8IJTrnaUkd/h54Jn+H+C0kmJ6pcjzc/Cnkl4Ub0IgdttCFwOYaCllsuuhOY8WaGj1yb
+	aYarswXhqQ4SDzlzL0m5XJibg/jxvqoZ6h4RsbyySQN3yvZ0wAVeMwoTi1cw1/vQOZ5HeyBjMvn
+	Xf6Vdk1Lj8EGHkCJCz+04nZLVJArRECPYvyYAhhpm/O2UvKSsgZYhLFniFCQXt181PYriozk4FN
+	u+MZJl7L6frfpUIodJaGUxUD77EwGzmQ//3poXic9Xzvi9eUR13jC222Og1qg192gWs=
+X-Received: by 2002:a05:600c:3d91:b0:4bb:6861:657d with SMTP id 5b1f17b1804b1-4bb686166e8mr143043725e9.21.1794851522066;
+        Mon, 16 Nov 2026 09:52:02 -0800 (PST)
 Received: from Kyiv.home.arpa ([2a0e:1d47:4093:b600:498f:88ac:2ca1:60d5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb78430752sm3327525e9.12.2026.11.16.09.33.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb78430752sm4546075e9.12.2026.11.16.09.52.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 09:33:17 -0800 (PST)
+        Mon, 16 Nov 2026 09:52:01 -0800 (PST)
 From: Volodymyr Chapman <volodymyrchapman@gmail.com>
-To: Hans de Goede <hansg@kernel.org>,
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Dan Scally <dan.scally@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>,
 	Andy Shevchenko <andy@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Volodymyr Chapman <volodymyrchapman@gmail.com>
-Subject: [PATCH] media: atomisp: csi2-bridge: Don't cycle the PMC clock if its rate is correct
-Date: Mon, 16 Nov 2026 17:33:06 +0000
-Message-ID: <20261116173307.14169-1-volodymyrchapman@gmail.com>
+Subject: [PATCH 0/3] media: Add Sony IMX175 sensor driver (Lenovo ThinkPad 10 rear camera)
+Date: Mon, 16 Nov 2026 17:51:48 +0000
+Message-ID: <20261116175151.20150-1-volodymyrchapman@gmail.com>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -102,75 +103,68 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-atomisp_csi2_set_pmc_clk_freq() enables and disables the sensor's PMC
-platform clock to be able to change its rate to 19.2 MHz. ACPI however
-also controls this clock, through the CLKx power resource in the sensor's
-_PR0, and caches the state of that power resource. When ACPI has already
-turned the clock on, the clk_disable_unprepare() turns it off underneath
-ACPI. ACPI keeps considering the clock to be on, so a following power-on
-of the sensor does not run the clock's _ON method and the sensor does
-not respond on I2C.
+This series adds support for the Sony IMX175 8 Mpixel raw sensor, the
+rear camera of the Lenovo ThinkPad 10 (20C1/20C3, Bay Trail), using the
+atomisp driver through its v4l2-async csi2-bridge path:
 
-On a Lenovo ThinkPad 10 (20C3) with an IMX175 rear sensor this makes the
-sensor's probe fail intermittently, depending on probe ordering:
+1. a new standard sensor driver, drivers/media/i2c/imx175.c;
+2. the INTCF1A ACPI HID in ipu-bridge;
+3. a 4-lane sensor config entry for INTCF1A in the atomisp csi2-bridge.
 
-  atomisp-isp2 0000:00:03.0: Found supported sensor INTCF1A:00
-  imx175 i2c-INTCF1A:00: Error reading reg 0x0000: -121
-  imx175 i2c-INTCF1A:00: probe with driver imx175 failed with error -121
+Notes for testing on this machine:
 
-The effect of the clock cycle was also reproduced directly: with the
-sensor powered through ACPI, a single clk_prepare_enable() +
-clk_disable_unprepare() of pmc_plt_clk_0 makes it stop responding.
+- The firmware exposes the ISP in "ACPI mode" by default (subdevice of
+  the IGD), which atomisp does not support. The hidden BIOS setup option
+  "ISP PCI Device Selection" (Setup variable offset 0x235, value 2 =
+  "ISP PCI Device as B0D3F0") must be set for the ISP to appear as PCI
+  device 00:03.0.
+- The IMX175 probe fails intermittently at boot (-EREMOTEIO) without
+  "media: atomisp: csi2-bridge: Don't cycle the PMC clock if its rate is
+  correct", sent separately [1]. With it, the probe succeeded on 10 out
+  of 10 boots in my testing; without it on 8 out of 10.
+- The OV2722 front camera of the same machine needs "media: atomisp:
+  ov2722: Report SGRBG10 consistently as media bus code", also sent
+  separately [2], but is not otherwise related to this series.
 
-Only cycle the clock to change its rate when it does not already run at
-19.2 MHz. The DSDT's CLKx._ON methods on this machine already select the
-19.2 MHz PLL.
+[1] https://lore.kernel.org/linux-media/20261116173307.14169-1-volodymyrchapman@gmail.com/
+[2] https://lore.kernel.org/linux-media/20261116173143.13584-1-volodymyrchapman@gmail.com/
 
-As a side effect, a clock which the firmware left enabled at 19.2 MHz is
-no longer turned off by atomisp_csi2_set_pmc_clk_freq(). It is turned off
-when ACPI powers down the sensor, e.g. when the sensor driver
-runtime-suspends it.
+Testing, on a media.git next kernel (3fc9303dba01) with this series and
+the two patches above, on a ThinkPad 10 20C3 (Atom Z3795):
+- the binned 1640x1232 mode streams through atomisp, alternating with
+  the front camera; the full 3280x2464 mode was tested as a still
+  capture, as atomisp limits continuous capture to 1920 pixels wide;
+- the sensor's colour bar test pattern and real scenes have the correct
+  colours, also with horizontal and vertical flip;
+- v4l2-compliance 1.32.0 on the IMX175 sub-device: 46 tests, 0 failures,
+  0 warnings.
 
-Tested on a Lenovo ThinkPad 10 (20C3, Atom Z3795, BIOS GWET50WW 1.50),
-with this file built out of tree against a 7.2.15 kernel: without this
-change the IMX175 probe failed on 2 out of 10 boots, with it on 0 out of
-10 boots. The probe failure and the direct reproduction above match;
-the boot counts on their own are too small to be conclusive. This change
-was also part of a media.git next kernel (7.4.0-rc1) built with the
-pending IMX175 driver, on which the IMX175 probed on both boots tested.
+Not supported: the voice coil motor (the firmware does not name its
+type) and the LM3554 flash.
 
-The problem was investigated and this patch drafted with the help of an
-AI coding assistant (Claude); the testing was done on the hardware by the
-submitter.
+No DT binding is added, as the sensor is only known to be used on ACPI
+systems; one can be added when a DT user appears.
 
-Fixes: 0af9078315c1 ("media: atomisp: csi2-bridge: Set PMC clk-rate for sensors to 19.2 MHz")
-Signed-off-by: Volodymyr Chapman <volodymyrchapman@gmail.com>
----
- .../staging/media/atomisp/pci/atomisp_csi2_bridge.c   | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+This series was developed with the help of an AI coding assistant
+(Claude), which wrote most of the driver code and commit messages based
+on Intel's register tables, existing sensor drivers and my testing on
+the hardware. I have reviewed the series and tested it as described
+above.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-index cca91c6d7..a49996e26 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-@@ -257,6 +257,17 @@ static int atomisp_csi2_set_pmc_clk_freq(struct acpi_device *adev, int clock_num
- 		return ret;
- 	}
- 
-+	/*
-+	 * ACPI turns this clock on and off through the sensor's _PR0 power
-+	 * resources, without the clk framework knowing. Cycling the clock
-+	 * below turns it off underneath ACPI, which keeps considering it on,
-+	 * so only do so when the rate must change.
-+	 */
-+	if (clk_get_rate(clk) == PMC_CLK_RATE_19_2MHZ) {
-+		clk_put(clk);
-+		return 0;
-+	}
-+
- 	/*
- 	 * The firmware might enable the clock at boot, to change
- 	 * the rate we must ensure the clock is disabled.
+Volodymyr Chapman (3):
+  media: i2c: Add Sony IMX175 sensor driver
+  media: ipu-bridge: Add Sony IMX175 (INTCF1A)
+  media: atomisp: csi2-bridge: Add IMX175 sensor config
+
+ MAINTAINERS                                   |   7 +
+ drivers/media/i2c/Kconfig                     |  10 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/imx175.c                    | 797 ++++++++++++++++++
+ drivers/media/pci/intel/ipu-bridge.c          |   2 +
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   |   1 +
+ 6 files changed, 818 insertions(+)
+ create mode 100644 drivers/media/i2c/imx175.c
+
 
 base-commit: 3fc9303dba01676c2090768126e5327e341b7761
 -- 
