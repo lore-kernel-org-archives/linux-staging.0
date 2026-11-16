@@ -1,75 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794827449;
-	b=eLIo+OY+6kCRfIC+amKtaIqcg9vjJI+iycplzU1RJGz8EyMRkPSrk+P20gAd0/ksSumD
-	 Y4Vv9LORKE+Szuy8fPfl8Z7lbmi+XL7PtOSPTqtSa0G8TRJpVP+73P6j3+liQkWENQyJH
-	 0JF/w+UJwDk4iH3dzcJV5iCtns4IOnCbNinkqWPtYHG7nlb8Q5D9kWYCxNt+V2oLCIPN2
-	 6C0S+wEq1c9TVe6IT/3nTa0FUd93BZVj0+P1d0qDHcVg2nPSjO2ILK8T6UYS4nCXWFNt9
-	 JYpmWh2qxyoDfg5Slwp4zpXb/H9G5ot9WjLVnXUBod0PFf6y2qFwwLI3pJ4fn+E9gnQ==
+	t=1794829409;
+	b=KhODmjzGWpm+Lw9tesxpUMzLbr7Myu9erRcJM8hh882ei01k1qlq1C9kI37XyEfqe42c
+	 wesJjtrK6HJdfcIYrNR5Izb4x7xU2V878oHfY7Mmr0oEed65ug3Sxe0gHvkpfe+zmF5Nf
+	 faKk7RSeWWZLwFCx5zSLlzGGqk2DVIWTRpSOz1BP+lC+R3iL7R+SRpo/BOIk10Np3P97a
+	 uFVV/c6+RAnW++UKu7gjNOFv8sTmYy5sLb+/jpdksPA60dR9jAlztj6r+AUC0ylpjZrnP
+	 sccEEgqXQ0oqMOiLZWzDJfqA+2su2aUtNbRkiYZXY38kon+BrVIiabRKj2ln0zi3JLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794827449;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=+klGjRzQsfWrJDyayB0mR0/DFvNyflOAvejKCWxKAmE=;
-	b=s0egtvTp5gAj+hzlVDX3nKrppaXpCNQkp2yvFa1hpsORIVRK5Ygxe29iR6J/e7ZpUzOq
-	 wzV5lzkox8pP7Kr1Ic2CADrUMMaXAtl2H+WDGx8MWjwqI0AZVAqZOgkEILtIrGKLvFtKU
-	 03tjyt1u3hh8t65jcaAq15a64Q0WXZUhUY50NcNdhVsvDBUfiEYImYk+cBsrZU61Abjs9
-	 dJPhEzbJuFApl/EST9F1XMA4f7UgobA5a6cYb1tQTQq9AzcxsnGwM+zlVNyRBGY62ybtn
-	 /hCidQmBtqlRbvvb276tqY8h2tI7GcNv90NtBPSQKni5RNwDlquz3V/31/HUX8uWN+w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794829409;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=KTQjOLscv7pBRUr3IFndTok2cp32yKjgkssaNhdisLI=;
+	b=4fY2HvJzOqNE3kyaa0pZjLg3cI4n8AQmZecgV/5O+8gxTSBXSCRAuIj+gEFgecVJrgNt
+	 gYJTFqv1Rpypj/+v5GCAWqV8wGpCswqrTedjkt/WyybgV+xg8j9XYrY+bmksLgUDRkFuI
+	 MMZbJE0LNDqTDgHkO82Hv3ug6uvlR46ot5WFtK4PFN9AMMZwkpftZvmK4l0X61yxgxidP
+	 DCj5GuL3oApwHQCg/8ikxvx+3d3U2SC5SoOREmfkiw3naaEMIpHkiGKEo00uzq8hQMvb/
+	 XnLChiBNZ0xjBTe4bN28n6KOzJJjSivrBJtaJjcQMdv/vDw3eUC/Ug0nr5HdMg/220w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="MqqqyTB/";
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rxoow6Rb;
+	arc=none smtp.remote-ip=209.85.215.174
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A9F607183F;
-	Mon, 16 Nov 2026 11:10:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7A9F607183F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EE3606A329
+	for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 11:43:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73EE3606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MqqqyTB/
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794827449; x=1826363449;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sk7WTM62ZlwwoTm3SYzSEpCNEYlUQTQDwupcm1RfeV0=;
-  b=MqqqyTB/JWm8RbgC2pCojquyVmKlU6ts4r3zLwWjrTOMydnfwUzQdOI3
-   VVHV4jHVQyMHVFeaDyzeFetz76eQpCCBUme89Xukj14T0rkyKQob46T0C
-   2nMPSWXjGyFZc/oMrXZPggNsvqYu2iKULGIle4ZQEzlbCnaLlkQazIe1e
-   RPIcqm2NTK83syXI9I7wdK78CzPnM1Kxo6NhQNSEiTkz9LXjl7/Gbo19c
-   EV8+f495UrRIIeTENScWf9HsOEXU2kHhcsbvuQz+Qx80R5H3Ln7NNfejE
-   r+HYQNT3cG+2aqTu6YSXvGWnsYtPHmGEqsHkuosmCu97gpwXZZWourJYj
-   A==;
-X-CSE-ConnectionGUID: +PJcx22yQCa96p/9LVm9Iw==
-X-CSE-MsgGUID: ZhVcsEtZQzmfNnpgy+l+xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3413202"
-X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="3413202"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 03:10:49 -0800
-X-CSE-ConnectionGUID: eVC/pmTcQOuhZthn+xG7XQ==
-X-CSE-MsgGUID: jud+LxisQhC9uwft74JkTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="9710291"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.90])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 03:10:44 -0800
-Date: Mon, 16 Nov 2026 13:10:41 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Shivani Patel <patelshivani2283@gmail.com>
-Cc: outreachy@lists.linux.dev, Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging/most: video: add lock documentation comments
-Message-ID: <avrksb2-uS6blnUF@ashevche-desk.local>
-References: <20261114074725.24319-1-patelshivani2283@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rxoow6Rb
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cdab938dc83so1507470a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 03:43:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794829408; x=1795434208; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KTQjOLscv7pBRUr3IFndTok2cp32yKjgkssaNhdisLI=;
+        b=rxoow6Rbf/HCVK3WJ1JrQrZ/+LjWSSSinX4vG/E7/fRYiblcESWKmIIZ3E8Wf6YlTL
+         DELEIqwRWMFU3JgOYdsSEZ5NjL06ngbVdEYmdAM2MDMl/SNX8QnkEKBP0Lwdcmoj7l7r
+         //ObzH6NO03Jzfd2jhm3qRbVJ1lRzC5NQa9ga2ISSFmClgk3K3cVCquBN/TY8KfW9RN3
+         ZE2YVoxMr6gN9YV6MfsKNDJ2uaep1e0gkYVqt58LIfrYRdkn0awBNIwJ6EsX94YYnjs0
+         YJKNDNR1JBgh4RiXdx83fpvyxWZqszwNQWuz3oxlPaf5XtMP6bEYqIk7uylfBo5IQ9zZ
+         zcUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794829408; x=1795434208;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KTQjOLscv7pBRUr3IFndTok2cp32yKjgkssaNhdisLI=;
+        b=hSDix7UwtLxnHdL2HmZq28Xjm5Dinhp9t9sfFa1hcsEksXAcNqtFhFKF1r/HYWyjvK
+         QGbnsepNkkSJrGwYilTZXMTqxris5TCznmxMMw8BZQtHHvqpMDqlDn6e+gg/ESYpdWAn
+         NeLCYk8vvSg4oFpAmvRFr1nC+S6eFktLaiZCamIq/pi8+Y3DZm7zZyrpahdt/adoLgx7
+         f83mzbJj/ZmpopUcssgbV563Els43iB4aUwlqyW++0H9H7P9z86jVTK1v/8XOeTBtMGw
+         t7fSY4DBxY3E5/zIZOvHP9WMt7w4ga+uCmbYnCzXOE5bWc4WGtPRNgdrCLlSvcazRHCy
+         54Bg==
+X-Forwarded-Encrypted: i=1; AL+hErHqFh7hs0yvJw15pLZt3Bo7nDWAJhKAewQkO113mCrH8Cbk6sIw3OTqyd+/DelgqWy57nA+YTReUBPjbtpe@lists.linux.dev
+X-Gm-Message-State: APuU4Z+msvtDlqO/cjorzGwaKFAgrDCdl5+9ix23/XgYEyKE9/Laz8PZ
+	vgnWk1BFmqi0WtRFhcok2yZDlFiLkRIduokglJIIs46KTRhrqWTXSJeo
+X-Gm-Gg: AZFdTZeGRNWFydPnDvNoLWGrTwjPmAx3kse75yKzjwZhetdmqbMf5VLzd12NvwYiGQB
+	5y+14V6ltUe71SuEoOBRG5ANRc5KDRzmL6G7qvbVpu3N2KZQJ88nUr+tu+b6yTwjuRXjN2Ec0fU
+	1TtGD0yKb4+4/TKT/lvaPIN9qiB6Lf/jJISE7mV1CveqmcwqM3Z8pQnCbqApDva8zHSlSuDQeZV
+	1iNuqjUuzeHh8yEriAJgFxaKYP8Omz/1iFPkMookVxhEPsY0U6RM9SpMGAHKcPa+kDB+POudTg4
+	hpxrZrJvKlnbPP9do/dD3Xb6KLjrOP0v+RAgFGJvF6mkhQgwgQEfojHPO57LR+ipDrlzcmHGlG+
+	pnlDAZesnqFg6a4aoO6VUgvASea4IfZMOGEjvhLSj7X0jf1rjgWZ77BzRGSW2TyXjleUPoSeecb
+	pDVqMABvj8Xw+MWv4OrBDVGQL0u3vf/yRuFod6ceCZWm8r9eY0KFpcbXW/fmTWFw1AKSS+IS7NQ
+	rNcOT19zDGYDP+YdA6VT2lZkEJEpapv1WTgSI7sI2iDRErAiXweUfzSoVFo0onRplBqioM7qos9
+	3nuSIH44nRRD7EsRpW42E3cUFennZpIoBUn5Iys1DH/RcDERx1X6ZcuGysUTrcRm5coUH+jD3Q=
+	=
+X-Received: by 2002:a17:90b:49:b0:3ac:bfa7:b079 with SMTP id 98e67ed59e1d1-3b1b081bbd8mr9740865a91.7.1794829407614;
+        Mon, 16 Nov 2026 03:43:27 -0800 (PST)
+Received: from X.tail7c3ebe.ts.net ([103.190.41.115])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1baaafdadsm14089519a91.13.2026.11.16.03.43.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 03:43:27 -0800 (PST)
+From: Avishek Chaulagain <chaulagainavishek14@gmail.com>
+To: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Avishek Chaulagain <chaulagainavishek14@gmail.com>
+Subject: [PATCH 0/3] media: atomisp: remove unused functions
+Date: Mon, 16 Nov 2026 11:42:42 +0000
+Message-ID: <20261116114250.6587-1-chaulagainavishek14@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -79,19 +101,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261114074725.24319-1-patelshivani2283@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 14, 2026 at 01:16:58PM +0530, Shivani Patel wrote:
+These three functions have no callers anywhere in the tree. Remove
+them along with their declarations.
 
-Please, get familiar first on the process and required formatting.
-Documentation/process/ is a good start.
+Found via a tree-wide search for functions whose name appears only in
+their definition and prototype, and compile-tested under allmodconfig.
+
+Avishek Chaulagain (3):
+  media: atomisp: Remove unused any_virq_signal()
+  media: atomisp: Remove unused get_sp_code_addr()
+  media: atomisp: Remove unused hmm_flush()
+
+ drivers/staging/media/atomisp/include/hmm/hmm.h           | 1 -
+ .../media/atomisp/pci/hive_isp_css_common/host/irq.c      | 8 --------
+ .../atomisp/pci/hive_isp_css_include/host/irq_public.h    | 1 -
+ drivers/staging/media/atomisp/pci/hmm/hmm.c               | 5 -----
+ .../atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h  | 1 -
+ .../staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c | 5 -----
+ 6 files changed, 21 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
