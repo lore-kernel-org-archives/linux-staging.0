@@ -1,78 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794838811;
-	b=1K0u49QOWrh2iuHxQHfQu/XZD0Ijzmv/ETFrzjAoepHAhRRXhXwrX+ejLUGjhIGC+uxg
-	 lea68Gro4n/XUWRYOqemZ1o1Mv+JFAXLrVcQRkHWutwETdbj44dKocdC/3yKfqoA7A+t3
-	 xPKY5gzizY3ssmHYb8iXxGUoy4y+AEXHRK8N13dkZUrYj7EN2EhExHQ2XFd3elIoHKAuM
-	 XzVe+ni3zqel4EJ2Pdiak9XJlfcNc3wzn2JirkGaJm54DeF00mZUtCeRHWDH+7LjV9amY
-	 rvaWFzZj63p9E0XaUkpwnDBxl7E8n2oG8jiixt/fLAwMWf06NtiCBW6A2n+Rs1Y9x8A==
+	t=1794839325;
+	b=Px9P3x2/hfPlrP2tlC22JKealmVG927aBrGRXYBD8JkxTWwvzgwB5IYsWtgJLcqpM1bn
+	 tyIBEdftLHwU+KFg5uPkWtgPd3Gr+Em+QGbTlGxXrXaK7IftKAsZXbidIETsmrbPeedNT
+	 Vc2ZEhtcb3l7yU7LZfqdbctgmqOPMwuWAuWB7bX6J3EgSVgXRp73XEY1CuGa+GNfxwZwL
+	 m8pyIYzN7lnO/dS3Xrd5V2LqGhksxOc9+/EoKOkVcN7JzmGjfTEw985COxbxT5Q4RldId
+	 wRPf0I9pTrW8QIFxs30JHJwnmSuSPnTolxO/Cseyoh6qOH7A4PdDzK43lPmJZ429OIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794838811;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=ZPnF7AXJqqhQH9EkBttMT76JzK8rqfInXWI5291QWiY=;
-	b=C8hfkNGh8CyxQwaGLR9qfxDOzDCxGfeEiqmfl8iXDJ27Pi9qkvR9eQTdTAoLwcsLOGdL
-	 8HErBfTgs/rxES0KSkw881+h5rpZZqjHUoenLeMKkjZuO4Nfa8v9TmpqFHC75zJg2eVlT
-	 3VHwDuVSHKgEZ1WEvxkZ4JdyKx/rc0q2MO3NT0nboBAGQ1kV9H388P2gT/WNNZH6scxlY
-	 yvl7UhYLtBEgj+ecLcTEssYRTpC1SLSOIsVIfHIVQcLJEjzFjYugwCPfJc74j2U4z3rlM
-	 zR67s1oLWEATcLXuNcarUyoJ1+W/0J9dNlpVr+OyQitoXYIxAfmCbLaGhhNX+6T+oZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794839325;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=FjyD5uAdZPuyAMbvI8qy2cWq08OnffKRzBHpwunG8PA=;
+	b=niHB1NvQp28Yd7Q1NVKGnoxiJnMdsWpwDYlhOVM9GWnhEfChtxvG7dU0HOf+YF1CvWBb
+	 zo8jR3aRKKxXqcjDYNB+lJ9wO3ks3NldhvkgHqk2AHIIG+9RZxpvVGxpR8miG0U54/kB7
+	 d5OUH+R1lwmvA5ZVMEulLX3FMsJk7CvzuPHscjgpbM0xZYzZ6Za4HKXyMSOXMpT/NQzIg
+	 GY1FzCYeKZ44rq5bQQeZhjbxnHgT1JiY8Jc464+/Wf5EWFxrccC1QfIwNMSU50aHHU5QO
+	 Ed5nscM0vnzU6g9LfTntuw+46zC+OH7A8EHS6vrsJ8N0YilP04NYNI9UdKDfEMCfmNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MRPME3eZ;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=YRihMANb;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EC6606A32A
-	for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 14:20:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17EC6606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8C8606A883
+	for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 14:28:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MRPME3eZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794838810; x=1826374810;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bDcsy2RPjNi+n7ijKnyp08tkF7Mr2ciXEhvTTatXinw=;
-  b=MRPME3eZiX3gJPtnIO6vGSS/5pS1kRuQ1E8XZrN77d0BJFFKzYMBbxYF
-   thg7QPyl2doaMJgPxy2dLzsfr9iewL30p2laqozdFmYSk2O+/Bkl0YIDu
-   mQ/nqmDQ2YitBur7sZl6C6jGej0wJ35kHjNmepwOcspcdQBWIlPwwiicu
-   eExHWNAud/swm/8wt91AabWnvDZsiUFCSiXqBAA6ofAL4/d7l5budouXq
-   TBtG/JEJlkRllNlgDaY2/fGCn51KhtTkD8Y0fj/cXGWeuzFo6QHdO3Rmd
-   WimkjeyDzEkoFRo7kvAvv68lKXa4HdrkVVcvr3MLEYyC4DTAlHNzYaCfV
-   A==;
-X-CSE-ConnectionGUID: UrhfibAKQrWZ+kG4YNsHtw==
-X-CSE-MsgGUID: CJgDUZh+QeOqJh6wPKyQWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3611253"
-X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="3611253"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 06:20:09 -0800
-X-CSE-ConnectionGUID: ON7eFZe5QFeg9R62tTKoEA==
-X-CSE-MsgGUID: cEwgaYxaQGmvBCzhcXi0fg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
-   d="scan'208";a="9554452"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.90])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 06:20:07 -0800
-Date: Mon, 16 Nov 2026 16:20:04 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Avishek Chaulagain <chaulagainavishek14@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: atomisp: Remove unused any_virq_signal()
-Message-ID: <avsRFGZYgz7KYcHD@ashevche-desk.local>
-References: <20261116120703.6681-1-chaulagainavishek14@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=YRihMANb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7601A1F000C6;
+	Mon, 16 Nov 2026 14:28:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1794839325;
+	bh=FjyD5uAdZPuyAMbvI8qy2cWq08OnffKRzBHpwunG8PA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YRihMANbFRrp2u/rJ+WgYyoKOlfXlDcbjMtYQkM9CgG9rAxT1mSTmi2gZmpBqo0Fm
+	 9C63pg/h+C6vZEgfYduEAJqfJmk9pZvUgJfF3q2062kFepR81/PapWJSU9vKzt8gsk
+	 Ud9a+ToD2yymGsWJHqaAvSoL1Ct6WKaq+xf1c1LI=
+Date: Mon, 16 Nov 2026 15:28:39 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Dan =?utf-8?B?QW5kcmXImWFu?= <danyer@gmail.com>
+Cc: federico.franceschi@proton.me, linux-staging@lists.linux.dev
+Subject: Re: r8723bs: NULL pointer dereference in GetDeltaSwingTable_8723B
+ (RTW_CMD_THREAD) on kernel-7.3.3-300.fc45; 7.2.15-300.fc45 works
+Message-ID: <2026111607-decimeter-encrypt-cba5@gregkh>
+References: <CANOneGnzbBQ1WuMdgGBQ30+GqV09O1TwQ2C+RasmTJfhcWth4A@mail.gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -82,28 +54,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261116120703.6681-1-chaulagainavishek14@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANOneGnzbBQ1WuMdgGBQ30+GqV09O1TwQ2C+RasmTJfhcWth4A@mail.gmail.com>
 
-On Mon, Nov 16, 2026 at 12:06:56PM +0000, Avishek Chaulagain wrote:
-> any_virq_signal() has no callers anywhere in the tree. Remove the
-> unused function and its declaration.
+On Mon, Nov 16, 2026 at 12:06:03PM +0100, Dan Andreșan wrote:
+> Indeed, the driver is deleted from staging as the module is supported in
+> rtw88 [1], but only from 7.4 forward.
 
-...
+What driver?  There is no context here at all :(
 
->  
->   \return any(VIRQ.channel[irq_ID] != 0)
->   */
+confused,
 
-Do we still need a comment?
-
-> -bool any_virq_signal(void);
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+greg k-h
