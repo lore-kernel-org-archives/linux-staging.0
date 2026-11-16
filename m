@@ -1,95 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794806897;
-	b=dhPrp6dfW3xOCZCF9FpmAem4l6trmwcAS+GJSwWaLkE5Us0PTxs9ZnvZ9MCG/rQfy5oZ
-	 ov75aHBrONUPJjq7Z7pnSURrfsaQxyZy1QnvuSEsFuUAuPd7VnJ5K7tiaEuvO8qseWPtx
-	 Cvv95sE+cWNUYRzUs4I4AvjTg7dyGyNWucA0b/Mgz6G5jlL6bu9qtK0OWawg3+54CFhw2
-	 rKtutwM0Bsi7aPpdk0GEX+pbX6d9cAydgbAPb+wVT1MZDUTObhqEIIEdUVH6cEtUcjI4q
-	 OPUIqJrGBFHlZ019GDxShHx/DAACYhzx0K4YwI7ge20+zLJlss64wQ0KN3n2rgujXqw==
+	t=1794812270;
+	b=a2IrwC2Uo9HCZsfQ4kP9vW9Pm82q3nhjsiB0uZ2l382F6vxGhKvKotJzIFKABOoK0Hmp
+	 krU9V5Hw8gcJN+Rr0SLHSHWyueqnYfTXrV3ZRI8EpXbjOIG2I2ue8O4FCDffGgyUUumrC
+	 2Y1O/tKErzCX67a9+W8zl1T3imIorLVCzUdPmfh89k5NvjB34umG+UOW0mWxSIaO6bwUq
+	 vWnp2Je6qiiY/4Q/3eMY9rBXwS3ZX5Spo2c53CbNgfaG48LI92zBr4aTjHnQnGfeeegNo
+	 7oNTlJwS3Vw9gReULc29cPduKSWyhzF2MbcMUkrOLMFQ4efzfF/uQYQihEmUSy8ynQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794806897;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794812270;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=uaq0BVEvOHoY5FVUN84HI4rX3Wfh/nMm0wJPKthJRRM=;
-	b=RTHdeGrOgwPvYwNrsyykLXobMMQNZQ8GX6Amea9cTgPJnsKRpIfFhMQc+Fmr7rlYXxJ4
-	 ZGtPbJbKga2nVcaBYf4fB3b/PQjjbraboXg5Eju9oAmqjMq4nZvIL6uDMiunvJ2S0AJJ5
-	 E/cUlTpvSbj8vg77ZH8ityeUN9PJffMBofcobbitfPsjDm8/Sf6VoZmYzqyTTCJ5rhOYr
-	 XaJn5lBXdLFm1oPgncSpp6lyOOyQ2FGxCRGkWUxBQQB/v8F5oC/e730mWipvfd7esFGXS
-	 GQz6VUgaQIfb90CR0mlkRTDYq6xQo/eSFt1iv1rWQXYXNWYHTnpCJh9lGd2XlKaXUew==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Xi77D0DVU5EqgHzkXh9cbyHVlos1O2la4EdJ9QT/wME=;
+	b=SPdEZHdyvOenlnmhwPlqL3XSVlAu7QxSvADuAIHMbjQe42Ab8ncay7prx/jt9q44hmdV
+	 FOEjfviXYNnJpLqYJyhTYOnRxJcf7xDeD11HR2fGDupFIVglTHbctuJnvQyRNQ5VOFVQ4
+	 ekOOMKX14MjYTrXvvZQcAwK2q7pIKUR5p3eYAKBDJ7M8h+anbN+xYYcSeIxDD41oeyrMV
+	 bCIWD/EmniZErvN1mSxQ3LavzS3OfICTzzSAXzxBwvESWOWJdpCNBZU7QE4DKTuIUZqmh
+	 5W/Mx0MMryA1k0dzz8LEpYKqHdLKrV/f5MD5Zk5uoAqDZCTdCm8ymaNZEgvvDetZRHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AXijZnAH;
-	arc=none smtp.remote-ip=209.85.221.53
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZJTtWGV9;
+	arc=none smtp.remote-ip=209.85.215.174
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D49606A323
-	for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 05:28:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36D49606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B17C606A31C
+	for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 06:57:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B17C606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AXijZnAH
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-492fcbfaa87so1464773f8f.3
-        for <linux-staging@lists.linux.dev>; Sun, 15 Nov 2026 21:28:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZJTtWGV9
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cd6028ff33fso1619887a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 15 Nov 2026 22:57:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794806895; x=1795411695; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uaq0BVEvOHoY5FVUN84HI4rX3Wfh/nMm0wJPKthJRRM=;
-        b=AXijZnAHGXSkEnrW+IH1bmOBf/vyVAIRMLofLjG093VlHpfFBcCTCdMLIvlCbJZyDh
-         gk14FujFYao5zDDGK19Xgc91CQe9M0ZanZiNJVVYxJOiH09APZJrLhJkYybcp3ua7J07
-         5Lx1qZkhdYE95wkX2BCcSC+5UZSxPtmhviI+hIZKkNG9/dq7lGyKFyf9PN7KUyVCY8xP
-         /0Xjj34/RCbcGjOECtF85p7WCX6EoQ+7whD3nqp8+g04BfEbR5bkh8EOZs2p3xIazZgC
-         6ok4vFZsg4fgEY1s3WyXvILkDZVqhLqrmGD9suBdmov47T34zmg2XWYz6+9z5qwIqnm/
-         UYzQ==
+        d=gmail.com; s=20260707; t=1794812269; x=1795417069; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Xi77D0DVU5EqgHzkXh9cbyHVlos1O2la4EdJ9QT/wME=;
+        b=ZJTtWGV99dsfs7U4etzgOZtZnTAepMYIfAGl8I7bB+hgz1qHAWC3EDUjbHm1rypLwR
+         eoClnrV8P3EhqzOG+AVnw7BPF+mk9fVZO9Bye6s1crEM3urNB+QnKqXqF44+NpSQZcmC
+         sh7JcJqX5mHV499jnkzTPnEvMxvwrroH1R46p4ap2XgaePRH60vKczO4LsBihhQ9zarW
+         vge5iiz4VN5B/FJWYMi8ejmQ7pIxEkQNUy+COcbIBfqt0VjSYeYdC2ZLuLxwlx9mKZnD
+         ZA5lJooKhNzUlWmanvOcJuKLTbflRXoraqrRIRF8Eb6Dyvp1fbwbZAWYmYZvN0Q2fMkm
+         0zNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794806895; x=1795411695;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uaq0BVEvOHoY5FVUN84HI4rX3Wfh/nMm0wJPKthJRRM=;
-        b=kDmJS1wYyoz965erdLuK1qG7F3fUXDwxtg0Tlxwk1cBtWccJbDJ3v6xejpsw82+tv/
-         tEYJs2r4PsAgqKbqXS5tPExg2G9g8hUHz1o8Es5NSpeNzA5+oTkbbbo83FVHHhVXma4D
-         Advn0X4QhC9lC0Rd5fNw+KQHkmflKYN7vvpzbefNq1ljwEsJ2qOYGG0vA4utn5rs4ZFs
-         XBzzu9yW77Y/1LFC22SwxgrubT+vu9z/QjGRMWOKq5AvrMMXSNEsOPrzOsbh8ORb/So5
-         WdTNJXW7N7tW0eJ585PXD7UZjkBGNrfGojqPntuHEyCuUjlvAjLfHYHlgk1bUc9yaWi8
-         m2qg==
-X-Forwarded-Encrypted: i=1; AL+hErHwfbYpcITNB4XXDcZgcnXttercy3Qno39V50jAgcVub+8hAvm0rjfbHoOCrMHFu51qgoS6Ti+x6Gm3LStc@lists.linux.dev
-X-Gm-Message-State: APuU4Z9I6VA54C1kB8yWvzcT/flso55Pn9185J2qiK0Fx2c6KtSt3Kiv
-	CroAlfw8M5tMLZ0z4LRYjTcc97qNou3SXl1Y9b9YeVagglGf4xNb5AsU
-X-Gm-Gg: AYBFou3J7cM/5VoESlM+gg2JWNd3GwHadHiWYNNhmjmwxv8CBB2nY9r9ftv1DVqah+M
-	NBVISaUUi0olQ4YHLIoYBD3MkWwqGDX3RvqqpPk1f2qe7fmLU1P8bK42iQMOZbNVFGenRHlNQYI
-	zl92/nspGwlAZ5SIQljNyqbsAGhy9hzNs0be/kRtlvT5LyWG/udcJp0Pc66OEJXWH3or/bI0BlO
-	B7/g7ukGCGgmob5IF3sAu2514IUWzJNjM62+IKAMA2VJNerJyn8wzYt8MBIxrrxqZ+R9gqFVm4T
-	nVdxoHllC1mS4BJec0SJUa9mhylG+JQhTIMpA7VsaaS9Bq4ujBf/+77pYLR3Ty4V6S1nFHEtLq8
-	R350sJYiXMJX7sChlBnzmyrYCwYGKnq1ffg3t5XG5O9l4eleti2QrujPpL5G5u8YE/aAaKUbIBA
-	8qARl8WGwmSYgUPGIqCfN3hQF6kOYDAB6bmfM/13PjMw0v67WRcs08gXQqbJCDLJHgpswTr141H
-	WkdmhIz5zS4QNNPQtM1y0bBQE7AJEYH2ek1UhD9qAqelzoIRlYTIgfv/OAtj8XBSffsHt9k0RMe
-	PbSnwCGWqJgQCjVqNDeCHVn1ybGdEtv1Na8CwL3XMPEyidRDoCZdME43LdfQfJM5npvuvSN/wKq
-	QA9ZIGY83MCmqn2PbG2ftkZaKyfIqibP2vyvxS2Fqvv76YMAu7BpV/fTMH97/NVZ+PL0=
-X-Received: by 2002:a5d:64c8:0:b0:492:a72:92fc with SMTP id ffacd0b85a97d-49c740bcfa2mr19526408f8f.44.1794806895504;
-        Sun, 15 Nov 2026 21:28:15 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60da11c5sm18757547f8f.54.2026.11.15.21.28.14
+        d=1e100.net; s=20260707; t=1794812269; x=1795417069;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Xi77D0DVU5EqgHzkXh9cbyHVlos1O2la4EdJ9QT/wME=;
+        b=rUbbL9nhRGpkRa18Q9qFQTudJ/ykCScGQH4xWMoopkSGutCu6H2TcFEdi6wpQlQseY
+         zeS9ffQmVCRjBPLEwjiDGctqWzWNn7wcJKYgNRcw5x15vrRzj4u6joOyrQ5VpmzJKQll
+         S6HdutAnZ8CN0NqtHWUdgCd7MKePN02UXdTQyoSC9cwweusNSFgoihgvYQeYK6BuRRtS
+         X74lq2G/4t6mdPTYYu9Qc3h82aOmAis9m7KNeB+nAgj1vFx+ViKe9Hj2YhzpFggVxLeQ
+         t2dSpd+kuQ0bdjodOc/TD5XVVULDadUTfQaCEF+7jWPVabTjrl5D/ft9lwV1r9Dv/Qzx
+         bl4Q==
+X-Forwarded-Encrypted: i=1; AL+hErFHaoC7rztluFGXgMzpDtO/aCS878C4BViRmj4xKehf1/e/TVY5u20MfgjtfLhUCiXW9Sf/qFaJBytblI7b@lists.linux.dev
+X-Gm-Message-State: APuU4Z9cSb6IDSYFKHwtjKk4Zb+AbI+tOaxqMpcDSXbMzE7hUiIYXUPg
+	XLjTwheCvhAx3icDzLY6XawhePmk/0CDxTEfDT7HyWz8N2z5kZZbd01L
+X-Gm-Gg: AZFdTZflWBXMvznIKVeFxqKcsUjPJUMm723SUpxlwLlZiKambGJ6+xC8g0m655FAjCq
+	HU+TPTHl7YFYqR5obnOxiOZGZoAQW2pWNp5x+vLfuhkOsu61ehBozEuv6ivl/GUn8sUpiPwREMn
+	a5FmL9KEzkpZeLMjA7awvBo9ElUTd4h0v6bnGavpxFeYWH7M8t3fNKQ8uNjyx9I6TQogL0R2IDJ
+	Tx9JX+EOR80lxRqGxqAkVpKLApdkLVU6HjSK8QSqL0vtixCL6zQbg1JsJKIFgDu/d9b+ne+Awd/
+	HLrIM96Tdhdr0tVFlz7U8PR5cLLs80U2Ceih+WjhIMHQr60+D3fOqfSiVcOGiAL9FZZ5GE4xzeg
+	3KRBSIMPwDB2qmtsQ+qAQKU9hivtsfB1Zv91bxGd164VV2FEKHoBirM0EvS1eeYwew/zxe4hqVT
+	WAsordrWmvemmqBOy1aCE3emWi3K8vdhCHQFadVub29GmLK4Kx4/+uc3EzaIuY2D0b9gZQIx5YF
+	JvZdfs/bROlPjlblW6kCSrB8jfJkxB0VsiYcOje6rp0OYiTmIEEDUnN6qPfnzxvPPn7Ub5oquh8
+	08C5ofiPh+MIY6QhCha1QsOuCevXW0zRwKEAsn/OF9i3jMXZxf66FlKlwhLoS68tRl8WUg==
+X-Received: by 2002:a17:90b:4ec5:b0:3ad:b86d:dbad with SMTP id 98e67ed59e1d1-3b1b0a0dd02mr8290448a91.30.1794812269453;
+        Sun, 15 Nov 2026 22:57:49 -0800 (PST)
+Received: from lenoq.localdomain ([49.43.112.105])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1aec66f4csm15684846a91.14.2026.11.15.22.57.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 21:28:14 -0800 (PST)
-Date: Mon, 16 Nov 2026 08:28:11 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Priyanshu Singh <singhpriyanshu9838@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Oscar Alejandro =?iso-8859-1?Q?S=E1nchez?= Lucero <aleszlucero@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: octeon: fix asymmetric output buffer pool
- accounting
-Message-ID: <avqUa87gQnzKyVF3@stanley.mountain>
-References: <20261113231622.17907-1-singhpriyanshu9838@gmail.com>
+        Sun, 15 Nov 2026 22:57:48 -0800 (PST)
+From: Priyanshu Singh <singhpriyanshu9838@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <error27@gmail.com>,
+	=?UTF-8?q?Oscar=20Alejandro=20S=C3=A1nchez=20Lucero?= <aleszlucero@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Priyanshu Singh <singhpriyanshu9838@gmail.com>
+Subject: [PATCH v3] staging: octeon: fix asymmetric output buffer pool accounting
+Date: Mon, 16 Nov 2026 06:57:30 +0000
+Message-ID: <20261116065730.472784-1-singhpriyanshu9838@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -99,33 +97,86 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113231622.17907-1-singhpriyanshu9838@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 13, 2026 at 11:16:22PM +0000, Priyanshu Singh wrote:
-> In cvm_oct_configure_common_hw(), when CVMX_FPA_OUTPUT_BUFFER_POOL differs
-> from CVMX_FPA_PACKET_POOL, 1024 output buffers are allocated and added to
-> the hardware Free Pool Allocator (FPA) pool. However, in cvm_oct_probe()
-> (err_tx:) and in cvm_oct_remove(), cvm_oct_mem_empty_fpa() is called with
-> 128 instead of 1024 as the expected buffer count.
-> 
-> This asymmetric accounting causes cvm_oct_free_hw_memory() to report a
-> false warning ("Freeing of pool 2 had too many buffers (-896)") upon
-> draining the pool.
-> 
-> Define CVM_OCT_NUM_OUTPUT_BUFFERS in ethernet-defines.h and use this
-> constant across cvm_oct_configure_common_hw(),
-> cvm_oct_probe(), and cvm_oct_remove() to ensure symmetric allocation
-> and deallocation.
-> 
-> This was found via manual code inspection and is compile-tested only.
-> 
-> Signed-off-by: Priyanshu Singh <singhpriyanshu9838@gmail.com>
-> ---
+In cvm_oct_configure_common_hw(), when CVMX_FPA_OUTPUT_BUFFER_POOL differs
+from CVMX_FPA_PACKET_POOL, 1024 output buffers are allocated and added to
+the hardware Free Pool Allocator (FPA) pool. However, in cvm_oct_probe()
+(err_tx:) and in cvm_oct_remove(), cvm_oct_mem_empty_fpa() is called with
+128 instead of 1024 as the expected buffer count.
 
-This needs a Fixes tag.
+This asymmetric accounting causes cvm_oct_free_hw_memory() to report a
+false warning ("Freeing of pool 2 had too many buffers (-896)") upon
+draining the pool.
 
-regards,
-dan carpenter
+Define CVM_OCT_NUM_OUTPUT_BUFFERS in ethernet-defines.h and use this
+constant across cvm_oct_configure_common_hw(),
+cvm_oct_probe(), and cvm_oct_remove() to ensure symmetric allocation
+and deallocation.
+
+This was found via manual code inspection and is compile-tested only.
+
+Fixes: d5f9bc7360fc ("STAGING: Octeon: Increase output command buffers")
+Fixes: 4bcc688a11da ("staging: octeon: handle rx/tx initialization failures in probe")
+Signed-off-by: Priyanshu Singh <singhpriyanshu9838@gmail.com>
+---
+v2 -> v3:
+- Add Fixes tag.
+
+v1 -> v2:
+- Make it clear in commit message that this was found via code inspection
+  and is compile-tested only.
+- Fix missing space typo in commit message.
+
+ drivers/staging/octeon/ethernet-defines.h | 2 ++
+ drivers/staging/octeon/ethernet.c         | 9 ++++++---
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/octeon/ethernet-defines.h b/drivers/staging/octeon/ethernet-defines.h
+index c060374a3da2..3ce7c125ccfd 100644
+--- a/drivers/staging/octeon/ethernet-defines.h
++++ b/drivers/staging/octeon/ethernet-defines.h
+@@ -37,4 +37,6 @@
+ 
+ #define TOTAL_NUMBER_OF_PORTS		(CVMX_PIP_NUM_INPUT_PORTS + 1)
+ 
++#define CVM_OCT_NUM_OUTPUT_BUFFERS	1024
++
+ #endif /* __ETHERNET_DEFINES_H__ */
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index dea5696a6642..e0e6d40602f0 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -162,7 +162,8 @@ static void cvm_oct_configure_common_hw(struct platform_device *pdev)
+ 			     num_packet_buffers);
+ 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
+ 		cvm_oct_mem_fill_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
+-				     CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 1024);
++				     CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
++				     CVM_OCT_NUM_OUTPUT_BUFFERS);
+ 
+ #ifdef __LITTLE_ENDIAN
+ 	{
+@@ -974,7 +975,8 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 			      num_packet_buffers);
+ 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
+ 		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
+-				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
++				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
++				      CVM_OCT_NUM_OUTPUT_BUFFERS);
+ 
+ 	return ret;
+ }
+@@ -1009,7 +1011,8 @@ static void cvm_oct_remove(struct platform_device *pdev)
+ 			      num_packet_buffers);
+ 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
+ 		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
+-				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
++				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE,
++				      CVM_OCT_NUM_OUTPUT_BUFFERS);
+ }
+ 
+ static const struct of_device_id cvm_oct_match[] = {
+-- 
+2.53.0
 
