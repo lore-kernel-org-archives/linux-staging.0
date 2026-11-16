@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794832704;
-	b=gS9IjmVLp/GVH+gcX0xuzUdqv2cEsXJmkQtd/WlUCJE3Fx9Osl7ZTPejhaOWRsOBgWxP
-	 vM9m7Lx+hpypnvJNJC5m5Dtv8p07IsBK2GpoO4fBZeLFwXVg2pOril6VE3HRjeUvPMu3x
-	 WBs3335LnB6WxFVM3HWesu2Xm2VDtXPTpW2TXeWqo1dYB88O+GvR1lkkETGKax2D91PMO
-	 7nMwx+1DsjxNokRbYxZSvwR4KbJssKKirxE3hDKQ2lg30QyUatObUtXN4y1VxpN+Ya026
-	 nDgiINlvcbp9yR0RS3eUlrv4DRbF9tlkT0JyRzojJsRT0in5OmZ+SGDVlctBSt4U2Aw==
+	t=1794832732;
+	b=AkcF0whcBOP2ZpWFXsv0bmKTgiC3b8raBMhz6SiUHphmsoAZKin9QUNlHgDa1C7exC56
+	 kmsPuZiWwJZg38tk6kkRZ+f2mFg47+R3sbabHYfALmhZ3Vs2y0rGedop1mkL5047Yz7Fn
+	 wEkvtps0pNBs8P03nO3IhXg1rLZVFN7ZfqtdQ7r5+gqDn3TytXT8YAEiUBlFk8mBDeNaw
+	 dNlNQr9YbMQw/FKcQ/VkqRydCrVA6bdv1L7QqRc63cIEmRAg6d34R+BF7UtESeFW8ozXO
+	 9ddYW6YpG4Jnx1PbkzbMqsK873Cw+U/30vp2PbSA4jl5MYC7cpFzcU4i5Xt86w2g4wA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794832704;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794832732;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=xs7ruyFa3AhcPBVXazJxZ8vpDg+GWQjFG2lYecJvOs8=;
-	b=NgAjO9W6H9OhQYwSsgC30c0pIokC8iuVpP/hMfQbgLhutZx/BI/FqIxEVaepjDgFdEzm
-	 c2OyeP39ne5slodoouBt/PAN7e3wU6C6XExe/f1AFt204bveRPa3JjvF1kTEgLXuIXP8b
-	 KeacTdNZ0r1fHL8LNpojKTCzem+UiY7xfBPHGYUuby4XWFnh8A95i2lsbBxtuul8TU4Zi
-	 AjMI0uU1UV6ikdYDmskn9Dpa/kBWnAfrd52rCsIyVARDfPVzAjQmV5pZVIwE9aBrU5mLS
-	 9831gUAPMrgyem2hGZezJ9bA0iYm+V+pT3yAc4O76HWoFyPNb3HzgB+XgbG83MsTWnA==
+	bh=3PZYt1daQSeYExHxoL5A7mAZahkiXN58Qu2cjjFDeCI=;
+	b=UwYCOKIJrWPcH7rJ0+X6KxDi1hpy98SZBCXq5hkCJNFQGItMmWGyjEohLI2DwAAXW2AZ
+	 uia5EoRJ22bhkMYhFTyUgt45j5V2vN1U3TnCxRyuCOVQyjeT5nz3uNMwrxT0a+1HDAESq
+	 KPFQOPLFXvyDhjH5cdKm5saRa45iYKvBpK23jSYNXElB6txIyLRTnzBJQw1rpdv/uTePf
+	 TkPw1Lembe4PuPD9koWWPTa6Y6JUEgwd4j8PweerJyTMuwl9Z6zfDVRUcxDw8O9rdjQns
+	 yKclnK/tHk5Cobe8xJnbIEWaFA6yTzZ36AuuYOlXCDClVhz+y7JIsHoNxA+BSzww1+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hz9G0Y1W;
-	arc=none smtp.remote-ip=209.85.208.49
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="i/UXIpAj";
+	arc=none smtp.remote-ip=209.85.208.44
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC52606A329
-	for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 12:38:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AC52606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73403606A323
+	for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 12:38:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73403606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hz9G0Y1W
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6b2237b596cso7738215a12.0
-        for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 04:38:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=i/UXIpAj
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b47c1a3c74so5001891a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 16 Nov 2026 04:38:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794832702; x=1795437502; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794832731; x=1795437531; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=xs7ruyFa3AhcPBVXazJxZ8vpDg+GWQjFG2lYecJvOs8=;
-        b=hz9G0Y1WNBhrAAwyfGuUimoYuHI4lV2BUnacST2QOmEDHEyAM9oYdgMzOluP7CRiBU
-         aAlLF9MOoJxDiPSGp2SsI8GQG6xe+5E3qQrdnPadgOXwh0oDO4LTwFexvhpmULkSGBRx
-         a8+HGqJH5x7unBKyWazkMcKvhfb75/1boLol0I3yTB+nP5MPOSAX+WF1VF4g5JUCYAHf
-         7fjHlD+iboDKd2udiqZPckYle8g8r/cKDDUaH9Gvi/6xzhQ+PGOME3dcFeccKc38bwon
-         mc3MehApfK8REIj2ZqlpjjqyCWhZMrGukyutMha/c0WQDFIwklvh3wbJsN+jju/fQn+c
-         JVWw==
+        bh=3PZYt1daQSeYExHxoL5A7mAZahkiXN58Qu2cjjFDeCI=;
+        b=i/UXIpAjV18MYd1iUyEC/BXrhtDuyHMUATGVcWk8CFK/pUNldOPw/Lgz6gRbRSRHFy
+         QKFC5EhsOgzDiShChOJuGKxAPNSvkTh65L15bOTGANfI3Sn2jkdVKp9THAnBuDNmkYzg
+         /Z15xjhCqUvqJMcJMTROTzrXS5oqI9VhWiDTl0Fv30qx+m5ofKZ+TKMgzgatB16Q5Nqj
+         VEZlNrObthiVJTAK7/tp8aiaV0wOoTrAj3hw/Yc+OVnhQGjTocW6vLGKAObHeu3QO3bb
+         qg+XY1iYVcBj5ix+WvzshBcVQnOu1AocTFL+QjKZdYiUEOMJVCVTb8t1yY1wWL3oPEYm
+         1Qlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794832702; x=1795437502;
+        d=1e100.net; s=20260707; t=1794832731; x=1795437531;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xs7ruyFa3AhcPBVXazJxZ8vpDg+GWQjFG2lYecJvOs8=;
-        b=e3SZXnBbCKCrEISzfFnJopjV+whtDuqM2j209+vingfBD7SNRElQ0nmR8A+M1ah62c
-         TZBh2S9r6jQY3ZPxS/ve9/UqDaERuMHUmWSkNNKSFNxFWNEaOI1c94QK/kaQsy+rCJJR
-         bMbySCUz5hqzSb+38J/xaF6nDcYOMu8O0mhuC3RQ7kgbQgfiIlYICzs+Pk1TYqNVL5Ec
-         VgjHijCtOETAuFfnBKa9j6chAyDP42nenKScBJV/Z2sgb7hirCJm/3+AeG9AKVaOnHsj
-         IXGZ44vXrNKRolDXjKw8c1yjYHsY6dpeFye0ROcOf9JqoMqTQomuW/i3NrHW4j5Js82c
-         HumA==
-X-Forwarded-Encrypted: i=1; AL+hErEujlRpYWzuxszQb4jx4Mfqlz0kkv3LahLiWGhCM9Ui1ahg4qjr97BN5+pUOdqDNGKPjHpD+XRLYpcsxTNQ@lists.linux.dev
-X-Gm-Message-State: APuU4Z8ogQ+Glz8/5qJzoKWhSxEqEU0Js042MSOmnLBv7xP1coGDWvQ0
-	oLNLewdVaSjHk4AV33c380LYoPZ8iL3WcQEVwFGnmj7H5iDrhYAcEND3
-X-Gm-Gg: AYBFou1lbq3v4jjM7MQHsjL2fSHY3LEE+dkeMZJ4UWHhCEcgNCUJrNNARksUTo/UKnH
-	KXvkO6fx5JkCZA7C3IIJL5qNG7dUpett0HQu/macCOZsrZSDiKAHxBid8kBXvru/9qJsVMBMLoA
-	KnBAcZ4Juh9Cx/mWRIRH1o9ZC+Ld1lfqZgQHyZWJKtLmUFIkt+JAJrT/oxlow0xaLqkwpPGrCfU
-	xa/ZbIXqaUgDeE8UxJDwK5H1Oou/cfVvg0VvpKwlaznXSz/RWoGH0at3PWETdWR6lYIMUhfJR/0
-	V1Gu7NzaYgYWkCzc68KTn2lQPDH2l/ykSFAxbJDWhwQ+1GpWFQeAqsRie9+1pordxcJ0Eg/UjoH
-	hrGoygEJqBX3PAEc64u3b4l+6m3IWzjeEjAEvRf0D/jZ/Ul3WJ8yL8otKGTqO1GhoQmVCQ609RS
-	6be0SLgt75g5+HMRPvl7C1YcKXwLsElFbvhWSXUFsvK/rM1UbligFwhWQYU2CwYXoMQMFFve3LG
-	6cNGFvxohpW+7GPo3nYcM7jZF1trAF9tWj5RM6Oe1uOXzs1IQ/CVdChr1TmAqG1Lh3DTOjkleb6
-	v/ZB0CSopnWEGxW6jLZftXpeDg1uTidoTZgH1lfo/iW0Z2cjY0D4yNvpbYAvM9HS8ZfpNTI+7iI
-	8ppREMxm78cPgsKRQerZM/JjI0zPG2AU3CB+G0d0WncDHkna/MYxDlGSp4M4E9HEVv1+8VWvpnx
-	hav4Pb6VzgAde0
-X-Received: by 2002:a05:6402:2113:b0:6b5:962e:e00f with SMTP id 4fb4d7f45d1cf-6b7c0c6dbe3mr8755642a12.28.1794832702439;
-        Mon, 16 Nov 2026 04:38:22 -0800 (PST)
+        bh=3PZYt1daQSeYExHxoL5A7mAZahkiXN58Qu2cjjFDeCI=;
+        b=o6YmYEL1ZEtHJLqM15GW/JkU5rOLxDzxw5wsR0n31XqOhSsB2RZxp7Wiq4mEwihW5I
+         bqCXtawgVvD1krDbJPM9Ru+A9KEs6QTdW6noqhjIf53wGXRfoYbqel9F6hpfeBPkjni/
+         XZh8XBIUtWdbLXlI0Zhz4a0T9FZEFwBWmh2YkupA2YTmNhJoEEbANyditpvXT7cniacx
+         CHnN5mMVgwvvuww/Zhhuv9QwBV4VuC+qTpScbHyeCHMnBaZrYZ8gb9LHq83iHe/bKmaj
+         nTQE6mv/KfxFpZmTNq5XNSzug2E3NeIF4rYT1LNWUbwTXXh32J9ywk3xnXxNVfs/SjS1
+         voDw==
+X-Forwarded-Encrypted: i=1; AL+hErEx2n+5DHS1LPymCs8gdzuPLJd8wGbioqyob8xnUUIEHreqX3DxOC65FhFdhjUwIpRP8Zxqo3fJEuSMe3VR@lists.linux.dev
+X-Gm-Message-State: APuU4Z89BQ3V2TeCHcusWRc5zWLsHTuedQdkDGHSc7MM7ee8kN62BbvM
+	ZiUPC70PriipsHuJMa4F//mesGYiIZRAUQNkD1/6IKJRFuxi1s5xi8+B
+X-Gm-Gg: AYBFou1xrW3/4bU8vkm0SAdqD8OLxcQfZ4zufjiOQK3hHsiTH0yV/1Zwfgn9fijTRVd
+	Ig1RUKSY2AZ+9FJS5X3pBj6pBIjvv75UE4wpzZKwEeZSqV+N7B+WEyn5QYZGnkLeddAHubzXKPq
+	jr56ouioDgTYerPMI7q3xhMGUG3rtdaiwR86EaDm+z5zShnArysbAoduSIEBlgksR8nD24/16wZ
+	k4GVOgek1mK2eJnRhv2yLqngb28vx4zZ0dFbjiDt1r0MSOw2GP55QEF0k2ftj8UTwdwUNLNwvqI
+	HqpIfa8DPg5rM7q6BUkyTyD+az7nBzQTCsYjFSb7tEQMQZXwVEIFNGHl3MwsFaSANaVQ3bXxw3B
+	VvW4hAc3kd6WtqyrohDkvezvIeKI53CcWXRvyelnsMCTzhUg8BK6rwT5z/rQrnbNcsedaZQmfeb
+	4YN5WaWEOKpnU+DB83gaxKhdDtoay8WgqiMEhq5E++4PcRrz7bMa84O/2HYQ3WkAe5Y4G19btfF
+	5/7BGftxk+mcROmXFhiM38Esq8hb8suLEp+62I69jNaU3MFGW2Vc5pzlckiDSLZTxLGha45Zjio
+	2tZzRWYPYsnuDItYJ7Iq8KkIEQfEW99W2T3KUQHFWLYlqkoe4I420AaHh5p6N1vQH7CzVLvLBE3
+	nJlUwtc4VxvUyZuCcBCBjc0pODu45OqthLQTy9jpXzhsEF+vHvhMvAzfeXXKJPG2pBbysrgYObw
+	WzzQuHsD+bnzwE
+X-Received: by 2002:a17:907:7b83:b0:c41:b4e4:7958 with SMTP id a640c23a62f3a-c5095dd7931mr810371866b.0.1794832730779;
+        Mon, 16 Nov 2026 04:38:50 -0800 (PST)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7c23611casm4600398a12.9.2026.11.16.04.38.21
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b79d19sm408995966b.71.2026.11.16.04.38.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 04:38:21 -0800 (PST)
-Date: Mon, 16 Nov 2026 15:38:18 +0300
+        Mon, 16 Nov 2026 04:38:49 -0800 (PST)
+Date: Mon, 16 Nov 2026 15:38:46 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Avishek Chaulagain <chaulagainavishek14@gmail.com>
 Cc: Hans de Goede <hansg@kernel.org>,
@@ -90,9 +90,10 @@ Cc: Hans de Goede <hansg@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: atomisp: Remove unused any_virq_signal()
-Message-ID: <avr5OsqqZEuOD6vh@stanley.mountain>
+Subject: Re: [PATCH 2/3] media: atomisp: Remove unused get_sp_code_addr()
+Message-ID: <avr5VoP2Xtc3Chpe@stanley.mountain>
 References: <20261116120703.6681-1-chaulagainavishek14@gmail.com>
+ <20261116120703.6681-2-chaulagainavishek14@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -104,18 +105,29 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261116120703.6681-1-chaulagainavishek14@gmail.com>
+In-Reply-To: <20261116120703.6681-2-chaulagainavishek14@gmail.com>
 
-On Mon, Nov 16, 2026 at 12:06:56PM +0000, Avishek Chaulagain wrote:
-> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/irq_public.h
-> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/irq_public.h
-> @@ -107,7 +107,6 @@ void irq_raise(
+On Mon, Nov 16, 2026 at 12:06:57PM +0000, Avishek Chaulagain wrote:
+> get_sp_code_addr() has no callers anywhere in the tree. Remove the
+> unused function and its declaration.
+> 
+> Signed-off-by: Avishek Chaulagain <chaulagainavishek14@gmail.com>
+> ---
+>  .../atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h     | 1 -
+>  .../staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c    | 5 -----
+>  2 files changed, 6 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h b/drivers/staging/media/atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h
+> index 3cd69284f..e00308818 100644
+> --- a/drivers/staging/media/atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h
+> +++ b/drivers/staging/media/atomisp/pci/runtime/spctrl/interface/ia_css_spctrl.h
+> @@ -26,7 +26,6 @@ typedef struct {
+>  } ia_css_spctrl_cfg;
 >  
->   \return any(VIRQ.channel[irq_ID] != 0)
->   */
-> -bool any_virq_signal(void);
+>  /* Get the code addr in DDR of SP */
+> -ia_css_ptr get_sp_code_addr(sp_ID_t  sp_id);
 
-This leaves a dangling comment.
+Dangling comment.
 
 regards,
 dan carpenter
