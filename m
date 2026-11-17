@@ -1,81 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794935209;
-	b=VS/8ChM3PMq0F3UJyHYKHVUZlAGP/XTwdZSNr5V38TrycR3FjbT6+TuoygOkRoK+GTZb
-	 fv1T5LaaFjY5vynzjNalqHBl35aO6Sc9fIzGHTkSfu0RWCQxyhopn7jDN/S/pFx2nUsEA
-	 uHrmVY9P84q7MdRHK120Pn0BqRgIr60z9H9MSWEm5IJKY8uNKRbUwLJg1uYiFy8orr57K
-	 G+9HNrbe6VTiBRMr9W7sPTvXIN+Wr1BqnI6E2g9Ru75gjk75cFb0aP4f9iqTVr43vynoi
-	 C8OD9xfYiK4SxPFoz3XQ1Y3COKk/MxM/bu7nLQTY5yRTJ++ogVTcCP8RPPOjiSa4TDw==
+	t=1794935213;
+	b=fyK7vTDretSx5uIu6mUW1ZU6JB0UhEe28Tg05qDE0JCkxwS84BysPcSzj+vq03vigDOx
+	 w1nYJs2pXehkt/quDSgmbd5L7Cm3XhFwhDs3lBmFgdVm8eREUbOGy6s04lLF1L+ya4QKD
+	 HHZpCtFQVZxHw8yoDXYmPIrovayubZ+gUoUI6LhGJ7NBAFRQGaZcqOe2Aquj835uLiCJ1
+	 ZLej3MsT0yFLDq1rcyIeTCnfNkFeb6CPAXzy6jQSmKjUn5E7RYk1coj2TbTAcwcM+S4z5
+	 QNNf9FpGP8IM2jQv6jzIasT4OoFNPByaP3OhTTGYYEexHiUxmhOqDo+lQEF/GNMDjrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794935209;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794935213;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=3ME3t5U6QQS8bFqFY2d4WF1ZByoJFwpBVCnuAtXv7MY=;
-	b=g6GMustCwpmjBbqyrTK979uD1AR+575iH3bZLyO9UPvA+NzpV5RqrQGR/6bV0msS987Z
-	 fkXnoykGtH+aF4O1awTEvuGA2H8zH9GubRm9xiNlnG6Ksi2f1yyG++twHhhKN3uB6g5lk
-	 wqmgm1mYpAOuZJbu04LB42pYWPgquKb9lmXRtm1wqOHlopvF5YEPxUrpyt4WK4HhqUMxQ
-	 aWFTZeLOGUZ85fIEX7JelpIhbhEXqlmx7QOLo+vYFx4h+OFgvc6tUrbarO97nZxmI8T2m
-	 5XYDMBO/rGEpCI+jLFXNRTKT/w/GkD8CYQrO6F3v2je9PlVHVMTeJByjTGBB376R7HA==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=6uErhzU3bHynlM3I7dAH3Yr/9fx8LzPRyuOlHjQzOjY=;
+	b=gHDY4AaaGJEcfm6p7RAMnMz6PPvsyL7xT4Jp9+uHSL1QaheUefprIk44vxCR1KwUTUxI
+	 PQWjQzRa9/QFn8b+N7b3QmPJ7UiMOq23WKRSCM9dQmppQPDZmIy0Wwfx62rIFfRBTk+w+
+	 WeDZQZHvJq/tOwyVwK+7ZqaiHUKYChl1onvFvj/L5xVI0UotfqA6QIHKSkiwNOSa3W5jC
+	 b5WXowHJvKORGhxD+epuIeVG2HVtVM1fh3NnURoWWuJca2AjblwyGVxJbxqOOzhRf4B3w
+	 ZeuWgX+FN5tz1+0CYHcuAfG1UKut4oSMVtWq5QJKgSuTnb1KKJZnKTwv24vNsGXJLKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eilkXCnj;
-	arc=none smtp.remote-ip=74.125.82.41
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jFVB6Hn2;
+	arc=none smtp.remote-ip=74.125.82.43
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAC3606A32C
-	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 17:06:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AAC3606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9CB606A31C
+	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 17:06:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE9CB606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eilkXCnj
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1b3beeaf6f9so62460c88.0
-        for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 09:06:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jFVB6Hn2
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-1b3acec6677so32016c88.1
+        for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 09:06:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794935208; x=1795540008; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3ME3t5U6QQS8bFqFY2d4WF1ZByoJFwpBVCnuAtXv7MY=;
-        b=eilkXCnjhM7EPJIfGvaaFX0ybvPTpqrYwiQzm7jcyi7zngbI15wJGQuifq0t5k/92y
-         cs01Q1n9qa9/SwfHGNNGKClRMicC655oGYVwg7hoaE3/W6UG6oi4SeUdIt9YGhRszeg8
-         +ukpYd/02B71fADy+mkBotk7mLHFKMSi7MKq9UhA2Q5GsqrB03PylK0ef0zq4iT5JoaM
-         ac463SEyasWmZ0+uB2LqPUj2uuE/l7z16bzoKh6AVZxhhqxX9kN2IM1LVJbtezE5G9ZY
-         Tg83YoK+UAnD8mfWU5+FTCFK0BxkwmKqP7IlhMbD7hFZcYflVYOvThs6M/3EZOhmcDpo
-         R84w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794935208; x=1795540008;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794935212; x=1795540012; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3ME3t5U6QQS8bFqFY2d4WF1ZByoJFwpBVCnuAtXv7MY=;
-        b=wHDUUljBU0t7CE0h14PYauglPyUnA3HkOWhUIY8shF/RKcxx82JeoaDPgxg2PY91bj
-         m8D13JuVT91SPLa8vK9bmswPH2luCJbADPhve28nKO5fDFkTUdcTPT1+mtC0BmiivSq3
-         45/nSbtFkEX/Sc7ogCje+xx5qF0iqwcVtxRVy/vzoOQiWv0p04EcV9a12DmhL+5Vy7/T
-         +vr4aGdF2GGuPfUxPwRMG8A41oFCcAos2YxDsCTCwzgVlLBw477ls1RNzj6xr6MzH7Jj
-         yAWCMnDuJsRwPzQGq8nVEexqiLwe1H+YR3Q4AZpk7vVMWNQVyv1ennjpbD87ScuINPa8
-         e4sg==
-X-Gm-Message-State: APuU4Z/RucvvZmdmbknZbTWOGyuWKSrnyd+ZmBh5SJKq4a6ru3qEO+IG
-	hYWZOwHdSKWvaEqYlLWxbuRohG5ykkkwXFyB/68vScA3ENp6jjqPr8CC
-X-Gm-Gg: AYBFou1ih5KVCSYUyYh9lSeoexOYHFpVsHdu6DRIw9iqt3rhhBrDAsR3ppDA1xelJbH
-	jEBM3nlHD0W0zwX4OtX0gtCi1+bJbrkJcvCWlC47mrQj99qrKxeY7rL8x1nkEZY9TOBmFGhf4iP
-	Tt13qRq8/JNNfHe2txykK0r+o3NsZ02ZbO+Xyiia53zSl+cUDko/HhNx9PJFLGl5xsSw3eZMDzS
-	nQG3xMj3tUQySpEiZ/OYW375Lqkpql8gYujxDwMjKlYI2ajYC795l54uPi0eRujQT0nLa7643Se
-	c2yrpYZvoeNl0X+AdfTkdSe7EPc0YMq/wm2Hiir9svSmBazE249qCxnTpgoiwb3Dm6OWcDKOaO6
-	hbaNC9tDFu20vhSLGYuwfRAIw7b6sYCv5JDc1IAQW3h3Vnt6EaBD0JE1ixPFv36ZIp6tzta9Ezk
-	rr8UwPTuAVLczQiVqJBnKafmecV8fZAYwyqvDqHLRtauVXm0VBIQIQ7xWsMqYkHAvW8wL/GT8Pz
-	CqVqoJ8XaoK9ldQ+FtLNv5L4WjMgS0D5mqyGbD10/SdJgVD7hsVWEu4wr0dmaKyqWFOBD23nyFN
-	GWCWOflwmo8+fmtmMQd6+d3nexux3BNBUMXUNfjYwZjD2Rc6pFEi8y4kVe5FIvNwdz9Sqda2BpO
-	1T2Je75ZxOBER9k86hPqanpRI2d4pzvC9GIRoHaXcDQKS3g==
-X-Received: by 2002:a05:701b:42c5:20b0:144:fd7c:84fe with SMTP id a92af1059eb24-1b543d48dcamr163814c88.35.1794935208052;
-        Tue, 17 Nov 2026 09:06:48 -0800 (PST)
+        bh=6uErhzU3bHynlM3I7dAH3Yr/9fx8LzPRyuOlHjQzOjY=;
+        b=jFVB6Hn2QWtXfQFrjLevbNaovoV8/e/HBcXy6LK+d1IfyDyVC1RM+hCHYrBUj+wc7u
+         bRge/u+bxLJLJ48TYIkNCERxgvqRRa8mvNENewqI3ghSEM6o6olH/aixuVUev6tCfhQw
+         83Ufu/qHhyoPwLQIJua0cAUyNnE74jFOHk3Vr4NfGIYaV/FEC9WCnZCQp5z/xZxeWWBN
+         STxlvYMV83/4gHWg4nIDmY5Kqpr21lzHlwjn5NwceeogcOAsd7XdC6S95S3YyDNsqk3s
+         n+VOdpD4p8Q00LwZKrbG7mVP4bgwQ8gGW1QflJ39LL2qrayyZN9WA2NMCloLcZ8uDxvH
+         3UjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794935212; x=1795540012;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6uErhzU3bHynlM3I7dAH3Yr/9fx8LzPRyuOlHjQzOjY=;
+        b=nLgBac3YnAclj0/a0UMEgwd5CrlMy0lQdxqU5u7+7XtjwFbe0mw5BrYjvGVENZcGS4
+         YFNYJBFbzs04dM40qYlhMYfEYX1K0EZmC7PAyUV9BR/hqIDgCfoVMqJA+zU+z6b+NLpQ
+         apYTfAOux9UYDLuWiW94ixPsJ7uCafPeYsZ2gs7N0YxVPUkoKiPZ5imIT0emu+sye1GT
+         1EB2XE6V0qMaLcfA6RsGknD5VjUZrYYwUKayCGvwLx11FbX585gsk+k4Mc7xoH1OhXMC
+         su6ePcFL+gyfTqB25hEhEuA7IUmnaFKpqgwTV2VnGR4klzQcX8IylzIc1zFnfsCdHV4N
+         5KqQ==
+X-Gm-Message-State: APuU4Z9p+rQCHR4zJWvoAOUWm05ZGtTsUfgqzTM37SNYitD9X2U2bHoH
+	2hgTHk0BO7AOeu0z7bJmZw/sieFj048jnDkmWS5L4gsrGBjT6u7pKCsX
+X-Gm-Gg: AYBFou2+LipOkUDBcZRL6o6sJaQvI2bJnYYGkTERWg/s8/TVoHi9Ql4DVBJS86tI3TS
+	tRqyiG8REa2GhkzveYZH9g0bxmnAobyUm3LKaYg5qHSEYMBRdjNux/N6bCXloB99tXjecjHqg+z
+	2MLFzc2ZMLpgT+bBQRVu27r0YxbffW+CyFmu25IiEsSyphsfhZtFdVi6Xwj8FIq7lI+BdYThYgs
+	Yzr38Js6OawgVV+ndNP3x29FBwOY7zUx1lSEjDWAqSaWwkHzC6XPgMbzFKGSXw6fuSYRnvbuT8t
+	NmIsmVKcxSzCy5aidCL6Ebgc8iwhPfpSvzJLmDwlAE9Tp9NlNeDHmeaagIxCWJjGacihFdWHYx7
+	l9cfPtek32tpPXp35EabvIbet/DWL+F1fRuiFmGv26j5xiKWOVAuTwBHxtdKfWK77pgDKEAyvBB
+	v4JlznvEUwsfDCzdyOTooMz1mboNywmCNTeMVIVtO5WNgkuTv3OtjMHWZd72btPPb+SCAFexMSW
+	S1UeZXCX/9Fp7T+tjsj5Sy6tYB7Ecvovv/NMV9ZESlIxlnvtGDwRAVUcbFC7P/dDRGjJNfZfwtR
+	jxiuGFFGVjEjuy0IigEH9vx6Ptg1PTipGQGTb8zo3OWvNVffpJ3SaIFOiu2qEaAHhMTJbzE9252
+	+sukT9Qs8I9P/+CXlqsmU4jNqTeiuE3R3RXpNdYr63j1DTVEWEYwgm6jZRDNrt0M/FQ8=
+X-Received: by 2002:a05:7022:7f04:b0:1a4:c892:b14f with SMTP id a92af1059eb24-1b543d3bb52mr146484c88.29.1794935211973;
+        Tue, 17 Nov 2026 09:06:51 -0800 (PST)
 Received: from localhost.localdomain ([203.92.58.30])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b50319e381sm42046436c88.12.2026.11.17.09.06.44
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b50319e381sm42046436c88.12.2026.11.17.09.06.48
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 17 Nov 2026 09:06:47 -0800 (PST)
+        Tue, 17 Nov 2026 09:06:51 -0800 (PST)
 From: Shivani Patel <patelshivani2283@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
@@ -86,10 +88,12 @@ Cc: linux-staging@lists.linux.dev,
 	Andy Shevchenko <andriy.shevchenko@intel.com>,
 	Julia Lawall <julia.lawall@inria.fr>,
 	Shivani Patel <patelshivani2283@gmail.com>
-Subject: [PATCH v3 1/2] staging: most: video: Protect pending_mbos and mute with list_lock
-Date: Tue, 17 Nov 2026 22:35:57 +0530
-Message-ID: <20261117170558.33844-1-patelshivani2283@gmail.com>
+Subject: [PATCH v3 2/2] staging: most: video: Document locks in struct most_video_dev
+Date: Tue, 17 Nov 2026 22:35:58 +0530
+Message-ID: <20261117170558.33844-2-patelshivani2283@gmail.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20261117170558.33844-1-patelshivani2283@gmail.com>
+References: <20261117170558.33844-1-patelshivani2283@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -101,90 +105,50 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-data_ready() and get_top_mbo() read mdev->pending_mbos without holding
-mdev->list_lock, racing with comp_rx_data() which modifies the list
-under mdev->list_lock. Also, comp_vdev_close() clears mdev->mute without
-holding mdev->list_lock.
+checkpatch.pl reports that list_lock and lock in struct most_video_dev
+are defined without a comment.
 
-Acquire mdev->list_lock in data_ready(), get_top_mbo(), and when
-clearing mdev->mute in comp_vdev_close(). Use list_first_entry_or_null()
-in get_top_mbo() so comp_vdev_read() can drop the redundant data_ready()
-check inside the read loop.
+list_lock protects pending_mbos and mute across all callers. lock is
+assigned to vdev->lock and is used by the V4L2 core to serialize ioctls.
+
+Add short comments describing what each lock protects.
 
 Signed-off-by: Shivani Patel <patelshivani2283@gmail.com>
 ---
 v3:
- - New patch added after inspecting list_lock usage per Dan Carpenter's
-   review of v2.
+ - Reword list_lock comment to "Protects @pending_mbos and @mute" instead of
+   singling out the rx completion path (Dan Carpenter)
+ - Split out locking fixes into patch 1/2
 
- drivers/staging/most/video/video.c | 34 ++++++++++++++++++++++++------
- 1 file changed, 27 insertions(+), 7 deletions(-)
+v2:
+ - Add a commit message and Signed-off-by (Andy Shevchenko)
+ - Use the "staging: most: video:" subject prefix
+ - Make the comments shorter and accurate
+ - Drop the outreachy list (Julia Lawall)
+
+ drivers/staging/most/video/video.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 3a0445ff6..92d5fbc9a 100644
+index 92d5fbc9a..02a44659a 100644
 --- a/drivers/staging/most/video/video.c
 +++ b/drivers/staging/most/video/video.c
-@@ -60,14 +60,27 @@ static inline struct comp_fh *to_comp_fh(struct file *filp)
- static LIST_HEAD(video_devices);
- static DEFINE_SPINLOCK(list_lock);
+@@ -33,6 +33,7 @@ struct most_video_dev {
+ 	bool mute;
  
--static inline bool data_ready(struct most_video_dev *mdev)
-+static bool data_ready(struct most_video_dev *mdev)
- {
--	return !list_empty(&mdev->pending_mbos);
-+	unsigned long flags;
-+	bool ready;
-+
-+	spin_lock_irqsave(&mdev->list_lock, flags);
-+	ready = !list_empty(&mdev->pending_mbos);
-+	spin_unlock_irqrestore(&mdev->list_lock, flags);
-+
-+	return ready;
- }
+ 	struct list_head pending_mbos;
++	/* Protects @pending_mbos and @mute */
+ 	spinlock_t list_lock;
  
--static inline struct mbo *get_top_mbo(struct most_video_dev *mdev)
-+static struct mbo *get_top_mbo(struct most_video_dev *mdev)
- {
--	return list_first_entry(&mdev->pending_mbos, struct mbo, list);
-+	struct mbo *mbo;
-+
-+	spin_lock_irq(&mdev->list_lock);
-+	mbo = list_first_entry_or_null(&mdev->pending_mbos, struct mbo, list);
-+	spin_unlock_irq(&mdev->list_lock);
-+
-+	return mbo;
- }
+ 	struct v4l2_device v4l2_dev;
+@@ -40,6 +41,7 @@ struct most_video_dev {
+ 	struct video_device *vdev;
+ 	unsigned int ctrl_input;
  
- static int comp_vdev_open(struct file *filp)
-@@ -143,7 +156,9 @@ static int comp_vdev_close(struct file *filp)
- 	}
++	/* Serializes V4L2 ioctls, used as the video_device lock */
+ 	struct mutex lock;
  
- 	most_stop_channel(mdev->iface, mdev->ch_idx, &comp);
-+	spin_lock_irq(&mdev->list_lock);
- 	mdev->mute = false;
-+	spin_unlock_irq(&mdev->list_lock);
- 
- 	v4l2_fh_del(&fh->fh, filp);
- 	v4l2_fh_exit(&fh->fh);
-@@ -175,10 +190,15 @@ static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
- 	if (!data_ready(mdev))
- 		return -EAGAIN;
- 
--	while (count > 0 && data_ready(mdev)) {
-+	while (count > 0) {
- 		struct mbo *const mbo = get_top_mbo(mdev);
--		int const rem = mbo->processed_length - fh->offs;
--		int const cnt = rem < count ? rem : count;
-+		int rem, cnt;
-+
-+		if (!mbo)
-+			break;
-+
-+		rem = mbo->processed_length - fh->offs;
-+		cnt = rem < count ? rem : count;
- 
- 		if (copy_to_user(buf, mbo->virt_address + fh->offs, cnt)) {
- 			v4l2_err(&mdev->v4l2_dev, "read: copy_to_user failed\n");
+ 	wait_queue_head_t wait_data;
 -- 
 2.50.1 (Apple Git-155)
 
