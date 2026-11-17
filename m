@@ -1,98 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794920876;
-	b=xnqBs5gCfXAot4Ccu2e+TVpEOLmeONOmndTq/1xqer4flI7JJrI58EsFiGviJDrz8/XE
-	 iTn0MptxrdNEClMOnf2Hl96LH9s9cgB7rhpw63PaMdzuJubrtuG1tJkZ5JeeIoMx7lcbK
-	 fIuT/6/lrmQcObpJ0ehbEhbqnYz+VE6IiduDbMm4YyJAjN44PCj8gFkc86rWyNic1Cc8R
-	 w4Wp4BombKKUClRi/yBKTMRahlxhWP++2eraM92ad/jSQLL73m/GT6Tw4DZv0s4bDPjlm
-	 zsqABI/O0mA2EXEY2YpJ0MFZobwGHt3B4yIFcAlJRlrr9JkiptSzIaCarGeLuN7/6qQ==
+	t=1794924785;
+	b=m+Eq5DGK0m1iSLAcuIV+cYbIuj9JACslBPQG2JRcOkVueyCz8QT+Yd3nANc4joz5YuV8
+	 rUp1PHpZu9/WeoS9Vea5pUbajIUQ0Gvo6KRizbRsB7MRKGXbhPbooO0w/s9FccXdJSrzA
+	 4xmOr56LwiGr+tvkALzbSbFqYs9cH6CrG2v2CZUcIw3o4zfxSILtJ0g6bPfSI4Pmm5shV
+	 jVi8L++eFIYAUg0H6mOR66jPd4p5IYDIVxc6lbNRdEmVU8Lo4eLpZKrZmZmB5rakRsRXh
+	 8BP9PET5st4axwIckaJKKP4S/ZcyAIGsT3W7S6oVcl0P0JFlbMVo0SP1b3AtEJibo7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794920876;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794924785;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=7DJk0IhM38ENV4rjdcIdtMGuR5PCfXbmy3NasqzQYOc=;
-	b=2wSMLODqRBIiZJVHSEIZHG11hRGkXPzNQEebrWYPF8DHzCSbs9htuKYz/PenvzzGOy3C
-	 Or7dC9rtEUvgbQ8G48dujSJmA1nKJNWaeXLK8Hjl79WjaMSjutXBflE3d7jvZscOjM9Vz
-	 ZAVPGZDfXUhLzFAzHYjEp/QCEL4/s2gKx8TZuzBp1RmkN0eMJEwjPPltezhS0B39fdRsV
-	 ixNqZWsR+A8LsTH7BexYeoqKF1gNP9wxC6GMhSapgL6cElcp0cwY2jTzj1fzOGdYO9jtH
-	 tAEd/lLO4JFLTUw/9DrJhvct5htJBAo950SpeWxH2yhzE4ei4slibEJuZoXzRsPauUQ==
+	bh=pwhU5roSaHFRmTkL8SmPuGAOJLZHFE5ayvEMpfmDJ1M=;
+	b=3yPqGpt2HoKQ/3mUzkQEmHsQdHEg7VrjRGuO/WQ+/NmM2KXjKP96OewEgZv9hon/aEon
+	 dGJxDebazaA2zrDol3U8eG1u3/bpNi+UgPIDbnBhqEG0pq7esHcq4kDEdPPrUSy7FPCNq
+	 3/g/UlOa5nPCYolbCla5sjM6bvYoF9rS27qiloOBF3IkcNdH4kuD5I+r8tzWRbH0tPX43
+	 ZwDxxkbDWCuq2umB1xiDwlXrC7jyKo1hKkGPR1SF02WGJw+YZsOahlVc3HHVXDHXYS8hA
+	 MUXQnn/6n/0uYt03cAUp9nboeZLeJXfedFdXnvSWPaTh1dIb8zcQscdWyAjW1jq3/zw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IfuGjRrx;
-	arc=none smtp.remote-ip=209.85.218.41
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=lix53bEw;
+	arc=none smtp.remote-ip=209.85.218.42
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99A9606A8A8
-	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 13:07:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C99A9606A8A8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE52606BD02
+	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 14:13:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CE52606BD02
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IfuGjRrx
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c50abd5b4fcso446912566b.1
-        for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 05:07:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=lix53bEw
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c4d2b741ed9so762401766b.2
+        for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 06:13:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794920874; x=1795525674; darn=lists.linux.dev;
+        d=baylibre.com; s=google; t=1794924784; x=1795529584; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=7DJk0IhM38ENV4rjdcIdtMGuR5PCfXbmy3NasqzQYOc=;
-        b=IfuGjRrxgvu5DBeIjQbfkjJ3NikJTh33th/tUEKkdQKAGeoj9TvMh6kzAsDCeouoSC
-         eUYGT3Spvqmu/DXOE92m5NTbZ6grmjuXniTFbK70Df2sR2JQFPVCFd8nAnuZurZzWiOy
-         N1s51mucDF2B4D7xxAtUzdBtkYBaLLGYG5R5IiCjVk9zbpkoLfmfevBCrVpaSElMTpXn
-         SNLIoI0PYThA98hNJC3rUA8dzOijtczyF51n8+0tBvZBgu1GtxH2KOrgtjAAj1cszk48
-         zY6HyPxerX3Xsn1owtp1X1bFmbgcm+rZUnrwFr1JeIMpY8d9IvPzWci5mWR6/gp2rNyg
-         2HvQ==
+        bh=pwhU5roSaHFRmTkL8SmPuGAOJLZHFE5ayvEMpfmDJ1M=;
+        b=lix53bEw6D6miyTQa90yDlGIY2+tJDEb99cp39kwTUDrUhP6Tu+7cMRBgqfNh6c8OO
+         RpgEib0VDHKYHiLznVLonHZoKO6YOiT7j+AUDHM8n7cz6bQzLaAQwjQMPGI+sh3F5pOB
+         RbV4iOMZ1955mJmPy75lP6kay6wyNxR9x5yJb4W5VHZ7W0ABWk+0xFa7eYuH0WLXu2Wb
+         xyMf1AVMr+FKlFHFZmenZC7NG6HL9fFk56sYpfwdgedot3ZwOMZGln0Q5WC+vwrlZfYT
+         PTEDBMHDnvhCZhXwGnbPdB55qpe9kp2CFa5MI0eopnOWA/LMdbPMs0RPSHjpTpcptW0n
+         nOQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794920874; x=1795525674;
+        d=1e100.net; s=20260707; t=1794924784; x=1795529584;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7DJk0IhM38ENV4rjdcIdtMGuR5PCfXbmy3NasqzQYOc=;
-        b=KJD1A3wKmoyOCsfZtGPow6N1AIpjvh7VydCD2CKr9ht9HzV/IGrsbJCa30esRqO/7L
-         xl3AoD2lYyVE3EkrbzAs4ZJyBIE4zeypbgTQxV2A24JaxPBW2NosbZbwmhLQ3GxiPyVW
-         3x9Hv3Q/zi+Kcj7RDXGjumkrifxPiZzXKHgq2pHDixKUSA4Idt9SriKgYcpb38EBIDZy
-         F09xA1bGpr5HThPcGZx3m501uIycRKUIJBRFLdPFaFdu0NCt1cS7om8ovA1PXDE8h2Es
-         9nm5Qpj5/6G2fT8Ojb093SWATD24zKXaS8/ocPCxyZx29rRA/6JgBB2mT2wqBbYcuywH
-         bzUg==
-X-Forwarded-Encrypted: i=1; AL+hErFajHcJtuZcI1OyVTzkhiflDA8/ykN+V7IyepjE/XGY/07IWZvH6wFPzuifnCgPXWIIVBz6/INFH3PLwL9S@lists.linux.dev
-X-Gm-Message-State: APuU4Z/X6nrZ6BZFdNogsNRqUFPktjTAjK9GfuqTytonjCg2/+jsQfER
-	EHkfR+BzY9jFel8sTBrxVsSxVL6PgrkKZirLGLIdDtSt4Xng/ZagQ1dn
-X-Gm-Gg: AYBFou1Z5yLMSqYWsaRtz0Eud/WewOm/Inh+oD4yxi0xE5fvXRRcwZaa+8Ip6EpAO/Q
-	D5dYllc/xYKtn+KyjpsCRCs7P4m3X8d7KXOjKssH2tJo0KBv+6KrVr+BmRX0D6J8YaTKRGTAX51
-	YadClJvGoCw8rSVMbzKEOTodeCogDv6Zw08Pks3PnZnFn1s1AegU/336wcEpatHYt2Gwgnc+Zd0
-	faadimmOfwh0Fkv11Xq+lxVsM10mRy5Cvk842zaRcuJvMuiUWLnwLAFptApe6KAPqSq0sArcMHG
-	FhnX66jVJX0dHhk4t9YWQZjr8SjAl9f6/90YNu2IBp/YszSOaINsWvb7/JqYbE0K8mN/Y5IGG5x
-	2yf0BdzjVPFzpTePizByQNlzU4QaDsA/D07UbtSCtnR8Bcj7lic56txKwJmS0p3NnSfw0LA2Rbi
-	asIXQ5ill6miB5ydsQ/MX3yDTj4lBDZroJEekw9W1mVU9y6Hs+g17gDUgQmU3J94eto1oAB1Jhq
-	IAxPHnuYdEBTibbTGKNLHShTYwRORy0zFjadmns6517PFx0gDnaydz99+wNbsrAhpD2ZSCmqem/
-	KHQHVVwRV8xV6zsFikz/880oZDTcbznD5z+LMnwvSla4pmQ3ycP503K/3ni0UHjH0/zP0imCN2J
-	eiQRtZipOVS4owuYOLD0j1Jg/k9W65TmSCz8b8RBQWNyZKHgCVbYy4mQF8ViYvOzufjU=
-X-Received: by 2002:a17:906:ee85:b0:c4d:2895:e492 with SMTP id a640c23a62f3a-c509636a10dmr1086944366b.21.1794920873943;
-        Tue, 17 Nov 2026 05:07:53 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c50b13a2ae7sm396508466b.62.2026.11.17.05.07.52
+        bh=pwhU5roSaHFRmTkL8SmPuGAOJLZHFE5ayvEMpfmDJ1M=;
+        b=QoosQEepFtU27DkLwuCGdZX0cUVlUj4JhN9msno6D5I9QD9ARngFCHClqaEK9J7iN9
+         s64MQJPher8rMCeY5NN9mzhn5p0Da+cb+aQFXpDw98BavvmOpcj3+Z5ZlSyKJvEPlQWO
+         jdM3hk6p9PYuA6WLP+qsqqmwJGI/qCJLHzepIrllc70u5n+W38gPg/MObYsE1pdZdX4E
+         DwGawLM4g1jgUwmu2o3sznFmpJwHH3IwsHQdNWxRSOWLxl3Fn98GWltw6tlzk0p4lNZu
+         GHomtRT34aAVDdOpSezabcXosj5/dRFRRAv8U/Xu1+ZRFPR3vFuwwXaIVFTXlwSom96c
+         t7ww==
+X-Forwarded-Encrypted: i=1; AL+hErFtQF1IexuWP7lfSO/KThTAHcOUbTeRSG2wiKHc4Md5PX8N+npBgCMLdPbJooiwgEQeXzCpBc1/8Qpao8ZN@lists.linux.dev
+X-Gm-Message-State: APuU4Z91s+x498f5ZRfb0zwzDbdm1bOvfmWNexGuVc4UCHhZSzCO5DYk
+	A3CKYqftefTHTH8rdGF6n90jNq6RX7ZCHSuQOUZTGvD4oqapAPmJurQP7IX7afn63Jg=
+X-Gm-Gg: AYBFou1hev/04F6NxJlGPDanbM89zbMBoEL3gvbEZQJJRhld1rlqel+XhZiN8tUVVDb
+	+Ggt+kMrDbHCSEPPJ8sBnc58QkFtfwtVQ0dR5m0ZGCUca2cLecdj3prW4TWN3bP9WegwGpsFnu1
+	LXTS9rrCx4HjVjuafgIzg1UR8aeJLw8uFt++6ZVounOTxmNr8Fp3Xq6n0CJiUH9ZEj573S/J4qF
+	+uyD3PTNhq5uG9T9sXp+xrVR7X3nvn50Mwt4n5gWofRWtkQv/M/o9wmq8T2nU9o/nT38Ld0LY0C
+	odLpLN7HgSSu461t3r4gO2n81BZQ72IZ3FLAJoMgICoYqlcnXNm/8HUpblnJbJX9sM2YJNy+N8P
+	0yV2V/zL5u1YWTWWFD6rO7zVaKCjoRePRRvAvVGPupdQfJpYpacRPWXYk3yn9rAPeQVh0LJt8bc
+	y7+DrDrHAXlFov7OW9HI752ZAGtLb6jHYYBG54cTj54axVumGbzrnJfMGVb1BttSGiR5G4lq4od
+	OUkRRo+LnxIMGB5jOi/NaBIgckuDOnzPxN/IvpYE5jpLGKL5knHhHAso9KwByjLvIci66gbTme0
+	Z3hmFDG/tC9vZ6JY7XjxGVkzfuRuakMiPnv4vQRtA0SO6pYF37dqi7/RFbGMIG5rtpnRVAj4SnR
+	XvmlW/DozXPi/bciz4OvxCmH5s2yaAGpMWTTB
+X-Received: by 2002:a17:907:6d08:b0:c34:e9fe:82ed with SMTP id a640c23a62f3a-c50963d803amr1154764166b.28.1794924783580;
+        Tue, 17 Nov 2026 06:13:03 -0800 (PST)
+Received: from localhost (p200300f65f19a904a5ac91f50e61369e.dip0.t-ipconnect.de. [2003:f6:5f19:a904:a5ac:91f5:e61:369e])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-c5095b42480sm554754666b.36.2026.11.17.06.13.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 05:07:53 -0800 (PST)
-Date: Tue, 17 Nov 2026 16:07:49 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Shivani Patel <patelshivani2283@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v2] staging: most: video: Document locks in struct
- most_video_dev
-Message-ID: <avxRpY8InfnNtkvE@stanley.mountain>
-References: <20261116183355.22563-1-patelshivani2283@gmail.com>
+        Tue, 17 Nov 2026 06:13:02 -0800 (PST)
+Date: Tue, 17 Nov 2026 15:13:01 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Volodymyr Chapman <volodymyrchapman@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Dan Scally <dan.scally@ideasonboard.com>, 
+	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: i2c: Add Sony IMX175 sensor driver
+Message-ID: <avxghetYnw4cMzDQ@monoceros>
+References: <20261116175151.20150-1-volodymyrchapman@gmail.com>
+ <20261116175151.20150-2-volodymyrchapman@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -102,46 +101,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yk5ynk2fbcq67ijt"
 Content-Disposition: inline
-In-Reply-To: <20261116183355.22563-1-patelshivani2283@gmail.com>
+In-Reply-To: <20261116175151.20150-2-volodymyrchapman@gmail.com>
 
-On Tue, Nov 17, 2026 at 12:03:55AM +0530, Shivani Patel wrote:
-> checkpatch.pl reports that list_lock and lock in struct most_video_dev
-> are defined without a comment.
-> 
-> list_lock protects the pending_mbos list and the mute flag, which are
-> accessed both from file operations and from the rx completion callback
-> called by the MOST core. lock is assigned to vdev->lock and is used by
-> the V4L2 core to serialize ioctls.
-> 
-> Add short comments describing what each lock protects.
-> 
-> Signed-off-by: Shivani Patel <patelshivani2283@gmail.com>
-> ---
-> v2:
->  - Add a commit message and Signed-off-by (Andy Shevchenko)
->  - Use the "staging: most: video:" subject prefix
->  - Make the comments shorter and accurate
->  - Drop the outreachy list (Julia Lawall)
-> 
->  drivers/staging/most/video/video.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-> index 3a0445ff6..8833ab5c7 100644
-> --- a/drivers/staging/most/video/video.c
-> +++ b/drivers/staging/most/video/video.c
-> @@ -33,6 +33,7 @@ struct most_video_dev {
->  	bool mute;
->  
->  	struct list_head pending_mbos;
-> +	/* Protects @pending_mbos and @mute against the rx completion path */
 
-Why is the rx path special?  I feel like if you really look at
-this code you will see things that can be done better.  That's
-what we really want from this kind of analysis.
+--yk5ynk2fbcq67ijt
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH 1/3] media: i2c: Add Sony IMX175 sensor driver
+MIME-Version: 1.0
 
-regards,
-dan carpenter
+On Mon, Nov 16, 2026 at 05:51:49PM +0000, Volodymyr Chapman wrote:
+> +#include <linux/i2c.h>
+> +#include <linux/mod_devicetable.h>
 
+Please don't include <linux/mod_devicetable.h>. <linux/i2c.h> already
+provides i2c_device_id, so you can just drop it.
+
+> [...]
+> +static const struct acpi_device_id imx175_acpi_ids[] = {
+> +	{ "INTCF1A" },
+
+Please make this:
+
+	{ .id = "INTCF1A" },
+
+
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(acpi, imx175_acpi_ids);
+
+Best regards
+Uwe
+
+--yk5ynk2fbcq67ijt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmr8YOkACgkQj4D7WH0S
+/k5y1Qf+OUVwH0rsGj/2gGo5J7ZQAl3fbtha40ZCFyB6EPF33IgI6wEfhKe/QjCv
+jxF/n/mCkvgddsUdiFRG76OMPUyguHq3EVTzK8ULs9ZzcjLEYLt4vI87yAcgkISM
+flKuKZh9rZ9Xyk/Zwy36taNqMbjB6lK8zpx1zLop5FthwvDvpYhiLeiyc64XXgCd
+hNLM4MTT4s6E8/syfX7XYyZcgW7i5DieZDEKE0YFUD74MacPeGa2bbXTMeti2FoM
+M8jBI1CHmGcyPJEgoFN2c0sy18MzqVs+yqM/PEyr6+oN54Q1NA1/22Mx6zV6Wi06
+uiYps95UlTprmxCHkXhX7uVYug+nBQ==
+=mGJq
+-----END PGP SIGNATURE-----
+
+--yk5ynk2fbcq67ijt--
