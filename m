@@ -1,97 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794924785;
-	b=m+Eq5DGK0m1iSLAcuIV+cYbIuj9JACslBPQG2JRcOkVueyCz8QT+Yd3nANc4joz5YuV8
-	 rUp1PHpZu9/WeoS9Vea5pUbajIUQ0Gvo6KRizbRsB7MRKGXbhPbooO0w/s9FccXdJSrzA
-	 4xmOr56LwiGr+tvkALzbSbFqYs9cH6CrG2v2CZUcIw3o4zfxSILtJ0g6bPfSI4Pmm5shV
-	 jVi8L++eFIYAUg0H6mOR66jPd4p5IYDIVxc6lbNRdEmVU8Lo4eLpZKrZmZmB5rakRsRXh
-	 8BP9PET5st4axwIckaJKKP4S/ZcyAIGsT3W7S6oVcl0P0JFlbMVo0SP1b3AtEJibo7Q==
+	t=1794935209;
+	b=VS/8ChM3PMq0F3UJyHYKHVUZlAGP/XTwdZSNr5V38TrycR3FjbT6+TuoygOkRoK+GTZb
+	 fv1T5LaaFjY5vynzjNalqHBl35aO6Sc9fIzGHTkSfu0RWCQxyhopn7jDN/S/pFx2nUsEA
+	 uHrmVY9P84q7MdRHK120Pn0BqRgIr60z9H9MSWEm5IJKY8uNKRbUwLJg1uYiFy8orr57K
+	 G+9HNrbe6VTiBRMr9W7sPTvXIN+Wr1BqnI6E2g9Ru75gjk75cFb0aP4f9iqTVr43vynoi
+	 C8OD9xfYiK4SxPFoz3XQ1Y3COKk/MxM/bu7nLQTY5yRTJ++ogVTcCP8RPPOjiSa4TDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794924785;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794935209;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=pwhU5roSaHFRmTkL8SmPuGAOJLZHFE5ayvEMpfmDJ1M=;
-	b=3yPqGpt2HoKQ/3mUzkQEmHsQdHEg7VrjRGuO/WQ+/NmM2KXjKP96OewEgZv9hon/aEon
-	 dGJxDebazaA2zrDol3U8eG1u3/bpNi+UgPIDbnBhqEG0pq7esHcq4kDEdPPrUSy7FPCNq
-	 3/g/UlOa5nPCYolbCla5sjM6bvYoF9rS27qiloOBF3IkcNdH4kuD5I+r8tzWRbH0tPX43
-	 ZwDxxkbDWCuq2umB1xiDwlXrC7jyKo1hKkGPR1SF02WGJw+YZsOahlVc3HHVXDHXYS8hA
-	 MUXQnn/6n/0uYt03cAUp9nboeZLeJXfedFdXnvSWPaTh1dIb8zcQscdWyAjW1jq3/zw==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=3ME3t5U6QQS8bFqFY2d4WF1ZByoJFwpBVCnuAtXv7MY=;
+	b=g6GMustCwpmjBbqyrTK979uD1AR+575iH3bZLyO9UPvA+NzpV5RqrQGR/6bV0msS987Z
+	 fkXnoykGtH+aF4O1awTEvuGA2H8zH9GubRm9xiNlnG6Ksi2f1yyG++twHhhKN3uB6g5lk
+	 wqmgm1mYpAOuZJbu04LB42pYWPgquKb9lmXRtm1wqOHlopvF5YEPxUrpyt4WK4HhqUMxQ
+	 aWFTZeLOGUZ85fIEX7JelpIhbhEXqlmx7QOLo+vYFx4h+OFgvc6tUrbarO97nZxmI8T2m
+	 5XYDMBO/rGEpCI+jLFXNRTKT/w/GkD8CYQrO6F3v2je9PlVHVMTeJByjTGBB376R7HA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=lix53bEw;
-	arc=none smtp.remote-ip=209.85.218.42
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eilkXCnj;
+	arc=none smtp.remote-ip=74.125.82.41
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE52606BD02
-	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 14:13:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CE52606BD02
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAC3606A32C
+	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 17:06:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AAC3606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=lix53bEw
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c4d2b741ed9so762401766b.2
-        for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 06:13:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eilkXCnj
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1b3beeaf6f9so62460c88.0
+        for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 09:06:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1794924784; x=1795529584; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pwhU5roSaHFRmTkL8SmPuGAOJLZHFE5ayvEMpfmDJ1M=;
-        b=lix53bEw6D6miyTQa90yDlGIY2+tJDEb99cp39kwTUDrUhP6Tu+7cMRBgqfNh6c8OO
-         RpgEib0VDHKYHiLznVLonHZoKO6YOiT7j+AUDHM8n7cz6bQzLaAQwjQMPGI+sh3F5pOB
-         RbV4iOMZ1955mJmPy75lP6kay6wyNxR9x5yJb4W5VHZ7W0ABWk+0xFa7eYuH0WLXu2Wb
-         xyMf1AVMr+FKlFHFZmenZC7NG6HL9fFk56sYpfwdgedot3ZwOMZGln0Q5WC+vwrlZfYT
-         PTEDBMHDnvhCZhXwGnbPdB55qpe9kp2CFa5MI0eopnOWA/LMdbPMs0RPSHjpTpcptW0n
-         nOQg==
+        d=gmail.com; s=20260707; t=1794935208; x=1795540008; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3ME3t5U6QQS8bFqFY2d4WF1ZByoJFwpBVCnuAtXv7MY=;
+        b=eilkXCnjhM7EPJIfGvaaFX0ybvPTpqrYwiQzm7jcyi7zngbI15wJGQuifq0t5k/92y
+         cs01Q1n9qa9/SwfHGNNGKClRMicC655oGYVwg7hoaE3/W6UG6oi4SeUdIt9YGhRszeg8
+         +ukpYd/02B71fADy+mkBotk7mLHFKMSi7MKq9UhA2Q5GsqrB03PylK0ef0zq4iT5JoaM
+         ac463SEyasWmZ0+uB2LqPUj2uuE/l7z16bzoKh6AVZxhhqxX9kN2IM1LVJbtezE5G9ZY
+         Tg83YoK+UAnD8mfWU5+FTCFK0BxkwmKqP7IlhMbD7hFZcYflVYOvThs6M/3EZOhmcDpo
+         R84w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794924784; x=1795529584;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pwhU5roSaHFRmTkL8SmPuGAOJLZHFE5ayvEMpfmDJ1M=;
-        b=QoosQEepFtU27DkLwuCGdZX0cUVlUj4JhN9msno6D5I9QD9ARngFCHClqaEK9J7iN9
-         s64MQJPher8rMCeY5NN9mzhn5p0Da+cb+aQFXpDw98BavvmOpcj3+Z5ZlSyKJvEPlQWO
-         jdM3hk6p9PYuA6WLP+qsqqmwJGI/qCJLHzepIrllc70u5n+W38gPg/MObYsE1pdZdX4E
-         DwGawLM4g1jgUwmu2o3sznFmpJwHH3IwsHQdNWxRSOWLxl3Fn98GWltw6tlzk0p4lNZu
-         GHomtRT34aAVDdOpSezabcXosj5/dRFRRAv8U/Xu1+ZRFPR3vFuwwXaIVFTXlwSom96c
-         t7ww==
-X-Forwarded-Encrypted: i=1; AL+hErFtQF1IexuWP7lfSO/KThTAHcOUbTeRSG2wiKHc4Md5PX8N+npBgCMLdPbJooiwgEQeXzCpBc1/8Qpao8ZN@lists.linux.dev
-X-Gm-Message-State: APuU4Z91s+x498f5ZRfb0zwzDbdm1bOvfmWNexGuVc4UCHhZSzCO5DYk
-	A3CKYqftefTHTH8rdGF6n90jNq6RX7ZCHSuQOUZTGvD4oqapAPmJurQP7IX7afn63Jg=
-X-Gm-Gg: AYBFou1hev/04F6NxJlGPDanbM89zbMBoEL3gvbEZQJJRhld1rlqel+XhZiN8tUVVDb
-	+Ggt+kMrDbHCSEPPJ8sBnc58QkFtfwtVQ0dR5m0ZGCUca2cLecdj3prW4TWN3bP9WegwGpsFnu1
-	LXTS9rrCx4HjVjuafgIzg1UR8aeJLw8uFt++6ZVounOTxmNr8Fp3Xq6n0CJiUH9ZEj573S/J4qF
-	+uyD3PTNhq5uG9T9sXp+xrVR7X3nvn50Mwt4n5gWofRWtkQv/M/o9wmq8T2nU9o/nT38Ld0LY0C
-	odLpLN7HgSSu461t3r4gO2n81BZQ72IZ3FLAJoMgICoYqlcnXNm/8HUpblnJbJX9sM2YJNy+N8P
-	0yV2V/zL5u1YWTWWFD6rO7zVaKCjoRePRRvAvVGPupdQfJpYpacRPWXYk3yn9rAPeQVh0LJt8bc
-	y7+DrDrHAXlFov7OW9HI752ZAGtLb6jHYYBG54cTj54axVumGbzrnJfMGVb1BttSGiR5G4lq4od
-	OUkRRo+LnxIMGB5jOi/NaBIgckuDOnzPxN/IvpYE5jpLGKL5knHhHAso9KwByjLvIci66gbTme0
-	Z3hmFDG/tC9vZ6JY7XjxGVkzfuRuakMiPnv4vQRtA0SO6pYF37dqi7/RFbGMIG5rtpnRVAj4SnR
-	XvmlW/DozXPi/bciz4OvxCmH5s2yaAGpMWTTB
-X-Received: by 2002:a17:907:6d08:b0:c34:e9fe:82ed with SMTP id a640c23a62f3a-c50963d803amr1154764166b.28.1794924783580;
-        Tue, 17 Nov 2026 06:13:03 -0800 (PST)
-Received: from localhost (p200300f65f19a904a5ac91f50e61369e.dip0.t-ipconnect.de. [2003:f6:5f19:a904:a5ac:91f5:e61:369e])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-c5095b42480sm554754666b.36.2026.11.17.06.13.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 06:13:02 -0800 (PST)
-Date: Tue, 17 Nov 2026 15:13:01 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Volodymyr Chapman <volodymyrchapman@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Dan Scally <dan.scally@ideasonboard.com>, 
-	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: i2c: Add Sony IMX175 sensor driver
-Message-ID: <avxghetYnw4cMzDQ@monoceros>
-References: <20261116175151.20150-1-volodymyrchapman@gmail.com>
- <20261116175151.20150-2-volodymyrchapman@gmail.com>
+        d=1e100.net; s=20260707; t=1794935208; x=1795540008;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3ME3t5U6QQS8bFqFY2d4WF1ZByoJFwpBVCnuAtXv7MY=;
+        b=wHDUUljBU0t7CE0h14PYauglPyUnA3HkOWhUIY8shF/RKcxx82JeoaDPgxg2PY91bj
+         m8D13JuVT91SPLa8vK9bmswPH2luCJbADPhve28nKO5fDFkTUdcTPT1+mtC0BmiivSq3
+         45/nSbtFkEX/Sc7ogCje+xx5qF0iqwcVtxRVy/vzoOQiWv0p04EcV9a12DmhL+5Vy7/T
+         +vr4aGdF2GGuPfUxPwRMG8A41oFCcAos2YxDsCTCwzgVlLBw477ls1RNzj6xr6MzH7Jj
+         yAWCMnDuJsRwPzQGq8nVEexqiLwe1H+YR3Q4AZpk7vVMWNQVyv1ennjpbD87ScuINPa8
+         e4sg==
+X-Gm-Message-State: APuU4Z/RucvvZmdmbknZbTWOGyuWKSrnyd+ZmBh5SJKq4a6ru3qEO+IG
+	hYWZOwHdSKWvaEqYlLWxbuRohG5ykkkwXFyB/68vScA3ENp6jjqPr8CC
+X-Gm-Gg: AYBFou1ih5KVCSYUyYh9lSeoexOYHFpVsHdu6DRIw9iqt3rhhBrDAsR3ppDA1xelJbH
+	jEBM3nlHD0W0zwX4OtX0gtCi1+bJbrkJcvCWlC47mrQj99qrKxeY7rL8x1nkEZY9TOBmFGhf4iP
+	Tt13qRq8/JNNfHe2txykK0r+o3NsZ02ZbO+Xyiia53zSl+cUDko/HhNx9PJFLGl5xsSw3eZMDzS
+	nQG3xMj3tUQySpEiZ/OYW375Lqkpql8gYujxDwMjKlYI2ajYC795l54uPi0eRujQT0nLa7643Se
+	c2yrpYZvoeNl0X+AdfTkdSe7EPc0YMq/wm2Hiir9svSmBazE249qCxnTpgoiwb3Dm6OWcDKOaO6
+	hbaNC9tDFu20vhSLGYuwfRAIw7b6sYCv5JDc1IAQW3h3Vnt6EaBD0JE1ixPFv36ZIp6tzta9Ezk
+	rr8UwPTuAVLczQiVqJBnKafmecV8fZAYwyqvDqHLRtauVXm0VBIQIQ7xWsMqYkHAvW8wL/GT8Pz
+	CqVqoJ8XaoK9ldQ+FtLNv5L4WjMgS0D5mqyGbD10/SdJgVD7hsVWEu4wr0dmaKyqWFOBD23nyFN
+	GWCWOflwmo8+fmtmMQd6+d3nexux3BNBUMXUNfjYwZjD2Rc6pFEi8y4kVe5FIvNwdz9Sqda2BpO
+	1T2Je75ZxOBER9k86hPqanpRI2d4pzvC9GIRoHaXcDQKS3g==
+X-Received: by 2002:a05:701b:42c5:20b0:144:fd7c:84fe with SMTP id a92af1059eb24-1b543d48dcamr163814c88.35.1794935208052;
+        Tue, 17 Nov 2026 09:06:48 -0800 (PST)
+Received: from localhost.localdomain ([203.92.58.30])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b50319e381sm42046436c88.12.2026.11.17.09.06.44
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 17 Nov 2026 09:06:47 -0800 (PST)
+From: Shivani Patel <patelshivani2283@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <error27@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	Shivani Patel <patelshivani2283@gmail.com>
+Subject: [PATCH v3 1/2] staging: most: video: Protect pending_mbos and mute with list_lock
+Date: Tue, 17 Nov 2026 22:35:57 +0530
+Message-ID: <20261117170558.33844-1-patelshivani2283@gmail.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -101,54 +99,92 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yk5ynk2fbcq67ijt"
-Content-Disposition: inline
-In-Reply-To: <20261116175151.20150-2-volodymyrchapman@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+data_ready() and get_top_mbo() read mdev->pending_mbos without holding
+mdev->list_lock, racing with comp_rx_data() which modifies the list
+under mdev->list_lock. Also, comp_vdev_close() clears mdev->mute without
+holding mdev->list_lock.
 
---yk5ynk2fbcq67ijt
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH 1/3] media: i2c: Add Sony IMX175 sensor driver
-MIME-Version: 1.0
+Acquire mdev->list_lock in data_ready(), get_top_mbo(), and when
+clearing mdev->mute in comp_vdev_close(). Use list_first_entry_or_null()
+in get_top_mbo() so comp_vdev_read() can drop the redundant data_ready()
+check inside the read loop.
 
-On Mon, Nov 16, 2026 at 05:51:49PM +0000, Volodymyr Chapman wrote:
-> +#include <linux/i2c.h>
-> +#include <linux/mod_devicetable.h>
+Signed-off-by: Shivani Patel <patelshivani2283@gmail.com>
+---
+v3:
+ - New patch added after inspecting list_lock usage per Dan Carpenter's
+   review of v2.
 
-Please don't include <linux/mod_devicetable.h>. <linux/i2c.h> already
-provides i2c_device_id, so you can just drop it.
+ drivers/staging/most/video/video.c | 34 ++++++++++++++++++++++++------
+ 1 file changed, 27 insertions(+), 7 deletions(-)
 
-> [...]
-> +static const struct acpi_device_id imx175_acpi_ids[] = {
-> +	{ "INTCF1A" },
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 3a0445ff6..92d5fbc9a 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -60,14 +60,27 @@ static inline struct comp_fh *to_comp_fh(struct file *filp)
+ static LIST_HEAD(video_devices);
+ static DEFINE_SPINLOCK(list_lock);
+ 
+-static inline bool data_ready(struct most_video_dev *mdev)
++static bool data_ready(struct most_video_dev *mdev)
+ {
+-	return !list_empty(&mdev->pending_mbos);
++	unsigned long flags;
++	bool ready;
++
++	spin_lock_irqsave(&mdev->list_lock, flags);
++	ready = !list_empty(&mdev->pending_mbos);
++	spin_unlock_irqrestore(&mdev->list_lock, flags);
++
++	return ready;
+ }
+ 
+-static inline struct mbo *get_top_mbo(struct most_video_dev *mdev)
++static struct mbo *get_top_mbo(struct most_video_dev *mdev)
+ {
+-	return list_first_entry(&mdev->pending_mbos, struct mbo, list);
++	struct mbo *mbo;
++
++	spin_lock_irq(&mdev->list_lock);
++	mbo = list_first_entry_or_null(&mdev->pending_mbos, struct mbo, list);
++	spin_unlock_irq(&mdev->list_lock);
++
++	return mbo;
+ }
+ 
+ static int comp_vdev_open(struct file *filp)
+@@ -143,7 +156,9 @@ static int comp_vdev_close(struct file *filp)
+ 	}
+ 
+ 	most_stop_channel(mdev->iface, mdev->ch_idx, &comp);
++	spin_lock_irq(&mdev->list_lock);
+ 	mdev->mute = false;
++	spin_unlock_irq(&mdev->list_lock);
+ 
+ 	v4l2_fh_del(&fh->fh, filp);
+ 	v4l2_fh_exit(&fh->fh);
+@@ -175,10 +190,15 @@ static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
+ 	if (!data_ready(mdev))
+ 		return -EAGAIN;
+ 
+-	while (count > 0 && data_ready(mdev)) {
++	while (count > 0) {
+ 		struct mbo *const mbo = get_top_mbo(mdev);
+-		int const rem = mbo->processed_length - fh->offs;
+-		int const cnt = rem < count ? rem : count;
++		int rem, cnt;
++
++		if (!mbo)
++			break;
++
++		rem = mbo->processed_length - fh->offs;
++		cnt = rem < count ? rem : count;
+ 
+ 		if (copy_to_user(buf, mbo->virt_address + fh->offs, cnt)) {
+ 			v4l2_err(&mdev->v4l2_dev, "read: copy_to_user failed\n");
+-- 
+2.50.1 (Apple Git-155)
 
-Please make this:
-
-	{ .id = "INTCF1A" },
-
-
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(acpi, imx175_acpi_ids);
-
-Best regards
-Uwe
-
---yk5ynk2fbcq67ijt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmr8YOkACgkQj4D7WH0S
-/k5y1Qf+OUVwH0rsGj/2gGo5J7ZQAl3fbtha40ZCFyB6EPF33IgI6wEfhKe/QjCv
-jxF/n/mCkvgddsUdiFRG76OMPUyguHq3EVTzK8ULs9ZzcjLEYLt4vI87yAcgkISM
-flKuKZh9rZ9Xyk/Zwy36taNqMbjB6lK8zpx1zLop5FthwvDvpYhiLeiyc64XXgCd
-hNLM4MTT4s6E8/syfX7XYyZcgW7i5DieZDEKE0YFUD74MacPeGa2bbXTMeti2FoM
-M8jBI1CHmGcyPJEgoFN2c0sy18MzqVs+yqM/PEyr6+oN54Q1NA1/22Mx6zV6Wi06
-uiYps95UlTprmxCHkXhX7uVYug+nBQ==
-=mGJq
------END PGP SIGNATURE-----
-
---yk5ynk2fbcq67ijt--
