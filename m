@@ -1,79 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794906734;
-	b=IOhfl9nkIYMDV2CYrmJabnK0LoXGTpLkCxtSHFZ97KodcdEoDct+T2S2TT6UJ/Ok2AF9
-	 xspzpQhMBR3Dm3lXPiqZX6NY6JZTXymwN3nPxDWv/AjT4YaWSL/MmpN8DS7FjbcQK+NJ/
-	 9uCtig/Gy5YDDG4a89bAJC0oz1sqeYgd9N5lR9z0SX+rBcuCgE/gayTVONfXfD2XTXoH2
-	 GHahJViB00bADE4z392q659i8CLGZM2eQNGCjCv7eKOsXoWvX8FfwrH2DAoqP2cYo60G+
-	 EWpQRZhaJhDCMcj1dg/8+IwHt7S6RQu8KqUkPFNbonR+PZrjhXYy5Y/wvOxKH5H9jXQ==
+	t=1794909437;
+	b=QHLyFCHi1kXjR99uA/mjiravASqzrDY6l3m/pi6+Rie12u3crnZyE4x6opwvtJ4oEqnV
+	 aHeQv0cY44EIBZqGMLqZ4dEWxV/pnJNo7ihCkTUM5hAQtf37MpwsbvouGLeRRex39oMno
+	 Nh9auFhCAjV1Mxh0t81flpQMtbicii7Xl+BUOHGz3KD1ZY4wsqriBv8Ty0GGafm4SXL4+
+	 4WpRCYI4SxPrshMj5fXYI5uaFxVCUd/5w9RihbTMPrZExVIhUYG46pRsKYa7+IjfqjIrP
+	 JbzCMDZHMAxIBat3P8sG8jdfu0dbpueQgIxYlNGNKIgVqdSf9Oq6EPLx5x5ABhhGcoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794906734;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794909437;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To:Organization;
-	bh=sARh2vxI77mefNWtiaNXngUxhjlF/CvgAiwrCgNCyNw=;
-	b=u1UuukIieZoZJHcnAmfqyQZCDZxpLeAFB4BFlFpxNSWoe/SyZfAa62FpoNSpN2mVm8/H
-	 Jge9ipZmhaTydwjO3l1ZRwU4NP3mGUGND6oTBut56erHY2GHbM9NsUGSrii7TTw/PFoZp
-	 8FQ1ME+SI2Ikwraw/CuvHcOawGw10SjtIjCBg8CIAIzWF/XS+zPvWwjiwJ/27SZKHDGkm
-	 SSGwiexKEwBiGjlDEUuGIKoehnDu1ulRuISI2vCbiDwDi/ID4Kk0twQJkj8PrH0hVRmOI
-	 f8Wq8k6ckmSdsGkWl0a9uZJMUVoK7/DHlbB0ObfR1BvKySJy3FteOUHWbSgEMEJE9+Q==
+	bh=8LQ5Dy/ADmf7zpiEEPCreTwWA/XdI0vBH6oroij8nrg=;
+	b=wz5hbviWdHayPi+l6yOKi2galRbniin/gSXcQqHpOFaWI2OewNusBStS9GVQeymIFWoP
+	 PfasRF75KJmqK9CDf8elY0CQUbWF3OWDq4cUtoa38cdi/u7xYPU5xr0h81qqk/fvsxFjl
+	 kNXQWEx6F6WJJJ6MQTIeK0ofqkbLlhbavEGzG4SJqaX56C9GSuOWQfRp8OY+b8XSoyPNo
+	 /+tfjIYTvSOgxgJcUt9v/KpkZkclcFdoK9Q4IPcoyp4tNFfCtd5OwtcSl388+VhMZ7EFT
+	 pPRk6h78RPuSy7myTbnNhqSMBJxjbYxI8/EF/U7m+Hg8ZKs1luo+peZBA8uDSZsOlfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cq+DUecl;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PZNg7sns;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E07606A32F
-	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 09:12:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1E07606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA09606A31C
+	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 09:57:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BA09606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cq+DUecl
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PZNg7sns
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794906732; x=1826442732;
+  t=1794909437; x=1826445437;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xK75Rwny+8YxOayz9J2hx5xcwDjlispCGjCFjO57dxk=;
-  b=cq+DUeclDtbQy2BLhgfjWrKqizJnQdVAe2QzzjNkTnFJEEYIl5awSrox
-   B1QM9dcnr+F7AC0vvu9/1e47IWqMuYGJPwisbpmEW3Gxze0WwfstvR0hi
-   VfH0ZLlKaaYqC6egwntZCf8ADTtDXAy+ZHTiceRbwKotuJJE4TMjJUSyK
-   6J8bK10r0IiT+7kJaGr7+NkCow2LVYzaL3Ep2QrL976cD29zRshbfVbi0
-   pv+qLEHvgCeGVjSs7C8bTHmxVDVYeMSZU2AZQFbam7HcrDVAxLbv/cCh8
-   IHS47nV7oFBA0jVeBRpfr73rleW3u6/wgkI2tKY3JAcXKQeVb4F5oclB8
+  bh=lY2QJ+dr42ixRPBhzmuMSDm3xf6/nYnvWnvhMZfyCCw=;
+  b=PZNg7snsFPW2BzeF2H7tQ+unfqZzNvnTOsGAR/hZu+qMxO7x9UlULTZW
+   ymRWpI2p/9SnnlK0/HTWlqxoiihbm3+wrLuMBH+s3MHKWUSTtMTiXXL3N
+   BLSn5MuweHKgLP338uCknT2+3iMBb0POv++UdFeA4Mneuvy5U891ZE2pK
+   m8SUtOPFv5bJtaGzEZ9Yz5SQFLKZgix0K9U85rdYesMAenkTO+9qe5dH9
+   Pus1X9LTnIVPpZz3vjNDMNNP4A45OgluhoIUZm/eGeL17z/t5YWwwekDS
+   LuWJyRFidW+GmfOYFeF76on/CEJ+HWGIBODzYTahOdRaLv8emlajKkYnJ
    A==;
-X-CSE-ConnectionGUID: X4yEMqN3TgOgWVRDRCS4Ug==
-X-CSE-MsgGUID: YRmjd/tyTtGq2cT2tVXjVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3751071"
+X-CSE-ConnectionGUID: I7ngaKspSbe2yJIGTnyDNg==
+X-CSE-MsgGUID: Vog2oGQFS4ujTKzQD75Ecg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3667891"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3751071"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 01:12:12 -0800
-X-CSE-ConnectionGUID: DNi+Nw6MR7eQl3esGPmN3w==
-X-CSE-MsgGUID: EJ/9j85CRZm/6qg/Vl7mbA==
+   d="scan'208";a="3667891"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 01:57:16 -0800
+X-CSE-ConnectionGUID: TZAdfFoSSH6ji+yZeU0MoQ==
+X-CSE-MsgGUID: 9IfV9blZRRyup/Kg8IWVQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9784071"
+   d="scan'208";a="10200192"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.254])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 01:12:10 -0800
-Date: Tue, 17 Nov 2026 11:12:07 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 01:57:13 -0800
+Date: Tue, 17 Nov 2026 11:57:11 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Avishek Chaulagain <chaulagainavishek14@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
+To: Volodymyr Chapman <volodymyrchapman@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Dan Carpenter <error27@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] media: atomisp: remove unused functions
-Message-ID: <avwaZ4cK8-sgJSMG@ashevche-desk.local>
-References: <cover.1794845230.git.chaulagainavishek14@gmail.com>
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: ipu-bridge: Add Sony IMX175 (INTCF1A)
+Message-ID: <avwk93N8D7AYGzDX@ashevche-desk.local>
+References: <20261116175151.20150-1-volodymyrchapman@gmail.com>
+ <20261116175151.20150-3-volodymyrchapman@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -85,20 +86,33 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1794845230.git.chaulagainavishek14@gmail.com>
+In-Reply-To: <20261116175151.20150-3-volodymyrchapman@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Nov 16, 2026 at 05:08:10PM +0000, Avishek Chaulagain wrote:
-> These three functions have no callers anywhere in the tree. Remove
-> each unused function along with its declaration and the now-stale
-> leading comment that described it.
+On Mon, Nov 16, 2026 at 05:51:50PM +0000, Volodymyr Chapman wrote:
+> Add the ACPI HID which the Lenovo ThinkPad 10 (20C1/20C3) uses for its
+> Sony IMX175 rear camera, with the 320 MHz link frequency supported by the
+> imx175 driver, so that ipu-bridge creates the fwnode graph for it. On
+> this Bay Trail machine ipu-bridge is used through the atomisp
+> csi2-bridge.
 > 
-> Found via a tree-wide search for functions whose name appears only in
-> their definition and prototype, and compile-tested under allmodconfig.
+> Tested on a Lenovo ThinkPad 10 (20C3) together with the rest of this
+> series: the IMX175 is found ("Found supported sensor INTCF1A:00") and
+> streams through atomisp.
 
-FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Enough to mention this in the cover letter message.
+
+> This patch was drafted with the help of an AI coding assistant (Claude)
+> and tested on the hardware by the submitter.
+
+This paragraph needs to be once in a cover letter, no need to have it in the
+individual commit messages.
+
+...
+
+Since the ACPI HID here is broken (it's actually a PNP ID), can you also
+provide (as a comment) the excerpt from DSDT to show that device description?
 
 -- 
 With Best Regards,
