@@ -1,99 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794937709;
-	b=00W4BqEKPateHSj09doM7iQXh41n4kT2YfJvsnP2MCUBlc+ZK0h4deEeVvJ4pjlksMdK
-	 0G+btlse1uq63IpN3fIDVrzVGy6+CYNOZ4Xno7xq04MvAUbIFKV+pmFlyFfJWpiGr6BUu
-	 en5fPI6upLdk0IlAtaF8JwH/DOSvK6Xobzxaw3woJj/tUg9vcIqtFdGRG5TiK79mvhoAL
-	 Zy1Svr4Kk6VK1tlbrzuGySVItPS6NkRz9MAhAwLAaCphRO/EEUZJjQQ7pIoLrChJTfEqR
-	 mjFnxN8pAllNz4I2XgN/c1pyxpkemA8gTjeW+A7iKpLy6r0EMk191gc27NazUA/4tnQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794937709;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.172
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794937825;
+	b=4uJRvPjtxbAKaGBSb81DPgJa9Olaes8b84UrVpgmqaquqrFj3mKJJpWbzgu1C/lqI1wl
+	 C2gpmmD4JoBYrAenhKKOqC6wjDnReWV5lWFBbEVfAdKuiEI2UMXT6z0eMkqENoOWdBOxi
+	 WNKEB0WrsQbukO/zsn7PVsav7H3Jrlgb+1/shzmBWdktpOTnJs4yj3IglMSannPMHafZH
+	 qZhqTnVxNIwKslkZZxMa6CKLA2CIid90/IGcaH+MFGTTRZM13HDAUCXNdfoFIg0yCQu3E
+	 Lc+jV2PWkTWaA3JieJz9jHkwl9vAf+pmsrvrZYBMBujepttPLj41k978fwhNkwQ2Mzw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794937825;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Vgnwr2P9uJ+QpfiPOUlt8DPsw41jue0qV/UrisGiK9Q=;
-	b=qr5FC9jX2dZ+F1pqE+9Jg+Z9Xjmc3nty0yOr2PFRBbqeYVuLliIosv+Ks8oAPiacI72j
-	 ph3ahA9xmQ6lI8Bmzjp0giHOpZm8czBCx9WeYyDcxrXp3Be7iCX4tY2N7oGtsKYIovSM+
-	 WsM8nhbhvKFR7QGpgDvhhIsfGn1EOUKhqWFEZ2R/8YfA7WpOPvEnSlA6rUalVg0zfMYXy
-	 seYEz34lsI0jWpaj3won2dzaU8a+tUR5jm0RFhR8IJJ5iV23wLvDutUmJKGQDhNs7WBRB
-	 tZMnIVj/CMY3+473qFhbeavj/47r3sty6JGSd4F6yC0unWBs5Ivvbh/B5ck8jP5iXjw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=0z/Im30AFHM2eAi9Tnr3FY66+g/q3NA8hwNcbiYP2mc=;
+	b=OEYMbw6kYwkMkAMOGn04OtuQblt2QXtIxei3djELBAp1RtscDBmnx4HzqV3afWGK5k7S
+	 BC8THKkecqoBJfusv52ahg4vSxsERIJJEhjtSTwbe/NxGsx9ycwSgod1/U3MJ2K/cdFIA
+	 KfNON6ZpvcCvq2QEDglRQjy37hpPjcgTHGmhFyuGS68m7oLp1HlIcz4fnzgA2v+8JsU4A
+	 Cia8iSljD1g6iy8QtjW3EAhBIeJZa9bMPXUAjtHa8+14z3Jzc7qjIXJnxZr9a0mu9BY2l
+	 lhTbO747W5meko1pGhKd2s5vbyNqjK/nEPd3bK739FcnPqnrdBH5pbdmIYkkBIIVdbw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L9cugbBa;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IumaCNNv;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.172
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437A1606A333
-	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 17:48:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 437A1606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D910A606A32F
+	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 17:50:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D910A606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L9cugbBa
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4a42b34e930so21935f8f.2
-        for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 09:48:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IumaCNNv
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8b4cc793704so24769047b3.2
+        for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 09:50:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794937824; cv=none;
+        d=google.com; s=arc-20260327;
+        b=U2ep5NhRtQZluUImS8JbVug2ReWdiMkNSuXhDjLAbvpHMMhGDU93xkxnHXX6BRbPz4
+         a8sPBArFkwjJp6rhCFTsgup7Z39Y8IkB7uRh/E4acAFnY4EMS1UA2RUE0dERw/KNHBzS
+         JaG86UKjZvzZMVj5x3uQTggzXQjhVaVm/Bh/t+j0zPj4Sf35AIv9rH1GRUqOFKfe64BS
+         Ar4FrUQigPswVX6ZD7nF0QzPnKmFzIuyDNNmDxyehUfDwvmnF0rYwWdOIdbRC9PHEyXL
+         N2cJweYg4SyQ8e5Z5xp84yXvupm7XefsgbKmilPx0un0NEU/hyU1N/s+q4PR8V/e9GGp
+         AzMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0z/Im30AFHM2eAi9Tnr3FY66+g/q3NA8hwNcbiYP2mc=;
+        fh=k728gCjx04ibZjbR38WA7qLBdXdf9lbUQKG1mmkK8Rc=;
+        b=U9feOhSlqA0Yc4orX5cJMmaTmIY98tpldU0AXYgrxcKEAixZoZLvwPxNi04ySiR/EG
+         sKhSSkRg3nsnsm3H/4K0N7KXktJ1//X8cW76CegDh6v+JpSEyCxR9sHQghWvifViwyfz
+         a1WzNq+MbwUC+dSoRXZ6lG9vXHF5JpsQIswmScEsPp8XTX14u0N+7h2GBiYvOhzghfhN
+         9wrEFb8svaVvb1mi0zV5JLBr9cAbefArbSRtYvHR1jb2oY2NoO4/+nO/FK7n/06jmMwo
+         /eB1jl2lOfSAWwZEgi4nMxnrjp7uLUJeUVtTgRM8hyPZSUxOcRwarwDOqk36bBfM1dzQ
+         zT8Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794937707; x=1795542507; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Vgnwr2P9uJ+QpfiPOUlt8DPsw41jue0qV/UrisGiK9Q=;
-        b=L9cugbBaKikuX+vV8XClIDOtQ6q9SCSg30sxhHvQwao6DKiUTBG20MVdysKQvCpPoc
-         om2/bZWNlQJ8CCxe80SYDffTgFNQEeT/ktkYo1G3JI3JYUBEbX97jVLkwzk4CyikST+k
-         1znEsxZAIUqIkg82foOq5NyPyzm3VfHFX+/KoqP2q/70v64YmBTWJt/zh92sXIxawODr
-         NMdBRHuL8FeG7MSx7QAybhyXJSevr/QHY119R1X8R2KNpSLROAdckQomM3AXOjrSfp+Y
-         HlA36Ug+8fGQfeJKH2711/xRMQolwsCeWdT1PjV3wwdpdUg+YrKpHnBY1hfS97pVE5RI
-         u+ag==
+        d=gmail.com; s=20260707; t=1794937824; x=1795542624; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0z/Im30AFHM2eAi9Tnr3FY66+g/q3NA8hwNcbiYP2mc=;
+        b=IumaCNNvRotPOqJxd+5HecpvLPbpZnbr+IX697Y8MsBQu1ubWcHrPAUyEmOaFgymxk
+         xEU9pULGMazwCL+En8rt3/sW6vTWoE1HpfI+y4eU7LZEOIp2zdJa0fPkwiX2SiLmJGyt
+         5jcksX8Z1Y0hrH0iwXj+yv9T0oU0m/WuRvyeLBRLdzf/tf/cow9M8wRTxoRpF3HCCZPw
+         w4mVjpUtHywWJcOevQPmikCszfaKguLX/V15Ws9MesVjHhtksP4LBXufvzG564r4w8Oc
+         OBfFylADYQ2QQILa3qwLhAd77DO6ilAEqQR+FRPFircaf5Z66jg2CZFmVnhgewZM8pjH
+         XZgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794937707; x=1795542507;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Vgnwr2P9uJ+QpfiPOUlt8DPsw41jue0qV/UrisGiK9Q=;
-        b=UdEzE6UGPuydWQxOMvLkyyU7JDvKFzu5WGhXjb7Mw5U5Yy3+yaq6m4IQTpE83gxKJe
-         4PWUUZSk3/hPeD8pw52wmaSKuWILqr9DA0GeSKyTrrYz813Lv36l8RTWbqwDRD0NPBcL
-         LV7MCWv5BRvOQY6zUPxbbmcA9frrNdxHdcSrmqKIbY72IjwkC2y2L06sPAUr+Wbaf74U
-         onkD+VjqW2hdI95Gx/UbR0u5G++9BcyDvTT8X55L8NcoszwmdYYyT0bg05hIV893f4Ui
-         UduDggeOD9+1kZ7ht/6R7WUWLQBQfe/vxdzHdF0zGghJZGCpaXQojQ7orzJElzb55YYv
-         0ewg==
-X-Forwarded-Encrypted: i=1; AL+hErEY/jjCsHYAiSRseVFyjEZP0P+nAnEVOUaoo9dy1IweOXvrdQPHMetqgwz9kc+S4l2H/mzG2aNQaUcrJJfZ@lists.linux.dev
-X-Gm-Message-State: APuU4Z/gdH9ilOkV6Gv1WiJKcvfL1SjYsfN0/GVwJUyHBoONMXNuBMF5
-	rTW+zKfzWgkLW6YASPSvVMERW1Y0tmfw5E+IV73VakPOGwHG88BRD8sz
-X-Gm-Gg: AYBFou2qY2GIR/okEC24bOMUNW1LV0rpy4r2XnFfZe+ZMFlLWSHvVS6kQSqODbqMD0I
-	st14B3yIEIYRiQBNZo5p1nSstBIlNN5Yzrj+AA8KgeKVgOxNICfIjtMNCWOj5INTiFieOV1kbTS
-	X2OTagwE+QvonXqPS47LdjzES5hM33AF+lZx/NMQ0u5q3p2UHTUfQCpBsmvAgyJSVNnZD72R5y+
-	H2FkRRARefyp7iR5hhMAeAkVTXPYN3Z6AvjPovRvYhL+wrQZA7aa7H7G3HJYgjQWzefoaOTGKm9
-	tIed6oEJHM2lzoXDX/8BegX4u7L36+7jCYqIs2Y5WgTUJP2dobyCLNnFLzLzRzgPGqsct6xpSHt
-	6GRDiPwPDm+7I5bMRjwKb+OYFNFxLv+HvZ559EwcBv1g/6cvfRhVe/euymQ9ckYxQ2yEGb33155
-	jJbO4xzkGr4LK/KLUCL0Da33i+jRgCoj0OMSr9DFW7WgY/2z9m2BeOCX+oqXHeAO4r0eqSubu57
-	72tPDiPqtT/9yH0K3ChXw3JlZfl/kI05llIT51mAxWo4u9ILikiPKgTAho7bkNRP6EyJG9L1R3j
-	kVe+UybvQ9yKBMGFYZd/2DMJ31SqP3sJXmSF3KPXxDAb9Xs=
-X-Received: by 2002:a05:600c:8483:b0:4bb:605d:8e92 with SMTP id 5b1f17b1804b1-4bb605d90f1mr250423555e9.32.1794937707327;
-        Tue, 17 Nov 2026 09:48:27 -0800 (PST)
-Received: from Kyiv.home.arpa ([2a0e:1d47:4093:b600:11a1:dc8c:1ed6:51c5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d287f92sm413055e9.0.2026.11.17.09.48.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 09:48:26 -0800 (PST)
-From: Volodymyr Chapman <volodymyrchapman@gmail.com>
-To: mlevif@gmail.com
-Cc: andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com
-Subject: Re: [PATCH] media: atomisp: csi2-bridge: Only change the PMC clock rate when needed
-Date: Tue, 17 Nov 2026 17:47:35 +0000
-Message-ID: <20261117174735.10182-1-volodymyrchapman@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261112-atomisp-pmc-clk-rate-v1-1-d6b3ef392ccf@gmail.com>
-References: <20261112-atomisp-pmc-clk-rate-v1-1-d6b3ef392ccf@gmail.com>
+        d=1e100.net; s=20260707; t=1794937824; x=1795542624;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=0z/Im30AFHM2eAi9Tnr3FY66+g/q3NA8hwNcbiYP2mc=;
+        b=1u5+FEENX5iM6VsLHatRIYf5BK4pjxs07nDZxZ8oL4hdd7imazEXABNMgR6UnExj+U
+         5wpeeu3mHVGmrA4qT42A9kjDA4lmNZEw1iYATG722zoS9iODkxtLl1pffiekCI37kAEB
+         weVmYww06ZNHpSYsWLV6t3SrY5K5xSL4AQbP33e96DMl7lrlHZ4m6/vgRnmn+PaNqC8G
+         uv/9HRV2pNVyAjhdlDvjI4vP/vrdxuoY850AMdJf4bzZ8axgRapzIM1tbrmwPZzmHW4F
+         SBpz6l7AtQuy9w7RWjIsZavLaBT71Hrqjy0m81gvB/RlJyC5Re583DB0HvM/2IyGV0ZK
+         eMmw==
+X-Forwarded-Encrypted: i=1; AL+hErH+2dpLTv5dRu2z3LWSBX56o8TEtd52bOyWwAO6kCL13/h+558ycGbQO/QXfSp0sjx1lKtvMOIqgRQ55Pe6@lists.linux.dev
+X-Gm-Message-State: APuU4Z/JHvcumMkbtkK5PdIzvG3e7HQF5/gZ/nwKkP/OsPPiPhubFnaE
+	159hULX2kWvKj8E+2RUveBTaMqPDCn4JOCEwmOKGetuFxjZaTsmzdQMLp6ZuBhWfYIa48qfNFKJ
+	Uz5HbTPy6iUoGum2TB5Rpo4x8qNvOWWE=
+X-Gm-Gg: AZFdTZdcnnZWdpCtDNWwPbx+QgU8wkrJjW2qUYt59hzQve6OQFubymeFJpXNviif8wZ
+	GrOw9T22b6CThQ5wjWbLXPw5DOnGth/eaJoYsBMFRfI7C5WwpbIvKsJVx2/u7OkwmWgxlfgvoAv
+	ZYNFEbeK+ucY0vuaXs1inffwFkWDkJlJWfZDCk7pH712p1pFOoJnbLU92hSoxLmmKZGKNmxrVI2
+	krqr/Fsv5LhlBvWpcrJX1J/uQM0UMftPsL1EdUfxQYNF21O2eBScHAyrM2DBbdfbZSUbGOe46om
+	tTh8HkDgskr10mm8nvPx4u+Kexk7Ir+GlydTl1aVDT7ZYMZNbvjIJ2fBz8ibcGw4K+F+saZVYR9
+	g5aMcT2XM/6w23jy/64niwx0Y9H/9v8ZkpO2eSvfyg27m9MrmeHVfKGNK4u7ehtJ4v2HIZLI=
+X-Received: by 2002:a05:690e:4196:b0:67d:ae02:4603 with SMTP id
+ 956f58d0204a3-67dd3fc2a51mr113492d50.90.1794937823656; Tue, 17 Nov 2026
+ 09:50:23 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -103,43 +103,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261116175151.20150-1-volodymyrchapman@gmail.com>
+ <20261116175151.20150-3-volodymyrchapman@gmail.com> <avwk93N8D7AYGzDX@ashevche-desk.local>
+In-Reply-To: <avwk93N8D7AYGzDX@ashevche-desk.local>
+From: Volodymyr Chapman <volodymyrchapman@gmail.com>
+Date: Tue, 17 Nov 2026 17:50:12 +0000
+X-Gm-Features: Aa3M54rRQ1-bLYzTuwIPPkNUo0RYfScU4jd-nC1VUspHbX57A9OiM6Umcza7INE
+Message-ID: <CAN1s30pEE5vN7Yuz9Y5_+4M6-TeTNTmHA_hYLR9KLnXj05RWfQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: ipu-bridge: Add Sony IMX175 (INTCF1A)
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Dan Scally <dan.scally@ideasonboard.com>, 
+	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Manuel,
+Hi Andy,
 
-On Thu, Nov 12, 2026 at 03:39:29PM +0000, Manuel Levi wrote:
-> atomisp_csi2_set_pmc_clk_freq() enables and then disables the sensor's
-> PMC platform clock before setting its rate to 19.2 MHz, which leaves the
-> clock forced off in hardware.
-[...]
-> The enable/disable sequence is only needed to change the rate, which can
-> default to 25 MHz on Bay Trail. On Cherry Trail the clocks already run at
-> 19.2 MHz. Skip the sequence when the clock already has the right rate,
-> so that the bridge leaves the clock state to ACPI.
-[...]
-> +	if (clk_get_rate(clk) == PMC_CLK_RATE_19_2MHZ) {
-> +		clk_put(clk);
-> +		return 0;
-> +	}
+Thanks for the review.
 
-I ran into the same problem independently on a Lenovo ThinkPad 10
-(20C3, Bay Trail, Atom Z3795) with an IMX175 rear sensor (INTCF1A,
-driver pending on linux-media) and an OV2722 front sensor, and sent the
-same change, which I have now dropped in favour of yours.
+> Enough to mention this in the cover letter message.
 
-I tested this patch as posted, with the atomisp driver built out of tree
-against a 7.2.15 kernel, over 10 boots (7 reboots and 3 power-offs).
-Both sensors were registered on every boot, with no chip ID read errors.
+> This paragraph needs to be once in a cover letter, no need to have it in the
+> individual commit messages.
 
-On this Bay Trail machine the clocks used by the sensors are already at
-19.2 MHz after boot: the DSDT lists CLK0 in the IMX175's _PR0 and CLK1
-in the OV2722's _PR0. pmc_plt_clk_0 and pmc_plt_clk_1 report 19.2
-MHz, while the unused pmc_plt_clk_2, 4 and 5 report 25 MHz. I read these
-after the bridge had run, so they don't show on their own that the
-skip path was taken. Together with your clock trace results, it
-looks consistent.
+OK, in V2 the testing details and the AI assistance note will be in the
+cover letter only.
 
-Tested-by: Volodymyr Chapman <volodymyrchapman@gmail.com> # Lenovo ThinkPad 10 (20C3)
+> Since the ACPI HID here is broken (it's actually a PNP ID), can you also
+> provide (as a comment) the excerpt from DSDT to show that device description?
+
+Of course. From the ThinkPad 10 (20C3, BIOS GWET50WW 1.50) DSDT:
+
+Device (CAM1)
+{
+Name (_ADR, Zero)
+Name (_HID, "INTCF1A")
+Name (_CID, "INTCF1A")
+Name (_SUB, "221B17AA")
+Name (_DDN, "Sony IMX175")
+Name (_UID, One)
+...
+
+I will add that as a comment above the INTCF1A entry. Should the same
+comment go to the INTCF1A entry in atomisp_csi2_bridge.c (patch 3/3)?
 
 Thanks,
 Volodymyr
