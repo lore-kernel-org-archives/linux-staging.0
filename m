@@ -1,80 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794909437;
-	b=QHLyFCHi1kXjR99uA/mjiravASqzrDY6l3m/pi6+Rie12u3crnZyE4x6opwvtJ4oEqnV
-	 aHeQv0cY44EIBZqGMLqZ4dEWxV/pnJNo7ihCkTUM5hAQtf37MpwsbvouGLeRRex39oMno
-	 Nh9auFhCAjV1Mxh0t81flpQMtbicii7Xl+BUOHGz3KD1ZY4wsqriBv8Ty0GGafm4SXL4+
-	 4WpRCYI4SxPrshMj5fXYI5uaFxVCUd/5w9RihbTMPrZExVIhUYG46pRsKYa7+IjfqjIrP
-	 JbzCMDZHMAxIBat3P8sG8jdfu0dbpueQgIxYlNGNKIgVqdSf9Oq6EPLx5x5ABhhGcoQ==
+	t=1794909764;
+	b=2LrSBbmHDwnVi+4oZefok++Ob9vRvQGYJSU2BH4cv+20fmTpbyAOC0mjFR3oyZ4gMO8G
+	 RZ03HSH/oKwU6vhQ2+O+pI35kHpnJRo7rIq/rxme50OJBxy05dEMuIxs2mkbKDp8szRMY
+	 6zGxQwJKtusBEobdUdM+vmIO3yh7Xb7WqvIeqQy7c64NXMthyyfKMAhhICuoxoMcIm5b6
+	 nAt9GySSoNgUJtTTKj2NZxGDqaOc5rFKfDYWB5vX4p2VT8wA1b4mQ6vANEk3KNjsS6ciu
+	 rHu/NHoY/IvrNljKa7hPLXcVudP0N2RWRtBt0WNg4iOKehboH6eZmgheocbh0TihNIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794909437;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794909764;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To:Organization;
-	bh=8LQ5Dy/ADmf7zpiEEPCreTwWA/XdI0vBH6oroij8nrg=;
-	b=wz5hbviWdHayPi+l6yOKi2galRbniin/gSXcQqHpOFaWI2OewNusBStS9GVQeymIFWoP
-	 PfasRF75KJmqK9CDf8elY0CQUbWF3OWDq4cUtoa38cdi/u7xYPU5xr0h81qqk/fvsxFjl
-	 kNXQWEx6F6WJJJ6MQTIeK0ofqkbLlhbavEGzG4SJqaX56C9GSuOWQfRp8OY+b8XSoyPNo
-	 /+tfjIYTvSOgxgJcUt9v/KpkZkclcFdoK9Q4IPcoyp4tNFfCtd5OwtcSl388+VhMZ7EFT
-	 pPRk6h78RPuSy7myTbnNhqSMBJxjbYxI8/EF/U7m+Hg8ZKs1luo+peZBA8uDSZsOlfQ==
+	bh=voo/pfFj7IZzyUKj8TLUEF9FWCoSw51aP8BAo7SmMdY=;
+	b=b7abuXENbcLQnHSEqWrIVwaUpXL9GP3cn0+Z5hU4dZLYxCjaGn0jrTb6AbTNEIM2exE0
+	 5ChzmFnU07TkDl2I9Cp9poaNN0nNvILdczGNZkwskmsN27u+eRpOJD3HU3jlR9V/zLAPQ
+	 Z7ZyH3aC7QnsC9vyb+APP3yC2Ya4mY9Ozal+8qFSgjr1hBpo5+wghtmMuEI/pV6leQ2MR
+	 HyU2B+/3xOmsI7k9ynn/2Q+w9yXMxtwkJa67vgcY0rRKPnNvTpMT9KNJmHzOcrmIOHsh6
+	 OItpWuoS48xqpSou3t3zn3R9wQ2YlCaPTEHb1UpEVZRLfdeXlJ4hB+NGWdXWSSDmVkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PZNg7sns;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XoZeYjTn;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA09606A31C
-	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 09:57:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BA09606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD70606A323
+	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 10:02:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBD70606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PZNg7sns
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XoZeYjTn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794909437; x=1826445437;
+  t=1794909764; x=1826445764;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lY2QJ+dr42ixRPBhzmuMSDm3xf6/nYnvWnvhMZfyCCw=;
-  b=PZNg7snsFPW2BzeF2H7tQ+unfqZzNvnTOsGAR/hZu+qMxO7x9UlULTZW
-   ymRWpI2p/9SnnlK0/HTWlqxoiihbm3+wrLuMBH+s3MHKWUSTtMTiXXL3N
-   BLSn5MuweHKgLP338uCknT2+3iMBb0POv++UdFeA4Mneuvy5U891ZE2pK
-   m8SUtOPFv5bJtaGzEZ9Yz5SQFLKZgix0K9U85rdYesMAenkTO+9qe5dH9
-   Pus1X9LTnIVPpZz3vjNDMNNP4A45OgluhoIUZm/eGeL17z/t5YWwwekDS
-   LuWJyRFidW+GmfOYFeF76on/CEJ+HWGIBODzYTahOdRaLv8emlajKkYnJ
-   A==;
-X-CSE-ConnectionGUID: I7ngaKspSbe2yJIGTnyDNg==
-X-CSE-MsgGUID: Vog2oGQFS4ujTKzQD75Ecg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3667891"
+  bh=dldL33c+0pURQn9gbH1fWTdSXkLGwOfDeiQ+Njft9mk=;
+  b=XoZeYjTn/6Kni225PUxIEPDUaulwGIQeD7di68rLM3UQWQmDdVWFjpCW
+   a/v5vxnEHXMfKQEczgVfRpdebZPzsLZcTk6sLnvSjmEOZV54uyvN486J5
+   1GK4jH96P3HaYDoqrJ3M49DN9r3z/JUjSsGveo+eKV9rUa+KHRh5MLZKB
+   vbvcg6yPFQF4ns3JAX53trNcAd0jDsk5ilUQnYmLFrzq5pkrQSZizf7Bq
+   QJaNSwone+RiuCYoY0y5DLjKArroooa0CJbwj7TXPTTuVrw9mDW+vC39D
+   3+heZceNHGza4zwmk4rA8d5CPoVM2m/aF8rEORY+2aI3fGeJdUdb2GIAb
+   g==;
+X-CSE-ConnectionGUID: Tz5VuweFTna+W+2lxQWKuQ==
+X-CSE-MsgGUID: AYhOU1SASOmZEqch8e+XtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3688170"
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3667891"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 01:57:16 -0800
-X-CSE-ConnectionGUID: TZAdfFoSSH6ji+yZeU0MoQ==
-X-CSE-MsgGUID: 9IfV9blZRRyup/Kg8IWVQw==
+   d="scan'208";a="3688170"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 02:02:44 -0800
+X-CSE-ConnectionGUID: 9UZKk/F6QliTC4oWlTHFCw==
+X-CSE-MsgGUID: LQKydkQkRIa9+D56Wu0Rqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="10200192"
+   d="scan'208";a="9852302"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.254])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 01:57:13 -0800
-Date: Tue, 17 Nov 2026 11:57:11 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 02:02:40 -0800
+Date: Tue, 17 Nov 2026 12:02:38 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Volodymyr Chapman <volodymyrchapman@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: ipu-bridge: Add Sony IMX175 (INTCF1A)
-Message-ID: <avwk93N8D7AYGzDX@ashevche-desk.local>
-References: <20261116175151.20150-1-volodymyrchapman@gmail.com>
- <20261116175151.20150-3-volodymyrchapman@gmail.com>
+Subject: Re: [PATCH] media: atomisp: csi2-bridge: Don't cycle the PMC clock
+ if its rate is correct
+Message-ID: <avwmPmzohY3BCwrI@ashevche-desk.local>
+References: <20261116173307.14169-1-volodymyrchapman@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -86,33 +86,45 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261116175151.20150-3-volodymyrchapman@gmail.com>
+In-Reply-To: <20261116173307.14169-1-volodymyrchapman@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Nov 16, 2026 at 05:51:50PM +0000, Volodymyr Chapman wrote:
-> Add the ACPI HID which the Lenovo ThinkPad 10 (20C1/20C3) uses for its
-> Sony IMX175 rear camera, with the 320 MHz link frequency supported by the
-> imx175 driver, so that ipu-bridge creates the fwnode graph for it. On
-> this Bay Trail machine ipu-bridge is used through the atomisp
-> csi2-bridge.
+On Mon, Nov 16, 2026 at 05:33:06PM +0000, Volodymyr Chapman wrote:
+> atomisp_csi2_set_pmc_clk_freq() enables and disables the sensor's PMC
+> platform clock to be able to change its rate to 19.2 MHz. ACPI however
+> also controls this clock, through the CLKx power resource in the sensor's
+> _PR0, and caches the state of that power resource. When ACPI has already
+> turned the clock on, the clk_disable_unprepare() turns it off underneath
+> ACPI. ACPI keeps considering the clock to be on, so a following power-on
+> of the sensor does not run the clock's _ON method and the sensor does
+> not respond on I2C.
 > 
-> Tested on a Lenovo ThinkPad 10 (20C3) together with the rest of this
-> series: the IMX175 is found ("Found supported sensor INTCF1A:00") and
-> streams through atomisp.
+> On a Lenovo ThinkPad 10 (20C3) with an IMX175 rear sensor this makes the
+> sensor's probe fail intermittently, depending on probe ordering:
+> 
+>   atomisp-isp2 0000:00:03.0: Found supported sensor INTCF1A:00
+>   imx175 i2c-INTCF1A:00: Error reading reg 0x0000: -121
+>   imx175 i2c-INTCF1A:00: probe with driver imx175 failed with error -121
+> 
+> The effect of the clock cycle was also reproduced directly: with the
+> sensor powered through ACPI, a single clk_prepare_enable() +
+> clk_disable_unprepare() of pmc_plt_clk_0 makes it stop responding.
+> 
+> Only cycle the clock to change its rate when it does not already run at
+> 19.2 MHz. The DSDT's CLKx._ON methods on this machine already select the
+> 19.2 MHz PLL.
+> 
+> As a side effect, a clock which the firmware left enabled at 19.2 MHz is
+> no longer turned off by atomisp_csi2_set_pmc_clk_freq(). It is turned off
+> when ACPI powers down the sensor, e.g. when the sensor driver
+> runtime-suspends it.
 
-Enough to mention this in the cover letter message.
+Besides below paragraphs (that I removed) needs to be in the comment block and
+not in the commit message, please coordinate with other folk(s) who are doing
+the same
 
-> This patch was drafted with the help of an AI coding assistant (Claude)
-> and tested on the hardware by the submitter.
-
-This paragraph needs to be once in a cover letter, no need to have it in the
-individual commit messages.
-
-...
-
-Since the ACPI HID here is broken (it's actually a PNP ID), can you also
-provide (as a comment) the excerpt from DSDT to show that device description?
+https://lore.kernel.org/b4-sent/20261112-atomisp-pmc-clk-rate-v1-1-d6b3ef392ccf@gmail.com/
 
 -- 
 With Best Regards,
