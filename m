@@ -1,79 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.13
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794960368;
-	b=PaZ2+jgfvipBfKqBkxjRdnQYcAf3c8t7sxP/kXxLxoQ9W6FbWuMs20qMGZePH5X6N1oU
-	 lnHrhVam3mwe/Cc27We1esx+NxKPW4ERIC5bdzY6SG1sf7+U3XcMArA+YdRtl5VKn6VlU
-	 AMH5qWRjgPycFOVu8SJ/S+QF/jXADOA1qftZOzWe7i5e7LUEEsEuFUeHqHlNfyf8ezPDl
-	 2H6adavg472Bn+cKZhMlDgIoa2PWEywF70Ekg61PINaCr4XPp0zkmQQgOgWs66Y8mCy5z
-	 DBS6qCDbhS6+dkGkjavCp0/mrnnkBpBPI6BPI6B0MWHQlZfFW8t9MLIyArW3COvmGFw==
+	t=1794973552;
+	b=5rM/Rx2Dbo5s/timu24aH48oMtRxE2OqA1jYE2U0fcvEYRuwnfX5JRElQNTvox7PrrR0
+	 iEUe/WvcSOu2aYbkhtSdOwgl48tNJzwpixva5t7B8eijNAN0dBtRmqe63yplk7JHJuwbc
+	 wxzAefVHSxy7O3p9ZXJQms/6uLVvwCgbZVkdVpOAK/VpLBRRlvwRuuZoz4v7VMYzf3rXP
+	 AgHfNFQrLWaMvpXNMEJo/wZCNB9gD6RIWAsCbo8jks8r9xU6yL3JwF1eI5errOzC9T3Vy
+	 5082X47PxkD625Tth5Fe5MZXuY1OIoh/R33IyQP9pI6LjmWk9WpbKTMs4J2xwspSl1A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794960368;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Sh41BKaEFqu40VZCFAZtZ2re9360uoXZkICjD6gYqTs=;
-	b=wpFfG4+RZSeD0FPDaWoxeqKqaz3YTiolvilEmT6A1VhhzNbason9l5vdA+sCKvS6JPoE
-	 ovPNqtIK6p1APSgC5scb4YNw75Oz/k66mI6aOeU9J0W51Vq5CCC0NQn7hOL1m0YJbVSsF
-	 uqRPspJ6PIKK+eunGzHN4dFCpPZ3mHBa7OtTBJq7BeqXNTznKMYEJDCe8cZbqU6gW9txT
-	 YRfqqFdVmwUCi+MHUObEF+ywp13jMsboCDKyWjYYtefyrHgCPS3HgFHTpgGh+tyzZSOs0
-	 DJzFkT7xIPTXU+pE5mhN8X3T54wFmT6cpezv64lic4CfiKhVvQg/Gl8zJuz767TGQpA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794973552;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:Content-Type:Content-Transfer-Encoding:
+	 X-ClientProxiedBy:X-Microsoft-Original-Message-ID:MIME-Version:
+	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SLBlob-MailProps:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=ZcMl7Mc2qlGZvwlF88HsKx3TZDb6+hrgfmma3HnD+VM=;
+	b=VxIYR5A6+mKLIu7FqUoMJ8zHEKTFOf7tNZjCFy0coerWeoVyP7rdrLK3fdDmDaK1a2Q6
+	 8F8RWhyHQc7ic3ei9RGOfCtCfU76RxOST+vG20soY/yQEv1O3ngFRs12xyjzvhAtXatKh
+	 1PFZFFiAbfF38hpwqyRn9QC/R9B1q2m/ev+KZhO55zTey33Qng6eXIlV2vpMoJ6wUPZ5S
+	 nALmVFg9BuVfAjlPOZHK3Tq3F6B+ZRK2X+M7HWQY6Xai6qpV2cHUSNN1yFk+sajYqhheP
+	 xNnFukaHLzPfkLFdMTq2hqo9NiGyYA1PmpVmHrRMGNJ/NFWOnq2q3rfDKL01Nz3PP9Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XYxX3ALS;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=hotmail.com;
+	spf=pass smtp.mailfrom=hotmail.com;
+	dkim=pass header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=laayywMv;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.13
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19012013.outbound.protection.outlook.com [52.103.23.13])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FA9606A32A;
-	Wed, 18 Nov 2026 00:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F764606A331
+	for <linux-staging@lists.linux.dev>; Wed, 18 Nov 2026 03:45:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F764606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XYxX3ALS
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794960367;
-	b=FdqUTD0wj+GlkMx3WsuJFvm6h0aQv0t6+8sPq3640JZKzifxtW4ZNIgL777jQ4feLQTv
-	 IO1XntPfkGM8twfDcTyy4LnLvB0O+T3rJZXScnaidZmDcD7xZTZ8M9l0a5FbujrjgWgiM
-	 773OOo5A31q0ggU+EqL25Z/ruhrG4CFI+p+jhN01NKqX3QWw5erbGZvIatr4kp0apc9kP
-	 4n/JAKRFzoSZwuaSvkWkbekMd1u07lSyyds76yTVvI5hLBBOabalCAKs/EIJljqTlZc3C
-	 BKBY7+qBU9Do+jk68Bs2jL2EcNKQ2t74v/CWOrwr3bLM1V9MzprS9L3ITG+kOG0xaeQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794960367;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Sh41BKaEFqu40VZCFAZtZ2re9360uoXZkICjD6gYqTs=;
-	b=Oka17lkNKTu1aE0ugyfr37ydXFk5FvPR+cCAfKYlI9IxqOSXlL/IgD8Ty18ibfzO9jbh
-	 3bQX+wBlo9Dj6IYMAGfUUrcySwxUxCLagtalnzyux1bFyWzERwVvddCllO1T9hwV3WHD9
-	 K/HqHueT+afcKPMGzxDpz156zMNSOC57RXUSwX70ZLmNLXTi51yncVPoP9+vCNTD3yntJ
-	 Dz8BcY9aNd40tpECbOvx5tFZBpTm+m/kH7Nsn6oq0sB5tFH308CD6x22h/nbq+y/KTVlU
-	 pwu1U2nUK/+bGY3kqQgnFcUxLJge+PZX/F2Y6KQkTmz73dOPYQwsLqUg06zyhldYbJQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0BF6F1F000C6;
-	Wed, 18 Nov 2026 00:06:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794960367;
-	bh=Sh41BKaEFqu40VZCFAZtZ2re9360uoXZkICjD6gYqTs=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=XYxX3ALSDLdil9S02lCrJttjPEnjkuQfsp5RaM4PU7y0owIzwdhvKNP8EEJChkYHW
-	 1HYu8wMmGgByQx3yaMo1Xv3uZGW7+y69J1piZ6qw122jRFgDNn9DHbuvsToY96etsQ
-	 iOC2VVPC8T4A6nVqauHUaMyXrBTOG+rF+1VYlN+TbawXvkaxAf6MeyQ6hHalls2MCu
-	 5Bvaun2Tqpyc6Q/vzIxI0oMaLh39zR4ElpK/vxvodp0SpFBeilVF4dC1C9Heei4hPo
-	 G5pj7euQpXy0JJpiVSWupYcb4030dZz8sFjZUXsWbm3QUVEBfTJ6VyyY9hSsxCkm/n
-	 MaoqFE5NOnZhA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 8D1FC4790C;
-	Wed, 18 Nov 2026 00:06:06 +0000 (UTC)
-From: Maximo Manriquez Lizarraga via B4 Relay <devnull+DelaySystem.tubot.lat@kernel.org>
-Date: Tue, 17 Nov 2026 16:06:06 -0800
-Subject: [PATCH v2] staging: most: dim2: use atomic_t for channel state
- counters
+	dkim=pass (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=laayywMv
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WihyJokoWoevwAg4eOAaXo4yhH7s/VlNTuKmp0LfyaoOiFZfpBmObU5j/oKCrtRX22xujd+v3d9wMKvBjzlmt930vdasat3DEC1B1dkmmLtIX+gO6ic7EIo6PZFKO8SYUVaI2PGO4CQH7y4+8Ve7LfWvAKk1XE+oPoT2wTNuJ8dkR4E0/GIoUzPU7nqX3wzSPMmqvj7rkUco1gGDrQBFQtgJYkF5dEpkS8r74R38DlrKECDQ10MV7mVIG900xiwmOlx8SysH4eRNkJ0E2xLavKBwYnNglsmxfM0aj636Wp919XsjUbdyFNJiwfcJkMaGxMXiSM/uFHPed2cltpS0zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZcMl7Mc2qlGZvwlF88HsKx3TZDb6+hrgfmma3HnD+VM=;
+ b=m/MV6haFFV98NQdeMKAy8tSZKO7gbvYyVFI5KvPDK0+dvBkJG81yCnk87CW56YlRXOnDjYRhJ3egqlZQEaiojn6jGfO3Bvlyi7sbX6yB6Uj9IMwJsfTthOs0ao8s99qSkYUsbEPuKvQqzG4/OkpoFGfdNXQ1UV2XimqqSZ1TQMhylHQcYQtFm69sXSPFJ2plAOUH/ENDIFUedrmETNVsIu7CUg8Bcxrld8GWu//YWUQFkz6BYtBjxXx/QHqBRkiapyhjVuMmw9PdnTjDqbEf7cIeuF2JEQXwt9+x5WaxlWEekSI/N2FneuK2DY/CPfCMpYYbz+derSUwUP7ifzePFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZcMl7Mc2qlGZvwlF88HsKx3TZDb6+hrgfmma3HnD+VM=;
+ b=laayywMvRBGP2m0md61QFpsEiSrP/wZ+EOLkVDyRlZcAn0kRvrMgYV7b0mC+Tldy52YnsxSFlPXNQOugImf9WGMGcHDQx8WX8KLb+/pUiF20F3zLtrK8Rk12znwhOfv2MVhrY8G47OtG3asgHd2/aX2OhN9sVv2nsSlq61tm/gZ+A95q+2DlL6cGuTbiKdiOsMUTsoAHL+/6S4b0EMlbbYGckkyXqlGAqJfEJRjglSSZWPpCsfy5UnBikKLM1NlcypSUrjyhNZ6Up+xiN3mspj2DoWW61ItUc8SEhsv1BNQ96w0vp4HsK19Eb+ZiLkKz6GcSg7ysME4A9R4Xe7fxOA==
+Received: from DS4PPF67BA2A785.NAMP223.PROD.OUTLOOK.COM (2603:10b6:f:fc00::a5)
+ by BL3P223MB0228.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:34f::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
+ 2026 03:45:49 +0000
+Received: from DS4PPF67BA2A785.NAMP223.PROD.OUTLOOK.COM
+ ([fe80::88e9:51d2:ac21:82ce]) by DS4PPF67BA2A785.NAMP223.PROD.OUTLOOK.COM
+ ([fe80::88e9:51d2:ac21:82ce%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
+ 03:45:49 +0000
+From: Garrett Floyd <garrettfloyd345@hotmail.com>
+To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Garrett Floyd <garrettfloyd345@hotmail.com>
+Subject: [PATCH] staging: greybus: audio: add size enforcement to name prefix in topology
+Date: Tue, 17 Nov 2026 20:44:33 -0700
+Message-ID:
+ <DS4PPF67BA2A7859950C09372FE7397AAAFE67A2@DS4PPF67BA2A785.NAMP223.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.55.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CY8P222CA0012.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:930:6b::14) To DS4PPF67BA2A785.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:f:fc00::a5)
+X-Microsoft-Original-Message-ID:
+ <20261118034433.260003-1-garrettfloyd345@hotmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -83,135 +100,160 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261117-staging-dim2-atomic-v2-1-a550f0518043@tubot.lat>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NQQ6CMBBFr0Jm7RhatTauvIdhMcAUxgglbSEaw
- t0F3Lt8yfvvzxA5CEe4ZTMEniSK71fQhwyqlvqGUeqVQefaKJVfMSZqpG+wlk4jJd9JhcaSvTj
- rmJyBdTkEdvLeq4/ix3Esn1ylLbUZrcTkw2e/ndTm/X+YFCo0XJ7ZOuXMie5pLH06vihBsSzLF
- 2q0klzIAAAA
-X-Change-ID: 20261107-staging-dim2-atomic-68a85f8feaf6
-To: error27@gmail.com, shyamsunderreddypadira@gmail.com, 
- marusik.adamenko@gmail.com, rajveer.chaudhari.linux@gmail.com, 
- parthiban.veerasooran@microchip.com, christian.gromm@microchip.com, 
- gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
- Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3418;
- i=DelaySystem@tubot.lat; h=from:subject:message-id;
- bh=DzVwGgJlaMAT/3SAIgdkmln9ovVSG2ZhjYnhV3aplks=;
- b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFl/Xr/9uNDl6g6TFZyFb2+K2nkm9HqZsJYuUdnjs1Okr
- vxT6bKXHaUsDGIcDLJiiixiMjzv6+/rxFlbzTkBM4eVCWQIAxenAExkOwMjw7S0lCZeoSddMrvv
- tZVHaRq1VuRmi8R8VnGx+Tu9zeb/VEaG9kNmFzmvxIlmGJglyF0NcdiWG6g/9dImzUzTEydPHEt
- iAwA=
-X-Developer-Key: i=DelaySystem@tubot.lat; a=openpgp;
- fpr=161C0CEF7FDF2C5E3B3A9CC8E22333A79A058D4B
-X-Endpoint-Received: by B4 Relay for DelaySystem@tubot.lat/default with
- auth_id=1447
-X-Original-From: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
-Reply-To: DelaySystem@tubot.lat
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF67BA2A785:EE_|BL3P223MB0228:EE_
+X-MS-Office365-Filtering-Correlation-Id: ea7869bd-d3ec-423f-3ccb-08df45266f13
+X-MS-Exchange-SLBlob-MailProps:
+	Cq7lScuPrnrlC5lHdFGci+YUsdS3F/CIHZC7dYGC4KwVWAyMJLmjgg9mb10npqehDPZBqTViGz1eGbU76u0T9KVjO783t6GyEhh1KEqx6wfkI0ruT7Mvgi2j2ezRVKQ/WHohSbGC2qpztHEAZiawEXu/mQLIV2kMcrPgRxO5sD6P5QOeYwxngYU3QQgzL3RGrQcN/d/0CQnbRWxQVe8YWKXGfW2LW5Cnp/spCGFkO7UaQyjyg00nCBZK80FSpNJn3cTeWtPKLG+WoSgqnUPlxX0pkTJqP6UMQ5R/5eJ4BE/3CfshxPpliR+48GzZMaMXOHJnIxJVJ/AOxXv5+G63hDjL/ZE2PJL5j6XDw7n5zc9mrMtniHoM/6k4CIvSgfW6Iv6hne+JH+lCaV/k8lS0lQ2Plb1bQ/I5RfZwoKICUd3rFV6pO0e+1eEd9OqeoL/RlsyFRTYa+iBGGeUY8U1pW9yuR44ylVjx6Eady980znmsAi1QLqrReSkrc+F1fw3/M60z/ozk+uZqhvgTwP+g1EvLEacHejZlwFyjuPK5NdtBNhqiCyGq70vr7HY2QxFCq3n6ZTDgFJmvq2k0bu90vkrtDs5lAnq0mKjFoMZy00tu4VJB1bu+eCW7KvriyffFHbXug3Q1B+JkKgX/Pg7EoGuwQN6pmvlDfeNVp80X3WPYb8sQmQ3MY399+EcWuxdJahlyZABbpVFAwBNLTJ096tQmjTSqeI8xZ55SVem7NIWllNpeVJXrn5zeUU0x9+Sj33r9JK0VNN0=
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|15080799012|5062599005|19110799012|39105399006|8060799015|23021999003|5072599009|25010399006|4140399003|19101099003|260925184616899003|6090799003|440099028|3412199025|40105399003|18071099003|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VE4wYXowZml1bllJeVVuLy9CQmF3S3dGa2R5eTFqNmppb1pHS0NUMFlCMXNv?=
+ =?utf-8?B?QUFKL2c0TlE3ODdRYThwZitmajg1azVJeW54ZHRKUmxQdFM4c0QvUjcxWmIv?=
+ =?utf-8?B?ckxZVi9HNXhnTnF2VXpoRVczallyWEVGUjczMEEyOWhsa1JzVzg0MWJSRExV?=
+ =?utf-8?B?ejAzV2JaZUtaYjFlRy9IaEJ0dEwvVmxucVhpWFhtaUtJSEpSak90dHN1c3Ru?=
+ =?utf-8?B?ZTBsUHN2LzFYQ216VGNMOG51dWpCUkJmUDErRE5VcVNxVXdaYXZqdUQ3Q2NN?=
+ =?utf-8?B?MW9RcktwOXVWeFU4dEpCSkNXZkdoUHBvWFZuc3MvWFBqb3RVK3doWVlVWkl0?=
+ =?utf-8?B?U3N5NUIzYW9KUzNMNGlsMTN4bUo0aTJXOTdnMXRRaXYrcGdtZCszSVVsN1ZN?=
+ =?utf-8?B?ZlQ3OFkrQnFMT25jR3BMUEdKQWwzZFViWnluak14dWQ2YXdJdjlZZjhqeG1D?=
+ =?utf-8?B?Mi9lTjNTNFNsMUI1akN5NDVBMURJRGFCVElvK0JiTG1icEQweW1Ca3gyZ3hq?=
+ =?utf-8?B?NlVJZlhxV2Iwc0pEd0w5cG1heEJPTWllWnBwd1RkZnRaVFo3ZDFwNVNOMXFm?=
+ =?utf-8?B?Uk9QSi8xZnVqVzRlVEFtMFI2M0Z4R2t2cjczUXVacFBVWlNMblY1Y2FiMUtH?=
+ =?utf-8?B?WHJiek1EcnE5N1BsbGtXUi9RQVNlYURSdUZ1enNPcUtWV2NtOXJjZ2E1aHNM?=
+ =?utf-8?B?Ry9KbmhIRXFIZ21vbExvR29wNW00TjlLZGpkZzBkSk8xU1ZpQ2hSSFBQbThr?=
+ =?utf-8?B?M0VnakdaNDNLb0ltSDZaMWNIS09LT0JKUG1aREFaSURGbk5OeFJBWGU1WUlt?=
+ =?utf-8?B?SFV3V0l1Qjl1anpKL2U3elFwZCtacE9oWDRXUC9jU2tUcFZlTjcvbXg1RlJr?=
+ =?utf-8?B?SHdHYXNvMFFzM0c4Nm0rWmZ2VzYwMUlBS0NydGlteWRrOHlEU3RZd3ArKzhk?=
+ =?utf-8?B?eVhhN3c3QzlRSmx4WTRxZndBNDJMMTVBaDVpbEx2alNFOWZrYlR4aGhjTnpw?=
+ =?utf-8?B?M3YySEE5QlV6MHNia25NN0djSTdxN2ZUdzFXKys2NzlObWoyRVBkYkhhOXdr?=
+ =?utf-8?B?VHR2VzA3Y0FOV3VYamtnd00reDhsaFZUaW90dnZRdUdOUnVBamZadDIzZHlX?=
+ =?utf-8?B?SFJOemhOZjRHdXFXRjhCTUpOQVpuaEFQZmxvNjhzVDZqQkQ2bitCOW10ei92?=
+ =?utf-8?B?MlU4L2xtN1hoVnNyRzN6SWxIREx5SU4wdG9HbU5uRXBsWDZPbUNhRjZlVmJo?=
+ =?utf-8?B?eTNBMEtDeE84YnNsZFJkMHkxR1VPRnptdjMwN0FPMGpreWd6VThob3ZUbXFy?=
+ =?utf-8?B?MXBjdUR2YzdCUW5MTFVaOXUzbU1nKzFEdXU0SWM1WXA4UjdKekh1OUx3Szgy?=
+ =?utf-8?B?blhrVHRxNUdFZFo2eE9rdWtvSExTbGJyZnFrN2xkTzZxU0U2dHBSYzVyMCtN?=
+ =?utf-8?Q?XkHCpTWW?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NE1OSkU5ZUFpT1RhK2JQK1pRZXcxSEpiSmlRK1VWZldRWXpodVlNV1ZNaEJy?=
+ =?utf-8?B?aytOR0dqQmZjNnl3TGZlL0tDeUkyYUxaL1RHUnRndjQ3UWt0S3pFS0N3Qk9E?=
+ =?utf-8?B?aWZLVFpyaHlPN25ha2FINDhZTlJ6RjRYd1VUQnlZQnhyeGd0SXlBbVI5c0ZW?=
+ =?utf-8?B?SlBxUW43TVBzOGZtalk2T2FUdDFlZWUrUkZ5ZDZSTm1mYWhmLy9mQ3ZVblFN?=
+ =?utf-8?B?RHovbkVqVjhXUnNsQm5wZlZXdHM2S0daSXhTZUVSN3ZtcGxrNVF1bzdUSjRO?=
+ =?utf-8?B?OWhQUFRjYlNUcUFpNkIwN0djY3U3YndreklSUGw4SWkrMS9leUxGdGZ0Sm44?=
+ =?utf-8?B?QlNBMEJRNlRCb1BKUDNTK1l2akVNcGlYTytYczBtUkYxcDJwK1RNZE04b2Uz?=
+ =?utf-8?B?N3RYTENHRGxSUElTTHpWY3JvSDhIbzFwRy9WMDdhZ0wxQU9ia3BubHJ2c1Vo?=
+ =?utf-8?B?bHhPM1crS05hWnJESDJFNDd1ZHI0YzBwKzV5TERVVHJ1N251RXE4YkdkaDJK?=
+ =?utf-8?B?L1dUbzZJL3d1NG1SUVdwVWRkblFNU3FwamVDMVJ3TkxyYVFGTXdMYitBR2VN?=
+ =?utf-8?B?L2NXN25uZ3EyQUNmNjZjOWVvMlJQV3k4ZStHT0JuSk1jVWhqdDRsRHFKajZF?=
+ =?utf-8?B?VHVDcDM1Y0RJYkhEUkRGYkxwWDlhNXpDMDVwcjd0YmdmNSsxTHpiVGFLN21B?=
+ =?utf-8?B?eDdjODN4Y2VUU1FqUU9rakVDNmtESU8vR21acXplcEZpWkp0c0lDMWVBME10?=
+ =?utf-8?B?TUErRk4ycVN5ZHdrVWRHZ2w3N253SWtWNmY2dEg3OGswaTlITytzMEJJQkdM?=
+ =?utf-8?B?ei9DQlBtOG4wVlpiOHdrNllmWVBRQ0p6U3FhRnBlTytaVkZNVXJ0dmNQRVdU?=
+ =?utf-8?B?Y3l1ZktEem5PdWR4cWdsYzY3dzQ5TExVRDJTWlRwSEgzc2hIRGgyeTFkN3Ay?=
+ =?utf-8?B?RitjZ2xKN2kxTktRS2pGRzlPZWZXbktQR0svNW1SWk1UYjA1eEMxY3BJZUpn?=
+ =?utf-8?B?S2xhMFhGaGJPSlVxaU5SaEppN1pYTnFIQlNOYXA4d3UxNGdOa3VKTU0ycmlp?=
+ =?utf-8?B?L0tUQ2hEdHQ2RTBWbmZRbnozbE1EcjA5Rys4Y2ovM2JnMU9NNkZWbWRNL1BD?=
+ =?utf-8?B?STQwTGRxNzF6VHcrVENaajlYbGE1SlgyVWZNWUU4WXhDSDFVV0tWWU9GNUJi?=
+ =?utf-8?B?bC9heWViUzJvdVdKajFDZzZXUjBXUFp1cHFDUThmZ1IzaXJoR29YbXhPdjF4?=
+ =?utf-8?B?R2MzUk1XZlJCYk5TWlQ2U3dBa28rUEFDa1gxZllScE5FeGNDb2p0NGZpemda?=
+ =?utf-8?B?RktmSUtZM3F2T205M2M5bGFnKytZM3hMSlRlNzVRRGlRYStQSnpKQUpPZDg0?=
+ =?utf-8?B?eDNtSjRMZmRCb1dqa0xlQ25MTmo2ajl0SVZjQ0xGTTVoWCsrSE4xb3F3MWEw?=
+ =?utf-8?B?dVo3UEQ1ZSt5YWliekhHMVN5Ync1SEFybGxHbWo1VUwrNWJDTmJTa2pNZlkr?=
+ =?utf-8?B?R0JHMnl6Smg5elZEYUJJMVVhRDVNWDRsdmdNM1ZnMUcrdXlMZTdsYnRkcFEw?=
+ =?utf-8?B?WTcvd1JOUDJkL25ERUVKcm1mTWtFMzc2NTdmS1RkZnhaZzhXazNiYlBoWHdL?=
+ =?utf-8?B?QU9jMmZLdGx4K3g5c2hhSE42UFloYi80YThQSzFpWE4wUlhSVmpEaVFSa04z?=
+ =?utf-8?B?V2lpN3N6KytPZ3h3TVJiMTJXWDRtZlpiLzV6RlU1OUhQclZubEtjZGU3U2sw?=
+ =?utf-8?B?UWhLVnhLNkp5RnJTSEY5dXdQNUdPbDV1QVp6bWI0RWlucE5TNVkvOFlzTGZZ?=
+ =?utf-8?B?aFRNN0cvczd3SHhweWU1QXBaODV1ODN1MHFsM21MWkZaNXBWbzZNVVNiYVlK?=
+ =?utf-8?B?SGlUOVBOZnFKdlJrZlB6N3hBZFVYa25obnJCWm5BSEltbzZaanU3bk56T01E?=
+ =?utf-8?B?ekRYMmNmZTI5aTIwbU9aQk5SbkNwMFpLZVpjdXEya3JyK1JBTW1rUEt2Ukx1?=
+ =?utf-8?B?a1psYzhoL0N3PT0=?=
+X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-583ad.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea7869bd-d3ec-423f-3ccb-08df45266f13
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF67BA2A785.NAMP223.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 03:45:48.8957
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3P223MB0228
 
-From: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
+Copied name for certain functions can be 32 bytes, but destination is
+also only 32 bytes. After adding prefix, name may be truncated, causing
+compiler warning from -Wformat-truncation.
 
-Replace the volatile int channel state counters with atomic_t and
-convert all access sites to the atomic API.
+drivers/staging/greybus/audio_topology.c: In function ‘gbaudio_tplg_process_kcontrols’:
+drivers/staging/greybus/audio_topology.c:1172:65: warning: ‘%s’ directive output may be truncated writing up to 31 bytes into a region of size between 17 and 27 [-Wformat-truncation=]
+drivers/staging/greybus/audio_topology.c: In function ‘gbaudio_tplg_create_widget’:
+drivers/staging/greybus/audio_topology.c:1090:51: warning: ‘%s’ directive output may be truncated writing up to 31 bytes into a region of size between 17 and 27 [-Wformat-truncation=]
 
-request_counter is incremented in the AHB interrupt handler
-(channel_service_interrupt) and read from task context
-(channel_service), while service_counter is updated in task context.
-Plain volatile provides neither atomicity nor ordering for such
-cross-context sharing, see
-Documentation/process/volatile-considered-harmful.rst.
+Modify the temporary name buffer size in
+gbaudio_tplg_process_kcontrols() and gbaudio_tplg_create_widget() to
+match the maximum size that can be copied back to the name field. Add
+a bitmask to the ID put in the prefix to assure values 0-63 as stated
+in "include/linux/greybus/greybus_protocols.h" for struct
+gb_audio_control. The compiler expects 2 digits max when bitmask is
+presnet, allowing one more character in controls compared to widgets.
 
-Use atomic_set() at init, atomic_inc() for updates and atomic_read()
-for the comparison in channel_service().  No functional change is
-intended.  Unlike the earlier attempt that only dropped the
-qualifier, this converts the access sites as well.
+For the widgets, name may only be 24 bytes max for IDs 0-255. For the
+controls, name may only be 25 bytes max for IDs 0-63. IDs with less
+digits get truncated regardless.
 
-Compile-tested only; I don't have this hardware, so testing on real
-hardware would be appreciated.
+Compile tested only.
 
-Link: https://lore.kernel.org/linux-staging/2026072515-domestic-cardboard-f657@gregkh/
-Signed-off-by: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
+Signed-off-by: Garrett Floyd <garrettfloyd345@hotmail.com>
 ---
-Changes in v2:
-- Resend under my real name (From/Signed-off-by: Maximo Manriquez Lizarraga).
-- Apologies for the wasted cycle; if the objection was technical rather than the sender identity, please say what to change.
-- Link to v1: https://patch.msgid.link/20261107-staging-dim2-atomic-v1-1-6eb4e8f1f63a@tubot.lat
----
- drivers/staging/most/dim2/hal.c | 11 ++++++-----
- drivers/staging/most/dim2/hal.h |  5 +++--
- 2 files changed, 9 insertions(+), 7 deletions(-)
+ drivers/staging/greybus/audio_topology.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-index 4f137ef846a3..ca931782b06c 100644
---- a/drivers/staging/most/dim2/hal.c
-+++ b/drivers/staging/most/dim2/hal.c
-@@ -419,8 +419,8 @@ u16 dim_dbr_space(struct dim_channel *ch)
+diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+index 76146f91cddc..1a6ef1bdf170 100644
+--- a/drivers/staging/greybus/audio_topology.c
++++ b/drivers/staging/greybus/audio_topology.c
+@@ -1018,7 +1018,8 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+ 	struct gb_audio_control *curr;
+ 	struct gbaudio_control *control, *_control;
+ 	size_t size;
+-	char temp_name[NAME_SIZE];
++	/* Subtracting 3 for "GB ", 3 for ID 0-255, 1 for final space */
++	char temp_name[NAME_SIZE - 7];
  
- static void state_init(struct int_ch_state *state)
- {
--	state->request_counter = 0;
--	state->service_counter = 0;
-+	atomic_set(&state->request_counter, 0);
-+	atomic_set(&state->service_counter, 0);
+ 	ret = gbaudio_validate_kcontrol_count(w);
+ 	if (ret) {
+@@ -1087,7 +1088,8 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
  
- 	state->idx1 = 0;
- 	state->idx2 = 0;
-@@ -634,7 +634,7 @@ static bool channel_service_interrupt(struct dim_channel *ch)
- 		return false;
+ 	/* Prefix dev_id to widget control_name */
+ 	strscpy(temp_name, w->name, sizeof(temp_name));
+-	snprintf(w->name, sizeof(w->name), "GB %d %s", module->dev_id, temp_name);
++	snprintf(w->name, sizeof(w->name), "GB %u %s", module->dev_id,
++		 temp_name);
  
- 	state->idx2 ^= 1;
--	state->request_counter++;
-+	atomic_inc(&state->request_counter);
- 	return true;
- }
+ 	switch (w->type) {
+ 	case snd_soc_dapm_spk:
+@@ -1143,7 +1145,8 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
+ 	struct gb_audio_control *curr;
+ 	struct gbaudio_control *control, *_control;
+ 	size_t size;
+-	char temp_name[NAME_SIZE];
++	/* Subtracting 3 for "GB ", 2 for ID 0-63, 1 for final space */
++	char temp_name[NAME_SIZE - 6];
  
-@@ -682,8 +682,9 @@ static u8 channel_service(struct dim_channel *ch)
- {
- 	struct int_ch_state *const state = &ch->state;
- 
--	if (state->service_counter != state->request_counter) {
--		state->service_counter++;
-+	if (atomic_read(&state->service_counter) !=
-+	    atomic_read(&state->request_counter)) {
-+		atomic_inc(&state->service_counter);
- 		if (state->level == 0)
- 			return DIM_ERR_UNDERFLOW;
- 
-diff --git a/drivers/staging/most/dim2/hal.h b/drivers/staging/most/dim2/hal.h
-index 5d69a5e7d299..70b10793cf84 100644
---- a/drivers/staging/most/dim2/hal.h
-+++ b/drivers/staging/most/dim2/hal.h
-@@ -9,6 +9,7 @@
- #ifndef _DIM2_HAL_H
- #define _DIM2_HAL_H
- 
-+#include <linux/atomic.h>
- #include <linux/types.h>
- #include "reg.h"
- 
-@@ -34,10 +35,10 @@ struct dim_ch_state {
- 
- struct int_ch_state {
- 	/* changed only in interrupt context */
--	volatile int request_counter;
-+	atomic_t request_counter;
- 
- 	/* changed only in task context */
--	volatile int service_counter;
-+	atomic_t service_counter;
- 
- 	u8 idx1;
- 	u8 idx2;
-
----
-base-commit: a41e364995bbcfa627418a70fe913c35b7510728
-change-id: 20261107-staging-dim2-atomic-68a85f8feaf6
-
-Best regards,
---  
-Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
-
+ 	size = sizeof(struct snd_kcontrol_new) * module->num_controls;
+ 	dapm_kctls = devm_kzalloc(module->dev, size, GFP_KERNEL);
+@@ -1169,7 +1172,8 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
+ 		control->id = curr->id;
+ 		/* Prefix dev_id to widget_name */
+ 		strscpy(temp_name, curr->name, sizeof(temp_name));
+-		snprintf(curr->name, sizeof(curr->name), "GB %d %s", module->dev_id,
++		/* bitmask enforces values between 0-63 */
++		snprintf(curr->name, sizeof(curr->name), "GB %u %s", module->dev_id & 0x3f,
+ 			 temp_name);
+ 		control->name = curr->name;
+ 		if (curr->info.type == GB_AUDIO_CTL_ELEM_TYPE_ENUMERATED) {
+-- 
+2.55.0
 
