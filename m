@@ -1,99 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794938207;
-	b=Wyvv40kSweLg6P3PXmP9oH4P5qfrt1HaZY1f46b4a9tfee4zryCX9Jyx4+Z0rYPKCnNJ
-	 NJq4CGVGR8lVOmupfBSs+++kdjYlbdu8OKQhYzR/lBzitramyxYe57rARLlvvd51pNdM6
-	 47DC2wYKyPmFr7A+2H9FFcZyGxE+UaWxctmob2zfSvRVrwE6SCRNNxxMpGW1KGKZhWVgc
-	 bNL/ZKFtuS6iQVKVt+mLJvuQdmvWOlns/J9M1TYViZhfqQUcO+BxlZSiSlhKnMnwE2BFI
-	 755442ijgXg9Y04njMVa7pyEtXTiZvU/SRbXI1Pwagt2QXWxRAim7fGVbS1+j41pgOQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794938207;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=pD8vNDgtYkqY5yb1vjvicd9DBKj0i2pqXmdMkGJ2JPs=;
-	b=fo6vjWVHw1lw2+6vFfzgRT/5dyq8JOepbb8QTnrR3dYGtB67cd85symukBwd0fAPNJtk
-	 puyLJy5Wl5ICGK9JkMkRymmiuSJsHNffCQHwKvenzLxRKJsOc7/vwd7IsX34rFUdu5UPw
-	 aqBrD4YfdXgki3sjzHzAoRMWIk+f7a+eLRJ0Dl+WBq2bTiWlwE+p6ATjizpCWWFUaWWoR
-	 PGKBYexRzCvA6fEqWDIFriYchwiJeZIxa4oDxuSIWvq/xVNv6ZRNJsyOj6xo5W5Fftz2U
-	 Kej8/O/KQ70upwhZoNbriQ8thTeUffrfNGjlI2DIp2i8MQtjewTehGKRdV7ayK/nOcA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cJGkrvnc;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794960365;
+	b=ZEIINs7bGS43p24RcSTaIYgaRwM5Ss0wk3kryiNgN5kunym4Cjgu7iqfBnHLTVVgOrs4
+	 sfpRKAzqhfAfr/MnkPJeZ12r1l2unkFqiMcFV7Mk8lBbrBW444zP09g2dmfeM7Uqrt5kP
+	 yfvxfFXCn6hFSffx1tN4HMIm8m3zWQwry4vEGyMrJDRoYcsiObUADKUPn4nSEzZnDtYo6
+	 MXK+3oFVi3JUBUKOM4HabLq4wNx4kuyOEVAME1xqsEpOWEPQ1OHrn6Ts7lYiMRyPPzil2
+	 EwtGREGmia3exwkIq8/HaJT0GsG572UG/Ne+C5yYHDgYhA8H/Ar327WAIzNQaJ2rA8A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794960365;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=unrS287i9FwKkDsWayC0w5UfBJ3WFgvs3n9HcLvX0gc=;
+	b=UmrnlRBVoVDIE/pnZjmXoQkIA+O+0tO2Y54qHSfYN0QwouVryTHJAV7CE3mmeH8w5ba+
+	 rp1YjbNe35ue37aLahyM45KGwmPfG29uOeGEmI5BXSThdaCXr5tx78W7D7wOrn0Vg9tBs
+	 KqmOgEv/bScrR6dDm2G+7vpPsDoy2GWe9y/nUaH+Q+mr+Qy2bfv+R+6/RrDOWK4PTVoc2
+	 6w6SRyxVGCUejV7J393C3P5wmdGEIsmmwcmI/X9j+xqloPWCBhX0PdnDTTRenEtfvWad+
+	 MnS8noF9AXopwOI5UxJr+H+ztzoLOp1PUw+I8bvJwnktXnepohrnpGAI7oCrqUr5V/g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=abvdB7Gn;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A852606A31C;
+	Wed, 18 Nov 2026 00:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=abvdB7Gn
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794960365;
+	b=dX3epUhSbn4Jp3m74+IFKMmqMYPyL9ddjoLdZSnifXDAp+HUfGgfqShnFDM1ddMUjhso
+	 3EAbQXHcwLWg1rTLhioX6UiCBBOxzf0aaTh2Sx2YdWmByNXqpT3HYs3l1vZLXwcOgNQ8W
+	 Wb0RkylgOqtt4icq5uqWg9X0EbA5JvmKS6FU0PZPmee4eztb/eUvQiQfm/T4qDUP6zzyZ
+	 wK8ssvDjTC344U+9n4USbI1hFMj1Dh+RntqLe8JIcC08ufc7JMa94Fo157vm4wb8ei67E
+	 QfJGaz1puowm285q6qodLpqMZzvCvCGc/FPGZQmCLZBk3mZqOry6oORvsUbZ36CQ8AA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794960365;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=unrS287i9FwKkDsWayC0w5UfBJ3WFgvs3n9HcLvX0gc=;
+	b=uVYlDb+RFypOeeejfGlrG5TsZcVCxOOWqKhYHBxqwxUKF43Gy74/ieq6SawuO3en2ZF3
+	 U7ElifLycAhSeMQg17ZuY44rOvkJGw8O+gdS+YAUbv1otbece3fy3nBE/RUYW26vduVV2
+	 FVKAY7Snxq1mTDQWGT/A7+nJjm9RkvuHgDciYJ9XV748jcyZY5Rfk6RbRqXCHoLt334mx
+	 dK28fvtADYIOMC9HCCPhAKegmdU8tsq1xCaf3gA42d8AWYFc2Q8wy2CeEu9Mjrx7CO+XG
+	 HI9e5GtC13OS3/Bu0YlAT5b41Cyhmg7jUhU5r8Hbcql0jYAaKDkI6zUk0ovxkZh8Hxw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE00606A32C
-	for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 17:56:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FE00606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cJGkrvnc
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4bb6ba3b244so1607205e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 17 Nov 2026 09:56:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794938206; x=1795543006; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pD8vNDgtYkqY5yb1vjvicd9DBKj0i2pqXmdMkGJ2JPs=;
-        b=cJGkrvncdIXgcAuXmUMIYoaFoLGaECyBtm/eICJLrczMnlpfpBmt/6BGjvP9hgPFjG
-         JTOfuiF562D56J9pneREZavYnBOn5tXC7U2pso9FOcQLxn6CktZdw5aNEZKmaQLPOo/B
-         4Mv0mB0OYhb7jmMMhunlWhGihN5KX2Z5CCOilqCxbDd/OXPfIii3TfFJi7p36h+yVb/A
-         /twbw1D8cDQmL1BMXqJjBzdFNxuRVWOo1nya4XqoCcfT78lesiH+/zyM/CL7LsBZ3N2l
-         TjvEqcay2dSArDDeHrFkyfYkEijWy177c8h7PpZv6v/UCkJO6O1EttAb5OrARETsFHt8
-         qLTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794938206; x=1795543006;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pD8vNDgtYkqY5yb1vjvicd9DBKj0i2pqXmdMkGJ2JPs=;
-        b=mge3cFxnrIFhNqM3rwGc+qAipmc1cVTw5FYj10uLp+95W9SWDapmEI2gH0+K180jpN
-         M0UGYO5EY+xX3OhT9E1ePCZAKAj/AH53HscNBUuLknxeumKarqWc7Uz+xRMSshDKq6ND
-         7sX5oXA3WlfH7IwM97D38V5hToYVN+fbvM8ah5MaWi5nA+hyc5WqlUU95iCgIB7NhMSF
-         Q4PJwhliDGBigxt3v/Dskly1KaF8ZnNca+ET5XGTAY+8GMBMkvyk9JCEsqP5OjlVIFkR
-         gdIsvWGXM9Y2czZH6hsNic6WHuQY7F4WPHkxVqfnUK+BP7Jm1v0VdVArTsRki3T1rTQv
-         Zu0g==
-X-Forwarded-Encrypted: i=1; AL+hErFzHuXAD47ySPHSBVrO8LsMMsDqdQxQBDze676CbGQQtP2qfbLYF7wWvIvgjn+m/GZWuWBysrlySqmlJuUC@lists.linux.dev
-X-Gm-Message-State: APuU4Z/NDbk1Dwn/D0LkjIcX5beLV7A76UvIJNdYq9KYxW3KFkOvMbP3
-	y9w9IohlTEzb9GwI4MCrKjYnc/QZzt9TDo1VNIIp2W4/3UnfWBAEP3sz
-X-Gm-Gg: AYBFou3BnxJVTExOLcwspUMYVY+VZActWLgHg6rIe0G3QW7KoCat4Zl9mhtKhRhjPpK
-	pWd2JO7W1yi0P4IpaBYotfAdd3/+4oqGdKAhJM4kKcQhB6GHbXL472a8cVk7mwuTjc2YbAygHNu
-	10TIJ72A9+4Iq3Jht8tYAamPjoBkc0Tf/YAkV/gPIPTRozcUCBMFDY6G8907VsTWPXAqD4gz0Li
-	6c9PLjhBGFoPOh9Wy3UjyLdqDDTVGDc2lly2HNvAsTT5CDuCrab8ZwQhsoGapWcufLQC4TCpfx4
-	FIuUs1WqnkPWGIhwypwj9AT6Jh2VSYMICFScZ9LHTjp+bTsh9yOcHl/gIuktiDoqPy0edBd+iL2
-	S/la5ExW+xVpFz4iMH6POqwP0/P7QO92n7ohX96kCXbPdqR5DQjcOqA+FSC4H/OpI2NopunjUpf
-	wCLIgx7cTzfM6VPG9QehJOCTtYZO83czxaIQoXhq4+U+gSTZ2IuFZVc/RxoApkDL7Z/UBjKZ6XY
-	0jYH50Fgmcg9XeayBzh7D8YqeoDkaGOxBGnEHtGJuDl56crbBop8ibpPoEcz/cesC3O53LHijXk
-	W2TfJ2/Y5ccXicSl0Z2L6B3hDmvAOZt23OtQHkm/U/ZIyg==
-X-Received: by 2002:a05:600c:8b57:b0:4bb:6118:4f57 with SMTP id 5b1f17b1804b1-4bb6118533emr268214555e9.18.1794938205744;
-        Tue, 17 Nov 2026 09:56:45 -0800 (PST)
-Received: from Kyiv.home.arpa ([2a0e:1d47:4093:b600:11a1:dc8c:1ed6:51c5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d2b74d6sm1292895e9.9.2026.11.17.09.56.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 09:56:45 -0800 (PST)
-From: Volodymyr Chapman <volodymyrchapman@gmail.com>
-To: andriy.shevchenko@intel.com
-Cc: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: atomisp: Don't enumerate frame sizes the preview pipe can't output
-Date: Tue, 17 Nov 2026 17:56:35 +0000
-Message-ID: <20261117175635.11790-1-volodymyrchapman@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <avwtA3b3XMkGXPfZ@ashevche-desk.local>
-References: <20261116175750.21905-1-volodymyrchapman@gmail.com> <20261116175750.21905-2-volodymyrchapman@gmail.com> <avwtA3b3XMkGXPfZ@ashevche-desk.local>
+	by smtp.kernel.org (Postfix) with ESMTPS id 2C5911F000C4;
+	Wed, 18 Nov 2026 00:06:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794960365;
+	bh=unrS287i9FwKkDsWayC0w5UfBJ3WFgvs3n9HcLvX0gc=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=abvdB7GnEEJEfaNSa3T8TxLLBlROi7b+SQz4cV84FPx+M82JFKdHnUwc/1EDHp7go
+	 xSmbrWL6BoW0rgkkv2kEmfRdOieJ+rKbRZolL2pB0vJlQXR9HBWxWNFV0DyTsHJcAN
+	 5kAQ6IrfBwd+/Zhcuv/Ue0SocO5hb/L1vWQnlCqqNLEzmYkg9UA0FpJ0soBxrfyaBr
+	 N40eNK3QxELb6kcnZp2AVbSFc45sgZaBCxycS10LDHt7wc3PfdsYtklzaCsI5CG4GV
+	 QLhLC4DpUDOlCK45SRWHwzsiLOKaHCqSm+WTEABC3eC4JaIAw0U4kRKELoyUkKCHDs
+	 QXmtb1OCGayTw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 70FFC4790C;
+	Wed, 18 Nov 2026 00:06:03 +0000 (UTC)
+From: Maximo Manriquez Lizarraga via B4 Relay <devnull+DelaySystem.tubot.lat@kernel.org>
+Date: Tue, 17 Nov 2026 16:06:03 -0800
+Subject: [PATCH v2] staging: iio: adc: ad7816: use dev_err_probe() for GPIO
+ lookups
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -103,44 +83,92 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261117-batch1-s3-warn-v2-1-17f4e541123b@tubot.lat>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNQQ6CMBBFr0Jm7RimJVJceQ/Doh2L1Bggbakaw
+ t2luHb5kvffXyBY72yAc7GAt8kFNw4biEMB3OvhbtHdNgZRihNRWaPRkXvCIPGl/YBCNdworg2
+ Rgm00edu59x68tj8Os3lYjrmSjd6FOPrP/pgoe3/jiZCw6lgqWRFrqS5xNmM8PnWEdl3XL2mLE
+ V6+AAAA
+X-Change-ID: 20261107-batch1-s3-warn-289c98c7b118
+To: jic23@kernel.org, Michael.Hennerich@analog.com, dlechner@baylibre.com, 
+ gregkh@linuxfoundation.org, andy@kernel.org, nuno.sa@analog.com
+Cc: linux-iio@vger.kernel.org, krzk@kernel.org, linux@analog.com, 
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+ Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2256;
+ i=DelaySystem@tubot.lat; h=from:subject:message-id;
+ bh=zUcBktwXmCE4oXfyfd9Np1m8huOS/SaVtNAIrPt4qJg=;
+ b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFl/Xr/+PSPHu2fBstdXOq22WfBt+3NoU++6/09nl4v4d
+ S09bnQ3oaOUhUGMg0FWTJFFTIbnff19nThrqzknYOawMoEMYeDiFICJLJFn+J8gJz5hQ/OaRV06
+ pvf/von+XL5yxk3R+Ik9FTeCtVfE/zJk+Ge8TWObqUHYEq4Wvnt8BaeVOdrOyL2cv/OvF9c8Ye3
+ eXawA
+X-Developer-Key: i=DelaySystem@tubot.lat; a=openpgp;
+ fpr=161C0CEF7FDF2C5E3B3A9CC8E22333A79A058D4B
+X-Endpoint-Received: by B4 Relay for DelaySystem@tubot.lat/default with
+ auth_id=1447
+X-Original-From: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
+Reply-To: DelaySystem@tubot.lat
+Content-Transfer-Encoding: 7bit
 
-Hi Andy,
+From: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
 
-On Tue, Nov 17, 2026 at 12:31:31PM +0200, Andy Shevchenko wrote:
-> So, what makes us stop implementing the crop support there?
+GPIO lookups can return -EPROBE_DEFER.  Convert the rdwr and convert
+GPIO lookup failures in ad7816_probe() to dev_err_probe(), which
+suppresses the error message on deferral and records the deferral
+reason.  The busy-GPIO path is left untouched: its optionality is the
+subject of a separate proposed change.
 
-atomisp only uses its crop path for sensors whose driver supports the
-NATIVE_SIZE, CROP_DEFAULT and CROP selection targets
-(atomisp_init_sensor()). The IMX175 driver does not yet: in his review of
-it, Dave Stevenson suggested that binning, and possibly cropping, should
-wait for the Common Raw Sensor Model. Once the sensor supports cropping,
-atomisp takes the atomisp_enum_framesizes_crop() path and this code
-is not used for it.
+No functional change other than defer handling.
 
-Even with crop support, preview mode would list nothing larger than
-1920x1440: that is the largest entry in the frame_sizes table of
-atomisp_enum_framesizes_crop_inner(). This patch applies the same limit
-to the non-crop path.
+Signed-off-by: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
+---
+Changes in v2:
+- Resend under my real name (From/Signed-off-by: Maximo Manriquez Lizarraga).
+- Apologies for the improper sign-off on v1; no code change.
+- Link to v1: https://patch.msgid.link/20261107-batch1-s3-warn-v1-1-4fc38341ca38@tubot.lat
+---
+ drivers/staging/iio/adc/ad7816.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-> No need to repeat these two paragraphs, make sure they are in the cover letter.
+diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+index 2a15d7598abb..11292216dfb5 100644
+--- a/drivers/staging/iio/adc/ad7816.c
++++ b/drivers/staging/iio/adc/ad7816.c
+@@ -381,20 +381,14 @@ static int ad7816_probe(struct spi_device *spi_dev)
+ 
+ 	chip->id = spi_get_device_id(spi_dev)->driver_data;
+ 	chip->rdwr_pin = devm_gpiod_get(&spi_dev->dev, "rdwr", GPIOD_OUT_HIGH);
+-	if (IS_ERR(chip->rdwr_pin)) {
+-		ret = PTR_ERR(chip->rdwr_pin);
+-		dev_err(&spi_dev->dev, "Failed to request rdwr GPIO: %d\n",
+-			ret);
+-		return ret;
+-	}
++	if (IS_ERR(chip->rdwr_pin))
++		return dev_err_probe(&spi_dev->dev, PTR_ERR(chip->rdwr_pin),
++				     "Failed to request rdwr GPIO\n");
+ 	chip->convert_pin = devm_gpiod_get(&spi_dev->dev, "convert",
+ 					   GPIOD_OUT_HIGH);
+-	if (IS_ERR(chip->convert_pin)) {
+-		ret = PTR_ERR(chip->convert_pin);
+-		dev_err(&spi_dev->dev, "Failed to request convert GPIO: %d\n",
+-			ret);
+-		return ret;
+-	}
++	if (IS_ERR(chip->convert_pin))
++		return dev_err_probe(&spi_dev->dev, PTR_ERR(chip->convert_pin),
++				     "Failed to request convert GPIO\n");
+ 	if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
+ 		chip->busy_pin = devm_gpiod_get(&spi_dev->dev, "busy",
+ 						GPIOD_IN);
 
-Of course. I will keep them in the cover letter only in v2.
+---
+base-commit: fa4ad798f6f681031775266044ba1b0cf3c670bd
+change-id: 20261107-batch1-s3-warn-289c98c7b118
 
-> TBH, this feels like a hack, but I'm not v4l2/media reviewer/maintainer,
-> so I don't know if this approach is legit.
+Best regards,
+--  
+Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
 
-The intent is to make VIDIOC_ENUM_FRAMESIZES match what
-atomisp_try_fmt() returns, which already clamps the size to 1920x1440 in
-preview mode. Without this patch the IMX175 lists 3264x2448 and
-1624x1216, and TRY_FMT for 3264x2448 returns 1624x1216. With it, the
-IMX175 lists only 1624x1216 and the OV2722 lists 1916x1076, 1616x1076
-and 1436x1076. Every listed size is returned unchanged by TRY_FMT, and
-for the other sizes I tried (640x480 up to 3264x2448) TRY_FMT
-returned only listed sizes.
 
-Hans, Sakari, would you prefer this, or a different approach for the
-non-crop path?
-
-Thanks,
-Volodymyr
