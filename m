@@ -1,72 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.250.56.165
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795002388;
-	b=uYT1ZwLjahR3IxY1vZ0ukd4CxqCBB8jRbYwOqe7etJJXdugVJ/f7VoFfFlvutVpKSJQ0
-	 nxhmEF+GgLPNbLBP0LJvS5xtWDcSaJQV4ZJ6ZJuVO6k+7scnWeaN+6/nVyhtUGEU++ZLQ
-	 rlrVp7hVbdQd9nYjwOIf3yaO/h0G+/aFwcQek/J/h+jia2id1gcyJkugL2KanwK8JUlkK
-	 j4zFpPKVqDMhIQiIlElvWp7U+kNLHApyTjJ7cw4o9WVv0QotK9tDVwSQ446vrknIpvRXF
-	 xmIZBgGjJrp/ahxlpbTxx6rqsv+MCDvaI5F45K7sm2oGNkuldqyZeWtu89kzL7YVYEA==
+	t=1795003301;
+	b=r+3pub5vgmP4u6g51oDac6tMgZhWrPHRthngEQuGuoFVDehr+ME6rgKMYMzmUinf+Vp+
+	 5N/6/A9xMA+PkEW4OfPQtzpGXuUu+n5jQl2v1sIiZxyZnnz31b1woTCwD0ulKq8hPsLt7
+	 t0T0RzAMkVMdphL9TDZpw+lt1vLRbjRJC9uQttyZQ00cSaneoWi6L3plmTcgi9FT0WvKu
+	 IxNPMTWUDzIRTV9qw7r2fpiMVN9Vd/ZdvKsD+/58YQgTk/5bjfq9u/glVE0x/61/LSmsM
+	 C9N0EEbQKOKv28snxCCLlNmbx/9LGtDNVh5Uh2AATCbLNdVOTXOvQcAk+zQLDhTLPNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795002388;
-	h=DMARC-Filter:Received:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Nm1MpgKfwCOo+OO+1uPGVTYdaRxcqscqWt1Og//oUcA=;
-	b=s5KWBDT7c2sNRsT+G3wazm7qMJj++HixKe0CVw9RWMsFGd7FhYvJtY9XEsfKWX/XkZDj
-	 pgDV0+PADC7UTPek3LzJb4i/Uyss5hDvbg9n624ZQAl4R3DRF5ieYfXnSDpKqHMVnsGPs
-	 fY9drYjmS86iFQQp65bANhW2PD+2hOuZlsv/JpbLlVNEvgA+7h0dmiqW3lt7g9wcoFiSf
-	 5HFr1uWZ197sEezueMmJDbNqixYm41bkWzb7hldsSiuTYB2xUA9PNWPsG8cG605gBWfYI
-	 IiQAZrFnJ+pJYhqIhC3aZO87acWFcDfztDr3MiEZNZiPdkko7GIGuNJPXBW2MOr5pKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795003301;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=KSUxz0kUmubjph+cp2VPmoNpzQJPoX8IF209FgUek9w=;
+	b=Fhwg2GR820ZRtE9tHGPfZjN2nPfntq5FwCQ98LTpcT3LcMCi93TMtCIToaiwdX4TgF9z
+	 01V0oVL1rdW6I6N/byaaioEeRVnHcbaC2n/DLde+qUzNyvahFv1Ypcwi0paUXw9+7+QV5
+	 2jm1yHSrgBt/MGjnU2d8hL0DCmC62XNymbH9TBePLm3eAhfpoekbZrQUpBGNpHDxMVlCE
+	 Qo+/P2+4vOtbWAgQec5aj+k2JvmSzEbTY7bFvSDZD6L6TQhnXhWJg5PCcEV+2HP76UXOM
+	 OfuDZ5J1G2fhW686lYC+gff307KGwTxWkipeO0JFxAtjhczayZSD0+zAeSRB4NnywxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideco.ru;
-	spf=pass smtp.mailfrom=ideco.ru;
-	dkim=pass header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=JE6XqfuD;
-	arc=none smtp.remote-ip=51.250.56.165
-Received: from smtp.ideco.ru (smtp.ideco.ru [51.250.56.165])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=b+gwDp+M;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D81606A320
-	for <linux-staging@lists.linux.dev>; Wed, 18 Nov 2026 11:46:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12D81606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ideco.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideco.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3F0606A320
+	for <linux-staging@lists.linux.dev>; Wed, 18 Nov 2026 12:01:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD3F0606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=JE6XqfuD
-Received: from [169.254.254.254] (localhost [127.0.0.1])
-	by smtp.ideco.ru (Postfix) with ESMTP id 706F026BE6;
-	Wed, 18 Nov 2026 16:46:25 +0500 (+05)
-Received: from laptop-ak.home (unknown [5.189.116.195])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.ideco.ru (Postfix) with ESMTPSA id 750F126BC1;
-	Wed, 18 Nov 2026 16:46:17 +0500 (+05)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.ideco.ru 750F126BC1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ideco.ru; s=ics;
-	t=1795002379; bh=Nm1MpgKfwCOo+OO+1uPGVTYdaRxcqscqWt1Og//oUcA=;
-	h=From:To:Cc:Subject:Date;
-	b=JE6XqfuDLf83PqUXyYT++D9HWj3WvAiFud8r5ErMY81P8REyXZKYeibwxsHeJ0bM3
-	 uITJ6W9r+vuStmzwEojHJ7c7PMzgqks6y+JzDOhLmkDNXs2vMF4niECUe5mBYjALXw
-	 BI6O7501Yt+j6kfrk6ocoKrMuLxX0tQ06XDdphb2sBfAfX4EgVtjE4aFDTg/QmRmMl
-	 WLQkU/We4fLpebQoWAPi1bs1Td1Wi/oUKVxDCyC9cYYlFaxLNpuypQxS2QOuYoeUJV
-	 dyTZN1UNqIZz3D1SQpata6ylK1chNwZFZRLbag0QUhvoGCiopVeYhoGyHekNTTOOGn
-	 VxXLIQkSE+JrQ==
-From: Andrey Karelin <a.karelin@ideco.ru>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Andrey Karelin <a.karelin@ideco.ru>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=b+gwDp+M
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4ac95761c85so6747615e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 18 Nov 2026 04:01:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795003299; x=1795608099; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KSUxz0kUmubjph+cp2VPmoNpzQJPoX8IF209FgUek9w=;
+        b=b+gwDp+Mtdc4vfLXqSkjCq1WkNfx8FsR47CqYXlKiUiuXPWwBIB9zOF373cbhDtNcw
+         82pGlWoqrpa/XlHZwpHHW1YCUzuDv4Q8bEaNDgwa14XPfHMjugLlfQTQAXmJim6xkzoL
+         Z9/nP/t2ZbEy03ZyA6Jf8hNQKP5FP10A0R8iuBZJCiLlrCr5DI1x6ZO8FmLy7Ndev6bm
+         Npou/CVYyXClkWvwrsmOo23gWgXVpZvCKCYHibHlh8+WkR4D5E+mCLUMidNS5ejtxKYF
+         kH/vFuQOj7LZZV3UdGI9x7vsnr5ced0VHgVRKilZeUQa+5PX/vIN1xp+g+mnZ9gKilnb
+         jBHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795003299; x=1795608099;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KSUxz0kUmubjph+cp2VPmoNpzQJPoX8IF209FgUek9w=;
+        b=ujXZmLF2LJBMGBqqcwOe7HOp4UFY3XLCzDMfGqvMtHquEajCutPfD1qiLmp7Vp7V22
+         egb3OvVe+9ydU2bhisSOxV0Yv0nhdSbbV9vDgDIGXhhvAaJEMUUl/IMpcBMah8jeo/WL
+         MnsEruhvh7hOTUoza0bJbHSZiYoRHoNqjjKb00UPwWMHf/WEcBAk1/LBiVnZ6fsrEpYB
+         K2KWkToZaG8W/qHpHGTRMEBXUrdqOe6wSWjfkW0bXRCt9Tsth4Wv0vO1Sbf4uZSviuJC
+         QMwOBQZGha8LBkHqFtBplZWCXVggnoAqfOecf7c7ggrb+7ltCLvBDEqEqVnslnRJlQsX
+         7zRg==
+X-Forwarded-Encrypted: i=1; AL+hErF1IFUMx5uDBkoemv81hPzHHlO/H1QOQmb1voIlMxwnnavl7jndWU8IjDWfrVpO/QqZE+TVlHSqU6Vqg2ux@lists.linux.dev
+X-Gm-Message-State: APuU4Z98AVRMgDhtWQuuFACAdWSSt90klzqP/Qz2D9a7TfP7HEsN+9hE
+	W/EZPb5qF5DLn6vdzZL9/q2IlNO6NkkY6Mvd+BHSNXTMNs5D2khGgoNs
+X-Gm-Gg: AYBFou0wMnifi6kw1s6374RGvoVGBFXpeqCTPXbYnVM6ch1fqX6nZHSsGvSn/YCNTwg
+	PzlLMJR6ZfLk6CxKbcGEaZPV1E+Yzpq5szVbolNaSKTjePCcHYvhjYKe+PEHTUBgtvKImAfJmbL
+	UHBP7XScf7sOYLiynklUdF6Qiyttib0n6kN2ePGHvtF/kLIPaR+uNjgWLAb0FOwNywRQBhK8Qvx
+	UEjWTPo83n2bCZ52y7S/HoCqiTAWwWc+n9YBPFFc8l0FrWdp0xyP9wpFhTovaN1RrgpsfQ7UH7T
+	llAvQcs06ikzjDgD0UtEyjarvRobnqHgwKvjkkscmKB8yKJEnfGBBgxgV9eDVn8gDzFkb5tcdf6
+	hND4nGxxC1MN2mZiTOcUYItmP0rLyEs1iUnephylaioPkeat7sxlmZK4YoRmvLcOkAyjBVTSXBd
+	MJuLVtdBL+Olo9hnVFB71I0E7U9d9LR2krakf6XMegFQZeIuU2jaVUkHPm21rz/0jp5b2NIBI0a
+	siOESPqoEtDXBdhOi1nJ7nY0YDOsH3NWEa85BjxSyVnyl4wByq+OmZ4OUHnul9QmTPt5uet2CdB
+	O3eF4xndUnP6W7ORjG3G7CvbLOm8r0jia2mW63tY2GVeFV1mfQQrimwYDarZYBCU+AijtPe1eiO
+	fNYT7RMJ2y5ePSy+uGFf/C0gbE9H1j9gc5g7b4tKn8X2MiA79SAh11USTNI6U6CClNaA=
+X-Received: by 2002:a05:600d:600b:b0:4a2:cbe:bec2 with SMTP id 5b1f17b1804b1-4bb7da3a374mr41928875e9.32.1795003298771;
+        Wed, 18 Nov 2026 04:01:38 -0800 (PST)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a6575a5c28sm4520927f8f.59.2026.11.18.04.01.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 04:01:37 -0800 (PST)
+Date: Wed, 18 Nov 2026 15:01:34 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Shivani Patel <patelshivani2283@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH RESEND] media: atomisp: check load_copy_binary() result in load_advanced_binaries()
-Date: Wed, 18 Nov 2026 16:46:00 +0500
-Message-ID: <20261118114605.203316-1-a.karelin@ideco.ru>
-X-Mailer: git-send-email 2.56.1
+	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH v3 1/2] staging: most: video: Protect pending_mbos and
+ mute with list_lock
+Message-ID: <av2Tnre7L8iEAf98@stanley.mountain>
+References: <20261117170558.33844-1-patelshivani2283@gmail.com>
+ <av1t4DbqGsmUmrZJ@stanley.mountain>
+ <av2KgdP5EuLamxpe@ashevche-desk.local>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -76,50 +104,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <av2KgdP5EuLamxpe@ashevche-desk.local>
 
-load_advanced_binaries() ignores the return value of load_copy_binary(),
-unlike all other callers of this function. If no suitable ISP copy
-binary is found, the error is lost, the copy binary stays unloaded and
-the capture pipeline is created without the copy stage although it is
-required (always on ISP2400, for direct sensor input on ISP2401).
+On Wed, Nov 18, 2026 at 01:22:41PM +0200, Andy Shevchenko wrote:
+> On Wed, Nov 18, 2026 at 12:20:32PM +0300, Dan Carpenter wrote:
+> > On Tue, Nov 17, 2026 at 10:35:57PM +0530, Shivani Patel wrote:
+> > > data_ready() and get_top_mbo() read mdev->pending_mbos without holding
+> > > mdev->list_lock, racing with comp_rx_data() which modifies the list
+> > > under mdev->list_lock. Also, comp_vdev_close() clears mdev->mute without
+> > > holding mdev->list_lock.
+> > > 
+> > > Acquire mdev->list_lock in data_ready(), get_top_mbo(), and when
+> > > clearing mdev->mute in comp_vdev_close(). Use list_first_entry_or_null()
+> > > in get_top_mbo() so comp_vdev_read() can drop the redundant data_ready()
+> > > check inside the read loop.
+> 
+> ...
+> 
+> > > -static inline bool data_ready(struct most_video_dev *mdev)
+> > > +static bool data_ready(struct most_video_dev *mdev)
+> > >  {
+> > > -	return !list_empty(&mdev->pending_mbos);
+> > > +	unsigned long flags;
+> > > +	bool ready;
+> > > +
+> > > +	spin_lock_irqsave(&mdev->list_lock, flags);
+> > > +	ready = !list_empty(&mdev->pending_mbos);
+> > > +	spin_unlock_irqrestore(&mdev->list_lock, flags);
+> > > +
+> > > +	return ready;
+> > 
+> > It doesn't really matter if we take the lock where since we drop it
+> > right away.  The list_empty() doesn't anything that requires locking
+> > so far as I can see.
+> 
+> Right, but the problem is that we possibly might compare valid pointer
+> (list head itself) with the stale pointer (head->next and/or head->prev).
 
-Propagate the error to the caller as the other binary loading steps in
-this function already do.
+It's fine.  If you strip away the macros what the code is doing is.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Andrey Karelin <a.karelin@ideco.ru>
----
-Resending the patch unchanged, only rebased onto current mainline. The
-original posting got no response, probably because it went out
-during the v7.4 merge window:
-https://lore.kernel.org/all/20261020151247.441124-1-a.karelin@ideco.ru/
-
- drivers/staging/media/atomisp/pci/sh_css.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 4a182dc384ca..3f3671ceca59 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -5459,9 +5459,9 @@ static int load_advanced_binaries(struct ia_css_pipe *pipe)
- 		need_isp_copy = pipe->stream->config.mode == IA_CSS_INPUT_MODE_SENSOR;
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 3a0445ff62f4..7bebbf1e11cb 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -62,7 +62,9 @@ static DEFINE_SPINLOCK(list_lock);
  
- 	if (need_isp_copy)
--		load_copy_binary(pipe,
--				 &pipe->pipe_settings.capture.copy_binary,
--				 &pipe->pipe_settings.capture.pre_isp_binary);
-+		err = load_copy_binary(pipe,
-+				       &pipe->pipe_settings.capture.copy_binary,
-+				       &pipe->pipe_settings.capture.pre_isp_binary);
- 
- 	return err;
+ static inline bool data_ready(struct most_video_dev *mdev)
+ {
+-	return !list_empty(&mdev->pending_mbos);
++	if (mdev->pending_mbos.next == mdev->pending_mbos.prev)
++		return false;
++	return true;
  }
+ 
+ static inline struct mbo *get_top_mbo(struct most_video_dev *mdev)
 
-base-commit: 20eef29b7c8465ac98d7dd6d6f2ac07a8d8056ca
--- 
-2.56.1
+The lock is unecessary, but also harmless.  Why I don't like adding a
+lock is because we drop the lock before we return so the return value
+could be wrong by the time it gets to the caller.  Nothing really
+relies on the return being correct.  It's useful because we set the
+error code based on it, but if it's wrong the system isn't going to
+crash.
 
+It's pretty common to do this sort of thing where we check in a racy
+way if we can return early, then we take a lock and check again to
+ensure that something is still true when it matters.
 
+regards,
+dan carpenter
