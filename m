@@ -1,79 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795026231;
-	b=zFZ2w5Rj0Zf4uabyhG4gcC4n4LUJ9iS5YuyvwQqaNigzvj33fCKsoi5d8i0YKGZ4ZEmx
-	 //dR9hIds/zv8iuXaxdMYs+GJkpM3Xpd8VSTxgSfLqeRg+l9MkkoooIYamNxPAOKWtp4P
-	 FrQ6CQ3jFFKvGJYeyyzKLPtTDGVn54e6vI+SC5cJ9R2KWXapxkREsdYgHsfsQ0q8V8bxQ
-	 V7lw9KKpRTLwIkgJznzz/z1xd64Q65Ru9eXiSymyUIIkrSkG/TVmLROw7aEts+E+Rbq24
-	 nig8Lo8ZLcCH2set7Vtarw47aybJeZF0wYeT6cS1PBacTdD4Fww/mwxa1AC8N0Esy3w==
+	t=1795026377;
+	b=NIkwJ19ScnWpJoNFcLf/ieLIh4ggUcNf26de3RimxLEhwe2gv+TK/7HDObZtzEW10F9k
+	 JNQ2N863xjqY4dFoirhWmBpXmlAkBWK4P8L5FeM4RQz8iTC6N3TeyYYrWzfjnE2XrCynu
+	 /azDJSSvmY4Cpy24TrLJ/sVy5ZF6Iy0J5J9Z3QX/o2VdPEvzeoswZQm0hRooMoUTmTtcr
+	 IhZXlJGGJ5rUovPF8Js0GJvi7r9f5Mmaw6mE4ZOBjluUk2TifgLemAbjbH0SBNbRxX3X/
+	 BlrkChic95lFyybXtyiaugML8kZNoPioBiBBPeVcQVBIJ+zdXiLv6iQaMWkb3s0cCRQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795026231;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795026377;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=eXYD4X0CeO+62DbtTGXIAFqWJcku0Q4l2Qtcs6eLqvw=;
-	b=kHzgXE7TT6kds4y8OuksdfqhNs+4Di9gLIRZJSuM7eBqgfW/O81hNaLSNY5iKOOQyqBh
-	 Ry2uU/3BvCqzvwyXY6AZzI/41d1sfwIvCZn9KxwCgRa48Qt1Qs01HYzVZlV/IISWmIJ/q
-	 hGGBSFU3FrIIPvyz16rEv4JjEv/quxhndbUtlFzqlbbIT8UR81CKIe31tDO+EeAm6n7Zq
-	 q+c2P8n5pRSzpzXoggExIjjCoVlXmY8kv3egLpd/T7E8obLVcMLeb+rvjSHva1E8/3L6O
-	 dJo+HPa/zOaQtJyYo+RS27R5mytpaIBxbMqcTF3nFiOygPhptvbSqGPg2p7fpK6NdUQ==
+	bh=r7sbzCl2qpTgoM/gKEteCq1RYkwvwSqJCdHHjbgh9xU=;
+	b=DpE/Ub4DkmVwjqjVMb28mACK6NDxVIuE2Wr1UgbT5A6c5e1AxL+jbbldD98e8pclF3mH
+	 twBDBxrbYi5UhAau34QoYjSp4SUFmD9FYiuVIkA9KKBmBKsIwLGMTna2XyawXpaBBChhP
+	 F/RK6aSvzGAZjpJoQ219sHR/KRI4HadZEKsXj1+8nLcAzOmJzP5u6xlkxaXBJJCCxQ0mY
+	 Qt6o3l86VSjwK3D5gXR5T8oZ706bZoSzoj1xV2vTLgEZKI4FHae0UcSi2AvpQsUKd8vdF
+	 wrBBpXhjk+SnP4e3AEizp0KHWLSpjk6QUf8n4rJB5GHWc/86nVwkPQ1Su4xTIAuLFfQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ox0wqPwm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zjir4qpl;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2430C60A2609;
-	Wed, 18 Nov 2026 18:23:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81050606A31C;
+	Wed, 18 Nov 2026 18:26:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ox0wqPwm
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zjir4qpl
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795026230;
-	b=p6VDKsMk+y0RSGcJ0uXSl5n8nzDGr2YreBG9i0RMSzRbtE1HnBjCl4k8az7xrxaKSdFE
-	 4Nyyo6FHm7w+WFdL3/8Fa1np5Ou12PeEyZngd2WXpltQRVifDdnDJTanROapkpSj+0vxk
-	 boT+qZlZCORmpiwHCWDXkHXqbPgsgayeEWkMs6KnJOvv2cy8WMJKW4cVa1LKCJY0uYvBx
-	 m/sK/QiGrD54K02pwqOLwCB16+WVI6+Q8mZoD30V/3eUnvKkI5ekIwn34JD81jePkF4se
-	 /KxJnqsgVK36uVMPw+LmD8gWf22MSSy5Ig/aKtXrva1ZIcTO6MBBq6nCvXLHRv4X79w==
+	t=1795026377;
+	b=xE30EIpjA+tvBvcnwmFilf8lUrpVNpBl1gOJrMzyqvmcQHIaX6cCc1qcwfNm5XLQ9BVc
+	 z/9UQDjvTiUupIIgCY6pUbF+p6ltCPE4v0SVSUoJkcON+fUq29DyBAMm19vBKGrJlC43H
+	 8Jz3ujXbExSoK4g4MRqazOk/dAGXH6LCHt1tTdk9CRi1HeebL5pqiO4U8m5gU7GdJ2uvS
+	 MWYvhHnlQ3CHk8R0WorGmIctVAA1rtjRBLh7NFIhI/I5UsNZGMXJkxM7evBO9PJmJ5WEx
+	 qbcd36PfqKyT5xya5cHzO0T3i+iJ3Kjj1zXE9lEAUNoj1antwkuvi4K7pl5Qmt3qQ6g==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795026230;
+	c=relaxed/relaxed; t=1795026377;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=eXYD4X0CeO+62DbtTGXIAFqWJcku0Q4l2Qtcs6eLqvw=;
-	b=X5rAMhpsY71W/2jvZTe74P6evMjYAKJfw0/nNgnOKFKp3ODwFqKkEvbHO/+gqkxdxHkn
-	 JxBIQosmv3ekNawGmN0/FJ6OgZSDLcqJPcY8Tjl8b9IpfcCOYgOwTbfUHnQu7wARcX/Zb
-	 5pS5/YTuxDyTxpbEAGtRduYBc7eJ1uy+UkwOd4XYOxEmG9ewJyyAxNZ4YTn7bGrthaQnH
-	 3by1JoViWVh+zXQsUho0wRShWm36U5DKKb63Wi+4hWoLigFzDGpBO+6p6bmqjVleCNm6r
-	 u7S1n3+/rqNlwnhE/M7wRJ8AxrCAvhYg6Mx+81DIF+iHCh9AYuEd9T/pOtz/JPVHIyQ==
+	bh=r7sbzCl2qpTgoM/gKEteCq1RYkwvwSqJCdHHjbgh9xU=;
+	b=FU8mX5wfb0bavvKmqjC4Qm3617EnUD6QNddgmGM4c2hW+5GuItP/d9HKBC9BbMeZLojj
+	 vDnX3XS01QUU0T5nZLrcJBUZLLcfHpJp1uvTjWcFdDa6cLjtoCyPv5txqQYNmtSpybbEb
+	 PZ+ev0tcdTsCemNeVlNCarpY7Y6CYIUoVjQjCfl8j2y/lokJBnRzqH4+SqOvelSQFpEOQ
+	 WEXaQT+PCGGUwoF6bKdhOybqkV3fFtCzxGftd54C/D2Le22MyUBvTWnUZuPje8O+YX0eY
+	 dB4Xn38HoC5/V77bdTS+lJtHp1mCejIHfx7g+buD6WJnaFYpFkhYdnydqnvNM9zgmbA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 421721F000C4;
-	Wed, 18 Nov 2026 18:23:50 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id D62D21F000C4;
+	Wed, 18 Nov 2026 18:26:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795026230;
-	bh=eXYD4X0CeO+62DbtTGXIAFqWJcku0Q4l2Qtcs6eLqvw=;
+	s=k20260515; t=1795026377;
+	bh=r7sbzCl2qpTgoM/gKEteCq1RYkwvwSqJCdHHjbgh9xU=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=Ox0wqPwmiZN4S5VQvvyD+woyx85uPwzhVcjsATxPkJL2BQyTLtKLkEB+bnbqnEnds
-	 wdBdEcIQheFFLgkeT5Tp3v//BjIS9RW7x6wpKMYK/6Ksd4hQuKW/kUVhLwydsizBl0
-	 NrC1Pq+ZE54fi7jvsEXdLpk1qPzv6wgVUA5lMDz4uCgfJ6Aj3yeFZlakY6UknvA/6l
-	 rh/bqPKdSzJQtnguetZJYhA8vK8LNjH+jQWx9+NKeNZfNYdZ4hlwpApOsq2vFG107c
-	 /UQpUML+3JR18wjveaDIwixPlBLxCS1vi4TFhTcJD87mX/kWu/870iTzJFdVOxLcR2
-	 5T0Azfn2bZ0SQ==
+	b=Zjir4qplSv8aSEBPPG0izn1e/f7nrRAolyNYb7OhiAxUeJV3YOmXFf3EH9xh/q2SB
+	 /JwkB1wtS1z//nIT6m/BuvebnXCzDvJYhLnezdPbToQx2TvasbIEmS49d3hKSmmoEa
+	 GBa5wVjKbUXRPidh6Jz/55mrE9EQTkMMazE5KZE5Vd6gZZrF51QFQSZoHPOSATwq8e
+	 JYt1cUZ7/DHitSXKN9bhafNfFnRBDWKbtbuKLDINOsHEY1NNMNX5rXzNMxnwyGFCuG
+	 15R2YvPKXPZ8XBz1ipCQ+KPnM2//ntgJJDJorKUG9yDUyDmU+afcrDySX4FJdTQTrT
+	 LEcS7FTI45NHQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id B17D84AEF9;
-	Wed, 18 Nov 2026 18:23:49 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 52AD04AEF9;
+	Wed, 18 Nov 2026 18:26:16 +0000 (UTC)
 From: Maximo Manriquez Lizarraga via B4 Relay <devnull+DelaySystem.tubot.lat@kernel.org>
-Date: Wed, 18 Nov 2026 10:22:17 -0800
-Subject: [PATCH v3] staging: iio: adc: ad7816: use dev_err_probe() for GPIO
- lookups
+Date: Wed, 18 Nov 2026 10:24:41 -0800
+Subject: [PATCH v3] staging: most: dim2: drop volatile from state counters
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,25 +83,26 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261118-batch1-s3-warn-v3-1-f622d212deeb@tubot.lat>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNQQ7CIBQFr9KwFtMPaKkr72FcAP5ajCkGKGqa3
- l2omybG5SRv5k0koLcYyKGaiMdkg3VDBr6piOnVcEVqL5kJq9keoG6oVtH0QAOnT+UHymRrWmk
- aDSBJlh4eO/tagqfzl8Oob2hiqZRFb0N0/r08Jii7v/EEFKjoDJdcgFFcHuOoXdzeVSQlnthKh
- 1+dZR2aTuBOADCu1/o8zx/ZkGR3/QAAAA==
-X-Change-ID: 20261107-batch1-s3-warn-289c98c7b118
-To: nuno.sa@analog.com, andy@kernel.org, gregkh@linuxfoundation.org, 
- jic23@kernel.org, dlechner@baylibre.com, Michael.Hennerich@analog.com
-Cc: linux-staging@lists.linux.dev, linux-iio@vger.kernel.org, 
- linux@analog.com, krzk@kernel.org, linux-kernel@vger.kernel.org, 
- crofts@kernel.org, Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
+Message-Id: <20261118-staging-dim2-atomic-v3-1-bc595e081fc8@tubot.lat>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NQQ6CMBQFr0K6tqYttDauvIdxUeAXvhFq2kI0h
+ Lvb4oaNLid5b2YhATxCIOdiIR5mDOjGBOWhIE1vxg4otomJYEJxzk40RNPh2NEWB0FNdAM2VGm
+ jpdUWjFUkPZ8eLL426/X25TDVd2hiVuVFjyE6/96yM8+7/4WZU04V1BVoy60qzSVOtYvHh4kkF
+ 2axc/AfDpEcRkpmmeSaVeXesa7rB+y+100MAQAA
+X-Change-ID: 20261107-staging-dim2-atomic-68a85f8feaf6
+To: shyamsunderreddypadira@gmail.com, marusik.adamenko@gmail.com, 
+ error27@gmail.com, gregkh@linuxfoundation.org, 
+ christian.gromm@microchip.com, parthiban.veerasooran@microchip.com, 
+ rajveer.chaudhari.linux@gmail.com
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+ Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2746;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2808;
  i=DelaySystem@tubot.lat; h=from:subject:message-id;
- bh=AmqBcsa25DReGcyElJDVwLM4MEKGLB/bkwyZBeRmiyY=;
- b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFl/35pe0kn71vJ75w/V/DXPZgc/8HVdZHlO+53kgt/Lp
- H5fF2Cb2FHKwiDGwSArpsgiJsPzvv6+Tpy11ZwTMHNYmUCGMHBxCsBE9uYwMry6ILJgTVGbdt3l
- 3XYb6vO+/pH/+frhPcclj36tEi3/F3+W4a9c5LKFLhdqNopYHj37ZN0z99daO9i2eM6rfPU7SfR
- 5tSU3AA==
+ bh=obOr3rP8PTgcSS0Dx2Zi17AJdPtVHUgcvGOImUJO25I=;
+ b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFl/3x5P7s9RsppXzhhYcOZ+pvvrOqFdkX2Z/3pcfvKc2
+ B16UO9ARykLgxgHg6yYIouYDM/7+vs6cdZWc07AzGFlAhnCwMUpABNhe87IMHWOdUfRJukPVl2L
+ MrishERuvv88t2zdhp92ORYzVqz7c4fhf/mX4D+5C2qEL21gv+i+6R3/UvNP543fiPwriSxNkF0
+ whQsA
 X-Developer-Key: i=DelaySystem@tubot.lat; a=openpgp;
  fpr=161C0CEF7FDF2C5E3B3A9CC8E22333A79A058D4B
 X-Endpoint-Received: by B4 Relay for DelaySystem@tubot.lat/default with
@@ -113,74 +113,68 @@ Content-Transfer-Encoding: 7bit
 
 From: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
 
-GPIO lookups can return -EPROBE_DEFER.  Convert the rdwr, convert,
-and busy GPIO lookup failures in ad7816_probe() to dev_err_probe(),
-which suppresses the error message on deferral and records the deferral
-reason.
+The request_counter/service_counter pair is shared between the AHB
+hard-IRQ handler and the threaded-IRQ service path, but every access
+already runs under dim_lock with local interrupts disabled:
+dim2_ahb_isr() holds it across dim_service_ahb_int_irq(),
+dim2_task_irq() across dim_service_channel(), and configure_channel()
+across the dim_init_*() calls that zero the counters. The spinlock
+provides both the mutual exclusion and the memory barriers, so the
+volatile qualifier adds nothing and wrongly suggests lockless
+cross-context sharing (see
+Documentation/process/volatile-considered-harmful.rst).
 
-No functional change other than defer handling.
+Converting to atomic_t is the wrong tool here: the service-side
+check-and-increment cannot be a single atomic step when done as
+separate atomic_read() calls, as Dan Carpenter pointed out on the
+atomic_t attempt, and a lockless scheme would still need dim_lock for
+the sibling channel state (level, indices, done-buffer count, MBO
+lists) anyway.
+
+Drop the qualifier and document the actual protection in place. No
+functional change intended.
+
+Compile-tested only (MOST=m, MOST_DIM2=m build clean); I don't have
+this hardware, so testing on real hardware would be appreciated.
 
 Signed-off-by: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
 ---
 Changes in v3:
-- Convert the missed busy-GPIO failure path to dev_err_probe() as well (Joshua Crofts).
-- Link to v2: https://patch.msgid.link/20261117-batch1-s3-warn-v2-1-17f4e541123b@tubot.lat
+- New direction: drop the NAKed atomic_t conversion. An audit showed every counter access already runs under dim_lock, so drop volatile and document the lock instead (Dan Carpenter).
+- Link to v2: https://patch.msgid.link/20261117-staging-dim2-atomic-v2-1-a550f0518043@tubot.lat
 
 Changes in v2:
 - Resend under my real name (From/Signed-off-by: Maximo Manriquez Lizarraga).
-- Apologies for the improper sign-off on v1; no code change.
-- Link to v1: https://patch.msgid.link/20261107-batch1-s3-warn-v1-1-4fc38341ca38@tubot.lat
+- Apologies for the wasted cycle; if the objection was technical rather than the sender identity, please say what to change.
+- Link to v1: https://patch.msgid.link/20261107-staging-dim2-atomic-v1-1-6eb4e8f1f63a@tubot.lat
 ---
- drivers/staging/iio/adc/ad7816.c | 27 +++++++++------------------
- 1 file changed, 9 insertions(+), 18 deletions(-)
+ drivers/staging/most/dim2/hal.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index 2a15d7598abb..dc9d89ca04ab 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -381,29 +381,20 @@ static int ad7816_probe(struct spi_device *spi_dev)
+diff --git a/drivers/staging/most/dim2/hal.h b/drivers/staging/most/dim2/hal.h
+index 5d69a5e7d299..f857e6856a16 100644
+--- a/drivers/staging/most/dim2/hal.h
++++ b/drivers/staging/most/dim2/hal.h
+@@ -33,11 +33,11 @@ struct dim_ch_state {
+ };
  
- 	chip->id = spi_get_device_id(spi_dev)->driver_data;
- 	chip->rdwr_pin = devm_gpiod_get(&spi_dev->dev, "rdwr", GPIOD_OUT_HIGH);
--	if (IS_ERR(chip->rdwr_pin)) {
--		ret = PTR_ERR(chip->rdwr_pin);
--		dev_err(&spi_dev->dev, "Failed to request rdwr GPIO: %d\n",
--			ret);
--		return ret;
--	}
-+	if (IS_ERR(chip->rdwr_pin))
-+		return dev_err_probe(&spi_dev->dev, PTR_ERR(chip->rdwr_pin),
-+				     "Failed to request rdwr GPIO\n");
- 	chip->convert_pin = devm_gpiod_get(&spi_dev->dev, "convert",
- 					   GPIOD_OUT_HIGH);
--	if (IS_ERR(chip->convert_pin)) {
--		ret = PTR_ERR(chip->convert_pin);
--		dev_err(&spi_dev->dev, "Failed to request convert GPIO: %d\n",
--			ret);
--		return ret;
--	}
-+	if (IS_ERR(chip->convert_pin))
-+		return dev_err_probe(&spi_dev->dev, PTR_ERR(chip->convert_pin),
-+				     "Failed to request convert GPIO\n");
- 	if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
- 		chip->busy_pin = devm_gpiod_get(&spi_dev->dev, "busy",
- 						GPIOD_IN);
--		if (IS_ERR(chip->busy_pin)) {
--			ret = PTR_ERR(chip->busy_pin);
--			dev_err(&spi_dev->dev, "Failed to request busy GPIO: %d\n",
--				ret);
--			return ret;
--		}
-+		if (IS_ERR(chip->busy_pin))
-+			return dev_err_probe(&spi_dev->dev, PTR_ERR(chip->busy_pin),
-+					     "Failed to request busy GPIO\n");
- 	}
+ struct int_ch_state {
+-	/* changed only in interrupt context */
+-	volatile int request_counter;
++	/* protected by dim_lock; incremented in interrupt context */
++	int request_counter;
  
- 	indio_dev->name = spi_get_device_id(spi_dev)->name;
+-	/* changed only in task context */
+-	volatile int service_counter;
++	/* protected by dim_lock; updated in task context */
++	int service_counter;
+ 
+ 	u8 idx1;
+ 	u8 idx2;
 
 ---
-base-commit: fa4ad798f6f681031775266044ba1b0cf3c670bd
-change-id: 20261107-batch1-s3-warn-289c98c7b118
+base-commit: a41e364995bbcfa627418a70fe913c35b7510728
+change-id: 20261107-staging-dim2-atomic-68a85f8feaf6
 
 Best regards,
 --  
