@@ -1,100 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.87.225
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795003301;
-	b=r+3pub5vgmP4u6g51oDac6tMgZhWrPHRthngEQuGuoFVDehr+ME6rgKMYMzmUinf+Vp+
-	 5N/6/A9xMA+PkEW4OfPQtzpGXuUu+n5jQl2v1sIiZxyZnnz31b1woTCwD0ulKq8hPsLt7
-	 t0T0RzAMkVMdphL9TDZpw+lt1vLRbjRJC9uQttyZQ00cSaneoWi6L3plmTcgi9FT0WvKu
-	 IxNPMTWUDzIRTV9qw7r2fpiMVN9Vd/ZdvKsD+/58YQgTk/5bjfq9u/glVE0x/61/LSmsM
-	 C9N0EEbQKOKv28snxCCLlNmbx/9LGtDNVh5Uh2AATCbLNdVOTXOvQcAk+zQLDhTLPNA==
+	t=1795017709;
+	b=N9hnTCipSF2eCKATemoP23QUcBs7KXBV1eRhlXqwlqThTiK1y1Pt3hglOKntDkKSBMMr
+	 QaFFElSzda6e1crs0hBTs46o3cQPfjzth1Vzp4rDKiBbi+rrp9eO/XNa5WPur3wglF4AD
+	 v9KlWW4gZwUL9ji8YlAx7KeFRBtfUD6h64LBsunPNXGbh+DCH+VokxrQW/zlWAfB5IXYL
+	 yDKEb852gC7XpnNIfVQEUEqBx7ZlxQlSnLVqq2g5HXSoNMo2YeBU1wWQXZ2JoIpcCMnfe
+	 UBYjFwcNJhj4USKs/zhYlT4K8/FIP82vp1ndR1YaZpIJL7Hq+fgPIuPof1rDa01Kxfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795003301;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=KSUxz0kUmubjph+cp2VPmoNpzQJPoX8IF209FgUek9w=;
-	b=Fhwg2GR820ZRtE9tHGPfZjN2nPfntq5FwCQ98LTpcT3LcMCi93TMtCIToaiwdX4TgF9z
-	 01V0oVL1rdW6I6N/byaaioEeRVnHcbaC2n/DLde+qUzNyvahFv1Ypcwi0paUXw9+7+QV5
-	 2jm1yHSrgBt/MGjnU2d8hL0DCmC62XNymbH9TBePLm3eAhfpoekbZrQUpBGNpHDxMVlCE
-	 Qo+/P2+4vOtbWAgQec5aj+k2JvmSzEbTY7bFvSDZD6L6TQhnXhWJg5PCcEV+2HP76UXOM
-	 OfuDZ5J1G2fhW686lYC+gff307KGwTxWkipeO0JFxAtjhczayZSD0+zAeSRB4NnywxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795017709;
+	h=DMARC-Filter:Received:X-ICL-RepId:Dkim-Signature:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Info-Out:
+	 X-Proofpoint-Spam-Details-Enc:X-JNJ;
+	bh=J4x7vG2kgvMTwSisv2CKrXIxEnzvTohn05JwlURcXCo=;
+	b=X5rMZ08HMyDy74tKSfLlgvLX/aBiwgWvcGXRNvTtKFykeZGc0RjDJvVFwK2ceACSESFz
+	 kWXaLbtGYrHwy7NC64V/k1Bxvnhh6+nHxgeOmCS72ZDiG3T9mHHaEBRklnaN8e1tWQDB3
+	 kHyEI9fClW+RsZVdNtK+ZhYousNtUjBuo/v+r9k7nMmVrAupUcIHljqJSF2OWifPBvET2
+	 oMrTqgKULf61c4RORyiKiAQjVC0rpH27Dd9LOjC5HDpoRot2aow2bIHZSXe6f0Ff1bF3u
+	 LucUaLs3xBf3eutzHUZXPrEYkYSyRxI6zX57UvCxE+ba5aW7Pp3Rhu21HQSh+VCvbTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=b+gwDp+M;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=icloud.com;
+	spf=pass smtp.mailfrom=icloud.com;
+	dkim=pass header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=Ne4oErZJ;
+	arc=none smtp.remote-ip=57.103.87.225
+Received: from outbound.qs.icloud.com (qs-2002j-snip4-4.eps.apple.com [57.103.87.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3F0606A320
-	for <linux-staging@lists.linux.dev>; Wed, 18 Nov 2026 12:01:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD3F0606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DB6606A325
+	for <linux-staging@lists.linux.dev>; Wed, 18 Nov 2026 16:01:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5DB6606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=b+gwDp+M
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4ac95761c85so6747615e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 18 Nov 2026 04:01:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795003299; x=1795608099; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KSUxz0kUmubjph+cp2VPmoNpzQJPoX8IF209FgUek9w=;
-        b=b+gwDp+Mtdc4vfLXqSkjCq1WkNfx8FsR47CqYXlKiUiuXPWwBIB9zOF373cbhDtNcw
-         82pGlWoqrpa/XlHZwpHHW1YCUzuDv4Q8bEaNDgwa14XPfHMjugLlfQTQAXmJim6xkzoL
-         Z9/nP/t2ZbEy03ZyA6Jf8hNQKP5FP10A0R8iuBZJCiLlrCr5DI1x6ZO8FmLy7Ndev6bm
-         Npou/CVYyXClkWvwrsmOo23gWgXVpZvCKCYHibHlh8+WkR4D5E+mCLUMidNS5ejtxKYF
-         kH/vFuQOj7LZZV3UdGI9x7vsnr5ced0VHgVRKilZeUQa+5PX/vIN1xp+g+mnZ9gKilnb
-         jBHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795003299; x=1795608099;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KSUxz0kUmubjph+cp2VPmoNpzQJPoX8IF209FgUek9w=;
-        b=ujXZmLF2LJBMGBqqcwOe7HOp4UFY3XLCzDMfGqvMtHquEajCutPfD1qiLmp7Vp7V22
-         egb3OvVe+9ydU2bhisSOxV0Yv0nhdSbbV9vDgDIGXhhvAaJEMUUl/IMpcBMah8jeo/WL
-         MnsEruhvh7hOTUoza0bJbHSZiYoRHoNqjjKb00UPwWMHf/WEcBAk1/LBiVnZ6fsrEpYB
-         K2KWkToZaG8W/qHpHGTRMEBXUrdqOe6wSWjfkW0bXRCt9Tsth4Wv0vO1Sbf4uZSviuJC
-         QMwOBQZGha8LBkHqFtBplZWCXVggnoAqfOecf7c7ggrb+7ltCLvBDEqEqVnslnRJlQsX
-         7zRg==
-X-Forwarded-Encrypted: i=1; AL+hErF1IFUMx5uDBkoemv81hPzHHlO/H1QOQmb1voIlMxwnnavl7jndWU8IjDWfrVpO/QqZE+TVlHSqU6Vqg2ux@lists.linux.dev
-X-Gm-Message-State: APuU4Z98AVRMgDhtWQuuFACAdWSSt90klzqP/Qz2D9a7TfP7HEsN+9hE
-	W/EZPb5qF5DLn6vdzZL9/q2IlNO6NkkY6Mvd+BHSNXTMNs5D2khGgoNs
-X-Gm-Gg: AYBFou0wMnifi6kw1s6374RGvoVGBFXpeqCTPXbYnVM6ch1fqX6nZHSsGvSn/YCNTwg
-	PzlLMJR6ZfLk6CxKbcGEaZPV1E+Yzpq5szVbolNaSKTjePCcHYvhjYKe+PEHTUBgtvKImAfJmbL
-	UHBP7XScf7sOYLiynklUdF6Qiyttib0n6kN2ePGHvtF/kLIPaR+uNjgWLAb0FOwNywRQBhK8Qvx
-	UEjWTPo83n2bCZ52y7S/HoCqiTAWwWc+n9YBPFFc8l0FrWdp0xyP9wpFhTovaN1RrgpsfQ7UH7T
-	llAvQcs06ikzjDgD0UtEyjarvRobnqHgwKvjkkscmKB8yKJEnfGBBgxgV9eDVn8gDzFkb5tcdf6
-	hND4nGxxC1MN2mZiTOcUYItmP0rLyEs1iUnephylaioPkeat7sxlmZK4YoRmvLcOkAyjBVTSXBd
-	MJuLVtdBL+Olo9hnVFB71I0E7U9d9LR2krakf6XMegFQZeIuU2jaVUkHPm21rz/0jp5b2NIBI0a
-	siOESPqoEtDXBdhOi1nJ7nY0YDOsH3NWEa85BjxSyVnyl4wByq+OmZ4OUHnul9QmTPt5uet2CdB
-	O3eF4xndUnP6W7ORjG3G7CvbLOm8r0jia2mW63tY2GVeFV1mfQQrimwYDarZYBCU+AijtPe1eiO
-	fNYT7RMJ2y5ePSy+uGFf/C0gbE9H1j9gc5g7b4tKn8X2MiA79SAh11USTNI6U6CClNaA=
-X-Received: by 2002:a05:600d:600b:b0:4a2:cbe:bec2 with SMTP id 5b1f17b1804b1-4bb7da3a374mr41928875e9.32.1795003298771;
-        Wed, 18 Nov 2026 04:01:38 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a6575a5c28sm4520927f8f.59.2026.11.18.04.01.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 04:01:37 -0800 (PST)
-Date: Wed, 18 Nov 2026 15:01:34 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Shivani Patel <patelshivani2283@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v3 1/2] staging: most: video: Protect pending_mbos and
- mute with list_lock
-Message-ID: <av2Tnre7L8iEAf98@stanley.mountain>
-References: <20261117170558.33844-1-patelshivani2283@gmail.com>
- <av1t4DbqGsmUmrZJ@stanley.mountain>
- <av2KgdP5EuLamxpe@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=Ne4oErZJ
+Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-2d-100-percent-3 (Postfix) with ESMTPS id BD27C18001F4;
+	Wed, 18 Nov 2026 16:01:46 +0000 (UTC)
+X-ICL-RepId: 01a1ef64-8cc4-787a-a372-8a9489bfca27
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1795017707; x=1826553707; bh=J4x7vG2kgvMTwSisv2CKrXIxEnzvTohn05JwlURcXCo=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=Ne4oErZJVllgniKkEZqqeI3i5oHtxbwR0j3gnBM1iBbaS3WOZouB/hu3ZSwm/j1hjDycLHzd8wrpjFvdYEM03ViPfDgwX/DKACt+w4B8uh8BJXwRJhYsj7fsI15O/6snbJjEOZQhJkGPgAXlS4Uz/7cn8DEtdC9pg5XHQHdwcK8pV+pNwvPIS95Q1LyqbhpgvpEBnrXq56P8Vvbls8ef7ynozAj8+xdIGd7YF7x7PNLEamFcy3NZws6WA7wgc3gZY4VpLpp7FDtuUV5S6V9brHlgGma5tYhMqcwtgm5HCdzcfB/1pc2GskVx3C6mbvDN0DCzjuKbvamOz5h/YAxHoA==
+Received: from archlinux (unknown [17.57.155.37])
+	by p00-icloudmta-asmtp-us-east-2d-100-percent-3 (Postfix) with ESMTPSA id 5BD481817E9A;
+	Wed, 18 Nov 2026 16:01:45 +0000 (UTC)
+From: Philipp Prell <philipp.prell@icloud.com>
+To: dtwlin@gmail.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Philipp Prell <philipp.prell@icloud.com>
+Subject: [PATCH] staging: greybus: uart: convert from IDR to XArray
+Date: Wed, 18 Nov 2026 17:01:41 +0100
+Message-ID: <20261118160141.341572-1-philipp.prell@icloud.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -104,73 +65,151 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <av2KgdP5EuLamxpe@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA2MyBTYWx0ZWRfX2VVr9tfHB6WA
+ xPjjeTs8LLrbOlq1VpzCatu+xX72uu8saRICRC5F8wrfmt9wrFW0HmcISCSTm7CNOtHZo3ybmn7
+ PuGEKpfVvZBhkgkUv2JSo4h1k9wjBLw=
+X-Proofpoint-GUID: zpouYMdnh7fsXqy3pQeu1wojZ1_-jmPP
+X-Proofpoint-ORIG-GUID: zpouYMdnh7fsXqy3pQeu1wojZ1_-jmPP
+X-Authority-Info-Out: v=2.4 cv=b5QncdGx c=1 sm=1 tr=0 ts=6afdcbeb
+ cx=c_apl:c_pps:t_out a=bsP7O+dXZ5uKcj+dsLqiMw==:117
+ a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10
+ a=BXpT7KiN_MIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=kibvr5HLtuNvmma_iept:22
+ a=EmTZQha9bAnfYDchpHGQ:22 a=v3ZZPjhaAAAA:8 a=159dhF2HwaxKWhnN5oEA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA2MyBTYWx0ZWRfXxeBgeLv0fVcX
+ oUlXFMAIP/y11rtSG9oNtvT6UrD81fmBubkKDW7Iawn3l+DhLq+QQ/bjdTm3xCT3EZaqzBnbUZn
+ +gTqCc1GGWpQAMhq41ol7JLgbBck414wYR9S4pyQh8oFxLDpobxxRvUr6uYUq00FAH/kVjWcKIF
+ 80IbBaGDtKYO0vVnxwx175XXk0F8yaBwB8HwGyXIbnjs7kRDhvMdSd3Jj+SN/zjuItAWkE3QRPK
+ vKPFAifDy15OhwTNEwdYgLRZsEQXbQL5Q5P8z3thEb4Aj6YuYqn9Rk0jccwKUk3hqphkPhcFD6L
+ MWIkCwxa/zUeFzGx5xbod9DbSlD3cyToFf7+YiDhAufIXce5MrYPW0vpQVslDo=
+X-JNJ: AAAAAAABy/kXVw5OtEtl1t3Kimj6KzQPlcY5KEyITMdpz7aVa9LhprsjjjbBaJnyniA1U6
+ IZgvKKJ8U6ccqv8FPE4ixUvZgTNGcvEqJSjcv8Z0+nktYfC2ytqsVlM0ypbiAASR6lSaCo
+ xmNnjqbi+fUMyE5LuhZvoML/a1S279a+VKc5koQDy302i+Jk26jQbbVXhWZYozJZdR4A5s
+ l10gON4+CDhDyGi8GQFP5TamqCaHoVl7dGXuFUA3jm2ELEI28UC/xT/6SwMieMYxH4JCwm
+ p3Ol5xPXWjEm5yvbluxVATHLotRUE5oJC6iR2c3WyRFK5DnduQyLWw2aeJa4DjZeb6H1Tr
+ MyX3jWztueIxYL2PE810tSJfhiihx0W2qvzHN9N437OHXePSz727AVf7T1QykcRCRk4NFy
+ qX4igZ7GO8PddOl0HQS4eo2AT1UMmmTUniPLD+wi0Dzr2waHjc1YOVDC6RqTVVwQOMr8mZ
+ lOeuDUYqeIJimJ2h4/E8eFkZiXbkmLUTw6ygidWQEvc37SsiFjcv7dHY2OfMo5lkZwFghx
+ TrlG/mT97EjUgjVdKgfTqAj1tHCbdPWYe1/bd+TQOXalhXJeOfo14Ua7KSHuZv1mveuHAD
+ +C5/jcpozzuufB4vJCRkSNY6JJKH+uPQVEOQIkbFKkMLqnWSTac3C/i/SynMUr38/V8bwr
+ 3txfCmw7CfVe3ins/1DWtmZF57YjxiGWj3YY57kUDYomzjqupkxL26VvjBlAD6uZHzHOc1
+ PK47MImPWD3MOG5eCtEj94S+hHfy7T4UuNvdVX7tTdOtSROhaF/IpqEQfL69tyExhG1+it
+ AFZRu8OXprL2KPt5zNwMzDbUJUbTsjm2WHNMa2xpJNMPmQqzZ3qEVCei12saltwOv6HD+1
+ QuPx6UD2hJAn4rbMKvvhF5IgJORZebpSRDVkORq7engF4VoNBSG/veVigMHRuCPSF7nu/L
+ 5ZonatHE436ZU0ieIJp942su+fVY9zyuMOR61O7iWfIeIv643fuZ+lRyBW8GqI0ntpWc+9
+ ghU+pRde7JOW7Ob3KA71GvCDDNXiGr1c4PWcPxD7tjXvxLElc3XYX8uIDnoWNQFh4T+ay5
+ 6gzp3qkKJJ1AmUN+o0MI9H+xn16cqC/5f6jwaAXIue66vc9kCtgssivU/vKi6pQPHIBEtj
+ KNPRxWBGy7ZG+NgVVttJ9dZUGHsVswazooOoq3f2Wcaapiis9Bf6hTA/xNoJqWR04Jr8l1
+ Pv7GRh1eFBSz12kXQFRmqGpjw6r9KWm5KK7uynXN76Ua7OOdJpRfVA+pEC96PnsqoOBr
 
-On Wed, Nov 18, 2026 at 01:22:41PM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 18, 2026 at 12:20:32PM +0300, Dan Carpenter wrote:
-> > On Tue, Nov 17, 2026 at 10:35:57PM +0530, Shivani Patel wrote:
-> > > data_ready() and get_top_mbo() read mdev->pending_mbos without holding
-> > > mdev->list_lock, racing with comp_rx_data() which modifies the list
-> > > under mdev->list_lock. Also, comp_vdev_close() clears mdev->mute without
-> > > holding mdev->list_lock.
-> > > 
-> > > Acquire mdev->list_lock in data_ready(), get_top_mbo(), and when
-> > > clearing mdev->mute in comp_vdev_close(). Use list_first_entry_or_null()
-> > > in get_top_mbo() so comp_vdev_read() can drop the redundant data_ready()
-> > > check inside the read loop.
-> 
-> ...
-> 
-> > > -static inline bool data_ready(struct most_video_dev *mdev)
-> > > +static bool data_ready(struct most_video_dev *mdev)
-> > >  {
-> > > -	return !list_empty(&mdev->pending_mbos);
-> > > +	unsigned long flags;
-> > > +	bool ready;
-> > > +
-> > > +	spin_lock_irqsave(&mdev->list_lock, flags);
-> > > +	ready = !list_empty(&mdev->pending_mbos);
-> > > +	spin_unlock_irqrestore(&mdev->list_lock, flags);
-> > > +
-> > > +	return ready;
-> > 
-> > It doesn't really matter if we take the lock where since we drop it
-> > right away.  The list_empty() doesn't anything that requires locking
-> > so far as I can see.
-> 
-> Right, but the problem is that we possibly might compare valid pointer
-> (list head itself) with the stale pointer (head->next and/or head->prev).
+The IDR API is deprecated in favour of XArray, see
+Documentation/core-api/idr.rst. Convert the
+minor table accordingly.
 
-It's fine.  If you strip away the macros what the code is doing is.
+XA_LIMIT is inclusive, so the upper bound becomes
+GB_NUM_MINORS - 1 in alloc_minor(). xa_alloc()
+returns -EBUSY instead of -ENOSPC when full;
+adjust the check in gb_uart_probe().
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 3a0445ff62f4..7bebbf1e11cb 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -62,7 +62,9 @@ static DEFINE_SPINLOCK(list_lock);
+table_lock is kept: it prevents the entry from
+being freed, while get_gb_by_minor() uses it,
+whereas the XArray lock only protects the array
+itself.
+
+Signed-off-by: Philipp Prell <philipp.prell@icloud.com>
+---
+Compile-tested only (W=1, C=1); I do not have the Greybus hardware.
+
+An AI assistant (Claude) was used to review my changes and to point
+out bugs in earlier drafts and to help with the wording of the commit message.
+The code changes were written by me.
+
+ drivers/staging/greybus/uart.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index e1b73db6a17c..ff33991562f5 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -22,7 +22,7 @@
+ #include <linux/serial.h>
+ #include <linux/tty_driver.h>
+ #include <linux/tty_flip.h>
+-#include <linux/idr.h>
++#include <linux/xarray.h>
+ #include <linux/fs.h>
+ #include <linux/kdev_t.h>
+ #include <linux/kfifo.h>
+@@ -66,7 +66,7 @@ struct gb_tty {
+ };
  
- static inline bool data_ready(struct most_video_dev *mdev)
+ static struct tty_driver *gb_tty_driver;
+-static DEFINE_IDR(tty_minors);
++static DEFINE_XARRAY_ALLOC(tty_minors);
+ static DEFINE_MUTEX(table_lock);
+ 
+ static int gb_uart_receive_data_handler(struct gb_operation *op)
+@@ -341,7 +341,7 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+ 	struct gb_tty *gb_tty;
+ 
+ 	mutex_lock(&table_lock);
+-	gb_tty = idr_find(&tty_minors, minor);
++	gb_tty = xa_load(&tty_minors, minor);
+ 	if (gb_tty) {
+ 		mutex_lock(&gb_tty->mutex);
+ 		if (gb_tty->disconnected) {
+@@ -358,13 +358,18 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+ 
+ static int alloc_minor(struct gb_tty *gb_tty)
  {
--	return !list_empty(&mdev->pending_mbos);
-+	if (mdev->pending_mbos.next == mdev->pending_mbos.prev)
-+		return false;
-+	return true;
+-	int minor;
++	u32 minor;
++	int ret;
+ 
+ 	mutex_lock(&table_lock);
+-	minor = idr_alloc(&tty_minors, gb_tty, 0, GB_NUM_MINORS, GFP_KERNEL);
++	ret = xa_alloc(&tty_minors, &minor, gb_tty,
++		       XA_LIMIT(0, GB_NUM_MINORS - 1), GFP_KERNEL);
+ 	mutex_unlock(&table_lock);
+-	if (minor >= 0)
+-		gb_tty->minor = minor;
++
++	if (ret)
++		return ret;
++
++	gb_tty->minor = minor;
+ 	return minor;
  }
  
- static inline struct mbo *get_top_mbo(struct most_video_dev *mdev)
+@@ -374,7 +379,7 @@ static void release_minor(struct gb_tty *gb_tty)
+ 
+ 	gb_tty->minor = 0;	/* Maybe should use an invalid value instead */
+ 	mutex_lock(&table_lock);
+-	idr_remove(&tty_minors, minor);
++	xa_erase(&tty_minors, minor);
+ 	mutex_unlock(&table_lock);
+ }
+ 
+@@ -860,7 +865,7 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
+ 
+ 	minor = alloc_minor(gb_tty);
+ 	if (minor < 0) {
+-		if (minor == -ENOSPC) {
++		if (minor == -EBUSY) {
+ 			dev_err(&gbphy_dev->dev,
+ 				"no more free minor numbers\n");
+ 			retval = -ENODEV;
+@@ -991,7 +996,7 @@ static void gb_tty_exit(void)
+ {
+ 	tty_unregister_driver(gb_tty_driver);
+ 	tty_driver_kref_put(gb_tty_driver);
+-	idr_destroy(&tty_minors);
++	xa_destroy(&tty_minors);
+ }
+ 
+ static const struct gbphy_device_id gb_uart_id_table[] = {
 
-The lock is unecessary, but also harmless.  Why I don't like adding a
-lock is because we drop the lock before we return so the return value
-could be wrong by the time it gets to the caller.  Nothing really
-relies on the return being correct.  It's useful because we set the
-error code based on it, but if it's wrong the system isn't going to
-crash.
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+-- 
+2.56.0
 
-It's pretty common to do this sort of thing where we check in a racy
-way if we can return early, then we take a lock and check again to
-ensure that something is still true when it matters.
-
-regards,
-dan carpenter
