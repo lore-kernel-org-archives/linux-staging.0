@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1795106089;
-	b=tpQNHaq5M+xJOLa0eFioGhtzlKUi7N8KoCmQObBzimCR5IsKQChrBsymWbd/HQ8d0+HD
-	 DP3TCF/4qvQBGv5SNhtpfPJEyMxNme2pTbk42MA7dV3kO1DOoY5edqY2LKASA65AdO/gT
-	 Wt09GqKkTrdVQkXmgh/zWb+5u7Qr5JtLHNKa5MDO+ycZ6ZfVwonScgFk/3PZXWcl4n1Ny
-	 mQ51KcyKz59ci2h+MzZeZmS3LKrZKQoLrwvnYu7UEXxxs+DV4gCR+OaXUArE8+CKsnpBh
-	 +Vg8/G7kQlfL3ll21ChrcPsLTayMaMLOZxPdM3b3Ow7KRZZBEHHykc7qfgfBvgSeAWg==
+	b=ohYl/cR4MHjy75BjudA5b90JQ0UbWrbDC9vOO38g9KU8KB6I3vL4eiVet6CSsTx0Qif6
+	 gPqdkT/rv7TWqZV8VNRVN0fKx6FXLOJ6XoLq2wWorUPQEAej1npI2JBth8Ziko9hiiobg
+	 UEvNRqXVNv7G0r/CAwDHit5FrBKTTowey8WkTlo9k1zfeawChpDLx4FSj/1LasBg7ivKC
+	 LqPnqRaEs00/lY1KiwTxaqmkclBYTHNoRTmkUZ5O6l1rRKGMjTaZNJ8oEZlmQ5Q/9U+BC
+	 Jmjeis2OhUsHzeTbQ/6Xy/ukhWeEqpkKvT4FzDTB7dTD9JdHzh1T2nRXl9mcFDIhy9g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795106089;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=TaoNleEXGo6xiBeA10auiejfA5+WdvUEBOEnJYwo0bA=;
-	b=mElvCjBWZbVewUeB2sl1LMH0PSrubte0YcMoCfu5UPTa0s48zKxBzZt/22niHZRoi5u6
-	 2X8v0A1ubOLKY/Lok34kDd45KuF0vQ1DNPChs/FSsvJW0GCqXNefQ/n4Lxs4FMkKGM3NN
-	 9ChyzjiPhyFe5w0eYWRh+Ao0ES+wzFQQhbs9u1pYdzLbEk7cT6YoWCQvPqlscfPw6qJrn
-	 nPi6h69n9bhEq4RuEN43O58ebN9TQdMNpx5F2HGlgua6OPoH1S2s+rVHGrq5HbwCh+/mE
-	 q28fk0fiIbKo00MhofOY+BYRoS2L8dyom734OUyWqMLu6rPwjOhfDiPIh6CuszTZNdw==
+	bh=TASXj8wsMRiuTiWS9CZldYuNl5sRLL8gOkJehr3ZTXs=;
+	b=AgefvZodTrW71YQiHxi7zV0ho3IfCfdrTVq+oN6065zPGTLRCCndoChEhOHrehq3EjlF
+	 uGBRPi9JDxnU4yWDouUoTqUxiRrW1ZEVajqz2i6Gv7vJNK7zol+4Vb+a8Kp5NHYK1ZNfD
+	 LvbEV3WsrjpSrG8atUHy0sRLU1dcdjALAtm3FE3hEU+vJxYBUtG5tZQqZW5Kg/U5N0DcF
+	 oXd++0bXSb22+XgstFPSxVzBY7iribIXa8+0RAWCgmxoqw/RDOpqqOskJ5GnJCMEtJVpP
+	 HkTHmgJmtbymCfhFczigye1h1eFyfKEhmWFwcoeFDOOX86ZaJzqXOFAlko8AvWnZQBg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GKDLrQKe;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZSogWvU5;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAE4606A336;
-	Thu, 19 Nov 2026 16:34:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37056606A337;
+	Thu, 19 Nov 2026 16:34:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GKDLrQKe
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZSogWvU5
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795106088;
-	b=SZw+JHV8nZe69Ln3WOZ+eMwEzBO9+/UMt9nZ9AOvxYdrsdCKjeAjrw/FxQtD2OkJTK8F
-	 OW8gu/oQRjyg+FObI/4qrWidpyRO4la9akixH6SU7vh0TDdcQVxrvgKVD13m+rX8lqNY7
-	 njFR+p3p+G7dRiCLXxPXub1Frl6IxrVZ0nOte8tWtZSIcPHlYU+w3HRqWjwdIjQ2im1xD
-	 gJp0wIu3D9/YHQjx06/VOyVk8jWyeJkwjD4FDHNl3rV78e2kFjtlJAkqee5djOcrJrQNR
-	 b/PIn9xF2okpi4DZJ03QgrKS/0eIdLQA5SxH+W4c8oWblRyck2ShqWhEpUtkT4jolEA==
+	t=1795106089;
+	b=L4t5dan3pmX+JnWgTQEFpYut+kUDbNJN7v0yeOwCIHF2EXXvaxNPAFreP5BQGZrsWerl
+	 uGFASlF0Y84quENcIHv9K61Wj8q7BC6R154HQyzcmEaAecFwK8iGSQO5lfrpq5hBlVipT
+	 SrSQ/9Al8lRKuiKvG8L6zYUgSMUnRVjgSsPBCmxhkzOV4Qw+e5/dZlPWj0p0Sz9XYt7jV
+	 vMi4wYUSnBh9dlPrmekCa+FNnBVi7V+MAKCaCR+Q6PjundyLAAf3NcT9+3tLQeeVql/BU
+	 LslHPxkuqda+GKk61qa1m2kjqjFr5gKPnWDONAMhUhoc8oDnzuUReRZyR+k1UQkE6pg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795106088;
+	c=relaxed/relaxed; t=1795106089;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=TaoNleEXGo6xiBeA10auiejfA5+WdvUEBOEnJYwo0bA=;
-	b=iDUrt/PooCOMi5LzeCkro1PhLhCvWyF/k3PVzHV/ddWcHeQsanpe27bHQi2ZIlCRahQ5
-	 v1+lygyvPDMH6nM8DZyIgfFFsrBpJqbh8uvGoLwlSgvRBu4K87cEmynIMlby3AHnQae8R
-	 JT0a5VdSQ6d1ZLqaAoreg0ssrO4ql+eCN71RvqWRKtOSCYip6sK6HtGbL9a+jVdg3DXS9
-	 KjUz9NCOblkG7d3NiYkde+orQVl3xq7pYcwm44v2Ce9F04Y7nKuZO/lOWm7BEWlv2R6Vl
-	 tK/t5GlDhD1JEfzcXTmwplzksK82EM/9vyDOqFjrgFHtzdA81uaW5bO7D7ZWZvPK7BQ==
+	bh=TASXj8wsMRiuTiWS9CZldYuNl5sRLL8gOkJehr3ZTXs=;
+	b=WIDEp6eREEqGEzHyfClIz3gXgirA4U0ijnCzl/GHPCkIdbIVJVn9smKGKjWCFtruEiTe
+	 2UKs81VlsQGFMVIDvaHOcM+Syf1x3OzWIVHmkbyQOBTzOEhtLlCDtADCjTg+nFwA1TGDH
+	 jFWx9Zx1kSKwQz784QDIvqy84JMteU7JMW3rxkZjFY7u2NZiu03JyZ3ajssnJkkgeJpv2
+	 YQC14yjfWDTNPZHAhPD/dFQc9ua3YJTKg+5e0e6wGfyksyxOBEuk2bsr7R2ZovAit3SRn
+	 lcyAqxr6OjrQAMcAgKIVQJJd1SrS9JTAptRLYpRC+P4VL7g+eIHdEOFoqpoH322cB5A==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id CEDE91F000C6;
+	by smtp.kernel.org (Postfix) with ESMTPS id E06B21F000C4;
 	Thu, 19 Nov 2026 16:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795106088;
-	bh=TaoNleEXGo6xiBeA10auiejfA5+WdvUEBOEnJYwo0bA=;
+	s=k20260515; t=1795106089;
+	bh=TASXj8wsMRiuTiWS9CZldYuNl5sRLL8gOkJehr3ZTXs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=GKDLrQKeoUs2pL9ZWUdejcIvVzAMVAbwgRZJNrecBnF9l08ug5ahCbKg8Df/BCkIH
-	 GZe1ZjnzOSGp52qlxUNLNQfrI8FYAvzfSDdQo8xFqIF5hK5nO7oe3bV6A/eFnxUZSl
-	 l1bPtcPJ9sO5p5TcH5hSwUYHEhSxbykWgEXC+/qBjuP6XqbC/MQrfZQ5nrMYXWtb3f
-	 nAWPh8OMUmPU8LTn4GNsFQWVBAYnDjYlnDS31IBVUyaNgaRfnTpEVMpbMwOzSqDr8i
-	 t0vriXInakWmClNCiizCQ804PizW4GV9bsw651Q7lEiMTnkFsLz9oebGVAaM4tSzet
-	 /iJy1Ay5KzCiA==
+	b=ZSogWvU55Q22Tsn3BTlEV6kFWKjiTpepEeedHaifkNt/JRWfolLvLvivSa+uj8znn
+	 rVDPKkQBkp5ZMRYSUAtkeROF4jSmVHDLmBtMapIOIILlccde7wE6Al6vMamIYt901p
+	 jQoKuSA13+Ave6er+5Nvn8yp5O8mvDNmtbJy7Uce6P3rfZTsAgSuT8gbBCD5DSJ7Xd
+	 rafx5xwKloh4mn9EiHyGQihileZ2gEqq1/7g2tfJrRL6E5szfn9z26O3H0DR0yPyoD
+	 k8D4gHF6xA18wWMTH0X/aiQMhFj01bB/4HD3Zvixl9PLxlx9pbRSmozxUIpR5+DOIH
+	 zlWh5IYInVaGQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 504654B336;
+	by lkml.kernel.org (Postfix) with ESMTP id 695A74B340;
 	Thu, 19 Nov 2026 16:34:47 +0000 (UTC)
 From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Thu, 19 Nov 2026 16:34:47 +0000
-Subject: [PATCH 1/2] media: cedrus: fail buffer allocations that do not fit
- with -ENOMEM
+Date: Thu, 19 Nov 2026 16:34:48 +0000
+Subject: [PATCH 2/2] media: cedrus: report only the picture as capture
+ payload
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261119-b4-cedrus-generic-fixes-v1-1-f9f50812c85b@gmail.com>
+Message-Id: <20261119-b4-cedrus-generic-fixes-v1-2-f9f50812c85b@gmail.com>
 References: <20261119-b4-cedrus-generic-fixes-v1-0-f9f50812c85b@gmail.com>
 In-Reply-To: <20261119-b4-cedrus-generic-fixes-v1-0-f9f50812c85b@gmail.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -97,11 +97,11 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  linux-kernel@vger.kernel.org, Arun Iyengar <aiyengar1990@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795106086; l=1226;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795106086; l=1453;
  i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=hXtCMT/F7gvoSbtMOmEiwBTiT/kPdUTePkmZB9JuFUw=;
- b=fEDYH/5HHKubMaENR7u9rph7nZG63AHPy5b8HSHLPNedtjbePrQRi2t02aSp4EGbBxLMAOYJV
- gLjsIxuv7HIC9eP9/IQHJtmPMyw2WzkR6/iQUVdPhdcwVcQA8unkQqG
+ bh=lSQqpNTqUN3KRP025JzeD5HjWBP/5kJZvzmwU8xlcgw=;
+ b=00WljHGglT5egohrYdOgq2pH9RldUbgdDe5g5Dz9/47B5lNqevbDqAy08FT/fuUltqaXLfp9B
+ urA326EmJLEBpPXNRX+hE7m800eVBKwNcfw1YYiIYkhBU4UoJ4p/We0
 X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
  pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
 X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
@@ -112,34 +112,40 @@ Content-Transfer-Encoding: 7bit
 
 From: Arun Iyengar <aiyengar1990@gmail.com>
 
-vb2-dma-contig allocates with GFP_KERNEL, so a buffer pool that does
-not fit in memory invokes the OOM killer. Set __GFP_RETRY_MAYFAIL on
-both queues: the request returns fewer buffers or -ENOMEM instead.
+For 10-bit H.265 the driver appends the low 2 bits of every sample to
+the capture buffer and counts them in sizeimage (extra_cap_size).
+buf_prepare reports the whole sizeimage as bytesused, so userspace that
+copies the payload gets the private plane as part of the picture.
 
+Report only the picture; sizeimage stays the allocation size.
+
+Fixes: 65429ba82572 ("media: cedrus: h265: Support decoding 10-bit frames")
 Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index ad4ec3490775..9b2d24e77fdb 100644
+index 9b2d24e77fdb..b7e0cbe548e6 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -602,6 +602,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
- 	src_vq->dev = ctx->dev->dev;
- 	src_vq->supports_requests = true;
- 	src_vq->requires_requests = true;
-+	src_vq->gfp_flags = __GFP_RETRY_MAYFAIL;
+@@ -511,8 +511,15 @@ static int cedrus_buf_prepare(struct vb2_buffer *vb)
+ 	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
+ 	 * it to buffer length).
+ 	 */
+-	if (V4L2_TYPE_IS_CAPTURE(vq->type))
+-		vb2_set_plane_payload(vb, 0, pix_fmt->sizeimage);
++	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
++		unsigned int payload = pix_fmt->sizeimage;
++
++		if (ctx->current_codec->extra_cap_size)
++			payload -= ctx->current_codec->extra_cap_size(ctx,
++								     pix_fmt);
++
++		vb2_set_plane_payload(vb, 0, payload);
++	}
  
- 	ret = vb2_queue_init(src_vq);
- 	if (ret)
-@@ -616,6 +617,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = &ctx->dev->dev_mutex;
- 	dst_vq->dev = ctx->dev->dev;
-+	dst_vq->gfp_flags = __GFP_RETRY_MAYFAIL;
- 
- 	return vb2_queue_init(dst_vq);
+ 	return 0;
  }
 
 -- 
