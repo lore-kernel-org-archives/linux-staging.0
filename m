@@ -1,78 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795026377;
-	b=NIkwJ19ScnWpJoNFcLf/ieLIh4ggUcNf26de3RimxLEhwe2gv+TK/7HDObZtzEW10F9k
-	 JNQ2N863xjqY4dFoirhWmBpXmlAkBWK4P8L5FeM4RQz8iTC6N3TeyYYrWzfjnE2XrCynu
-	 /azDJSSvmY4Cpy24TrLJ/sVy5ZF6Iy0J5J9Z3QX/o2VdPEvzeoswZQm0hRooMoUTmTtcr
-	 IhZXlJGGJ5rUovPF8Js0GJvi7r9f5Mmaw6mE4ZOBjluUk2TifgLemAbjbH0SBNbRxX3X/
-	 BlrkChic95lFyybXtyiaugML8kZNoPioBiBBPeVcQVBIJ+zdXiLv6iQaMWkb3s0cCRQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795026377;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=r7sbzCl2qpTgoM/gKEteCq1RYkwvwSqJCdHHjbgh9xU=;
-	b=DpE/Ub4DkmVwjqjVMb28mACK6NDxVIuE2Wr1UgbT5A6c5e1AxL+jbbldD98e8pclF3mH
-	 twBDBxrbYi5UhAau34QoYjSp4SUFmD9FYiuVIkA9KKBmBKsIwLGMTna2XyawXpaBBChhP
-	 F/RK6aSvzGAZjpJoQ219sHR/KRI4HadZEKsXj1+8nLcAzOmJzP5u6xlkxaXBJJCCxQ0mY
-	 Qt6o3l86VSjwK3D5gXR5T8oZ706bZoSzoj1xV2vTLgEZKI4FHae0UcSi2AvpQsUKd8vdF
-	 wrBBpXhjk+SnP4e3AEizp0KHWLSpjk6QUf8n4rJB5GHWc/86nVwkPQ1Su4xTIAuLFfQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zjir4qpl;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795080158;
+	b=I0DboGv1tOymR1F4hAmjCvk5gG10lmUZoMXTlJsONs4AHEMb/ZR3rxET+k8oKBJF9+CE
+	 u+sSI/qHOttBh0PaVYI8M6LOm3298LKV3jnvHP+J6Xtu58ofxbcQrOZIO3uLgOOgoIXx6
+	 xopUepAl2UlCHdm79HeftPFD4nHy6XymxZ4hl2xhgQqJxiWLLn4IZreaALjC3GmmrLWHW
+	 dN4CIZ3HvmSCe8IitMYzrmSEnnUhHZfot7Lkuzt1fo2kmBRS5oDpepF4m9tqXolvp8s0y
+	 GuaSx/glxGutajcI562ybMRzKAN8Ux0alqG4qhD3Q2mjfrzUJHart0FvK4khIMv/FDQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795080158;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=PIbc9nua4UQ3nCZc5X1MLVQJdNQY3d2tUCjTbTWr54I=;
+	b=QHTLcPJ1+rAuBzOQoSgHNkUS/tUmaUAqeqwa3jm0n1dkxf5Nudie8UXP+NBgnh3Oq6Jt
+	 Og9nSv/eFYw8Z5qVE6B4nzR7VDw+8l0YHyGRjJTQdU2OyEbe6i5RKAbCg6Y4QvskcJsxC
+	 2NrYltnIUy7F001BDOdt0d3EaDlEBNGLVPMcjLvtMH/2n2JNBdUvtdUOQIn6p9ZvnfJl2
+	 sldJ8d+Zi5iiOHxh+5//MlEGYbqy+fw+007aaGNLv9/TEC4fsBCBGBw2uEkfKt80kmEed
+	 0rv8+WHTgXob4ecvffUaSoPqng+2yXdV/G2jQtYLXeagXKUtqN6EsFADtVMusKz5PQA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ui3sw50S;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81050606A31C;
-	Wed, 18 Nov 2026 18:26:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BFE606A331
+	for <linux-staging@lists.linux.dev>; Thu, 19 Nov 2026 09:22:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4BFE606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zjir4qpl
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795026377;
-	b=xE30EIpjA+tvBvcnwmFilf8lUrpVNpBl1gOJrMzyqvmcQHIaX6cCc1qcwfNm5XLQ9BVc
-	 z/9UQDjvTiUupIIgCY6pUbF+p6ltCPE4v0SVSUoJkcON+fUq29DyBAMm19vBKGrJlC43H
-	 8Jz3ujXbExSoK4g4MRqazOk/dAGXH6LCHt1tTdk9CRi1HeebL5pqiO4U8m5gU7GdJ2uvS
-	 MWYvhHnlQ3CHk8R0WorGmIctVAA1rtjRBLh7NFIhI/I5UsNZGMXJkxM7evBO9PJmJ5WEx
-	 qbcd36PfqKyT5xya5cHzO0T3i+iJ3Kjj1zXE9lEAUNoj1antwkuvi4K7pl5Qmt3qQ6g==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795026377;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=r7sbzCl2qpTgoM/gKEteCq1RYkwvwSqJCdHHjbgh9xU=;
-	b=FU8mX5wfb0bavvKmqjC4Qm3617EnUD6QNddgmGM4c2hW+5GuItP/d9HKBC9BbMeZLojj
-	 vDnX3XS01QUU0T5nZLrcJBUZLLcfHpJp1uvTjWcFdDa6cLjtoCyPv5txqQYNmtSpybbEb
-	 PZ+ev0tcdTsCemNeVlNCarpY7Y6CYIUoVjQjCfl8j2y/lokJBnRzqH4+SqOvelSQFpEOQ
-	 WEXaQT+PCGGUwoF6bKdhOybqkV3fFtCzxGftd54C/D2Le22MyUBvTWnUZuPje8O+YX0eY
-	 dB4Xn38HoC5/V77bdTS+lJtHp1mCejIHfx7g+buD6WJnaFYpFkhYdnydqnvNM9zgmbA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D62D21F000C4;
-	Wed, 18 Nov 2026 18:26:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795026377;
-	bh=r7sbzCl2qpTgoM/gKEteCq1RYkwvwSqJCdHHjbgh9xU=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=Zjir4qplSv8aSEBPPG0izn1e/f7nrRAolyNYb7OhiAxUeJV3YOmXFf3EH9xh/q2SB
-	 /JwkB1wtS1z//nIT6m/BuvebnXCzDvJYhLnezdPbToQx2TvasbIEmS49d3hKSmmoEa
-	 GBa5wVjKbUXRPidh6Jz/55mrE9EQTkMMazE5KZE5Vd6gZZrF51QFQSZoHPOSATwq8e
-	 JYt1cUZ7/DHitSXKN9bhafNfFnRBDWKbtbuKLDINOsHEY1NNMNX5rXzNMxnwyGFCuG
-	 15R2YvPKXPZ8XBz1ipCQ+KPnM2//ntgJJDJorKUG9yDUyDmU+afcrDySX4FJdTQTrT
-	 LEcS7FTI45NHQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 52AD04AEF9;
-	Wed, 18 Nov 2026 18:26:16 +0000 (UTC)
-From: Maximo Manriquez Lizarraga via B4 Relay <devnull+DelaySystem.tubot.lat@kernel.org>
-Date: Wed, 18 Nov 2026 10:24:41 -0800
-Subject: [PATCH v3] staging: most: dim2: drop volatile from state counters
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ui3sw50S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795080158; x=1826616158;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yRKTK5+jsUXRx/48CtGdISI2pY2UyjV5mlrYW4kkyuA=;
+  b=Ui3sw50SWxF28KfNVIjcNuJwsTQk7yUOb4gR0n8joEJ76je43xDjYR6I
+   rFrtSRvA8k/ZzQJjFYT/yZF9mFU5QFsfLOGST1Pe5loFJgUve0iedFI1L
+   k5dOuKwvmyUZFWTUSY7K8ODNRJLeRrQBa++eX2XQrsosT3A2w3aL9nfZd
+   TyTp9kjfQ9ueEbYKJmif+VW2PxOzHw+2UqU5yiXMNmf/hSgfQAjMeRJR5
+   oCz7mybG08SX7zWv1uOiJj+xAMFE5U0KJQjuiaJakje3Xx7x7Mq8MA0KA
+   zL7Ew3aYmDWCSUg4ehfb1fUnPQFBlkXK4dKKMhTYA/ue7KoQXe6PwE2dx
+   Q==;
+X-CSE-ConnectionGUID: V8sfCez8RI+8fESk1mnfhA==
+X-CSE-MsgGUID: y4Qa45z3Rv6b9kI981uH5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3951869"
+X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
+   d="scan'208";a="3951869"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 01:22:37 -0800
+X-CSE-ConnectionGUID: 9RuU3NfxTWqF3oUiIhRu5A==
+X-CSE-MsgGUID: KjJsZKtwTHm6PnyX5uUnsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
+   d="scan'208";a="10611252"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.61])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 01:22:34 -0800
+Date: Thu, 19 Nov 2026 11:22:31 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: DelaySystem@tubot.lat
+Cc: nuno.sa@analog.com, andy@kernel.org, gregkh@linuxfoundation.org,
+	jic23@kernel.org, dlechner@baylibre.com,
+	Michael.Hennerich@analog.com, linux-staging@lists.linux.dev,
+	linux-iio@vger.kernel.org, linux@analog.com, krzk@kernel.org,
+	linux-kernel@vger.kernel.org, crofts@kernel.org
+Subject: Re: [PATCH v3] staging: iio: adc: ad7816: use dev_err_probe() for
+ GPIO lookups
+Message-ID: <av6_10q49dJE_s9i@ashevche-desk.local>
+References: <20261118-batch1-s3-warn-v3-1-f622d212deeb@tubot.lat>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -82,102 +82,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261118-staging-dim2-atomic-v3-1-bc595e081fc8@tubot.lat>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NQQ6CMBQFr0K6tqYttDauvIdxUeAXvhFq2kI0h
- Lvb4oaNLid5b2YhATxCIOdiIR5mDOjGBOWhIE1vxg4otomJYEJxzk40RNPh2NEWB0FNdAM2VGm
- jpdUWjFUkPZ8eLL426/X25TDVd2hiVuVFjyE6/96yM8+7/4WZU04V1BVoy60qzSVOtYvHh4kkF
- 2axc/AfDpEcRkpmmeSaVeXesa7rB+y+100MAQAA
-X-Change-ID: 20261107-staging-dim2-atomic-68a85f8feaf6
-To: shyamsunderreddypadira@gmail.com, marusik.adamenko@gmail.com, 
- error27@gmail.com, gregkh@linuxfoundation.org, 
- christian.gromm@microchip.com, parthiban.veerasooran@microchip.com, 
- rajveer.chaudhari.linux@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
- Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2808;
- i=DelaySystem@tubot.lat; h=from:subject:message-id;
- bh=obOr3rP8PTgcSS0Dx2Zi17AJdPtVHUgcvGOImUJO25I=;
- b=owGbwMvMwCH2SNl4+SzWXm/G02pJDFl/3x5P7s9RsppXzhhYcOZ+pvvrOqFdkX2Z/3pcfvKc2
- B16UO9ARykLgxgHg6yYIouYDM/7+vs6cdZWc07AzGFlAhnCwMUpABNhe87IMHWOdUfRJukPVl2L
- MrishERuvv88t2zdhp92ORYzVqz7c4fhf/mX4D+5C2qEL21gv+i+6R3/UvNP543fiPwriSxNkF0
- whQsA
-X-Developer-Key: i=DelaySystem@tubot.lat; a=openpgp;
- fpr=161C0CEF7FDF2C5E3B3A9CC8E22333A79A058D4B
-X-Endpoint-Received: by B4 Relay for DelaySystem@tubot.lat/default with
- auth_id=1447
-X-Original-From: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
-Reply-To: DelaySystem@tubot.lat
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118-batch1-s3-warn-v3-1-f622d212deeb@tubot.lat>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-From: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
+On Wed, Nov 18, 2026 at 10:22:17AM -0800, Maximo Manriquez Lizarraga via B4 Relay wrote:
+> 
+> GPIO lookups can return -EPROBE_DEFER.  Convert the rdwr, convert,
+> and busy GPIO lookup failures in ad7816_probe() to dev_err_probe(),
+> which suppresses the error message on deferral and records the deferral
+> reason.
+> 
+> No functional change other than defer handling.
 
-The request_counter/service_counter pair is shared between the AHB
-hard-IRQ handler and the threaded-IRQ service path, but every access
-already runs under dim_lock with local interrupts disabled:
-dim2_ahb_isr() holds it across dim_service_ahb_int_irq(),
-dim2_task_irq() across dim_service_channel(), and configure_channel()
-across the dim_init_*() calls that zero the counters. The spinlock
-provides both the mutual exclusion and the memory barriers, so the
-volatile qualifier adds nothing and wrongly suggests lockless
-cross-context sharing (see
-Documentation/process/volatile-considered-harmful.rst).
+...
 
-Converting to atomic_t is the wrong tool here: the service-side
-check-and-increment cannot be a single atomic step when done as
-separate atomic_read() calls, as Dan Carpenter pointed out on the
-atomic_t attempt, and a lockless scheme would still need dim_lock for
-the sibling channel state (level, indices, done-buffer count, MBO
-lists) anyway.
+> static int ad7816_probe(struct spi_device *spi_dev)
 
-Drop the qualifier and document the actual protection in place. No
-functional change intended.
+While at it, add
 
-Compile-tested only (MOST=m, MOST_DIM2=m build clean); I don't have
-this hardware, so testing on real hardware would be appreciated.
+	struct device *dev = &spi_dev->dev;
 
-Signed-off-by: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
----
-Changes in v3:
-- New direction: drop the NAKed atomic_t conversion. An audit showed every counter access already runs under dim_lock, so drop volatile and document the lock instead (Dan Carpenter).
-- Link to v2: https://patch.msgid.link/20261117-staging-dim2-atomic-v2-1-a550f0518043@tubot.lat
+at the top of the function and use in the code you have touched.
 
-Changes in v2:
-- Resend under my real name (From/Signed-off-by: Maximo Manriquez Lizarraga).
-- Apologies for the wasted cycle; if the objection was technical rather than the sender identity, please say what to change.
-- Link to v1: https://patch.msgid.link/20261107-staging-dim2-atomic-v1-1-6eb4e8f1f63a@tubot.lat
----
- drivers/staging/most/dim2/hal.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+>  	chip->id = spi_get_device_id(spi_dev)->driver_data;
+>  	chip->rdwr_pin = devm_gpiod_get(&spi_dev->dev, "rdwr", GPIOD_OUT_HIGH);
+> -	if (IS_ERR(chip->rdwr_pin)) {
+> -		ret = PTR_ERR(chip->rdwr_pin);
+> -		dev_err(&spi_dev->dev, "Failed to request rdwr GPIO: %d\n",
+> -			ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(chip->rdwr_pin))
+> +		return dev_err_probe(&spi_dev->dev, PTR_ERR(chip->rdwr_pin),
+> +				     "Failed to request rdwr GPIO\n");
+>  	chip->convert_pin = devm_gpiod_get(&spi_dev->dev, "convert",
+>  					   GPIOD_OUT_HIGH);
+> -	if (IS_ERR(chip->convert_pin)) {
+> -		ret = PTR_ERR(chip->convert_pin);
+> -		dev_err(&spi_dev->dev, "Failed to request convert GPIO: %d\n",
+> -			ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(chip->convert_pin))
+> +		return dev_err_probe(&spi_dev->dev, PTR_ERR(chip->convert_pin),
+> +				     "Failed to request convert GPIO\n");
+>  	if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
+>  		chip->busy_pin = devm_gpiod_get(&spi_dev->dev, "busy",
+>  						GPIOD_IN);
+> -		if (IS_ERR(chip->busy_pin)) {
+> -			ret = PTR_ERR(chip->busy_pin);
+> -			dev_err(&spi_dev->dev, "Failed to request busy GPIO: %d\n",
+> -				ret);
+> -			return ret;
+> -		}
+> +		if (IS_ERR(chip->busy_pin))
+> +			return dev_err_probe(&spi_dev->dev, PTR_ERR(chip->busy_pin),
+> +					     "Failed to request busy GPIO\n");
+>  	}
 
-diff --git a/drivers/staging/most/dim2/hal.h b/drivers/staging/most/dim2/hal.h
-index 5d69a5e7d299..f857e6856a16 100644
---- a/drivers/staging/most/dim2/hal.h
-+++ b/drivers/staging/most/dim2/hal.h
-@@ -33,11 +33,11 @@ struct dim_ch_state {
- };
- 
- struct int_ch_state {
--	/* changed only in interrupt context */
--	volatile int request_counter;
-+	/* protected by dim_lock; incremented in interrupt context */
-+	int request_counter;
- 
--	/* changed only in task context */
--	volatile int service_counter;
-+	/* protected by dim_lock; updated in task context */
-+	int service_counter;
- 
- 	u8 idx1;
- 	u8 idx2;
-
----
-base-commit: a41e364995bbcfa627418a70fe913c35b7510728
-change-id: 20261107-staging-dim2-atomic-68a85f8feaf6
-
-Best regards,
---  
-Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
