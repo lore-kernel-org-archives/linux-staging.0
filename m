@@ -1,62 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.2
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795097199;
-	b=tozNPSTSYt8QobMfzr+OwR3a8aEMWRCHnUxyvwf9pvkLbgOExKBZaiz3Enf9lDT4TqZM
-	 Rf781SLKkfuRkthb7G/vOstuy2DURuXBIgNPh3inm7kccKSLZZzJFAJTFA3aC48JECvtj
-	 N9tOWbQWnULEUZsYfGh7az7a7lJaPAnHheR7aJztFaUdTlPKeVi6QXc82I29DJUQrfHPf
-	 YBtE7unFmJJwAVqc0id8T2CVF6ZTjJOAPDRmNsAYFwBYLUbAHU1rgAZy9Mlg/g9iI+Kp6
-	 giUQZ59rbRvcx5JByMRfRls2ze4DGkz6LKss6+1zk/vvgdC8Vp63qDehZDma2xjOZ9g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795097199;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=49bgkH6TxM5NbruYwmC6aePaCqaF2KDGL/bobbfIDMM=;
-	b=R9u3Ei8Vu4ybT8q6xx4OF/QCVtQY+EAXNkWP5wE9Q1wUC4/ZAE8kGP/yTX3ky/46BPAz
-	 BhfOkIBMOl4qHEY5Rl9rN05zWY26Hl7cUdAFA/qd++h594FOgfRXlnTsId0QgSIgwv36y
-	 lvcp9V6WfosyaVTLt0eIGZafYNU5WRgK5oA//Vf8uDz1OAveHmOmvKWlrIgDWgB7u1Iz0
-	 Lzdpc3K9OAiY8xkY3xJl5gUvz7VmHeRkmY1lw2blPa05aYvXniwn4GqSos17lglA2Wb1o
-	 qCY/TN0oXjbj42ct6FsJ7PBmYmagavl8+uVJab5m5j3Shp+CtzWrOmXPEe93ShUvqtQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Pw76PHTE;
-	arc=none smtp.remote-ip=220.197.31.2
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795106088;
+	b=cZTSlOcmkJWLE0WfVK45Au1itRlfJu0u2ctrqlOEDAmkUUHOqKuqSAsX1cJYIDdKsTCN
+	 myPkqdndNk5QYHMFXbkjNHDQLJudoc/sPAQuqsQgPcWCaA27PMn+EehMBRQlGG7RWZApa
+	 idk0Au4OmSHfO5I1T0mEcH4XI4JVCYk/NM2OfvpbRZ7wHAAFOkrYksEbAqdXK0nqs3bM5
+	 3mKEoscSXwdsmSOSlTNLGFKZagQRa9K7gklueB8eElOkjEawRMlklFu7/AzTKUQnqUV0O
+	 5BfW4CTwqxqutPJQSdi8pyztiYRblW/tuBZfWheUjdNps0kO9fZHdc/cLkvOAzrUbWw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795106088;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=64fBYZh88PphRNRSgctD9QFwc309WJtCXN1aTwbUiyo=;
+	b=S80ZLyMMLkdGpPvio0jMCpz7mNWq4rVeZEzJs0ktwV5dSNR2LgiyNf5vaaZhPxnLc5v2
+	 7T0awKh39yF5dzU8pvHQCHJNQE5tDK26Kfr/DOY5qnhNVzYLw8yc6X/mJWw1oJ+D3GlNR
+	 jGCn5TT6LS3H4EYvXSA3s3BTe8VBKnvE8sKCf5N45cKlRcwOPM5DTt0/EIqzMYAPJW81p
+	 8NS/3LMi52nufkU7RLMrVLfc3PSFias3OBFqF9U0l5++amdWYZMt3J9G6P5CPm4Wk4Jgk
+	 7KFD8qdTlNN3j1Oc9hIzaDzNU8XVvfECmbQrEL/b5nAasKQ3oWQGaJn7mIZseCL63nA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mKO4cORF;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81539606A320;
+	Thu, 19 Nov 2026 16:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mKO4cORF
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795106088;
+	b=Yizmjmq4uNJHxTKZwEH+/YbpqysqwpcCVU53yYbmocFOPtBK8dIjFegzr76etb4Wbtpi
+	 hcAwYjB336nvsi6EQS+GrC/HDWfL7roMIZhc9rxygyBtaQTMqRwtbqVxVDP/54IweJgUM
+	 kIG37fFueriIdYWm5YQ7K94LoPc6PbTnjQRFFTdcqcaqKNVr9jl+qIsqxBhqm29L/JEbY
+	 miHMX2/Yr187yKYymMIUY9NmqQM7GVGZMc9+RkDC/gY1LIA8I94SAnmQ+hjvGUH34MxuR
+	 0v5dx1oQ/KNsrusOcVFC3Fhk+GLRL35Mod0A2+odAIHyxYlMokaFqy/oWBcfbbXQ8kw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795106088;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=64fBYZh88PphRNRSgctD9QFwc309WJtCXN1aTwbUiyo=;
+	b=Hfmkasj+WezOKU5YMdA6s0P6M9GVCeQq8YDBhp1OYRJ266UBlHp0LJu/3JeoQgbxMdct
+	 hgRIgT+O89zQbyos+stCy029q/GKAsuXs4umE3w9zQeoBXuegtc0/CK2cw+sPdaSUd+vR
+	 qJVtg93BfPOtwCgD0Ygfu76Bl0iA1PCtQi7zJQ05CfIgn1asWhAt0HCwM1B97BfRLFfni
+	 cGRSSqTw1ty1gp2sY6IdwCtzcaLYybpgwq86w5bVAxIP70NOSq+gzZBFcxxTrWC/kVEAX
+	 yWpRabCfBYzKFabsKsFmFuvxBwmRDzmPAoaGpTaKiqIKONQQQcv3Up3zQ/fDuQQoBmg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081B1606A320
-	for <linux-staging@lists.linux.dev>; Thu, 19 Nov 2026 14:06:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 081B1606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Pw76PHTE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=49
-	bgkH6TxM5NbruYwmC6aePaCqaF2KDGL/bobbfIDMM=; b=Pw76PHTEj4LBaMwBrg
-	emyKiKge/IblossaB8Vld3DKZFga3+r0ePzcs1sn2jTe1W+nIMwwB0XIc2Ew3GPj
-	f0CNuOlM+KTTtvd6ZA0Kb5XFqV69vpwQYpIT2+iLaWGoTF0EGNQucSbULXZER2Hl
-	9bzeV9TwIASld15yllgcKGdZc=
-Received: from Ubuntu26.04LTS (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgDnb6hdAv9qLxZ+Gw--.50288S4;
-	Thu, 19 Nov 2026 22:06:22 +0800 (CST)
-From: Jiaqi Shi <shijiaqi_develop@163.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jiaqi Shi <shijiaqi_develop@163.com>
-Subject: [PATCH 2/3] staging: sm750fb: remove more unused struct fields
-Date: Thu, 19 Nov 2026 22:06:19 +0800
-Message-ID: <20261119140620.169368-3-shijiaqi_develop@163.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261119140620.169368-1-shijiaqi_develop@163.com>
-References: <20261119140620.169368-1-shijiaqi_develop@163.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id CED761F000C5;
+	Thu, 19 Nov 2026 16:34:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795106088;
+	bh=64fBYZh88PphRNRSgctD9QFwc309WJtCXN1aTwbUiyo=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=mKO4cORFHzRsSyQpRpaYuHS+bIG79zOCiNOdmsfX2hgfXgHzF/59ymXroJlJc5h+x
+	 g6X1o/2jZepfb8y0xNUTrl9snhMvBM2iqZumrMQT1nF5+K6avtSVOjZEcOv8t1e+3n
+	 cLblklzWxNLmyPBDelnaqQZ107qC9wvexUFDCcxiO9pAVlqT4YhitJyg2rojyeYFIg
+	 Fsl4Ir/x3ssRYgZl8vAGM67j/Y/h1u4Ub5o4fqoPAFW4nk13bvSmE18aYl7B2YsXhv
+	 BunykAPrt4sD9DzegdsPRPUI4vDSSzMH9lWOcuQSyOw5XXGNlIi9W8k/qekgn2u1PE
+	 R9zSNRd31i5Hw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 2BACD4B337;
+	Thu, 19 Nov 2026 16:34:47 +0000 (UTC)
+From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
+Subject: [PATCH 0/2] media: cedrus: allocation failure and capture payload
+ fixes
+Date: Thu, 19 Nov 2026 16:34:46 +0000
+Message-Id: <20261119-b4-cedrus-generic-fixes-v1-0-f9f50812c85b@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -66,86 +84,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgDnb6hdAv9qLxZ+Gw--.50288S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tr48Gr4rWFy7tFy8ZF15XFb_yoW5JF47pr
-	4jyw48Cr1Utan5tr1DAFs7ZryfK34xKryxGasrW3yF9r1UtFyY9rW5ta4DGrWUWF4fCw4Y
-	qas8Cr1rWws7tFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UYiifUUUUU=
-X-CM-SenderInfo: xvklyxpdtlsvxhyhz0rs6rljoofrz/xtbCzh8yhWr-Al84iQAA3f
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQrCQAyE4VcpORswS6viq4iHNjut8bDKxopQ+
+ u5Ge/wY/lnIUQ1O52ahire5PUpAdg3prS8T2HKY0j4dRKTloWVFrrPzhBKt8mgfOJ8UR9GU+zF
+ 3FPWz4j9EfLlu9nm4Q1+/O1rXL5JCp0J7AAAA
+X-Change-ID: 20261114-b4-cedrus-generic-fixes-8ce71c2dafd5
+To: Maxime Ripard <mripard@kernel.org>, 
+ Paul Kocialkowski <paulk@sys-base.io>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Arun Iyengar <aiyengar1990@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795106086; l=997;
+ i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
+ bh=wYVP1PucRg6lWg2/ngxnBUIQiUIQRKql/Gq/N+y2N6I=;
+ b=6IqB4ZHRS2PcVo6o6j3tFxdrpHRv2ITJ4ztz3QgqrkrQejXbRdjRDvrBSs2dD3nlLNSTj1zuG
+ 9MOTavWvfvNCDfVAyLu/SUZ+Lv6dffylRiNbgtHHWBXuQYV0WTrDGqg
+X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
+ pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
+X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
+ auth_id=1480
+X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
+Reply-To: aiyengar1990@gmail.com
 
-The hw_cursor, o_cursor, dpms, horizontal_frequency and
-vertical_frequency fields are never read. Remove them and the only
-assignment to hw_cursor.
+Two cedrus fixes, found on an Orange Pi Zero2 (H616) and reproduced on
+media-committers next. Patch 2 concerns the private plane of Jernej
+Skrabec's 10-bit HEVC support.
 
-Signed-off-by: Jiaqi Shi <shijiaqi_develop@163.com>
+Tested on H616 only: 17 x 64 MiB REQBUFS gives 12 buffers and no OOM
+kill (next: five processes killed); 10-bit H.265 bytesused 12441600
+(next: 15552000); v4l2-compliance 49/49; MPEG-2, H.264 and H.265
+bit-exact.
+
+Developed with Claude (Anthropic) as a coding assistant, which wrote
+the code and the commit messages. I reviewed and tested them.
+
 ---
- drivers/staging/sm750fb/ddk750_mode.h |  2 --
- drivers/staging/sm750fb/sm750.c       |  2 --
- drivers/staging/sm750fb/sm750.h       | 10 ----------
- 3 files changed, 14 deletions(-)
+Arun Iyengar (2):
+      media: cedrus: fail buffer allocations that do not fit with -ENOMEM
+      media: cedrus: report only the picture as capture payload
 
-diff --git a/drivers/staging/sm750fb/ddk750_mode.h b/drivers/staging/sm750fb/ddk750_mode.h
-index 1b70885f85e5..f52f893c6a6d 100644
---- a/drivers/staging/sm750fb/ddk750_mode.h
-+++ b/drivers/staging/sm750fb/ddk750_mode.h
-@@ -26,8 +26,6 @@ struct mode_parameter {
- 
- 	/* Refresh timing. */
- 	unsigned long pixel_clock;
--	unsigned long horizontal_frequency;
--	unsigned long vertical_frequency;
- 
- 	/* Clock Phase. This clock phase only applies to Panel. */
- 	enum spolarity clock_phase_polarity;
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 21e310274330..99d410e184bd 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -584,8 +584,6 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
- 		crtc->vidmem_size >>= 1;
- 
- 	/* setup crtc and output member */
--	sm750_dev->hw_cursor = g_hwcursor;
--
- 	crtc->line_pad = 16;
- 	crtc->xpanstep = 8;
- 	crtc->ypanstep = 1;
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index 7511fab2e0e3..ea8f445b5fd4 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -95,14 +95,6 @@ struct sm750_dev {
- 	enum sm750_pnltype pnltype;
- 	enum sm750_dataflow dataflow;
- 	int nocrt;
--
--	/*
--	 * 0: no hardware cursor
--	 * 1: primary crtc hw cursor enabled,
--	 * 2: secondary crtc hw cursor enabled
--	 * 3: both ctrc hw cursor enabled
--	 */
--	int hw_cursor;
- };
- 
- struct lynx_cursor {
-@@ -123,7 +115,6 @@ struct lynx_cursor {
- struct lynxfb_crtc {
- 	unsigned char __iomem *v_cursor; /* virtual address of cursor */
- 	unsigned char __iomem *v_screen; /* virtual address of on_screen */
--	int o_cursor; /* cursor address offset in vidmem */
- 	int o_screen; /* onscreen address offset in vidmem */
- 	int channel;/* which channel this crtc stands for*/
- 	resource_size_t vidmem_size;/* this view's video memory max size */
-@@ -139,7 +130,6 @@ struct lynxfb_crtc {
- };
- 
- struct lynxfb_output {
--	int dpms;
- 	int paths;
- 	/*
- 	 * which paths(s) this output stands for,for sm750:
--- 
-2.53.0
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+---
+base-commit: aa0f4c41d4870a18e65772a1817af16427200371
+change-id: 20261114-b4-cedrus-generic-fixes-8ce71c2dafd5
+
+Best regards,
+--  
+Arun Iyengar <aiyengar1990@gmail.com>
+
 
