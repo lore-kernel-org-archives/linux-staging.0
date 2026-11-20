@@ -1,82 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795170245;
-	b=jv8h23WMOcovyEfOWIFQDJsn+XntjoiTWRIzyrwq90mR039Xv1nH0dA1Vlw9l0Ljc3lH
-	 67e/NCwfnf6itIQtVPA/Xxp9Ztf/h49M6r7zJUR5HN/b0kuhstrEdPrF7F8dMBbX5zCG7
-	 px5h2gqonDjl9UbwFDDQAVsq3y2PU6AusCQJSbE97ov6SWGD8DIvsLSkPZzeU0jRx8OBr
-	 kWrelUcNqjjItd850tQgPsH28TivlEJVvC7xU9nFEpQGrw6uaWOk0/nGI1Nej4yAZ7SZd
-	 YMOihcHOerW0orNJfAqu9valNcEEmQv+JrVktpHz6u8b/zKNlDWkv+cV6CDSeJz9vIA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795170245;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:
-	 Organization:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=h6r3Ix1xwC9XchGuTQiH8mjQfK7hpJKLEMuo4rJ/E3A=;
-	b=gmZwIVZLVJSjAxFb/12DCm+lqMEkIsu5b9LHbs01Yv6vlR1M6jNEu5PinBCOKM0cPYJU
-	 eMl1MKUiZpkJ0hgLLRQzhw4k95Xfj0beeM6S9j97gpAPMY2p1PuKKGPtlFYPtCMXajCjN
-	 zAifRuBmdXRfGYIL+TJ5azjoJwUggnenWB3C6FOdS3sJD0bPqThpRAV84RJFGlqd56WJL
-	 LiGgqLc6OEGqC20h62ldMj4tPQQLDbF9y9k7hteXMUiULe+/2UoQEbxXw23ogI7JALMlS
-	 jIq1SWqA0GtaSQs1d5ejhlAIOsRAMVISCjuf6LDANQBvAiOQtN9Rnbg7UotPWnvvptQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mKVhaMIt;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.50
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795175086;
+	b=CTJVLiPKXWWsKrg0jZw6FtOsQvoyQ/6HYYfudbL44mHXIKAhwsww/HpNj8TaJuVzTBIk
+	 p8H8t2m2BPP1nylHl09/4/Bdp5oAew8Jf9T+hdYIBPstnnslG0dtFWg+kJzQ9cNqEhMpb
+	 aV+rctBmZ5aRvmKbT2F9y/vDLsZmzJQdKIjDYnwKTjUNCLvchiXaOHcNLfadgwGZWNVSq
+	 3zAVJW2Y2pJJ+k53MhIaVi6FbbZ8RSU1gbpuQTiH6NO23NwVuV2Dvxu1FzpwLIKkAkUaP
+	 A9AePR3xTm4Tkrjdif+lOWoK96d7tma3Yldv3zdLUxNhAB19zF2EFbqKCqllXQwlv1w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795175086;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=JC8Bc6cC/0zXiuAQ2eEDZMlg3ki7dHtSWqsSjDIl7fk=;
+	b=UFM/cfle+TViEOgLaOrFxwIWV/i1swIiXri2iGWq/Xbpbv4koXml8VGAJixXa8F56Tw2
+	 MWw5jf3BJ3J/HywHnOobM9cHBAjQdkUaORPcvosXxN5uT0bssN8Z0DbHCIXQ3BvSWhEje
+	 MEb14ttwbnwquL1jUCJcF0ioiUHLJdGuHxmgfGAg5NEaoBVkpeHhpWYWqNoH3DAP2x60w
+	 Dt4YkA9TqARhbpS+z4OjKwLJv2bmEQT5zcez3tuenvwjZ0Q/CC7x6zJu/yVOtI+mwJNkR
+	 F0qtQUvSGDHW+xrYL7SzJcuNR37cOTQQ+w/LrSk36DNMpY9g+LkCcHzNsMo7SC+1LoQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O0OPFtYw;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.50
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C9160A260A
-	for <linux-staging@lists.linux.dev>; Fri, 20 Nov 2026 10:24:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79C9160A260A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA6C60A2603
+	for <linux-staging@lists.linux.dev>; Fri, 20 Nov 2026 11:44:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFA6C60A2603
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mKVhaMIt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795170245; x=1826706245;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5AE1nAjcNJJU2gyRZqdIvf+1tgh3aoinnWqjDwIMxtc=;
-  b=mKVhaMItGT4Egy9ekVKEvtO/c4tlR1ahSvTD7iZqTHGrqD1/+uKkt3sh
-   EjbRpWLccNYyLX1+ejQSNkQenJBk9+pNoQFTuungUpOr5kKIk3Tfztcsl
-   PF6j3qpL2mt8kMd1qFgEcVnxuQ8x6ZPob6PppYBWkBrSZOUSyqFmQzrz9
-   kTql10AE/VVxZG28yM0XdANvoFbFoX3uCEIskOA2iataPgSpkxxGEyvTc
-   UqD9sjfbqm0HkOCWxE5bepmOtie7BE/Esh61NktmJeJbqVIZZBDsLkjrE
-   5QnTvY/SscTMhrVFJ2J39OplbI0cPYJZ7Qq0FikYmcifZpaU3+fIO5IKt
-   Q==;
-X-CSE-ConnectionGUID: FACu1D5PRdWSUpYZi6ZC6w==
-X-CSE-MsgGUID: W60132MnTP2j3COqmaJTkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4090282"
-X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
-   d="scan'208";a="4090282"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 02:24:05 -0800
-X-CSE-ConnectionGUID: 3EQSMVKRQL2pukqWbfAhzA==
-X-CSE-MsgGUID: 09jZu8IhSkmZ7Zy8sYdLzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
-   d="scan'208";a="12375021"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.253])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 02:24:03 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E079E121B79;
-	Fri, 20 Nov 2026 12:24:01 +0200 (EET)
-Date: Fri, 20 Nov 2026 12:24:01 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: media: ipu7: Remove unused struct
- ia_gofo_secondary_boot_config
-Message-ID: <awAfwSVfYQTB_FCC@kekkonen.localdomain>
-References: <20260507151446.153614-1-nguyenhaiphu06@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O0OPFtYw
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-67db1f6f50eso947975d50.0
+        for <linux-staging@lists.linux.dev>; Fri, 20 Nov 2026 03:44:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795175085; cv=none;
+        d=google.com; s=arc-20260327;
+        b=B9Z5et66bS/3qC5fw58d1sxmre9BlTZWkHZGYhttNIyGC1h7NOOUoJSbBW+SX1dsFs
+         k8P1bLclhbuVVZ+uxiAX0yvO9cFa4vWcDQoaAQW3ZupbXiUexUhVOQ78UKaqDWSgXyay
+         HPSKdHtAoedq/8V4eRRFKgd9yTWKMeRapVC26dHLw0jGfOC+wD5ms8Z1NXRtaoVHDXTb
+         ABUdrbbGRGjireM8YbSpK+34ar9xXFApKyk0NoIElp/QQLALKtk+zUnm+CiDtvpf5dmP
+         qMCVWcvJ7d/c/f/Y9iiVP+Zme12vQ66+/PSqeAVF8KEXTlQX47XBbMfDt9FWL2uNdna2
+         n5YA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=JC8Bc6cC/0zXiuAQ2eEDZMlg3ki7dHtSWqsSjDIl7fk=;
+        fh=L1R+oOzR0u0xdMImCZxrKvGRerWyqaA3ewzXejCh5sQ=;
+        b=SdtgxQGE+CUxp26/HYF1bxZmgnv7TbXQKm5rfH0pK/6BymXQNti9APZFQonL/p99vU
+         kyOzfoRser/iRYEWcdNqsbgBEersPtUDmh8mki4jLgdhIHVEGgG3QRB4rg+eX1awvD4Q
+         EfGWUZEeHbgkx78lVeWX7ugqML/CaveKtlcDUN0RDLItQR7zFl1En+r4Ppoq+cvisIEI
+         2FvYWTHsv2H0PPKbYijFRGY/pwRP/6JH1o8a3uffS7hDFwXdW00zPgVGqjXFwGd37M1V
+         Y2DhBCRBp2m0ikvUKFQGxh+LkTzPKvcjzJJmjOY20ZE8fepzrcJGlgtj2/kIpEETRNyv
+         fEFw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795175085; x=1795779885; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=JC8Bc6cC/0zXiuAQ2eEDZMlg3ki7dHtSWqsSjDIl7fk=;
+        b=O0OPFtYwvIXM/O7aDG7shk+odOHA3HFyh5w5nTCV6okBlWDbsoqjnUTnOAOIfo+txd
+         8fhhgqvltDPq/nxLlt58LgwjNShErCILwxpMnZ7g463fZ0qS/vYjrl18ztOvovuyu73V
+         zhSA/aSILDnVay1FFaEPzpe7VEjv09oObTD+Hhwxyl2aek9n9HZGIWU6ZCszVIl2louz
+         IkQyuCuH0Z2zTIZagcOksDx5CZAB3qOjsSSgaQsZLf9KRPXMHra3MSOGk1IQRLqCZky7
+         tYUbFvePI3LTTu6KqWYuLTYgWe95s0p4Sc3UaLO9iFz+yq97PYYuZiyk5+rCh6td1Ul0
+         /vKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795175085; x=1795779885;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JC8Bc6cC/0zXiuAQ2eEDZMlg3ki7dHtSWqsSjDIl7fk=;
+        b=YSR3H5t9liL4Uw0QXck191GOmHIgHNkMDWhNz7zIkkaIBTL7tFXIS7A1OC1GWJfIoD
+         SgcinmOruOLGgL7H8r2ANnoKVMgymsfiw0FMDt+6U3JecwNAdUX2q0/Sw2pdHBADyZte
+         EKQrvYLFDc9tLvQbKI5MoxBCrujeUws4HkGzmWmu3AujplvL216M2ZCj0kde/Hb4MfEW
+         bYNXSjFXVWfR/lmFh8LHJQLsnCOrh6r0Lo/Q+ONP/ZVH7Qm+2DAiF6oB0ovn2ksKXu+J
+         SCXM2HUDlaMyt1Rrf3mMyY4b6P5aD/nPlh0AdMGW+P53K9rzPrbpviwDaKBZccOsmDXL
+         vz7A==
+X-Forwarded-Encrypted: i=1; AL+hErHWeS0VgA9WpvIYIYm6TSwWuQ259anZLZsohLQZlcrDKCZYzvpVa9pK0e+/iCLXA+oFFOxIAkzJxdqPURbx@lists.linux.dev
+X-Gm-Message-State: APuU4Z/El+2sJJOi+Nsz6FKQ+xkwPt4eNU6Q/6lqNBlQxujMPpqiq70f
+	k4dHPxLNt+PxI1DcFeqp/7V6/BaVQ/yk46RRFdYl0ZuUTOBOhQdYQICgd4Tn/94x+jjErN/4BQd
+	6LuAZDmszVxx3a2XarUN/e1RssC10oDQ=
+X-Gm-Gg: AZFdTZd/nYb99qpRCaMWoRSYJgcECyMzml/e0yEpzr7Lhg60X3hCxuppX70SGKkpqIj
+	vDXaYWTx0uO7ntCjWq5ssJTk7i17H14OpFcxCnoepWzNpYDxiDp6Mvm7qA76Ad2msvRdvzJbCfW
+	6oiU7l2Nj8ZAYni4ugQSpXU240t3CSLT36KJxbpYJQgPBm2L2YQ+txlcsF5xbRwlwJmLG5QLe5m
+	sPkULMQKq5+IntOsLt54GajEe5FA4Y6Kw1ggK5yWXgRiJrT9yFT9hH9zOgJLbLfICA85HW6r9tI
+	fB7G3dfHVarMoL3DLIC/44IW5GAxk0rq/pKLhOkMo3WGwevlnXnQNEIPDLzeGD0YfnCi4Rf5J+G
+	a6wzKJUOspwdYfSDm5AQoIKn2K96wC8VSoLI=
+X-Received: by 2002:a05:690e:4881:20b0:67c:1e14:4fbc with SMTP id
+ 956f58d0204a3-67df42d0721mr858402d50.11.1795175084774; Fri, 20 Nov 2026
+ 03:44:44 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -86,22 +104,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260507151446.153614-1-nguyenhaiphu06@gmail.com>
+References: <20261104205108.1041666-1-albu.victor.m@gmail.com>
+ <20261105202110.1081296-1-albu.victor.m@gmail.com> <2026112048-dimmer-ravine-ae33@gregkh>
+In-Reply-To: <2026112048-dimmer-ravine-ae33@gregkh>
+From: Victor-Marian Albu <albu.victor.m@gmail.com>
+Date: Fri, 20 Nov 2026 13:44:28 +0200
+X-Gm-Features: AclHuK_tQvLq8m0AECgKZuYHhvtIB-hn-yFwix8vwPvtNzJv1iLXLnWfdq7ZoBc
+Message-ID: <CAE5KA-PZzGXhkqwx27LdEFxHv0gHN83p0k4gC1NW0TQqNRyTHg@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: most: dim2: add missing Return: documentation
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, christian.gromm@microchip.com, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	parthiban.veerasooran@microchip.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Nguyen,
+I added a Return: section to every function that kernel-doc -Wall
+flagged. For some of them the comment already described the return
+value in a sentence, so the information was there, but kernel-doc only
+counts a Return: section, which is why I added it. Nothing needs this.
+Let me know if you=E2=80=99d like it changed.
 
-On Thu, May 07, 2026 at 10:14:27PM +0700, Nguyen Hai Phu wrote:
-> The struct ia_gofo_secondary_boot_config in abi/ipu7_fw_boot_abi.h is
-> not used in the driver. Remove it to cleanup the ABI headers.
-> 
-> Signed-off-by: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
+Patch: https://lore.kernel.org/linux-staging/20261104205108.1041666-1-albu.=
+victor.m@gmail.com/
 
-The patch is fine but we're about to remove the whole driver so I'm taking
-fixes only at this point.
+thanks,
+Albu Victor-Marian
 
--- 
-Kind regards,
-
-Sakari Ailus
+On FRI, NOV 20, 2026 la 09:16, Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Nov 05, 2026 at 10:21:10PM +0200, Albu Victor-Marian wrote:
+> > Add missing Return: descriptions to functions in dim2.c.
+> >
+>
+> No, the descriptions are there, you just moved them around a bit.  And
+> why?  What needs this?
+>
+> thanks,
+>
+> greg k-h
