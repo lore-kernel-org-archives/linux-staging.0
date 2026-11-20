@@ -1,50 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795159017;
-	b=tmdNbsyqQ3x9L2EE0UkKpl2vmHDpSireflMSrc4+m6ZafUD4bxHQAgeS6Dwxd9mz6Yv8
-	 6K4Q8aAjC9ArisEOJzSSSdP7Nwk0ZLHtyXe+uZXU2fh9aq1zJ2g2B++4EeeMA2jtAQDY8
-	 C+Hv9Gd+LkZXtkLGTK5GjrJbYo7aSZfWG+rM8NhJgEFT7OZJtaE+ikjdj7nrbjvEVxA5n
-	 H+e3VoukU3eXYy1o/RA6rFK2WDGsD5JeV0SKHh8GpWb3tcJADXMK8C6zruuHhZnQIxNoD
-	 +OFt8iP+D8Gns5Ra4HkUyMgOW+w0wxAvNvQ4kryX8nuQ6qVUs1q5jffme+s7D5fEvBg==
+	t=1795159191;
+	b=yStL7ufRLo091i3dSKqBpz4IFPD9rk0CIjSqIF7Hiab/5YcJ3wT8SsKxA6WlpVva7NS4
+	 VKuFYxB3Iky9oMolvuXqQToEaGcXTIS2YyLNDT43BBoEgb+pMJ5vELaLYd2EcKfzWpRUR
+	 wuhh2w92g/RPsFeBZ3NY9v6Cqn0V/NWKoY9hRVmgvLnTjB5V66axYa82qkXTKT2jQ6ojb
+	 n7O36byVeLddUKtWsBkTEaRThbaVIDKQ00sEOw2Xz0GKUHI8Y5yKMtDTcklfFrkWHxEub
+	 oVJZG6oibxIJm2OqXjlI+f5B5+c1pylILVfmGJ46X4lobKQ3/y54sx+IZpUvDqi2A1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795159017;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795159191;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=7SAZQJF5qDDR1gr0gsfdLGkKz9vlx8ROjkl3OoJzoDM=;
-	b=JR6k4sdjJreuOjIdx6EpNBTnpNb2njXpddQ1wSWFOpIHsouVnPYZUUyo7NNJ29HsAQBC
-	 gvpxF6/FvGDc/zZ0ve2Nj/oraP71Dr73rM1tpj3Vt31aqDLwBM1Q/eanYwoF860uN+ZCV
-	 XLBXnzox2iJqmKYpBxXAKEdjm8aCu2lPADYeo4SbZHI+7Xz9D31hBh8AjIpj9V0ciTW5O
-	 QGLgFPUrW4L6GjYRj6/dt+R1EUe3hTb/6Woj8p9rdtuOXWYsfqw6C6EpeaiT0GU0vUpmw
-	 cCCMsLctrClnHAKnQmzhiPPgk3z170pHsae7Adgu/44zzsLg6dFEht+IPX/7sWXL5Xg==
+	bh=Sycd09Buu7yQJo1IYkUM/pUSCHj+J4vY7dZfCNlOBp4=;
+	b=aQ8pQ4MciwPUHoEBXzCtkH+jG3GFWEgaJOV+DwqnCoUvwuezGxAIkLDl68QOYpBsB3an
+	 p/ZWG1QEi+FYxlo78NgIJQvAQX9sZfu8KEYLcChPQEFi8kLJDj/3CW/ffP11OyOtct2MR
+	 qmzcr8Xrb28gKstY+I2JNv1daPuDRhjs4HJfDNNL3p1ex2VXGVIvdydcxtEphUcpyGvdT
+	 JLJmH4YgTiWL+rkjKOz8Cew98iXe2eXNHQiZJSqam1tqCKbGTwhdonWNZymmhJSCdLhT3
+	 xcxkZM6byDdXauErDvNw2Rte5j4ETQgs5mbmMG6+4EhxxYdE1mSnM3DcYN52TdYDTdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=tVOP0u1M;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=pXiHu+cm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EF5606A326;
-	Fri, 20 Nov 2026 07:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2608D606A325;
+	Fri, 20 Nov 2026 07:19:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=tVOP0u1M
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E471F000C4;
-	Fri, 20 Nov 2026 07:16:56 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=pXiHu+cm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C2B01F000CA;
+	Fri, 20 Nov 2026 07:19:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795159017;
-	bh=7SAZQJF5qDDR1gr0gsfdLGkKz9vlx8ROjkl3OoJzoDM=;
+	s=korg; t=1795159190;
+	bh=Sycd09Buu7yQJo1IYkUM/pUSCHj+J4vY7dZfCNlOBp4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=tVOP0u1Mi8GBCz7s8vCzuGhnkx+YwhN20yJl+gFjRljvc0q+P91Dv8axTMhYPkNiK
-	 IAOgzNvzYoyvb+576dawA5ixA3OhlQTTQLgkLIl2zRZZ6WLMpsxb2x8hOnKKccwIbN
-	 8c0akVRMB2HhWgzHnY7niBjPgVIsgcjiShjuIfBc=
-Date: Fri, 20 Nov 2026 08:16:55 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Niloy Meharchandani <niloymeharchandani@gmail.com>
-Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: net: use guard(mutex) for probe_disc_mt
-Message-ID: <2026112038-breeding-skinny-7966@gregkh>
-References: <20261114065358.149853-1-niloymeharchandani@gmail.com>
+	b=pXiHu+cm6c7luq1Ox54dWkXWIvKUCsrEQUMFWox87ikkJxi3UVG6wHDytiQXvpY5h
+	 0nmMEhXAcSElff19iQFMwZt1WFRhgPAtDNSV2mEfkGS6UE3/q2R6InX7IlrJ2SDvyS
+	 dLJ9GMEn/PqfiWzRkbFUUIU2xx12c2NQeHJ2hBVw=
+Date: Fri, 20 Nov 2026 08:19:48 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: S Tarun Kumar Lywait <tarun.k.lywait@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: octeon: Align function parameters
+Message-ID: <2026112040-unshipped-muscular-6354@gregkh>
+References: <20261115135413.13482-1-tarun.k.lywait@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -56,23 +54,10 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261114065358.149853-1-niloymeharchandani@gmail.com>
+In-Reply-To: <20261115135413.13482-1-tarun.k.lywait@gmail.com>
 
-On Fri, Nov 13, 2026 at 10:53:58PM -0800, Niloy Meharchandani wrote:
-> Replace manual mutex_lock() and mutex_unlock() calls on probe_disc_mt
-> with guard(mutex)(&probe_disc_mt) in most_nd_open(), comp_probe_channel(),
-> and comp_disconnect_channel(). Include <linux/cleanup.h> and
-> <linux/mutex.h> explicitly.
-> 
-> This simplifies error paths by removing the unlock goto labels and
-> temporary return variables while ensuring the mutex is always released
-> on scope exit.
-> 
-> No functional change intended. Compile-tested only.
+On Sun, Nov 15, 2026 at 07:24:13PM +0530, S Tarun Kumar Lywait wrote:
+> Align the function parameters to the open parantheis and change the parameter "pko_command" to "pko_cmd", so that it doesn't exceed Col 100.
 
-Only do this for new code, never touch existing code like this, it's not
-needed.
+But this line does :(
 
-thanks,
-
-greg k-h
