@@ -1,53 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795158995;
-	b=IbBB+XqKe41j5jQ0p6mxIbHmDUfehLpszFStaAOXCLiHLdGoYfAzULb7UKLw2v+LWlnV
-	 IeQWqPN2JvEnIJIX4XBHcevFkq9KFs37kL8WB3I3VA7/DEeMaxo0CPISYmjK58fiuqaba
-	 5U5jxpYcBf0CoderpnkZPfydy2McRamAuDZ5Uzb24+6GW3wT0UY1KKzwt/7y3WN0xcoiE
-	 1twMdgpg6MLI/6V3t1RfNSEu0EM7vXVVvlqUG/CYcGb7v8iaXTO6wzg3zGbya41hu70lK
-	 itNoVOAnMvC6yRClXzEM1BW4wv/zSMeG2l95TyQvq8QZwTtJbiOBSmNy1PL7t09hEBQ==
+	t=1795159017;
+	b=tmdNbsyqQ3x9L2EE0UkKpl2vmHDpSireflMSrc4+m6ZafUD4bxHQAgeS6Dwxd9mz6Yv8
+	 6K4Q8aAjC9ArisEOJzSSSdP7Nwk0ZLHtyXe+uZXU2fh9aq1zJ2g2B++4EeeMA2jtAQDY8
+	 C+Hv9Gd+LkZXtkLGTK5GjrJbYo7aSZfWG+rM8NhJgEFT7OZJtaE+ikjdj7nrbjvEVxA5n
+	 H+e3VoukU3eXYy1o/RA6rFK2WDGsD5JeV0SKHh8GpWb3tcJADXMK8C6zruuHhZnQIxNoD
+	 +OFt8iP+D8Gns5Ra4HkUyMgOW+w0wxAvNvQ4kryX8nuQ6qVUs1q5jffme+s7D5fEvBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795158995;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795159017;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=p30/LUS9Qhu8eYZs3n7RSezpPRdawgsQqIN23flkfxA=;
-	b=YmMDxKuYQIx9NjGpoWPsv0drfzzi/m+8T+8A7e1g1XyKANS0T2EF4wq5xx6Gm+P54Clk
-	 J34HoirbAW09+6CIr4hM+euLD9ptZZy+RPTPH+qGoVuz5/76ktQRSwKASCYokJvMNcGHl
-	 X3LqSX2QzpnPPA89lPCUpmxp2ZnHRtOmIeFXQZdNFeR5k7oTo0jAnSo0BOA3bIpAI1zAO
-	 TrQkTd6riVN4N3uLz0awf6gLxL9yH7ieJ+HwwWTdp11T3K0amO2Ij0tCyDBgCE0jc3dpl
-	 nkt20wVUjmMrwSklJD/HBM1jzA4L4n+5m85eakp3/W2SI80IyIrHT+LIDseZpvTp/CA==
+	bh=7SAZQJF5qDDR1gr0gsfdLGkKz9vlx8ROjkl3OoJzoDM=;
+	b=JR6k4sdjJreuOjIdx6EpNBTnpNb2njXpddQ1wSWFOpIHsouVnPYZUUyo7NNJ29HsAQBC
+	 gvpxF6/FvGDc/zZ0ve2Nj/oraP71Dr73rM1tpj3Vt31aqDLwBM1Q/eanYwoF860uN+ZCV
+	 XLBXnzox2iJqmKYpBxXAKEdjm8aCu2lPADYeo4SbZHI+7Xz9D31hBh8AjIpj9V0ciTW5O
+	 QGLgFPUrW4L6GjYRj6/dt+R1EUe3hTb/6Woj8p9rdtuOXWYsfqw6C6EpeaiT0GU0vUpmw
+	 cCCMsLctrClnHAKnQmzhiPPgk3z170pHsae7Adgu/44zzsLg6dFEht+IPX/7sWXL5Xg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=IzbLOq8S;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=tVOP0u1M;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E809A606A320;
-	Fri, 20 Nov 2026 07:16:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EF5606A326;
+	Fri, 20 Nov 2026 07:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=IzbLOq8S
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 097491F000C6;
-	Fri, 20 Nov 2026 07:16:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=tVOP0u1M
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E471F000C4;
+	Fri, 20 Nov 2026 07:16:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795158994;
-	bh=p30/LUS9Qhu8eYZs3n7RSezpPRdawgsQqIN23flkfxA=;
+	s=korg; t=1795159017;
+	bh=7SAZQJF5qDDR1gr0gsfdLGkKz9vlx8ROjkl3OoJzoDM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IzbLOq8S4vrSe3/pP3y1Osjo0TvxvwG7Rg8YkXGPQ6dzRfmra2qKSGkbYaXEXqJz4
-	 L/WzpYg/HV85sqYSdANdBXy2in6h4hhOCAVRYgVwvwp1n2xFGVV2YCaXvt+FL8D1vK
-	 lLFQWDD4Bb+nQ+7c/V1AT829tfBN7BuPchbxpjEM=
-Date: Fri, 20 Nov 2026 08:16:32 +0100
-From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To: Zachary Aflalo <zac@belligerently.dev>
-Cc: "parthiban.veerasooran@microchip.com" <parthiban.veerasooran@microchip.com>,
-	"christian.gromm@microchip.com" <christian.gromm@microchip.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Zachary Aflalo <zachary@aflalo.com>
-Subject: Re: [PATCH] staging: most: net: Preserve network device registration
- errors
-Message-ID: <2026112021-walnut-apple-f7b9@gregkh>
-References: <YT3PR01MB910878CBF3D8FF5F25367214AF712@YT3PR01MB9108.CANPRD01.PROD.OUTLOOK.COM>
+	b=tVOP0u1Mi8GBCz7s8vCzuGhnkx+YwhN20yJl+gFjRljvc0q+P91Dv8axTMhYPkNiK
+	 IAOgzNvzYoyvb+576dawA5ixA3OhlQTTQLgkLIl2zRZZ6WLMpsxb2x8hOnKKccwIbN
+	 8c0akVRMB2HhWgzHnY7niBjPgVIsgcjiShjuIfBc=
+Date: Fri, 20 Nov 2026 08:16:55 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Niloy Meharchandani <niloymeharchandani@gmail.com>
+Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: most: net: use guard(mutex) for probe_disc_mt
+Message-ID: <2026112038-breeding-skinny-7966@gregkh>
+References: <20261114065358.149853-1-niloymeharchandani@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -59,46 +56,23 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YT3PR01MB910878CBF3D8FF5F25367214AF712@YT3PR01MB9108.CANPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <20261114065358.149853-1-niloymeharchandani@gmail.com>
 
-On Wed, Nov 11, 2026 at 02:42:07AM +0000, Zachary Aflalo wrote:
-> From: Zachary Aflalo <zachary@aflalo.com>
+On Fri, Nov 13, 2026 at 10:53:58PM -0800, Niloy Meharchandani wrote:
+> Replace manual mutex_lock() and mutex_unlock() calls on probe_disc_mt
+> with guard(mutex)(&probe_disc_mt) in most_nd_open(), comp_probe_channel(),
+> and comp_disconnect_channel(). Include <linux/cleanup.h> and
+> <linux/mutex.h> explicitly.
 > 
-> comp_probe_channel() replaces every register_netdev() failure with
-> -EINVAL. This hides errors such as -ENOMEM and -EINTR from the MOST core
-> and the configfs create_link interface.
+> This simplifies error paths by removing the unlock goto labels and
+> temporary return variables while ensuring the mutex is always released
+> on scope exit.
 > 
-> Save the registration error and return it through the existing unlock
-> path. Keep mapping -ENODEV to -EINVAL because configfs uses -ENODEV to
-> accept a deferred link when the device or component is missing. Returning
-> that error for a failed registration would incorrectly acknowledge the
-> link request as deferred configuration.
-> 
-> Codex assisted the source review, implementation, and commit message.
-> 
-> Fixes: d4a8ce7f57fc ("Staging: most: add MOST driver's aim-network module")
-> Signed-off-by: Zachary Aflalo <zachary@aflalo.com>
-> ---
-> Validation:
->   Built the original and final driver objects on Debian ARM64 with
->   GCC 14.2.0, W=1 and C=2, using upstream sparse at
->   84ec0658c81db4ccc4aabc420d3dc118c2c6a310. No driver diagnostics or new
->   warnings. Both versions produce the same unrelated sparse warning in
->   arch/arm64/kernel/vdso/vgetrandom.c for __kernel_getrandom.
-> 
->   Extracted-function tests with mocked dependencies cover both channel
->   directions, registration failures (including -ENODEV), successful
->   registration, duplicate-link rejection, lock balance, and the actual
->   configfs create_link store function. These are native userspace tests,
->   not kernel runtime or hardware tests. No physical MOST hardware tested.
-> 
-> AI assistance:
->   Codex inspected staging error paths, proposed this focused correction,
->   checked caller behavior, wrote the change and mocked tests, and drafted
->   this message. The prompts requested a small meaningful staging fix,
->   preservation of existing behavior, and validation before submission.
->  drivers/staging/most/net/net.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+> No functional change intended. Compile-tested only.
 
-Please read:
-	https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
+Only do this for new code, never touch existing code like this, it's not
+needed.
+
+thanks,
+
+greg k-h
