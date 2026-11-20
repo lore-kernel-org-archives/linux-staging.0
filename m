@@ -1,95 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795181958;
-	b=BkEbcUgcSIOSwAQnECnZuSKo/txJNvAlfdrkPyQqeS9KcCgL3/0qhIKthsNCtPv1d0yR
-	 kHnWKkxPySloNW87sMIbwF//WBWIP1jTez7ZxqJlMmtBIyOCdOR0BNF4Ylftb6Spp60QU
-	 sDSop2cmq9mMyS2XInh8HSEAID+DyNz3OkPt5wQsA6D68ndoaLOJZTRvIWaUavKeBCtyb
-	 M60i/ol5LsryBC5+/0rDGJyZaEezNhJYR5Zo+vhzn3G6P/2lKjEUaRTToroUOdB/pILwU
-	 ey8A5ZjTM/2fXN9R4YV3vtGse9QZPjH3/TlsxNgEcAehVziBURHFNDJ9LZovDRQjDGg==
+	t=1795185112;
+	b=hWvvjwC7J1iNRVgs1uQHSOKYXuu6RBpJjdO2Rc/tMjVzEn6iom+bq763OEWVDEij64Dt
+	 8MqOKka6l55aYEDcOGsfFTvCxL7r7bJfEjpicmtKeakHEZYsb83Y8XznVidzKsaBSS/Qj
+	 BbhB2Fl63nQZn11cs/n5T+tucg1bdyHKPNieFwo9VUUr3rwmOBF/SspY9rq5WPdHfyj0e
+	 6NF6Vh2hJgVY/LXb0gv2eNqzCULtrbB/tEgrK9xxro5J17FrdFXsQ3Y8CViwL8uJsSLLS
+	 B5UEZCQoOwOwFx6gJkC8VzGYHzfNxZdJsezEI7AdSg9hfxHq2gvwy7tX22T+kvB/jyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795181958;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=iOrB8ZBemxu8yPvkvxyPd5fTfr0XdnHBAfznsD9q6Zw=;
-	b=osJAIqKYw3Q4fBO6W59z5JQFW6vzH3qDStuVV6UOssopMIScjuV4YdQ7tRS8hHgT2u/5
-	 yAZBjCMU1J6Jn2B3+fqoQcH7rkSVQA2ThIfmWsMfv6wTjQM/bjc3VXHqqJl9Esq9+U2HX
-	 t5vdcPanMk5wZTKnopT6yE9QS8RUv2PxcBiT2oaU9J/uQ5nch3OnYwTLhtwc1Cu/ls/1R
-	 bJAKo1LUBsrvHESC58Eq2whiuZm0TC4PQ5MpcL/D46H9Zin1XcLACvnTxQOE8u6o4mFkb
-	 XoSFdwRVBqv0hSNo2PJ0yXQqIdnEiypHycYx+cqomY4nJ6BQz8+nhpzznpmodgBAr+w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795185112;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=UKqMm3UXGqso/anZy4h8q75LGkn2zjk5fh4PpP+m3sA=;
+	b=BM+8gME7Cj9gNQGg0YcksMFD5A+GkwEEsPpDXBNeLUcjBEwLlkdFhkExbn8kt4G8weTa
+	 WmunVcgyj20tk1jRvXJm54Yj15vCaeUh31z8mVBYZ3smppA6paRBsnEgdTkbMY1Ied7G7
+	 RAjD/S64xeLEOLRDrrT59nsBPA3UCRiqRyDOPx5gNMD8bH91BVcxrJaf8veQ8HLwiMZLQ
+	 Yfuq1ZzSYx/3tIlhzGAZXyyWUpd0daPeOCj1uWol05q91fZNBaHuN15BlEhfnI7zQh1ar
+	 WUnfdNqFgVTQ8HOmk91YF2trErdAAXESS+ik/T3MKXGKUglTQYzH75GLjpmzOnFj1gw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WaCTNPqB;
-	arc=none smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=HgLDQrvT;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB347606A325
-	for <linux-staging@lists.linux.dev>; Fri, 20 Nov 2026 13:39:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB347606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66DC60A262A
+	for <linux-staging@lists.linux.dev>; Fri, 20 Nov 2026 14:31:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C66DC60A262A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WaCTNPqB
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-380b40312e2so648094eec.1
-        for <linux-staging@lists.linux.dev>; Fri, 20 Nov 2026 05:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795181957; x=1795786757; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iOrB8ZBemxu8yPvkvxyPd5fTfr0XdnHBAfznsD9q6Zw=;
-        b=WaCTNPqBiYSmzcG7doBg4SlqEo4P2PJmSqHt5sRKSL5DOfLPlBVja7UhEJr4dAs+3e
-         uY41ofS7cBv326hWAKLyXjXh+ns037bokFOWxRR3SZ1YBU8CzZ+wem4AYbLz2WiEMGWh
-         V69AOZOQFK5GAT+n4K1kJv9VVy3DMfONcPOi5mF0l5YyFKvm9ETBcPo8TeJ8npXmAuPF
-         yQHQlzlDER35Pc5rfIDjjUEFeYrFuIgydpvpz1zyPpNa67yAgbtjxGGdJmTRcCHVZokm
-         nA3RvzOdsBBuz4uNh6JCG60IKZGvV+2Rie04yhG9MSFXWDiKk0H79vzWvOaDh50CmxLN
-         +KTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795181957; x=1795786757;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iOrB8ZBemxu8yPvkvxyPd5fTfr0XdnHBAfznsD9q6Zw=;
-        b=HnEhlc8706Bb0Sht9UvK1wUMab7ygqwHvNFYVsT3ibiuGpqJd5+uo+RPF6FMHEWAIv
-         qG9cl9lPPLAVgDoNTXYPtYsx166AJMZzQLiHtb2bchL1a5CPos8Rh7dhvkS2cSXTclb0
-         X4Jh0yp6vtsgv3Fo0yVhS6okKeeDQCaBn3Y3iiP8eo0CugINeWk/qQpshy8Unn9uOnWW
-         F1ND6SMppPUDTBufEnjFuoZ82+acBTtxi26t+MY8TP0U6g+OSxu/VjryggwHddZDgmny
-         44s3C2EyEu0UcxwFAXmjCT/I/95C3LIDWSk5EK1cxB1ALHO1T8d9HVoL2GfDZ8JbuFff
-         bvgg==
-X-Forwarded-Encrypted: i=1; AL+hErHLnuLq72vHper/xBhjS+dbEAS/CkYSFiboZXRwe7dp56ZPUFXeRqNGDXOj+sIt0OMWzOzbdbaHfUhUJA9p@lists.linux.dev
-X-Gm-Message-State: APuU4Z/ZneY1p/IxJrF6AAkI0buTITQdw+S5Ki5GLqn0RH9W8Bu00IBr
-	iMaJMxOhwAVFqdmso4HIfqLnAbN0K58TZNIt8BZnI1Eik8q8GjsI9NmR
-X-Gm-Gg: AZFdTZdN5NBOzDF0WILerym/uZddfcjfbzqRZ+7PLmDuMKGg/5HpktRAWquSqqWiT+h
-	IpbHZmnyY8fjSXRoh8Yg8/FBp+KyYOnf+JGYYfDv58lzJqRYrURKqnWsNmKk26SSKOAM+4/wrfx
-	28fEXcTI0WygPTH2haQFn1bEkvdFcA1EllrZUxIgMPLDzhQtOcXFRkblbaHU5IYfhQurZtCfYzC
-	ie8FLTr0uQ7l1eLUoQCufSVrlzqAovNsGdlXVLbmzaq3B8j0kL9Gn3SN9KXIRfUc3RijOu2FCuS
-	kLH8p1B+9eiKtD+BrcLy1CotXCf/q8G3gtgxpoBNJ1QvE2hbUWnKy6ytZh6/BhJkXNeLwK8l86i
-	YrQlYvKBsmEO7Dj2JJwNit22e0lLwUjN3sDBrMWysb6YqBl7KwImTH2167QnDnmfll9/kg5fiiR
-	BQiWJLRH0xSsy9U1rGaGZaQeJcsdx7GUp6etX27sxjZm6Sf7UVxU6AWBOJCivriiI1J+IywilWE
-	oSTpvwL5lGqrX3TDkyI4T3o5qaKaruysoa8nWQd+wlMPiqDeOZ4MMygCw1shf3nF8Xyf57E/2WA
-	v46opDJqz2Wby5+w0Fnqlc5/ZExNFX3YtBmfkECIhk2gaDyMTnj6icBZIK7ea7b9JseYbhqePKc
-	Rez02hEuMWg==
-X-Received: by 2002:a05:7300:f797:b0:386:95e7:848c with SMTP id 5a478bee46e88-38695e79009mr105006eec.7.1795181956894;
-        Fri, 20 Nov 2026 05:39:16 -0800 (PST)
-Received: from tarun-lywait.mydebianvm ([49.205.203.37])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e7f59sm8673442eec.6.2026.11.20.05.39.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 05:39:16 -0800 (PST)
-From: S Tarun Kumar Lywait <tarun.k.lywait@gmail.com>
-To: tarun.k.lywait@gmail.com
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2] staging: octeon: Align function parameters
-Date: Fri, 20 Nov 2026 19:09:05 +0530
-Message-ID: <20261120133905.2146-1-tarun.k.lywait@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CAPmeTTDDU3vQ7rzW9qVtruu5_RA3WNm3OQYsUB=+U3HMaQJfTg@mail.gmail.com>
-References: <CAPmeTTDDU3vQ7rzW9qVtruu5_RA3WNm3OQYsUB=+U3HMaQJfTg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=HgLDQrvT
+Received: from killaraus.ideasonboard.com (2001-14ba-7086-3000--a06.rev.dnainternet.fi [IPv6:2001:14ba:7086:3000::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB45B177;
+	Fri, 20 Nov 2026 15:29:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1795184959;
+	bh=PbMjJCJgx3+izFU6cu2LfBSpM6luqbK+uhrzCbmlxRQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HgLDQrvTF2KGEte1LaI3I+6S2Tni780bRwGgmjKdrNLC0OKZxcddLdVRb9ppXqDOZ
+	 wlAKCmPbwgEnHD8zLOIX5bZvCcnc6RtQaEh7zKeZfaYd9NRkqHZw3fOF6+p7QjRfhL
+	 4d41Ax3rGdKiHr9a4c2O3bKzIlpH1Ymj0Y66emr8=
+Date: Fri, 20 Nov 2026 16:31:47 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Cong Nguyen <congnt264@gmail.com>,
+	Faisal Mukhtar <mukhtarfaisal03@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Hungyu Lin <dennylin0707@gmail.com>,
+	Hao-Qun Huang <alvinhuang0603@gmail.com>,
+	Yury Norov <ynorov@nvidia.com>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 01/10] staging: media: tegra-video: Move driver to
+ media/platform/nvidia
+Message-ID: <20261120143147.GA2466366@killaraus.ideasonboard.com>
+References: <20261113161819.36847-1-clamor95@gmail.com>
+ <20261113161819.36847-2-clamor95@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -99,37 +82,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261113161819.36847-2-clamor95@gmail.com>
 
-Align the function parameters to the open paranthesis and change the
-parameter "pko_command" to "pko_cmd", so that it doesn't exceed Col 100.
+On Fri, Nov 13, 2026 at 06:18:10PM +0200, Svyatoslav Ryhel wrote:
+> The Tegra Video Input drivers are mature and developed enough to be moved
+> from staging into the media subsystem. No other changes are introduced.
 
-Issue reported by checkpatch:
+The driver should at least be converted to be MC-centric before being
+moved out of staging. I haven't checked if other changes would also be
+needed.
 
-CHECK: Alignment should match open parenthesis
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  drivers/media/platform/nvidia/Kconfig                           | 2 ++
+>  drivers/media/platform/nvidia/Makefile                          | 1 +
+>  .../media => media/platform/nvidia}/tegra-video/Kconfig         | 0
+>  .../media => media/platform/nvidia}/tegra-video/Makefile        | 0
+>  .../{staging/media => media/platform/nvidia}/tegra-video/TODO   | 0
+>  .../{staging/media => media/platform/nvidia}/tegra-video/csi.c  | 0
+>  .../{staging/media => media/platform/nvidia}/tegra-video/csi.h  | 0
+>  .../media => media/platform/nvidia}/tegra-video/tegra20.c       | 0
+>  .../media => media/platform/nvidia}/tegra-video/tegra210.c      | 0
+>  .../{staging/media => media/platform/nvidia}/tegra-video/vi.c   | 0
+>  .../{staging/media => media/platform/nvidia}/tegra-video/vi.h   | 0
+>  .../media => media/platform/nvidia}/tegra-video/video.c         | 0
+>  .../media => media/platform/nvidia}/tegra-video/video.h         | 0
+>  .../{staging/media => media/platform/nvidia}/tegra-video/vip.c  | 0
+>  .../{staging/media => media/platform/nvidia}/tegra-video/vip.h  | 0
+>  drivers/staging/media/Kconfig                                   | 2 --
+>  drivers/staging/media/Makefile                                  | 1 -
+>  17 files changed, 3 insertions(+), 3 deletions(-)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/Kconfig (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/Makefile (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/TODO (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/csi.c (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/csi.h (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/tegra20.c (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/tegra210.c (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vi.c (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vi.h (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/video.c (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/video.h (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vip.c (100%)
+>  rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vip.h (100%)
 
-Signed-off-by: S Tarun Kumar Lywait <tarun.k.lywait@gmail.com>
----
- drivers/staging/octeon/octeon-stubs.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 9c1968b7e..cc1204e20 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -1387,8 +1387,10 @@ static inline void cvmx_pko_send_packet_prepare(u64 port, u64 queue,
- { }
- 
- static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(u64 port,
--		u64 queue, union cvmx_pko_command_word0 pko_command,
--		union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
-+							       u64 queue,
-+							       union cvmx_pko_command_word0 pko_cmd,
-+							       union cvmx_buf_ptr packet,
-+							       enum cvmx_pko_lock use_locking)
- {
- 	return 0;
- }
 -- 
-2.47.3
+Regards,
 
+Laurent Pinchart
