@@ -1,53 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795170168;
-	b=gfGtgPZspNfligWmqSFBc8t7LZyqppCfy0iTGtZgJUd6DJkiFW0hBcL/+bC2lL86v1qf
-	 3YP+t2gQNO15ZO68wZQ0CBG0m3kD9d4RQ/avwYGKNpyX3Z+EBOSSmD0mJ8guu0QkDLES9
-	 Dn0TrN0ea+a+GcW0ueVgkEG+XhJWoG+wPjvDUAzhuDB4GPWuCst4SusTbDiltURlhRQqt
-	 rTIzWI0q4Q1P4I4XUoBMkX/KqyUG4gHb+KxgRPz668KeQ6D8djrZap3aJt0VcKpmp2dg6
-	 o1CW5R+9gZFv0yrDvW2qcmO4YKcr9UBAEaZAw/6Slptl+pdkYhsNTaYS68F39TfutqA==
+	t=1795170245;
+	b=jv8h23WMOcovyEfOWIFQDJsn+XntjoiTWRIzyrwq90mR039Xv1nH0dA1Vlw9l0Ljc3lH
+	 67e/NCwfnf6itIQtVPA/Xxp9Ztf/h49M6r7zJUR5HN/b0kuhstrEdPrF7F8dMBbX5zCG7
+	 px5h2gqonDjl9UbwFDDQAVsq3y2PU6AusCQJSbE97ov6SWGD8DIvsLSkPZzeU0jRx8OBr
+	 kWrelUcNqjjItd850tQgPsH28TivlEJVvC7xU9nFEpQGrw6uaWOk0/nGI1Nej4yAZ7SZd
+	 YMOihcHOerW0orNJfAqu9valNcEEmQv+JrVktpHz6u8b/zKNlDWkv+cV6CDSeJz9vIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795170168;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=VajH4hmmm3l/s5njp3ywy3EhTP1RvSBqpJgoUnAALQc=;
-	b=nfNNHfnBwYIJwnAdNN4x+RjiWUlEHrgaYV9kJ6Vwh4WeBjrJ2kmj1YQVPRT04AcfSc5h
-	 Yatmq/X2yUxdFA7QnbGqu6bsnRgT7FtkeXfd8KlxV6pVLTR2UUgTB17imCBi5Z/JFU11W
-	 4k+qqAf9rzPyNhzgAQoZGkYp5fM/NcHy16GtJWCtL/opR57zoSz3hHun5K8ZUv+nWlRKs
-	 +cCX3c4u+UDT1V/MPhBP33DT+D+DW/z8mDzXdoM6EBZoouOR/822j6tHhwQP2zhLBp2E0
-	 9NoAYmF+htZGIJ8fQp3ZIYFeTr7+T/JVL2javXus1I9yCSGre1NdFhrrxlsRolbHVYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795170245;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:
+	 Organization:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=h6r3Ix1xwC9XchGuTQiH8mjQfK7hpJKLEMuo4rJ/E3A=;
+	b=gmZwIVZLVJSjAxFb/12DCm+lqMEkIsu5b9LHbs01Yv6vlR1M6jNEu5PinBCOKM0cPYJU
+	 eMl1MKUiZpkJ0hgLLRQzhw4k95Xfj0beeM6S9j97gpAPMY2p1PuKKGPtlFYPtCMXajCjN
+	 zAifRuBmdXRfGYIL+TJ5azjoJwUggnenWB3C6FOdS3sJD0bPqThpRAV84RJFGlqd56WJL
+	 LiGgqLc6OEGqC20h62ldMj4tPQQLDbF9y9k7hteXMUiULe+/2UoQEbxXw23ogI7JALMlS
+	 jIq1SWqA0GtaSQs1d5ejhlAIOsRAMVISCjuf6LDANQBvAiOQtN9Rnbg7UotPWnvvptQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=EYjTJVzC;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mKVhaMIt;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103AB606A326;
-	Fri, 20 Nov 2026 10:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C9160A260A
+	for <linux-staging@lists.linux.dev>; Fri, 20 Nov 2026 10:24:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79C9160A260A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=EYjTJVzC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16AE31F000C0;
-	Fri, 20 Nov 2026 10:22:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795170167;
-	bh=VajH4hmmm3l/s5njp3ywy3EhTP1RvSBqpJgoUnAALQc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EYjTJVzCHrpKNkeOYU6m51VaY+lGSn6aQnTIiC5KjghAJAxLAoO1LK/0zHAww7Frw
-	 6hRYv0RH7Fb9Mhsc+rgo3csGgPitjVw80R0dNY55Wpsz2xbL6hOzKkO6/zemGXL0Ch
-	 hN9ZMEffhKYRi08FRdl6vy50q4anK6osBtth0viI=
-Date: Fri, 20 Nov 2026 11:22:45 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Victor-Marian Albu <albu.victor.m@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, christian.gromm@microchip.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	parthiban.veerasooran@microchip.com
-Subject: Re: [PATCH v2] staging: most: dim2: add missing Return: documentation
-Message-ID: <2026112035-persuader-jackknife-1586@gregkh>
-References: <20261104205108.1041666-1-albu.victor.m@gmail.com>
- <20261105202110.1081296-1-albu.victor.m@gmail.com>
- <2026112048-dimmer-ravine-ae33@gregkh>
- <CAE5KA-NS5-yJXAHUofgmyCmWyjbjPSNdoQZi5+iPwZKabVbbyQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mKVhaMIt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795170245; x=1826706245;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5AE1nAjcNJJU2gyRZqdIvf+1tgh3aoinnWqjDwIMxtc=;
+  b=mKVhaMItGT4Egy9ekVKEvtO/c4tlR1ahSvTD7iZqTHGrqD1/+uKkt3sh
+   EjbRpWLccNYyLX1+ejQSNkQenJBk9+pNoQFTuungUpOr5kKIk3Tfztcsl
+   PF6j3qpL2mt8kMd1qFgEcVnxuQ8x6ZPob6PppYBWkBrSZOUSyqFmQzrz9
+   kTql10AE/VVxZG28yM0XdANvoFbFoX3uCEIskOA2iataPgSpkxxGEyvTc
+   UqD9sjfbqm0HkOCWxE5bepmOtie7BE/Esh61NktmJeJbqVIZZBDsLkjrE
+   5QnTvY/SscTMhrVFJ2J39OplbI0cPYJZ7Qq0FikYmcifZpaU3+fIO5IKt
+   Q==;
+X-CSE-ConnectionGUID: FACu1D5PRdWSUpYZi6ZC6w==
+X-CSE-MsgGUID: W60132MnTP2j3COqmaJTkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4090282"
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="4090282"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 02:24:05 -0800
+X-CSE-ConnectionGUID: 3EQSMVKRQL2pukqWbfAhzA==
+X-CSE-MsgGUID: 09jZu8IhSkmZ7Zy8sYdLzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,222,1787036400"; 
+   d="scan'208";a="12375021"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.253])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 02:24:03 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E079E121B79;
+	Fri, 20 Nov 2026 12:24:01 +0200 (EET)
+Date: Fri, 20 Nov 2026 12:24:01 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
+Cc: Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: media: ipu7: Remove unused struct
+ ia_gofo_secondary_boot_config
+Message-ID: <awAfwSVfYQTB_FCC@kekkonen.localdomain>
+References: <20260507151446.153614-1-nguyenhaiphu06@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -59,12 +88,20 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAE5KA-NS5-yJXAHUofgmyCmWyjbjPSNdoQZi5+iPwZKabVbbyQ@mail.gmail.com>
+In-Reply-To: <20260507151446.153614-1-nguyenhaiphu06@gmail.com>
 
-On Fri, Nov 20, 2026 at 12:18:09PM +0200, Victor-Marian Albu wrote:
-> A few had no Return: at all so I added one, the others already had the
-> sentence and I moved it into a Return: section, because kernel-doc
-> -Wall only looks for that. Nothing needs this, drop it if it's not
-> useful.
+Hi Nguyen,
 
-I have no context here at all, sorry.
+On Thu, May 07, 2026 at 10:14:27PM +0700, Nguyen Hai Phu wrote:
+> The struct ia_gofo_secondary_boot_config in abi/ipu7_fw_boot_abi.h is
+> not used in the driver. Remove it to cleanup the ABI headers.
+> 
+> Signed-off-by: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
+
+The patch is fine but we're about to remove the whole driver so I'm taking
+fixes only at this point.
+
+-- 
+Kind regards,
+
+Sakari Ailus
