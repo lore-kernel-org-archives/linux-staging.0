@@ -1,94 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795268375;
-	b=QdxKiXUKawNqJjvah6UNEMrqNpHcnBm7JU3Pm0rEfQgTPFcKN8BV9kBSQ9iURYMp9f2Z
-	 7unirqfUE9M7WOMdZRzk9gTyGSWEzgX7/sRkT1UN9HMgGZkm0qPNPq8aR69kz59Aud+9i
-	 vkYN9fLiBtPIOx3O7aoOo+X7AyYiLcqeoNTqnZ2RXJL9rVz92jEI+UgE/q5JXwdIWT1X1
-	 0DPO8M2VZuibiCzkdJW6xOHJTZs9AxxuhGTmzyxvjJYJASvKjmVcnUGmRbTw4KrBz0uU9
-	 LUSOjXKrb5GaxSNi3DG/O9tqXdgMBexuyFiMLP5icMwAf4CKPdu5bO8lHjTcT9plxhw==
+	t=1795269240;
+	b=yIk8gPAmXPQxThYV2Al+Rg4Sqq5lh5ypqF+irLueJk3ghryv26RwE1y/qWmhkuZu8Rl4
+	 Cmm93jKybusFNZu1YvXxpP5+oHLU0/2Qd65KqfhMqYYRY/Q/lI9aaHhUrv7orUCZIK4CE
+	 Ibh9X3IpeOaOTGGjGa0NdoXoyVVlEYa4t0+joMkeaQqyOqliyYVVWtFnPyjrBBmXKgy9m
+	 yeQXAEsleSLP2tHvEUmHmVppXnpoXStdDNA/77r7BFtUTDrnVugk0g/vPU4INqznMYiXp
+	 Ybl+WnFH/PG0DvHkM1cTmNGgsV/jArLADlgqxPriuFDmwDwoqtsTgWFddUNu+2Tldhg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795268375;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=jpAB7bN4jOX4zDM3zWu+BqiTANE8OqvGyHkfG0EgWp8=;
-	b=KMmsn9A90WcLH0+Fmqkvstft5VR2EUI2bfDl7H7h7j0fgZ9XdOLjspr9VOeGCKGNLMwM
-	 5HYqpGd5dTOD58s3YRYMN5UVN+vodC/gHQJ+NlD4LxqEACv58/qgSGxoLIRuML5kM0HSq
-	 FeGuVo/C5Z85ohvyk9gWHw9/q1YG2d4FjoOPKdRaXsU4e6SpluH+jZXJmUN0JeMN9JTmr
-	 HuCFyNUityvTWODCuV4J+snZLq+fQlOSnLSTpwQrm6xFtllwBEiXOw2kt15deD6aQd8PO
-	 ZncnS6lg9dgWjwxRnfNq3LflcAKLHT2UXNHgX7VFbSBcN+/sCrf+t6gdSmdI7IyQ5Uw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795269240;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=rT38pic7oKYghostUyNggCTZ2Q1aSdkOMOeJYyd/5wQ=;
+	b=nMVsfchNeHxrX8kvfLQNBN+M3I62pwkl6w2M9pTJZsnMdGjAmdTKtv0zDPxofRlEjD8S
+	 LMhSqTsVbS0RaP1Q4KbXHw+r8g74HXBsSUi5Olz1A9onI31hlaRIqVmtiKtZ408J3J2tK
+	 3q7WiP9Pcc0bvvKPwM/u0158Ll6ENfsylkJtklAGzWI8TBkvbVmiMrJdGEMxBTUWM2nZa
+	 Yp6hdWBjfAOay9IwLovh7OSzR4DQ7XRApAoVG2+BYFlz4VkfMt0kZzXq2G8fSPf2Nski0
+	 dadV1ysmQ0HEs2fqKm612ksF2Pa5snCr6qcjhToWog05CbsgvMxsT5dWsk22FHyRM7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GlPQg+Wo;
-	arc=none smtp.remote-ip=209.85.214.178
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=DkfWeY+H;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE1F606A32A
-	for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 13:39:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EE1F606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48797606A320
+	for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 13:53:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48797606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GlPQg+Wo
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2f037bc348dso16127915ad.0
-        for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 05:39:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795268374; x=1795873174; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jpAB7bN4jOX4zDM3zWu+BqiTANE8OqvGyHkfG0EgWp8=;
-        b=GlPQg+WoMOg9wlmSQ6RiCE/68KoVSopM47DQrJ6R0ISVXuo2WfOK+xZ/CxLpQDve/B
-         N/7V/9uNuPyWr5U9ym1LkxvlLzfZQLt3Kl0RXij614YNNXKINjQtCgedNVA3aV180WKr
-         vcl6WrGhTb49OxOu3prjlbaSxs74QPA8E1+VNHe0DnrwaKcHJDZGZ+0tZa52fYCm9+G0
-         hzs57xc8klGJ9icCbPjrRjs/mbKlhLD8g/ggjm4C6S48HGpvq+6Np+ldJ9+9gSPoCdiA
-         jqmQotygdTNji17T2nD7a4wX/dULXc1tIQIB4QucWsuBfdlKfTBvF6m54/BQ24tHQKXZ
-         T68Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795268374; x=1795873174;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jpAB7bN4jOX4zDM3zWu+BqiTANE8OqvGyHkfG0EgWp8=;
-        b=AjySv1qhLEIgvTfHULWe6CQT7VQcTTMFZ19sfXeO0yv5x/fezMQmkd5UOwu0d2O1Ik
-         mzXdUy8pP5klkf0WA6XsBAtP6txT4C6fGJzMBG0Lsuq0FJhvxVdERpb8CdAGrC/fXF3m
-         z8yp+DdwiEqpK9wtZjOeUqMm3BpJImozjw/Cm69bcIWJPN8zwSnVPrin5ZFyj5v0H8Fh
-         sBovbKEoLA+wUZ6EeKk7F7VoN1vyXA+D426OLtsd31rJlTsbDDPCVjHmG97vKWcFs9pc
-         f6PxvPEF1JzQbjREvm9lDqjWBiQ1vgxpsikfwTbov+/nZPv+21bKsYGHUq1gQPeJsnbq
-         iVqw==
-X-Forwarded-Encrypted: i=1; AL+hErGeZKvV3SD9CbPo6EPIbqRizh82K+CT4uCSmDcIlCqEwXK4fEG+IjEqIWIcZfwr0HaqJLtjG2EY3rR+Zsr3@lists.linux.dev
-X-Gm-Message-State: APuU4Z9Z1Y98ehtlAm4BjajgQd7gGsQvDaIr8if5K+3C10kgIuEgqJ6k
-	vIHgBR+Gfr8oTC6fpOmeq9ik95oXjQgIpgdffXjWupenNfn2WqEeteIw
-X-Gm-Gg: AZFdTZfBSecJwZknMcT+3XZmsI8ivnhofiAN1t6RALUsW7XFP8T2bstLU0snvMi86q9
-	jl3zZ1Gy9tBRN1+3bfDip2OJpfOEeuSQhndTA4QKVlS2IBIoKRKP3IOpRVsTEDsp+EPCTDKis8b
-	67RC7A8J9XX/p8nTink7BffRp5oDvnk0Ab+A42cuoOEClMjEjR2VHTvcBv3KIdoiXUGFHN/q4Xh
-	upVDD5bFD/bII2+8eyxNDDcvLRnSzgueZdOs24Xm8a1svQusCQ6yCaGR/XlkaXLMWefidN5awCb
-	zSKyiQ+FpepDwP5mItOTIi1PZ5uKecRgCvraWcLn4pEBK+d8KchOyJ4Nu1e9UC0WgDrJvvo8j4g
-	eIiNwNfz++mGp4yWCfFqCg/wevIH7ZzX0BYizK72Cos+nb39HwAdPCcXNKN2b1CO49dFBaQEaBg
-	Zz8f1omMuXEbL6ruC9AtvzNae24wAlVf+0giPO9X6WWMrgpmXfOcerNtuKmF+5seif2eJl8nbr3
-	av8pjvL9lYb/ucurHYppH6bCnk7FGsryVCRXUz4Xft7opvnyF47wk5rkuJXbPoBhzVKS5dyawJx
-	Q2ihmFuB5M3ypn0q2TOyM/vh2kMW9zuGs8Thi6c=
-X-Received: by 2002:a17:903:98b:b0:2df:aed3:2ac0 with SMTP id d9443c01a7336-2f03f1cf5ccmr67862115ad.10.1795268373920;
-        Sat, 21 Nov 2026 05:39:33 -0800 (PST)
-Received: from omarchy ([14.139.177.146])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0de00asm26621375ad.35.2026.11.21.05.39.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 05:39:33 -0800 (PST)
-From: Vaibhav Chahar <vaibhav.chahar26@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Vaibhav Chahar <vaibhav.chahar26@gmail.com>
-Subject: [PATCH] staging: sm750fb: Use str_has_prefix instead of strncmp()
-Date: Sat, 21 Nov 2026 19:08:43 +0530
-Message-ID: <20261121133843.127718-1-vaibhav.chahar26@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=DkfWeY+H
+Received: from killaraus.ideasonboard.com (2001-14ba-7086-3000--a06.rev.dnainternet.fi [IPv6:2001:14ba:7086:3000::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E275447;
+	Sat, 21 Nov 2026 14:51:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1795269080;
+	bh=5L9zvO8/SgC+bhCcxTzFqCD3dBJU7r/zCmGy5kQ2BPg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DkfWeY+HgF4lhMgNzSv4ZZ3lZXb4iGjyNiyTqiWALo26sePZxI1tyxbFmWSOxUHvJ
+	 gGDxGQJ5TivJIdQ/N3h4+5p6lBezptRP+p1+bcIPdMfHqrPAyhzr/UkajRbOa7peWB
+	 YQYbe9q399U3FHreW/HjGs4kHiMMEqkQ6nFerG4Q=
+Date: Sat, 21 Nov 2026 15:53:49 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maurizio Casciano <mauriziocasciano7@gmail.com>
+Cc: linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Bingbu Cao <bingbu.cao@amd.com>,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v11 01/14] media: v4l2-core: Preserve existing subdevice
+ nodes on rollback
+Message-ID: <20261121135349.GE2472094@killaraus.ideasonboard.com>
+References: <cover.1795267528.git.mauriziocasciano7@gmail.com>
+ <48240d57d86e78cce814822360c1b22cea80268b.1795267528.git.mauriziocasciano7@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -98,66 +71,112 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <48240d57d86e78cce814822360c1b22cea80268b.1795267528.git.mauriziocasciano7@gmail.com>
 
-Using str_has_prefix() is cleaner and more readable than using
-strncmp() with strlen(). Also avoiding the possibility of errors due to
-mismatched string lengths.
+On Sat, Nov 21, 2026 at 02:31:31PM +0100, Maurizio Casciano wrote:
+> Subdevice node registration skips nodes which already exist. On failure,
+> however, it walks the subdevice list from the beginning and unregisters
+> nodes regardless of whether the current call created them. On AtomISP
+> this can remove the camera sensor nodes when a lens rebind fails.
+> 
+> Keep a list of the video devices registered by this call and unregister
+> only those devices on failure. Record each device before creating its
+> media interface link so a failure in that step rolls back the new node
+> as well. Calls with no missing nodes need no bookkeeping allocation.
+> 
+> Codex drafted the change and tested allocation, registration and
+> media-link failure using the registration helper with mocked operations.
 
-Signed-off-by: Vaibhav Chahar <vaibhav.chahar26@gmail.com>
----
- drivers/staging/sm750fb/sm750.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+And you didn't understand the change, because this is clearly not right.
+NAK.
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 99d410e18..658e93b27 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -854,21 +854,21 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
- 		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
- 		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
- 
--		if (!strncmp(opt, "swap", strlen("swap"))) {
-+		if (str_has_prefix(opt, "swap")) {
- 			swap = 1;
--		} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
-+		} else if (str_has_prefix(opt, "nocrt")) {
- 			sm750_dev->nocrt = 1;
--		} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
-+		} else if (str_has_prefix(opt, "36bit")) {
- 			sm750_dev->pnltype = SM750_DOUBLE_TFT;
--		} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
-+		} else if (str_has_prefix(opt, "18bit")) {
- 			sm750_dev->pnltype = SM750_DUAL_TFT;
--		} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
-+		} else if (str_has_prefix(opt, "24bit")) {
- 			sm750_dev->pnltype = SM750_24TFT;
--		} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
-+		} else if (str_has_prefix(opt, "nohwc0")) {
- 			g_hwcursor &= ~0x1;
--		} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
-+		} else if (str_has_prefix(opt, "nohwc1")) {
- 			g_hwcursor &= ~0x2;
--		} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
-+		} else if (str_has_prefix(opt, "nohwc")) {
- 			g_hwcursor = 0;
- 		} else {
- 			if (!g_fbmode[0]) {
-@@ -1073,11 +1073,11 @@ static int __init lynxfb_setup(char *options)
- 	 */
- 	while ((opt = strsep(&options, ":")) != NULL) {
- 		/* options that mean for any lynx chips are configured here */
--		if (!strncmp(opt, "noaccel", strlen("noaccel"))) {
-+		if (str_has_prefix(opt, "noaccel")) {
- 			g_noaccel = 1;
--		} else if (!strncmp(opt, "nomtrr", strlen("nomtrr"))) {
-+		} else if (str_has_prefix(opt, "nomtrr")) {
- 			g_nomtrr = 1;
--		} else if (!strncmp(opt, "dual", strlen("dual"))) {
-+		} else if (str_has_prefix(opt, "dual")) {
- 			g_dualview = 1;
- 		} else {
- 			strcat(tmp, opt);
+> Fixes: db0f4691d974 ("[media] v4l: Allow calling v4l2_device_register_subdev_nodes() multiple times")
+> Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-device.c | 26 ++++++++++++++++++++------
+>  include/media/v4l2-device.h           |  3 +++
+>  2 files changed, 23 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-device.c b/drivers/media/v4l2-core/v4l2-device.c
+> index b4036105c..8cfca95ce 100644
+> --- a/drivers/media/v4l2-core/v4l2-device.c
+> +++ b/drivers/media/v4l2-core/v4l2-device.c
+> @@ -191,10 +191,23 @@ static void v4l2_device_release_subdev_node(struct video_device *vdev)
+>  int __v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev,
+>  					bool read_only)
+>  {
+> +	unsigned int count = 0, registered = 0;
+> +	struct video_device **new_nodes;
+>  	struct video_device *vdev;
+>  	struct v4l2_subdev *sd;
+>  	int err;
+>  
+> +	list_for_each_entry(sd, &v4l2_dev->subdevs, list)
+> +		if ((sd->flags & V4L2_SUBDEV_FL_HAS_DEVNODE) && !sd->devnode)
+> +			count++;
+> +
+> +	if (!count)
+> +		return 0;
+> +
+> +	new_nodes = kcalloc(count, sizeof(*new_nodes), GFP_KERNEL);
+> +	if (!new_nodes)
+> +		return -ENOMEM;
+> +
+>  	/* Register a device node for every subdev marked with the
+>  	 * V4L2_SUBDEV_FL_HAS_DEVNODE flag.
+>  	 */
+> @@ -228,6 +241,7 @@ int __v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev,
+>  			kfree(vdev);
+>  			goto clean_up;
+>  		}
+> +		new_nodes[registered++] = vdev;
+>  #if defined(CONFIG_MEDIA_CONTROLLER)
+>  		sd->entity.info.dev.major = VIDEO_MAJOR;
+>  		sd->entity.info.dev.minor = vdev->minor;
+> @@ -247,15 +261,15 @@ int __v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev,
+>  		}
+>  #endif
+>  	}
+> -	return 0;
+> +	err = 0;
+> +	goto out;
+>  
+>  clean_up:
+> -	list_for_each_entry(sd, &v4l2_dev->subdevs, list) {
+> -		if (!sd->devnode)
+> -			break;
+> -		video_unregister_device(sd->devnode);
+> -	}
+> +	while (registered)
+> +		video_unregister_device(new_nodes[--registered]);
+>  
+> +out:
+> +	kfree(new_nodes);
+>  	return err;
+>  }
+>  EXPORT_SYMBOL_GPL(__v4l2_device_register_subdev_nodes);
+> diff --git a/include/media/v4l2-device.h b/include/media/v4l2-device.h
+> index 25f69b1b8..6d8834d40 100644
+> --- a/include/media/v4l2-device.h
+> +++ b/include/media/v4l2-device.h
+> @@ -183,6 +183,9 @@ void v4l2_device_unregister_subdev(struct v4l2_subdev *sd);
+>   * @read_only: subdevices read-only flag. True to register the subdevices
+>   *	device nodes in read-only mode, false to allow full access to the
+>   *	subdevice userspace API.
+> + *
+> + * Existing nodes are kept even if registration of a new node fails.
+> + * The caller must serialize this operation with changes to the subdevice list.
+>   */
+>  int __must_check
+>  __v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev,
+> -- 
+> 2.53.0
+> 
+> 
+
 -- 
-2.56.0
+Regards,
 
+Laurent Pinchart
