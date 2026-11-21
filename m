@@ -1,66 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.42.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795280584;
-	b=FOwJk0vZFZ5fOiZenD4NA0TpKwTO6OAe38Xbq2c68RdTANequEqbtvqIFHNgX3qqImAV
-	 K9cSAFDw9tsyt2i4OhxxyDewfDW/IqtJ4f6SAW68FLSHi5vDb0onI8/W3rT//s29ajwpB
-	 8ysGKE08XoJvMU7pX50GSvIKx4IwcJVVIkBSktF4ZMsnyi249Rt3aMEaJEcI4A92+kd2q
-	 /nowzzXcwKncFz0+Cje3gZZZt3yxXZnm9YBJHUv8Pho3BFqTNqyGOpKbJvEmdqDJe27TV
-	 MirtnWwswA8PznJifl1W9oC+QPeaEKqSFk6yHDlYVpraQm3zVsXm89U5o7+FbxvkJWw==
+	t=1795281400;
+	b=WscX2f52qAj1NLSXA7DlnXcYLvVaB7YT2Bi1UYJzBJ61AnknwHHrrwVRt1T/OJ1kIZUL
+	 6FOZneje0J3dX/npWT10WEMTnqupICJAI+rXG7eUkkHNr7j4/l0jOsm3SfS2AzHhT+lPX
+	 BJT+SM8PC8nyPzDtRVB7tYJD1ujtZMjm4MKZnCws06JHZeUKDYcCemwm3NBXb8I/grYRs
+	 ijYol6UI7TWDpC74SXUNhb8buQ65SEB7VlzPz52sUkpHbVPLUFAPQHxsUfif5Bfjx+NPx
+	 +F9AhWchJl4nHKIpBDUgJHUcjJpA+rD6bVqxFB6116/E6NMEq+X3RelGTdNPeumyusg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795280584;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=aUotv7j+j3YfdqxCP09tcWgr9jtgWMVJQEC/S7MdUH8=;
-	b=08DGKBT+4GzwRj1jt7jKMx9Xc9QzWsMe9CkK8TJa5/i+0gJXaNv816r7AwqEMO0hpiEH
-	 jqtqwAX9quTJJA5a+dAP/M4Moh58OONzz+D1+/hR/nKh+9qPGPnA4eMNJJk5UI7LfNafM
-	 6Ea+hmotpTEJBN5Tiv/kbDSIhC3B38WRDncpfOq/n1R20xbpNY4SNV3f6GUOMjUJQoJnz
-	 r06aOA3iLjEWEEZnvgVcJ6xVX1JiLbfXTmCDxHyZWuGeYwoCUHzgM/XF081gzkp79nKZv
-	 K6cfwKiPbBqo03/KGN6pttpLEZkM91eidFpFjVpfNrSlEmTN+2KC3yhCD+nuGpJ+N/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795281400;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=wAfXimiNyxGjt5hvSoNH/WZxt6zmJP9vl158/kVceow=;
+	b=Vxm2Q3eJH+9atOiHL30QUfSto9TQlNq61jJA3ijXiXJnY/vXQFRxV4asWPBTcZ+UED3m
+	 MZI1+yxgX0oDxanFgn37jMsLt1BQ3zs3i9a4uRwPTRwuA/4Uj4JfLqJyMc1kz8wSsciAb
+	 o/kzukNDvcDaZblna5UDCoQAvF4BVx64BN50nAy3BRGBYmh82YFr8OY9KwDCfUyMPlvUW
+	 diH34ROA9q0TU/Iys3XKj3wQbXlQ8bsjcMzDNxb91cW/hMeCW9aSuiRDDpHs8EccL29o+
+	 lqwDWLGSaM3dXHJhUV3SeMG3kLJ1QZiFMRsi6vOMmqAulYk79Jcmkso2dOBUszkpepg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=YEEVp9yo;
-	arc=none smtp.remote-ip=220.197.31.5
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	dmarc=pass header.from=free.fr;
+	spf=pass smtp.mailfrom=free.fr;
+	dkim=pass header.d=free.fr header.i=@free.fr header.a=rsa-sha256 header.s=smtp-20201208 header.b=eU2JvbEg;
+	arc=none smtp.remote-ip=212.27.42.2
+Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709E0606A330;
-	Sat, 21 Nov 2026 17:03:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 709E0606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AEC606A32A
+	for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 17:16:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4AEC606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=YEEVp9yo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=aU
-	otv7j+j3YfdqxCP09tcWgr9jtgWMVJQEC/S7MdUH8=; b=YEEVp9yo0VXFiNKFa4
-	Ux7+tbyn/ZW1r668xS+a11xOE1hw8UWfKbzTKKpBGEm8NE4PF3PPXy+JON2sRuLh
-	D+SxelBajJWPXLa3VyqlezolqU5lF7iHWcS9s7q5qEt8dhqjwdqwVoloSIqSi7b9
-	ZSsiskYcNo+ifqbqjm7lgsYgc=
-Received: from Ubuntu26.04LTS (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgCXDkKozgFrr_GYHQ--.15432S3;
-	Sun, 22 Nov 2026 01:02:34 +0800 (CST)
-From: Jiaqi Shi <shijiaqi_develop@163.com>
-To: linux-media@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-staging@lists.linux.dev
-Cc: slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	Frank.Li@nxp.com,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	Jiaqi Shi <shijiaqi_develop@163.com>
-Subject: [PATCH 1/2] media: imx: remove legacy video node control and format handling
-Date: Sun, 22 Nov 2026 01:02:31 +0800
-Message-ID: <20261121170232.414316-2-shijiaqi_develop@163.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261121170232.414316-1-shijiaqi_develop@163.com>
-References: <20261121170232.414316-1-shijiaqi_develop@163.com>
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.a=rsa-sha256 header.s=smtp-20201208 header.b=eU2JvbEg
+Received: from localhost (unknown [45.13.107.210])
+	(Authenticated sender: lucasantunes@free.fr)
+	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 7FE792003CC;
+	Sat, 21 Nov 2026 18:16:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1795281391;
+	bh=I58JmmLrPF8Q8+YukbWHcL+IJM3ErWNQw1kMPHisjD4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eU2JvbEgitzfH3eQfgXoPcDvPSPHznJas7ghOS8buU/FIpSIhuknQmgUoYkqnc0Y+
+	 gtbUdmrnD86YGSswVknz/2pwYlrwFZnOnQvELYLMw8qKoj8kpmrBoy0v3nqHzzaQ4D
+	 f7Yw6JfF2cRiSwMrZ7jz1ECcloyJ16P9ZXC4UIqEEMIpkmjtz/LgqQEhakPGm/7Mrf
+	 apgHEzXQ0fVR0z3y6/VE6tDbi3cL4cijdXIfuJ/6ypodbkB4dP5pV3s9o0FnQFHRED
+	 WGqwpHt/k9s7HC1grW+TbTeT1nDMzns7PSEn0jyNZ23pKGafdaFyzFMWYtYNNZlW2E
+	 WUou3q2vcnlKQ==
+From: Lucas Antunes <lucasantunes@free.fr>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-fbdev@vger.kernel.org,
+	Lucas Antunes <lucasantunes@free.fr>
+Subject: [PATCH] staging: fbtft: upd161704: use fsleep() instead of udelay()
+Date: Sat, 21 Nov 2026 18:16:10 +0100
+Message-ID: <20261121171610.16391-1-lucasantunes@free.fr>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -71,723 +65,70 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgCXDkKozgFrr_GYHQ--.15432S3
-X-Coremail-Antispam: 1Uf129KBjvAXoWfCr1rKr17AF4xXw17tF13Jwb_yoW5JFy7to
-	Z7G3ZxAw4rGry8WFWktrn7JFy3ZFnYgws3Z34FyrWvkw4ava15X34fC3Zxt3WSqrs0va98
-	Zw13XrWUJFyft3Wxn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvj4Rdb1bUUUUU
-X-CM-SenderInfo: xvklyxpdtlsvxhyhz0rs6rljoofrz/xtbC7wr4TGsBzqrg+wAA3E
 
-Remove control inheritance from pipeline subdevices to video nodes.
-Userspace should access controls through subdev nodes instead.
+init_display() is called from the probe path, which runs in process
+context and is allowed to sleep. Replace the busy-waiting udelay()
+calls with fsleep(), which picks the best delay mechanism for the
+requested duration, as recommended by
+Documentation/timers/delay_sleep_functions.rst.
 
-Use source-independent format ioctls for all capture nodes and
-initialize them to the existing UYVY 640x480 default instead of the
-source subdev active format. Keep stream-time format validation.
+Delays of 10us or less keep busy-waiting inside fsleep(), so only the
+100us and 200us delays actually change behaviour.
 
-Update the usage documentation and remove the completed TODO entries.
-
-Signed-off-by: Jiaqi Shi <shijiaqi_develop@163.com>
+Signed-off-by: Lucas Antunes <lucasantunes@free.fr>
 ---
- Documentation/admin-guide/media/imx.rst       |  20 +-
- drivers/staging/media/imx/TODO                |  10 -
- drivers/staging/media/imx/imx-ic-prpencvf.c   |   7 +-
- drivers/staging/media/imx/imx-media-capture.c | 230 ++++--------------
- drivers/staging/media/imx/imx-media-csi.c     |   7 +-
- .../staging/media/imx/imx-media-dev-common.c  | 113 +--------
- drivers/staging/media/imx/imx-media.h         |   9 +-
- 7 files changed, 61 insertions(+), 335 deletions(-)
+ drivers/staging/fbtft/fb_upd161704.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/imx.rst b/Documentation/admin-guide/media/imx.rst
-index bb68100d8acb..812c6ac09ab8 100644
---- a/Documentation/admin-guide/media/imx.rst
-+++ b/Documentation/admin-guide/media/imx.rst
-@@ -394,13 +394,9 @@ scaling up to 1024x1024, CSC, flip, and rotation:
- Usage Notes
- -----------
+diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/staging/fbtft/fb_upd161704.c
+index 7288140e7c3e..26b7309d6455 100644
+--- a/drivers/staging/fbtft/fb_upd161704.c
++++ b/drivers/staging/fbtft/fb_upd161704.c
+@@ -32,27 +32,27 @@ static int init_display(struct fbtft_par *par)
  
--To aid in configuration and for backward compatibility with V4L2
--applications that access controls only from video device nodes, the
--capture device interfaces inherit controls from the active entities
--in the current pipeline, so controls can be accessed either directly
--from the subdev or from the active capture device interface. For
--example, the FIM controls are available either from the ipuX_csiY
--subdevs or from the active capture device.
-+Controls for pipeline entities are accessed through their subdev device
-+nodes. For example, the FIM controls are available from the ipuX_csiY
-+subdevs.
+ 	/* oscillator start */
+ 	write_reg(par, 0x003A, 0x0001);	/*Oscillator 0: stop, 1: operation */
+-	udelay(100);
++	fsleep(100);
  
- The following are specific usage notes for the Sabre* reference
- boards:
-@@ -483,7 +479,7 @@ NTSC, or 'alternate'):
-    media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/720x480]"
-    media-ctl -V "'ipu1_csi0':2 [fmt:AYUV32/720x480]"
-    # Configure "ipu1_csi0 capture" interface (assumed at /dev/video4)
--   v4l2-ctl -d4 --set-fmt-video=field=interlaced_bt
-+   v4l2-ctl -d4 --set-fmt-video=width=720,height=480,field=interlaced_bt
+ 	/* y-setting */
+ 	write_reg(par, 0x0024, 0x007B);	/* amplitude setting */
+-	udelay(10);
++	fsleep(10);
+ 	write_reg(par, 0x0025, 0x003B);	/* amplitude setting */
+ 	write_reg(par, 0x0026, 0x0034);	/* amplitude setting */
+-	udelay(10);
++	fsleep(10);
+ 	write_reg(par, 0x0027, 0x0004);	/* amplitude setting */
+ 	write_reg(par, 0x0052, 0x0025);	/* circuit setting 1 */
+-	udelay(10);
++	fsleep(10);
+ 	write_reg(par, 0x0053, 0x0033);	/* circuit setting 2 */
+ 	write_reg(par, 0x0061, 0x001C);	/* adjustment V10 positive polarity */
+-	udelay(10);
++	fsleep(10);
+ 	write_reg(par, 0x0062, 0x002C);	/* adjustment V9 negative polarity */
+ 	write_reg(par, 0x0063, 0x0022);	/* adjustment V34 positive polarity */
+-	udelay(10);
++	fsleep(10);
+ 	write_reg(par, 0x0064, 0x0027);	/* adjustment V31 negative polarity */
+-	udelay(10);
++	fsleep(10);
+ 	write_reg(par, 0x0065, 0x0014);	/* adjustment V61 negative polarity */
+-	udelay(10);
++	fsleep(10);
+ 	write_reg(par, 0x0066, 0x0010);	/* adjustment V61 negative polarity */
  
- Streaming can then begin on /dev/video4. The v4l2-ctl tool can also be
- used to select any supported YUV pixelformat on /dev/video4.
-@@ -510,7 +506,7 @@ alternating fields (field type 'seq-tb' for PAL, or 'alternate').
-    media-ctl -V "'ipu1_ic_prp':2 [fmt:AYUV32/720x576 field:none]"
-    media-ctl -V "'ipu1_ic_prpvf':1 [fmt:AYUV32/720x576 field:none]"
-    # Configure "ipu1_ic_prpvf capture" interface (assumed at /dev/video2)
--   v4l2-ctl -d2 --set-fmt-video=field=none
-+   v4l2-ctl -d2 --set-fmt-video=width=720,height=576,field=none
+ 	/* Basical clock for 1 line (BASECOUNT[7:0]) number specified */
+@@ -60,7 +60,7 @@ static int init_display(struct fbtft_par *par)
  
- Streaming can then begin on /dev/video2. The v4l2-ctl tool can also be
- used to select any supported YUV pixelformat on /dev/video2.
-@@ -541,7 +537,7 @@ NTSC, or 'alternate'):
-    media-ctl -V "'ipu1_csi0_mux':5 [fmt:UYVY2X8/720x480]"
-    media-ctl -V "'ipu1_csi0':2 [fmt:AYUV32/720x480]"
-    # Configure "ipu1_csi0 capture" interface (assumed at /dev/video0)
--   v4l2-ctl -d0 --set-fmt-video=field=interlaced_bt
-+   v4l2-ctl -d0 --set-fmt-video=width=720,height=480,field=interlaced_bt
- 
- Streaming can then begin on /dev/video0. The v4l2-ctl tool can also be
- used to select any supported YUV pixelformat on /dev/video0.
-@@ -568,7 +564,7 @@ alternating fields (field type 'seq-tb' for PAL, or 'alternate').
-    media-ctl -V "'ipu1_ic_prp':2 [fmt:AYUV32/720x576 field:none]"
-    media-ctl -V "'ipu1_ic_prpvf':1 [fmt:AYUV32/720x576 field:none]"
-    # Configure "ipu1_ic_prpvf capture" interface (assumed at /dev/video2)
--   v4l2-ctl -d2 --set-fmt-video=field=none
-+   v4l2-ctl -d2 --set-fmt-video=width=720,height=576,field=none
- 
- Streaming can then begin on /dev/video2. The v4l2-ctl tool can also be
- used to select any supported YUV pixelformat on /dev/video2.
-@@ -652,7 +648,7 @@ shows colorspace conversion and scaling at IC output.
-    media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/640x480]"
-    media-ctl -V "'ipu1_ic_prpenc':1 [fmt:ARGB8888_1X32/800x600]"
-    # Set a format at the capture interface
--   v4l2-ctl -d /dev/video1 --set-fmt-video=pixelformat=RGB3
-+   v4l2-ctl -d /dev/video1 --set-fmt-video=width=800,height=600,pixelformat=RGB3
- 
- Streaming can then begin on "ipu1_ic_prpenc capture" node.
- 
-diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
-index 11c9e10d34ae..43cd030d4bbd 100644
---- a/drivers/staging/media/imx/TODO
-+++ b/drivers/staging/media/imx/TODO
-@@ -1,13 +1,3 @@
- 
- - The Frame Interval Monitor could be exported to v4l2-core for
-   general use.
--
--- This media driver supports inheriting V4L2 controls to the
--  video capture devices, from the subdevices in the capture device's
--  pipeline. The controls for each capture device are updated in the
--  link_notify callback when the pipeline is modified. This feature should be
--  removed, userspace should use the subdev-based userspace API instead.
--
--- Similarly to the legacy control handling, legacy format handling where
--  formats on the video nodes are influenced by the active format of the
--  connected subdev should be removed.
-diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
-index 3430ddeac356..372d25c791d3 100644
---- a/drivers/staging/media/imx/imx-ic-prpencvf.c
-+++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
-@@ -1280,13 +1280,13 @@ static int prp_registered(struct v4l2_subdev *sd)
- 
- 	priv->vdev = imx_media_capture_device_init(ic_priv->ipu_dev,
- 						   &ic_priv->sd,
--						   PRPENCVF_SRC_PAD, true);
-+						   PRPENCVF_SRC_PAD, true, true);
- 	if (IS_ERR(priv->vdev))
- 		return PTR_ERR(priv->vdev);
- 
- 	ret = imx_media_capture_device_register(priv->vdev, 0);
- 	if (ret)
--		goto remove_vdev;
-+		return ret;
- 
- 	ret = prp_init_controls(priv);
- 	if (ret)
-@@ -1296,8 +1296,6 @@ static int prp_registered(struct v4l2_subdev *sd)
- 
- unreg_vdev:
- 	imx_media_capture_device_unregister(priv->vdev);
--remove_vdev:
--	imx_media_capture_device_remove(priv->vdev);
- 	return ret;
- }
- 
-@@ -1306,7 +1304,6 @@ static void prp_unregistered(struct v4l2_subdev *sd)
- 	struct prp_priv *priv = sd_to_priv(sd);
- 
- 	imx_media_capture_device_unregister(priv->vdev);
--	imx_media_capture_device_remove(priv->vdev);
- 
- 	v4l2_ctrl_handler_free(&priv->ctrl_hdlr);
- }
-diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-index 9216a221b72f..adc524038ed8 100644
---- a/drivers/staging/media/imx/imx-media-capture.c
-+++ b/drivers/staging/media/imx/imx-media-capture.c
-@@ -12,7 +12,6 @@
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <linux/timer.h>
--#include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
-@@ -35,16 +34,13 @@ struct capture_priv {
- 
- 	struct v4l2_subdev *src_sd;		/* Source subdev */
- 	int src_sd_pad;				/* Source subdev pad */
-+	bool ic_route;				/* Source is an IC entity */
- 
- 	struct mutex mutex;			/* Protect vdev operations */
- 
- 	struct vb2_queue q;			/* The videobuf2 queue */
- 	struct list_head ready_q;		/* List of queued buffers */
- 	spinlock_t q_lock;			/* Protect ready_q */
--
--	struct v4l2_ctrl_handler ctrl_hdlr;	/* Controls inherited from subdevs */
--
--	bool legacy_api;			/* Use the legacy (pre-MC) API */
- };
- 
- #define to_capture_priv(v) container_of(v, struct capture_priv, vdev)
-@@ -74,7 +70,11 @@ static const struct imx_media_pixfmt *capture_find_format(u32 code, u32 fourcc)
- 		return cc;
- 	}
- 
--	return imx_media_find_mbus_format(code, PIXFMT_SEL_ANY);
-+	cc = imx_media_find_mbus_format(code, PIXFMT_SEL_ANY);
-+	if (cc && fourcc && cc->fourcc != fourcc)
-+		return NULL;
-+
-+	return cc;
- }
- 
- static int capture_querycap(struct file *file, void *fh,
-@@ -136,10 +136,12 @@ static int capture_g_fmt_vid_cap(struct file *file, void *fh,
- }
- 
- static const struct imx_media_pixfmt *
--__capture_try_fmt(struct v4l2_pix_format *pixfmt, struct v4l2_rect *compose)
-+__capture_try_fmt(struct capture_priv *priv, struct v4l2_pix_format *pixfmt,
-+		  struct v4l2_rect *compose)
- {
- 	struct v4l2_mbus_framefmt fmt_src;
- 	const struct imx_media_pixfmt *cc;
-+	u64 sizeimage;
- 
- 	/*
- 	 * Find the pixel format, default to the first supported format if not
-@@ -167,9 +169,21 @@ __capture_try_fmt(struct v4l2_pix_format *pixfmt, struct v4l2_rect *compose)
- 		}
- 	}
- 
--	v4l2_fill_mbus_format(&fmt_src, pixfmt, 0);
-+	/* Clamp dimensions to prevent zero-sized buffers. */
-+	pixfmt->width = clamp(pixfmt->width, 1, 65535);
-+	pixfmt->height = clamp(pixfmt->height, 1, 65535);
-+
-+	v4l2_fill_mbus_format(&fmt_src, pixfmt,
-+			      cc->codes ? cc->codes[0] : 0);
-+	imx_media_try_colorimetry(&fmt_src, priv->ic_route);
- 	imx_media_mbus_fmt_to_pix_fmt(pixfmt, &fmt_src, cc);
- 
-+	sizeimage = (u64)pixfmt->bytesperline * pixfmt->height;
-+	if (cc->planar)
-+		sizeimage = sizeimage * cc->bpp / 8;
-+	if (sizeimage > U32_MAX)
-+		return NULL;
-+
- 	if (compose) {
- 		compose->width = fmt_src.width;
- 		compose->height = fmt_src.height;
-@@ -181,7 +195,11 @@ __capture_try_fmt(struct v4l2_pix_format *pixfmt, struct v4l2_rect *compose)
- static int capture_try_fmt_vid_cap(struct file *file, void *fh,
- 				   struct v4l2_format *f)
- {
--	__capture_try_fmt(&f->fmt.pix, NULL);
-+	struct capture_priv *priv = video_drvdata(file);
-+
-+	if (!__capture_try_fmt(priv, &f->fmt.pix, NULL))
-+		return -EINVAL;
-+
- 	return 0;
- }
- 
-@@ -196,7 +214,9 @@ static int capture_s_fmt_vid_cap(struct file *file, void *fh,
- 		return -EBUSY;
- 	}
- 
--	cc = __capture_try_fmt(&f->fmt.pix, &priv->vdev.compose);
-+	cc = __capture_try_fmt(priv, &f->fmt.pix, &priv->vdev.compose);
-+	if (!cc)
-+		return -EINVAL;
- 
- 	priv->vdev.cc = cc;
- 	priv->vdev.fmt = f->fmt.pix;
-@@ -346,133 +366,6 @@ static int capture_legacy_enum_frameintervals(struct file *file, void *fh,
- 	return 0;
- }
- 
--static int capture_legacy_enum_fmt_vid_cap(struct file *file, void *fh,
--					   struct v4l2_fmtdesc *f)
--{
--	struct capture_priv *priv = video_drvdata(file);
--	const struct imx_media_pixfmt *cc_src;
--	struct v4l2_subdev_format fmt_src = {
--		.pad = priv->src_sd_pad,
--		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
--	};
--	u32 fourcc;
--	int ret;
--
--	ret = v4l2_subdev_call(priv->src_sd, pad, get_fmt, NULL, &fmt_src);
--	if (ret) {
--		dev_err(priv->dev, "failed to get src_sd format\n");
--		return ret;
--	}
--
--	cc_src = imx_media_find_ipu_format(fmt_src.format.code,
--					   PIXFMT_SEL_YUV_RGB);
--	if (cc_src) {
--		enum imx_pixfmt_sel fmt_sel =
--			(cc_src->cs == IPUV3_COLORSPACE_YUV) ?
--			PIXFMT_SEL_YUV : PIXFMT_SEL_RGB;
--
--		ret = imx_media_enum_pixel_formats(&fourcc, f->index, fmt_sel,
--						   0);
--		if (ret)
--			return ret;
--	} else {
--		cc_src = imx_media_find_mbus_format(fmt_src.format.code,
--						    PIXFMT_SEL_ANY);
--		if (WARN_ON(!cc_src))
--			return -EINVAL;
--
--		if (f->index != 0)
--			return -EINVAL;
--		fourcc = cc_src->fourcc;
--	}
--
--	f->pixelformat = fourcc;
--
--	return 0;
--}
--
--static const struct imx_media_pixfmt *
--__capture_legacy_try_fmt(struct capture_priv *priv,
--			 struct v4l2_subdev_format *fmt_src,
--			 struct v4l2_pix_format *pixfmt)
--{
--	const struct imx_media_pixfmt *cc;
--
--	cc = capture_find_format(fmt_src->format.code, pixfmt->pixelformat);
--	if (WARN_ON(!cc))
--		return NULL;
--
--	/* allow IDMAC interweave but enforce field order from source */
--	if (V4L2_FIELD_IS_INTERLACED(pixfmt->field)) {
--		switch (fmt_src->format.field) {
--		case V4L2_FIELD_SEQ_TB:
--			fmt_src->format.field = V4L2_FIELD_INTERLACED_TB;
--			break;
--		case V4L2_FIELD_SEQ_BT:
--			fmt_src->format.field = V4L2_FIELD_INTERLACED_BT;
--			break;
--		default:
--			break;
--		}
--	}
--
--	imx_media_mbus_fmt_to_pix_fmt(pixfmt, &fmt_src->format, cc);
--
--	return cc;
--}
--
--static int capture_legacy_try_fmt_vid_cap(struct file *file, void *fh,
--					  struct v4l2_format *f)
--{
--	struct capture_priv *priv = video_drvdata(file);
--	struct v4l2_subdev_format fmt_src = {
--		.pad = priv->src_sd_pad,
--		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
--	};
--	int ret;
--
--	ret = v4l2_subdev_call(priv->src_sd, pad, get_fmt, NULL, &fmt_src);
--	if (ret)
--		return ret;
--
--	if (!__capture_legacy_try_fmt(priv, &fmt_src, &f->fmt.pix))
--		return -EINVAL;
--
--	return 0;
--}
--
--static int capture_legacy_s_fmt_vid_cap(struct file *file, void *fh,
--					struct v4l2_format *f)
--{
--	struct capture_priv *priv = video_drvdata(file);
--	struct v4l2_subdev_format fmt_src = {
--		.pad = priv->src_sd_pad,
--		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
--	};
--	const struct imx_media_pixfmt *cc;
--	int ret;
--
--	if (vb2_is_busy(&priv->q)) {
--		dev_err(priv->dev, "%s queue busy\n", __func__);
--		return -EBUSY;
--	}
--
--	ret = v4l2_subdev_call(priv->src_sd, pad, get_fmt, NULL, &fmt_src);
--	if (ret)
--		return ret;
--
--	cc = __capture_legacy_try_fmt(priv, &fmt_src, &f->fmt.pix);
--	if (!cc)
--		return -EINVAL;
--
--	priv->vdev.cc = cc;
--	priv->vdev.fmt = f->fmt.pix;
--	priv->vdev.compose.width = fmt_src.format.width;
--	priv->vdev.compose.height = fmt_src.format.height;
--
--	return 0;
--}
--
- static int capture_legacy_querystd(struct file *file, void *fh,
- 				   v4l2_std_id *std)
- {
-@@ -553,8 +446,6 @@ static int capture_legacy_subscribe_event(struct v4l2_fh *fh,
- 		return v4l2_event_subscribe(fh, sub, 0, NULL);
- 	case V4L2_EVENT_SOURCE_CHANGE:
- 		return v4l2_src_change_event_subscribe(fh, sub);
--	case V4L2_EVENT_CTRL:
--		return v4l2_ctrl_subscribe_event(fh, sub);
- 	default:
- 		return -EINVAL;
- 	}
-@@ -566,10 +457,10 @@ static const struct v4l2_ioctl_ops capture_legacy_ioctl_ops = {
- 	.vidioc_enum_framesizes		= capture_legacy_enum_framesizes,
- 	.vidioc_enum_frameintervals	= capture_legacy_enum_frameintervals,
- 
--	.vidioc_enum_fmt_vid_cap	= capture_legacy_enum_fmt_vid_cap,
-+	.vidioc_enum_fmt_vid_cap	= capture_enum_fmt_vid_cap,
- 	.vidioc_g_fmt_vid_cap		= capture_g_fmt_vid_cap,
--	.vidioc_try_fmt_vid_cap		= capture_legacy_try_fmt_vid_cap,
--	.vidioc_s_fmt_vid_cap		= capture_legacy_s_fmt_vid_cap,
-+	.vidioc_try_fmt_vid_cap		= capture_try_fmt_vid_cap,
-+	.vidioc_s_fmt_vid_cap		= capture_s_fmt_vid_cap,
- 
- 	.vidioc_querystd		= capture_legacy_querystd,
- 	.vidioc_g_std			= capture_legacy_g_std,
-@@ -701,7 +592,7 @@ static int capture_validate_fmt(struct capture_priv *priv)
- 	 * Verify that the media bus code is compatible with the pixel format
- 	 * set on the video node.
- 	 */
--	cc = capture_find_format(fmt_src.format.code, 0);
-+	cc = capture_find_format(fmt_src.format.code, priv->vdev.fmt.pixelformat);
- 	if (!cc || priv->vdev.cc->cs != cc->cs)
- 		return -EPIPE;
- 
-@@ -869,36 +760,21 @@ void imx_media_capture_device_error(struct imx_media_video_dev *vdev)
- }
- EXPORT_SYMBOL_GPL(imx_media_capture_device_error);
- 
--static int capture_init_format(struct capture_priv *priv)
-+static void capture_init_format(struct capture_priv *priv)
- {
--	struct v4l2_subdev_format fmt_src = {
--		.pad = priv->src_sd_pad,
--		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
--	};
- 	struct imx_media_video_dev *vdev = &priv->vdev;
--	int ret;
-+	struct v4l2_mbus_framefmt fmt_src;
- 
--	if (priv->legacy_api) {
--		ret = v4l2_subdev_call(priv->src_sd, pad, get_fmt, NULL,
--				       &fmt_src);
--		if (ret) {
--			dev_err(priv->dev, "failed to get source format\n");
--			return ret;
--		}
--	} else {
--		fmt_src.format.code = MEDIA_BUS_FMT_UYVY8_2X8;
--		fmt_src.format.width = IMX_MEDIA_DEF_PIX_WIDTH;
--		fmt_src.format.height = IMX_MEDIA_DEF_PIX_HEIGHT;
--	}
-+	imx_media_init_mbus_fmt(&fmt_src, IMX_MEDIA_DEF_PIX_WIDTH,
-+				IMX_MEDIA_DEF_PIX_HEIGHT, MEDIA_BUS_FMT_UYVY8_2X8,
-+				V4L2_FIELD_NONE, NULL);
- 
--	imx_media_mbus_fmt_to_pix_fmt(&vdev->fmt, &fmt_src.format, NULL);
--	vdev->compose.width = fmt_src.format.width;
--	vdev->compose.height = fmt_src.format.height;
-+	imx_media_mbus_fmt_to_pix_fmt(&vdev->fmt, &fmt_src, NULL);
-+	vdev->compose.width = fmt_src.width;
-+	vdev->compose.height = fmt_src.height;
- 
- 	vdev->cc = imx_media_find_pixel_format(vdev->fmt.pixelformat,
- 					       PIXFMT_SEL_ANY);
--
--	return 0;
- }
- 
- int imx_media_capture_device_register(struct imx_media_video_dev *vdev,
-@@ -916,9 +792,7 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev,
- 	vfd->v4l2_dev = v4l2_dev;
- 
- 	/* Initialize the default format and compose rectangle. */
--	ret = capture_init_format(priv);
--	if (ret < 0)
--		return ret;
-+	capture_init_format(priv);
- 
- 	/* Register the video device. */
- 	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
-@@ -960,7 +834,7 @@ EXPORT_SYMBOL_GPL(imx_media_capture_device_unregister);
- 
- struct imx_media_video_dev *
- imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
--			      int pad, bool legacy_api)
-+			      int pad, bool legacy_api, bool ic_route)
- {
- 	struct capture_priv *priv;
- 	struct video_device *vfd;
-@@ -974,7 +848,7 @@ imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
- 	priv->src_sd = src_sd;
- 	priv->src_sd_pad = pad;
- 	priv->dev = dev;
--	priv->legacy_api = legacy_api;
-+	priv->ic_route = ic_route;
- 
- 	mutex_init(&priv->mutex);
- 	INIT_LIST_HEAD(&priv->ready_q);
-@@ -1031,24 +905,10 @@ imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
- 		return ERR_PTR(ret);
- 	}
- 
--	if (legacy_api) {
--		/* Initialize the control handler. */
--		v4l2_ctrl_handler_init(&priv->ctrl_hdlr, 0);
--		vfd->ctrl_handler = &priv->ctrl_hdlr;
--	}
--
- 	return &priv->vdev;
- }
- EXPORT_SYMBOL_GPL(imx_media_capture_device_init);
- 
--void imx_media_capture_device_remove(struct imx_media_video_dev *vdev)
--{
--	struct capture_priv *priv = to_capture_priv(vdev);
--
--	v4l2_ctrl_handler_free(&priv->ctrl_hdlr);
--}
--EXPORT_SYMBOL_GPL(imx_media_capture_device_remove);
--
- MODULE_DESCRIPTION("i.MX5/6 v4l2 video capture interface driver");
- MODULE_AUTHOR("Steve Longerbeam <steve_longerbeam@mentor.com>");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index 43c637b333f2..7e655260f241 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -1815,7 +1815,7 @@ static int csi_registered(struct v4l2_subdev *sd)
- 	}
- 
- 	priv->vdev = imx_media_capture_device_init(priv->sd.dev, &priv->sd,
--						   CSI_SRC_PAD_IDMAC, true);
-+						   CSI_SRC_PAD_IDMAC, true, false);
- 	if (IS_ERR(priv->vdev)) {
- 		ret = PTR_ERR(priv->vdev);
- 		goto free_fim;
-@@ -1823,12 +1823,10 @@ static int csi_registered(struct v4l2_subdev *sd)
- 
- 	ret = imx_media_capture_device_register(priv->vdev, 0);
- 	if (ret)
--		goto remove_vdev;
-+		goto free_fim;
- 
- 	return 0;
- 
--remove_vdev:
--	imx_media_capture_device_remove(priv->vdev);
- free_fim:
- 	if (priv->fim)
- 		imx_media_fim_free(priv->fim);
-@@ -1842,7 +1840,6 @@ static void csi_unregistered(struct v4l2_subdev *sd)
- 	struct csi_priv *priv = v4l2_get_subdevdata(sd);
- 
- 	imx_media_capture_device_unregister(priv->vdev);
--	imx_media_capture_device_remove(priv->vdev);
- 
- 	if (priv->fim)
- 		imx_media_fim_free(priv->fim);
-diff --git a/drivers/staging/media/imx/imx-media-dev-common.c b/drivers/staging/media/imx/imx-media-dev-common.c
-index 0d0ee8627a2d..8a0ce7e394ae 100644
---- a/drivers/staging/media/imx/imx-media-dev-common.c
-+++ b/drivers/staging/media/imx/imx-media-dev-common.c
-@@ -6,7 +6,6 @@
-  * Copyright (c) 2016 Mentor Graphics Inc.
-  */
- 
--#include <media/v4l2-ctrls.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-ioctl.h>
- #include <media/v4l2-mc.h>
-@@ -189,116 +188,6 @@ int imx_media_probe_complete(struct v4l2_async_notifier *notifier)
- }
- EXPORT_SYMBOL_GPL(imx_media_probe_complete);
- 
--/*
-- * adds controls to a video device from an entity subdevice.
-- * Continues upstream from the entity's sink pads.
-- */
--static int imx_media_inherit_controls(struct imx_media_dev *imxmd,
--				      struct video_device *vfd,
--				      struct media_entity *entity)
--{
--	int i, ret = 0;
--
--	if (is_media_entity_v4l2_subdev(entity)) {
--		struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
--
--		dev_dbg(imxmd->md.dev,
--			"adding controls to %s from %s\n",
--			vfd->entity.name, sd->entity.name);
--
--		ret = v4l2_ctrl_add_handler(vfd->ctrl_handler,
--					    sd->ctrl_handler,
--					    NULL, true);
--		if (ret)
--			return ret;
--	}
--
--	/* move upstream */
--	for (i = 0; i < entity->num_pads; i++) {
--		struct media_pad *pad, *spad = &entity->pads[i];
--
--		if (!(spad->flags & MEDIA_PAD_FL_SINK))
--			continue;
--
--		pad = media_pad_remote_pad_first(spad);
--		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
--			continue;
--
--		ret = imx_media_inherit_controls(imxmd, vfd, pad->entity);
--		if (ret)
--			break;
--	}
--
--	return ret;
--}
--
--static int imx_media_link_notify(struct media_link *link, u32 flags,
--				 unsigned int notification)
--{
--	struct imx_media_dev *imxmd = container_of(link->graph_obj.mdev,
--						   struct imx_media_dev, md);
--	struct media_entity *source = link->source->entity;
--	struct imx_media_pad_vdev *pad_vdev;
--	struct list_head *pad_vdev_list;
--	struct video_device *vfd;
--	struct v4l2_subdev *sd;
--	int pad_idx, ret;
--
--	ret = v4l2_pipeline_link_notify(link, flags, notification);
--	if (ret)
--		return ret;
--
--	/* don't bother if source is not a subdev */
--	if (!is_media_entity_v4l2_subdev(source))
--		return 0;
--
--	sd = media_entity_to_v4l2_subdev(source);
--	pad_idx = link->source->index;
--
--	pad_vdev_list = to_pad_vdev_list(sd, pad_idx);
--	if (!pad_vdev_list) {
--		/* nothing to do if source sd has no pad vdev list */
--		return 0;
--	}
--
--	/*
--	 * Before disabling a link, reset controls for all video
--	 * devices reachable from this link.
--	 *
--	 * After enabling a link, refresh controls for all video
--	 * devices reachable from this link.
--	 */
--	if (notification == MEDIA_DEV_NOTIFY_PRE_LINK_CH &&
--	    !(flags & MEDIA_LNK_FL_ENABLED)) {
--		list_for_each_entry(pad_vdev, pad_vdev_list, list) {
--			vfd = pad_vdev->vdev->vfd;
--			if (!vfd->ctrl_handler)
--				continue;
--			dev_dbg(imxmd->md.dev,
--				"reset controls for %s\n",
--				vfd->entity.name);
--			v4l2_ctrl_handler_free(vfd->ctrl_handler);
--			v4l2_ctrl_handler_init(vfd->ctrl_handler, 0);
--		}
--	} else if (notification == MEDIA_DEV_NOTIFY_POST_LINK_CH &&
--		   (link->flags & MEDIA_LNK_FL_ENABLED)) {
--		list_for_each_entry(pad_vdev, pad_vdev_list, list) {
--			vfd = pad_vdev->vdev->vfd;
--			if (!vfd->ctrl_handler)
--				continue;
--			dev_dbg(imxmd->md.dev,
--				"refresh controls for %s\n",
--				vfd->entity.name);
--			ret = imx_media_inherit_controls(imxmd, vfd,
--							 &vfd->entity);
--			if (ret)
--				break;
--		}
--	}
--
--	return ret;
--}
--
- static void imx_media_notify(struct v4l2_subdev *sd, unsigned int notification,
- 			     void *arg)
- {
-@@ -326,7 +215,7 @@ static const struct v4l2_async_notifier_operations imx_media_notifier_ops = {
- };
- 
- static const struct media_device_ops imx_media_md_ops = {
--	.link_notify = imx_media_link_notify,
-+	.link_notify = v4l2_pipeline_link_notify,
- };
- 
- struct imx_media_dev *imx_media_dev_init(struct device *dev,
-diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index 537558a7bece..2f32a787a600 100644
---- a/drivers/staging/media/imx/imx-media.h
-+++ b/drivers/staging/media/imx/imx-media.h
-@@ -125,10 +125,8 @@ static inline struct imx_media_buffer *to_imx_media_vb(struct vb2_buffer *vb)
- }
- 
- /*
-- * to support control inheritance to video devices, this
-- * retrieves a pad's list_head of video devices that can
-- * be reached from the pad. Note that only the lists in
-- * source pads get populated, sink pads have empty lists.
-+ * Retrieve a pad's list of video devices reachable from the pad for
-+ * subdev event forwarding. Only source pad lists are populated.
-  */
- static inline struct list_head *
- to_pad_vdev_list(struct v4l2_subdev *sd, int pad_index)
-@@ -270,8 +268,7 @@ int imx_media_ic_unregister(struct v4l2_subdev *sd);
- /* imx-media-capture.c */
- struct imx_media_video_dev *
- imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
--			      int pad, bool legacy_api);
--void imx_media_capture_device_remove(struct imx_media_video_dev *vdev);
-+			      int pad, bool legacy_api, bool ic_route);
- int imx_media_capture_device_register(struct imx_media_video_dev *vdev,
- 				      u32 link_flags);
- void imx_media_capture_device_unregister(struct imx_media_video_dev *vdev);
+ 	/* Power supply setting */
+ 	write_reg(par, 0x0019, 0x0000);	/* DC/DC output setting */
+-	udelay(200);
++	fsleep(200);
+ 	write_reg(par, 0x001A, 0x1000);	/* DC/DC frequency setting */
+ 	write_reg(par, 0x001B, 0x0023);	/* DC/DC rising setting */
+ 	write_reg(par, 0x001C, 0x0C01);	/* Regulator voltage setting */
 -- 
-2.53.0
+2.56.1
 
