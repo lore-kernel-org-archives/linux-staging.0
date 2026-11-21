@@ -1,63 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.3
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795286455;
-	b=fKvZOtDfT0APq1FvHui+Yvtfbd6nDqoibQGPE+Iqw6doIx8TghYagaqz1QBK3CpHUTKZ
-	 XLlua3lZYeLl5WLjFpwAKC4ZxuT1NGODmi4rUk17REmlZziQ9y2CGRRzwxABRE7o7pAZP
-	 oKBbiXP8+6H7reLz5aawMRaUP6yUQjLcXVAd1wTTeB8tqJ0o0IjCilUbXcT/1ESnZ/pPv
-	 +H2XYejs0n1rfyAb6/AjsmDkWwWdNfWbm7T7M7bOSsAg93mEPjHXUABtwP39b5n3xwtVs
-	 UWKSLq6fxsHxe5hXLgEkhnDsDUWrm/RINYNZIQm/I7IX6aWiZp0pbrOzMYlpa+x9GwA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795286455;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=t755ruk+GPwH/DbGge5s/OjV62YwROsHmvKWJy2jAyI=;
-	b=Lo6BKk5u4xzIYUTU7aK4Ba0A48fD8WoZDrNeGtY4IBqbPn3g46rDswGtD9ThcnZfF3/5
-	 y5b15G5C6NYkrp43tOnEH0TaP/hETa0eVMZQQ5Mu07fP+IMmhyqY/9KQe1tPeocnlmbGG
-	 R6SEUontttO6uEZWiUobbVm6exdl6Pj/sDm/CQuJjItskMrqzYA619UFDijnKaIvDVKCb
-	 sYXRFqEBNRpRYThOjIHsfecqPq01V7w6321Y8AEzdfrX/nGV0CK22+0XomJKWItAhhNsb
-	 lTfnByWXeL5dxEksf7swk5dikVNIISOMvCQpb/ZAkBG0g/B0KDuZVtIvHM21MRQyDYQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=TyGu8s5z;
-	arc=none smtp.remote-ip=117.135.210.3
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795296843;
+	b=4hjZjgNJ+ha9Wpt6Oxa6Klj6NBO0YemrHIVlg4zdCCJSxCSvM+dfGA2lL5wvJV8h3Bg3
+	 BW9Em7J4UzOf4p9o/VGN98Ja5jSDFGgHrrfJCRI+DUPYv6O/7Sug+SttnbrUEaQMa8mPX
+	 vGLVaDFbNj/fYVPs6ilKwV54v9QNPLk4bNFCjPRFHlwMPEkQhdgNEd+ngQYXSmqwKxN4A
+	 xnt/YZlTPu5w58PbZTS4+I3BlC28FeGXE3qr6yeDCBORjB/XmaR3dE/R1iDfxhFv1qA3P
+	 GiJ6BBqJ1oT7hy991wWQmrC502ynXgcfaBF2+cQDlQApzrUCYF10guZld0iP+bOllVA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795296843;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=FkaXPf8QOXi7LYn+0nvNn72NKohLwSSexoM4aATIgL8=;
+	b=i0BVG/DNBC1EL4Y6Pl+J4ucGBXguMlAV+uSC20ZcVYmSzcwDOshfIYkDuvGIHE7zfTKm
+	 KNTS3l1zwzUTadr/G6qlTGdahlaW1WnRDTaiiIFrTd/nuiXyhcZewmG99W1MBAM/YYmQJ
+	 73w0iWuub+JHQAERnbCwnQ+w92P6s+hWM2Br6o6c1eWGJhGQZXfMshhwagCJ6C4cEZaKl
+	 pmTyWz5aN78ItfLBpaiZzQJjTL8W2tMCBryJui2/J+O3zXUXrotq9XF1Te5TR81Sebz7E
+	 l4hHhQJ8MEJP84vLYHmNm4v6L5w3cQFEh9m/MfYT1ZIzbtPMefJmRWzt1nE2aE3FmSw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TMiPfqv3;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEF7606A320;
+	Sat, 21 Nov 2026 21:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TMiPfqv3
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795296842;
+	b=1bMZz3U/IsQJGiXjnEeLbJ9BP3rU1xoRyOKJSq0TAQs0CYxjSiBnldgQFyE2rwpCYh0p
+	 FLgQG7F8R8VnZm2i1q2+ndxBrQMbmRqLxaLiAnMyEAgFL4mcMPlXz8GWs65+xT/r61NxS
+	 znUwLC6tsPQ32LoHcmKJZ1um6FUGFq8mqiv4wdSgj5trcasTPZ95oIaXx27jbLK7W/S8m
+	 uJTdItg4IJghOw2Ds5eUyUFURtDCggYQby79PL89jT9HervUsr7oFr9fjfe4sylBiyV7z
+	 FSVvaPzY9cIBPgoWVauFwnYp0cCTunlS7fU6LscpxicX69IpwAJq0w9m5RlzNQFplfw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795296842;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=FkaXPf8QOXi7LYn+0nvNn72NKohLwSSexoM4aATIgL8=;
+	b=vjC8e9vQD/RgDpQFsG4JICsc6Wg+Acalb06dJAopxOR2lccQ3l4q+lKrzmVbdehntssb
+	 HUzSQQlLGo9/D5DtNELp8RgE5Tiw3eWmu/76exJNXZeSDGPSM2jSpmoPQCOfWcA+Ngcg3
+	 VHWrZOBS5PfSMuT2CupXo1l9YhXyaGHn3ocZUWXidZAzD/K8QJK/Ho6lXqR8gB7p4AIy5
+	 loVVfSavIe3x7qLe0gFh/apZObUjz+23hh/tP0bXQt2PBxT/FEc4hWL8L0bdnvVXot+aJ
+	 qxMBuYkMsCcJK1PB4GcGecRNhYNvK7gRI7HleEpe2Krjrc3o3s+IJotW7kgrSxi8SsA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E25606A333;
-	Sat, 21 Nov 2026 18:40:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5E25606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=TyGu8s5z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=t7
-	55ruk+GPwH/DbGge5s/OjV62YwROsHmvKWJy2jAyI=; b=TyGu8s5zAplgD01xr3
-	BbxxoyyzXnB3GCLNtde3M/0fcfr8e7uVYkY2lV4sKSFlWx7qxWWsWoEQvAMspgxl
-	o/M/HM7NeomvJINIHKEDp3x7K2Md+Wl9DYVABGLSawvJAOM3mDRez3XE7PhWTWKj
-	KPiT3uMKJFj+OlWesqwoeaKgA=
-Received: from Ubuntu26.04LTS (unknown [])
-	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wD3__6h5QFrVG_OIw--.39085S2;
-	Sun, 22 Nov 2026 02:40:35 +0800 (CST)
-From: Jiaqi Shi <shijiaqi_develop@163.com>
-To: linux-media@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-staging@lists.linux.dev
-Cc: slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	Frank.Li@nxp.com,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	Jiaqi Shi <shijiaqi_develop@163.com>
-Subject: [PATCH v4 0/2] media: imx: staging cleanup and FIM export to v4l2-core
-Date: Sun, 22 Nov 2026 02:40:31 +0800
-Message-ID: <20261121184033.429680-1-shijiaqi_develop@163.com>
-X-Mailer: git-send-email 2.53.0
+	by smtp.kernel.org (Postfix) with ESMTPS id 52FBB1F000D1;
+	Sat, 21 Nov 2026 21:34:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795296842;
+	bh=FkaXPf8QOXi7LYn+0nvNn72NKohLwSSexoM4aATIgL8=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=TMiPfqv3xwOhirnUtH7UeoD/5n67h7MkbGGmHXXuJ/pM0RmvpPXa0s2/BDQk/IXMy
+	 UTM+cRMBJoXWhrGAGsKj7R0yN5nJb5RbMS7639NsWJz+nNPw74ucbVYBQX3fNVDPc6
+	 mcqqD0SKFPMZt2jXE/E67HZi951ELowQYhNxqegTX+ubmRt7XMITxtJ/nmD5rIG8vB
+	 0QOUQ9lyastHr7EwIFoERsq37jDvyIJs/eX7f979ywepvREr4afnUgz9vaJtzpm4DA
+	 M/y1I1g6JTfFRiGTucVVrX7oY+fyeiaOl9hGYgV05gVO1vlVNc+1orU9Bu2NXQAemj
+	 73SAxprnf6zkA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id AA4D14BDC2;
+	Sat, 21 Nov 2026 21:34:01 +0000 (UTC)
+From: =?utf-8?q?Omar_Yi=C4=9Fitcan_Meng=C3=BC_via_B4_Relay?= <devnull+menguomary.gmail.com@kernel.org>
+Date: Sun, 22 Nov 2026 00:34:01 +0300
+Subject: [PATCH] staging: most: dim2: remove unused sysfs.h and struct
+ medialb_bus
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -67,60 +83,104 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261122-dim2-remove-unused-sysfs-h-v1-1-369ee2d0e438@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/yXMQQrCMBAF0KuEWXfADCIlVxEXNfNrR2gqGVOU0
+ ruLunybt5GjGpxS2KhiNbelUAqxC5SnodzAppQCyUFOMYqw2ixcMS8ruJXmUPa3j84Ty3HIuVc
+ otKcu0KNitNcvP1/+9na9Iz+/I+37B8qm7SN+AAAA
+X-Change-ID: 20261122-dim2-remove-unused-sysfs-h-24acc8deded8
+To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+ Christian Gromm <christian.gromm@microchip.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+ =?utf-8?q?Omar_Yi=C4=9Fitcan_Meng=C3=BC?= <menguomary@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795296841; l=2263;
+ i=menguomary@gmail.com; s=20261121; h=from:subject:message-id;
+ bh=demJ0NhC0KXqJH5CiCWgQMWo8L6R/Fj2vHfQlkO0inU=;
+ b=kZJ8PxJvM/fRbHAkjbJdCSpO6E0LJc4Ah9PRNio4BnnHpz5oWT+yGsiHSV8ukRpVHPFXxI71D
+ HlvlqhR+ck+AGdkGkR3SL4cf4wz9Zw6mkE4LL4Mz9/Arjpi1rtV17Wo
+X-Developer-Key: i=menguomary@gmail.com; a=ed25519;
+ pk=dgRbAFBMBZdJfvBTw9RBcE3WxXn6Yt7GOZFPRpQqpkY=
+X-Endpoint-Received: by B4 Relay for menguomary@gmail.com/20261121 with
+ auth_id=1595
+X-Original-From: =?utf-8?q?Omar_Yi=C4=9Fitcan_Meng=C3=BC?= <menguomary@gmail.com>
+Reply-To: menguomary@gmail.com
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3__6h5QFrVG_OIw--.39085S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7KFyxJrW3GFWfXr47WF4rKrg_yoW8Kr13pF
-	4F9w4akryxJFsxArnrJ3W7XF98Ja4fCay3Ww17Xa4F9a4fAF9rJw18ta40qr98Kr97Z34a
-	vF1Yqry7Wa1jyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zMSoXUUUUUU=
-X-CM-SenderInfo: xvklyxpdtlsvxhyhz0rs6rljoofrz/xtbC7wO8EGsB5aPWMgAA3I
 
-Changes in v4:
-- Keep the user-visible format field unchanged at stream start. Resolve
-  the actual field order into a separate stream_field so source order
-  changes are revalidated on each stream start.
-- Simplify the FIM external_timestamp callback to a single use_val flag.
-- Document FIM allocation ownership, callback context, and locking rules.
+From: Omar Yiğitcan Mengü <menguomary@gmail.com>
 
-The legacy_api mode remains enabled for the STD and frame-interval ioctls;
-removing those interfaces is outside the scope of this cleanup.
+Commit 4d5f022f3a66 ("staging: most: remove proprietary kobjects")
+stopped using struct medialb_bus and replaced it with struct device,
+but left the unused bus member in struct dim2_hdm and its definition
+in sysfs.h behind.
 
-This series continues the i.MX staging media driver cleanup by removing
-legacy control inheritance and source-dependent format handling from
-capture video nodes, and exports the generic Frame Interval Monitor to
-v4l2-core while retaining the i.MX input capture controls locally.
+Later, commit 2ab189164056 ("staging: most: dim2: do not double-register
+the same device") removed sysfs.c and all remaining declarations from
+sysfs.h, leaving sysfs.h with only the unused struct medialb_bus
+definition.
 
-Validation:
-- allmodconfig build and sparse
-- local FIM KUnit tests, not included in this series: 13/13 passed
-- local white-box i.MX capture format tests, not included: 20/20 passed
-- QEMU vivid: v4l2-compliance 125/125, 30-frame streaming passed
-- QEMU vim2m: v4l2-compliance 49/49, 10-frame streaming passed
-- i.MX register-level and hardware DMA paths remain untested
+Remove the unused bus member from struct dim2_hdm, drop the sysfs.h
+include from dim2.c, and delete sysfs.h.
 
-Jiaqi Shi (2):
-  media: imx: remove legacy video node control and format handling
-  media: v4l2-core: add frame interval monitor helper
+Signed-off-by: Omar Yiğitcan Mengü <menguomary@gmail.com>
+---
+ drivers/staging/most/dim2/dim2.c  |  2 --
+ drivers/staging/most/dim2/sysfs.h | 19 -------------------
+ 2 files changed, 21 deletions(-)
 
- Documentation/admin-guide/media/imx.rst       |  20 +-
- drivers/media/v4l2-core/Kconfig               |   4 +
- drivers/media/v4l2-core/Makefile              |   1 +
- drivers/media/v4l2-core/v4l2-fim.c            | 331 ++++++++++++++++
- drivers/staging/media/imx/Kconfig             |   1 +
- drivers/staging/media/imx/TODO                |  13 -
- drivers/staging/media/imx/imx-ic-prpencvf.c   |  10 +-
- drivers/staging/media/imx/imx-media-capture.c | 335 +++++++---------
- drivers/staging/media/imx/imx-media-csi.c     |  10 +-
- .../staging/media/imx/imx-media-dev-common.c  | 113 +-----
- drivers/staging/media/imx/imx-media-fim.c     | 361 +++---------------
- drivers/staging/media/imx/imx-media-utils.c   |   9 +-
- drivers/staging/media/imx/imx-media.h         |  11 +-
- include/media/v4l2-fim.h                      |  49 +++
- 14 files changed, 599 insertions(+), 669 deletions(-)
- create mode 100644 drivers/media/v4l2-core/v4l2-fim.c
- delete mode 100644 drivers/staging/media/imx/TODO
- create mode 100644 include/media/v4l2-fim.h
+diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+index 0e2512d16..06d5f17e0 100644
+--- a/drivers/staging/most/dim2/dim2.c
++++ b/drivers/staging/most/dim2/dim2.c
+@@ -20,7 +20,6 @@
+ #include <linux/of.h>
+ #include "hal.h"
+ #include "errors.h"
+-#include "sysfs.h"
+ 
+ #define DMA_CHANNELS (32 - 1)  /* channel 0 is a system channel */
+ 
+@@ -93,7 +92,6 @@ struct dim2_hdm {
+ 	unsigned char mac_addrs[6];
+ 	unsigned char link_state;
+ 	int atx_idx;
+-	struct medialb_bus bus;
+ 	void (*on_netinfo)(struct most_interface *most_iface,
+ 			   unsigned char link_state, unsigned char *addrs);
+ 	void (*disable_platform)(struct platform_device *pdev);
+diff --git a/drivers/staging/most/dim2/sysfs.h b/drivers/staging/most/dim2/sysfs.h
+deleted file mode 100644
+index 60405cd47..000000000
+--- a/drivers/staging/most/dim2/sysfs.h
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * MediaLB sysfs information
+- *
+- * Copyright (C) 2015, Microchip Technology Germany II GmbH & Co. KG
+- */
+-
+-/* Author: Andrey Shvetsov <andrey.shvetsov@k2l.de> */
+-
+-#ifndef DIM2_SYSFS_H
+-#define	DIM2_SYSFS_H
+-
+-#include <linux/kobject.h>
+-
+-struct medialb_bus {
+-	struct kobject kobj_group;
+-};
+-
+-#endif	/* DIM2_SYSFS_H */
 
--- 
-2.53.0
+---
+base-commit: 4f618bb81ea5403c0922bda75411c4669b8a4641
+change-id: 20261122-dim2-remove-unused-sysfs-h-24acc8deded8
+
+Best regards,
+--  
+Omar Yiğitcan Mengü <menguomary@gmail.com>
+
 
