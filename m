@@ -1,67 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795269240;
-	b=yIk8gPAmXPQxThYV2Al+Rg4Sqq5lh5ypqF+irLueJk3ghryv26RwE1y/qWmhkuZu8Rl4
-	 Cmm93jKybusFNZu1YvXxpP5+oHLU0/2Qd65KqfhMqYYRY/Q/lI9aaHhUrv7orUCZIK4CE
-	 Ibh9X3IpeOaOTGGjGa0NdoXoyVVlEYa4t0+joMkeaQqyOqliyYVVWtFnPyjrBBmXKgy9m
-	 yeQXAEsleSLP2tHvEUmHmVppXnpoXStdDNA/77r7BFtUTDrnVugk0g/vPU4INqznMYiXp
-	 Ybl+WnFH/PG0DvHkM1cTmNGgsV/jArLADlgqxPriuFDmwDwoqtsTgWFddUNu+2Tldhg==
+	t=1795270482;
+	b=5QUhI8kwnlzEiJZFuU9RFfrV4U7XyJOJnHQPrSNWpFVAid6XOSA6otOLoFRKnwhRkTFJ
+	 0gUZqSvnhV1pGyF1uikVsu/Ix5sACphb7ihuVWRp0vMonpTgz14vZ9JVqbgq6wzHLhuv7
+	 /RnadYnEcH32CA5UzScuHvUCI45IV67OsSzLjnjC6+RYYkgC62UsGGbx/hrDW7I7HGloB
+	 dHOWTUFBUMyZYrCI0feqL9F6oa+M92nUW5t8YDOnlcib5e7TO8XDXh+MbHM2hTR06kcZW
+	 zVCHH5IJ13PLYiqoJS0mZlkpD7mkYzfCEbKnsTjkErnV19ZzHgjkQAWJK/GdXE0KRzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795269240;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=rT38pic7oKYghostUyNggCTZ2Q1aSdkOMOeJYyd/5wQ=;
-	b=nMVsfchNeHxrX8kvfLQNBN+M3I62pwkl6w2M9pTJZsnMdGjAmdTKtv0zDPxofRlEjD8S
-	 LMhSqTsVbS0RaP1Q4KbXHw+r8g74HXBsSUi5Olz1A9onI31hlaRIqVmtiKtZ408J3J2tK
-	 3q7WiP9Pcc0bvvKPwM/u0158Ll6ENfsylkJtklAGzWI8TBkvbVmiMrJdGEMxBTUWM2nZa
-	 Yp6hdWBjfAOay9IwLovh7OSzR4DQ7XRApAoVG2+BYFlz4VkfMt0kZzXq2G8fSPf2Nski0
-	 dadV1ysmQ0HEs2fqKm612ksF2Pa5snCr6qcjhToWog05CbsgvMxsT5dWsk22FHyRM7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795270482;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=qeFDA0g33qNnVLiOs7XJmWhYD/xbVO5nGoExl6jul8A=;
+	b=CCSRw+03Up0UzxnK0BsIWqqmz43dbhGnkU/4/j5PWkorEPVxIilK6pMefq7RynSzdLhu
+	 8pK+FVJ0WRNZvrkcJnzOr95KPTPZcdeKq8BiNSaEHaVgMuJnzITQJwlAIRDcEsURhB2Rs
+	 CviDXkuNTukbnUjFkg5a2chKvdNAMJHCe2qmOifGq+F6/jbr5xz0MwUe9UQO2XgAPK3Kp
+	 YChmmxJcBlJ9Q+JW4Lw+t98zmVHXAjJEuZFiDh1gqYJz+51dlD61icPSR2zMzwIRdWk2d
+	 /mV8KbRaw1VFd3paScN/JE+QWuS3MvQpFZnd3dYE+nujWjZWz6d9EKL6whKiq0tBEfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideasonboard.com;
-	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=DkfWeY+H;
-	arc=none smtp.remote-ip=213.167.242.64
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=bgivD9dz;
+	arc=none smtp.remote-ip=117.135.210.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48797606A320
-	for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 13:53:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48797606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEC6606A680;
+	Sat, 21 Nov 2026 14:14:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBEC6606A680
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=DkfWeY+H
-Received: from killaraus.ideasonboard.com (2001-14ba-7086-3000--a06.rev.dnainternet.fi [IPv6:2001:14ba:7086:3000::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E275447;
-	Sat, 21 Nov 2026 14:51:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1795269080;
-	bh=5L9zvO8/SgC+bhCcxTzFqCD3dBJU7r/zCmGy5kQ2BPg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DkfWeY+HgF4lhMgNzSv4ZZ3lZXb4iGjyNiyTqiWALo26sePZxI1tyxbFmWSOxUHvJ
-	 gGDxGQJ5TivJIdQ/N3h4+5p6lBezptRP+p1+bcIPdMfHqrPAyhzr/UkajRbOa7peWB
-	 YQYbe9q399U3FHreW/HjGs4kHiMMEqkQ6nFerG4Q=
-Date: Sat, 21 Nov 2026 15:53:49 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maurizio Casciano <mauriziocasciano7@gmail.com>
-Cc: linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Bingbu Cao <bingbu.cao@amd.com>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v11 01/14] media: v4l2-core: Preserve existing subdevice
- nodes on rollback
-Message-ID: <20261121135349.GE2472094@killaraus.ideasonboard.com>
-References: <cover.1795267528.git.mauriziocasciano7@gmail.com>
- <48240d57d86e78cce814822360c1b22cea80268b.1795267528.git.mauriziocasciano7@gmail.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=bgivD9dz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=qe
+	FDA0g33qNnVLiOs7XJmWhYD/xbVO5nGoExl6jul8A=; b=bgivD9dziIRGDBCSR6
+	DCz2zL84uf3N8n2/Ls2ItAFJKGeb1wgJmA/j342kFtuKrQBZ9+NXB5Zk3Xo/uG/5
+	+da8iYfoFxSV8oou71nvdAnI6VqL41a9qGqhyltJTUdeRLZKQS+W07f4nBPH/XFN
+	PmSVo4sNUFyYjQagehLqegXxM=
+Received: from Ubuntu26.04LTS (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3B5c2pwFrJohbJQ--.61736S5;
+	Sat, 21 Nov 2026 22:14:18 +0800 (CST)
+From: Jiaqi Shi <shijiaqi_develop@163.com>
+To: linux-media@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-staging@lists.linux.dev
+Cc: slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	Frank.Li@nxp.com,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	Jiaqi Shi <shijiaqi_develop@163.com>
+Subject: [PATCH 3/3] media: imx: allow setting FIM input capture channel
+Date: Sat, 21 Nov 2026 22:14:11 +0800
+Message-ID: <20261121141412.319802-4-shijiaqi_develop@163.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261121141412.319802-1-shijiaqi_develop@163.com>
+References: <20261121141412.319802-1-shijiaqi_develop@163.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -71,112 +70,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <48240d57d86e78cce814822360c1b22cea80268b.1795267528.git.mauriziocasciano7@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3B5c2pwFrJohbJQ--.61736S5
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Zry5ZrWxZF1rtry3Zr1rCrg_yoW8Xr17pr
+	40kw1akFyDJFsI934Dta1I9as0ga4kKFZ7WasFqw1Sqa4fJFn5WayFya4jkFy3AFsay343
+	ZayjqrWDWw4jyF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zEasU_UUUUU=
+X-CM-SenderInfo: xvklyxpdtlsvxhyhz0rs6rljoofrz/xtbC8BoTZmsBpzozOAAA3j
 
-On Sat, Nov 21, 2026 at 02:31:31PM +0100, Maurizio Casciano wrote:
-> Subdevice node registration skips nodes which already exist. On failure,
-> however, it walks the subdevice list from the beginning and unregisters
-> nodes regardless of whether the current call created them. On AtomISP
-> this can remove the camera sensor nodes when a lens rebind fails.
-> 
-> Keep a list of the video devices registered by this call and unregister
-> only those devices on failure. Record each device before creating its
-> media interface link so a failure in that step rolls back the new node
-> as well. Calls with no missing nodes need no bookkeeping allocation.
-> 
-> Codex drafted the change and tested allocation, registration and
-> media-link failure using the registration helper with mocked operations.
+fim_s_ctrl() rejected all controls except V4L2_CID_IMX_FIM_ICAP_EDGE
+with -EINVAL, which made V4L2_CID_IMX_FIM_ICAP_CHANNEL read-only in
+practice even though it is registered as a writable control.
 
-And you didn't understand the change, because this is clearly not right.
-NAK.
+Add an explicit case for ICAP_CHANNEL so it can be updated, and fix
+the wait_for_completion_timeout() continuation style while here.
 
-> Fixes: db0f4691d974 ("[media] v4l: Allow calling v4l2_device_register_subdev_nodes() multiple times")
-> Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
-> ---
->  drivers/media/v4l2-core/v4l2-device.c | 26 ++++++++++++++++++++------
->  include/media/v4l2-device.h           |  3 +++
->  2 files changed, 23 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-device.c b/drivers/media/v4l2-core/v4l2-device.c
-> index b4036105c..8cfca95ce 100644
-> --- a/drivers/media/v4l2-core/v4l2-device.c
-> +++ b/drivers/media/v4l2-core/v4l2-device.c
-> @@ -191,10 +191,23 @@ static void v4l2_device_release_subdev_node(struct video_device *vdev)
->  int __v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev,
->  					bool read_only)
->  {
-> +	unsigned int count = 0, registered = 0;
-> +	struct video_device **new_nodes;
->  	struct video_device *vdev;
->  	struct v4l2_subdev *sd;
->  	int err;
->  
-> +	list_for_each_entry(sd, &v4l2_dev->subdevs, list)
-> +		if ((sd->flags & V4L2_SUBDEV_FL_HAS_DEVNODE) && !sd->devnode)
-> +			count++;
-> +
-> +	if (!count)
-> +		return 0;
-> +
-> +	new_nodes = kcalloc(count, sizeof(*new_nodes), GFP_KERNEL);
-> +	if (!new_nodes)
-> +		return -ENOMEM;
-> +
->  	/* Register a device node for every subdev marked with the
->  	 * V4L2_SUBDEV_FL_HAS_DEVNODE flag.
->  	 */
-> @@ -228,6 +241,7 @@ int __v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev,
->  			kfree(vdev);
->  			goto clean_up;
->  		}
-> +		new_nodes[registered++] = vdev;
->  #if defined(CONFIG_MEDIA_CONTROLLER)
->  		sd->entity.info.dev.major = VIDEO_MAJOR;
->  		sd->entity.info.dev.minor = vdev->minor;
-> @@ -247,15 +261,15 @@ int __v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev,
->  		}
->  #endif
->  	}
-> -	return 0;
-> +	err = 0;
-> +	goto out;
->  
->  clean_up:
-> -	list_for_each_entry(sd, &v4l2_dev->subdevs, list) {
-> -		if (!sd->devnode)
-> -			break;
-> -		video_unregister_device(sd->devnode);
-> -	}
-> +	while (registered)
-> +		video_unregister_device(new_nodes[--registered]);
->  
-> +out:
-> +	kfree(new_nodes);
->  	return err;
->  }
->  EXPORT_SYMBOL_GPL(__v4l2_device_register_subdev_nodes);
-> diff --git a/include/media/v4l2-device.h b/include/media/v4l2-device.h
-> index 25f69b1b8..6d8834d40 100644
-> --- a/include/media/v4l2-device.h
-> +++ b/include/media/v4l2-device.h
-> @@ -183,6 +183,9 @@ void v4l2_device_unregister_subdev(struct v4l2_subdev *sd);
->   * @read_only: subdevices read-only flag. True to register the subdevices
->   *	device nodes in read-only mode, false to allow full access to the
->   *	subdevice userspace API.
-> + *
-> + * Existing nodes are kept even if registration of a new node fails.
-> + * The caller must serialize this operation with changes to the subdevice list.
->   */
->  int __must_check
->  __v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev,
-> -- 
-> 2.53.0
-> 
-> 
+Signed-off-by: Jiaqi Shi <shijiaqi_develop@163.com>
+---
+ drivers/staging/media/imx/imx-media-fim.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
+index b6467e29ac28..300635a3b552 100644
+--- a/drivers/staging/media/imx/imx-media-fim.c
++++ b/drivers/staging/media/imx/imx-media-fim.c
+@@ -58,9 +58,8 @@ static void imx_fim_wait_first_timestamp(void *priv)
+ 	struct imx_media_fim *fim = priv;
+ 	unsigned long ret;
+ 
+-	ret = wait_for_completion_timeout(
+-			&fim->icap_first_event,
+-			msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT));
++	ret = wait_for_completion_timeout(&fim->icap_first_event,
++					  msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT));
+ 	if (ret == 0)
+ 		v4l2_warn(fim->sd, "wait first icap event timeout\n");
+ }
+@@ -75,6 +74,8 @@ static int fim_s_ctrl(struct v4l2_ctrl *ctrl)
+ 		if (v4l2_fim_is_streaming(fim->core))
+ 			ret = -EBUSY;
+ 		break;
++	case V4L2_CID_IMX_FIM_ICAP_CHANNEL:
++		break;
+ 	default:
+ 		ret = -EINVAL;
+ 		break;
 -- 
-Regards,
+2.53.0
 
-Laurent Pinchart
