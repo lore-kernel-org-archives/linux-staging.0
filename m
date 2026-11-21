@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795267981;
-	b=zlabYLFbvWuart1O9MCqNpU+URlLurFMLv04c49Se4GBP23WQtPiNV675GZr7bowWbVc
-	 ACvARCzWQtk+o3QG6FwKDPmL0X9Dk2gSPPCWhYIH6YOuJ00CcJ78W46GQWix/0gianmgw
-	 Wq3gqeXnPHUepvm7piGZ8cTXM6MT0fLL2W2PodO99X3n+2DFXJc/7ccvzf/iSnzSqK1pt
-	 7JJC97ooSdIegjRxiFSTT1B3S41xZdTqWaNcj8HWFoktBuGO9Mg55g4tWeH+C3NDsHAFO
-	 bBsjVomC4rOvy4JqWtFcPDJZ+JDeJDFp2P/c9vhsrTLx06Hbgn8cRL62TgpAhu52aEg==
+	t=1795267983;
+	b=CkhBhW8u5sIJ+XWhW2lklphR68V4t2t37c0CrYyTfoaFNgP3dvee8BQ2X3I2u139qllK
+	 yKzsmBhYt9vbyWzMCn8ZDkM3TdAgWZmYJacotNFjqoiry1WvN1nhEQ7Zvk52OopbEFUVW
+	 qwZbuaVmof/wbompNvSdDcpBgVh9ooYXmAAIeC68+W4xVAHR/pvFvORSKlyP8DoefHWCm
+	 uP2pbHry2KvSkDL3D05k3AKSWOcZuZs0i8t5NAdBfvrnRQMWMR8yzBhtMwv6s3yaM7Hf+
+	 YIlSxAMGXzmp3MLs4XqSZAFNrhbfyEXvd2hgnvtMmzPtvWMaM6CqTVDA7FvQ34q0jIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795267981;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795267983;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=VpH7vOBV8zTAkCwE1fdPUsN34Rs/B2a+/bMMRlSHON4=;
-	b=koYOXqrRm9VNiq0xBBVW1N+yfEgQfm4a06hu4bqoi5usA37ZY9R1xzrTLd9OUkhD29xK
-	 XuMEHomMF17Iw4kKJGxiW589/7WVTD7neQCXXhsMVBtGB0o8xAWxYYr7lKlnL9pPcjerR
-	 xOCYq0fK5nOwDY/tglppp2QXpRj2y5hDdQPIKWUzgPu0c0IEaQolYZV5eCpntyP5Wbljc
-	 SxvUXrMrZqfgKaC6BSh4fyQJVHTTS+n8Z0904Y+5YvC3D8LPlHfgDtm8APom/moH2L+Tr
-	 qUu8AwoHK9CoG8KKZUJme9Xo8xHeiliO/nw/MqiZvPRsoO1RqeT8AjW7X5+2iJAoS5w==
+	bh=54HoHtyBCmpZ6kkP9mnsCMJlZYb74fsAgesBBR9Cid0=;
+	b=rz1uvmCZCHCrPboquBxmAnayCq9T0kopvpgNnGWBwW1PptDqFYifXrn8xOOWXOvd9lr0
+	 0/V+qyDbNvbJ/lDGUqAieg/qe0GIy+fiWXYEFNHpb20J4OOHfWy9U+1FwrR/ArNnsmCUO
+	 wWyzILTD4dYLQQ9gUiYNcmqePQepkFTnZ2XmrweyRKvOX1XWZaKOv8yUWYJVk92mxoBjq
+	 B9Ba4RRUQpASw8+xoCYeR9pjUiCcK7KzqK4HyOb4fxMHA/TA9nunBH3G4I0XRlmziBEU3
+	 jZfNjZEBt7+JCy7LimkKh/4BENqf+SCqKQpFycKVo+fIupRwkm8LDshbvEgHDKs/Omw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="K/irFn7o";
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Olxj0/ft";
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0200606A6A1
-	for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 13:33:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0200606A6A1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5814606A32C
+	for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 13:33:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A5814606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=K/irFn7o
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4aa5833c263so1690204f8f.2
-        for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 05:33:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Olxj0/ft
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4bb606491faso10024285e9.3
+        for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 05:33:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795267979; x=1795872779; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795267981; x=1795872781; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VpH7vOBV8zTAkCwE1fdPUsN34Rs/B2a+/bMMRlSHON4=;
-        b=K/irFn7oIQeRDStG35LgbnqSvSz4yDf8XGwGkoEt7Q0mVqtoOIN4Zy7RPXNBGbWfe9
-         dcV3xIli+LS5xF64mwtLPzVSLfxSRH/8gAM8tp0R/2tXCjdzwG8Dn6LMBVKTzJsLd8Wx
-         hAfASPCEluHKyBjC2VgGNgH3UoVZ4Hb8at5XvBs+PY0GoqniquoZ0mKVZA1JG22o9sKg
-         2TfOMoYYOlRuLFJ/NzuVzznCXs5pA7BXqHlD+BZlL0ayyeKLjINtQCMdGklR5jnIJ34s
-         +clfanjHblkr1wZZ8SPuGdkD2Ipz+yGM683FvtevINyhdAtNPFsUwsSxsKjYzXmUClFc
-         tmSw==
+        bh=54HoHtyBCmpZ6kkP9mnsCMJlZYb74fsAgesBBR9Cid0=;
+        b=Olxj0/ftaLQO/Ng4JOIAlV7IirJ4PbRR2Pv/MivagyUXdipMZQrfVigJ7nTDLvYYfm
+         vgipyyhdWwQkL0xFUzA5nnheOSWFi+uA3cHCE1OaWx11oOM5XayCnsHNfIaqpg9hYIDF
+         UWG5VHP8ePxPzeBIoA7oNFeFBZQWYDXxB62bTS6GilyWrZ6BBox/VlZ5I5irpjuJol23
+         hGAp3qb1PRpN4aWuv8xTf4JQ9C7dWCzHRcyYHYPSWr3XSLZb9ksaXHJVJVf0hKk+7I++
+         B41+rqWGgGdMUYJPGCfgagFN2rEf1chyalsPLesuh5/gQ4OYXFQSzE1RXv9KywJWdK4u
+         TXtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795267979; x=1795872779;
+        d=1e100.net; s=20260707; t=1795267981; x=1795872781;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VpH7vOBV8zTAkCwE1fdPUsN34Rs/B2a+/bMMRlSHON4=;
-        b=JlIiefWFiAItFAa+5BbXN+Qd8uYBzE1FCvFZU9ZOnK1I18QxQYspGyM9O19uPxsRI4
-         5BuDoAVuPbLcbGMX5qee1hTqroRu7uYNG4TxKD1c81ieELF/cpILDfDLvjeTQnJt/tXw
-         PgCSxTLvK5ATywK3A1ZkuZRlRubOpTuYAj3EoIRqi7BBmSjp9+uWp4jHra3bfMCpU9LV
-         ZoacdLzOp8gxgxSxekOJwdTu2EFwm2HtFdsReExBFzUAg2S3mpqrf9+JZiH5QrL8APnH
-         UT+q5MN7r24HQDXiCgPCPLO92ziTaSc/ucLSQIxDem0paX/NibHgQX/Dh0VtJWE2lEm+
-         8Sjg==
-X-Forwarded-Encrypted: i=1; AL+hErHLxORxSI7G4mvcJ9Mh7LuxLh22Z1mpN7c+NpOcASOADlASI56qQZqsmy2pcQD5TJbKUzqxshRfpBJHiS5M@lists.linux.dev
-X-Gm-Message-State: APuU4Z/GvQoojUQw0N2Og7fWjsBU84VNVSZVOfmghPOLPV4CVof31HzC
-	wywJjd4+21hiAFcHJu6D36w8xqcY+UV5e8XWd07uA2zL+stoz6wnCAfq
-X-Gm-Gg: AZFdTZdwuoMJiNE5qOmMrX+DEsdtgutm5PiMLZbmnRZu7rJ4g68GiYQD4FQsZ4VyEXB
-	rFzUwqbxO0jlvgOe2oMGG8X3Xcez9EqTnPguUJJ49MJHNdAxmpQEjGi/vlMhSPHQj5LPRw9tG+y
-	L5AT+AqzogffpBevVJlVRgzptGl9uVljv/afL/qzTXwSYFf24Bp2YWvTejnPP5QDf8iNRXTODGv
-	XN3tGxbH7utQ+EemIjXzMH9IkSSrVxlkz4dzM0ZOmIC5uoo6kUN1zFpjfzr8Saq56P/IJbr8hwt
-	2akW4Xiy7dwuGqWWos19fFDx0g5q8hUCWlifDjyYTTWC4YpFDlqaKPuQHSSlYpaLwG6lparpPkr
-	BWYJjMBOFaPmDi4o/ynKo/hnDXkyN+ePwHkyEUNXhPjhvN+jBJGIPRsItJ4OKJ1Xil2L1jpfWa/
-	gHHLTQvJ4TGUgRYZbNDOex2oGRzQvbnyggPP6b31NWQODX6jtlQbR7Fg2KdsTJ/L14ApBLHrSoI
-	H+M6Zy9kPo6sivwL3GSB7zaBGMAVIiBf+qC1Ddl4L+8TQMQmdaSCpP4T5fCt2KBEID0DkN9r4rr
-	ac6A+A6kIRwwAFClridSkCVuFemYPZkUW5YVWl++JG0MU6lFc4LF114PnRELXSqjCbRfPbyNJSt
-	Id4GadNVVvo/g
-X-Received: by 2002:a05:600c:5306:b0:4bb:6ac0:6dc1 with SMTP id 5b1f17b1804b1-4bb887c994cmr145819765e9.2.1795267979159;
-        Sat, 21 Nov 2026 05:32:59 -0800 (PST)
+        bh=54HoHtyBCmpZ6kkP9mnsCMJlZYb74fsAgesBBR9Cid0=;
+        b=IAROp8wlYcCRbZ5Hcoju3I9do2jmamFDevREdFwmtkCduDkw7cfORd0W/HY01RAQAe
+         3xdIXpc6t94xIjKUkbPURk3knukKGX1HRJ1QeyWxE9B8Y2lsiYSxytfLna/wjERFGm1q
+         PYcMl77715r+dh5NFzeOdkTn+hfFtl3UUJm+G6tLE+Obv1fcTW9TF9B3B16Q+ia9P4ln
+         9gvxdMWuLtfAecafD7+BP6fqltsHiN45wCc5fU7177g8wLWVhs3owk5zQhGP4/L7P5p7
+         1fr4eNMj62btCp1EaAHimWhi4ZsZkpoQ4sZG3Jx8BqiM3wBFP52Z7BBch74sMMcCKC6+
+         l/lQ==
+X-Forwarded-Encrypted: i=1; AL+hErG34jiA0l6CiV06nFMCiUhYGIk/4pwHW7+UXzq8UH+Uek78ebSgnNxNhUmQTVMCgBoMuevTsPyrvtcPt1UU@lists.linux.dev
+X-Gm-Message-State: APuU4Z+aTbol5QR+m9uvNBPkAlMk0uMAERUfG14ba4j3EI6FvKHIzUR/
+	S7ECjifvuIUi8ql9fx8kqJPS+xWGXa7vqput2Eiz5clvEjN/7JHQHNzA
+X-Gm-Gg: AZFdTZf2rkAmd7eUneelqQLzIm22Vl9BdAPEBM/5ryWkdImtkxBt/vvzJ69oG9iUBDs
+	T4D8z2jXt+DbowJlsimgRHemegdKHh6wIcch46spmlbWCkF5Op8LcbCMr351AmZ9Kfh2ZZAx741
+	pFr3bma4jEMhMdHvuUMjq8tQXzLuJJ9fLmZNdEd03N9/4GVPJgq6qtUvAMj0qjP38iakX0YiZ/7
+	BSMyQK9LldMc2SPNFEX96r3tVhcFjK4vqMqfpsjd8pcP01rok1Ts+2Yl0l5l/w/kaVz0A3XIF0/
+	DzVTxjBZwsglF/A2AZZm9CC9PqfX00wL/aSiKkDGrJMhGHWTyA8pdWJuKkuLSlLv48nTviOfQ+M
+	+LsYKYJ8VT3bGsPCga57Z3935CQ6y/4OB5TPLPpNL+Ip7MQkNobm5spe8HPLpjAn1tQepj7Xg/F
+	LMXG+/OnPGimDZpnT81n0uZDeiT4fPLX8T4NJ5K9rOsX/P8wlVNDe8jkSxwOLTTmoBIGl5XE+Of
+	3wmiQee2GHv5D6ZA31vkWY4LVPtZQTwcAEWIj9EzVXgYJsVqZ/CfANHLP0leL6XbbPUvEkzWwxX
+	BIcu2AJatcVz4dFtEuWZeHcpAIFX5H226FRM+TSGRlL8jZDKtSsLAAZU/OKdU+LOSGYwWvi8Brz
+	2RCw+v3GziKjd
+X-Received: by 2002:a05:600c:a088:b0:4bb:6473:cde9 with SMTP id 5b1f17b1804b1-4bb8880f2d8mr120065625e9.6.1795267976558;
+        Sat, 21 Nov 2026 05:32:56 -0800 (PST)
 Received: from 1Z10 ([2a02:b123:8010:295a:cf7a:d53b:95ce:c0e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb90660cb4sm83345955e9.2.2026.11.21.05.32.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb90660cb4sm83345955e9.2.2026.11.21.05.32.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 05:32:58 -0800 (PST)
+        Sat, 21 Nov 2026 05:32:56 -0800 (PST)
 From: Maurizio Casciano <mauriziocasciano7@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
@@ -95,9 +95,9 @@ Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v11 06/14] media: atomisp: Add Yoga Book camera configuration
-Date: Sat, 21 Nov 2026 14:31:36 +0100
-Message-ID: <3768f17b328286f4dc3e6a31a265eaa6e484e57a.1795267528.git.mauriziocasciano7@gmail.com>
+Subject: [PATCH v11 05/14] media: intel: ipu-bridge: Add the Yoga Book OVTI2740 entry
+Date: Sat, 21 Nov 2026 14:31:35 +0100
+Message-ID: <48564c62d0c08d66023a40b6cdc175e5af88fbe4.1795267528.git.mauriziocasciano7@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1795267528.git.mauriziocasciano7@gmail.com>
 References: <cover.1795267528.git.mauriziocasciano7@gmail.com>
@@ -112,65 +112,29 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Yoga Book YB1-X91 firmware lacks usable AtomISP configuration for
-both cameras. Rear INT3477 OV8858 uses four CSI-2 lanes and a WV517S
-actuator, while the front OVTI2740 firmware reports the wrong lane
-count.
-
-Add the rear sensor configuration and a DMI-scoped two-lane override
-for OVTI2740:00. Add the front sensor configuration separately once
-its link frequency can be supplied at the same time.
+The Yoga Book YB1-X91 uses OVTI2740 for its OV2740 front sensor. Add
+its default link frequency so the IPU bridge can construct the software
+endpoint. The existing INT3477 entry covers the rear sensor.
 
 Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 ---
- .../media/atomisp/pci/atomisp_csi2_bridge.c   | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ drivers/media/pci/intel/ipu-bridge.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-index cca91c6d7..56da454f0 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-@@ -74,6 +74,12 @@ static struct gmin_cfg_var lenovo_ideapad_miix_310_vars[] = {
- 	{}
- };
- 
-+static struct gmin_cfg_var lenovo_yogabook_x91_vars[] = {
-+	/* The vendor driver and sensor modes use two CSI data lanes. */
-+	{ "OVTI2740:00", "CsiLanes", "2" },
-+	{}
-+};
-+
- static struct gmin_cfg_var xiaomi_mipad2_vars[] = {
- 	/* _DSM contains the wrong CsiPort for the front facing OV5693 sensor */
- 	{ "INT33BE:00", "CsiPort", "0" },
-@@ -83,6 +89,14 @@ static struct gmin_cfg_var xiaomi_mipad2_vars[] = {
- };
- 
- static const struct dmi_system_id gmin_cfg_dmi_overrides[] = {
-+	{
-+		/* Lenovo Yoga Book X91L */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X91L"),
-+		},
-+		.driver_data = lenovo_yogabook_x91_vars,
-+	},
- 	{
- 		/* Lenovo Ideapad Miix 310 */
- 		.matches = {
-@@ -359,7 +373,10 @@ static const struct acpi_device_id atomisp_sensor_configs[] = {
- 	 * the sensor fails to start streaming when instantiating
- 	 * an i2c-client for the VCM, so it is disabled for now.
- 	 */
--	ATOMISP_SENSOR_CONFIG("INT33BE", 2, false),	/* OV5693 */
-+	/* OV5693 */
-+	ATOMISP_SENSOR_CONFIG("INT33BE", 2, false),
-+	/* OV8858 */
-+	ATOMISP_SENSOR_CONFIG("INT3477", 4, true),
- 	{}
- };
- 
+diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+index 2a38c4bd8..5f6baac2c 100644
+--- a/drivers/media/pci/intel/ipu-bridge.c
++++ b/drivers/media/pci/intel/ipu-bridge.c
+@@ -115,6 +115,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
+ 	IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
+ 	/* Omnivision OV2680 */
+ 	IPU_SENSOR_CONFIG("OVTI2680", 1, 331200000),
++	/* Omnivision OV2740 */
++	IPU_SENSOR_CONFIG("OVTI2740", 1, 360000000),
+ 	/* Omnivision OV5675 */
+ 	IPU_SENSOR_CONFIG("OVTI5675", 1, 450000000),
+ 	/* Omnivision OV5693 */
 -- 
 2.53.0
 
