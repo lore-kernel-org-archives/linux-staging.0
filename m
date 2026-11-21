@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795267983;
-	b=nFzdzw2Ocv408L7lcEsDU+3do3Y+XXoxStpatq3Hxab+O65QwcrKRcrobGUocjooDesd
-	 6uHeKQ/5jDm1IAXeqHgjtlZ/LQUZscbK+8TAsqc7mCgMyflXVkxjxcvEnNzD8xNeY0qaG
-	 4zkP5bzGrPpu8nd/WHMZ2QgBUQuucKpqFDvMj+42eKlD0Qav0/V9A24pze+rGK8RUGQ+I
-	 SjDj+Ji2WUOyunYtsLtKfAHBRf9D7i/vD/eNLpWMzTuzAH/PSu4sstv8aJW0smZGxirBT
-	 ifcdi2WGsTO8SOYzL6G2FY2rploi1dykjMEnZ2nLCP1wDyUqL5S9zgiO6S+Qu+nubEQ==
+	t=1795267985;
+	b=YHWHsf5w3wSdx1J00SMkKTpnFli5AvUOdzY+eUZImV0ZSVu9NpQyyzpkXmWPH0dJUrjk
+	 9OKN3zhR8kkSRoV8ccQ9kfe/04tUx0BOFdGDCgKZ0kFFJD1z3s/U7+lXioZcXl4QgMGs/
+	 2qoSyX8LpUex/p175sZTmpYf0pguwAPhnzJ1r0VBpDaGGMxDoYVGRFEyFkX4YZrIevJu3
+	 FM/yhuVgQ4UB8kvZWNBYnNUcIhNzjPdcp99BDu+l4+eF4Mtwx6Ay3z+vNhGKA4Z+RzYGK
+	 WIZ+Gz2DuLevg5OHmXVn7bcSZo3WvDDf4nMGXIUUYMPVmfRvz0ptqaN6i6QiMP7Lxsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795267983;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795267985;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=zwpdxzq/WcfSOjL57zIT4PrpsEc3o3kmbfQWvILYAxU=;
-	b=nynK+GpAG3jKL5ccASXPltW/+jiGTV6u4zkJWk8kN8XVF14c8WPZSp4kj+uomfd0hHAX
-	 54vFwAD8dDPAvo9liSbcju6zRUXAYoJrxhYYNlwzRtA1HyjRomc58XcEAGLF4qa2A+5g8
-	 oBSpCbcWLsFLQOxvEUhWk/t+7VutUQt0CCef4mD13Q18SkXNW8uok3kv3fP8Lkhyc0qY3
-	 4Z1PXPLBxCaPFblNSALblHBaelmPDiDufsc9VYZXQNoEB5ovFORQXIqMCi3REwLMENWqQ
-	 +LpPjlijubYF8UURAd37UKrt2xBeW9Yt5yCGbHZK+5Fq3YcY7I7wCpbJoYwU6hu4F7Q==
+	bh=Zgg4MnVQv6eXgMCmnMqV/EBaLR8DuEalyOb+7ER6OOI=;
+	b=DWnLK9px7s4P1XBoF3AdhmqdRN0FYX7OaSEvQ67G+D0EMuiyYBX+Y/ARvwApVQeZ51jQ
+	 YgdAsG1n3zNs9xFb+ELaOtXewqxY1Yk3OLT7nfaWBKVRwV2RJqJ43oN6DHolFng71mE3b
+	 tGSK0TH9+UGqokGFjFeitvwlpdGNJYdErODc7RP2wZIX35EH7zW4siIPboNOurN1Wtzf6
+	 unZitrtnMBKLXTWcW/w6AS4+1YdHEO2n1wHGZ/RSPYs7ydtUYBmygIisM0IonhYV4+0uK
+	 T1P0yTVpvXVD4IeRxoCa3S0WG3+LDfNWiqbgWin4YGesXsjL+5mnQ/8bwxFyszGIYXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=k2D7Ao0Z;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cJpD5fJH;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D673B606A6BC
-	for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 13:33:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D673B606A6BC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C72606A696
+	for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 13:33:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2C72606A696
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=k2D7Ao0Z
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so16893155e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 05:33:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cJpD5fJH
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so16893315e9.3
+        for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 05:33:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795267981; x=1795872781; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795267983; x=1795872783; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zwpdxzq/WcfSOjL57zIT4PrpsEc3o3kmbfQWvILYAxU=;
-        b=k2D7Ao0ZgWfXm4DyWUpZZ7/va0usqqFYBu56d34x/chkafnp4BFx7WQPIyF+WALkFG
-         cWc6c1bv/8XFNox0jnDYbSyFYUkoSS+12jyJIPtM5en2/V6+bSY5sDJwkqZzhC+/KI//
-         os5KlOIHaLyaVzQ3Tz62YtCkn0GEZA/oMI+2dUWLMlCPMBD5fJY6WV55VYlawB5tHpau
-         RzQ+pM6pd23i0tpW+D3BB+j/LC3qtQbI62oOz/o8cu39FyfYgvtlJO3Z/uciK38kttqM
-         VFGC0/6fKrezOO0LszgXfDWZA+9nPRWM+RkB+/N6es52AGx2XwOUqSFwzlZrUtv1YXQY
-         kRKA==
+        bh=Zgg4MnVQv6eXgMCmnMqV/EBaLR8DuEalyOb+7ER6OOI=;
+        b=cJpD5fJHcp4mN9PLk6OtrbffeQQZxOVoMTeZr7f+bHZcV6FT3wyxf3hv1SXPw4s8T8
+         SPYDy0kGz9gQSV0oq285TdC8iezqzLhgKqiJR0MDHlxC3VMH9hZGOInek5EM6bGLeQt+
+         ItAMerOjwvkWq4xCmo7ms0OR93RyBs9T2y1rAqwm2vOvcCXixGAVSwEl/IEyQ0RWlgXa
+         N2FTrWDKjdXPrRUW7pChHI4KLiOYsIOqGIxkvIBuYpmk0FpG95bCDleUt+pjlgaC41Bd
+         +XBqSGsygf5lJIrU3RMJ+YAxR201a4IsaP8bWu0dXnEl2/vR518twgRh4n+XYkU3+2wb
+         cuag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795267981; x=1795872781;
+        d=1e100.net; s=20260707; t=1795267983; x=1795872783;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zwpdxzq/WcfSOjL57zIT4PrpsEc3o3kmbfQWvILYAxU=;
-        b=Sb5yQrfyUIsyBPMC1J2bP0rJc89CbgGM2IuRJSwncEDBju+53iDQt8t+cTv7OIX+si
-         YWyS3FydtKteuwHtvtAHsOMhnIAPGSpLRHRRlpqz2F3Gptr7jTxQDdkldWZgAngfySC6
-         rvdGEj2+hCOaH1W36U7UBOu7BKvSeJB08khKg8ENjLJqpFpA1v1IyPqGX1rXc7e81fdO
-         q5PbtzOLzzfojEuE3qos0WdxICU2a7c66ClNuR1Pd+10CzE52L80/uo0DZIknMLprIHg
-         //MA4dteNig/GUDl6j8fzZIJT2dFNB16YrfDiQMOxJXlk9aarZcp1Rq3ouGB4dM8LTrs
-         rrMg==
-X-Forwarded-Encrypted: i=1; AL+hErHIuLa/6RWjyPjjgs392GtDMQAzMhjTtjs4LoAu3i67gSy4c1PMwxwkUBdAJU6Op0S3avft97sQ85ZJljsV@lists.linux.dev
-X-Gm-Message-State: APuU4Z+0wKgLllnsvnqL4zY/uIczOq1BYIeNTOzFg5NfYrAs/2VmjhFT
-	D6H1+FjTof+z16YjEFI3gDD35YGBJ5P6bQkRffVzW4aPMeWEvgS+7Trq
-X-Gm-Gg: AZFdTZdmKLBtnlPNJp3bkd6/o6P8S8gzaVPQrZ7rSHR9yZLsNHAhXsEIanpvPLFiBbo
-	YCUbuDIyXWsfgkrhy5TYJMZxYfJyUPmTZ84IyDHXesIyz6zKmJeSZmPg2r3LOIqWiY1A98xPRFz
-	2JmJ7BxIfJSwdc+9eispT/TkbtsnkgO135a0CiRyq4JRDKjBA16Ow/ZSAWGtKzXZB4IvrAFBoWg
-	VLwor9eArqUqHIfd/jR5AxDMsjdpYW+zVnc2iNGDBwnwCEnWTt7kPa3WsoilU2pZfTkGJl1FWTx
-	Zmxto8c17NAh28Sd1nbbUXcl7ujbC0i8CaGlm/XUtazpxF1Qm9SYVWE7BM2aTpjfXHCK2rdbPA1
-	PShAvI/wh7SlgROi0i3YDIwD13Yp5/4PDxvj5lCnmxVMW1s0pTmUsUnicR9M0rsIqe6GJ34kRBr
-	CPHUw2jBraThbT6tP3l7WHhKFe1ZRHutd1LWWyM77AtSxYJ9NapJD0W4sMurtZDpRiMbp5acgom
-	BjchYsguPbVBvDk2Bfr0Seu8QpR1XvccKJ4WvUbwNktb7bDAKKH2/3qWnbiVdeYgeYs7LF7h3HK
-	LKCfozsfE8XHrKe5iEEJ9YrF4sRhcQG9xf3VY1NZWFkbx9lrGjUstS/KyZr5eCjZ+2nZUioaBhQ
-	o0hoW6V2WnPxC
-X-Received: by 2002:a05:600c:4e87:b0:4a7:6bc7:f778 with SMTP id 5b1f17b1804b1-4bb88938d38mr144837645e9.30.1795267981193;
-        Sat, 21 Nov 2026 05:33:01 -0800 (PST)
+        bh=Zgg4MnVQv6eXgMCmnMqV/EBaLR8DuEalyOb+7ER6OOI=;
+        b=NuJU4GR1zwU5FxMxo8/zWUyw3er2scRQVD/9Xs5wu+MlG4gy4YI0nlTZtczNgifTTV
+         E5S/ficqdWC0ov6n1/OcdKY/GmWbVz7NsW7FwBtBQuBfhwkbJZlaf3PkWhyudbxUAGS4
+         sldh1jIXAe1m4yyXDMBi3rDzNPorzvYwpV3QR9oZKFiS60slg+9FjC1RETkMYyUeHlEy
+         p51Q3PHjU0VqfsVkhW1X87PnbNDKMxk+0mXFtIsmCdkAua0ge1nO3B6PK5spIyq/SKIZ
+         rm9Hi7Wi9Ax26Nsel+wMpHSwC5iAq52Cemxwc0o6QmZDCQD81vDsoAS2L0XUrDIBqMRM
+         JSgw==
+X-Forwarded-Encrypted: i=1; AL+hErFrlWwm6YaDj9imkB4M1fRJMGz4TPIq3gFTHQKBKBrLEjZeLcwXbVghxmjFD/Kf54ce0OQjSip+nWGCR1kB@lists.linux.dev
+X-Gm-Message-State: APuU4Z9bjt64tivw/kJnzzrjsRKJEJRdG+IpAiK/7qgMAr5E1z7jZFVb
+	vVJMLEeoatRyYv+rR79CTX/lPGf8jXBaqsI8QxNuNiVlDCKV+Pl9zclq
+X-Gm-Gg: AZFdTZfMJMkzrIaZ1oJdwGn/cDnMIV3uBB+Qq5R8IPgyRaZt7K9sWhq1nDZEWRGSDgz
+	ywe6FQ/qJ3F1F8Mn8L9CoE9Lqojo6zYcrRt32AX8kx+kWHm8QIhpjOnGK83m68pNbm0GtNeKR+c
+	hOcUmnSjWN+MhFq3u0BUvilwrakSaY7H/JL2q9znRJikoxrXn4AnML8y8UnjevGgTP5kS3Ztmym
+	Y9pWqlX58sroCQ/P6V/ad+QLyHHRcw7e/aoBCwEiGEM34Qouj/u8tEY0grCS5inHothf6MVyGnm
+	uQW6X7VOm3Gy7strNXoexrt/w/fGyG+y0mMDk+3Jv10S9nZvHC9l83ceQUWfnwoMyPXjFxmhLOi
+	Tm9mYOGgV6WM7tpif/BjkG4hqLs4KOTQmSCwqXN2KTr/NfWwd0yNXB0eLEaZInlQdcClGM4ESsR
+	ftBbz8whteptOD62K6tDYXrtpCua13xNLuWWj3QiG+sJfwzHFL6pSB2sGHcGyDcFnfQwGSYRENZ
+	PJqP3jv39J6gDv0WOZxifDW6tJGkFGbx/znO1O2AnqlE6NWFq6MZItQYydduIBq+RY+dnHKM3mc
+	ra/ikWDTCYDj1SrA9rNv6fSDm/sx9mzfWZRlf7hX01fH5WameSg1oehKUWyqb0yFbnQMSgfocwB
+	eXaggE+kmII31SGrxNb/ZXXjHXJoCTHFO+Q==
+X-Received: by 2002:a05:600c:3ba9:b0:4a2:1050:aff with SMTP id 5b1f17b1804b1-4bb8881c741mr158498155e9.6.1795267983223;
+        Sat, 21 Nov 2026 05:33:03 -0800 (PST)
 Received: from 1Z10 ([2a02:b123:8010:295a:cf7a:d53b:95ce:c0e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb90660cb4sm83345955e9.2.2026.11.21.05.32.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb90660cb4sm83345955e9.2.2026.11.21.05.33.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 05:33:00 -0800 (PST)
+        Sat, 21 Nov 2026 05:33:02 -0800 (PST)
 From: Maurizio Casciano <mauriziocasciano7@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
@@ -95,9 +95,9 @@ Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v11 07/14] media: ov2740: support 288 MHz link frequency
-Date: Sat, 21 Nov 2026 14:31:37 +0100
-Message-ID: <3885fc22c2a195125139d5d748a65e739acf0871.1795267528.git.mauriziocasciano7@gmail.com>
+Subject: [PATCH v11 08/14] media: intel: ipu-bridge: select OV2740 frequency by IPU ID
+Date: Sat, 21 Nov 2026 14:31:38 +0100
+Message-ID: <388d5bf4b5e2f99f6e6d8c0eb41e88ad28091b75.1795267528.git.mauriziocasciano7@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1795267528.git.mauriziocasciano7@gmail.com>
 References: <cover.1795267528.git.mauriziocasciano7@gmail.com>
@@ -112,120 +112,45 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Lenovo Yoga Book YB1-X91 front camera uses two CSI-2 lanes at a
-288 MHz link frequency. Add the matching PLL configuration and mode
-timing.
+The OV2740 connected to the Cherry Trail AtomISP uses a 288 MHz link,
+while the generic OVTI2740 configuration uses 360 MHz.
 
-Reuse the existing 1932x1092 crop and mode register list so the Bayer
-order remains SGRBG across link frequencies. Cropping the CSI-2
-receiver output to a smaller processed frame is a userspace pipeline
-decision.
+Use the bridge's existing PCI-device matching mechanism to add a
+Cherry Trail-specific OVTI2740 entry before the generic fallback. This
+keeps the platform distinction in the bridge and avoids adding a second
+per-sensor link-frequency override path.
 
+Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
 ---
- drivers/media/i2c/ov2740.c | 43 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 41 insertions(+), 2 deletions(-)
+ drivers/media/pci/intel/ipu-bridge.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index 7d786d09f..30eb58eed 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -12,12 +12,14 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/unaligned.h>
-+#include <linux/units.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
- 
--#define OV2740_LINK_FREQ_360MHZ		360000000ULL
--#define OV2740_LINK_FREQ_180MHZ		180000000ULL
-+#define OV2740_LINK_FREQ_360MHZ		(360 * HZ_PER_MHZ)
-+#define OV2740_LINK_FREQ_288MHZ		(288 * HZ_PER_MHZ)
-+#define OV2740_LINK_FREQ_180MHZ		(180 * HZ_PER_MHZ)
- #define OV2740_SCLK			72000000LL
- #define OV2740_MCLK			19200000
- #define OV2740_DATA_LANES		2
-@@ -91,6 +93,7 @@ struct nvm_data {
- 
- enum {
- 	OV2740_LINK_FREQ_360MHZ_INDEX,
-+	OV2740_LINK_FREQ_288MHZ_INDEX,
- 	OV2740_LINK_FREQ_180MHZ_INDEX,
+diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+index 5f6baac2c..5dbd74e2b 100644
+--- a/drivers/media/pci/intel/ipu-bridge.c
++++ b/drivers/media/pci/intel/ipu-bridge.c
+@@ -58,6 +58,11 @@ static const u16 ipu6_ov5693_ncont_clk[] = {
+ 	0
  };
  
-@@ -142,6 +145,14 @@ static const struct ov2740_reg mipi_data_rate_720mbps[] = {
- 	{0x0312, 0x11},
- };
- 
-+static const struct ov2740_reg mipi_data_rate_576mbps[] = {
-+	{0x0302, 0x1e},
-+	{0x0303, 0x00},
-+	{0x030d, 0x1e},
-+	{0x030e, 0x02},
-+	{0x0312, 0x01},
++static const u16 atomisp_cht_pci_ids[] = {
++	PCI_DEVICE_ID_INTEL_ISP_BSW,
++	0
 +};
 +
- static const struct ov2740_reg mipi_data_rate_360mbps[] = {
- 	{0x0302, 0x4b},
- 	{0x0303, 0x01},
-@@ -468,6 +479,7 @@ static const char * const ov2740_test_pattern_menu[] = {
- 
- static const s64 link_freq_menu_items[] = {
- 	OV2740_LINK_FREQ_360MHZ,
-+	OV2740_LINK_FREQ_288MHZ,
- 	OV2740_LINK_FREQ_180MHZ,
- };
- 
-@@ -478,6 +490,12 @@ static const struct ov2740_link_freq_config link_freq_configs[] = {
- 			.regs = mipi_data_rate_720mbps,
- 		}
- 	},
-+	[OV2740_LINK_FREQ_288MHZ_INDEX] = {
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mipi_data_rate_576mbps),
-+			.regs = mipi_data_rate_576mbps,
-+		}
-+	},
- 	[OV2740_LINK_FREQ_180MHZ_INDEX] = {
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mipi_data_rate_360mbps),
-@@ -502,6 +520,22 @@ static const struct ov2740_mode supported_modes_360mhz[] = {
- 	},
- };
- 
-+static const struct ov2740_mode supported_modes_288mhz[] = {
-+	{
-+		.width = 1932,
-+		.height = 1092,
-+		.hts = 2160,
-+		.vts_min = 1776,
-+		.vts_def = 1776,
-+		.vts_max = 32767,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_1932x1092_regs_360mhz),
-+			.regs = mode_1932x1092_regs_360mhz,
-+		},
-+		.link_freq_index = OV2740_LINK_FREQ_288MHZ_INDEX,
-+	},
-+};
-+
- static const struct ov2740_mode supported_modes_180mhz[] = {
- 	{
- 		.width = 1932,
-@@ -1179,6 +1213,11 @@ static int ov2740_check_hwcfg(struct ov2740 *ov2740)
- 			ov2740->supported_modes_count =
- 				ARRAY_SIZE(supported_modes_360mhz);
- 			break;
-+		case OV2740_LINK_FREQ_288MHZ_INDEX:
-+			ov2740->supported_modes = supported_modes_288mhz;
-+			ov2740->supported_modes_count =
-+				ARRAY_SIZE(supported_modes_288mhz);
-+			break;
- 		case OV2740_LINK_FREQ_180MHZ_INDEX:
- 			ov2740->supported_modes = supported_modes_180mhz;
- 			ov2740->supported_modes_count =
+ static const struct ipu_sensor_config ipu_supported_sensors[] = {
+ 	/* GalaxyCore GC5035 */
+ 	IPU_SENSOR_CONFIG("GCTI5035", 2, 175200000, 422400000),
+@@ -116,6 +121,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
+ 	/* Omnivision OV2680 */
+ 	IPU_SENSOR_CONFIG("OVTI2680", 1, 331200000),
+ 	/* Omnivision OV2740 */
++	IPU_SENSOR_CONFIG_MATCH_FL("OVTI2740", atomisp_cht_pci_ids, 0,
++				   1, 288000000),
+ 	IPU_SENSOR_CONFIG("OVTI2740", 1, 360000000),
+ 	/* Omnivision OV5675 */
+ 	IPU_SENSOR_CONFIG("OVTI5675", 1, 450000000),
 -- 
 2.53.0
 
