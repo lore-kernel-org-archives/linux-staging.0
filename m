@@ -1,106 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795267997;
-	b=lDOjAwkNgHyOq7e3YEPGNLvICcJYL//VnAjQM2qYF7Z8j6ua/PQH6pCO1NSMRYFfQZn3
-	 VXxt5Byn5W0cceR45mMC4WxwqWY+UoD/sRM5SIyU5cZflHFzuHsgjwO9l8f9CBWnO50RP
-	 Jf9PW2z3bSweAC/DJCsFrSBy/fyPMWQxNvfd0XMR5HyDRtq8/2usQcUEYj4iMD58CIC9T
-	 F1dkgl7bzgC6pnO/lOUN0Q++DkTTNmwUWnINEMu45qDrZbI/731hG7MSF0OoTEEIxl1gU
-	 W89y2a9I4i13l3CzPGIK9QTULyrjRHNH9n+mLPLaMMUn5YD5fqzDb42sXlfP0J9m6AQ==
+	t=1795268375;
+	b=QdxKiXUKawNqJjvah6UNEMrqNpHcnBm7JU3Pm0rEfQgTPFcKN8BV9kBSQ9iURYMp9f2Z
+	 7unirqfUE9M7WOMdZRzk9gTyGSWEzgX7/sRkT1UN9HMgGZkm0qPNPq8aR69kz59Aud+9i
+	 vkYN9fLiBtPIOx3O7aoOo+X7AyYiLcqeoNTqnZ2RXJL9rVz92jEI+UgE/q5JXwdIWT1X1
+	 0DPO8M2VZuibiCzkdJW6xOHJTZs9AxxuhGTmzyxvjJYJASvKjmVcnUGmRbTw4KrBz0uU9
+	 LUSOjXKrb5GaxSNi3DG/O9tqXdgMBexuyFiMLP5icMwAf4CKPdu5bO8lHjTcT9plxhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795267997;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795268375;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=G24TDvgLhTj0CrN+9xXORB5nAQ7ODFaFZ6vvRCICW3U=;
-	b=sLjqq/C6LBWHufgrnWhgtzM+wjSI734V4XWUp/uZ0pedYloWLQRA1Gbjxzv5CJGq68KR
-	 /DU7T9Krki3qoOMqPcjZge3PBW1gZJYBtSxj/yJUNQHZ0cleTjHottSxVZAQuFPHFbL35
-	 SBUqCT4WYeDrO9u6Q3p6NkdtvtULSsZrO3EASDMWBqicnb7BzYe8O0gFJrTPqdQr9sCPD
-	 RaRN2QGwkoDTgjQ6UwaL1HwNGFCQ+RdXidW8lNTZuvZ3Upok/8vdFXEy6Zd+SUwjWyB/7
-	 gVOw59co0kmq1ZC5ilD0LBdO9vXwZmaB21uZpq+W3JSP0/hYhEx4wmxYKvN9rGTK2pA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=jpAB7bN4jOX4zDM3zWu+BqiTANE8OqvGyHkfG0EgWp8=;
+	b=KMmsn9A90WcLH0+Fmqkvstft5VR2EUI2bfDl7H7h7j0fgZ9XdOLjspr9VOeGCKGNLMwM
+	 5HYqpGd5dTOD58s3YRYMN5UVN+vodC/gHQJ+NlD4LxqEACv58/qgSGxoLIRuML5kM0HSq
+	 FeGuVo/C5Z85ohvyk9gWHw9/q1YG2d4FjoOPKdRaXsU4e6SpluH+jZXJmUN0JeMN9JTmr
+	 HuCFyNUityvTWODCuV4J+snZLq+fQlOSnLSTpwQrm6xFtllwBEiXOw2kt15deD6aQd8PO
+	 ZncnS6lg9dgWjwxRnfNq3LflcAKLHT2UXNHgX7VFbSBcN+/sCrf+t6gdSmdI7IyQ5Uw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YVKovQxq;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GlPQg+Wo;
+	arc=none smtp.remote-ip=209.85.214.178
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5A0606A68B
-	for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 13:33:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C5A0606A68B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE1F606A32A
+	for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 13:39:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EE1F606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YVKovQxq
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb6adaf0f1so15744285e9.0
-        for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 05:33:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GlPQg+Wo
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2f037bc348dso16127915ad.0
+        for <linux-staging@lists.linux.dev>; Sat, 21 Nov 2026 05:39:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795267995; x=1795872795; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=G24TDvgLhTj0CrN+9xXORB5nAQ7ODFaFZ6vvRCICW3U=;
-        b=YVKovQxqSCPQq3zCjyR/7YQRNBZdzHHDnA22/HM8l/oqpRKsC1fKo3mvas0CNYhFpM
-         xxMQkWToxbL0w3YqZ34VODuRPJ5lj3MLPmSgdE9WQTjMFpvRhwyIIvfIMXtiscjJbLQU
-         IlKri49fC3FzqOmBXscVJXBqJabU5HsPIwFz9C3ucQmcesd5mG1C6UvJq17YpbB4tkGg
-         542FNkuW5KbCcHCZ8pgD+iBXkYh3ki93ss8GfT41SExTGEcxTS2UiGU083PykgukvMUw
-         13Exz6FAyIQ3EvH4bUeL3ihL/Z4eFOh5oNMRGDm2DkGp4GuJSYanzS2sLQDBgGAPZeqU
-         eUVQ==
+        d=gmail.com; s=20260707; t=1795268374; x=1795873174; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jpAB7bN4jOX4zDM3zWu+BqiTANE8OqvGyHkfG0EgWp8=;
+        b=GlPQg+WoMOg9wlmSQ6RiCE/68KoVSopM47DQrJ6R0ISVXuo2WfOK+xZ/CxLpQDve/B
+         N/7V/9uNuPyWr5U9ym1LkxvlLzfZQLt3Kl0RXij614YNNXKINjQtCgedNVA3aV180WKr
+         vcl6WrGhTb49OxOu3prjlbaSxs74QPA8E1+VNHe0DnrwaKcHJDZGZ+0tZa52fYCm9+G0
+         hzs57xc8klGJ9icCbPjrRjs/mbKlhLD8g/ggjm4C6S48HGpvq+6Np+ldJ9+9gSPoCdiA
+         jqmQotygdTNji17T2nD7a4wX/dULXc1tIQIB4QucWsuBfdlKfTBvF6m54/BQ24tHQKXZ
+         T68Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795267995; x=1795872795;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=G24TDvgLhTj0CrN+9xXORB5nAQ7ODFaFZ6vvRCICW3U=;
-        b=eruaRAKbOz4dkLfBVML+7gvboNX253lMU5iWq+49W+i/Gw6j6jMjN3fv9XCGSJ+qeg
-         kSyMC84CWZjHN1kYOTx4IRjUWfK1Hx6vyu69apVGf7hrbrojvy5D5rJFzA8inete2f82
-         lAEDrnZDXGwqsgfE2xuNB35cRGwwcePZcWAwYnu6E54O8uO+o060k34A9QLZ7oKbDMAo
-         6IEmjW1Vzb3OvtU/tbPSGp9H8NTVg6AP+IY+UBZCm45QyV2WcRvecpfddbNllNlNGA0i
-         x1mC82LCm5BhlZSDYENwrgR2Ua8McXxSaxsrmqQyMDLePY9WUmYDnrsE7cGwF6vJx4P6
-         +FLg==
-X-Forwarded-Encrypted: i=1; AL+hErHL3qTamGKMzvSkReSm+O4tYDEixUSCnUYNFgsdWjsLTCXTdTuyd+j02drXD+rRf2YlWnexW9gs09meEVg2@lists.linux.dev
-X-Gm-Message-State: APuU4Z8ZZ6gNTZLrxGQ6q7QAuLDmk3XHWjvK2/xMrhe3rOpQwft5/NUq
-	sFYyRuDSkEi8ZRJ6JGBdcBAG+0eUtG0AFeQDgBlvOXD+wlHLBwDX9GNv
-X-Gm-Gg: AZFdTZc+xiU9sd6x1Bjfj7OfkajRVZ4SSTZnyDItv7AUuFWLfIyD8Z60gAoVhUFpqQz
-	KBXw5r4bYqqNY9uTivCFK0IFzDQUZdSyEmS4YFR2lGzhh96mlciMDpUA74UNtNOpgEEk5N+OhnL
-	9HtQoeWT0rxkmKDRpIvvKsKHAJeM6ijwC5JBq/1RMyFMhXXpU38wOWVjtQahlk9ys0KKFu6TBYG
-	T/h2pPkQtNFJEA9nQVUdgTUvOyc+oT8NZIbQLqmHFEVOSxKeQ6+sWSE/sEnf0SbixUyKIJmNz7L
-	c4Ge67t/c9cPwaKOZGEfuimPKQscKP/CPNgNVEIVnP2mg+sgwECfgK+MvM1t7mLm2xpvG89J7ER
-	um9DSUxqA7m9aLimbuJkgOI97lPAGGRzTTsvBfJErHGVJJ3dgvQvv9ztokm7ciDmJXnRdnix12F
-	GFcG8b/eBnR5HA73XrGn7MCxB4i6MfyxSgMy6PEQVgZb4YXR2L/CYiKYiPA3mX3vyXCOFlboTuT
-	APvm+2a0PlV34cbuDuIPQjP5Re5Uf5lNoPiPM6O4vPWLwv3DzO4Hne6XY/Alyab9DIoR6UEWYmY
-	frB3lXcWks6p76meT+zFZI9os7F5Xhvw+fRnQCnFSBUP90MO+ludLuNuzmGXRd7cy149XxV1Owh
-	4qwbqhjAJ90iEvO4FZnJv02wu0NbmdAMvJzE=
-X-Received: by 2002:a05:600c:1911:b0:4ba:38a9:85e3 with SMTP id 5b1f17b1804b1-4bb8880eecbmr149002085e9.12.1795267995455;
-        Sat, 21 Nov 2026 05:33:15 -0800 (PST)
-Received: from 1Z10 ([2a02:b123:8010:295a:cf7a:d53b:95ce:c0e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb90660cb4sm83345955e9.2.2026.11.21.05.33.13
+        d=1e100.net; s=20260707; t=1795268374; x=1795873174;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jpAB7bN4jOX4zDM3zWu+BqiTANE8OqvGyHkfG0EgWp8=;
+        b=AjySv1qhLEIgvTfHULWe6CQT7VQcTTMFZ19sfXeO0yv5x/fezMQmkd5UOwu0d2O1Ik
+         mzXdUy8pP5klkf0WA6XsBAtP6txT4C6fGJzMBG0Lsuq0FJhvxVdERpb8CdAGrC/fXF3m
+         z8yp+DdwiEqpK9wtZjOeUqMm3BpJImozjw/Cm69bcIWJPN8zwSnVPrin5ZFyj5v0H8Fh
+         sBovbKEoLA+wUZ6EeKk7F7VoN1vyXA+D426OLtsd31rJlTsbDDPCVjHmG97vKWcFs9pc
+         f6PxvPEF1JzQbjREvm9lDqjWBiQ1vgxpsikfwTbov+/nZPv+21bKsYGHUq1gQPeJsnbq
+         iVqw==
+X-Forwarded-Encrypted: i=1; AL+hErGeZKvV3SD9CbPo6EPIbqRizh82K+CT4uCSmDcIlCqEwXK4fEG+IjEqIWIcZfwr0HaqJLtjG2EY3rR+Zsr3@lists.linux.dev
+X-Gm-Message-State: APuU4Z9Z1Y98ehtlAm4BjajgQd7gGsQvDaIr8if5K+3C10kgIuEgqJ6k
+	vIHgBR+Gfr8oTC6fpOmeq9ik95oXjQgIpgdffXjWupenNfn2WqEeteIw
+X-Gm-Gg: AZFdTZfBSecJwZknMcT+3XZmsI8ivnhofiAN1t6RALUsW7XFP8T2bstLU0snvMi86q9
+	jl3zZ1Gy9tBRN1+3bfDip2OJpfOEeuSQhndTA4QKVlS2IBIoKRKP3IOpRVsTEDsp+EPCTDKis8b
+	67RC7A8J9XX/p8nTink7BffRp5oDvnk0Ab+A42cuoOEClMjEjR2VHTvcBv3KIdoiXUGFHN/q4Xh
+	upVDD5bFD/bII2+8eyxNDDcvLRnSzgueZdOs24Xm8a1svQusCQ6yCaGR/XlkaXLMWefidN5awCb
+	zSKyiQ+FpepDwP5mItOTIi1PZ5uKecRgCvraWcLn4pEBK+d8KchOyJ4Nu1e9UC0WgDrJvvo8j4g
+	eIiNwNfz++mGp4yWCfFqCg/wevIH7ZzX0BYizK72Cos+nb39HwAdPCcXNKN2b1CO49dFBaQEaBg
+	Zz8f1omMuXEbL6ruC9AtvzNae24wAlVf+0giPO9X6WWMrgpmXfOcerNtuKmF+5seif2eJl8nbr3
+	av8pjvL9lYb/ucurHYppH6bCnk7FGsryVCRXUz4Xft7opvnyF47wk5rkuJXbPoBhzVKS5dyawJx
+	Q2ihmFuB5M3ypn0q2TOyM/vh2kMW9zuGs8Thi6c=
+X-Received: by 2002:a17:903:98b:b0:2df:aed3:2ac0 with SMTP id d9443c01a7336-2f03f1cf5ccmr67862115ad.10.1795268373920;
+        Sat, 21 Nov 2026 05:39:33 -0800 (PST)
+Received: from omarchy ([14.139.177.146])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0de00asm26621375ad.35.2026.11.21.05.39.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 05:33:15 -0800 (PST)
-From: Maurizio Casciano <mauriziocasciano7@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Bingbu Cao <bingbu.cao@amd.com>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	linux-kernel@vger.kernel.org,
+        Sat, 21 Nov 2026 05:39:33 -0800 (PST)
+From: Vaibhav Chahar <vaibhav.chahar26@gmail.com>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v11 14/14] media: atomisp: Preserve the capture graph when a lens rebinds
-Date: Sat, 21 Nov 2026 14:31:44 +0100
-Message-ID: <e19d87138eaf283350f85ace17ee9ee4563e9423.1795267528.git.mauriziocasciano7@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1795267528.git.mauriziocasciano7@gmail.com>
-References: <cover.1795267528.git.mauriziocasciano7@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Vaibhav Chahar <vaibhav.chahar26@gmail.com>
+Subject: [PATCH] staging: sm750fb: Use str_has_prefix instead of strncmp()
+Date: Sat, 21 Nov 2026 19:08:43 +0530
+Message-ID: <20261121133843.127718-1-vaibhav.chahar26@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -112,51 +100,64 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The root notifier completes again when the lens subdevice is rebound.
-Rebuilding the entire graph adds the original sensors a second time
-and attempts to register the capture video device again.
+Using str_has_prefix() is cleaner and more readable than using
+strncmp() with strlen(). Also avoiding the possibility of errors due to
+mismatched string lengths.
 
-If the capture node already exists and the sensors are unchanged,
-register only missing subdevice nodes. Reject a changed sensor graph until
-the driver is reinitialized. The preceding V4L2 rollback fix keeps
-existing sensor nodes if new node registration fails. The X91L rebind
-trial exposed the original issue. Codex drafted the notifier change.
-
-Link: https://linuxtv.org/mailman3/hyperkitty/list/media-ci@linuxtv.org/message/2PUHZIDBEIGQKGXTJJOUXXJS2EOEMJGD/
-Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
+Signed-off-by: Vaibhav Chahar <vaibhav.chahar26@gmail.com>
 ---
- .../media/atomisp/pci/atomisp_csi2_bridge.c     | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/staging/sm750fb/sm750.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-index 56da454f0..72048de9b 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-@@ -508,8 +508,23 @@ static void atomisp_notifier_unbind(struct v4l2_async_notifier *notifier,
- static int atomisp_notifier_complete(struct v4l2_async_notifier *notifier)
- {
- 	struct atomisp_device *isp = notifier_to_atomisp(notifier);
-+	unsigned int i;
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 99d410e18..658e93b27 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -854,21 +854,21 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+ 		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
+ 		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
  
--	return atomisp_register_device_nodes(isp);
-+	if (!video_is_registered(&isp->asd.video_out.vdev))
-+		return atomisp_register_device_nodes(isp);
-+
-+	/*
-+	 * Completing the lens notifier again only needs a new lens node.
-+	 * The existing graph is valid as long as its sensors are unchanged.
-+	 */
-+	for (i = 0; i < isp->input_cnt; i++) {
-+		const struct atomisp_input_subdev *input = &isp->inputs[i];
-+
-+		if (input->csi_remote_source != isp->sensor_subdevs[input->port])
-+			return -EBUSY;
-+	}
-+
-+	return v4l2_device_register_subdev_nodes(&isp->v4l2_dev);
- }
- 
- static const struct v4l2_async_notifier_operations atomisp_async_ops = {
+-		if (!strncmp(opt, "swap", strlen("swap"))) {
++		if (str_has_prefix(opt, "swap")) {
+ 			swap = 1;
+-		} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
++		} else if (str_has_prefix(opt, "nocrt")) {
+ 			sm750_dev->nocrt = 1;
+-		} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
++		} else if (str_has_prefix(opt, "36bit")) {
+ 			sm750_dev->pnltype = SM750_DOUBLE_TFT;
+-		} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
++		} else if (str_has_prefix(opt, "18bit")) {
+ 			sm750_dev->pnltype = SM750_DUAL_TFT;
+-		} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
++		} else if (str_has_prefix(opt, "24bit")) {
+ 			sm750_dev->pnltype = SM750_24TFT;
+-		} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
++		} else if (str_has_prefix(opt, "nohwc0")) {
+ 			g_hwcursor &= ~0x1;
+-		} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
++		} else if (str_has_prefix(opt, "nohwc1")) {
+ 			g_hwcursor &= ~0x2;
+-		} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
++		} else if (str_has_prefix(opt, "nohwc")) {
+ 			g_hwcursor = 0;
+ 		} else {
+ 			if (!g_fbmode[0]) {
+@@ -1073,11 +1073,11 @@ static int __init lynxfb_setup(char *options)
+ 	 */
+ 	while ((opt = strsep(&options, ":")) != NULL) {
+ 		/* options that mean for any lynx chips are configured here */
+-		if (!strncmp(opt, "noaccel", strlen("noaccel"))) {
++		if (str_has_prefix(opt, "noaccel")) {
+ 			g_noaccel = 1;
+-		} else if (!strncmp(opt, "nomtrr", strlen("nomtrr"))) {
++		} else if (str_has_prefix(opt, "nomtrr")) {
+ 			g_nomtrr = 1;
+-		} else if (!strncmp(opt, "dual", strlen("dual"))) {
++		} else if (str_has_prefix(opt, "dual")) {
+ 			g_dualview = 1;
+ 		} else {
+ 			strcat(tmp, opt);
 -- 
-2.53.0
+2.56.0
 
