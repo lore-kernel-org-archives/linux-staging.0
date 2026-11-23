@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795472750;
-	b=wkDYHwUSS9eScLpkXaexvabCnQ7z+Wun+Tp2x/jK/aYYxkN/Vhce3xL6ZWg1TxPXMRMu
-	 8slM57xBho8IpK6eRDXeCde3vVVRw3FJrNivj8CdQeIX9Q4ieJoCLPHhbIL75eBTJbxla
-	 OxDZl9TsAYbbKmG/P5pfjVrDrM4Z9ys3kX434YyxdYKo4R32MmfgHKf6sN93VJWJoVet/
-	 DvN3K/OZXYKkQc2BQl558P9EsOeVw4KsuHcRo3V4RP1H0aqkiWjGjr2sK6oWB0af/ENzM
-	 widHanJ6Nj5z4eoLvqLPm5imSCA9s0XkvnCBdoCL3fJI6w9G2uygkyDKMBi+67Cquvw==
+	t=1795472788;
+	b=Y5pWj7dN7MVNDw/Il4KRBxSF0PEnqC4Ae0gVetZ5zPdwMVetrYu1TnYoJwoqnyOxeB+5
+	 nlHUQkc2rQP9UoAiAOY4kx87REfSpFCui8grUPHRfl66jiLnpLlqM+4il26VkL5PIve9F
+	 PlgMC+BP/RcusIJwih3h6F3DdId3kCC7LtwTA4yidjDfGACAZl9ByfpSvfdW6x8kG2n8x
+	 jXbvynSN7EdAkmE2XqnBSQX++YTN8/pus+MnaU2y0IhW0/hOHRnEneyGNVSWzzG9eKrTd
+	 YIFvfmlxZH0P2vWgZD4rrxmgZH23v5veY73ZeGCLAOp7IF7MAz8QU6CTwNd0uR2UvFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795472750;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795472788;
 	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
 	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
 	 User-Agent:MIME-Version;
-	bh=JX+HHBcYrn3L5tSgwvRkhN44cZXQrgeMOcFjZIISQlg=;
-	b=rBb9SvEpRqLkLCueO/u63w4gC2wbNJ8zu2MsK23n61r3HmE+cctojD6I/OmWnPrdlgFz
-	 uKUAvtMaYn1rjVyIoZ8erm00q1rDRvD9lld7emENSPjC3IdxrvKWsF6LRN5t7tK6rnx0I
-	 8fT+DgPKnOzk7YOpHcFxgJH4iP3XFmJF9f5NiRrArvOwH44yoji3NQl99O0SR3sRk+615
-	 S7zsWQkqAa012Kyo5w+qX5zxNmXMHMfz5u5iNY2MRRzlVZNA50V3R0BtAbCpGktiCN1uN
-	 td23M/um62oR7kKG+FI+b9kZTsZTWTV+lRVYLGeexGzSf5sh2rR6bJqym7m+vOAIiKQ==
+	bh=zL9FW6qmJVERb9uBjlstt4dUn5W525DT8FCMzg4JX1I=;
+	b=3rHPS5m2fA/MYoSapqi7+6gFvLOiDPRhvy4DPyzZbBYU93V+tdGLgmYxp10xhvIlBzRJ
+	 wJ7UL5eLzUAxJgNzbCz+wX3vN4QIPLzTgF75XxGk2g3gBJt0vXB04EQrMbsN1we7mmaaX
+	 5eDNV1kiWStKLpWX1bSdKp/TlFIzWiWtGUbSU4qMDceX4eUOhmzUH9cji0pE0cDMIfyTc
+	 JfWiK37gQK3EeIawVL+QW4+zIDOnPvdtVhAROk4lykcW884e7OfsVNAw1egylXeCQwacU
+	 E04cox8LBUrCBUY80ceBkPkK1rqyKmyDf5tVghsbqwLb0fLyaeZO+fN/UfnZcXdD0/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=collabora.com;
 	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=GhC6SClc;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=ntYxdNfw;
 	arc=none smtp.remote-ip=148.251.105.195
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35362606A31E;
-	Mon, 23 Nov 2026 22:25:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35362606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CC8606A322;
+	Mon, 23 Nov 2026 22:26:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8CC8606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=GhC6SClc
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=ntYxdNfw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1795472748;
-	bh=fGAAPcKd6neM53/qNC4krvVR7BMl/k9dOCzKOiSZl1w=;
+	s=mail; t=1795472786;
+	bh=jafCJiO5kEDoT7LeCzSexDLui/CmGZgBcYWpbAal89Q=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=GhC6SClc0hZW2vieXL75I5S4Soj0UI262Mm8goxTT6F5gkpZ4O/dfD47hr+sJ1C1P
-	 BSMKy51uiY/6vKfZFPa2n82onhcR5sA2l057o8ynNoi0EatkmAswyxUj6L7rvTLjMb
-	 o3GkgI3axQtvTGp1UGx4Ye2h/U/B82kz4Sw5DZyhjPKWzn9LULLK+45M+VJJgGCdZw
-	 CthGBLlHQybBawW4rJBYTY6uh3lwrsYEYcCLRUObc+wk77ldDxQhCdX7IwI8fz5AO7
-	 K3LNbTOLVjswX0eKA6l+zDSbvKguMKzvI2yX1VOKK4lZmqltLqzV9Nm2wdZUX2qJvh
-	 tNe+CueCnVl/g==
+	b=ntYxdNfwbYMnR4G45krGiMK/xALKPCbBjGzrhhLZGJQYQdwmRIX5bijv4Rj14dK7C
+	 YoIU6u0/EddOz3/sPdJScestRmDdf7TqRSAspK9AodsFySnvLSrxw0AQjQ67/sHDhZ
+	 +oC3+nJZlvNNbwEx7VZ3xLY7EUBEv6uvDz7H74nM2NP4NdK1o4bXh6Gz25gIHf0PXd
+	 onMmipYGNV55v3SSLWC2IgIQoPJElx9DzDTmGBpAqe8DRMojWjUdrrXwFUhCqRjPcO
+	 skrk3XF/3Mcke4Qw3KUSoOqJDSBxCqUPpw2lWsqCic43iwh2yRWnmIK7X6lavKcMmb
+	 VAhExsYZuVxOw==
 Received: from [100.64.0.214] (unknown [100.64.0.214])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange secp256r1)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 05B7517E0DB6;
-	Mon, 23 Nov 2026 23:25:45 +0100 (CET)
-Message-ID: <24a2298a6aaa561990b38fe6aabd1a6734c01982.camel@collabora.com>
-Subject: Re: [PATCH v2 1/3] media: uapi: mpeg2: add MPEG-1 flags
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 424EA17E05F2;
+	Mon, 23 Nov 2026 23:26:24 +0100 (CET)
+Message-ID: <adfcc7bb137c294d01395dff64bfb915d2f34a5e.camel@collabora.com>
+Subject: Re: [PATCH v2 2/3] media: verisilicon: reject MPEG-1 controls
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: aiyengar1990@gmail.com, Hans Verkuil <hverkuil@kernel.org>, Mauro
  Carvalho Chehab <mchehab@kernel.org>, Benjamin Gaignard
@@ -65,10 +65,10 @@ Cc: Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
 	linux-sunxi@lists.linux.dev, Christian Stefan
  =?ISO-8859-1?Q?K=F6v=E9r-Draxl?=	 <ckoever@outlook.de>
-Date: Mon, 23 Nov 2026 17:25:44 -0500
-In-Reply-To: <20261121-b4-cedrus-mpeg1-v2-1-95e4decf03fa@gmail.com>
+Date: Mon, 23 Nov 2026 17:26:23 -0500
+In-Reply-To: <20261121-b4-cedrus-mpeg1-v2-2-95e4decf03fa@gmail.com>
 References: <20261121-b4-cedrus-mpeg1-v2-0-95e4decf03fa@gmail.com>
-	 <20261121-b4-cedrus-mpeg1-v2-1-95e4decf03fa@gmail.com>
+	 <20261121-b4-cedrus-mpeg1-v2-2-95e4decf03fa@gmail.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -84,7 +84,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-4L4mp99RXxCJlUHtrXto"
+	protocol="application/pgp-signature"; boundary="=-fZd9Y1jimBb0WSf6xeuw"
 User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -96,161 +96,81 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
---=-4L4mp99RXxCJlUHtrXto
+--=-fZd9Y1jimBb0WSf6xeuw
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-
-Hi,
 
 Le samedi 21 novembre 2026 =C3=A0 10:10 +0000, Arun Iyengar via B4 Relay a =
 =C3=A9crit=C2=A0:
 > From: Arun Iyengar <aiyengar1990@gmail.com>
 >=20
-> Stateless MPEG-2 decoders can decode MPEG-1, but the uAPI cannot say a
-> stream is MPEG-1, and decoding it as MPEG-2 is wrong: MPEG-1 has its own
-> inverse quantisation mismatch control, full pel motion vectors and
-> D-pictures.
->=20
-> Add V4L2_MPEG2_SEQ_FLAG_MPEG1, V4L2_MPEG2_PIC_FLAG_FULL_PEL_FORWARD and
-> _BACKWARD, and allow V4L2_MPEG2_PIC_CODING_TYPE_D for MPEG-1. Drivers
-> that cannot decode MPEG-1 or D-pictures reject them, also in
-> VIDIOC_TRY_EXT_CTRLS. Kernels without this change accept the flag and
-> decode the stream as MPEG-2.
+> The driver decodes everything in MPEG-2 mode. Reject
+> V4L2_MPEG2_SEQ_FLAG_MPEG1, the full pel flags and D-pictures, which it
+> would otherwise decode as MPEG-2. Compile tested only.
 
-We require open source users to demonstrate the usage of new APIs. You coul=
-d try
-and port either ffmpeg or gstreamer. Considering how hard these are to find=
-, its
-pretty historical kind of stream, you should document few known sources too=
-.
+That change flags the the API is not backward compatible. Please fix.
 
 Nicolas
 
 >=20
 > Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 > ---
->  .../media/v4l/ext-ctrls-codec-stateless.rst        | 34 ++++++++++++++++=
-++++--
->  drivers/media/v4l2-core/v4l2-ctrls-core.c          |  1 +
->  include/uapi/linux/v4l2-controls.h                 |  3 ++
->  3 files changed, 36 insertions(+), 2 deletions(-)
+>  drivers/media/platform/verisilicon/hantro_drv.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 >=20
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-statel=
-ess.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.r=
-st
-> index d7a3b8ef03a7..f51017b5d6f0 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> @@ -1317,6 +1317,22 @@ FWHT Flags
->        - 0x01
->        - Indication that all the frames for the sequence are progressive =
-instead
->  =09of interlaced.
-> +    * - ``V4L2_MPEG2_SEQ_FLAG_MPEG1``
-> +      - 0x02
-> +      - The sequence is an ISO/IEC 11172-2 (MPEG-1) sequence: the invers=
-e
-> +=09quantisation uses the MPEG-1 mismatch control, motion vectors may be
-> +=09full pel and pictures may be D-pictures. Drivers that cannot decode
-> +=09MPEG-1 reject this flag, also in ``VIDIOC_TRY_EXT_CTRLS``. MPEG-1 has
-> +=09no sequence or picture extensions: applications set the fields that
-> +=09come from them to chroma_format 1, V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE,
-> +=09frame pictures with V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT and
-> +=09V4L2_MPEG2_PIC_FLAG_PROGRESSIVE, intra_dc_precision 0, the flags
-> +=09V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE, V4L2_MPEG2_PIC_FLAG_INTRA_VLC,
-> +=09V4L2_MPEG2_PIC_FLAG_ALT_SCAN, V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV,
-> +=09V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST and
-> +=09V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST cleared, both components of
-> +=09``f_code[0]`` set to forward_f_code and of ``f_code[1]`` to
-> +=09backward_f_code.
-> =20
->  .. raw:: latex
-> =20
-> @@ -1366,8 +1382,12 @@ FWHT Flags
->      * - __u8
->        - ``picture_coding_type``
->        - Picture coding type for the frame covered by the current slice
-> -=09(V4L2_MPEG2_PIC_CODING_TYPE_I, V4L2_MPEG2_PIC_CODING_TYPE_P or
-> -=09V4L2_MPEG2_PIC_CODING_TYPE_B).
-> +=09(V4L2_MPEG2_PIC_CODING_TYPE_I, V4L2_MPEG2_PIC_CODING_TYPE_P,
-> +=09V4L2_MPEG2_PIC_CODING_TYPE_B, or V4L2_MPEG2_PIC_CODING_TYPE_D in MPEG=
--1
-> +=09sequences). Decoding D-pictures is optional: drivers that cannot
-> +=09decode them reject V4L2_MPEG2_PIC_CODING_TYPE_D, also in
-> +=09``VIDIOC_TRY_EXT_CTRLS``, which applications can use to find out
-> +=09whether D-pictures are supported.
->      * - __u8
->        - ``picture_structure``
->        - Picture structure (1: interlaced top field, 2: interlaced bottom=
- field,
-> @@ -1415,6 +1435,16 @@ FWHT Flags
->      * - ``V4L2_MPEG2_PIC_FLAG_PROGRESSIVE``
->        - 0x00000080
->        - Indicates whether the current frame is progressive.
-> +    * - ``V4L2_MPEG2_PIC_FLAG_FULL_PEL_FORWARD``
-> +      - 0x00000100
-> +      - full_pel_forward_vector of an MPEG-1 picture header: the forward
-> +=09motion vectors are in full pel units. Only valid with
-> +=09V4L2_MPEG2_SEQ_FLAG_MPEG1.
-> +    * - ``V4L2_MPEG2_PIC_FLAG_FULL_PEL_BACKWARD``
-> +      - 0x00000200
-> +      - full_pel_backward_vector of an MPEG-1 picture header: the backwa=
-rd
-> +=09motion vectors are in full pel units. Only valid with
-> +=09V4L2_MPEG2_SEQ_FLAG_MPEG1.
-> =20
->  .. raw:: latex
-> =20
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4=
-l2-core/v4l2-ctrls-core.c
-> index 6e751a043a21..a12359626121 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -1049,6 +1049,7 @@ static int std_validate_compound(const struct v4l2_=
-ctrl *ctrl, u32 idx,
->  =09=09case V4L2_MPEG2_PIC_CODING_TYPE_I:
->  =09=09case V4L2_MPEG2_PIC_CODING_TYPE_P:
->  =09=09case V4L2_MPEG2_PIC_CODING_TYPE_B:
-> +=09=09case V4L2_MPEG2_PIC_CODING_TYPE_D:
->  =09=09=09break;
->  =09=09default:
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
+dia/platform/verisilicon/hantro_drv.c
+> index 26e5d5547466..c910a69e8e3c 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -264,6 +264,16 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  =09=09if (sps->bit_depth_luma_minus8 !=3D 0 && sps->bit_depth_luma_minus=
+8 !=3D 2)
+>  =09=09=09/* Only 8-bit and 10-bit are supported */
 >  =09=09=09return -EINVAL;
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
--controls.h
-> index d17e41d51d2e..e7e6030ac00c 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -2007,6 +2007,7 @@ struct v4l2_ctrl_vp8_frame {
->  /* Stateless MPEG-2 controls */
+> +=09} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_MPEG2_SEQUENCE) {
+> +=09=09if (ctrl->p_new.p_mpeg2_sequence->flags & V4L2_MPEG2_SEQ_FLAG_MPEG=
+1)
+> +=09=09=09return -EINVAL;
+> +=09} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_MPEG2_PICTURE) {
+> +=09=09const struct v4l2_ctrl_mpeg2_picture *pic =3D ctrl->p_new.p_mpeg2_=
+picture;
+> +
+> +=09=09if (pic->picture_coding_type =3D=3D V4L2_MPEG2_PIC_CODING_TYPE_D |=
+|
+> +=09=09    pic->flags & (V4L2_MPEG2_PIC_FLAG_FULL_PEL_FORWARD |
+> +=09=09=09=09  V4L2_MPEG2_PIC_FLAG_FULL_PEL_BACKWARD))
+> +=09=09=09return -EINVAL;
+>  =09} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_VP9_FRAME) {
+>  =09=09const struct v4l2_ctrl_vp9_frame *dec_params =3D ctrl->p_new.p_vp9=
+_frame;
 > =20
->  #define V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE=090x01
-> +#define V4L2_MPEG2_SEQ_FLAG_MPEG1=090x02
-> =20
->  #define V4L2_CID_STATELESS_MPEG2_SEQUENCE (V4L2_CID_CODEC_STATELESS_BASE=
-+220)
->  /**
-> @@ -2055,6 +2056,8 @@ struct v4l2_ctrl_mpeg2_sequence {
->  #define V4L2_MPEG2_PIC_FLAG_ALT_SCAN=09=09=090x0020
->  #define V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST=09=090x0040
->  #define V4L2_MPEG2_PIC_FLAG_PROGRESSIVE=09=09=090x0080
-> +#define V4L2_MPEG2_PIC_FLAG_FULL_PEL_FORWARD=09=090x0100
-> +#define V4L2_MPEG2_PIC_FLAG_FULL_PEL_BACKWARD=09=090x0200
-> =20
->  #define V4L2_CID_STATELESS_MPEG2_PICTURE (V4L2_CID_CODEC_STATELESS_BASE+=
-221)
->  /**
+> @@ -435,11 +445,13 @@ static const struct hantro_ctrl controls[] =3D {
+>  =09=09.codec =3D HANTRO_MPEG2_DECODER,
+>  =09=09.cfg =3D {
+>  =09=09=09.id =3D V4L2_CID_STATELESS_MPEG2_SEQUENCE,
+> +=09=09=09.ops =3D &hantro_ctrl_ops,
+>  =09=09},
+>  =09}, {
+>  =09=09.codec =3D HANTRO_MPEG2_DECODER,
+>  =09=09.cfg =3D {
+>  =09=09=09.id =3D V4L2_CID_STATELESS_MPEG2_PICTURE,
+> +=09=09=09.ops =3D &hantro_ctrl_ops,
+>  =09=09},
+>  =09}, {
+>  =09=09.codec =3D HANTRO_MPEG2_DECODER,
 
---=-4L4mp99RXxCJlUHtrXto
+--=-fZd9Y1jimBb0WSf6xeuw
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCawS9aAAKCRDZQZRRKWBy
-9DjeAQD/AB413RIOudh7Noe1qnnb5Kzj1Cmq6mZZKtnd2um+CAD/fcf5tS7LToUl
-fYVwwCwQ4ktac4g5XWrf68wO+Afn0wE=
-=9OjG
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCawS9jwAKCRDZQZRRKWBy
+9FgnAQD8bTw31XYUe1vtqtfkbGoUUqyeBO03yvS9WjlSeEZEqAEAwb/xlN87u1WT
+eKzhSo5iACnSctSO6DI1zERR4hborwY=
+=+31i
 -----END PGP SIGNATURE-----
 
---=-4L4mp99RXxCJlUHtrXto--
+--=-fZd9Y1jimBb0WSf6xeuw--
