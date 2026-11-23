@@ -1,79 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795432894;
-	b=qPESNhNGOOGar3Fb+e21S4/OWApZO3x2IZYnmia0Tf3PVpZPHhF8L7tmc64SW2vueahH
-	 qURXCDDfAy76rc9vDIjyfYb5WPJmcoRWZq5kfAZOLf0uk6PVe/ye/8QsOH3j48AOPyMPJ
-	 JloV2ig5Y9Yozr13i/luOyhytHexCNC09IeJCZ0GRfhGTdk7/ABAY0g+TM+iAwlHE20HR
-	 xL/c+rbgvdP3R+2z7MTsouuzAKJ35Rbz30fPdjIJrEnIBVZhuSB39vh8Ri+/XbqLmJzEC
-	 +u93xqcysGbvPBH7lj4wiBbJpaFq4xHxg3DI666li/OAjTU/uSdUqMV+HOuKSZgV+aw==
+	t=1795444185;
+	b=iFeoPxEmeSfnw/P8VUW0S5LlSKyfA6P0ORFJ0vfhVPwmKz6ZKVplKCkV1YUPnxNRoNPZ
+	 6Tz5ykSPrHfAujHorw9x27KKt0bheADzRi9rxgaSJtDdwZURiggfFwy8dUx1fVDifFbXs
+	 WU5uWnnMabrUOlP9zghcv7GgKc1uR4GHPXISh8d+jBpUi21QGDyNrMKJRKIC2LONK+Lp+
+	 Uuo6tI8J+JMzHrYULO07B4N+erIdrOYgFtpauvM8+xFnfWGo+ii7tevZScSaRqBt4gOWa
+	 fAFD4mlZ7fI/tVmdEuOBeBCZOEzO0yhhx/Ji8sOSp9cee7YaxYY7c6NU/FTtuby9bPQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795432894;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=GbX6flQ02VkAIB6vD/jZQgC2nDjC28v9tILnTQJqHIs=;
-	b=vdT5Euqxq+XYPAVbczCGOK/h4SiBnt6yPhNeceZsbmIleQ31DtLVOog7bfJ03cIXhyg2
-	 kBw/t9mtYLHrWj9vETrUo0VdIJYn35mk1Ln6lS0cZGdmEB4N47798M8KaBILN9GvvLf+m
-	 t2p0Pp1ZvaWb1xhMsZxKjQr0KP513w0ZpD/jnr4A0qEr4L7yJ+dEw1pzFdx15KsZ7NwWr
-	 +bgtcS3Ppncd+3t0MeIPDEl0P3lBk0g2k8iiRCIXUohDoViGcK+SW8EHLL6gacqE2wrfc
-	 vQaaVpVBFkIyrU76wD3zFHCQzLksX/opsz6TokZ9JKQZ7BEbzJiZ5LCOHp95od9fePQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795444185;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=ROrUqZkbzP8LgqCX7NGiVjaQailsYGWxDA+4EOEFZZs=;
+	b=VlKUqRu13IdyGLzn2L6RRaeFyK0VT8PnnyTRT5jbr6y4DladxZhnLhF+nwIt+r77Fykn
+	 6NQRielENW5/Ff28G/++ACoJdB0PvV3ECBx1ZJrtR5+nYsA645/lrADpXKobp4BludnHA
+	 rbDeDOmwhe4O5maTv2m9PPjaSnift+w4z5IWCCeWgmG4ekqZYwIgT3BlaMa57JH75kIzr
+	 llhgxL/sKL+knPpJfdhBa3hgi/JbERY5NoMFe1T25OQB59jARaSYJc5eLCAuRiVPv1SHG
+	 MB8XrT403esNcYxf7tIoN24S5k/UAq4MSdkmFxF475Rw2PeszFEOCO01mw37ktdNkiw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Wq99awHH;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JmXyQoyd;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D40606A31E
-	for <linux-staging@lists.linux.dev>; Mon, 23 Nov 2026 11:21:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8D40606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C90606A31E;
+	Mon, 23 Nov 2026 14:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Wq99awHH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795432894; x=1826968894;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k2mj3EEzXAMHzvPUuw/LfMnrNEHeM3dh64V7wG35asc=;
-  b=Wq99awHHFDoOBrbujzjmUW5d3rF05lfbQpwzrQnps5GvT5p8t8X4g4fR
-   ZC2YJSxq/ZXtwVSKXUpcOH5zwFULivsd8v+8Rt9kD6tSHXxQbutjzcqhQ
-   eheGSRahcSGLuRkJb37lgJjgmm3AHmfXAyjRX97Kr67iNjm1TGJK7Nvlg
-   pZb29iObD4tcMIh/GovDb6rMQo8WRHhZZzlRvRQmmk/ffwS2ibb/j7iBy
-   Rna5ae+ZOi3mJa0JYHdPnwb2ejAx+/efbTP7ck70EtUXMlrpWRz34stV6
-   gtuAU9KB1GSlAiMPkKIXWuQTIXAXzYBuD05mQtXkkjSZlw7YUuspTepDn
-   w==;
-X-CSE-ConnectionGUID: uJyqW2QpSjmCpYB0YnHeYQ==
-X-CSE-MsgGUID: /q4AsUlgTSSR6d/mbgbUbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11974"; a="4073287"
-X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
-   d="scan'208";a="4073287"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 03:21:32 -0800
-X-CSE-ConnectionGUID: fT2OWFF3S56AIDaFfS8yiw==
-X-CSE-MsgGUID: pzLlHaqQTrGMBWsUeYuNiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,227,1787036400"; 
-   d="scan'208";a="11590559"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.204])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2026 03:21:29 -0800
-Date: Mon, 23 Nov 2026 13:21:27 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Avishek Chaulagain <chaulagainavishek14@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JmXyQoyd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 220D61F000C6;
+	Mon, 23 Nov 2026 14:29:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795444185;
+	bh=ROrUqZkbzP8LgqCX7NGiVjaQailsYGWxDA+4EOEFZZs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JmXyQoydVBoWpr4+5R4CZ4z+AoyWLrYpEEMxAQuw/pLunMtb/cKSldBwzfWKKHEnq
+	 v75SVo09OWHsaqhmRDY3uFZq/IfdMc6dsdiC+bdDTF00CYKcVgim6qaDzJadMLwaNh
+	 1lehl36nca+arCMfCsXN2lkml5UsOnihwHzd6jAOdL+3qqrKzixnYLKk5/gGeYxjOY
+	 +MBIJwCyTBa6WJHmwut+DUUgxOZfpvVe0KsGBUK9phgQr/WFmi79q2nPSW1jC3vqOF
+	 bKU08JQzM7PCqE1hWSCVNp37IiCSxHEWJDbtXA2yUY7UI29kNQvib/7SVFtL+R+Zvk
+	 jdKaa6IdT62hA==
+Date: Mon, 23 Nov 2026 08:29:43 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Svyatoslav Ryhel <clamor95@gmail.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: Remove unused ISP vmem load/store
- functions
-Message-ID: <awQht2Avu-PHs4l_@ashevche-desk.local>
-References: <20261122074552.545-1-chaulagainavishek14@gmail.com>
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Cong Nguyen <congnt264@gmail.com>,
+	Faisal Mukhtar <mukhtarfaisal03@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Hungyu Lin <dennylin0707@gmail.com>,
+	Hao-Qun Huang <alvinhuang0603@gmail.com>,
+	Yury Norov <ynorov@nvidia.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 09/10] ARM: tegra: Remove fallback compatible from
+ Tegra30 VI node
+Message-ID: <20261123142943.GA2320531-robh@kernel.org>
+References: <20261113161819.36847-1-clamor95@gmail.com>
+ <20261113161819.36847-10-clamor95@gmail.com>
+ <ceb7b479-080f-4210-a1f2-be3e273779e5@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -85,29 +81,24 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261122074552.545-1-chaulagainavishek14@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <ceb7b479-080f-4210-a1f2-be3e273779e5@kernel.org>
 
-On Sun, Nov 22, 2026 at 07:45:52AM +0000, Avishek Chaulagain wrote:
+On Sat, Nov 14, 2026 at 10:22:36AM +0100, Krzysztof Kozlowski wrote:
+> On 13/11/2026 17:18, Svyatoslav Ryhel wrote:
+> > Tegra30 now has its own specific compatible string for the VI. Remove the
+> > Tegra20 fallback, as it may interfere with the correct configuration of
+> > the device.
+> > 
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > 
-> isp_vmem_load(), isp_vmem_store(), isp_vmem_2d_load() and
-> isp_vmem_2d_store() are the only external functions provided by
-> vmem.c, and none of them has a caller anywhere in the tree. Every
-> other function in the file (load_vector()/store_vector() and the
-> hive_sim_wide pack/unpack helpers) exists solely to implement those
-> four, so the whole translation unit is dead.
 > 
-> Remove vmem.c along with its Makefile entry and the four prototypes
-> in vmem_local.h. The t_vmem_elem/t_svmem_elem typedefs and the
-> VMEM_ARRAY/SVMEM_ARRAY macros in that header are used elsewhere and
-> are kept.
+> DTS cannot be combined in this patchset and must be split. Don't mix
+> patches from independent subsystems when you send something explicitly
+> targeting only one subsystem (staging, USB).
+> See also: Documentation/devicetree/bindings/submitting-patches.rst
 
-Looks legit, if it compiles,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Except this is an ABI change and will introduce warnings if merged 
+separately. So this and the binding change should be applied together. 
+Haven't looked at the rest of the series...
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Rob
