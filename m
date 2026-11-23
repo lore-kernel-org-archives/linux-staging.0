@@ -1,99 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795447695;
-	b=tYLEl44OBFrlowwoAZmPHKuI3/kYZtgfX3Q8Y+wN+r/oqGlgekrgXPkUI5qJ0N66yrks
-	 cfZva0pMwIJNxPETT3dXU9FguXRWVYkVsWUdg5S2M78+D8IYTTdBHaprHBXhIov9BDaj+
-	 UFgZGDVrzcwdOeZpLqPpLUEac3N3Iw3ay2yKqEr33n5UxO+Pl55oF9kUnn70Wxekn/tjq
-	 8JLVlIA3rVRjGgt8EeDd7dBLkGHRBwMsHKSEq2UHam7rpjRzKabgmBvMJcaw0H9464srR
-	 vnDT34031E1YarMui7qeRA2kd6ivL+c2Nibqots2u2Fd8Pv2yS7fe7VTCxKbfR3AfbA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795447695;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.172
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795448209;
+	b=qXEN5eKa9r51x6azRYB1Vh9l6grKiAL5gmnjrnFUjDzuL/auYwfg0Fmh/Tc9ZMCzGko+
+	 /ixG2qMCgUWaerMMALQ4DVqGgZpVFdJ3AOS+5McC0SQgnkbEojp2xmp7NRQ0mm0QA8FLH
+	 a6hnnjmMl6bfUNyJc1eyzb6MvvINhsyoiXPcyMMBO88gXn+4Q8auClxVdh30hII/bf/Mr
+	 K2HMun+2YNDJG+AW8wNUXWC0XwBAdEmXQjvr0mmEQuVcFaZt0b1YNi2/4fhVNYa//shGt
+	 3BluwOrnxiCovKfODS8sTc6L+DJ7/QPfLEKoEpM8zT+I2pqHB5z+YJ3Vwd5L52hr/iA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795448209;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=xrtUeZeZyEMbBtLfg+8UTE0x30lPjCVdQd0dukXGLvA=;
-	b=4MVN3rQJJ6JIBqCGXc8aRQL1wFDbtXsiXxxCPha3X2ND6lOUvIpc3m0SQlZLQQciEK9V
-	 GNXT2rRmSleFjAmOo3+vztcpCvpdDl18SZXZdy3j4HW6WPwkS0p3mH7u+hRFI1Tc+mFt4
-	 PPXP1HSYDCH7OjrR9mSLp+0O8p2aJ5dSWIAg3FyZDyht+wdJ9Ovfrrnv9Ko17Cvc1BB1c
-	 YeZWstZ1o+TRP6wqtmoqTaalHcUBBa0dCCXXsEjuh2EI7YBJdVU1QiYOMCGDmVhpTFSb1
-	 MSrSK4Lo0iqwF0LZK6OwDo8Lne32TgzEJR27pQsy4+Tu2mHhVdpW+ikyNiffFJNKb0A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=7pmbTprJSDMNaET1p8KH97keYwTTHp2TnWKNbSbIQnY=;
+	b=Ou4ghXeKSRQCWp6qKogZ8rLnFzJ7dDjNqLKa2Tphmc/dE5nSiWU4UGSPBAW0bFNy3JTT
+	 jDinyg4OK8ZA8HJiXW29HOFvjEHqv2cOQrVptD1Tu1X0pr2kj8a1atkzM8h0fBWu0tHWF
+	 uK01/i4dbL0IxDr2GaK6BPEquRNiUtFrgGUgJ1Pz977XoG3Y9dSFwmp2l0NoPAXppFsp1
+	 N/RYXcjmgbhPrvrWU7gIdFNb9yJgVRBca3Zs0JgUxDpIXcS+WpJf6yFBQNx7Y1V6xmq5J
+	 38q1wxJM9fVlPD72vfc0hmqPE6ZsJs89pN0spEFm45L4eniRMBg3r4XZWpvbyiJSVCQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ESADGcJf;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PdeNHTQy;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.172
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8326606A331
-	for <linux-staging@lists.linux.dev>; Mon, 23 Nov 2026 15:28:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8326606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A379E606A334
+	for <linux-staging@lists.linux.dev>; Mon, 23 Nov 2026 15:36:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A379E606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ESADGcJf
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so27189745e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 23 Nov 2026 07:28:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PdeNHTQy
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-38699cf08dfso3315173eec.1
+        for <linux-staging@lists.linux.dev>; Mon, 23 Nov 2026 07:36:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795448208; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kVdvCr141m44dLXS6T2TtvCHtLioKPD2eBTzdJtN94Agwib3XnTsJFTV7D+uK6Og8l
+         YNr671lJtN+WZrwMPi8HDrvyRBCD5c4bV4MrVVEqbIbRhFX7lQZRDHEAvQKDQkIKxV4i
+         7fLiChxNVqNgycaMCNThdMg89Bx2WvK+ypqqQ/dyU71c9SqEa0UdbsUgufdk+DygCFv8
+         p+RyEZFcuH99jxVWKxVbGYDjLO97nhSFqW9r/qvwDOjjtXf/jDXi2wCEWjJ5t1fr/DyC
+         WUPEbbzoyIQXGibBKew44hHTo4n3F38/0KYDVhjSRx364jkHc1vm+k3dm8BCWe5ec5CX
+         x5bQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=7pmbTprJSDMNaET1p8KH97keYwTTHp2TnWKNbSbIQnY=;
+        fh=8vOdJxbTebmrYmMszME1JfTbzoaIprIpf5USYEz5xsQ=;
+        b=gvkE/eH3BOizWNS/vZz4u+Snp5rOG3hvNQioMfEv9+EkusyCeIlksjVOgVTmblGeSv
+         hGPu2aezEfnECpSEVudiKsGIcxhc1Rf3OZGz62Lg9x/uoXlpp5ssp7g1RxL5Wr7yBtkF
+         OFwJzWycTTU5Xx7T/ITxOb6spEnH3BK6jEApXUNEn3V96O/UMnxzch+T6Oel63ls+9X4
+         SMDtSqsp8x3HoMMa5r8LvvVkk2pRjiH1K3rjUofxw2x+ps4vaptuKd5d8fUkkqCbi7Vv
+         1LBbMJfqB6I2cyPrJegiDS5Af5IvtYBoRIvAg7bEzlqB2B2HSgrKpcG/b1P56Sx3jIpF
+         CDYQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795447693; x=1796052493; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1795448208; x=1796053008; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=xrtUeZeZyEMbBtLfg+8UTE0x30lPjCVdQd0dukXGLvA=;
-        b=ESADGcJf8zvw/8vT8FIY5Ya2dhmlCf+tomz5Aox+4JFkzCcs+iLfiS8CFXCYwcnApJ
-         a77z/VoDr7y3gh9n9n/U15+0F74JkRtmIe0ATLafZCK1bKSLKjmh0t2Netal1f/rgnTH
-         TVNE1g8xUipEQLig1fGgrGOBJK+kK/lj6ze6mb+N94CMTLJMj5rlMo8Q4MJNsk/b/YKT
-         zkf4KEM/jQUWWvR3Krx72UgkxCVCpL005CRdsaycrnzu+nXdjzhlNFrtyxf0W6wbMhiO
-         jRCtEkB/mkaaUpAMvEE35Q6FzzAZHkpsI/793hL6xE1x6tzt/Bswl6xfq0bFDRH4No+V
-         BUBw==
+        bh=7pmbTprJSDMNaET1p8KH97keYwTTHp2TnWKNbSbIQnY=;
+        b=PdeNHTQynkhll1GycioR3QpImr65HfeUWnYwY26O/B5qPAqX8yXYr3QYouk09ETPfi
+         6K1Mr+u53qQma59mOPAsfnZ3mDRqF5h9xvvREucs+tMuLw+bSwlX4m52T+djxUuHRzaV
+         owVbFqmNHQvxgM5J7uK6L+DBp+nO1stZZLKhtMM6Yh9XHTTzKyNhS3Ur0ipybGY7vOTF
+         GHyeK6FAe/uCZWDSMzNtos1tHuTUn2bltOes5Mci7u4K86+2eR3Vxu5MnqF9n6g5LdXh
+         jrGq/Bp+7HVa0NbzFNTV435W+Go85jiE470dEX8FEILkQVbmkLlnDkfXUcTCVVkYX20x
+         7HWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795447693; x=1796052493;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1795448208; x=1796053008;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xrtUeZeZyEMbBtLfg+8UTE0x30lPjCVdQd0dukXGLvA=;
-        b=CxF1oVmEkGnXX77/ezwO5ztv592P2q12kePTwkn6dTSrG24mJ6StlvY9Tmso9Mb1nr
-         Xa/5BZHoZNj7U0OpLNEGccXgKZIAfFgj6nGv40gLdjpX/YG+5PsOYkfNBpGJ3IhiRTSt
-         ETX5bu7/hOve8mYUYzjFz0jxCiXLetuNKd6dk+B0WZFCndDpNDTHu0/xelZ/3cUDCYfR
-         5BKZAfXw6d7xAcOx828cCakQRAI75O+ksi53cKhQ0AVbnY3ZS3M6bPpj5DPfU5KWUil6
-         HuQ1sn3hK15FR3inwvEOwWVx+tdwdBKBikTrK7EhZo/iTZpV7pKFRZ5UjLIJ+AcPtMBM
-         gVGw==
-X-Forwarded-Encrypted: i=1; AL+hErG90Wt81wG9KwNosyhA1j/hDV/aVXlzjgMtzqfFdY+vdJ1XaJky6SNef9YYz1zsCMyJzylxIlkIZwohUf01@lists.linux.dev
-X-Gm-Message-State: APuU4Z8bOZJX/KRObG4Qb2vX97dtQYn/XUNfdoeHgIIsZLGBrsX9JVqG
-	lQ9jzv6CQdBLDcSK62brFJzYV7HzrEnRmj//uGbujwsFhzT7gG9gpThVMBApraSPnODRDd2l
-X-Gm-Gg: AZFdTZcJidQHWn2EAcnHov2ojdmkY3dkRGMkCzwcgvpIN7u3LZ0usmTsLyM9lWqq3n9
-	88W5S46ja28SnHVzjeXgAWqrG2UJq67uV5CJPgsaj5BPuNHuxbgIbiZSQMXnAQkNA+lt1x6TEYo
-	bBk4cwNtw0LZSVwYDPJshkM+YHo2UTaWK+UlRIR1M/1mpU2/U6mMhsmMF4g4cZ2TduP9MxrVN6L
-	olqzRaCAS3GEP/8ylvvoUdlUWXJpMiPzI1id1D+kWAwURe6H7IjNkEkyIBN8W2d7sm3SAuOIPi7
-	NE0K9x93H3FhAxqou8Tiq2S5bkd/R9YJzCLkqypSamwU+O0qzSLYKY3dDpjJ453xucTthJ+InJe
-	qybj6ObH9ZWbJOTXDoRZ97pTStBHYp4tIgOdiLeXawn44GozaPtFdwRkRb/orz6RPpCJNhPlDBX
-	WU5chOv7hT6ibz52zx98yurbMaLY7E6hu+ABQxahuEgS86fL7uol2O5EZ+uym0JGae2uyuwkJEE
-	uHKUDaD9dmFKSa75LVbYT6LLdjz45F9bH8uuuj3qanjqCFFXWEpSrPckQNpbRC/tVmFnOCZuvUf
-	Z7OdpulVKgv+ygPNWIgGXIPEKPYU4FGtsrW8uOiHuqqhIngZBgwUjos2/tJGzXeFgB8Rtk3qO58
-	i9tNvF1NVZNNJ8fk5JJ/XOLrgJOFYSUYSdcwR2Rlq/UN8VGUUj9wYCi+2mJ7Vj34g47MKjHf+aF
-	dgffUJmLBYmcD0
-X-Received: by 2002:a05:600c:828e:b0:4a7:7f3f:6f8e with SMTP id 5b1f17b1804b1-4bb8878702emr262044665e9.0.1795447693025;
-        Mon, 23 Nov 2026 07:28:13 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67fec7sm21455300f8f.26.2026.11.23.07.28.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 07:28:12 -0800 (PST)
-Date: Mon, 23 Nov 2026 18:28:08 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Chhabilal Dangal <yogeshdangal66@gmail.com>
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: greybus: audio_manager_module: add
- terminating newlines to sysfs output
-Message-ID: <awRbiNF_FpuPwhZJ@stanley.mountain>
-References: <20261123144042.60090-1-yogeshdangal66@gmail.com>
+        bh=7pmbTprJSDMNaET1p8KH97keYwTTHp2TnWKNbSbIQnY=;
+        b=uYXde9oBpSonv55WbJ6v2Q4DFFXOYSctU0eFkt79nvcp9UAKVev6vga+u6VV0oRbEc
+         ci2o+y8b5xJ/NlklHz7WZ+dUFMGnPXjxQ/sig4GrEWNs8vka71Y9TxgC9ECN3lnRNeMU
+         6w4wZtFmR5pUJKifRdtQ1ZyOCwuAzTFeYh7X+8DO9fI0n2Vjn7T0W8ABOzk7PHDxu1gc
+         cLN/bT+ExIgGyB6Q6kqxZfx/onxFidZHQ73uvqBcGJfErWxfvbeCH8p5oDQrwBU/ZZ4s
+         b4Vf6ABjqLT265b5KgYaXCQ1SBdmwAimK8m/+i+9cIHdIhfwT69Skd9ZkxpNqKXsbM21
+         wX/g==
+X-Forwarded-Encrypted: i=1; AL+hErEy7pCTMFLv/YpFVwVH2pDnys3Mb7ueyK/AXJddZ0zdea9rXtrNTn4POW+5mrn05d10/Xncm9o4yVqiKlP0@lists.linux.dev
+X-Gm-Message-State: APuU4Z/lrpHqkzuCoI+KNzR7uIG83p8lmDLWUOyH0j3Q4nZgXW6wjHIN
+	f3/UsU+b1aS9ePC1eBU1fWc8DZyEsVhx+/l/mOpPCr+tIYY0iQUJZESRTtQPGfEdvHjL5hc9CJP
+	Rsij4XfacW7nsdDxE+HwIseCS8EpguC8=
+X-Gm-Gg: AZFdTZcUF7uxF36SSCyrHEXKJVxHsQ1jQKezzLhRAmtFLRZ9pW4DVo7aZEjhIbYeKca
+	BJiOxZYsL4Ldx7FqYeldU6VekjxkZ92cO7dRgLHrw9RcPlZLq0Qv1IivQyUB2XY/ZWLsvP8rCB9
+	3M77tX4++58LbScj/QscOkXebg5MtnyLp7+f7rEMxOGlQbpxlbiLssdj289yfFMfc3dvpmyo0h3
+	oMS7uoGm4INQTPvvH+U60FebMQjrXLsmGWBHevmsYW9nEiqJLnG1ePPR7Ji+nFa85BBQkMqvoA7
+	pDWy6l4d6xVDNvRI9T1j/DX19hGCIjYbIt1c5POyDhXFzJEY4bPb8vn3lS57BE8QwrykcgFe7/B
+	0vRX20p7xkFa9ZUlBmCHsdbbv1wSJ4v1ugY9oBSiGNufgul5i/iLvruTiPFW6AX8kWSbYwZjOzU
+	tsGHw1fptkZ7uZAi48JsWxnD3wVlZ+JQrB9eRdb3JTKJj5E6quv50=
+X-Received: by 2002:a05:7301:259a:b0:36e:800a:71fe with SMTP id
+ 5a478bee46e88-3856c4b844cmr11761769eec.1.1795448207689; Mon, 23 Nov 2026
+ 07:36:47 -0800 (PST)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -103,29 +105,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261123144042.60090-1-yogeshdangal66@gmail.com>
+References: <20261113161819.36847-1-clamor95@gmail.com> <20261113161819.36847-3-clamor95@gmail.com>
+ <20261123145520.GA2412988-robh@kernel.org>
+In-Reply-To: <20261123145520.GA2412988-robh@kernel.org>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Mon, 23 Nov 2026 17:36:36 +0200
+X-Gm-Features: Aa3M54rUDkGOVQLPkkzUTzUHY6vBcwEurritNE5bPXzc3P_S34AV-IYkX1z3J3o
+Message-ID: <CAPVz0n1sOsC2N+MWEZXN3DYGBgLicS=+e-q53KjBYcJtLiWXRg@mail.gmail.com>
+Subject: Re: [PATCH v1 02/10] dt-bindings: display: tegra: Remove Tegra30 fallback
+To: Rob Herring <robh@kernel.org>
+Cc: Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Cong Nguyen <congnt264@gmail.com>, 
+	Faisal Mukhtar <mukhtarfaisal03@gmail.com>, Dan Carpenter <error27@gmail.com>, 
+	Hungyu Lin <dennylin0707@gmail.com>, Hao-Qun Huang <alvinhuang0603@gmail.com>, 
+	Yury Norov <ynorov@nvidia.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 23, 2026 at 08:25:42PM +0545, Chhabilal Dangal wrote:
-> The sysfs show callbacks for name, vid, pid, intf_id, ip_devices and
-> op_devices print their value without a trailing newline, so a read
-> from userspace runs into the next line.  Other sysfs attributes end
-> with a newline.
-> 
-> Line-oriented readers treat an unterminated final line as incomplete:
-> read(1) returns failure while still filling the variable, and wc -l
-> reports zero lines for the file.
-> 
-> These attributes have no Documentation/ABI entry and no in-tree
-> readers.  Adding the newline does change the user-visible output, so
-> it is an ABI change for any out-of-tree consumer that reads the raw
-> value.  Please drop the patch if that is not acceptable.
+=D0=BF=D0=BD, 23 =D0=BB=D0=B8=D1=81=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 16:5=
+5 Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Fri, Nov 13, 2026 at 06:18:11PM +0200, Svyatoslav Ryhel wrote:
+> > After further investigation, I have found that Tegra30 requires a sligh=
+tly
+> > different programming model than Tegra20, the maximum VI clock differs =
+by
+> > nearly a factor of two. Additionally, Tegra30 does not require the
+> > APB_MISC workaround.
+>
+> If the clock rate is a function of the sensor or input resolution, then
+> wouldn't the h/w design prevent that scenario?
+>
 
-Yeah, sorry I was unclear.  All the users are out-of-tree.  It's
-user space after all.  So we can't merge this unless you can
-ensure that the out of tree users don't break.
+VI clock rate depends on hardware. If wrong clock is set HW may still
+work, but be unstable, which will result in unpredictable behavior.
 
-regards,
-dan carpenter
+> Does having the APB_MISC workaround make things not work?
 
+It does work, but my main intention was fixing clocks since Tegra114
+does not work properly with 450MHz. That was why I even start digging
+into this. APB_MISC workaround remove for tegra30+ is more a side
+benefit.
+
+>
+> It sounds like things worked or could have worked with only knowledge
+> about nvidia,tegra20-vi, so I'm not sure this is really justified as it
+> is an ABI change.
+>
+> >
+> > Therefore, remove the fallback compatible and add a dedicated compatibl=
+e
+> > for Tegra30 VI.
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  .../devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml | 5 +----
+> >  1 file changed, 1 insertion(+), 4 deletions(-)
