@@ -1,79 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795544908;
-	b=sVhe63FGynlxIgD2p+jGqCoIkePTlr6lDQEyj1ST0CH54K/ErA1t9ZCuMqO5eGkmalKU
-	 FCi4BGfuMCYJrEDynH1ry5c6R+Or42kDHQMaHQlBQoV1hwlm7NfBx1DKa+swlk9YrMtk8
-	 fnJ4om7PtlaIKKbtUAYrKkOwqAbVCiXbnGXgEeInGxEtcYyQs6hkjEl+/1miQW/69zOWL
-	 tLkzIbKXwPhKWFtqJ7AtBK25BFN+I/pvxj0LD/jLOquTO8PA2KoQZum4vdMSfEt2uj7jR
-	 PU7mdTWNyey8W3c13kCYrwDQTRUdqZhDpRXaQ2bVhnbKv5cOzghFWag9cyJNBOcVE1A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795544908;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=s0RWsaaYDhicCKUJ5pRxB0kYGFvyOIl7Ez0ptkVZUzI=;
-	b=rniueKnb8DDpekEQ46HEk9Q2PXYMTzoVHIykMJNWM2zvUABTRz7eq0rr4cFXLPLD76fz
-	 UJD9gtuPEeoOhvg1cIZlddz0cht6899YbLzOT+2Md0NmWRrjQSwAPcvYAO2BVyq84b7Qa
-	 5CHkGJEKqhGkNyjT648yODQqV2h7z+Ub01abwYpZw3twY30dyZKsfRE8diZqlN1o0jzvA
-	 qY0ffGXWFItvTrc3iYC9R/AaG1ad5qkNdU2gT6n1Sc0UQA+7ograApNOpgovbMZ4G1VSJ
-	 Foog2G2bTbkYC9DggLwPLRd6ohK1UMA5rT1/5uNGyUdiaWVoNsavqqsk6Ls1UGOUHwg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gLPuW0pm;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC73606A31E;
-	Tue, 24 Nov 2026 18:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gLPuW0pm
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795544908;
-	b=i0xsdvhCAvtVWphBE+E90uJXnk7kxrZpC4uzoQaaUQGIQQ0uXKUbYskBSxKIzzBwN/Tp
-	 mNl2jZWkB/3kmY4SYQoVUvixKGRhbdH7AE2OAnGhkTR3tCVvQkWQGoWkEWnPNs0A0UwIk
-	 HuxveSeD/HKnrIc1Dhycv4qHC5ZklucYQnVYROVbFNQzw1WvMNPSkast0z7ixrhNmYpy0
-	 VhqhLBm3r1duZDrbvFa7ok9KZVU8sDIpVaTU9q42vgaN1EV3QJJtPMFsmK0KKcuT5qpcr
-	 TrBkauARIjWNZpdbZVtCEB4uNTpPmVqRt2bX4xkRNcqUorRCtamt/TmJ7u4lQf88F5Q==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795544908;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=s0RWsaaYDhicCKUJ5pRxB0kYGFvyOIl7Ez0ptkVZUzI=;
-	b=O25xzHkSjV6RBSlelnMZS9zPdktDGbd8S8vKYCCgt+d53HiWb5dJr3sGyGqVM7HUbnak
-	 HkE9cOdFKeZ5ugUa3c9nG4Y9j+cY3N8qeXt6dAzRNL37rlzjvkJrvhT17T7ajqLuv/DoH
-	 ceXFEq+2fJyol3BBZ1H4f7a/R50hQjAs1Vbc2FoPGlB3Ef+4V2GGAIHakL5sduw+gplB3
-	 L4X1TxNdsS9Y5L+qniXOhVQ8I5j3V8DZr6Opd7D13OYWpde972ptF4fOmlFIYg8y8vX5i
-	 h+htl6BLljCMloLiBLXPGvKfcb37AJLjCiozfq526oVQ058GEg6ncbsZ3GKPRJ0FNSw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.46
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795557118;
+	b=CDJwxdkkV30kbDOGwjmbjzZjUEfxodUTJ/t2Db+/nbt9aCVIUHwaQALh4v/ENaRSgexW
+	 k37vcpsX19khK49GjjaMdmQj72hUKMTEBwozQDOyX1sA46vMdw4ekN3pYGVbXQLyR2P5u
+	 TJamI2M+XzKkc7fwO7BjP/rIdlGg+JjBYdKZdhHsBYsH1qEXP174rzOAWf5P+k4asZlnJ
+	 EzcYysnk+LPHTdMa2zBSpP352nki4zD9mMPMzJmBr2bxDOQebSQ7KLvXSwBLwadSo0FuZ
+	 ARcydOR+scqxqMPJfHbiUt9dd5lsoycnRHcYeTiCmONCa5vhlT/tBVjW/1njG3aqKNg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795557118;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=m0dxOe8vy7ZKObR4eQwVjJK4jXbzDOG/YuLGrV68Qbw=;
+	b=lJ/c0HhcirX8TsZnALXvoCDVUpTtBUjs6RSV2J/0z9ZYTqm3SECIKD92K8+Cy7nBR2zz
+	 v1YeuHLXPpbGRRD8ljIq5mnby0MjKaUBJpUBrDESlXVlbkuzG48HHn1wQKGjemLuFofYb
+	 zppUHNr9Z84IE4Rzoc9L9J0qQP88gNbUznXS09BN3dWRAUKgSQ8kLsRe9DbHWQ91sfG1p
+	 0EM3ht9ATWTe7KhpDcRFwLqjOIkHyj+lOe+UGyu8wO3zx8FS5JB4Pf70RZ0KBKwWDrO+F
+	 LfFbndIlXFish5eSsqWJN/adLkOTFbrXVSvwfujgMa+GQdti/UJGH9bKgg+Qis7lKag==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=trailofbits.com;
+	spf=pass smtp.mailfrom=trailofbits.com;
+	dkim=pass header.d=trailofbits.com header.i=@trailofbits.com header.a=rsa-sha256 header.s=google header.b=IRSbVmLs;
+	arc=none smtp.remote-ip=74.125.82.46
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A5F111F000C0;
-	Tue, 24 Nov 2026 18:28:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795544908;
-	bh=s0RWsaaYDhicCKUJ5pRxB0kYGFvyOIl7Ez0ptkVZUzI=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=gLPuW0pm4dyNsB+rRUbe3OsMsx6aVcmGFv/CEokq4Hpt40nc2XD2itxP7kj1p7OCv
-	 Ox9hVCgPfJfGpvRqXIAutFtzx0B0ZcoQ9LBvdI1whD8AmLoQUbLZUD5IkeByNgwTzo
-	 V5adgHala97IneJp5TsJIpGzR/1DIKrYiz4M1okGG4vKJGOj57CJCCkRO4gu6hllD+
-	 b58vOXSewdmY2I1MTHROyBEF9z4JThRzu+h1I8C5ZYGXzF4V4Zvvuqv45gku/4Mz91
-	 y6p25N9k8JAx8zOZtJEJ0lfcogn7G+TbYFk499njLwI2bILqnygU4TovwBnz1KlLv4
-	 iGkch/mqb7JDw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 07D274CB3C;
-	Tue, 24 Nov 2026 18:28:25 +0000 (UTC)
-From: Maximo Manriquez Lizarraga via B4 Relay <devnull+DelaySystem.tubot.lat@kernel.org>
-Date: Tue, 24 Nov 2026 10:28:24 -0800
-Subject: [PATCH v5] staging: iio: adc: ad7816: use dev_err_probe() for GPIO
- lookups
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B032C606A33E
+	for <linux-staging@lists.linux.dev>; Tue, 24 Nov 2026 21:51:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B032C606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=trailofbits.com header.i=@trailofbits.com header.a=rsa-sha256 header.s=google header.b=IRSbVmLs
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-14394530ec6so7247362c88.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Nov 2026 13:51:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=trailofbits.com; s=google; t=1795557117; x=1796161917; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=m0dxOe8vy7ZKObR4eQwVjJK4jXbzDOG/YuLGrV68Qbw=;
+        b=IRSbVmLsz2Yhc9y3BfYM9o76FJVKMSRrk0ilAw5ZD7E2U5sBc4S+soth1Wsc3Jt+e7
+         8pb/C+zmbmgUGeHpNDJzqmtI0ojhe5+mGRuB5njg+D3sUcEil2hvLApMrjf/A4a84T0A
+         0Ubmzppp9o4rKAKaJLW+73CRkVWN6XjUQaNVqP6xZhbU5yFRCg7YkgQnyaPE3HVZJu2o
+         vrFm+rRHpn6vzI5cX4BV03bT/Yyz7DCCVEM87Qcf42oJYYIcEqocALHUUvFrJiELQWzQ
+         Puw7G1mHAI3Csgkyjl56AZyKylmszb+jdrHuCEvdSTYrN6qxk7kCi8yyX6PH0TCeVY0C
+         fvZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795557117; x=1796161917;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=m0dxOe8vy7ZKObR4eQwVjJK4jXbzDOG/YuLGrV68Qbw=;
+        b=Wx0voU8hwuHw+SfwZbDb4coSu+CiHAXLnffhSY4SNwAgUmI3T/fddrFlrFPAGlS2Jn
+         mvv8Uv+8Ebd/gyyaqmYnL2C/Kj/jRcBH5lzWHNnOICJ6AQCd+oepKUFJHpcDV1L37Qxb
+         7UacIphLQtP4wGC+95D4vYD+n9YN4+bXfMHR6jwtoYG1bbX22PvrSVu3ED4KoeakI+Mh
+         HgZn4WKYuYl4xvrVpgppaU/HIyWTBERo/tdcINhg98f/Ky7NZ6atuh2U62BFc6p8B0fF
+         8Ub2ceARzqx8I380ExMiFoPuiKsikcRokX0azOSFmkL0NnYUu3ACXf7zWHCJ9NPt+HNc
+         +NmQ==
+X-Forwarded-Encrypted: i=1; AL+hErGV0T7u8BPzzRlCVGrIWYAzPE94x+KQ4G//YBJbhpGJRgU416gTc2ahc2Cdhhgyz/ORjHzKPAIqxI4z//k+@lists.linux.dev
+X-Gm-Message-State: APuU4Z9rmeM93OnL+zKBEZXxWplkWJCXKKIH9op0Hl0ZySyykAgAcuv5
+	40LkDyztUkFfYtKlpUoRO/hy0t3nzrKMpj3dUPH1Jb7Wc/Go4bOAFPoXwC0ipQbNJwI=
+X-Gm-Gg: AZFdTZfBndXG2DZq0Qx4NmaeFvDTOa293kHV2ZM5Kh69H1FSGNdjmo7kTjSwWq11UMh
+	xFnZSORw6RDe5Vysq74QxdiTCqPsixnMYBxormEnLCOYNsu9mgjZwxFNNZh8gy5Xs3HJnniQviD
+	OdH3QDSGvsqD0iXuBnzDSW8Sp34E8TWgJzG8He9gX6pjqClZxmhC+1JC3Y42oWYSfhEHqxPTk86
+	+rMArP/gZsIPVoHP4IT59LLlXdIrwcsOntMZS+bmOT/6oTRXmHZN4virM4dtfZj1uacelbx7wMD
+	L8+tiar995s7nKo6webJrrS+ywZxUNA5/idlF4hcTgu1GsZ82z2nR2wA50CMBli89akSNn+mBa0
+	CPeKAkTZA+yLSr09mqK/FO3eLv//XsG43pT9VuSIXZHeIqDbcWvEIz5Zgcc9iu16RFxAry1SxnL
+	FRjiX8AYTGzREXfzJCaTI6isXIztFKLYSGOEo48ClJLlih8J5PBxP+/H9xkH9n83h7MNcxyqQuk
+	li/7X4Bs51Kwk1a/4b66PfltO5TCYlbywaw0GWnB58q6Qe9IyR5gVVufJwGeZRkQxcHUKq0+CtK
+	hn5xjPdHTB4ocmdvjB9xCBMK8SRZbf7qA60KoVS4B4Win+sNZy5KP36KKmxGH9YC8ILO1C3RQSi
+	F/akeKS5oWjIOiCG0tmBDyRFsrryQ5VYw3zf2LCG5tXLzJUk=
+X-Received: by 2002:a05:7023:b18:b0:168:3243:c937 with SMTP id a92af1059eb24-1b5568bcb9amr19336582c88.16.1795557116769;
+        Tue, 24 Nov 2026 13:51:56 -0800 (PST)
+Received: from localhost.localdomain ([2603:8003:6d40:6669:75a7:83bd:63db:baa9])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm41362637c88.6.2026.11.24.13.51.55
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 24 Nov 2026 13:51:56 -0800 (PST)
+From: Artem Dinaburg <artem@trailofbits.com>
+To: stable@vger.kernel.org
+Cc: damien.riegel@silabs.com,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	johan@kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [6.18.y] Please pick greybus raw write-after-disconnect fix
+Date: Tue, 24 Nov 2026 16:51:37 -0500
+Message-ID: <20261124215137.40304-1-artem@trailofbits.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -83,126 +99,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261124-batch1-s3-warn-v5-1-badf90d5defe@tubot.lat>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XOQW7DIBAF0KtErEuVGUjAWeUeVRcwjGOiyo6Au
- K0i372QbqxaXX7pvz/zEJlT5CxOu4dIPMccp7GGw8tO0ODGC8sYaha4xyPA3kjvCg0gs5KfLo0
- SbUedJeMBrKjolriPX8/Bt/ffnO/+ylTaSmsMMZcpfT8vztB6/47PIEHqnpRVGsgpey53P5XXD
- 1dEG59xxWHLsXIwveaDBkDl/3K15nbDVeX9ETEgYGDecL3iqDZct+cNBRtM0MTdmi/L8gM2jOW
- QewEAAA==
-X-Change-ID: 20261107-batch1-s3-warn-289c98c7b118
-To: Michael.Hennerich@analog.com, gregkh@linuxfoundation.org, 
- andy@kernel.org, nuno.sa@analog.com, jic23@kernel.org, 
- dlechner@baylibre.com
-Cc: linux@analog.com, linux-staging@lists.linux.dev, 
- linux-iio@vger.kernel.org, crofts@kernel.org, linux-kernel@vger.kernel.org, 
- krzk@kernel.org, Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3468;
- i=DelaySystem@tubot.lat; h=from:subject:message-id;
- bh=pIPxq0yfo0Ggng/63NlKt3XQGOq6qAvMytmuG849dko=;
- b=owGbwMvMwCH2SNl4+SzWXm/G02pJDNms191l9PJLrwXc8Xj1oVd/Ve3O84efJkWURKRarGevf
- NX5/ObRjlIWBjEOBlkxRRYxGZ739fd14qyt5pyAmcPKBDKEgYtTACbSNZ+Rof9D6bMtElH3Wex5
- OZb1lxozzplrnqK1S2NRZOQeifXTzzMyHKh4Zn8gwSg04XMc74ljPvYGDTNt1xuxPi1IflpmPfE
- bCwA=
-X-Developer-Key: i=DelaySystem@tubot.lat; a=openpgp;
- fpr=161C0CEF7FDF2C5E3B3A9CC8E22333A79A058D4B
-X-Endpoint-Received: by B4 Relay for DelaySystem@tubot.lat/default with
- auth_id=1447
-X-Original-From: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
-Reply-To: DelaySystem@tubot.lat
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
+Hi,
 
-GPIO lookups can return -EPROBE_DEFER.  Convert the rdwr, convert,
-and busy GPIO lookup failures in ad7816_probe() to dev_err_probe(),
-which suppresses the error message on deferral and records the deferral
-reason.
+Please pick commit 84265cbd96b97058ef67e3f8be3933667a000835 ("greybus: raw:
+fix use-after-free if write is called after disconnect") for 6.18.y. It
+fixes CVE-2026-53024.
 
-No functional change other than defer handling.
+An open raw character device can outlive its Greybus connection. In 6.18.y,
+raw_write() can still pass the destroyed connection to gb_operation_sync()
+after disconnect. The fix serializes writes with disconnect and returns
+-ENODEV for writes issued after disconnect.
 
-Signed-off-by: Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
----
-Changes in v5:
-- Move struct device *dev to the top of probe to keep the declaration order (Andy Shevchenko).
-- Leave the devm_gpiod_get() calls unchanged; only the error lines become dev_err_probe().
-- Link to v4: https://patch.msgid.link/20261123-batch1-s3-warn-v4-1-47cd8d7d4ce9@tubot.lat
+The fix is in 6.1.191, 6.6.160, 6.12.114 and 7.0.10, and in mainline since
+7.1. 6.18.y received only its companion, upstream commit 983cc2c7efbc
+("greybus: raw: fix use-after-free on cdev close"), in 6.18.57; this fix
+needs that commit for context and did not apply to 6.18.56. It applies
+unchanged since 6.18.57, including on 6.18.65.
 
-Changes in v4:
-- Add struct device *dev at the top of probe and use it in the touched lines (Andy Shevchenko).
-- Link to v3: https://patch.msgid.link/20261118-batch1-s3-warn-v3-1-f622d212deeb@tubot.lat
+Compiled drivers/staging/greybus/raw.o on 6.18.64 from a cumulative x86_64
+tree using allmodconfig. No kernel boot or runtime test was performed.
 
-Changes in v3:
-- Convert the missed busy-GPIO failure path to dev_err_probe() as well (Joshua Crofts).
-- Link to v2: https://patch.msgid.link/20261117-batch1-s3-warn-v2-1-17f4e541123b@tubot.lat
+An LLM was used to check applicability and stable-queue history and to
+draft this request; I reviewed the result.
 
-Changes in v2:
-- Resend under my real name (From/Signed-off-by: Maximo Manriquez Lizarraga).
-- Apologies for the improper sign-off on v1; no code change.
-- Link to v1: https://patch.msgid.link/20261107-batch1-s3-warn-v1-1-4fc38341ca38@tubot.lat
----
- drivers/staging/iio/adc/ad7816.c | 28 ++++++++++------------------
- 1 file changed, 10 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index 2a15d7598abb..7d9a5f324466 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -362,6 +362,7 @@ static const struct iio_info ad7816_info = {
- 
- static int ad7816_probe(struct spi_device *spi_dev)
- {
-+	struct device *dev = &spi_dev->dev;
- 	struct ad7816_chip_info *chip;
- 	struct iio_dev *indio_dev;
- 	int i, ret;
-@@ -381,29 +382,20 @@ static int ad7816_probe(struct spi_device *spi_dev)
- 
- 	chip->id = spi_get_device_id(spi_dev)->driver_data;
- 	chip->rdwr_pin = devm_gpiod_get(&spi_dev->dev, "rdwr", GPIOD_OUT_HIGH);
--	if (IS_ERR(chip->rdwr_pin)) {
--		ret = PTR_ERR(chip->rdwr_pin);
--		dev_err(&spi_dev->dev, "Failed to request rdwr GPIO: %d\n",
--			ret);
--		return ret;
--	}
-+	if (IS_ERR(chip->rdwr_pin))
-+		return dev_err_probe(dev, PTR_ERR(chip->rdwr_pin),
-+				     "Failed to request rdwr GPIO\n");
- 	chip->convert_pin = devm_gpiod_get(&spi_dev->dev, "convert",
- 					   GPIOD_OUT_HIGH);
--	if (IS_ERR(chip->convert_pin)) {
--		ret = PTR_ERR(chip->convert_pin);
--		dev_err(&spi_dev->dev, "Failed to request convert GPIO: %d\n",
--			ret);
--		return ret;
--	}
-+	if (IS_ERR(chip->convert_pin))
-+		return dev_err_probe(dev, PTR_ERR(chip->convert_pin),
-+				     "Failed to request convert GPIO\n");
- 	if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
- 		chip->busy_pin = devm_gpiod_get(&spi_dev->dev, "busy",
- 						GPIOD_IN);
--		if (IS_ERR(chip->busy_pin)) {
--			ret = PTR_ERR(chip->busy_pin);
--			dev_err(&spi_dev->dev, "Failed to request busy GPIO: %d\n",
--				ret);
--			return ret;
--		}
-+		if (IS_ERR(chip->busy_pin))
-+			return dev_err_probe(dev, PTR_ERR(chip->busy_pin),
-+					     "Failed to request busy GPIO\n");
- 	}
- 
- 	indio_dev->name = spi_get_device_id(spi_dev)->name;
-
----
-base-commit: fa4ad798f6f681031775266044ba1b0cf3c670bd
-change-id: 20261107-batch1-s3-warn-289c98c7b118
-
-Best regards,
---  
-Maximo Manriquez Lizarraga <DelaySystem@tubot.lat>
-
-
+Thanks,
+Artem Dinaburg
