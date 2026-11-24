@@ -1,80 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795541306;
-	b=t8uKmFIFRSK46x9BvwbE6GqfDSL6ROgPE2t19qXLRFDWbKnLA+M5gGBYNaqqYOh5NRdc
-	 9FCP2pXfUu+fBQOYExvUaPYr8srbj8vQY3y+o4w55/hr/yeKTJEfgnYaul9F4ojT7LVw/
-	 1N6Iu6t8E2qfy/wEWWWb6wv6QX999SDWnRgLogW+TNGAfG80WFjGnrmsiES8bwoNhITzo
-	 3UnRgKfH7YAmXofOkVzmkMAkXLutMqWFTThcUFTVYen7HvgSgXApxkmWBH6ujZPx84MYE
-	 Kx8Lvos+aguC3s/CELgw1XiIHEe4ItmTKWh5Ic0bbfFM4h1WQAD754WqZYF0xYv19Lw==
+	t=1795543960;
+	b=oL3v7GT45GlBVdNPyRRRgI0+kh6ekUY3tEzcqrwxdYgg0B3xn3ap2sQZfiI1PP5G/yRa
+	 74a6DpBRJ803JpMvjMqWR5XGuo4njlX3/qL0uWRhnd4fuVf7pELWPEJp1GWY5EEEfIE36
+	 8c7fRn5m8X/wgLXOM0xius63z2+mLLN44sF84E/X6ihoqdsBaCTqh9qPyyLZ1fLvl5Wee
+	 PxMhJoHrkEM22b6V1Wg8fgNfVXsJDUrqghMi6f8g6pDKUpaoi6u316lPkgtb4+nJOlNci
+	 BPHQSwOkz2vWzZkBBLDKPErtTKUKZjEObpbcFuaZ5zpNjzS6OtNf+5nKnl3GPqa9sLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795541306;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=ffsNDG7rZ5R0j2yxFNZp26tEKpogV1MBod4g8hnw9Qk=;
-	b=BuLBQfcmpZHoL100REcHCCZZyJxGjitiSvTG4/DKeuva2sx/B1J6bAOLnpur7R+gv1oF
-	 Q+jOce8tA7ga8ntokj1fiRsZ/OxDsIeRT4bNmWIpQhcyf2ZvUZG7JfMswXVZT9yYAc+/G
-	 d1EXgQMqSfVd2a5Lf9r2nW+3nAEfj7V3SuW80p6gWgHzh7/YjlgTDle/a3ak44qj6+8yn
-	 X6k9kWBA6M0UNwnVB6NCjEy5V6b+gf4WpcU80yFCiFu3ozqKc+/lEaCXoXspuc+UCPQgp
-	 PwinCyg+UW2P3YRMzPrEvS0cgHLbpqRWASRcsA/yR3newMXJu6q8Wahhmw0ayMNNEiQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795543960;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=hmoMr/xIeQkn6KEQV65vhstYDu1X6WGPKu2yVoQvURA=;
+	b=TMwfLxP8e1BNHOBvB2sDM5ayAdWHmHwBfkbkI7SHk8ljR0m9rN/VwaGEtPJuK4I3mGhQ
+	 RwClnaXFFrd8+v5NhNhUF/tAxLNoLNazQllEYJsQodyG075LXgZ7xnwEtC4T4hstGjWoC
+	 CqbgGRyNpFHoNmnueWt+PyLj3OYxOIXcNbBBL8e19oCmFcYntNYZPtd18xc8G38vgd98f
+	 OJVnQ+XuN3LnnBNc73IN+YrjxNuE6pgHvYHrDUlhK9C7cay68mx1/Kegx4YHd3m1F2AJq
+	 72XTqjuF0TsOQauHkC5tipGYnH0S70Hp0FZIqiCHUX/TORn0xIjF1ed2qwun6dQK/fA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aX5e4SfQ;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="o+LSxy2/";
+	arc=none smtp.remote-ip=74.125.82.48
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85FE606A32D
-	for <linux-staging@lists.linux.dev>; Tue, 24 Nov 2026 17:28:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C85FE606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C713E606A31E
+	for <linux-staging@lists.linux.dev>; Tue, 24 Nov 2026 18:12:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C713E606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aX5e4SfQ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795541305; x=1827077305;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yJAlPXvrI00wm1acbN/uJcwx38S8ia1++yAKKe9BDs8=;
-  b=aX5e4SfQyTJoAXi1Sq/jtTcvM+9J5RMTD4hrHPDVOBLf3oKSEbH69oCJ
-   oOxQdMmZkT0zUEF9EXWHMKQSzs3v1ELqmFe+N0yraWjhlH+EG8aowb/y0
-   SxqctrL9xRn5lwH0LiJhXVWLV2hUF+x2JCJ+6pcc/fNyc3U/uYe2FENbW
-   /2RB026nNGigjjE/VUTfW9RNaElf7TntNiWIm/RAc91AHll0BRgVgf4gG
-   j0DHBO7EG9BSGpJ3cYXJ1jcgdA1++v1LOjjH8WLdlzQR3W80L3dvyUb5M
-   1LGSadyd+qGZWewMkVKP9OGh6bBs7EXFxI84R1lid2eT+T2MpCLqCYPQS
-   g==;
-X-CSE-ConnectionGUID: RSsNEHlJTK+ft1fX3DHScg==
-X-CSE-MsgGUID: oP1U7vFlSwmEgar3OczyHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4284894"
-X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
-   d="scan'208";a="4284894"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 09:17:36 -0800
-X-CSE-ConnectionGUID: aZ0oM0a1TjiludAUk2BVKw==
-X-CSE-MsgGUID: XxGUKT6tR6GrVQVSHMwkSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
-   d="scan'208";a="11497087"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.125])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 09:17:33 -0800
-Date: Tue, 24 Nov 2026 19:17:30 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Abhishek Chaulagain <chaulagainavishek14@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: atomisp: Remove unused timed controller code
-Message-ID: <awXGquBiO15OWx1-@ashevche-desk.local>
-References: <20261123200658.449-1-chaulagainavishek14@gmail.com>
- <20261124164504.443-1-chaulagainavishek14@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=o+LSxy2/
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-15ea896ddc8so8128131c88.0
+        for <linux-staging@lists.linux.dev>; Tue, 24 Nov 2026 10:12:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795543959; x=1796148759; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hmoMr/xIeQkn6KEQV65vhstYDu1X6WGPKu2yVoQvURA=;
+        b=o+LSxy2/5y7F28Id7b54Jm4KOhTlgTdenGYGpcAg2vg4rHqBpDcpKnIJNyHuoU3+vu
+         5oRnNa4kOQO3yaWQmeQlHCEzcsB7ZO/rhgNkeTZWgNb3KNFB6nTTBhP9JnAvobaUofVr
+         psw+ySOu87SQ/PN179WzrNXGr4QNGpnPstJ6cIWrK1F/Ff1QP084LshUnU3xwMw8qQbw
+         66+GXZx5wdPjGvPqDmWwKJut/fSSPBUutPfBbi0hDPaKeziiZAQRdSpytTUnDuU6pc3h
+         Gu3MSUuvCsC6GyU15pneaTdSkQ5asryviVw9pQSyqqHWBkn/UEDcnG6wxG4x/vRFt5KU
+         8xgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795543959; x=1796148759;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hmoMr/xIeQkn6KEQV65vhstYDu1X6WGPKu2yVoQvURA=;
+        b=sDr3tcSBRD/kDG7CHm22mE83SCufkgRs7yEpZzJQqgSJK+O5q6ZNil8xhPXpf3CQ8/
+         VnungowzKaAoukcu0xIsXF34OaXJxnttT8YkQjtpivXrGVtOnLN2K1dsm44m4Tw7PZJc
+         ACisDCbAHXAunxB6DIfS5ajWeLKxA46D0oYMHlb0rhKCNiK2ToO3UKN+R6rcNgqT1laD
+         DvKYBazvZ0aYypt/g7+tuTvX9tcDB65+JZC1wX9fybwPOk2Xww6qC5hvlyf3xbYn1nAH
+         kiwukr8u3jyY50wgoLl1h2vOd6+XEnHTJAsQxWJNir0XJanMtyXDgnRweuZwn7KXHqdc
+         PJNQ==
+X-Forwarded-Encrypted: i=1; AL+hErGwf11a4OsT2o3uLIj/p1zs0+gGz92tStUpv2DKLzeS1XYE7Qlmy7VT7zCzFdGmOHS1CZihqXgMsC9Nk+ja@lists.linux.dev
+X-Gm-Message-State: APuU4Z+eExTxdLKyVx+FjJiDOTgq3711LRo8b56Q+e9afcY1p1tqiIO2
+	muTvYqA1mnclNb3xriYm8lWrrYRQYT17kE/B4GqqEAEYowBxvy+Ubgpq
+X-Gm-Gg: AZFdTZeSjKmoXO6ckjl3mhxBesBmXRSQnCE1X6d5UXWt2upS+g4aIFVrrOhUEE6P8eV
+	IlNdhWed//24yGIlpneHP2RTDIfYKt0JH/J7f+bWuu21DfUfUv1t9xZEBoudC+hZKtj8k6ZjT9F
+	IRojRmBLvALxz74LxMREQEDR3oieoccy/8+s7IHhUc+9T36SH6VRt6fbsbubRrHtEtOubOAd/b9
+	+032Iywp1ioRc+RokPIRoYkHydBXX50pb/YaVw2akfQjUuDERQbUXf0u3f5zPZKwf5Gs11RB62R
+	7fxNCFa4AjQzjlQYmsd6y7bCEAk1vNUBsN3CeCUr7IkrssksR5S5boUyjwwICRq0gTy3X0M2RNk
+	u90AT0lH5UzrJy89dwR7K8+H0gOTK7f5+FaS+XO6sXtCaLOi8FQyXNCerx04/YKbGcx3MhnBC+N
+	acfijmRTadpXnZsmUHCBT47cHn1BU7G5k1HezIPRrhrbeNy6Dd0aHqlsy+G8fvxZ8N43p3gX0fh
+	hxCg1aWHp3GTOyAUb5AtzdIb4K8g7sRLlvTQtEYVNnBpNnF6dGXfRFbfnKj+pKIIXELeQJTQqKZ
+	RI+s86Yist0uATmfFymjWc6Fvmgilcuz2QMCOw==
+X-Received: by 2002:a05:7022:5f18:b0:1a7:7160:ffc8 with SMTP id a92af1059eb24-1b55687ea53mr12696132c88.10.1795543958747;
+        Tue, 24 Nov 2026 10:12:38 -0800 (PST)
+Received: from user.. ([2405:201:c052:b00b:ce4a:5cb1:57cf:1361])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ffa8csm42713885c88.7.2026.11.24.10.12.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 10:12:38 -0800 (PST)
+From: pavankumaryalagada@gmail.com
+To: johan@kernel.org
+Cc: gregkh@linuxfoundation.org,
+	elder@kernel.org,
+	vireshk@kernel.org,
+	esennesh@leaflabs.com,
+	skhan@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>,
+	Alex Elder <elder@riscstar.com>
+Subject: [PATCH] staging: greybus: bootrom: use firmware size for debug output
+Date: Tue, 24 Nov 2026 23:40:46 +0530
+Message-ID: <20261124181046.44750-1-pavankumaryalagada@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -84,35 +102,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261124164504.443-1-chaulagainavishek14@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 24, 2026 at 04:45:04PM +0000, Abhishek Chaulagain wrote:
-> The timed controller HAL module - timed_ctrl_snd_commnd(),
-> timed_ctrl_snd_sp_commnd(), timed_ctrl_snd_gpio_commnd() and the inline
-> timed_ctrl_reg_store() helper they used - has no callers anywhere in the
-> tree. The only remaining reference was a stale #include in sh_css.c that
-> pulled in none of its symbols.
-> 
-> Remove the dead source file, its public/private/local/global headers and
-> the timed_controller_defs.h definitions header (included only by this
-> module), drop the object from the Makefile, and delete the unused include
-> from sh_css.c.
-> 
-> With the module gone, the timed_ctrl_ID_t enumeration in system_global.h
-> and the TIMED_CTRL_BASE[] base-address table in system_local.{c,h} have
-> no remaining users, so remove them as well.
-> 
-> No functional change intended.
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 
-Good cleanup if it compiles,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+The firmware size is converted to little-endian byte order before
+being stored in size_response->size. However, the debug message
+prints size_response->size directly without converting it back
+to CPU byte order.
 
+Use bootrom->fw->size instead, which already contains the firmware
+size in CPU byte order.
+
+Fixes: fc41c2da44c5 ("greybus: firmware/bootrom: debug output from bootrom protocol")
+Suggested-by: Alex Elder <elder@riscstar.com>
+Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+---
+ drivers/staging/greybus/bootrom.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
+index fb1fbd3f7b99..4e225084851b 100644
+--- a/drivers/staging/greybus/bootrom.c
++++ b/drivers/staging/greybus/bootrom.c
+@@ -222,8 +222,8 @@ static int gb_bootrom_firmware_size_request(struct gb_operation *op)
+ 	size_response = op->response->payload;
+ 	size_response->size = cpu_to_le32(bootrom->fw->size);
+ 
+-	dev_dbg(dev, "%s: firmware size %u bytes\n",
+-		__func__, size_response->size);
++	dev_dbg(dev, "%s: firmware size %zu bytes\n",
++		__func__, bootrom->fw->size);
+ 
+ unlock:
+ 	mutex_unlock(&bootrom->mutex);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
