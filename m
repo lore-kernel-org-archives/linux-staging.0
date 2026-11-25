@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795604919;
-	b=rRCRYiq0O0zmQtA+LYVDXoVNONMgwggVB2tWF1r8UsIZq6QV2kPjd7kIyVUgBRZnuf3p
-	 sJSBz1OIrBz79Bl7LhvRz2vu9W1ZoARksdvnce8I9GEey4TAepRFKQLRHTF+VsuAsD0Kc
-	 fmv5edCkJNx6tJgr7uB1eLUC+0Rnok71cpwLOlVo2QnIrimKcg6Z259EcTc48ikfFdmh4
-	 6mix2T7attBiJqAexCfnGJ5Yxwzbf8b0ABILt6BtMvXMim589VtPTz8ehOOeop/2vQJRi
-	 txgYHd3hZWO7zD6g6ys1LZFIVMxZgY+55thNVaBLErW4Qgqo1JwbUxrX7lTy3rxLUGQ==
+	t=1795604920;
+	b=uSk5ZZJ1JFI1RuNFsj0SFPlZ+8yLrRlJ6ncDOqnAZ1yG6IKrZBlt5tRcWivSDVyxI+bf
+	 W0FaiQH1+SlfFFE2ZgIDVW9hIvPX6OG/tSQZzP8zT955XBV171Koi/69fa/7XjKNvYh12
+	 Sgic+QQZBNyrw+vMtbd+LmO0OpPmWXVDyN+b5hB0H7jVdvHiic2B8qFnxQ0Xt4fI2jfVv
+	 g8ls/Boi71fjsxq3Himcd6gk4EjlBgmZZLsep+OE/+Utu9wL6Nv9063QlcY1RZhzdJr8Z
+	 kaT4xWYt+Fo89fSInEQawL3tERk1jyHqOJJ19pDw9PQw13RCayF459qwl20vvu/kt2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795604919;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795604920;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=5DO0x7sKjKjbUoxBHjrsjRS6Z9YOvewyvxNNPFbGyv0=;
-	b=x54LsGhr9VZfjCbhVqsU1OCisiNkYa3RauC18570nh5KBHp4CE6OX1F2NTdUMdqQ29Qf
-	 CONgCj0iHUFjQb/5e2Y0VibSl7ZZW/7+UvdDP1eqWqxDa5qd22zUjbReKAWgSmz6Uw9ip
-	 pDxPM6xfnKF6LJ1DgAsc14Dlw+ipF+Y3mnIlobVls7TzRL3Ty2W4lfkxq9r8B5/jtIFO1
-	 cdP3ak/QlXCLMca/r2oMmFv0M9mU0gCCPe37b4EAEqYasp0gRyy3OKj3wV2Sms2fuG+Yj
-	 S+WaJ64PfptS90zuqOOeTqSByaVKiLtdtGOqtlIjkENJNjJsuRzojbKmbPJey+m3tKw==
+	bh=NM1ahoT0Xghla9vcxTFJwnAsEHzEgH5Nw3CBVxZQulg=;
+	b=QN70RUlLNtx/pcwiVu4bf5M8zdcIehLVTb4hoo/ZM2pVRJzoJoeJdLsQhcqdDbZrjeju
+	 d64JkmbUZCDHIQYRU0sJhYc9aCBvIu52uwS3EvmTHODCwd5e0eMWubm/cqANbnLgEN8aa
+	 oTu0D2qBs7MT7RC1+AvpnZU0cRc5ifPEI7mBpBKc8IXJWrqSMmTQuD6bBhS+2QSJdmxZ6
+	 ScU0QtbUTRnCdkG86iXBwGid+eCcziqL289Nkj/0M81gYMJR2GOXQ59bveaNwG4JnpRcz
+	 MbJpFTNYK5Vt87mRMWeOAoSa8g1TObOMlYPq/FFjvimaxQU7owJuQX+NPXEzPUuq3eQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=D+1GtVuH;
-	arc=none smtp.remote-ip=209.85.218.53
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iA9FiFbr;
+	arc=none smtp.remote-ip=209.85.218.52
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF0860A262A
-	for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 11:08:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BF0860A262A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C7D60A263F
+	for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 11:08:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89C7D60A263F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=D+1GtVuH
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c516a1623d0so548366766b.2
-        for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 03:08:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iA9FiFbr
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c4d427836e9so763919066b.1
+        for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 03:08:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795604917; x=1796209717; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795604919; x=1796209719; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5DO0x7sKjKjbUoxBHjrsjRS6Z9YOvewyvxNNPFbGyv0=;
-        b=D+1GtVuHOrJoZcvJLARczNkc+6+St9+NBb8sqWpGHwGyQ40yYDB2ns4ZBC0vqv9/bv
-         Lhfw2y+0N5gM4Xp86t00pn5LZHsbgRthGKiP0k3vPlJZLNqN2FgmUDj009RLGXEm/R/r
-         ql9A7rdZeM6Aq9AP/sNlawf6uqk48QZXlExUx62nmFs24j5YqWONLWHIZrCei56hoiQV
-         TgblHcayTnq0cgMCwFGYzml798aDj7JTNscQ0sYgTRBQO8NqQquIkodktHZ2Zy41tMxs
-         qrCJkT2iBesuU3vwkv6sFqnU8uvaOJ0m1xwCFmf3Mf2Ve62DYMHR6nC+wIKo3X9Dz9Tc
-         kDcw==
+        bh=NM1ahoT0Xghla9vcxTFJwnAsEHzEgH5Nw3CBVxZQulg=;
+        b=iA9FiFbrypXu5OxTHvn/de8l+z+P2Qi4YEKUeqoWojea6RTj62L2wXiMJnrfhUuVaW
+         iLP5322KO3xmZWzPovShvEI6W+ycgRSsEiVQ7+Nql/YSkrrIFOxh6W4KSXHLO2Zk//L6
+         6WpN26aR24ibVjZQWdUx8DCwMCeo8qEzPtbn7d3SOAarpwscwD+piAiqGRxAKWsLjSmp
+         ZCkVw9w6GNZon7Uvhc0fwxuIDtJawJZorONJG2E5p+jqMvZYkrDceeZ2kwWqwBiGCCEx
+         HQt2y3jhiFpNiGQ1Pnk8Lo/1MFESDsrJHF2uH2YkBt88eqWlydnPD4T3WC8Old1uLLwl
+         HEPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795604917; x=1796209717;
+        d=1e100.net; s=20260707; t=1795604919; x=1796209719;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5DO0x7sKjKjbUoxBHjrsjRS6Z9YOvewyvxNNPFbGyv0=;
-        b=drUS6UqvkPiqp+bMBTBc88T/apl8p8Yj4i1qc/t7eFao0N8BgizpgO2SVjoRNn75ip
-         fnsS4utaneEGPj6vkVacv+DqFv+zD/YWU/lDBiZpDL46u6iRPdWVcvuLWithL6b+tDuU
-         LdPh4uARaTtuhjz0+mVGY/qFJS6bmDx9/ZW6zlYEOJ0OWGTnZsibJZzS4VvvIw6kPshZ
-         mohpcaIx4bSu6JrJ/V+7KCVjDKFGnmc6EDbNTe9q0Vd3V1nAsyy3oVD1I749hOBfm/sh
-         dAGGgLPOD/La6Uo4+iphDhqpIqTi347Mhl+Hk1BWZ1nOkklHVPYXRilkGNCIhApvAWlE
-         uKrg==
-X-Forwarded-Encrypted: i=1; AL+hErF2tHcMQxCh/3JaP8RMbWEzCGqxginkvDnwl43Whlnvs4e1/3Wmohlk0PGTm3jsGWdLm6biugZ+JeX7K9dv@lists.linux.dev
-X-Gm-Message-State: APuU4Z+D/IDgwaNAG8eRO8flNIZGgHn1Mb1+9Bfg33MkZKQPJR1bY+Oh
-	nlKiF+8ZD85NFiGm/+JfesUYlzQGMPXud5HS/EdYqz/MJ5VON8LhzqDt
-X-Gm-Gg: AZFdTZdherh5fimWjUI4blTxZc0oAh06OYQhKw0YU5fkMmEurLONVHfjtZYVHDe8+4I
-	yG68lADqz2IU4H3gZVwdYQtdAj5TJ4dTcgKFTD5mNdong29Fsa0m32wnnfb4zyq3nCQ68OxFhbi
-	Cz/FYYWZFh9ooUbYmYrJU06/yfluaS+GvMYX0azoMMJLcoQBRP90TqNWChdgPsB6I8JtVSTC7fZ
-	4HJE+rhnfXGcqQrMbnyAJ35x0BHtios8geX8xHCVzLN9BinCfkC+gB7VLs86qPUTYLTgR/p2sOl
-	CbrwDQJCKlJVJEUhlM+zRd3dFWV8zCnZcGD++nUxl3TFd4tvLsq2N66L7YKDI9AlyLt2D5UHhky
-	ldjQrtrvOuR/mn3IWta9OAii7cYnZ+kLbDuzkDXnYEUZ68EltnER9WYD4eVlQUh8hxtm/4kXPs7
-	O861ccnrmiYS3xunxQf9l7wF9GGbOqWweY2pd4fvY6AmKF33oovB9jhe7OJDHgwdnI+9CEisavE
-	zg0UgyHacGsw6pmC8X0vVy4oK05V7cHc1c40ZTI/fWn76X9uvj88cHNrQCCbWST6vv5vlWNVyLZ
-	fV7WL8UbDgnImXoyNpJvVXIF/JJfyzLjYo39XVnvzybn2/v5lfdK2ic05K2u+EWiecgVPnhRTIq
-	03jO63Xjm/w==
-X-Received: by 2002:a17:907:940a:b0:c33:dbe8:291c with SMTP id a640c23a62f3a-c513a807be9mr1670811966b.20.1795604917491;
-        Wed, 25 Nov 2026 03:08:37 -0800 (PST)
+        bh=NM1ahoT0Xghla9vcxTFJwnAsEHzEgH5Nw3CBVxZQulg=;
+        b=rfZLLoG7CW6ReWGNXt+gh6FzVvVUy0ij1r6FyFO1fD5GOOxO70YJWx3JOhdkU86sRE
+         I0XGuSf3xi83HDWJbjnNDy33ZzzmBxjv12qeW5OVQPzj2TGaq7BuuOD7chS3s+sdX9kh
+         9XlS5xboMS3tx/olRsmShPAsYmf+jVigPa58hVNcyPIC3VAF+hUfrsY13a37Hlf+2gbe
+         ACT0ezVHVnKjgeNZ3tQEroQiBOIyJp4X4l5WpbN3dYg2XyVvRaA33sW7JYX47Fw+GK0F
+         twnqGMJhhgVDHURqDGJiWUgmsEgT852Gnud3pae12bBZqmtphLrSPzPL7Jm9W9DiitaK
+         fGsA==
+X-Forwarded-Encrypted: i=1; AL+hErHaBPUlBH54TLDs8ImeICBuLEhAoF/hSk6IPH5xIAntX7BvQeLfUo9XPXqGijEjrK2u59b26FmMMXvmTCFp@lists.linux.dev
+X-Gm-Message-State: APuU4Z+DLbcVppE5/vCO4DpOj3Xz88SjpLskHmw+9tTieCe4kUht9ikv
+	bOBIWGoumIxBArkR0Bcq1kzOG7ql6tB7g9KgnqGl3mE9CZlXUBeWQJjJ
+X-Gm-Gg: AZFdTZcdAaVmR/zna/dJ8uD8/o8Fs3QlQtNhIHYBubmokqUjWzmzc0ngQ1QurFNfdeR
+	FEV93E1YTa3a0cj3euxrJBbaMiRzpEnVJkeUZ0yngVpt0HleW56unoy1wDt4HmVkdd80euaQSlX
+	J1zy7QI9GsbYsjVZ4WDEe47rY93Z10fDFh9Snp4mvrmHVrS6WSrR2m7L0DcC/fvR6TIJ+6HeWza
+	Y7GTSLGwpb1inHgE+z6eT4hVAYIhlXhuV2qvpEEKu7KWA+NWngDA1vTPSuM3W0xeEC+c9fF8aHu
+	G0ticha8vzmFCPiy/S7ovUsDx+U9PVzH5D1tCX6lyOxWXXp/tk0sIDrde/MjckTxJjw0/pSUpyb
+	XECOC+TPl4vyDJ+DRNC9TE86HZQvt1MORenUF0NklOuKNMqlTHiNO61N8lB8/BYk9b1VtIsBQJC
+	mrn9Xu6kDBcxzdTCDde3pHIX60CG/luhhbGmXgFOWPGtldpO2h4Rc92/lAEnHMbJJVu5FVNHDTs
+	UF3xlaIL6G06LFTs65i6SudPfTPVYpN/v4SVheaOOm4yO1Otn/P0dR7YUMUOPzGjeimuL4LhKMO
+	gYkjRm787/GsfjloOpSqN1sJP+dimfHAelWs5xa1fbx4MV+pfMGeZ9Z93tFU8h7yOk4QWv+iOwp
+	rdVV8h5Pnuw==
+X-Received: by 2002:a17:907:3dab:b0:c4d:212a:192a with SMTP id a640c23a62f3a-c51a2a75817mr234496566b.48.1795604918938;
+        Wed, 25 Nov 2026 03:08:38 -0800 (PST)
 Received: from xeon ([188.163.112.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513acfeda1sm654562066b.6.2026.11.25.03.08.36
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513acfeda1sm654562066b.6.2026.11.25.03.08.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 03:08:36 -0800 (PST)
+        Wed, 25 Nov 2026 03:08:38 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Thierry Reding <thierry.reding@kernel.org>,
@@ -93,9 +93,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v1 12/13] media: tegra-video: csi: Add pad and media operations for own CSI channels
-Date: Wed, 25 Nov 2026 13:07:49 +0200
-Message-ID: <20261125110750.223628-13-clamor95@gmail.com>
+Subject: [PATCH v1 13/13] media: tegra-video: vip: Add pad and media operations for VIP subdev
+Date: Wed, 25 Nov 2026 13:07:50 +0200
+Message-ID: <20261125110750.223628-14-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261125110750.223628-1-clamor95@gmail.com>
 References: <20261125110750.223628-1-clamor95@gmail.com>
@@ -110,100 +110,78 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement pad format enumeration, format negotiation clamped to SoC
-limits via vi_fmt_align(), subdevice state initialization across sink and
-source pads, and v4l2_subdev_link_validate() for CSI bridge channels
-when TPG mode is disabled.
+Implement pad media bus format enumeration and format setting clamped to
+SoC limits via vi_fmt_align(), and attach v4l2_subdev_link_validate()
+to the VIP subdevice entity operations.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- .../media/platform/nvidia/tegra-video/csi.c   | 154 +++++++++++++++++-
- 1 file changed, 152 insertions(+), 2 deletions(-)
+ .../media/platform/nvidia/tegra-video/vip.c   | 101 +++++++++++++++++-
+ 1 file changed, 100 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/nvidia/tegra-video/csi.c b/drivers/media/platform/nvidia/tegra-video/csi.c
-index fb6608e0f632d..aaab884d99f54 100644
---- a/drivers/media/platform/nvidia/tegra-video/csi.c
-+++ b/drivers/media/platform/nvidia/tegra-video/csi.c
-@@ -322,6 +322,138 @@ void tegra_csi_calc_settle_time(struct tegra_csi_channel *csi_chan,
- 				   / (2 * pix_clk_mhz) - 5000) / 1000;
+diff --git a/drivers/media/platform/nvidia/tegra-video/vip.c b/drivers/media/platform/nvidia/tegra-video/vip.c
+index 040776775aacc..969966f3227f2 100644
+--- a/drivers/media/platform/nvidia/tegra-video/vip.c
++++ b/drivers/media/platform/nvidia/tegra-video/vip.c
+@@ -21,6 +21,14 @@
+ #include "vip.h"
+ #include "video.h"
+ 
++static const u32 tegra_vip_mbus_formats[] = {
++	/* YUV422 */
++	MEDIA_BUS_FMT_UYVY8_2X8,
++	MEDIA_BUS_FMT_VYUY8_2X8,
++	MEDIA_BUS_FMT_YUYV8_2X8,
++	MEDIA_BUS_FMT_YVYU8_2X8,
++};
++
+ static inline struct tegra_vip *host1x_client_to_vip(struct host1x_client *client)
+ {
+ 	return container_of(client, struct tegra_vip, client);
+@@ -48,6 +56,85 @@ static struct v4l2_subdev *tegra_vip_channel_get_prev_subdev(struct tegra_vip_ch
+ 	return media_entity_to_v4l2_subdev(remote_pad->entity);
  }
  
-+/*
-+ * Proper CSI configuration
-+ */
-+
-+enum tegra_csi_bridge_pad {
-+	TEGRA_CSI_PAD_SINK = 0,
-+	TEGRA_CSI_PAD_SOURCE = 1,
-+	TEGRA_CSI_NUM_PADS,
-+};
-+
-+static const u32 tegra_csi_mbus_formats[] = {
-+	/* RAW 8 */
-+	MEDIA_BUS_FMT_SGBRG8_1X8,
-+	MEDIA_BUS_FMT_SBGGR8_1X8,
-+	MEDIA_BUS_FMT_SRGGB8_1X8,
-+	MEDIA_BUS_FMT_SGRBG8_1X8,
-+	/* RAW 10 */
-+	MEDIA_BUS_FMT_SGBRG10_1X10,
-+	MEDIA_BUS_FMT_SBGGR10_1X10,
-+	MEDIA_BUS_FMT_SRGGB10_1X10,
-+	MEDIA_BUS_FMT_SGRBG10_1X10,
-+	/* RAW 12 */
-+	MEDIA_BUS_FMT_SGBRG12_1X12,
-+	MEDIA_BUS_FMT_SBGGR12_1X12,
-+	MEDIA_BUS_FMT_SRGGB12_1X12,
-+	MEDIA_BUS_FMT_SGRBG12_1X12,
-+	/* RGB888 */
-+	MEDIA_BUS_FMT_RGB888_1X24,
-+	MEDIA_BUS_FMT_RGB888_1X32_PADHI,
-+	/* YUV422 */
-+	MEDIA_BUS_FMT_UYVY8_1X16,
-+	MEDIA_BUS_FMT_VYUY8_1X16,
-+	MEDIA_BUS_FMT_YUYV8_1X16,
-+	MEDIA_BUS_FMT_YVYU8_1X16,
-+};
-+
-+static u32 tegra_csi_get_format_code(u32 code)
++static u32 tegra_vip_get_format_code(u32 code)
 +{
 +	u32 i;
 +
-+	for (i = 0; i < ARRAY_SIZE(tegra_csi_mbus_formats); i++)
-+		if (tegra_csi_mbus_formats[i] == code)
++	for (i = 0; i < ARRAY_SIZE(tegra_vip_mbus_formats); i++)
++		if (tegra_vip_mbus_formats[i] == code)
 +			break;
 +
-+	if (i >= ARRAY_SIZE(tegra_csi_mbus_formats))
-+		return MEDIA_BUS_FMT_SRGGB10_1X10;
++	if (i >= ARRAY_SIZE(tegra_vip_mbus_formats))
++		i = 0;
 +
-+	return tegra_csi_mbus_formats[i];
++	return tegra_vip_mbus_formats[i];
 +}
 +
 +/*
 + * V4L2 Subdevice Operations
 + */
-+static int tegra_csi_enum_bus_code(struct v4l2_subdev *subdev,
++static int tegra_vip_enum_bus_code(struct v4l2_subdev *subdev,
 +				   struct v4l2_subdev_state *state,
 +				   struct v4l2_subdev_mbus_code_enum *code)
 +{
-+	if (code->pad == TEGRA_CSI_PAD_SOURCE) {
++	if (code->pad == TEGRA_VIP_PAD_SOURCE) {
 +		const struct v4l2_mbus_framefmt *sink_fmt;
 +
 +		if (code->index)
 +			return -EINVAL;
 +
 +		sink_fmt = v4l2_subdev_state_get_format(state,
-+							TEGRA_CSI_PAD_SINK);
++							TEGRA_VIP_PAD_SINK);
 +		code->code = sink_fmt->code;
 +
 +		return 0;
 +	}
 +
-+	code->code = tegra_csi_get_format_code(code->index);
++	code->code = tegra_vip_get_format_code(code->index);
 +
 +	return 0;
 +}
 +
-+static int tegra_csi_set_format(struct v4l2_subdev *subdev,
++static int tegra_vip_set_format(struct v4l2_subdev *subdev,
 +				const struct v4l2_subdev_client_info *ci,
 +				struct v4l2_subdev_state *state,
 +				struct v4l2_subdev_format *format)
@@ -215,19 +193,19 @@ index fb6608e0f632d..aaab884d99f54 100644
 +	struct tegra_vi *vi = chan->vi;
 +
 +	/* The format on the source pad always matches the sink pad. */
-+	if (format->pad == TEGRA_CSI_PAD_SOURCE)
++	if (format->pad == TEGRA_VIP_PAD_SOURCE)
 +		return v4l2_subdev_get_fmt(subdev, state, format);
 +
-+	sink_fmt = v4l2_subdev_state_get_format(state, TEGRA_CSI_PAD_SINK);
-+	src_fmt = v4l2_subdev_state_get_format(state, TEGRA_CSI_PAD_SOURCE);
++	sink_fmt = v4l2_subdev_state_get_format(state, TEGRA_VIP_PAD_SINK);
++	src_fmt = v4l2_subdev_state_get_format(state, TEGRA_VIP_PAD_SOURCE);
 +	if (!sink_fmt || !src_fmt)
 +		return -EINVAL;
 +
-+	mbus_fmt->code = tegra_csi_get_format_code(mbus_fmt->code);
++	mbus_fmt->code = tegra_vip_get_format_code(mbus_fmt->code);
 +	mbus_fmt->field = V4L2_FIELD_NONE;
 +
 +	/*
-+	 * CSI and VI have same size restrictions but they are SoC specific.
++	 * VIP and VI have same size restrictions but they are SoC specific.
 +	 * Use VI operation to get them.
 +	 */
 +	vi->ops->vi_fmt_align(NULL, &stepwise, 0);
@@ -243,89 +221,38 @@ index fb6608e0f632d..aaab884d99f54 100644
 +	return 0;
 +}
 +
-+static int tegra_csi_init_state(struct v4l2_subdev *subdev,
-+				struct v4l2_subdev_state *state)
-+{
-+	struct tegra_csi_channel *chan = to_csi_chan(subdev);
-+	struct v4l2_mbus_framefmt *fmt[TEGRA_CSI_NUM_PADS];
-+
-+	for (int i = 0; i < chan->numpads; i++) {
-+		fmt[i] = v4l2_subdev_state_get_format(state, i);
-+		if (!fmt[i])
-+			continue;
-+
-+		*fmt[i] = chan->format;
-+	}
-+
-+	return 0;
-+}
-+
- static int tegra_csi_enable_stream(struct v4l2_subdev *subdev)
+ static int tegra_vip_enable_stream(struct v4l2_subdev *subdev)
  {
- 	struct tegra_vi_channel *chan = v4l2_get_subdev_hostdata(subdev);
-@@ -483,6 +615,12 @@ static const struct v4l2_subdev_pad_ops tegra_csi_tpg_pad_ops = {
- 	.set_frame_interval = tegra_csi_tpg_set_frame_interval,
+ 	struct tegra_vip_channel *vip_chan = subdev_to_vip_channel(subdev);
+@@ -104,8 +191,19 @@ static const struct v4l2_subdev_video_ops tegra_vip_video_ops = {
+ 	.s_stream = tegra_vip_s_stream,
  };
  
-+static const struct v4l2_subdev_pad_ops tegra_csi_pad_ops = {
-+	.enum_mbus_code = tegra_csi_enum_bus_code,
++static const struct v4l2_subdev_pad_ops tegra_vip_pad_ops = {
++	.enum_mbus_code = tegra_vip_enum_bus_code,
 +	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = tegra_csi_set_format,
++	.set_fmt = tegra_vip_set_format,
 +};
 +
- static const struct v4l2_subdev_ops tegra_csi_tpg_ops = {
- 	.video = &tegra_csi_video_ops,
- 	.pad = &tegra_csi_tpg_pad_ops,
-@@ -490,12 +628,21 @@ static const struct v4l2_subdev_ops tegra_csi_tpg_ops = {
- 
- static const struct v4l2_subdev_ops tegra_csi_ops = {
- 	.video = &tegra_csi_video_ops,
-+	.pad = &tegra_csi_pad_ops,
- };
- 
- static const struct v4l2_subdev_internal_ops tegra_csi_tpg_internal_ops = {
- 	.init_state = tegra_csi_tpg_init_state,
- };
- 
-+static const struct v4l2_subdev_internal_ops tegra_csi_internal_ops = {
-+	.init_state = tegra_csi_init_state,
+ static const struct v4l2_subdev_ops tegra_vip_ops = {
+-	.video  = &tegra_vip_video_ops,
++	.video = &tegra_vip_video_ops,
++	.pad = &tegra_vip_pad_ops,
 +};
 +
-+static const struct media_entity_operations tegra_csi_media_ops = {
++static const struct media_entity_operations tegra_vip_media_ops = {
 +	.link_validate = v4l2_subdev_link_validate,
-+};
-+
- struct v4l2_subdev *tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
- {
- 	struct media_pad *pad;
-@@ -544,8 +691,8 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
- 	chan->of_node = of_node_get(node);
- 	chan->numpads = num_pads;
- 	if (num_pads & 0x2) {
--		chan->pads[0].flags = MEDIA_PAD_FL_SINK;
--		chan->pads[1].flags = MEDIA_PAD_FL_SOURCE;
-+		chan->pads[TEGRA_CSI_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-+		chan->pads[TEGRA_CSI_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
- 	} else {
- 		chan->pads[0].flags = MEDIA_PAD_FL_SOURCE;
- 	}
-@@ -676,6 +823,8 @@ static int tegra_csi_channel_init(struct tegra_csi_channel *chan)
- 		snprintf(subdev->name, sizeof(subdev->name), "%s-%d", "tpg",
- 			 chan->csi_port_nums[0]);
- 	} else {
-+		v4l2_subdev_init(subdev, &tegra_csi_ops);
-+		subdev->internal_ops = &tegra_csi_internal_ops;
- 		snprintf(subdev->name, sizeof(subdev->name), "%s",
- 			 kbasename(chan->of_node->full_name));
- 	}
-@@ -684,6 +833,7 @@ static int tegra_csi_channel_init(struct tegra_csi_channel *chan)
- 	v4l2_set_subdevdata(subdev, chan);
- 	subdev->fwnode = of_fwnode_handle(chan->of_node);
+ };
+ 
+ static int tegra_vip_channel_of_parse(struct tegra_vip *vip)
+@@ -165,6 +263,7 @@ static int tegra_vip_channel_init(struct tegra_vip *vip)
+ 	v4l2_set_subdevdata(subdev, &vip->chan);
+ 	subdev->fwnode = of_fwnode_handle(vip->chan.of_node);
  	subdev->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+	subdev->entity.ops = &tegra_csi_media_ops;
++	subdev->entity.ops = &tegra_vip_media_ops;
  	subdev->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
  
- 	/* initialize media entity pads */
+ 	err = media_entity_pads_init(&subdev->entity, TEGRA_VIP_PADS_NUM, vip->chan.pads);
 -- 
 2.53.0
 
