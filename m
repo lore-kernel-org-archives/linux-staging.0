@@ -1,47 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795604457;
-	b=HvD9Mic5tHdlD+2gOObCdQjdqZLxBXqea9Eso2kZJX6XPhOpDXc9grIl6rMjv1xGDhix
-	 N12//IUdICFQkSjJ87zHWAOQtH4wG4T8K2qQo8OX/0iWJLUxFZl0qquSKQdB803dY3766
-	 75emJeimAD1Vvte0GxNYXDKHCm5lBcYgokgT+7YiD7qyZBG+ym2VS6deRkI1ZI9F1du+q
-	 m92eO60R50JEZPrAgXYfDmhE1z8j25Lvk+D3F/WiugFLKSuzSmzBlkmaTtcE4KjgWygrE
-	 fFCEZF21G3KPU0YEdOiMz1lVGVeVP6+yZkvz79AQuTYla+dRK8sYTBU0dPQi3jPYXZA==
+	t=1795604902;
+	b=cWiKJnz/yw/8OlBqWrk2FIFGBsP+FKkinhjziBlNFb6PzMvJotLfTJZ7aUOoRdMUUsx4
+	 TkarBo5Z8xgMVWbVAcctzTBRE93jaDBs/YUB7wqNDoWgg076hfEScec8YpbivTYQ7FFCh
+	 K9F8sq89yqQrU6QUI+f2GF5lnZ8VpYi+UWYoMh+joZv4BnJlXFWym6vJq243siBQhHnLS
+	 G+vxKcVoSfnVKm5v9Y7RwFeLzsb9pfVOEn+lVVTpqDIgfe0YcqbK4fX6VyHOAeEphN53d
+	 kwUcX0N47bqbHJztkXOCfMyL/TnnBOojnXQr2NDzgDa0aZ3ju8yF08IMIWg+1Y7GSog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795604457;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:From:
-	 Subject:To:Cc:References:Content-Language:In-Reply-To:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795604902;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=cOvul7rfOwINZX5P3gOwhmNe0uJu9FzOUo8mqn4wMrw=;
-	b=5B9zu1vl5lFLlbu1G1ede0DUUl41P0JTkEFXGJ7JjT6GLfKp5Qi8n86GCfG5Fu0YY91i
-	 FMUgODPQBH/GZhCXJ1khlh6PWP2pRqEXQ7RP4kP/8Dms1gNBKiiE1MXp/VaEVoFwVXZ5r
-	 MPCzG9pJcdZ3XT3+4cb85PTz+Kems2xvpgWU5+u4UXauira3HQG1kDB06mT9YmK+2KyMp
-	 Fz67gTR6NvRkLBQhbuqhIxJOr0woT2LwKUmTzQgmwoHtVP8A8QXgJ6cuaNuxDt0X42n1X
-	 lmLvZ45+3N7BcCWLLyHkhiwjIX9tlyMeiWICXcV3eZT3isBN1svy2oK1WdWgX9E0WIg==
+	bh=Vim7sbndF1zYQuJCjFH9ennVNq+IgaxKfDCkwcZwj84=;
+	b=H2lFu6iy3B/PJqFmnqWOT2r6dnmMHpGzku2uQXgayGDlW7mJjD5V1mbYKsCz1xzMAtQ/
+	 MULYPN3G4CChHv9o9Ntj5NvWqGN/WkVx8g4RJ9Jta6aVhd9NvhQ/XRCtRyAc4fn7s+Plf
+	 aaQDsPxEWrOpxwMsJxeNKwvv/oLMQ8iharVYwnSwRz1+hJFF1HADJ+1md9MukebQYXEjO
+	 105fLQxRItMdAJN5I6yQY6MjTPqXChxcfjqpMIUTpAFhw6b1sHURD7kzlRnlUFvKyBsur
+	 DrfxAzyqayP3p+lEsUl40iZpwLROd42JCcWCt3sKy+fQFze3uA59tpSrC7w3JgGIv1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="WigwYX/L";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jKSf+kvV;
+	arc=none smtp.remote-ip=209.85.218.48
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0429E606A323;
-	Wed, 25 Nov 2026 11:00:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFF4606A327
+	for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 11:08:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FFF4606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WigwYX/L
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B4FE1F000D0;
-	Wed, 25 Nov 2026 11:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795604456;
-	bh=cOvul7rfOwINZX5P3gOwhmNe0uJu9FzOUo8mqn4wMrw=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=WigwYX/LwsIJEHrwkogDu1OCcu9Hig6P20JZlFjD0ZK3uS7bkBIqaNG1gjUuGNKOD
-	 wyGZ9Qc6Gk7od1ehhNhM7oacWFMtcN1bbmoQXVHBF9uUF3rRt2VYD3SncUOVD9z/nk
-	 5Z3VudGZHBnv+G4e5OVMNHSKpttty6j9mkvgAXzp2Fi7PlBc5Bq1qNJ02PHFCwRE3a
-	 pAHukk28gMyL+EOq6YQ87GtJkrCDPONo87KiNf1NHhFVsYVIaXtkatOMiJpcb2q1fz
-	 xUym6RYfojztM/bVFSdFbqRiAuuNyFvo4V1nCM+trkcOPJBXl57UPx1BWuEZbcmhro
-	 ifsm5tIllykLg==
-Message-ID: <479b6df1-3cd7-4609-b197-86bd937b1fdd@kernel.org>
-Date: Wed, 25 Nov 2026 12:00:52 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jKSf+kvV
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c4cb6834eaaso57678266b.2
+        for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 03:08:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795604900; x=1796209700; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Vim7sbndF1zYQuJCjFH9ennVNq+IgaxKfDCkwcZwj84=;
+        b=jKSf+kvVTBv2V7oieMAf0pHjmc5QjW/Yvx6GNDOZ0Usypq/QZRuqouTH4DmdZt6pdg
+         u+LB6N14UinVgoG+Cpd7tgxt3OsJ0RR7WyULncS6bPAxd+AOk4PLSWTJZiXTgdi9/cT3
+         3PxFC3BkiOVNH2kUqGCxnttQS9gQbJ9m3qlxYtWK/OPBGGlgwr6/5gsIcVHL4btkaEmf
+         Km5CdRaX6iFa6qMugvQc4C2NzA8ag355Avwbw+uAq+kwO3SgLW2xD+dyZh+ExzV3S7x6
+         SiCSrE3oc+td9VXnKrr1Yikveo+CX6YW/8VCFtiSGYzD0DnVL1bLKwu9jJadQJD00VFT
+         GZ5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795604900; x=1796209700;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Vim7sbndF1zYQuJCjFH9ennVNq+IgaxKfDCkwcZwj84=;
+        b=lFkwyGNMsiRPaXjw8Hw4EckceNOuZOIogdQPQlagKcUH4Bwlppo0R9IOor0Ho6x7au
+         OUETszlJ4HlEe0KFsszo1pO86AhuknlN8CqywVsky96iovA4ST6LrOEZPmegtRk19h9R
+         fsnci1VnaSiggx3IUOi3+U4Ui/q4GvF71gsBOhxwnp/kunIEva6MCKnte7Iiz6TX59cL
+         WM/r/R8Fz5nTw6BqKe+FWmIjZooFzHiUK+KVpbMNACR1YSwhfmlyFx0bM8vXhZK9b8me
+         NJ9YiDxs0yyM6VU3ErLpPoXY9ucsRm07+7i2I5qcYX+OIxzTF7I9xTWXqKvjrhT2R/Ig
+         txuQ==
+X-Forwarded-Encrypted: i=1; AL+hErGkkX8ttVSzYEbGB/vCMtdhgXdq1MNJTwfqrThs2bvm6QWIGLIWZIw5VJ7vuTrHTD5EJEB/UvAdZY1WrolN@lists.linux.dev
+X-Gm-Message-State: APuU4Z+14XDWtw8M0T11rC4dOjQd4E8Khn1jf3j2unAR7h+LSE7pFpPm
+	zGlKURuhbgAqTUYypnYwnqQDCYoe4fa/N8XO5D9lLVlVkwB8lLXKIU1c
+X-Gm-Gg: AZFdTZcub6RlO2KSJ4n9TQgXEpNbY1KYpFPyD/NNgShQa/UNRLWMU6xJ/hLBwPP5R5X
+	EXkILSiFaWZStmOYD7drULu9mKwXwXKv0mnyintQKWlhtvFEApbH0SSuvtyMCS4OSCCSfBsf6ZV
+	eT2p7Ds28EDJlZZJYHf3mPII7n6Z2uMhwFGnj/GHc44/OUshW9skYQDKec2W1pgyY4wMUq8mFsH
+	yNUv4Pb4k/uubac4GOwgVHJ8hJSpUy089jwqVERfoAh2s5CwHc824b86UijOWKHynnkj/cpekJu
+	IOFy26CZ7BWQ4gKZqU06nCDlKMxtwn3ibVoQatDeUS++p6jcHAjVcxYibqyFV3kSJOhL/Jhh7HK
+	5QovU2lnqhSQIbYe7vtYUpXE5TM8bD8TaEEf/iABGF/wCQEqWLhIPx8K3xEO6gIvQi09yqGSPTt
+	7OIT1bPLs4dT3qkA0LquLQ3YaiTW4Bsn6l2OYQslYqLWGsXrXO7qsU7eJ/PLWKv/ccrFxXNxmJM
+	gXQT0KGFLhzxIaOPRNeT22Gra7IsPuJg3nXG9k0TnkIgXpW5+YFZtfXdntzGbBdCSmWKDPYAwVK
+	lwPRiGEj3KMPVEGgoWxp/lT5lmV+E6nEk8SSEqiXhl2dqfmdV1yEUBFTMTTvyI56GB0ev5OQqsM
+	ykv4m9/4lEQ==
+X-Received: by 2002:a17:907:1c9c:b0:c49:df95:fd0 with SMTP id a640c23a62f3a-c519ac70721mr350640166b.48.1795604899681;
+        Wed, 25 Nov 2026 03:08:19 -0800 (PST)
+Received: from xeon ([188.163.112.54])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513acfeda1sm654562066b.6.2026.11.25.03.08.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 03:08:18 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v1 00/13] tegra-video: Convert to media-centric pipe
+Date: Wed, 25 Nov 2026 13:07:37 +0200
+Message-ID: <20261125110750.223628-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -51,81 +105,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v6 0/2] media: imx: staging cleanup and FIM export to
- v4l2-core
-To: Jiaqi Shi <shijiaqi_develop@163.com>, linux-media@vger.kernel.org,
- imx@lists.linux.dev, linux-staging@lists.linux.dev
-Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
- gregkh@linuxfoundation.org, Frank.Li@nxp.com, kernel@pengutronix.de,
- festevam@gmail.com
-References: <20261122114205.494704-1-shijiaqi_develop@163.com>
-Content-Language: en-US, nl
-In-Reply-To: <20261122114205.494704-1-shijiaqi_develop@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/11/2026 12:42, Jiaqi Shi wrote:
-> Changes in v6:
-> - Apply the IC route format selection consistently to pixel-format,
->   frame-size, and frame-interval enumeration as well as TRY/S_FMT.
-> - Keep the remaining STD and frame-interval legacy ioctls unchanged.
-> 
-> This series continues the i.MX staging media driver cleanup by removing
-> legacy control inheritance and source-dependent format handling from
-> capture video nodes, and exports the generic Frame Interval Monitor to
-> v4l2-core while retaining the i.MX input capture controls locally.
+A minimal set of changes required to convert video-centric pipe into
+media-centric. I know that moving to /media should be last commit,
+but it may be beneficial to keep this history in the /media subsystem,
+instead of leaving it in staging.
 
-I would keep the FIM in the driver itself. I didn't even know it existed
-in the imx driver, and I am not convinced it is something we want in the core.
+All changes were tested on:
 
-Frankly, it looks dubious in the imx driver as well. There doesn't appear to
-be proper documentation of these control either.
+LG Optimus Vu (P895) Tegra30 device:
+ - MT9M114 front sensor with complex topology and irregular pad mapping
+ - IMX111 rear sensor which has simple pixel array and a single pad
 
-I would be more inclined to remove it unless someone can explain the use-case
-and if that use-case is real or hypothetical.
+ASUS Transformer TF701T Tegra114 device:
+ - same MT9M114 front sensor
+ - OV5693 rear sensor which has simple pixel array and a single pad
 
-In any case, don't move it to the core.
+Nvidia Tegra Note 7 (P1988) Tegra114 device:
+ - OV5693 rear sensor
 
-Regards,
+They all work and produce images.
 
-	Hans
+Svyatoslav Ryhel (13):
+  staging: media: tegra-video: Move driver to media/platform/nvidia
+  media: tegra-video: vi: Drop controls consolidation into VI device
+  media: tegra-video: vi: Expose all sub-devices in the pipeline
+  media: tegra-video: vi: Drop subdevice passthrough and input ioctls
+  media: tegra-video: vi: Implement link_validate for video entity
+  media: tegra-video: vi: Populate stepwise frame sizes via vi_fmt_align
+  media: tegra-video: vi: Report stepwise frame sizes instead of
+    querying subdev
+  media: tegra-video: vi: Enumerate supported formats instead of
+    building bitmap of compatible formats
+  media: tegra-video: vi: Configure capture format locally without
+    subdev calls
+  media: tegra-video: Remove remote source subdev helper
+  media: tegra-video: csi: Scope pad and state ops to TPG mode
+  media: tegra-video: csi: Add pad and media operations for own CSI
+    channels
+  media: tegra-video: vip: Add pad and media operations for VIP subdev
 
-> 
-> The new FIM files are already covered by the existing MEDIA INPUT
-> INFRASTRUCTURE entries for drivers/media/ and include/media/.
-> 
-> Validation:
-> - allmodconfig build and sparse
-> - scripts/kernel-doc -none on the FIM header and implementation
-> - local FIM KUnit tests, not included in this series: 13/13 passed
-> - local white-box i.MX capture format tests, not included: 21/21 passed
-> - QEMU vivid: v4l2-compliance 125/125, 30-frame streaming passed
-> - QEMU vim2m: v4l2-compliance 49/49, 10-frame streaming passed
-> - i.MX register-level and hardware DMA paths remain untested
-> 
-> Jiaqi Shi (2):
->   media: imx: remove legacy video node control and format handling
->   media: v4l2-core: add frame interval monitor helper
-> 
->  Documentation/admin-guide/media/imx.rst       |  20 +-
->  drivers/media/v4l2-core/Kconfig               |   4 +
->  drivers/media/v4l2-core/Makefile              |   1 +
->  drivers/media/v4l2-core/v4l2-fim.c            | 385 +++++++++++++++++
->  drivers/staging/media/imx/Kconfig             |   1 +
->  drivers/staging/media/imx/TODO                |  13 -
->  drivers/staging/media/imx/imx-ic-prpencvf.c   |  10 +-
->  drivers/staging/media/imx/imx-media-capture.c | 401 +++++++-----------
->  drivers/staging/media/imx/imx-media-csi.c     |  10 +-
->  .../staging/media/imx/imx-media-dev-common.c  | 113 +----
->  drivers/staging/media/imx/imx-media-fim.c     | 361 +++-------------
->  drivers/staging/media/imx/imx-media-utils.c   |   9 +-
->  drivers/staging/media/imx/imx-media.h         |  11 +-
->  include/media/v4l2-fim.h                      |  57 +++
->  14 files changed, 680 insertions(+), 716 deletions(-)
->  create mode 100644 drivers/media/v4l2-core/v4l2-fim.c
->  delete mode 100644 drivers/staging/media/imx/TODO
->  create mode 100644 include/media/v4l2-fim.h
-> 
+ MAINTAINERS                                   |   2 +-
+ drivers/media/platform/nvidia/Kconfig         |   2 +
+ drivers/media/platform/nvidia/Makefile        |   1 +
+ .../platform/nvidia}/tegra-video/Kconfig      |   0
+ .../platform/nvidia}/tegra-video/Makefile     |   0
+ .../platform/nvidia}/tegra-video/csi.c        | 298 ++++++--
+ .../platform/nvidia}/tegra-video/csi.h        |   0
+ .../platform/nvidia}/tegra-video/tegra20.c    |  18 +-
+ .../platform/nvidia}/tegra-video/tegra210.c   |  18 +-
+ .../platform/nvidia}/tegra-video/vi.c         | 643 ++----------------
+ .../platform/nvidia}/tegra-video/vi.h         |  19 +-
+ .../platform/nvidia}/tegra-video/video.c      |   0
+ .../platform/nvidia}/tegra-video/video.h      |   0
+ .../platform/nvidia}/tegra-video/vip.c        | 102 ++-
+ .../platform/nvidia}/tegra-video/vip.h        |   0
+ drivers/staging/media/Kconfig                 |   2 -
+ drivers/staging/media/Makefile                |   1 -
+ drivers/staging/media/tegra-video/TODO        |   5 -
+ 18 files changed, 433 insertions(+), 678 deletions(-)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/Kconfig (100%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/Makefile (100%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/csi.c (75%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/csi.h (100%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/tegra20.c (99%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/tegra210.c (98%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vi.c (68%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vi.h (95%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/video.c (100%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/video.h (100%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vip.c (71%)
+ rename drivers/{staging/media => media/platform/nvidia}/tegra-video/vip.h (100%)
+ delete mode 100644 drivers/staging/media/tegra-video/TODO
+
+-- 
+2.53.0
 
