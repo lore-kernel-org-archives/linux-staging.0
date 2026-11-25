@@ -1,85 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795605993;
-	b=WU2kxyojIpfvcHTNHaDCCixJa/FxA6HEciIWVWmDk/WSfPBVVqzUrkUuAZf9z1Ht1URY
-	 ngjoT4SGGtzSfkZw58nUkpWmTgX38aVlim1CrPy71fjF9NhR2lvuutkgoLGonvCQjV/RQ
-	 EKYJoGt6MjS4eBfnQSy+G4C1pmiRzz7jlloSt+v8Fy3fOfHSnHHv5lrr/NHqBovQ94YdI
-	 wNvK38pfAs6xWz+IdZ8b8dY/wCyOJnffqYaNlTm2sFdPaLXrMUKvhhNozNL7jx+eSzhxB
-	 yhyzpESeb7qEPvUf1fcSDHv+jXHMrDDNW6msMu7m8WBnprKafFJzYPXPxTF1738YI8w==
+	t=1795605995;
+	b=lLJTDQsUtAJtg9A3dh84RhpIz+xbqCrURqDxSSuKlgLIK41UKkOgYyM/Z7YEHnnvSlZO
+	 uf2yTTxI3CdO5OX0idVXIjvdN8gUOBuAzorbY6W0+GXeIsICSMUBOC/7BjGnqsy4J6EeF
+	 WvkZHxXrUXvMfVsBYW9HX5y0spTMJB1iUmFOhqSnyPnEfjpw823DpeqW77o9J8m7owTkn
+	 WWEBwvxWineD+4FpghU8W+pba5f5WGiRn4+LI6x766QnH/JWPaYW8f7xWtAsz8v5gZXLU
+	 RWGaGhcLRORQ5KTGLByi402uBVCf221Lyq9bQlwVA8OdWunX5h+ZW8zhyQMBqIKFq4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795605993;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795605995;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=+V+MlFiMVbooH1RFDYNaob+l7nWjCw8PYj3aOGxI4TY=;
-	b=yqNUEjcPU8GoU2C6Jj958Swi6U1SZ0V4QshkWkdUIV7Ijyu4leEU1qZr6VLZqYLY3pbo
-	 zoT/9AoeJaAE2qFShNS3RxKNUbpa+HdjYVVY7uqFhZv5Be2nVeA/LxeBuyQd6dMqKlNX9
-	 jH3Ci0GZtS8LVNyau5mB0MFwnhGS3lYhHGbIuCYldZe+nD5ZS3p/89OSuWzWev/+TGRV7
-	 +MP+8d07ZgpWvTwMH8JvFou3mxHbFCvrnVGAUQkNGurR5hxaXJMX6LVQpPQI6NTMxd77Q
-	 2gyJ6fK6ZtorT54/P112yXSOErblguy43H+AAI1eP+TkBA+EBX6q8956R0cjzsZLCRw==
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=DajO//3VjDJDVFEXWo0EyF15if7O9RtU+D4ToQxNblo=;
+	b=yHUeBOzGH+ADl9UxcoFcGI5F1vfbZeq2uhPEx14pc2xoslRo548Jffo9MGRkDomwT/Bj
+	 6UnKOc3YHC0oMKNNTN7SiE5Z/8WYSeyUOuBUjfEo/x5rWjl2TcseVGkm5UP0aY+dI1UNl
+	 45wFBP6mXyLYMKsIEv030C+5LJGapA8Cv9Xb7+sZvbb3ync6n18BVk5oLAK+VzmkdG0QW
+	 nmpkYIoMJbiaGAlUGV2arrsbKVpyT/tQEnxyqELIq0jtPGJ7WeGRdgT4vVAJaBQiZHhLz
+	 rnPTdBIDK1bDMEST9A4mNrFD7jc/z1hfOZztS6ozr0Hj2ZAC1XeaNq3ATvPVqRidmvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TNvYBPXg;
-	arc=none smtp.remote-ip=209.85.208.42
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hIAzEa34;
+	arc=none smtp.remote-ip=209.85.208.44
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D212606A6B3
-	for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 11:26:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D212606A6B3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC78860A2605
+	for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 11:26:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC78860A2605
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TNvYBPXg
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b8a1f59d5eso7290596a12.3
-        for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 03:26:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hIAzEa34
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b8a2518f7cso6604768a12.2
+        for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 03:26:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795605992; x=1796210792; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+V+MlFiMVbooH1RFDYNaob+l7nWjCw8PYj3aOGxI4TY=;
-        b=TNvYBPXgJ0nZ9NyT+exsR+jxNYY8X9VEfv9z2uL9F6nUjvcgyRSS8oEtD4D1iUEkun
-         7OpALmjRk+37N7CGGVVPw5XCj0SbTMhJZVYDP57DBa2OmfLHFSLWyMlfKFQckF2H9I8v
-         8spdqW1xjscUsZTyfJa+byIF83rNkjpTqieFaTeTHzzOFvgn0TcYNiLtRBZP0zm58Srq
-         w860xx61i8405iE7fgCtibS/ATQ0ZyiNfzNaP5A2Il9pblQo7NWZBMbyrsm1S6pCnhFH
-         4C6/+WOQG/3ZsAQ0pVzoZ3ei0GCuGBQ1HNGWdjAEiHNKvyg8/nK3hlvDxbrsolhfK22A
-         WAYw==
+        d=gmail.com; s=20260707; t=1795605993; x=1796210793; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DajO//3VjDJDVFEXWo0EyF15if7O9RtU+D4ToQxNblo=;
+        b=hIAzEa34HBM3tQw4QJl5P2rvOLHoYwo6lZT976+E28Rdq9kb56rNY+1NxMltW3Z5mC
+         BwoHVTs29JERlN4w5n8ly9JPfVncH1k6WzfsAPQ9qX7IDncT9etC+2k1Md1OJ9BGVawc
+         7mesNLnefxf/EPUd8nU5RVLI1z29XcFhMrgcfOBEi5fKXH8v2or2Be5zQaJm9dlBB42s
+         BGtUDD5vXxvt/aSN4mHA5BOGFWBYpf3rJGD/TtymkopQy6dh6rbYerqbHmaJ2x67ccbw
+         5QkBvmL91XVp0Jbjcbsu47Uh+2PVJn2AekTAqn3IKedoTKUQhWRar4W391Xn0uv7Mpy3
+         9Tfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795605992; x=1796210792;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+V+MlFiMVbooH1RFDYNaob+l7nWjCw8PYj3aOGxI4TY=;
-        b=GtuoQD+f2a81YZj5cwEIl/lkOx3DrcjMnyst5tFtCv9Lc9O3HQtJ0kAZIobcIRUxMA
-         McThXXRE0LtJv9yo59c6L7Y+OLM0xzYE+rrcBYY1Dfj5qSz0G/btRKw7lQ0bBT4USkm0
-         GoXsfuqOGL6IvD+yAsdXCcmQEZfEVmqL0Hdu1stSe4rYQ2Bqo0GMTo7mfqWgHK7V+/pz
-         ZXfXY84JIz2eKV+AO2XusL67A4ufQfis6kiEbyVEjPNLthw9mYbb5IUQ7cimdlajO+Pp
-         2Nse49ckCdPRDD5mWIiEIcJG7K63Syd5RVzIIReKJ6Nxg6tWbn3cindJAOcRGuNrSTxF
-         AGJw==
-X-Forwarded-Encrypted: i=1; AL+hErHZGnsmunTW/TgkwTCxSCpUoKjCvUmZXkhj/TND2RibRx7axRDoNzIvHpc8Eb4GxzPieEEqDjjLzwnIkG+0@lists.linux.dev
-X-Gm-Message-State: APuU4Z+8a3oTYSXm0sY0ORBjAYqUWq0CRRgF56ZISIAdpRDKMxGJ6RGn
-	18t80wVrQxZ9yig95+yfz9FLbYMmIvhozp6ahMTP32crxV8BQcR/yIUE
-X-Gm-Gg: AZFdTZf5tr6dZsI/Rm3yjlFQ1c84TxVVoVM1h7ZrvQYj4X3p3OVwQEWkSZWltNd/Wmz
-	LTMtOSrZSoVjkcOSA33RC+cpHkvYt9k5zdi6NnEE3xOJB3cjfX9+MzfFU2re1H7AbMBFYtsfEol
-	P4RZRYgsscHLfmrKSCx7vdF/BkcJGhZqxDk62EoTHSOaqSWej2YYRD8ICiFD7+//BdGh01r/RUB
-	suZkHZPSv9oWJs8R2ke75StsQ8pbqLysiTFIw7FiOMYKI6H3hwnU6EAr16Pt3xGeWIPPgmDh6Cx
-	bWs5mO7x9bBw1W3AZGJBqNfVQRQGRnAaiuZuZea/xXU3VDiKb785GD9Lm/YBc8NIOyCQRh4TNEn
-	DvJTkk+wW6zvATdJn5JGlbWoBhUgrdk+yDk+Q8H9iCEVsvrufVg23QnwQxwwVTX9NYEkJRRX9/y
-	N+mi65sQXb2l6NDEm6gL75Wn7KN1+M8QOc0yY+t0SP42zZzsaY38uYDrjT3uQrjC3FFZmXyvgWI
-	jK0AI6Mlzpsl8bAF8q8J2Z78bQ3twf5EQi6oHVX9PXmqUHVDkqaxGdxCRsHOt4NKi16jvfVYfEW
-	jU55bzYL6lNfXkVLq/d07K1grC1jjk0GLGuJv0bpR8Ir1pP57bsoexW7NcZgt4k/L2+iaFD6suf
-	R3p3h4BDZ3A==
-X-Received: by 2002:a05:6402:3222:b0:6b2:2339:370d with SMTP id 4fb4d7f45d1cf-6ba37ec485cmr14832157a12.39.1795605991602;
-        Wed, 25 Nov 2026 03:26:31 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795605993; x=1796210793;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DajO//3VjDJDVFEXWo0EyF15if7O9RtU+D4ToQxNblo=;
+        b=fT8uCkdQ1O4/A0sNlI9BdQQxKnRQkFnbkI0p8I5yHwC79nFUc9AFweFdO5d7ZO7ehE
+         2jLDVSXJhX/tNTyoPu+v6gENvPGCd3XBvMs4E7UqF7Cs2xZJaewsKl1FFgsxo9gPIQCl
+         1KObKvdVCRgdKsoMjkQFL+UH0hDzYLYYrnbDKOpRxDQJokCzg/kDtYtI6VEQpe9xeTQk
+         D0gc7T16E5dgwt9FbOSQAVhsI1nDeFHNi/miSB7CBTTOeFNTHO61fTaeUct7Tt9nUlLA
+         B5ZexZJ/RXypx1BQGg/8kVt2oHw7MXnOvyEVkvpwFv3y0d0WyN+hiYWq3I1MYLWAZo62
+         CNSg==
+X-Forwarded-Encrypted: i=1; AL+hErFY1P7GGhg3go5/l7wa3XQ3sTHBD5B9LVPS/9cbZB9nVxNhJCDYdtZ0LJe7OwjEqiqQJEjBiJBs9QGNiZaS@lists.linux.dev
+X-Gm-Message-State: APuU4Z9RcgcF4x8Rffr3OqE0qImVSRHfxSloM1autDYNFuoZ0ykq3ug4
+	4CQWmBDw7unHKTDkmQvAzelAuG+Y3HHKgr5Q0P70zoLw6EgQe/oTkdX7
+X-Gm-Gg: AZFdTZelgraZ/DLamCbT+SZIzoHy1zNtTX7srkNDaJndyLVZAIR5iT4/d6peOWf80lI
+	qkY4ap2mvYql9jmEtRb5n9tVv/TuPohdLRdpDK2W1wEhqo8vUJwE1Gs+OuW0PWuZxpIGEveHPUd
+	57JqejZ/liwdhAegYqzMQ8PPqzCgX4I1HHaJNSC7QrhNrcrZqf5uZdH59jgsZLacTtBxHgKxh0n
+	toa7rh72tVBNSQd3ufXp6eOnmVI0dlfYHqj+K9zDzf+U7U1gm1x17ZkyCs8djXgD8d+2ZoDK5pn
+	LKbMo4QSntXOQ0D65DKMmXIrPy7kzuoX+EynV/fD/qiXmI+IboBUd90zK7mZJYqwJIVfAm+uGLe
+	meXfiqeND2pTzI0NYWIc7QJvF1dFMMcUJmkeckBfwsqS3U20cm4+ODNA0md3YbVP25/oTw+hMox
+	r/+EOInV89+0X6sbC/vqVTNglALVLJI/0czWcfFJ3NqXJzZkVNwelZxiVfLk/RsylJ8ak0E7q7c
+	Su7yodNe16Sl2D0Ce2CZ4SkpN9/MXjiOfzM/s686upySxk7lYyvKQT40Y3tFw8g4dBCAFw3oIOz
+	vuSHveKIpVTd/JxcWFoKBtgRNIc/ttl/nXLVERsNpKhAA3zyvWfcUcmmwFYJKXQMrMEc60vQPWe
+	AXmUkDgBXbA==
+X-Received: by 2002:a05:6402:5516:b0:6ba:85f6:9b4b with SMTP id 4fb4d7f45d1cf-6ba85f69da8mr8715017a12.41.1795605993067;
+        Wed, 25 Nov 2026 03:26:33 -0800 (PST)
 Received: from xeon ([188.163.112.54])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6bb1b93a8efsm1202907a12.7.2026.11.25.03.26.30
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6bb1b93a8efsm1202907a12.7.2026.11.25.03.26.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 03:26:31 -0800 (PST)
+        Wed, 25 Nov 2026 03:26:32 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@kernel.org>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -99,9 +98,9 @@ Cc: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2 2/7] media: tegra-video: vi: Diverge Tegra20 and Tegra30 VI SoC descriptions
-Date: Wed, 25 Nov 2026 13:26:08 +0200
-Message-ID: <20261125112613.237333-3-clamor95@gmail.com>
+Subject: [PATCH v2 3/7] media: tegra-video: Move Tegra210-specific functions from common CSI
+Date: Wed, 25 Nov 2026 13:26:09 +0200
+Message-ID: <20261125112613.237333-4-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261125112613.237333-1-clamor95@gmail.com>
 References: <20261125112613.237333-1-clamor95@gmail.com>
@@ -114,127 +113,230 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Further investigation shows that the current maximum VI clock rate is too
-high for Tegra20 and is better suited for Tegra30. The correct clock
-frequency for Tegra20 should be 150 MHz, as it was set prior to the
-addition of Tegra30 VI support — a value backed up by the current Tegra20
-peripheral OPP table. Tegra30 supports up to 470 MHz for the VI clock,
-but this rate is available only on higher-end Tegra30 SoC variants. The
-highest clock rate supported across all SoC variants is 300 MHz.
+Move and staticize the tegra_csi_error_recover() and
+tegra_csi_calc_settle_time() helpers from the common CSI file into the
+Tegra210-specific code, since they are used exclusively by the HW rev. 3
+Video Input found in Tegra210.
 
-Diverge the Tegra20 and Tegra30 VI SoC descriptions to account for maximum VI
-clock limits, setting 150 MHz for Tegra20 and 300 MHz for Tegra30.
-Additionally, remove the APB_MISC workaround for Tegra30, as it is Tegra20
-specific.
+The tegra_csi_calc_settle_time() helper uses a custom MHZ definition
+which corresponds to the standard HZ_PER_MHZ. The custom MHZ macro is
+replaced by HZ_PER_MHZ, with this change folded into this commit.
 
-Fixes: 071fa83ded5e ("staging: media: tegra-video: tegra20: increase maximum VI clock frequency")
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- .../platform/nvidia/tegra-video/tegra20.c     | 22 ++++++++++++++++++-
- .../media/platform/nvidia/tegra-video/vi.c    |  5 ++++-
- .../media/platform/nvidia/tegra-video/vi.h    |  5 ++++-
- .../media/platform/nvidia/tegra-video/video.c |  3 ++-
- 4 files changed, 31 insertions(+), 4 deletions(-)
+ .../media/platform/nvidia/tegra-video/csi.c   | 72 -------------------
+ .../media/platform/nvidia/tegra-video/csi.h   |  5 --
+ .../platform/nvidia/tegra-video/tegra210.c    | 70 ++++++++++++++++++
+ 3 files changed, 70 insertions(+), 77 deletions(-)
 
-diff --git a/drivers/media/platform/nvidia/tegra-video/tegra20.c b/drivers/media/platform/nvidia/tegra-video/tegra20.c
-index f8d2b5e1b4131..c8a8fb3cbba0f 100644
---- a/drivers/media/platform/nvidia/tegra-video/tegra20.c
-+++ b/drivers/media/platform/nvidia/tegra-video/tegra20.c
-@@ -825,6 +825,15 @@ static const struct tegra_vi_ops tegra20_vi_ops = {
- 	.vi_stop_streaming = tegra20_vi_stop_streaming,
- };
+diff --git a/drivers/media/platform/nvidia/tegra-video/csi.c b/drivers/media/platform/nvidia/tegra-video/csi.c
+index aaab884d99f54..fb4b4c0c7cfcd 100644
+--- a/drivers/media/platform/nvidia/tegra-video/csi.c
++++ b/drivers/media/platform/nvidia/tegra-video/csi.c
+@@ -19,8 +19,6 @@
+ #include "csi.h"
+ #include "video.h"
  
-+static const struct tegra_vi_ops tegra30_vi_ops = {
-+	.channel_host1x_syncpt_init = tegra20_channel_host1x_syncpt_init,
-+	.channel_host1x_syncpt_free = tegra20_channel_host1x_syncpt_free,
-+	.vi_fmt_align = tegra20_fmt_align,
-+	.channel_queue_setup = tegra20_channel_queue_setup,
-+	.vi_start_streaming = tegra20_vi_start_streaming,
-+	.vi_stop_streaming = tegra20_vi_stop_streaming,
-+};
-+
- #define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, FOURCC)	\
- {									\
- 	.img_dt		= TEGRA_IMAGE_DT_##DATA_TYPE,			\
-@@ -868,7 +877,18 @@ const struct tegra_vi_soc tegra20_vi_soc = {
- 	.ops = &tegra20_vi_ops,
- 	.hw_revision = 1,
- 	.vi_max_channels = 2, /* TEGRA_VI_OUT_1 and TEGRA_VI_OUT_2 */
--	.vi_max_clk_hz = 450000000,
-+	.vi_max_clk_hz = 150000000,
-+	.has_h_v_flip = true,
-+};
-+
-+const struct tegra_vi_soc tegra30_vi_soc = {
-+	.video_formats = tegra20_video_formats,
-+	.nformats = ARRAY_SIZE(tegra20_video_formats),
-+	.default_video_format = &tegra20_video_formats[0],
-+	.ops = &tegra30_vi_ops,
-+	.hw_revision = 1,
-+	.vi_max_channels = 2,
-+	.vi_max_clk_hz = 300000000,
- 	.has_h_v_flip = true,
- };
- 
-diff --git a/drivers/media/platform/nvidia/tegra-video/vi.c b/drivers/media/platform/nvidia/tegra-video/vi.c
-index 98411c3f4a037..52384af92d8a6 100644
---- a/drivers/media/platform/nvidia/tegra-video/vi.c
-+++ b/drivers/media/platform/nvidia/tegra-video/vi.c
-@@ -1408,9 +1408,12 @@ static void tegra_vi_remove(struct platform_device *pdev)
+-#define MHZ			1000000
+-
+ /*
+  * Test pattern generator configuration
+  */
+@@ -263,65 +261,6 @@ static int tegra_csi_tpg_init_state(struct v4l2_subdev *sd,
+ 	return 0;
  }
  
- static const struct of_device_id tegra_vi_of_id_table[] = {
--#if defined(CONFIG_ARCH_TEGRA_2x_SOC) || defined(CONFIG_ARCH_TEGRA_3x_SOC)
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
- 	{ .compatible = "nvidia,tegra20-vi",  .data = &tegra20_vi_soc },
- #endif
-+#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-+	{ .compatible = "nvidia,tegra30-vi",  .data = &tegra30_vi_soc },
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-vi", .data = &tegra210_vi_soc },
- #endif
-diff --git a/drivers/media/platform/nvidia/tegra-video/vi.h b/drivers/media/platform/nvidia/tegra-video/vi.h
-index 44893c5c6e651..965357ebaf0a3 100644
---- a/drivers/media/platform/nvidia/tegra-video/vi.h
-+++ b/drivers/media/platform/nvidia/tegra-video/vi.h
-@@ -291,9 +291,12 @@ struct tegra_video_format {
- 	u32 fourcc;
- };
+-static unsigned int csi_get_pixel_rate(struct tegra_csi_channel *csi_chan)
+-{
+-	struct v4l2_subdev *subdev = &csi_chan->subdev;
+-	struct v4l2_subdev *src_subdev;
+-	struct v4l2_ctrl *ctrl;
+-	struct media_pad *pad;
+-
+-	pad = media_entity_remote_source_pad_unique(&subdev->entity);
+-	if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
+-		dev_err_probe(csi_chan->csi->dev, -ENODEV,
+-			      "failed to get source entity\n");
+-
+-	src_subdev = media_entity_to_v4l2_subdev(pad->entity);
+-	ctrl = v4l2_ctrl_find(src_subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
+-	if (ctrl)
+-		return v4l2_ctrl_g_ctrl_int64(ctrl);
+-
+-	return 0;
+-}
+-
+-void tegra_csi_calc_settle_time(struct tegra_csi_channel *csi_chan,
+-				u8 csi_port_num,
+-				u8 *clk_settle_time,
+-				u8 *ths_settle_time)
+-{
+-	struct tegra_csi *csi = csi_chan->csi;
+-	unsigned int cil_clk_mhz;
+-	unsigned int pix_clk_mhz;
+-	int clk_idx = (csi_port_num >> 1) + 1;
+-
+-	cil_clk_mhz = clk_get_rate(csi->clks[clk_idx].clk) / MHZ;
+-	pix_clk_mhz = csi_get_pixel_rate(csi_chan) / MHZ;
+-
+-	/*
+-	 * CLK Settle time is the interval during which HS receiver should
+-	 * ignore any clock lane HS transitions, starting from the beginning
+-	 * of T-CLK-PREPARE.
+-	 * Per DPHY specification, T-CLK-SETTLE should be between 95ns ~ 300ns
+-	 *
+-	 * 95ns < (clk-settle-programmed + 7) * lp clk period < 300ns
+-	 * midpoint = 197.5 ns
+-	 */
+-	*clk_settle_time = ((95 + 300) * cil_clk_mhz - 14000) / 2000;
+-
+-	/*
+-	 * THS Settle time is the interval during which HS receiver should
+-	 * ignore any data lane HS transitions, starting from the beginning
+-	 * of THS-PREPARE.
+-	 *
+-	 * Per DPHY specification, T-HS-SETTLE should be between 85ns + 6UI
+-	 * and 145ns+10UI.
+-	 * 85ns + 6UI < (Ths-settle-prog + 5) * lp_clk_period < 145ns + 10UI
+-	 * midpoint = 115ns + 8UI
+-	 */
+-	if (pix_clk_mhz)
+-		*ths_settle_time = (115 * cil_clk_mhz + 8000 * cil_clk_mhz
+-				   / (2 * pix_clk_mhz) - 5000) / 1000;
+-}
+-
+ /*
+  * Proper CSI configuration
+  */
+@@ -867,17 +806,6 @@ static int tegra_csi_channel_init(struct tegra_csi_channel *chan)
+ 	return 0;
+ }
  
--#if defined(CONFIG_ARCH_TEGRA_2x_SOC) || defined(CONFIG_ARCH_TEGRA_3x_SOC)
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
- extern const struct tegra_vi_soc tegra20_vi_soc;
+-void tegra_csi_error_recover(struct v4l2_subdev *sd)
+-{
+-	struct tegra_csi_channel *csi_chan = to_csi_chan(sd);
+-	struct tegra_csi *csi = csi_chan->csi;
+-
+-	/* stop streaming during error recovery */
+-	csi->ops->csi_stop_streaming(csi_chan);
+-	csi->ops->csi_err_recover(csi_chan);
+-	csi->ops->csi_start_streaming(csi_chan);
+-}
+-
+ static int tegra_csi_channels_init(struct tegra_csi *csi)
+ {
+ 	struct tegra_csi_channel *chan;
+diff --git a/drivers/media/platform/nvidia/tegra-video/csi.h b/drivers/media/platform/nvidia/tegra-video/csi.h
+index 25aff2581f069..addd1b82685e9 100644
+--- a/drivers/media/platform/nvidia/tegra-video/csi.h
++++ b/drivers/media/platform/nvidia/tegra-video/csi.h
+@@ -175,9 +175,4 @@ static inline struct tegra_csi_channel *to_csi_chan(struct v4l2_subdev *subdev)
+ 	return container_of(subdev, struct tegra_csi_channel, subdev);
+ }
+ 
+-void tegra_csi_error_recover(struct v4l2_subdev *subdev);
+-void tegra_csi_calc_settle_time(struct tegra_csi_channel *csi_chan,
+-				u8 csi_port_num,
+-				u8 *clk_settle_time,
+-				u8 *ths_settle_time);
  #endif
-+#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-+extern const struct tegra_vi_soc tegra30_vi_soc;
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- extern const struct tegra_vi_soc tegra210_vi_soc;
- #endif
-diff --git a/drivers/media/platform/nvidia/tegra-video/video.c b/drivers/media/platform/nvidia/tegra-video/video.c
-index 2e84385708bac..d483fb709d127 100644
---- a/drivers/media/platform/nvidia/tegra-video/video.c
-+++ b/drivers/media/platform/nvidia/tegra-video/video.c
-@@ -123,13 +123,14 @@ static void host1x_video_remove(struct host1x_device *dev)
- static const struct of_device_id host1x_video_subdevs[] = {
- #if defined(CONFIG_ARCH_TEGRA_2x_SOC) || defined(CONFIG_ARCH_TEGRA_3x_SOC)
- 	{ .compatible = "nvidia,tegra20-vip", },
--	{ .compatible = "nvidia,tegra20-vi", },
- #endif
- #if defined(CONFIG_ARCH_TEGRA_2x_SOC)
- 	{ .compatible = "nvidia,tegra20-csi", },
-+	{ .compatible = "nvidia,tegra20-vi", },
- #endif
- #if defined(CONFIG_ARCH_TEGRA_3x_SOC)
- 	{ .compatible = "nvidia,tegra30-csi", },
-+	{ .compatible = "nvidia,tegra30-vi", },
- #endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-csi", },
+diff --git a/drivers/media/platform/nvidia/tegra-video/tegra210.c b/drivers/media/platform/nvidia/tegra-video/tegra210.c
+index 90d984790696f..474f906e8bcc6 100644
+--- a/drivers/media/platform/nvidia/tegra-video/tegra210.c
++++ b/drivers/media/platform/nvidia/tegra-video/tegra210.c
+@@ -13,6 +13,7 @@
+ #include <linux/delay.h>
+ #include <linux/host1x.h>
+ #include <linux/kthread.h>
++#include <linux/units.h>
+ 
+ #include "csi.h"
+ #include "vi.h"
+@@ -334,6 +335,17 @@ static void tegra_channel_vi_soft_reset(struct tegra_vi_channel *chan,
+ 	tegra_vi_write(chan, TEGRA_VI_CFG_CG_CTRL, VI_CG_2ND_LEVEL_EN);
+ }
+ 
++static void tegra_csi_error_recover(struct v4l2_subdev *sd)
++{
++	struct tegra_csi_channel *csi_chan = to_csi_chan(sd);
++	struct tegra_csi *csi = csi_chan->csi;
++
++	/* stop streaming during error recovery */
++	csi->ops->csi_stop_streaming(csi_chan);
++	csi->ops->csi_err_recover(csi_chan);
++	csi->ops->csi_start_streaming(csi_chan);
++}
++
+ static void tegra_channel_capture_error_recover(struct tegra_vi_channel *chan,
+ 						u8 portno)
+ {
+@@ -979,6 +991,64 @@ static void tegra210_csi_error_recover(struct tegra_csi_channel *csi_chan)
+ 		tegra210_csi_port_recover(csi_chan, portnos[i]);
+ }
+ 
++static unsigned int csi_get_pixel_rate(struct tegra_csi_channel *csi_chan)
++{
++	struct v4l2_subdev *subdev = &csi_chan->subdev;
++	struct v4l2_subdev *src_subdev;
++	struct v4l2_ctrl *ctrl;
++	struct media_pad *pad;
++
++	pad = media_entity_remote_source_pad_unique(&subdev->entity);
++	if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
++		dev_err_probe(csi_chan->csi->dev, -ENODEV,
++			      "failed to get source entity\n");
++
++	src_subdev = media_entity_to_v4l2_subdev(pad->entity);
++	ctrl = v4l2_ctrl_find(src_subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
++	if (ctrl)
++		return v4l2_ctrl_g_ctrl_int64(ctrl);
++
++	return 0;
++}
++
++static void tegra_csi_calc_settle_time(struct tegra_csi_channel *csi_chan,
++				       u8 csi_port_num, u8 *clk_settle_time,
++				       u8 *ths_settle_time)
++{
++	struct tegra_csi *csi = csi_chan->csi;
++	unsigned int cil_clk_mhz;
++	unsigned int pix_clk_mhz;
++	int clk_idx = (csi_port_num >> 1) + 1;
++
++	cil_clk_mhz = clk_get_rate(csi->clks[clk_idx].clk) / HZ_PER_MHZ;
++	pix_clk_mhz = csi_get_pixel_rate(csi_chan) / HZ_PER_MHZ;
++
++	/*
++	 * CLK Settle time is the interval during which HS receiver should
++	 * ignore any clock lane HS transitions, starting from the beginning
++	 * of T-CLK-PREPARE.
++	 * Per DPHY specification, T-CLK-SETTLE should be between 95ns ~ 300ns
++	 *
++	 * 95ns < (clk-settle-programmed + 7) * lp clk period < 300ns
++	 * midpoint = 197.5 ns
++	 */
++	*clk_settle_time = ((95 + 300) * cil_clk_mhz - 14000) / 2000;
++
++	/*
++	 * THS Settle time is the interval during which HS receiver should
++	 * ignore any data lane HS transitions, starting from the beginning
++	 * of THS-PREPARE.
++	 *
++	 * Per DPHY specification, T-HS-SETTLE should be between 85ns + 6UI
++	 * and 145ns+10UI.
++	 * 85ns + 6UI < (Ths-settle-prog + 5) * lp_clk_period < 145ns + 10UI
++	 * midpoint = 115ns + 8UI
++	 */
++	if (pix_clk_mhz)
++		*ths_settle_time = (115 * cil_clk_mhz + 8000 * cil_clk_mhz
++				   / (2 * pix_clk_mhz) - 5000) / 1000;
++}
++
+ static int
+ tegra210_csi_port_start_streaming(struct tegra_csi_channel *csi_chan,
+ 				  u8 portno)
 -- 
 2.53.0
 
