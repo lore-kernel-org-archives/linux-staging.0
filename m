@@ -1,57 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795732764;
-	b=VZqKQqfd6rqdD1u49Wopp9gOVZKoJEwUtiAGn2pow6WN1fzkxdQopQfK5uCIyVCXr4D7
-	 pRVufUhZq/bnbIIEo1fHJdTXZXUnIuP7Fgf//VdIUMTGq/R93Gmg0iXz4xeeo20ZSZYQp
-	 Z/ZJG/8Cocx6/1BOsfCg5fChMnkcRn2ZxXV6+yMQAeKpejp30OWigSTPc0Fq/QeJAoy0S
-	 +xmPrCyPmMj3A79C97TYRMXi1mCg5kG46DuIiRZ6OFeXkAwOmYegZTXG5dQYC7CHY0F5G
-	 2hrXjZLumW2MoqN/Ml9gZlpKe+ce8aT+DOmhDUBFGKJeokGI9jVc11NReSpVznzntLA==
+	t=1795732797;
+	b=gxfoiNU5XlVRV32chghzaVADSdbDBK2tWH6xdS3vApr/zaI7GKPi6y+Ei55+0NgZzNgG
+	 HWYCe2u6z3IFDmFHo0sdSLe1j6sM/ImXFKxPerpxHcHTW/hVdDpSvPIdkJar+/Y67Lnjf
+	 ijppn5MK4GmwIs6euy6bEDjUEj5OUHATFPdLp4P6CONx5wGkJ5LITxkMXld7HLYFFvfhJ
+	 o7lPLtpoccjcWx2Ep+jiwmQQXzoZ99oH704bPlS+qtzqOoUdygO07/A7Q8vy6gqeXgv35
+	 zeTeRoTmzgsPDyiIiaXNh35XAwbFavz1pP0kBRxnZa13jIOQSdtI4aIqxsVTDi/1mLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795732764;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795732797;
 	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
 	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
 	 User-Agent:MIME-Version;
-	bh=3b/rqhQmT3xmc1qWoR3hWslCjOL5zdfyC8hHmCQeVuc=;
-	b=qFYRRPDjJTTEVkDS3Fz/glls3U73A9cZPKlPwDnT3HSya/oz8O+7G34U8OoTRzIT2POF
-	 c0QhQJtT/cu4sgAQcqzQfcKADf6s6qAASd303S27Mzyy+DPXgifLZXiTFUf4nDQZ58ZZB
-	 FHpPIZnsyRUSzv/s3bgqfNhtha+AgO6mhaDYBc/Z/qbNcyxiilchyqcoOq+ILVABv4x2F
-	 TwG5RqBHsLtGlg7FEzJXhI88pmB1qlbF/Ntd1mpv15i0h6qwkb4hi0mGoe5XMAqZEMdrj
-	 SPyLxeGS1kOMBDYz2T3DO0Iv8BcE2mNaLQQFIm+S13d0lAJTlKrLJD+O1MNx+k8WtQQ==
+	bh=qHZSQgp+ZGSrefrl/qFSuVdRUTJkF4L772VuAEgGZS0=;
+	b=OqGVLRsLXDrOEIkPiTt1NyEuDrbDg0u54EqHNSaAsC0V8rwB8Qx9ZP72PV5R64NkoytC
+	 w/7wLjK2jQwGvNKskJhsEuJsSlDVcZmfupT89IJvU7xUe7AGn645eXy5Abbm/i7k79Pzy
+	 +Z/1ITOh+6N4WwLWkLocf/Sqc7U65rjIhv5ifN0txGJ0ZPy3R++gLXpjjJOqp5b2DDH9e
+	 bSzWkAY1BdQ0SG3Y54djPs7EKDkzpHIjmxR40JWmxGfn4+I/c5pYvSfxEvKUjn5iB8GTH
+	 oVeKXyGeCfp8RlYXV6HXvX0Ng4T5C2JiFCgxJlPVPK744QW4205/p4puTPuCfQP6ISw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=collabora.com;
 	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=kbuy3Uio;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=M9qESV1T;
 	arc=none smtp.remote-ip=148.251.105.195
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB24D606A32D;
-	Thu, 26 Nov 2026 22:39:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB24D606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FF0606A31E;
+	Thu, 26 Nov 2026 22:39:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93FF0606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=kbuy3Uio
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=M9qESV1T
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1795732762;
-	bh=vJprXkooLTTizDoYN7nK7CbdvrG0cpdJhVlxvvq+ljA=;
+	s=mail; t=1795732794;
+	bh=LvFMCCC7vYA0WRTmw7yaSVoqNSLrrtzP/zmD039djFY=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=kbuy3Uio/Blyvn6RmMve1NZrU3dW+aDj06ubrTEwyTRuE+st6/3aVKExgoGJRUbMm
-	 nxrTvT6D4bNOvOTQhOiuQAOL+3fnwEXwIvnd2+LgL37HoUc28QSgz4gCC2sIKd/wgv
-	 LOQ3+5dd1QfBJaNq/OrqNm0F8Y5zt3XObHYELbDAjeOoriK0AOBTOk+0TdHz1g2Lso
-	 XHnIQT2QTkR0oiI/SMu5J+lOdYq5wnljAk2yLWYt3uoJQEJEoQA9znxBTnDoHqixJb
-	 bNpqyRpBceEpdzFKaBg2eyJNg/821gGyrXFaW7z5ENQjxRFzijhzp448V366aHgbVb
-	 vHTqSa/Lvm9nA==
+	b=M9qESV1TneP491akknSQldHyUKeqsmvePtINaq8qZulgUEXUaTh60cVqC/540GeXA
+	 MhPTiKP8qCot8MrOz1li1DMaMhfxozFWL2avyWLKp/yvkmq9sN2kd9zOeWDDAlZvYd
+	 Kt8elf40RubUyYmUlrjgY5DedjUjyHGdKeCZ7YK5doXXR5qj7XngdnjSBUS53oXPjC
+	 qwNbAs0nO+VtqAFcOhLxnlXfc44KAkjbT74lSTTcdqk6HDfBcZ8w2f/qq0dP/vH9Ka
+	 sYmh2lsCqlvEzYBtd0gYnJCRFI/Phk/brDKTF9qJSLpfe9Dxya4vOenoqYlQx1VFpC
+	 VjsMwk8vU+exA==
 Received: from [100.64.0.214] (unknown [100.64.0.214])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange secp256r1)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 339E517E0DCD;
-	Thu, 26 Nov 2026 23:39:20 +0100 (CET)
-Message-ID: <74b063cdc772987150f00e084e60503e32291f23.camel@collabora.com>
-Subject: Re: [PATCH v2 07/11] staging: media: cedrus: validate VP8 frame size
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2E4F517E0DCD;
+	Thu, 26 Nov 2026 23:39:53 +0100 (CET)
+Message-ID: <bf4467491ed1fefd634911530bf19b5e428a300f.camel@collabora.com>
+Subject: Re: [PATCH v2 10/11] staging: media: cedrus: h264: clear the DRAM
+ buffer sizes on start
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>, Mauro Carvalho Chehab
 	 <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
@@ -61,10 +62,10 @@ Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
 	linux-kernel@vger.kernel.org
-Date: Thu, 26 Nov 2026 17:39:18 -0500
-In-Reply-To: <20261109175016.42061-8-jernej.skrabec@gmail.com>
+Date: Thu, 26 Nov 2026 17:39:52 -0500
+In-Reply-To: <20261109175016.42061-11-jernej.skrabec@gmail.com>
 References: <20261109175016.42061-1-jernej.skrabec@gmail.com>
-	 <20261109175016.42061-8-jernej.skrabec@gmail.com>
+	 <20261109175016.42061-11-jernej.skrabec@gmail.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -80,7 +81,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-8Q9KLiYJnGx9xs4o2J0/"
+	protocol="application/pgp-signature"; boundary="=-DIoTfJOE3v4BowFGg5IO"
 User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -92,101 +93,62 @@ List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
---=-8Q9KLiYJnGx9xs4o2J0/
+--=-DIoTfJOE3v4BowFGg5IO
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Le lundi 09 novembre 2026 =C3=A0 18:50 +0100, Jernej Skrabec a =C3=A9crit=
 =C2=A0:
-> A VP8 key frame can change the frame size. If userspace doesn't
-> reallocate the capture buffers, the hardware writes and reads past the
-> buffers, which shows up as IOMMU page faults and decode timeouts.
+> Above 2048 pixels, the H.264 decoder puts its deblocking and intra
+> prediction buffers into DRAM, and stop() frees them when their sizes
+> are not zero. start() only sets the sizes for wide pictures and nothing
+> clears them, so a narrow stream after a wide one on the same file
+> handle frees the buffers of the wide one again. The codec data is also
+> shared with the other codecs, whose data can end up in the sizes.
 >=20
-> Like for the H.264 and HEVC SPS, reject frames beyond the hardware
-> limits in try_ctrl, and fail the job in the setup callback if the frame
-> doesn't fit the buffers. The VP8 frame size register holds the size in
-> 8-bit macroblock counts, so VP8 frames are limited to 4080 pixels in
-> width.
+> Clear the sizes at the start of start().
 >=20
-> Fixes: 3c39a16d30d8 ("media: cedrus: Add support for VP8 decoding")
+> Fixes: 03e612e701a6 ("media: cedrus: Fix H264 4k support")
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 > ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c     | 10 ++++++++++
->  drivers/staging/media/sunxi/cedrus/cedrus_vp8.c |  3 +++
->  2 files changed, 13 insertions(+)
+>  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index 197213911bf7..6c6aa45f5f96 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -28,6 +28,8 @@
->  #include "cedrus_dec.h"
->  #include "cedrus_hw.h"
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h264.c
+> index 97958ceee8d1..e7a3bfbc3531 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -573,6 +573,14 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+>  =09unsigned int pic_info_size;
+>  =09int ret;
 > =20
-> +#define CEDRUS_VP8_MAX_WIDTH=094080U
+> +=09/*
+> +=09 * The sizes tell stop() whether the DRAM buffers below were
+> +=09 * allocated. Clear them, as they are only set for wide pictures and
+> +=09 * the codec data is shared with the other codecs.
+> +=09 */
+> +=09ctx->codec.h264.deblk_buf_size =3D 0;
+> +=09ctx->codec.h264.intra_pred_buf_size =3D 0;
 > +
->  /*
->   * Reject picture sizes beyond the hardware limits. Whether the picture =
-fits
->   * the buffers is checked when a job is set up, see cedrus_check_pic_siz=
-e().
-> @@ -54,6 +56,13 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
->  =09=09if (!cedrus_pic_size_supported(cedrus_h264_sps_width(sps),
->  =09=09=09=09=09       cedrus_h264_sps_height(sps)))
->  =09=09=09return -EINVAL;
-> +=09} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_VP8_FRAME) {
-> +=09=09const struct v4l2_ctrl_vp8_frame *frame =3D ctrl->p_new.p_vp8_fram=
-e;
-> +
-> +=09=09/* The VP8 frame size register holds 8-bit macroblock counts. */
-> +=09=09if (!cedrus_pic_size_supported(frame->width, frame->height) ||
-> +=09=09    frame->width > CEDRUS_VP8_MAX_WIDTH)
-> +=09=09=09return -EINVAL;
->  =09} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_HEVC_SPS) {
->  =09=09const struct v4l2_ctrl_hevc_sps *sps =3D ctrl->p_new.p_hevc_sps;
->  =09=09struct cedrus_ctx *ctx =3D container_of(ctrl->handler, struct cedr=
-us_ctx, hdl);
-> @@ -248,6 +257,7 @@ static const struct cedrus_control cedrus_controls[] =
-=3D {
->  =09{
->  =09=09.cfg =3D {
->  =09=09=09.id=09=3D V4L2_CID_STATELESS_VP8_FRAME,
-> +=09=09=09.ops=09=3D &cedrus_ctrl_ops,
->  =09=09},
->  =09=09.capabilities=09=3D CEDRUS_CAPABILITY_VP8_DEC,
->  =09},
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/st=
-aging/media/sunxi/cedrus/cedrus_vp8.c
-> index 969677a3bbf9..fecca343bd92 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-> @@ -662,6 +662,9 @@ static int cedrus_vp8_setup(struct cedrus_ctx *ctx, s=
-truct cedrus_run *run)
->  =09int header_size;
->  =09u32 reg;
-> =20
-> +=09if (cedrus_check_pic_size(ctx, slice->width, slice->height))
-> +=09=09return -EINVAL;
-> +
->  =09cedrus_engine_enable(ctx);
-> =20
->  =09cedrus_write(dev, VE_H264_CTRL, VE_H264_CTRL_VP8);
+>  =09/*
+>  =09 * NOTE: All buffers allocated here are only used by HW, so we
+>  =09 * can add DMA_ATTR_NO_KERNEL_MAPPING flag when allocating them.
 
---=-8Q9KLiYJnGx9xs4o2J0/
+--=-DIoTfJOE3v4BowFGg5IO
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCawi1FwAKCRDZQZRRKWBy
-9AVeAP0QqqSJZ3Yi76IXym+ARoRij09yWYrM1P4qCnP48U+tbAEA+kUzIe/ld2xe
-WskL55bZCsv3njtlNiKP/49DrxTEtAI=
-=e+YH
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCawi1OAAKCRDZQZRRKWBy
+9JLDAQCY9nvwXakP5rK1ZSCdsq/tton1rjmCPvOqGBQwxsAkJgEApQCaKxATUqDr
+oi4UrAEljUMab2bf+2jLF918X/Q1aAs=
+=s/wX
 -----END PGP SIGNATURE-----
 
---=-8Q9KLiYJnGx9xs4o2J0/--
+--=-DIoTfJOE3v4BowFGg5IO--
