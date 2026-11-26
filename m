@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795713696;
-	b=g8i4EwEJgHOGFESmnI/Mm3RdA6o4JBpZWvbn2eTvsQSq4qD6KWnxGMWqrEKZA9Pvfh1L
-	 IwFcfCk9F+u7FBxX3mL8W5o5DjvmYMqvIBtN3o1O27xmuSNRNgqICxiAO1ObtQfDKY5ow
-	 aBtoFOW/1ygRqG/YCkPBOH5179sflGvzTtmE6u0yJ90/nAyws0V99UHWuxcUOiw81jmGG
-	 JFTe+rVqseldRapc9RUXi5rE0r+poyEWShbclgmdRpTABEFdkL5zcIZP6tZI5MRWufU63
-	 sgsdgVbzHSHCb3tgsxWsKermnSeCPWcY8xYpMYzOeKoQnYresLTXCy6g44zyU3aO1eQ==
+	t=1795713755;
+	b=pXiyefWQLriMS3VCV9UP9+TyDOLOJukH+nlWObchh50QXHfoo12xoKzgz7JnbIFwEiZU
+	 fWk1uRMNvrtOm9y5GtzrM3nUu5eAXR3385MP567ya928O3zXXl4Ajvpl31sndjccD6zm0
+	 ZWS4Wz7UXkdx01zDYTrFk7OrWiznsWOMSgO2XvJIGAxIL4D83qES8/ItQcEJx/xIl0tlB
+	 uo6G/hdkhiKdcdYWR6hEKI3oWEJVuqQWPZBbcJ0+I+Wo7dpX6FKAHY4Owx95nTlZBc0y8
+	 1MqmAMhHWN40F5U3TR9KnOUTJt9w4ECAUK/+HFY/yr+mng+e9ADxxObCtVKE8gKRPhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795713696;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795713755;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	bh=sPlvcQPGEEm8iV8OkCIRBzVDRIB9FJj4cVWpQcsCjok=;
-	b=gGuacvAbmKYnj5yVc1RSaOinZhrdRlLwTwIVQMt8aA4BDDw29hncPS3cOYHtG2luOjWz
-	 fEUsFOo9bAVaC/7g/vX4JUg9/ps7YyMpTOimGjj15Ntj5kCxrT0ire9u5XojFx+vZPR+Z
-	 9dnZAX0bFcvzsWslrebI+ytaCK0X0yxff0eObsoI5OqaJArt3H/RSrj7nfa6EXt0wBDlB
-	 hlsJCW7XLuKC0T+HKmC6vgaFZg51HlkKNGS417WIS9bYoZv4qrevJ802dd90MXtCA+3KU
-	 A+LcFv+Efavwd/9DPNctTHergwespawHkwds/yvQWc4lgMJ6c4wzf6pWbGAUnA3yHPg==
+	bh=+o/+kD0PbzrgfqIeIyLt88wkMJdXcHeQPVqxrdmSlPw=;
+	b=SnZPMQDvT0PtRiTWGFbVHSYFWjoy/oxv6V4EdWtTICSGVGgbgoPQl82BD3fxOpi7wVb2
+	 He1g4+9Rg0iicVs5LVH+u9GuKaqkcAL3DYSr7g1lAaiMwoskK9t4vE068Jr/9PXUTdSkR
+	 Aj/8ie7jeMRr7WCpQMg14NYnmJACrrnqE+FNdhUfZ9Qf+O39PjYjnYK/9VwBPiProBv9V
+	 CCy3rF7hgdlhkvnKCv5f/Nv6dodpDN+q1reiOX+ff6GMqviqEk52mVQiUL4bgFS67Bwbp
+	 sOV1L4O8e7HPIoPBy+pZ250afCGhLfZu1aT7CRWFzFpDd1ic4Scy4TUQNGUgQUhE6sQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sJuHOjPI;
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="vk/UNtmH";
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492AB606A339
-	for <linux-staging@lists.linux.dev>; Thu, 26 Nov 2026 17:21:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 492AB606A339
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E16B606A323
+	for <linux-staging@lists.linux.dev>; Thu, 26 Nov 2026 17:22:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E16B606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sJuHOjPI
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4b467581b98so70623125e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 26 Nov 2026 09:21:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vk/UNtmH
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so58944295e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 26 Nov 2026 09:22:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795713694; x=1796318494; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795713754; x=1796318554; darn=lists.linux.dev;
         h=content-type:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=sPlvcQPGEEm8iV8OkCIRBzVDRIB9FJj4cVWpQcsCjok=;
-        b=sJuHOjPI+iuteZF29g7WxksUA/sAlvfYcZB4RFMpFkj1JiMU77aKEnym3qdbOEAnZo
-         WBogN8Tjnpe/R9mj8tRYV2OAWgeekkA+Q5bNxhT/XaGWlJCvgYgmwpNcpoTfuGhWNle1
-         XuKoZR23WMhUMvuXqC+CBuEYiv8pAWf98aKSir+v6RFH/5UdnmYJXK0ybgvffGGbioio
-         MNXJjvku7y9o4YsuVGaE/aBVe1ddXPthrRQkiDa50QWs5NVxPWjOdf9PtX4Frk/JpSN1
-         oh+tKxhKcMr+EPdWQh68koj5pzy0A1TcEemMTss47MKp55OQIB4qrMI+R06DThvpOgPy
-         vGcg==
+        bh=+o/+kD0PbzrgfqIeIyLt88wkMJdXcHeQPVqxrdmSlPw=;
+        b=vk/UNtmHWjlz6hpox8WmYKPeYSoXqHSKnW2rEtCyt4Ms9g2Uzn4PK/LoKIhWxtAI12
+         f7bJ+9oRdLKjdC2kN0mIGPSn1Mp+bvGzfLIwNcQzWhH3SXat09zI3X1kjYITPC0qWsOf
+         q7A7Wu3WcyQv3kPW9+4Y68gyQOG9+1xqeeLsKB0jZZFD4hWLIVpIGImWvRcwZao7bZUW
+         UH2354a3DyZl2YhKDG24CdoJQ43R7gtSEWNEgRCGfRLYyjyqyL1Hmg8de7mkrexzN6kn
+         NSlL1BPN3biA4ZRZRGOJ25Xfruq5FYvbNaleHE9yfu4/XUZWpa94zsiuViRMMSN7D5d3
+         iVcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795713694; x=1796318494;
+        d=1e100.net; s=20260707; t=1795713754; x=1796318554;
         h=content-type:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sPlvcQPGEEm8iV8OkCIRBzVDRIB9FJj4cVWpQcsCjok=;
-        b=XyhhfmEEwDjG6DDPfLnLqNg7nULLm5mYojQVtph6OrHWep3xi8lmanZSSs8E253NuS
-         bKz52vQhVSbofNtyn3qYMww23BSudDWDYFnJhD8xJN+xTAaoSaCHWuJaxOQaWSTSsv6n
-         WbfyeI53ganIWA3G3+Pqu6J50tDMK6jvoE0ZDR2zP3UA9yVt/glywF432BE0w/N1Bv/h
-         ij1qcFnycClM8cvhHljhXl+EamIfpoq08ati/q58pSxDTZ3yY9mBGMUq0veNIjrPIb5L
-         lK1tfgIYlXE3aESVZodhZAPPZaEMviWyisLBm1woMPx1NxWQCM2hMGrwyZIRroZBrEcV
-         dlHQ==
-X-Forwarded-Encrypted: i=1; AL+hErFWbxN/R4pb2pC4CmeO5hbnWDjLrP7CBQBxAj4h5wPoY5uBA78KdBgRY1N6FfBcdpbd9uJdOOOCkdkMK402@lists.linux.dev
-X-Gm-Message-State: APuU4Z8I4JJgvQ0mUPNglUokrsKaOJr1M7CeRGxai+d38PU9btHec/QC
-	uE3NdgEqSD3tDRDlpm7yNJaZrRVlbe8Lg56W7Enit0dY7n+fsr1spFmw
-X-Gm-Gg: AZFdTZeh3u014+pMy4bnMaEAi54j3vVVokzbe3MefhrP29OqVj7EqjgX5aBfjFyoG+N
-	15Jy8IHR1GS9GLsmjZCL5lZ60o7BfgmFJ15j+A6WKGafnAMou/NvpaSLPkT9DznhRo+MFZLV/c8
-	UjZuMZdAx3nk8diUF65ulj5XyZtCdkIbx2FgKFnqss5fko/16crunc3EubYh+6zNW8fmoyzm9Lw
-	oasqEx3vGQJ+Ii7diZBNT98OgJivMa09W8cnj+QmiV5xexGBaKJQe63VN1hxBNVZKqIDdZoVD/+
-	S7Cbhep4mEbw14RidrX2IMtT/6QdwQtyCdm73lb1WBmzYYQitO/gJw3O/olnLv8gJBucSyu8fIE
-	vB8J7HoeLe7beYcARYh/vIx7HLyJqtpbZPuytLGulELhSy/StZEnzRawHXfVsYqiwqIfDZhA04g
-	fe62Ne3GFZzpZI+qgc6Mtgw8Rg9ONrRyGdlLsUGNdpwVWQ4qPye3gvwN13rda7l1bwpZNeP6tv0
-	LWGundVgYSt3BN09zbnLlS1hRXDhIbrA7ScWT9cQJ1625Bg88hEkw5tZeoMZcTYxsYDLHTfVzYN
-	GHC/xJA8uog7B2BjBdfCAMJ8CSPkgNuPhCX/uN2laZwnVCDPwArhcPYctNdA+Z65zLE8t66P6mv
-	iVVj1ZK6dI5WDoDllZZ4ApAFdn0nxNGKnhFGR8d7w2zmnSee411O+DV3vdAIvrqJeZgRiFWFr2K
-	tnevltqL3W8QBm14Jy93LxgJFa+ugQ92qLRrcWJOeTvWqV1JXxJ0AW4qy7lZY50a7X7z7VSTl4V
-	jzddZVKQj9+b8MtCYiOdIdzv0gljZCJsFEB4haGOUQ/qb49W+tDRuMae+bNVGQ=
-X-Received: by 2002:a05:600c:a55:b0:4a1:992f:d0e7 with SMTP id 5b1f17b1804b1-4bb889234a7mr403969765e9.16.1795713694512;
-        Thu, 26 Nov 2026 09:21:34 -0800 (PST)
+        bh=+o/+kD0PbzrgfqIeIyLt88wkMJdXcHeQPVqxrdmSlPw=;
+        b=C0Qqi4aUm2fvaEtdJ4T9n0VSUL8U4PG+x93GAconCd+0iEpf4KTDh4kVOLsiMBqZtg
+         ElwKnfz4jnzMYwNiHlMH9pHpz0IZjUwiFUAO3G/x9tgw06XgGLXByKVd81LFvbWlMilW
+         Sn+IINf1vRfeCZ0I648uDaI7crDpOL896q+7q1iREovjrpwdEi4HJPGqOrLInjhIBVbp
+         Q2IqOVp1OQCiLB3eR3hzAJceqTXltxqj0HbYLRwC81tN4zFehczRRL6XzcKG0VHE+7lB
+         K/qkP+MqfDkEdkLIITN9RyUkv8Z1ttbPN+6x21aMUIadVkGVQu/7kl3vQJk2BYHjQMkf
+         mIPg==
+X-Forwarded-Encrypted: i=1; AL+hErGf+Cjabme2Ergmib/73epX+Kaj6anm19WXXayYmwdWsakEo28XOm6vOMQRdMMWsMos2DCpVYoTOWw2oSTv@lists.linux.dev
+X-Gm-Message-State: APuU4Z+h7sea/bl5Cj/lCKY3fNFoA5b+Udi7q36n1UjpkiG0dppv23Ql
+	MeD2o1JkWC1D5ohBNP3NiZO7Kmf5+YRT6xACmH9WFigLnSZZh15yk2Mw
+X-Gm-Gg: AZFdTZdatXxH3LykJUmv+KWAuv0B3pRxrFfVtF9tV+ZSpNmJn9qhJYTQNMlTyGcBH4v
+	fGW0Ww798ioEA0W+evHAkPfakX0SvXaqXk6XCzywiU4MDihhbs9aL/qNn4Dp/p7uqWUdpmmEhRd
+	JC42pGwIMGdcsRkEH6dlzXNsdmRfSTiBckfOIq9mHIFK/hp6Co6nTjnSX8JYD0iREmVDipulQ17
+	ckXWVbWE37R28wgAFH+FjHwS62BKqQVc35jdSuIrUuu7BHLHq057Y4XmfshMujVnu/Ke07onBa9
+	pnuXfPRzQ1uYLUZVxcZrm4Nep1OloJgjiPh8hveDmid7mOsWIBHjK+yPNsE0UkkdYQehYFh1Bvg
+	AqdJcCfnxTWSURYoY9M9PkcxcC9OUkmGtI1rGRYxO73+xaqdI7cM8Z9DSS0CozSPi84PzhBmnhe
+	a1dyw0z9ny4mn162jrR790YgifHjYH/69M5Q8lb+a45xW92W7U8VccEYSjLRVt67SG1SJn7w1qJ
+	X8EIguXWACwVUzp0grJi/M8uXV1IXAu6GlQk6xuugR1eZgyt5pCCYac0ReV8DP07FZXkgDDGnES
+	QnrqBBMiXGdhuo1AE4LbhSn8QujUymWm1D68i5vFEDutk3ji3MvQtt8QsqkTIKnYPmeD8Cx5/nX
+	B88Qaw3P8dr8l75873VXzeEHN4xeWhSqzY+1KF5ggtRbm1072l7Ys0phwfWlxm3JN6sMy3FBgkn
+	cfULopvAkUnKuo7j/YN6YQeGmT/1i737LjrkRk3EaocKiFpVF7Nt3fs5hu2bmSRo7W2FjDDQ0dJ
+	Qe670C2TCjhFfsF3nWxNI48ylfOYDInuMl7bAd13c6ngSoMkQ7agz7je3TBS8Q=
+X-Received: by 2002:a05:600c:c84:b0:4a8:9a2f:d27 with SMTP id 5b1f17b1804b1-4bb8881f47emr450092465e9.25.1795713753675;
+        Thu, 26 Nov 2026 09:22:33 -0800 (PST)
 Received: from jernej-laptop.localnet (77-38-7-250.dynamic.telemach.net. [77.38.7.250])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906e4ce6sm373445195e9.4.2026.11.26.09.21.32
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906640a2sm348317715e9.0.2026.11.26.09.22.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 09:21:33 -0800 (PST)
+        Thu, 26 Nov 2026 09:22:33 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -92,14 +92,13 @@ Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, Arun Iyengar <aiyengar1990@gmail.com>
 Subject:
- Re: [PATCH 1/2] media: cedrus: fail buffer allocations that do not fit with
- -ENOMEM
-Date: Thu, 26 Nov 2026 18:21:32 +0100
-Message-ID: <euqQyxcYQfOA1pYfEtNPBw@gmail.com>
-In-Reply-To: <20261119-b4-cedrus-generic-fixes-v1-1-f9f50812c85b@gmail.com>
+ Re: [PATCH 2/2] media: cedrus: report only the picture as capture payload
+Date: Thu, 26 Nov 2026 18:22:32 +0100
+Message-ID: <KjxG6AExQdOXUtc6OkeVCQ@gmail.com>
+In-Reply-To: <20261119-b4-cedrus-generic-fixes-v1-2-f9f50812c85b@gmail.com>
 References:
  <20261119-b4-cedrus-generic-fixes-v1-0-f9f50812c85b@gmail.com>
- <20261119-b4-cedrus-generic-fixes-v1-1-f9f50812c85b@gmail.com>
+ <20261119-b4-cedrus-generic-fixes-v1-2-f9f50812c85b@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -112,49 +111,52 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne =C4=8Detrtek, 19. november 2026 ob 17:34:47 Srednjeevropski standardni =
+Dne =C4=8Detrtek, 19. november 2026 ob 17:34:48 Srednjeevropski standardni =
 =C4=8Das je Arun Iyengar via B4 Relay napisal(a):
 > From: Arun Iyengar <aiyengar1990@gmail.com>
 >=20
-> vb2-dma-contig allocates with GFP_KERNEL, so a buffer pool that does
-> not fit in memory invokes the OOM killer. Set __GFP_RETRY_MAYFAIL on
-> both queues: the request returns fewer buffers or -ENOMEM instead.
+> For 10-bit H.265 the driver appends the low 2 bits of every sample to
+> the capture buffer and counts them in sizeimage (extra_cap_size).
+> buf_prepare reports the whole sizeimage as bytesused, so userspace that
+> copies the payload gets the private plane as part of the picture.
+>=20
+> Report only the picture; sizeimage stays the allocation size.
+>=20
+> Fixes: 65429ba82572 ("media: cedrus: h265: Support decoding 10-bit frames=
+")
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 
-This is correct only for IOMMU allocation. CMA fails directly.
-
-Please update commit message.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
->=20
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 > ---
->  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 >=20
 > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/=
 staging/media/sunxi/cedrus/cedrus_video.c
-> index ad4ec3490775..9b2d24e77fdb 100644
+> index 9b2d24e77fdb..b7e0cbe548e6 100644
 > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
 > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> @@ -602,6 +602,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *s=
-rc_vq,
->  	src_vq->dev =3D ctx->dev->dev;
->  	src_vq->supports_requests =3D true;
->  	src_vq->requires_requests =3D true;
-> +	src_vq->gfp_flags =3D __GFP_RETRY_MAYFAIL;
+> @@ -511,8 +511,15 @@ static int cedrus_buf_prepare(struct vb2_buffer *vb)
+>  	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
+>  	 * it to buffer length).
+>  	 */
+> -	if (V4L2_TYPE_IS_CAPTURE(vq->type))
+> -		vb2_set_plane_payload(vb, 0, pix_fmt->sizeimage);
+> +	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
+> +		unsigned int payload =3D pix_fmt->sizeimage;
+> +
+> +		if (ctx->current_codec->extra_cap_size)
+> +			payload -=3D ctx->current_codec->extra_cap_size(ctx,
+> +								     pix_fmt);
+> +
+> +		vb2_set_plane_payload(vb, 0, payload);
+> +	}
 > =20
->  	ret =3D vb2_queue_init(src_vq);
->  	if (ret)
-> @@ -616,6 +617,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *s=
-rc_vq,
->  	dst_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
->  	dst_vq->lock =3D &ctx->dev->dev_mutex;
->  	dst_vq->dev =3D ctx->dev->dev;
-> +	dst_vq->gfp_flags =3D __GFP_RETRY_MAYFAIL;
-> =20
->  	return vb2_queue_init(dst_vq);
+>  	return 0;
 >  }
 >=20
 >=20
