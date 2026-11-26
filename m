@@ -1,57 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.25
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795655725;
-	b=twWh4Wi9R9l/HfSE5OVPJqVVFfMrVglwQ+PohxGSgOgyLrSufrt00sFVHfVA+8taM7zU
-	 +/1xL6QwTglFzBQ3rjcYmsahSU2JQnAns9dmysCv6Il4lqWAkuLshDunCY0zIc/VPpUI0
-	 EuFTAkDS3CsCC9GlsDjBKqywNv8DKa3PXAo/C/LQ2VDZpFNGc71sTDQc28sQDymf8Wmxg
-	 BcxOeY5Cz9KiWPxgCLgapC86b1zOCcwte3xyqVRr+KjV7hxUXj5LoKARqfH3uOEQpWUch
-	 k2ymAcrAISe/TT1SBSxcYdMBqhXz9ALgSj45MPtECAVKodYTP9OVkeXvs9Hjyqn7qRg==
+	t=1795657001;
+	b=Wm3X9APqnUxXvRTIsXn/jSuI+UzebEt5OculQTISYgrQrDHGE6LvzYOBgIhd57s1Bv23
+	 uvvayI+bkIzdvFMA9tODL/wjHEQn4jyufOPKMVgX+4eQW21xQzdengdeV+MrMvi8TxUDO
+	 N0e8LW02poz/JKiYqsFocL7h3hVU9yA0ZsqRmKHOqxRQUaOQL94eAr/+4TKNghvkN1jW6
+	 4GaIxU70TQIdsYaCXZqH+GAZ14xutnTYF3p6Z2HkgZ8bCIy9DH312LrBpRFkBjn0D2yOw
+	 q+hsxmN1B46cCy8SUm8a23cwJM8sUzvjG0jT2hCgTXC3wbCsX990ol/Cpsv3uE3gNwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795655725;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795657001;
 	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
 	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=nILVZaqxC2rH9z83PsO5LQ8bJDjN0yQgfBnavVLDKK8=;
-	b=SOXfoYdigkzrejJcFKk4dx0SyXggfWj7TzvH7Fv6aD7H3zdKdX9yOk/QzQ1se65jre++
-	 riCpYqNWji060VWgSCfvb/3MZx9TTjEWCBqQ2pO9ML32cnfBf7wg/MPNaJ80QXSXjriah
-	 E/Aegdv7Gmpn6cH1gFb4XDg0Hpf47xT5Dr/EFDiXKXMo/1OHZzRMgAwIboSjvxYKnWe+M
-	 U29KzYyoo9wC40lFPj9TpaDMfH0evXRMBvuAm0wT3wCDNlpRXPhEtUg5zURpxcZMEg35v
-	 dCkpm+mNyHj6j/eAIN+Tpu5kw2FOshD17AkxpEtxOc4PmUUCTaAG8ND8xWLKZ65boyA==
+	bh=DpPR4Lgudy4Xn24waxb/0v4e1jw2nsNC4nh9F+XHgf4=;
+	b=OR+OjwOdGhq7SpmNIvK8Ood6Wg383xHRy3haZ6H1EuZRn/UQvvrxtQfQHZRtGyI/rt7p
+	 YC/pMnPVwwsI82kt5YKOtvkalNucOiOpheMbTM9KoYmaoOIRcrF1e4WA8+R3YZLzFLs+3
+	 Qovbs0cNBId3mo1jZ4WEDmgDQDl4+MRHZHDeLwJny1nXx1NUG8JbnqkeNSg7LjXee6W71
+	 3K79wkWY8Qg9ECfxBbRTqeB84iEoWIdTccnAEbJfdrA3HUUJLRhloDwko6DLiQtBw9wjw
+	 CfTR7YorfgFBVgMK6ahMOWHnnyDxsZDbLeGF5N9aWccIZMKTk9FysCCmN54tEb/Qrlw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=innora.ai;
 	spf=pass smtp.mailfrom=innora.ai;
-	dkim=pass header.d=innora.ai header.i=@innora.ai header.a=rsa-sha256 header.s=protonmail3 header.b=Lc0Mof7h;
-	arc=none smtp.remote-ip=79.135.106.25
-Received: from mail-10625.protonmail.ch (mail-10625.protonmail.ch [79.135.106.25])
+	dkim=pass header.d=innora.ai header.i=@innora.ai header.a=rsa-sha256 header.s=protonmail3 header.b=je4hLDKD;
+	arc=none smtp.remote-ip=185.70.43.17
+Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA74606A329
-	for <linux-staging@lists.linux.dev>; Thu, 26 Nov 2026 01:15:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFA74606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9C4606A321
+	for <linux-staging@lists.linux.dev>; Thu, 26 Nov 2026 01:36:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC9C4606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=innora.ai header.i=@innora.ai header.a=rsa-sha256 header.s=protonmail3 header.b=Lc0Mof7h
+	dkim=pass (2048-bit key, unprotected) header.d=innora.ai header.i=@innora.ai header.a=rsa-sha256 header.s=protonmail3 header.b=je4hLDKD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
-	s=protonmail3; t=1795655722; x=1795914922;
-	bh=nILVZaqxC2rH9z83PsO5LQ8bJDjN0yQgfBnavVLDKK8=;
+	s=protonmail3; t=1795656997; x=1795916197;
+	bh=DpPR4Lgudy4Xn24waxb/0v4e1jw2nsNC4nh9F+XHgf4=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Lc0Mof7hQKkYmv7/G6BIu2XFgaALAcmHUMgfUh4D63hAmroF6gbpmY82JhqmXgb9U
-	 ACHtCHj5Plm29MEWBsTxDzxIWxTcMM25swGooKSYZiauV9kanviDQku72wVeOZH9Os
-	 ZEsX/1Zncy2lrt1/A3Yz8Y9QGvR4M09nhFY1O6+pzHuX/VF8U7nyIEWgvY5PAN4X90
-	 xjlh9hI3T7sGpyAIvs4oY4J/ovTWZeZYqMKyQxQhmPn4tKZIaHYmF0Cy8AVrfBhFve
-	 9Lh/Owlh9Fespe/rqzNKW8b8J+XqSCrURWx34wyhazg1mrtppyq7+iMWGDhJPNsh9d
-	 u6aegnXlWAhxA==
-Date: Thu, 26 Nov 2026 01:15:16 +0000
+	b=je4hLDKDtTJ7UfwAh5rXTWOykyeXGhmvrV6vgCexebLRz+SvVCCd/K88omVptlSEv
+	 WTkCUte3O8B22JCEm8UURGXraRq2/QmSVcJ4iDarsiIi49gtjOqCoMy9qIuWOo3S01
+	 Zd0i6F8vHIcRA/s6qh0I/3ikjI/i6fksBBs5Y4U3wf6D49uXseLE9PlWBFaB2y80B/
+	 Hbhq6x4VH6u/nwgzwSW2uG5UpIEFJRnebToRyNen40ASCorFiHTLzX0PFfvTIpL/l/
+	 3amIj2k84AvEVtiXF/l1iMej6mahU84Us8h4HE67x3/qCcu/TVgMXu3JOLtcfUJvt4
+	 0eDyf+4L8OB3w==
+Date: Thu, 26 Nov 2026 01:36:34 +0000
 To: linux-media@vger.kernel.org
 From: Feng Ning <feng@innora.ai>
 Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2] staging: media: atomisp: validate DVS 6-axis config dimensions
-Message-ID: <20261126011505.85041-1-feng@innora.ai>
+Subject: [PATCH] staging: media: atomisp: don't free the current DVS 6-axis table on error
+Message-ID: <20261126013631.53654-1-feng@innora.ai>
 Feedback-ID: 140578448:user:proton
-X-Pm-Message-ID: 5bea168c82dd945e48247ec9b5e175bce03788e1
+X-Pm-Message-ID: 18dac58aad0ed82082464985013203f839a7f7a0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -64,77 +64,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-The atomisp driver allocates the DVS 6-axis coordinate buffers using the
-stream geometry, but copies from userspace using the dimensions supplied
-in the ioctl argument.  If the user-supplied dimensions are larger than
-the stream geometry, copy_from_compatible() writes past the end of the
-allocated buffer.
+When the new DVS 6-axis config has the same dimensions as the current
+one, atomisp_cp_dvs_6axis_config() reuses css_param->dvs_6axis instead
+of allocating a new table.  If one of the following copies fails, the
+error path frees that table while css_param->dvs_6axis still points to
+it.
 
-Validate that the user-supplied dimensions match the allocated table
-before copying.
+atomisp_set_parameters() handles the error by calling
+atomisp_free_css_parameters() on the same css_param, which frees
+css_param->dvs_6axis a second time.
 
-Note on commit d178c7ca8fef ("staging: media: atomisp: use array3_size()
-for overflow-safe allocation"): that commit fixed the multiplication
-wrap in these same allocations.  It does not change which dimensions are
-used for the copy, so the two issues are independent.
+Only free the table on error if it was allocated by this call, and
+leave the current table to its owner.
 
+Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
 Signed-off-by: Feng Ning <feng@innora.ai>
 ---
-Changes in v2:
-- Use the existing error path (set ret to -EINVAL and goto error)
-  instead of an open-coded free and return, as reported by the Media
-  CI smatch check ("missing unwind goto?").
-- Wrap the dev_err_ratelimited() call.
-- Cc all atomisp and staging maintainers.
-
-v1: https://lore.kernel.org/r/0c2Zqei57CqmMI6Dh34hKZdsp1D1ar1jHsyfzY4owI-GI=
-Au-jshsaBCptOXe6b81ZwQ39udm6hHTgalp23YhtChJnYEuYu4pW5oPsu42acA=3D@innora.ai
-
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/stag=
 ing/media/atomisp/pci/atomisp_cmd.c
-index e66a7d1..91d38ca 100644
+index e66a7d1..afc7dc5 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -2629,6 +2629,16 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_d=
-evice *asd,
- =09=09=09=09return -ENOMEM;
- =09=09}
+@@ -2718,7 +2718,7 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_de=
+vice *asd,
+ =09return 0;
 =20
-+=09=09if (t_6axis_config.width_y !=3D dvs_6axis_config->width_y ||
-+=09=09    t_6axis_config.height_y !=3D dvs_6axis_config->height_y ||
-+=09=09    t_6axis_config.width_uv !=3D dvs_6axis_config->width_uv ||
-+=09=09    t_6axis_config.height_uv !=3D dvs_6axis_config->height_uv) {
-+=09=09=09dev_err_ratelimited(asd->isp->dev,
-+=09=09=09=09=09    "invalid DVS 6-axis table dimensions\n");
-+=09=09=09ret =3D -EINVAL;
-+=09=09=09goto error;
-+=09=09}
-+
- =09=09dvs_6axis_config->exp_id =3D t_6axis_config.exp_id;
-=20
- =09=09if (copy_from_compatible(dvs_6axis_config->xcoords_y,
-@@ -2681,6 +2691,16 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_d=
-evice *asd,
- =09=09=09}
- =09=09}
-=20
-+=09=09if (source_6axis_config->width_y !=3D dvs_6axis_config->width_y ||
-+=09=09    source_6axis_config->height_y !=3D dvs_6axis_config->height_y ||
-+=09=09    source_6axis_config->width_uv !=3D dvs_6axis_config->width_uv ||
-+=09=09    source_6axis_config->height_uv !=3D dvs_6axis_config->height_uv)=
- {
-+=09=09=09dev_err_ratelimited(asd->isp->dev,
-+=09=09=09=09=09    "invalid DVS 6-axis table dimensions\n");
-+=09=09=09ret =3D -EINVAL;
-+=09=09=09goto error;
-+=09=09}
-+
- =09=09dvs_6axis_config->exp_id =3D source_6axis_config->exp_id;
-=20
- =09=09if (copy_from_compatible(dvs_6axis_config->xcoords_y,
+ error:
+-=09if (dvs_6axis_config)
++=09if (dvs_6axis_config && dvs_6axis_config !=3D css_param->dvs_6axis)
+ =09=09ia_css_dvs2_6axis_config_free(dvs_6axis_config);
+ =09return ret;
+ }
 --=20
 2.55.0
 
