@@ -1,123 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795619194;
-	b=IuA75g7Rj9mUEVmSe8cHxCPPrRZLt634MiouwAUgoyQRp7Lw+EBKJyhrpwsXsZ7NJ5+U
-	 rfXHVuIM6FWXIsfF573X2Ce7rVhFGbCjPk9M/4DjEfNwHjyvpX3SsPRefIZ4WukuHQzA/
-	 0YofXkTeIVfbO7HyCXcVB9hSq3N2X6PQXRlqjZzZbpDjeUb4c7jvGFT6DVITn9JsNkDRw
-	 tooedRa7yPkkmkE1nctje4pGx0D5WNUy371PzVTgXYDRIrPvDyGRZ4b9S7LnJbu6KJ0qq
-	 z5m8UQCeFdKqf8DGFQjgmXW+kVwCiN9dHaCcqBuU/kGeFu/KKU3AO2RN43R7B0lJ0kQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795619194;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
-	 Cc:Content-Type:Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=F8Fmq8LWA4bhtyNOLWl2S9LNOHs1l6eqA9F+R8NUX+A=;
-	b=VDBvuQiQZy620hTT4xJXs3e0IlrX/dM632E5UpbkAnw0g1v6DdAqd0ulMrUySHGx8E/o
-	 yR3vZkZBadACd9KRh55R+lS5pJtppJkU0nGPZDhWdy7NQI8OMxfp2CENCqyg+Fe7v+FGE
-	 exm/WTeMRn0u7n6bZCWMXARa/gIOwqQkfHlS0O1FNsb5jx+sOM37/GJMiolGBagv2v/bp
-	 146UVn7OWgqCcQKGSj5q2NSpchJVdA2/P9EI/kAI6Qex3l86GdJi+5yKKAu+ACeufLXeC
-	 1cmKTqoC96W8vNEQfakPrKVRrYUhOKKe4QmQR8ekIR+ernSDuSL2BWIwfFzlcPiDJVg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Nzjcr1Jv;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kvqI1xl+;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.25
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795655725;
+	b=twWh4Wi9R9l/HfSE5OVPJqVVFfMrVglwQ+PohxGSgOgyLrSufrt00sFVHfVA+8taM7zU
+	 +/1xL6QwTglFzBQ3rjcYmsahSU2JQnAns9dmysCv6Il4lqWAkuLshDunCY0zIc/VPpUI0
+	 EuFTAkDS3CsCC9GlsDjBKqywNv8DKa3PXAo/C/LQ2VDZpFNGc71sTDQc28sQDymf8Wmxg
+	 BcxOeY5Cz9KiWPxgCLgapC86b1zOCcwte3xyqVRr+KjV7hxUXj5LoKARqfH3uOEQpWUch
+	 k2ymAcrAISe/TT1SBSxcYdMBqhXz9ALgSj45MPtECAVKodYTP9OVkeXvs9Hjyqn7qRg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795655725;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=nILVZaqxC2rH9z83PsO5LQ8bJDjN0yQgfBnavVLDKK8=;
+	b=SOXfoYdigkzrejJcFKk4dx0SyXggfWj7TzvH7Fv6aD7H3zdKdX9yOk/QzQ1se65jre++
+	 riCpYqNWji060VWgSCfvb/3MZx9TTjEWCBqQ2pO9ML32cnfBf7wg/MPNaJ80QXSXjriah
+	 E/Aegdv7Gmpn6cH1gFb4XDg0Hpf47xT5Dr/EFDiXKXMo/1OHZzRMgAwIboSjvxYKnWe+M
+	 U29KzYyoo9wC40lFPj9TpaDMfH0evXRMBvuAm0wT3wCDNlpRXPhEtUg5zURpxcZMEg35v
+	 dCkpm+mNyHj6j/eAIN+Tpu5kw2FOshD17AkxpEtxOc4PmUUCTaAG8ND8xWLKZ65boyA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=innora.ai;
+	spf=pass smtp.mailfrom=innora.ai;
+	dkim=pass header.d=innora.ai header.i=@innora.ai header.a=rsa-sha256 header.s=protonmail3 header.b=Lc0Mof7h;
+	arc=none smtp.remote-ip=79.135.106.25
+Received: from mail-10625.protonmail.ch (mail-10625.protonmail.ch [79.135.106.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268A3606A32C
-	for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 15:06:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 268A3606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA74606A329
+	for <linux-staging@lists.linux.dev>; Thu, 26 Nov 2026 01:15:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFA74606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Nzjcr1Jv;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kvqI1xl+
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6APEM0aJ3725777
-	for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 15:06:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	F8Fmq8LWA4bhtyNOLWl2S9LNOHs1l6eqA9F+R8NUX+A=; b=Nzjcr1JvAe8O3y2M
-	nRk02gsmzckXBcRxfri+XHtkdUIEszeIzfFyQQgR/BocgtLFL+n+eCBxHRzQ6Yfq
-	qFzg8RINXEMwOvBf0/oUkncHMiBTksHiHC9BqK7fPOJQt+fer1msKMHomuVFo02M
-	HWlOZeJFWN/NORls8UyWol1U9y/9hHAW4fZgccoU7/Sbqi2bbTFG+4vjo+f4z3En
-	x0PMMHwz77Py3aOkFJX8N0yFo4LC9oqXKJIiDzifeX/5Vv+KdoJ8lIpcubq7K9D4
-	SMLEBhZdEr0PMudXVoqY9KyOzziQXsPFG/RnejlYfRIxAoE94rHnRlkzkztqvvLf
-	0Vovvw==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j61af06q0-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 15:06:32 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cdd9fa2a558so4660461a12.0
-        for <linux-staging@lists.linux.dev>; Wed, 25 Nov 2026 07:06:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795619192; cv=none;
-        d=google.com; s=arc-20260327;
-        b=f9H0MdsNG+aG0o99KCx1wJtuF/ISWHve5RPLLR2/8YaENAIAzpY5Kl8p5XLwvbfOMD
-         op2AL0/PW9ovCYAYtJ8pBVsuJ/53OEo1J0eQkuSrh5SAkRfQfQQRtYIHvVkwNNN+vWu3
-         K3dp37uHa1ugf34SRlo7+Mfk7xRBaOKRcl2npyEbghAT6nMEi+DZK4r9pnw+ZQ/Nz3R7
-         GbT2ICOFkXhFZxEJbI27cC0ZwZytudqVfsy6QmOm9nRiLptYisOZC41nPMk7LiZ0QouM
-         9GS2ICjke942nbz2+D3B4QHt5h0kruRS55z/oyXqSpwmIwcgEGJFOpbUay2g1BGlFhug
-         eeDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=F8Fmq8LWA4bhtyNOLWl2S9LNOHs1l6eqA9F+R8NUX+A=;
-        fh=0SiuvYYC8yHxQ/kIJnaTr802++BN3PzWsONzaQUziHc=;
-        b=qBQY17qrzJKx8wGsk8UkCs4nenQrt/lo0Iv+s4y89SfRQfY8ftOHDQnK5y4RG5S4Iq
-         /hL9V9K1PcX8HF7od7udia0myfnUMGt3LwSjIZBnHhOC+c83UyNe+BVAbJ8vKFXEVL8e
-         kU9j7BWMcdGe9JxP8bsSzKjY7XCExE3dj6240g5fkuPLN3aCPa0c2B5pu/bxpWpxZhOX
-         mE2gNDuw598HHi5Riyuj2BqSAdaE7bWofT/EW63s29f7dTtyaJZVJxGjB6kgYjPTE/0K
-         mJjushdO+glambHMPiyJhMe+WazTu5Y1WdLQWNKElcDeOEF5y/Fef7aQDui2DTNalfmo
-         9edQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795619192; x=1796223992; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=F8Fmq8LWA4bhtyNOLWl2S9LNOHs1l6eqA9F+R8NUX+A=;
-        b=kvqI1xl+kfpBFjjKrpHkI2fp5JM4r8Gxot+cnUHf9ydleneawcnUFL6cAz6IWNnLEy
-         Hi5B9g6RuOpQs33TMqmYSa4Ddk8/wVwaBEmefe7mmok9bctMMZQviItDD8T/YBRaSkbo
-         3+9q/iUmEImslrIe56h57DvL/y4HyqwqCuqvx9qHkrcGnOCpPdOWrJh5/LN0e7o87NzO
-         nYIyXiVCgLiO49oXpMgidDf/sL6ZS59IhmEZKm/EUvO2rMhq8p2cTD0qAakjd8TPQf5x
-         PmiltkN/UvD963KqYT+eYgCB14mwX2JFAbeCCtBIPh0kXQH5WW8O1rTYv6YmajbppNEu
-         PRyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795619192; x=1796223992;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=F8Fmq8LWA4bhtyNOLWl2S9LNOHs1l6eqA9F+R8NUX+A=;
-        b=yLnh0xGzUkhdyVQpqxyRstJxXMX9FZsPhwvqP9BT35pLbPuxewPgxjdH06HXiXrXP4
-         l8pLPDAOYIAQnfyDRxUQo6XUrdzi7/aVVNFp0zVkH7Fy2WxkE0n3V2GGptwjMEo3WLDi
-         80LoKB2JvAaAekTzZFmWUq9s0lXz81YJncHfM0oVbL3syXADM/Hki0FsyVlaz2qJ2rXF
-         FgONvlvNoHs39Po7tIWjA52Gn8NhtwHYMstaB+Xp5y0Gc8+apHGsviiz0aplz86ta0o3
-         ZphcBmMJrKPVZfBNEAF13n59Omtb2HlgKI19Q5oVlUwB3+iyXBovGVO+twVqk40J94k+
-         iwew==
-X-Forwarded-Encrypted: i=1; AL+hErHO4lHCyi8DPMJM3+oDqY+JJYnHi5U15A0IIvvvzMSo0Oy+Df0esoA1vWkz7U7otfSvjzkXqD0A2vdWKhJQ@lists.linux.dev
-X-Gm-Message-State: APuU4Z+A4VPGlgFiO88GL8OJBar1005HU3AkvEkqgxwpvonVQfM3CXOG
-	h06mkcad7ienEpxtvBpGN0AEF3SzZL4KDzKiUiRGdl9EmPCAWkwoFQ+YufXlfd7NXkiknCNYIS/
-	5KAKZta12Kg4+UF2YenkGRM6VijOlEVS/75Ycnf7NdKVhDfHO0vcZOvo5Zp2XpmNW3akWm37bEP
-	mNUAee0YGNhpQWNlsxSBU6OUpBgIq6PudFLgdGTosODgM=
-X-Gm-Gg: AZFdTZdWF5Jv7N+fo2/ciB8QTtEn9RatuEI3aShYMIFd92A16CSNa044pnUzxqfEcbz
-	puXt6+Wp1+zzyhwEk5gLfsyI+6EeJS0JnuQpwwSsNtaQWSiZ9ph1aSxCfQIOcj+AuddwrFJCSen
-	JvsNf1Sm3/lucLYlLtag3mZmPa48miE+6QOoyXB2kUtCO4tn2nCvUIe2nTjQ==
-X-Received: by 2002:a05:6300:8095:b0:3dd:a196:69e4 with SMTP id adf61e73a8af0-4014d14d2d3mr16907599637.63.1795619191487;
-        Wed, 25 Nov 2026 07:06:31 -0800 (PST)
-X-Received: by 2002:a05:6300:8095:b0:3dd:a196:69e4 with SMTP id
- adf61e73a8af0-4014d14d2d3mr16907537637.63.1795619190966; Wed, 25 Nov 2026
- 07:06:30 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=innora.ai header.i=@innora.ai header.a=rsa-sha256 header.s=protonmail3 header.b=Lc0Mof7h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
+	s=protonmail3; t=1795655722; x=1795914922;
+	bh=nILVZaqxC2rH9z83PsO5LQ8bJDjN0yQgfBnavVLDKK8=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=Lc0Mof7hQKkYmv7/G6BIu2XFgaALAcmHUMgfUh4D63hAmroF6gbpmY82JhqmXgb9U
+	 ACHtCHj5Plm29MEWBsTxDzxIWxTcMM25swGooKSYZiauV9kanviDQku72wVeOZH9Os
+	 ZEsX/1Zncy2lrt1/A3Yz8Y9QGvR4M09nhFY1O6+pzHuX/VF8U7nyIEWgvY5PAN4X90
+	 xjlh9hI3T7sGpyAIvs4oY4J/ovTWZeZYqMKyQxQhmPn4tKZIaHYmF0Cy8AVrfBhFve
+	 9Lh/Owlh9Fespe/rqzNKW8b8J+XqSCrURWx34wyhazg1mrtppyq7+iMWGDhJPNsh9d
+	 u6aegnXlWAhxA==
+Date: Thu, 26 Nov 2026 01:15:16 +0000
+To: linux-media@vger.kernel.org
+From: Feng Ning <feng@innora.ai>
+Cc: linux-staging@lists.linux.dev, Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2] staging: media: atomisp: validate DVS 6-axis config dimensions
+Message-ID: <20261126011505.85041-1-feng@innora.ai>
+Feedback-ID: 140578448:user:proton
+X-Pm-Message-ID: 5bea168c82dd945e48247ec9b5e175bce03788e1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -127,236 +61,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261117173738.1073856-1-Frank.Li@oss.nxp.com>
-In-Reply-To: <20261117173738.1073856-1-Frank.Li@oss.nxp.com>
-From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-Date: Wed, 25 Nov 2026 16:06:19 +0100
-X-Gm-Features: Aa3M54qxdRmYOsZoBrTl4IfLXTc7pY51UNG7OdOGBQV2sjgdmvbFz8dtj3UY-KM
-Message-ID: <CAPx+jO8oqBcGCSUReJJVMjsnQg+xCv_X8LhFVaGk0NDuOqmEiw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] PM: runtime: fix stub pm_runtime_get_if_active()
- for !CONFIG_PM
-To: Frank.Li@oss.nxp.com
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
-        Alex Elder <elder@kernel.org>, Guan-Yu Lin <guanyulin@google.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>,
-        Maciej Falkowski <maciej.falkowski@linux.intel.com>,
-        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-        "David S. Miller" <davem@davemloft.net>, Will Deacon <will@kernel.org>,
-        Rob Clark <robin.clark@oss.qualcomm.com>,
-        Connor Abbott <cwabbott0@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil+cisco@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        "open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev,
-        Frank Li <Frank.Li@nxp.com>, Alex Elder <elder@riscstar.com>,
-        Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
-        Karol Wachowski <karol.wachowski@linux.intel.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        Matthew Brost <matthew.brost@intel.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-xe@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI1MDA2MCBTYWx0ZWRfX9ebp5xcOMR2C
- A51dEQYPfJ3MpjScdMqH7tKXyD8XfIYYtUXpVprCALZ2Y+9SCD9u7Lg/vts3M6FaopJo5k9YxLR
- IXcTZRS776PuKM4cnqKKhVE/SMc4QCA=
-X-Authority-Analysis: v=2.4 cv=PdhqFShd c=1 sm=1 tr=0 ts=6b06f978 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=YMgV9FUhrdKAYTUUvYB2:22 a=8AirrxEcAAAA:8 a=ee_2aqc6AAAA:8 a=VwQbUJbxAAAA:8
- a=ag1SF4gXAAAA:8 a=QyXUC8HyAAAA:8 a=GFqr32JmAAAA:8 a=pGLkceISAAAA:8
- a=7CQSdrXTAAAA:8 a=tA7aZXjiAAAA:8 a=EUspDBNiAAAA:8 a=_jlGtV7tAAAA:8
- a=1XWaLZrsAAAA:8 a=e5mUnYsNAAAA:8 a=JfrnYn6hAAAA:8 a=f3U7k-wd2kzf4Rf19YkA:9
- a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22 a=ST-jHhOKWsTCqRlWije3:22
- a=VOpmJXOdbJOWo2YY3GeN:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=f02Ha7HRcztGgdyUxOxW:22
- a=a-qgeE7W1pNrGK8U0ZQC:22 a=kIIFJ0VLUOy1gFZzwZHL:22 a=nlm17XC03S6CtCLSeiRr:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=1CNFftbPRP8L7MoqJWF3:22
-X-Proofpoint-GUID: dtDQQ3lzk9V7doNMzzO34Me25tE-IpAE
-X-Proofpoint-ORIG-GUID: dtDQQ3lzk9V7doNMzzO34Me25tE-IpAE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI1MDA2MCBTYWx0ZWRfX7stHWVQSSovp
- KXGNevAQZIXHCgibHXZDY1EEm1lOEQNm7Y1XDkVpyOJbQKbpPvceNx9rDM6T5jiMyu1ASP0afZV
- FhUZ/ifWgGNHdY+wutY7mE278fu5+n7UKxeHBO9NL9gItBr9qzNb/LzZd2FHfSAeu3nKcg5llbR
- 1D6a1ZOQfJMv9ey1Q22PJp9Qcwaub61r8zpe/icacy4dIJVRtFKaO8+yoMgp6sTleFiKM2NoX8Y
- fWdFg1iMHxfH0BZoEOp9BKxPooY9GJ87spB6uawETpGhBkpGHuCeV3jFPmsSNajaWw7z40f3bxH
- M7oHDhww3o/d8ZaiAnfLC/iNS1JmMj01gnpg28JOqndcCmi1B356ck6f6WAMdB5RFk0nV77xnb1
- 3yzBi+pGQBJqTj+TsuP37IwxSGJD0/TEfK2a3O0Y1W1qpXs0CsntcoWwG0YkbSaD4XLEm98yadG
- +SxpJ1zS4dt5EhLGMhw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-25_04,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 priorityscore=1501 suspectscore=0 clxscore=1011
- lowpriorityscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611250060
 
-On Tue, Nov 17, 2026 at 6:37=E2=80=AFPM <Frank.Li@oss.nxp.com> wrote:
->
-> From: Frank Li <Frank.Li@nxp.com>
->
-> When CONFIG_PM is not enabled, should be treated as if runtime PM were
-> enabled for the device and the runtime status is active.
->
-> It's a subtle distinction but the previous behavior returned -EINVAL, whi=
-ch
-> means "runtime PM is disabled for the device"
->
-> __pm_runtime_resume() returns 1 (called by pm_runtime_get()).
-> pm_runtime_get_if_active() is the try-and-get version of pm_runtime_get()=
-.
-> stub pm_runtime_active() also returns true. So pm_runtime_get_if_active()
-> should return the same value as the stub pm_runtime_get(), which is 1.
->
-> Analysis of all callers and their behavior with old (-EINVAL) vs new (1):
->
-> Pattern A: if (!pm_runtime_get_if_active(dev)) -- no impact
->   Both -EINVAL and 1 are non-zero, so !ret is false in both cases.
->   Callers: drivers/accel/ethosu/ethosu_perfmon.c,
->            drivers/gpu/drm/msm/adreno/a6xx_gmu.c,
->            drivers/gpu/drm/msm/msm_perfcntr.c,
->            drivers/gpu/drm/v3d/v3d_mmu.c,
->            drivers/gpu/drm/v3d/v3d_perfmon.c (x4),
->            drivers/media/i2c/gc08a3.c gc05a2.c og0ve1b.c ov6211.c,
->            drivers/media/i2c/ccs/ccs-core.c s5kjn1.c lm3560.c (x2),
->            drivers/media/i2c/s5k3m5.c thp7312.c imx283.c ov64a40.c,
->            drivers/media/pci/intel/ipu6/ipu6-buttress.c,
->            sound/hda/core/device.c
->
-> Pattern B: if (!ret) after get -- no impact
->   Both -EINVAL and 1 are non-zero, !ret is false in both cases.
->   drivers/gpu/drm/amd/pm/amdgpu_pm.c (comment says "allow access"
->     in kernels without CONFIG_PM), drivers/pci/pci.c
->
-> Pattern C: ret > 0 / ret <=3D 0 / ret !=3D 1 checks -- FIXED
->   drivers/usb/core/offload.c: checks (!=3D 1), old -EINVAL caused
->     -EBUSY even with !CONFIG_PM. Fixed: now returns 1, proceeds.
->   drivers/accel/ivpu/ivpu_job.c: drm_WARN_ON(<=3D 0), old -EINVAL
->     spuriously triggered WARN. Fixed: 1 > 0, no warn.
->   drivers/gpu/drm/i915/intel_runtime_pm.c: checks (<=3D 0), old
->     -EINVAL triggered error path. Fixed: 1 > 0, correct path.
->   drivers/accel/ivpu/ivpu_sysfs.c: (> 0), old skipped freq read.
->     Fixed: proceeds correctly without CONFIG_PM.
->   drivers/gpu/drm/xe/xe_pm.c: wraps (> 0), all xe callers
->     (xe_bo.c, xe_shrinker.c, xe_vsec.c, xe_ggtt.c, xe_guc_ct.c,
->     xe_pxp.c) now correctly treat !CONFIG_PM as active.
->   drivers/net/ipa/ipa_smp2p.c: power_on =3D (> 0), now correctly true.
->   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: (> 0), now correctly
->     executes stall register update.
->   drivers/staging/media/ipu7/ipu7-buttress.c: active (<=3D 0) early
->     return now skipped, correctly proceeds.
->
-> Pattern D: explicit -EINVAL check
->   drivers/hwmon/prom21-xhci.c: checks (> 0) then (=3D=3D -EINVAL).
->     Old: took -EINVAL fallback. New: takes (> 0) fast path.
->     Both succeed when CONFIG_PM is disabled; functionally equivalent.
->   drivers/hwmon/eic7700-pvt.c: call is guarded by IS_ENABLED(CONFIG_PM),
->     stub is never reached. No impact.
->
-> Fixes: c0ef3df8dbaef ("PM: runtime: Simplify pm_runtime_get_if_active() u=
-sage")
-> Fixes: bd3d245b0fef5 ("usb: core: use dedicated spinlock for offload stat=
-e")
-> Fixes: 7806bad76ac39 ("accel/ivpu: Prevent runtime suspend during context=
- abort work")
-> Fixes: 1524c28b99527 ("accel/ivpu: Show NPU frequency in sysfs")
-> Fixes: 46edb0a3eb16c ("drm/xe: Fix xe_pm_runtime_get_if_active return")
-> Fixes: a71aeff3dd0a7 ("net: ipa: kill IPA clock reference count")
-> Fixes: 70892277ca2db ("iommu/arm-smmu-qcom: Make set_stall work when the =
-device is on")
-> Fixes: 9ad65684b9285 ("media: staging/ipu7: Ignore interrupts when device=
- is suspended")
-> Acked-by: Alex Elder <elder@riscstar.com>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+The atomisp driver allocates the DVS 6-axis coordinate buffers using the
+stream geometry, but copies from userspace using the dimensions supplied
+in the ioctl argument.  If the user-supplied dimensions are larger than
+the stream geometry, copy_from_compatible() writes past the end of the
+allocated buffer.
 
-Reviewed-by: Ulf Hansson <ulfh@kernel.org
+Validate that the user-supplied dimensions match the allocated table
+before copying.
 
-Kind regards
-Uffe
+Note on commit d178c7ca8fef ("staging: media: atomisp: use array3_size()
+for overflow-safe allocation"): that commit fixed the multiplication
+wrap in these same allocations.  It does not change which dimensions are
+used for the copy, so the two issues are independent.
 
-> ---
-> Change in v3
-> - fix drm/xe fixes tag hash (sashiko)
-> - drop i915 fix tag because guard by CONFIG_PM (sashiko)
-> - fix net ipa fixes tag hash (sashiko)
-> - Add c0ef3df8dbae ("PM: runtime: Simplify pm_runtime_get_if_active() usa=
-ge" (sashiko)
->
-> Change in v2
-> - add fixes tag for patten C.
-> - add Alex Elder ack tags
-> - change subject to fix stub pm_runtime_get_if_active()
->
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> Cc: Karol Wachowski <karol.wachowski@linux.intel.com>
-> Cc: Oded Gabbay <ogabbay@kernel.org>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Alex Elder <elder@kernel.org>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: "Joerg Roedel" <joro@8bytes.org>
-> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Guan-Yu Lin <guanyulin@google.com>
-> Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
-> Cc: linux-pm@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: intel-xe@lists.freedesktop.org
-> Cc: linux-hwmon@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: iommu@lists.linux.dev
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-staging@lists.linux.dev
-> Cc: netdev@vger.kernel.org
-> Cc: imx@lists.linux.dev
-> ---
->  include/linux/pm_runtime.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/linux/pm_runtime.h b/include/linux/pm_runtime.h
-> index 64921b10ac74f..de9e7518ecef2 100644
-> --- a/include/linux/pm_runtime.h
-> +++ b/include/linux/pm_runtime.h
-> @@ -280,7 +280,7 @@ static inline int pm_runtime_get_if_in_use(struct dev=
-ice *dev)
->  }
->  static inline int pm_runtime_get_if_active(struct device *dev)
->  {
-> -       return -EINVAL;
-> +       return 1;
->  }
->  static inline int __pm_runtime_set_status(struct device *dev,
->                                             unsigned int status) { return=
- 0; }
-> --
-> 2.43.0
+Signed-off-by: Feng Ning <feng@innora.ai>
+---
+Changes in v2:
+- Use the existing error path (set ret to -EINVAL and goto error)
+  instead of an open-coded free and return, as reported by the Media
+  CI smatch check ("missing unwind goto?").
+- Wrap the dev_err_ratelimited() call.
+- Cc all atomisp and staging maintainers.
+
+v1: https://lore.kernel.org/r/0c2Zqei57CqmMI6Dh34hKZdsp1D1ar1jHsyfzY4owI-GI=
+Au-jshsaBCptOXe6b81ZwQ39udm6hHTgalp23YhtChJnYEuYu4pW5oPsu42acA=3D@innora.ai
+
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/stag=
+ing/media/atomisp/pci/atomisp_cmd.c
+index e66a7d1..91d38ca 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -2629,6 +2629,16 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_d=
+evice *asd,
+ =09=09=09=09return -ENOMEM;
+ =09=09}
+=20
++=09=09if (t_6axis_config.width_y !=3D dvs_6axis_config->width_y ||
++=09=09    t_6axis_config.height_y !=3D dvs_6axis_config->height_y ||
++=09=09    t_6axis_config.width_uv !=3D dvs_6axis_config->width_uv ||
++=09=09    t_6axis_config.height_uv !=3D dvs_6axis_config->height_uv) {
++=09=09=09dev_err_ratelimited(asd->isp->dev,
++=09=09=09=09=09    "invalid DVS 6-axis table dimensions\n");
++=09=09=09ret =3D -EINVAL;
++=09=09=09goto error;
++=09=09}
++
+ =09=09dvs_6axis_config->exp_id =3D t_6axis_config.exp_id;
+=20
+ =09=09if (copy_from_compatible(dvs_6axis_config->xcoords_y,
+@@ -2681,6 +2691,16 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_d=
+evice *asd,
+ =09=09=09}
+ =09=09}
+=20
++=09=09if (source_6axis_config->width_y !=3D dvs_6axis_config->width_y ||
++=09=09    source_6axis_config->height_y !=3D dvs_6axis_config->height_y ||
++=09=09    source_6axis_config->width_uv !=3D dvs_6axis_config->width_uv ||
++=09=09    source_6axis_config->height_uv !=3D dvs_6axis_config->height_uv)=
+ {
++=09=09=09dev_err_ratelimited(asd->isp->dev,
++=09=09=09=09=09    "invalid DVS 6-axis table dimensions\n");
++=09=09=09ret =3D -EINVAL;
++=09=09=09goto error;
++=09=09}
++
+ =09=09dvs_6axis_config->exp_id =3D source_6axis_config->exp_id;
+=20
+ =09=09if (copy_from_compatible(dvs_6axis_config->xcoords_y,
+--=20
+2.55.0
+
+
