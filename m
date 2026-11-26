@@ -1,78 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795701782;
-	b=vzA8XVZwxLxSZUg/spdKPEyKJqtrW47hEG/C24ZgzoxjuDC3Qe8knwZ+M7FXW9zLmn6C
-	 564q3NcJr3iGHjfRM+2IpXXMqC+zAG9G9Xv4gVqn6E1o0OARHLb/bxl+SIVPccFQh4TBZ
-	 7kKsVDX3Ohxhq/jz+xxQlTpLmmi2nEFD4PRwIseoJ2fIPsPVeQKo36RKj2T0CTjUFgMWn
-	 w8U9je+Y3IhqPKHCYOU6+UxpR8PiMt/PA5uBYkp1xCCP8pm9VmGdUms0D26qDvj4hNLwL
-	 5917z+McwqOjOLlPvZlBbuk1cG34NCTd/Uu32x+nsH/DUQ2yhWF2p/E30YJYBUsC1dg==
+	t=1795702019;
+	b=aGMAl0GBYIc/57Ach7rkOPb6xEVmqzwSkn/jCd84hV01i8Wv92sMdUyHtoxrwiwnksal
+	 ZfzhP/5mMGz3FMIMdWJ+uuAPiZZDNzl9EFFz5KBxWhzPiYeKxwQqhJKDlmYZc3sDTIy5d
+	 SsSVwiDnXqU+b+ZEXeYrrM8IrN6QJy1aSD2BGCct9ofutneVU9H3zd4ZepLhSDPO/hXtG
+	 1P199u9R8y19akQQVaDoPz8fYQOPpmjDmW92XzWtI3uDKwiBHjbGDgIEBdMLWltM8Fjvm
+	 86Cy8yiV3EkTFS4FEIkw5JTYx2aOPbig9YEOCNBnaBeyx3hWcNpwUJjrcml9FpAiB8g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795701782;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795702019;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
 	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=usPorDLSGLfvveq9O3zFWXHFtoe7dXXggMKyYE6g17U=;
-	b=oW4Wwt5KCcl5oPvVOIPWhsH3qlez1y1IFJbdWxcZOTl/eC/m5b8t/22i+wFPFk2HeQ2j
-	 Iy3KcAsa3qxRAExj7V8XKPgnBd6NCMlM1QWXK/CyI5yHfi4hBClcMeJfmo1xvmztg+MzU
-	 YU0Mh6pBXNHufUK0/7GCo7YhjCXnHi6ToFAux+0RfaJBa00LVZJltri4EefTYFJLNMWzw
-	 A13VAG+K15wX9vwzzxMJ3YhofK9mDJjG6b4vZEJEG2ZdutvSbgNvSiHPwbTuYr2SDx+tY
-	 YWHZ0vFK2R9UaqnieoYp38fXHiz8Vv1jmq3V6+bheEDo4V90edkGRJaq+szAv1RKOow==
+	bh=MGU8wC5IXaP4BXUUigo+8F9FFrHbjACaFYZZTDbbovw=;
+	b=EcqcLmejE0eMQKWyMOC7Bgpsj6CYioNl6CGzdCkj5XTojFMG3cL93EaZezAQ/v/Zv0rZ
+	 MKPRIrvT2QAbhKRcVBorZfZuqDgw7oPfqE8lU2wojP170bk8EdU1JqPl3coBLwjRxh0w4
+	 uMcO3rSQ4pVdhULP88GnjdvSCBA/yAnDTen6wTGpqHgzw6UQ47rUrgRekPBsbM0Li1rnY
+	 pNCJeRRM5ljk+lDcHNqUJULH7nuFR96aXQjh0OAsJgd0cHYw7/C0pzoABLYd0J4MdPvbJ
+	 +2cLb/KDucEXsHgYYb7fztxVyKFlE+NgVJz7MBk6OH9WTaxlPazN8czlxjhM6s1M3IA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=akRzkLBS;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jOza6h7W;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60759606A31C;
-	Thu, 26 Nov 2026 14:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514AD606A31E;
+	Thu, 26 Nov 2026 14:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=akRzkLBS
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jOza6h7W
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795701781;
-	b=wcFFWqgg59hD86/98oaNPZ3WupYvBBGPCqOOro9SqVAHARO1bzNJYT+6gXRULR/148kG
-	 dT5IZT8WLB2iOch4tWsspfFwtlAybifCabFPlC8/u573bKwzRQhl4PSRVbHNLfN7zxN5i
-	 joftfWUyHRWOrPIxQPGWPs+yZX71Ljh1SZse/eGW67bG0OpO6fefvQC4e9OTkke6Hojg7
-	 ZuRARSznPddujG01VweQE9AAotE326+n0eZzzGwfu0CWrbsYaCxVwwiJQ2KI1VOWrpNlq
-	 JKtL9ft0UJqfG5QqiIC2ZQpWnriSC/Rt3Jc9qa6AMVhvUdQhyEGx6VUrCqFC2xY+WJA==
+	t=1795702019;
+	b=bnaAMBa5Gj5Giel4rv9SVnUu6yPG95D8uOS6mA11bizVWEzhXvjIV2/Lp/5cZTuMDLN+
+	 LJClFVVjzHyGL5Is6TBwHOpUOB980XjxaZ+Nj9+M3mu4HETGuRnKxAm8q/+FjIKYQYojf
+	 ZNoXtAC7QyBgdlXc4o4cBn7xWKqVNcJniBD3TQE/wySMgOD8XVB7kRl2Pf1Clr0kiVYaS
+	 AeCQsWboV4oNH+o3BXFdgaW2yP8RF3ych83fDPmubeiID89w4smgBmKjTrg1UOF6qqMgf
+	 ffrdNtYmO+txQXHWiBw+yrEHJu1l7+fRgTOmHT+j8GpAu+f+MJqD0AHkAxpdr1JTf7w==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795701781;
+	c=relaxed/relaxed; t=1795702019;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To;
-	bh=usPorDLSGLfvveq9O3zFWXHFtoe7dXXggMKyYE6g17U=;
-	b=ZcecAuovdcl3pPOVGc4X9anetOhmm3m2TpjVO9G3ML7QGMzTvUHe2txhoUW8SyhdKyh2
-	 9+fcb9ZnEsNiEZovrHoG0i7AXSINPovmwA9B11CmZp2aEOYTJEr+uoIN5C/B3sD/jEw5R
-	 RHcqg3QhVzPg5lPeCGs9xAY+lW9axkoodZCk3NhMSLxgy2+mmsAl8gCatQg/yQ8HoK+ME
-	 0wkRUSt3jyVOjWPK3DS4gkO2QVKbR61vBy14uG3CWrd4wwrxWziZLcbjAKmgCFl/azcnD
-	 eYzXpjxCmtklWgnzhhB1ZY+ozIwMMYaQRQRy56uVIiet5PH7s8QgiHAttJhnYhqNXow==
+	bh=MGU8wC5IXaP4BXUUigo+8F9FFrHbjACaFYZZTDbbovw=;
+	b=PNUu3fHETIaDc7gAjOL6yYVRTXl8NWnFrb/fwUCyOETY4LTywMSQskpSCVxd/B3ZBEgO
+	 f11C+nenA/3+j/SHnNFatlrPxGLeUKO+J6vj61ehoc6jSScGS0FVlnt1o+BGtv/ZAvarP
+	 GUVGzZW/IAAOZ85lyQVdePhnKBaNFqOgVSte8rdMvJN3qlS90iNoyK8sh0wpm0CGS0tTs
+	 VLj52BycMSuvnwPWy1Vm+mFQUIssai1kzRDgXguLhlNPGmT6cfeovFIQ2ja28r4bJ7kqw
+	 BiKxOmE9vVT3HyKUzncXVeSzuSJ7ujIvqsy7jf+SiMNh3vTm5hxybWVre2M4YQk8/Xw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A87051F000C0;
-	Thu, 26 Nov 2026 14:02:48 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id D44851F000CF;
+	Thu, 26 Nov 2026 14:06:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795701781;
-	bh=usPorDLSGLfvveq9O3zFWXHFtoe7dXXggMKyYE6g17U=;
+	s=k20260515; t=1795702018;
+	bh=MGU8wC5IXaP4BXUUigo+8F9FFrHbjACaFYZZTDbbovw=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=akRzkLBS6uCzT0xMLP2uzlejqljKCOOjdbW95+FNtTbrDLMKKRTptytdsONeQsO4M
-	 t+X715245QonV0eiS/ai6ynusTvhq/MxdTbmJ3cLNHKYlaWILqv7pu58d94Mz8raML
-	 HnE99x3sD3oJO+N37dUsPjJUr5VYhkY++JK1c8K7Scl9aovxKR+Sz0S++8ipaMZroD
-	 Pu5brYiBlf9em+guya4KEY3xIFfI0JseIgXFAw6MuVKaz6ZHHbRszQCMLL8dqXsLK5
-	 z5WdsxfbcnMsiq1uDsZvpMcuLHo217GAkqLIg3ecY4N73XHPV/1sP6EfYR1FhJxLlG
-	 Vq/6xRWYdlL3A==
+	b=jOza6h7WiXlqRraZu4I+1asEP6LupW8Q57QEnjEGt8p+HEebLio4nj6h84LESIstZ
+	 MO0R+o1ILXM3QL3ZAEN9nYT3n5dCxJ7bu3kCn+0dVjy6ojPR0bJyAshMB0V8KwNpQv
+	 fqUubXafAHhkpyZewNSxLbLBJyzf7iKouT2sBqqr3rd04kgGuttZhIjOCg0Y+py0S0
+	 TWyT1tE+VME5C+edR13YjXYQWNdw5VbDqivStset/OS2NRpst44GGDZ6pSfr+LywD/
+	 dEqWyzwQenmKIPH7g4vWBDPiO+KptsmXug9Giu09XQTTFWjoXn2J8SFs8yT8Wk40Wk
+	 ymUT4x1vAbCug==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 3C7664D556;
-	Thu, 26 Nov 2026 14:02:48 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 5E71B4D55A;
+	Thu, 26 Nov 2026 14:06:57 +0000 (UTC)
 From: Dickson Wu via B4 Relay <devnull+dickson.wu.certik.com@kernel.org>
-Date: Thu, 26 Nov 2026 14:00:31 +0000
-Subject: [PATCH 5.10.y] staging: rtl8723bs: rtw_mlme: add bounds checks
+Date: Thu, 26 Nov 2026 14:04:40 +0000
+Subject: [PATCH 6.1.y] staging: rtl8723bs: rtw_mlme: add bounds checks
  before ie_length subtraction
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -85,20 +85,20 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261126-so3-rtl-510-v1-1-4c22f41706db@certik.com>
-X-B4-Tracking: v=1; b=H4sIAH47CGsC/02NwQ7CIBBEf6XZs1uBWqr+ivEAdLWYBgyLRtP03
- wW9eJyXmTcLMCVPDMdmgURPzz6GEuSmATeZcCX0Y8mghNJSKo0cO0x5xl4KNDQcdmavXTcIKIt
- 7oot/fW0n6Fsp2jecf5wf9kYuV1VtWsOENpngpoqYwphjnLHy7d8FrOsHbw5u7aMAAAA=
-X-Change-ID: 20261126-so3-rtl-510-ae794a86c370
+Message-Id: <20261126-so3-rtl-61-v1-1-96e1a9756c6d@certik.com>
+X-B4-Tracking: v=1; b=H4sIAHc8CGsC/0WNwQrCMBBEf6Xs2a3dCCn4K+IhSTc2UhLJpqKU/
+ ruJHjzOY+bNBsI5sMC52yDzM0hIsQY6dOBmE2+MYaoZ1KA0kdIo6YS5LKgJzUgDezUqTx7q4JH
+ Zh9dXdgHdU/+G6w/Lau/sShO1ojXCaLOJbm5IOE4lpQUbP/4PYN8/IDVoAKAAAAA=
+X-Change-ID: 20261126-so3-rtl-61-a710ef272f1f
 To: stable@vger.kernel.org
 Cc: Salman Alghamdi <me@cipherat.com>, Luka Gejak <luka.gejak@linux.dev>, 
  linux-staging@lists.linux.dev
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795701630; l=3127;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795701879; l=3160;
  i=dickson.wu@certik.com; s=dickson-b4; h=from:subject:message-id;
- bh=V3GPftrUasuRGRSXywo9YOVzZnazbn9fCfCl0Gt8TVA=;
- b=hi6hubty2MowvZbbN+TZYZoR2veLkggcyuMBGp8Onqe/TpjgY7rPBHOcaeCVivjQeVCEVqE3m
- 4u5jNH7IgNJCJy4FhqPyVkZd4y1atv8gxpXPip8y/27wq8f6/TV5+Ti
+ bh=Ys/Tq/5BzFedQ5FeXcg5z6hbVsf4FzrQ3pyU6hVxDVo=;
+ b=Aod7ceNg2c2M1EeuPXDQYQ14tfANlBzgEBeYhzCujpJepWpDLYaqagFWS+09GdG9mlk7ovGuU
+ Yd8FNfKNqv1AnDa+lBpn3yLHNqz6cmBLb9Rt5bi27WG2qvUGmOVdrS0
 X-Developer-Key: i=dickson.wu@certik.com; a=ed25519;
  pk=fxH7FS4FdojeJSGLJzgKdfO51Rvr4EW30yinj2mc1vg=
 X-Endpoint-Received: by B4 Relay for dickson.wu@certik.com/dickson-b4 with
@@ -121,14 +121,14 @@ Signed-off-by: Salman Alghamdi <me@cipherat.com>
 Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
 Link: https://patch.msgid.link/20260513203455.31792-1-me@cipherat.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-[ adapted to 5.10.y: use IELength, IEs, and _RSN_IE_2_ ]
+[ adapted to 6.1.y: preserve branch WPS helper-call spacing ]
 Signed-off-by: Dickson Wu <dickson.wu@certik.com>
 ---
-6.6.y and newer already have this fix. This branch still uses
-the older IELength/IEs field names and _RSN_IE_2_; the added checks
-are otherwise the same as upstream.
+6.6.y and newer already have this fix. The added lines are the
+same as upstream. The WPS lookup next to them keeps this branch's
+older spacing, which is why it doesn't cherry-pick cleanly.
 
-Tested on v5.10.275:
+Tested on v6.1.193:
 - x86_64 allmodconfig W=1 build of
   drivers/staging/rtl8723bs/core/rtw_mlme.o, base vs patched, no new
   warnings
@@ -144,30 +144,30 @@ before signing off.
  1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index c7fab90550f0..a172121b8171 100644
+index ac3a08e6727f..8a83d1fedeac 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -723,6 +723,8 @@ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwor
- 	privacy = pnetwork->network.Privacy;
+@@ -658,6 +658,8 @@ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwor
+ 	privacy = pnetwork->network.privacy;
  
  	if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS)) {
-+		if (pnetwork->network.IELength < _FIXED_IE_LENGTH_)
++		if (pnetwork->network.ie_length < _FIXED_IE_LENGTH_)
 +			return false;
- 		if (rtw_get_wps_ie(pnetwork->network.IEs+_FIXED_IE_LENGTH_, pnetwork->network.IELength-_FIXED_IE_LENGTH_, NULL, &wps_ielen))
+ 		if (rtw_get_wps_ie(pnetwork->network.ies+_FIXED_IE_LENGTH_, pnetwork->network.ie_length-_FIXED_IE_LENGTH_, NULL, &wps_ielen))
  			return true;
  		else
-@@ -737,11 +739,15 @@ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwor
- 	    bselected = false;
+@@ -672,11 +674,15 @@ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwor
+ 			bselected = false;
  
  		if (psecuritypriv->ndisauthtype == Ndis802_11AuthModeWPA2PSK) {
--			p = rtw_get_ie(pnetwork->network.IEs + _BEACON_IE_OFFSET_, _RSN_IE_2_, &ie_len, (pnetwork->network.IELength - _BEACON_IE_OFFSET_));
+-			p = rtw_get_ie(pnetwork->network.ies + _BEACON_IE_OFFSET_, WLAN_EID_RSN, &ie_len, (pnetwork->network.ie_length - _BEACON_IE_OFFSET_));
 -			if (p && ie_len > 0)
 -				bselected = true;
 -			else
-+			if (pnetwork->network.IELength < _BEACON_IE_OFFSET_) {
++			if (pnetwork->network.ie_length < _BEACON_IE_OFFSET_) {
  				bselected = false;
 +			} else {
-+				p = rtw_get_ie(pnetwork->network.IEs + _BEACON_IE_OFFSET_, _RSN_IE_2_, &ie_len, (pnetwork->network.IELength - _BEACON_IE_OFFSET_));
++				p = rtw_get_ie(pnetwork->network.ies + _BEACON_IE_OFFSET_, WLAN_EID_RSN, &ie_len, (pnetwork->network.ie_length - _BEACON_IE_OFFSET_));
 +				if (p && ie_len > 0)
 +					bselected = true;
 +				else
@@ -178,8 +178,8 @@ index c7fab90550f0..a172121b8171 100644
  
 
 ---
-base-commit: 99112ea818e35b606397c84fbc05e6fadb6ea162
-change-id: 20261126-so3-rtl-510-ae794a86c370
+base-commit: 1ca1436ccc68275d0b43b6a730b3940fcc46b7c2
+change-id: 20261126-so3-rtl-61-a710ef272f1f
 
 Best regards,
 --  
