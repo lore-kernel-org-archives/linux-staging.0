@@ -1,82 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795793528;
-	b=11dMGtn+NyXyWeKuZ5XMobg3fDMAnMXf0CDZqc9xEBc1FxMxna+m3hTc3D4NSCkuHC4u
-	 LiAc37d5nREuvYWerPYBixjsDsOcoyQ0p5I/NEkG5dZFzDKSQsxF6tIgyOdUyVS3BNN9j
-	 tjm6nZWRu6EVwDVRJ2FwJuj8pirzvoNtWJY9Vek8XmYt9ZzhegeiM06bBy5SJeRMFJRy0
-	 uke7CoZ6bxWIc/xqb5zN60uwLiVxkkw1Jo7CiflGdigijULvI7Y+L/EeVkAj5Ct04emSq
-	 Nz9ChPcA+pPvy42fBiZvoVvxYnukwOwn1ecjiMb7NszXwYJJ5ls2XHI1xWsz9H2AfFw==
+	t=1795798960;
+	b=2XIXoGUG/7oUass0KbiNITtN6PkHlQHnUhxLED0eKW7SOhjbHyAyRlb02I4PYB8t9kxb
+	 OvfYQoJu3j+2WJTV0WJm+tX0Rgr23C+LbVkqz9O+2DNQuJTF9YnabpOcAK63cfTz2Vyx6
+	 71EJkA2X79AFGh/HxUfbTKiEjJC67OC0Y/nUMew/gYY5xMhAUIoJ/hNjmKQ04voLN4Vwx
+	 9VIYzRykOg0VQyFWiXTQELXy2weArQ1Yem4B52rX5auKa/UEZ3EyOx+VtZS/NjqKIShGF
+	 O3g//WqAg2r3FhxogiQAsRB07QTndgKgf56VnlFZ1i1V3Lkj3PsWtmx+5Il5Sgr7o6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795793528;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=S8SIjn5jhpWrO4H0i18sVftbBxRoyw9+zah7CQ51v2M=;
-	b=sz5DB6TKm+M8sioeSr4hsmq8Zvy9F/HovKmi+h3frD3/neHwFQwed+epWzN4oPTKw5D8
-	 7Oumk16dJ/0SMIdzVfu7BpPjxiOK75HA03ZSMXRX8KJx8CMDkC7EgiO8WVTkLDUmG659a
-	 tRevcENwLUXnekzXO6i+mA3YYgswZGyZO8Dd+fOP8IE/ESwnLdJXIA10Rm60qyVe6RCXE
-	 U+MPwnyOdL7qDFcKhIcy8S2bZjNp3fYkMhhs4tea91wg5BZfH6AsnqjSIQyZ/5R07mxH/
-	 Lc3m6JSCTItclO7Bx4Bw3/1GwVdGbUw7eAdGvpVYqsCS9sSJE5QPz4YAZ3aY5fRbncg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795798960;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=FahanQDAZkqt2MsuInHmie88fnw/2xHMMbBNAexzPvs=;
+	b=lN87sG/L4Cq4End+pm5W4q3knnLX8SzeYVS8XtI49aOwQLi2eJbiCAAjBZHefK4mSarF
+	 U7qRWF1QuU/o4ysV1qQT10Odz6AgTutTzbz4jJHspuYeONyKsTLJZ6fDYkrd2Itg3f8Gv
+	 uZqMa6eCsqdhX5ltCGnktk1jlHTQfXNxY7FrpZFKafpI89epgZWt35nvgGJtHcHRr5zD1
+	 5MuoXv58J5dI+cjW4pVXOZ4J5m2v6S+8CJ2YtjCg5xQ6OPLDw/MycUUJvSDSDI6+qI48V
+	 8JKf9yHzi+VPviBYiVILcQoZiXU8BzzZzbDQZtG2Xv/mmkb/0vftnTz6y6SR/La+SCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="fdh/WF5S";
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JCIxLGpd;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141A1606A329
-	for <linux-staging@lists.linux.dev>; Fri, 27 Nov 2026 15:32:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 141A1606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE51606A324;
+	Fri, 27 Nov 2026 17:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fdh/WF5S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795793528; x=1827329528;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lClgaioM6X/vpnkOdTOvJo7RDPggy8ZlNTMehLTbj0c=;
-  b=fdh/WF5SfwaFQU61YfKGmXfYCjQpMi9ASaO3r0Re7YXFQ62EJjV3o9ky
-   42waxS8l696mJQfOhlxeIRjTDTkFmcB1e3usmu9UNlqCJJ6lPdAFD18+r
-   7LMmf7fBxmUh0DcHS/qqztN2+PjtqLZcEIuqBm7oNJgud8G3hQoNnREAR
-   ZxjgB7PcpyUMghvyJ+LebE7Y/FyiagfZerYxzOi8pxCyinZsyozT5Dtu5
-   BMrNpDTlCtWBd3kUyY9zy5RYpvkMPqMPCKuSSXivB/yRG9heia2VKF3dp
-   bK9/8HWp1BkTBoBlv84evTLhrMRb/yMD5OtiRURc80GbWihgvVaChy0yf
-   w==;
-X-CSE-ConnectionGUID: 0v5/0NWjRyaC3BYP5j7e4Q==
-X-CSE-MsgGUID: gJLyIzXvRBu5w88jL0disg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4618618"
-X-IronPort-AV: E=Sophos;i="6.27,237,1787036400"; 
-   d="scan'208";a="4618618"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 07:32:08 -0800
-X-CSE-ConnectionGUID: b+8pwmFSTjSKCG8MEl237w==
-X-CSE-MsgGUID: fcpE+hmFRUqX2pZ5MJ1f7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,237,1787036400"; 
-   d="scan'208";a="12744811"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.115])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 07:32:01 -0800
-Date: Fri, 27 Nov 2026 17:31:59 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Punnay Sharma <punnaysharma805@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux@analog.com
-Subject: Re: [PATCH 2/4] staging: iio: impedance-analyzer: ad5933: reject
- frequency code overflow
-Message-ID: <awmibz0Q3bVMMq0M@ashevche-desk.local>
-References: <20261127123303.144052-1-punnaysharma805@gmail.com>
- <20261127123303.144052-3-punnaysharma805@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JCIxLGpd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 770AB1F00919;
+	Fri, 27 Nov 2026 17:02:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795798960;
+	bh=FahanQDAZkqt2MsuInHmie88fnw/2xHMMbBNAexzPvs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=JCIxLGpdOVKVW0mK37JgGA4qQpD0jA8xnviCuGDTpRC+SXWF/enjhExFyCo6kqN15
+	 x5wWtCs867f4A5YDLw9+xPJ+veBYrusQs7n0qiUBIbI4eo6UEy/LrJdPTAKyyLyzqx
+	 +aRprm5XAko8ifqkeJBWaqSaF6D3LARkAJEQoWzmxXCsUlMqUFtJ+lM7c0hJ97vM3W
+	 UhPXWzMXP0zgUGuaWOZAWQpCc+nDmuR2kuESdF4En3WqwZhQD74G7ucwiBx8EBfeMD
+	 JBni/6jSrHUhGTgkpqzgY7/OnxXD4XBk3H2P5XWErmaRSLgOdbZZzwZo/ejq7HKBt0
+	 1cBpystd2zTPg==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+	Salman Alghamdi <me@cipherat.com>,
+	Luka Gejak <luka.gejak@linux.dev>,
+	linux-staging@lists.linux.dev,
+	Dickson Wu via B4 Relay <devnull+dickson.wu.certik.com@kernel.org>,
+	Dickson Wu <dickson.wu@certik.com>
+Subject: Re: [PATCH 6.1.y] staging: rtl8723bs: rtw_mlme: add bounds checks before ie_length subtraction
+Date: Fri, 27 Nov 2026 12:01:26 -0500
+Message-ID: <2026-11-26-1-daily-reply-0038@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261126-so3-rtl-61-v1-1-96e1a9756c6d@certik.com>
+References: <20261126-so3-rtl-61-v1-1-96e1a9756c6d@certik.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -86,45 +62,13 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261127123303.144052-3-punnaysharma805@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 27, 2026 at 06:03:01PM +0530, Punnay Sharma wrote:
-> With a 500 kHz external MCLK, writing 30000 to
-> out_altvoltage0_frequency_start succeeds, but the chip starts at
-> 14374 Hz. The attribute then reads back 14374.
-> out_altvoltage0_frequency_increment has the same problem.
-> 
-> The start and increment registers hold 24 bits. ad5933_set_freq()
-> turns the frequency into a code, freq * 2^27 / (MCLK / 4), and writes
-> only the low 24 bits. A bigger code silently loses its top bits.
-> ad5933_store_frequency() only checks the fixed 100 kHz limit. With an
-> MCLK of 3.2 MHz or less, 100 kHz already overflows. The datasheet
-> suggests a 500 kHz MCLK for measurements between 100 Hz and 1 kHz.
-> 
-> Move the conversion into a helper, ad5933_freq_to_code(), and call it
-> from both ad5933_set_freq() and ad5933_store_frequency(). Make
-> ad5933_store_frequency() return -EINVAL when the code does not fit in
-> 24 bits. With one helper, the check and the value sent to the chip use
-> the same math.
-> 
-> Keep the 10 kHz probe default, because a probe failure breaks boards
-> with a very low MCLK that work today.
+> Add guards to ensure ie_length is large enough before subtracting
+> fixed IE offsets to prevent unsigned integer underflow.
 
-...
-
-> +	if (ad5933_freq_to_code(st, val) > GENMASK(23, 0))
-
-Perhaps >= BIT_ULL(24) ?
-
-Then it will be in align with the commit message and BIT_ULL(27) already used
-in the code.
+Queued for 6.1, 5.15 and 5.10, thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Sasha
