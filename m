@@ -1,64 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.3
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795809577;
-	b=xNlO+f3egcwZt1YBhNVDmNzGXCZS2AK1U3VfSECzFCaura/FwUETfl5fJzQMNfLv29sQ
-	 ApHmTyBQ4xzep8G1gnfpg1m4mfFfRy8QjXc748Ig7eFxhYHZ97wEi1f4lk2ClzHw42Iyh
-	 k4OCylHRdcVweYf2b8a0WW6C0PlBZuKc2e275PmAu1zxf5m01EgkKGngufdTxs1T0p49s
-	 hlbQUWdxDAj+PnUH+Z/EnkK/iNnnZehdeH4WwLlcOTm5rv3M6RZv1CPiEI1oA/zEz9K4p
-	 nmRCTIbpjtEio3AHm3ceWI2oAx9XUS0SVXDsl8sNtxi7TSwyiPUAXslqBN0civ1dO7g==
+	t=1795822910;
+	b=ewHvn92Rv62vwMN5RjUfPbO43ZW36/ytdoVvlsEGrTJUWG0eT7harh2xYuOiKtm7odZ7
+	 w9rRS9CIvAU3/H5XoAnMobBKnVC+hyEH4GMH1wfa+gxbwPWkKq/Sjfc9Ak+r2MT7V8GJo
+	 YE/vmWZi8fir6EZjbNo30GPTXEK4vA5xmQPigfBIexKFWLOojPj7arFGAnz8Fi1POO9iE
+	 fhaO4cMK3Mgd/Q6hZAutB8/jlhgknIhLIhKMBMLyMM+uGoSr1u3GaMiEnvIGISgY5jsAE
+	 0xvt7JrH3/XE6DMvrT8POfrW1RdYZ0jeFSKOJ2ui6DUtr9Of2zjNtOA263UsHJyE5TQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795809577;
-	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
-	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
-	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
-	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
-	bh=C7ikg3Lku22zEAGR1iEQ0I9EOASgn9RlFUkbamsA7jc=;
-	b=vZ9zuDiUZKN/juOn4NybQ3pKCqorNEvykQyYgzGFGL3MIdc1akKuNO9KHtO8Fq2/zXaL
-	 PWvF0nLiRDeO9oMT9rTgO38SjWKgFIAAb6f9mcJ8Sor20hMOVhHR8NN8AjUT3HvBwnJ97
-	 T6E/d+bN/sZJQCNOOt6rauI/pBsI4M0EhJUrS9Fj63w6emiSF/KE/WXPoDupshbFxwgd2
-	 ERXaJ9oOSUNGEf2aRCefG5uyrWPOqYVI4FVWUH8kZv2GSbk2sDRUB2f9EdhgDCfWAU+fs
-	 Pu8bzxic5OmYqT3C6MrMmYA3vOkURvwLYrLncj5UD0x1BciuML0qjvL8iQ6BwbQKYog==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795822910;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=mqsgecR7PqnKZ+BistIBVBvlZgZqI1OMCwkWI4zhdVM=;
+	b=kqqSxhv+6dy/MNpKyNqMN3DO2qiNPGY1qNJ890hzQiBrr/0RT+H8IbBVL5HA4qhgB6gU
+	 LyjNY+Jlylkk5oL8AFC5UtpXu84KEXPr1v43YKG5PVGIg9JX4w+hih5Ty0rX2Hetd+Zpc
+	 NcGeY96DOyCnHs0Wa4qUDfs702kNPjL2721gVzrECOqyDFZsZqLUOO4MuC/ZNh3vaBKpq
+	 HLnRNBgfUWFVjnFatWgWqwDATxnNNXQQOUbsmTgmyjfSWy2k38Q6aVoop9kwUnKz0Ob/O
+	 Oqr6v5JLwhgLKjVIWRPlzDLOgsmToSzovxqSoWXXAXNX6IcYxSyYK6jEj9rstMl+FpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X1dYIwsL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Kxl56kYC;
+	arc=none smtp.remote-ip=117.135.210.3
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A59606A31F;
-	Fri, 27 Nov 2026 19:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9070F606A31C;
+	Fri, 27 Nov 2026 23:41:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9070F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X1dYIwsL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A0D1F00897;
-	Fri, 27 Nov 2026 19:59:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795809577;
-	bh=C7ikg3Lku22zEAGR1iEQ0I9EOASgn9RlFUkbamsA7jc=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=X1dYIwsLgMKn3syJpOHB+diFVpApmCNg38U7oIWqpYJgnDn3+e5zEUHldJyyyBz0j
-	 8EqK9Gi7qIO9vjBHyGp8CTPO2qjco0FJnOx3IeOBdtkpHfVpFy6FMZYlzsEvqpiwCW
-	 0hkch0i2xyLzYaJbCj30BXA8ABm4VqGn8HydPierL2hY+xva1Iyt6XFzwlofzcWeZ6
-	 i5nftRYlonKVVOxQOlY/3rPT3OL2lXeOaLG6Jixbn22GjZF3FIcLZT9PjPqPClUfi+
-	 A+c6aKJVo4T6NgADVOjw7IOPN3INL1+jRAabQfMa9ZlsrO04PhBdB31U9fkg7XCv/2
-	 9soqQpsfsb2zg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB852392705F;
-	Fri, 27 Nov 2026 19:59:36 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver removal for 7.4-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <awmLIGoX6sME2IJQ@kroah.com>
-References: <awmLIGoX6sME2IJQ@kroah.com>
-X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
-X-PR-Tracked-Message-Id: <awmLIGoX6sME2IJQ@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-7.4-rc5
-X-PR-Tracked-Commit-Id: 24934cb6b8cd925b7c86ad818929c272a360ec53
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6cce17ffe54a9fdcadbadfd59c00de7ac2cba25d
-Message-Id: <179580957542.1663999.16832647797906212303.pr-tracker-bot@kernel.org>
-Date: Fri, 27 Nov 2026 19:59:35 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Kxl56kYC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version:
+	Content-Type; bh=mqsgecR7PqnKZ+BistIBVBvlZgZqI1OMCwkWI4zhdVM=;
+	b=Kxl56kYCm+Ih6QbjDPV2JZvJOYNAUwL0+k09ocKWVMDGCvsHmb1gma5qjdqdjl
+	XgJ6sCVW3muRrLYnDirmTvFnZS/tR1DTzNbx7pgW2a3w4BxhthU+Fdch2yulz7G3
+	kPBaxzNr4+j0nWdccXMzOBkryKDswwwzNoENuURp+boHQ=
+Received: from Ubuntu26.04LTS (unknown [])
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wDnb+YUFQprOPgvKQ--.24533S2;
+	Sat, 28 Nov 2026 07:41:09 +0800 (CST)
+From: Jiaqi Shi <shijiaqi_develop@163.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>,
+	linux-media@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-staging@lists.linux.dev
+Cc: Jiaqi Shi <shijiaqi_develop@163.com>,
+	slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	Frank.Li@nxp.com,
+	kernel@pengutronix.de,
+	festevam@gmail.com
+Subject: Re: [PATCH v6 0/2] media: imx: staging cleanup and FIM export to v4l2-core
+Date: Sat, 28 Nov 2026 07:41:07 +0800
+Message-ID: <20261127234108.641406-1-shijiaqi_develop@163.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <479b6df1-3cd7-4609-b197-86bd937b1fdd@kernel.org>
+References: <20261122114205.494704-1-shijiaqi_develop@163.com> <479b6df1-3cd7-4609-b197-86bd937b1fdd@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -67,16 +70,39 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnb+YUFQprOPgvKQ--.24533S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZw1rZFW5Ww47KFW3ur1kGrg_yoWfZrb_Zr
+	1kC3Z7Aw4DGFWfAa17Jay0vasxWFZ2k34jvwnxJ343tFWjqrWrGFWvqr4rAr1fZ3s8Arnr
+	Gwsagw1Y9wnI9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7VUbjXdUUUUUU==
+X-CM-SenderInfo: xvklyxpdtlsvxhyhz0rs6rljoofrz/xtbCzRWn+msKFRU3BgAA3V
 
-The pull request you sent on Fri, 27 Nov 2026 14:52:32 +0100:
+Hi Hans,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-7.4-rc5
+On Wed, Nov 25, 2026 at 12:00:52PM +0100, Hans Verkuil wrote:
+> In any case, don't move it to the core.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6cce17ffe54a9fdcadbadfd59c00de7ac2cba25d
+Agreed, I'll drop the FIM export patch. For context, it was driven by the
+first item in drivers/staging/media/imx/TODO:
 
-Thank you!
+  - The Frame Interval Monitor could be exported to v4l2-core for
+    general use.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Since you don't want it in the core, that TODO item should probably be
+updated or removed, otherwise the next person will try the same thing.
+
+On the FIM itself: I'm not aware of a documented userspace use-case for
+these private controls and events, so if you'd rather remove it, I can do
+that as a separate patch. It would only touch the imx FIM helper and the
+CSI driver. Would you like me to do that?
+
+The other patch in the series (removing legacy control inheritance and
+source-dependent format handling) is independent of FIM and implements the
+remaining TODO items. I'll resend it on its own.
+
+Regards,
+Jiaqi
+
