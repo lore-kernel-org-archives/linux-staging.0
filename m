@@ -1,100 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795782818;
-	b=Fj7NaDBuy1S2Q607jzj42ZccCSKPSax/3kvveaNP9GyeoJ9tWILCrGR/L1TecU6s1qtG
-	 BCU8ab2oZW2ygllQz5Jr0unkSPId60i2wlsyNoFftegEvivc19w0lcN/m1LTMo7vKh2KE
-	 CyJB00cQ7nYUHe1Zu4mm3jd9t8ckRQCzEyk6ZvzsJ5gP9qwOJ2AryqY40IyJefafPO/vY
-	 lDCfiIUBlcWE3mUev15vRBvj1cygmpz1oTrANsxg0PSnbfHeC+S2ZTuRS9bp6nDpK2ft2
-	 vdEwEbm4JtX3vGm3qVk6bn2KV7kenEMyC4iU0kR9ABg9KqMZUA8ysyNj1W4fBgE/BUA==
+	t=1795787532;
+	b=WOtoB1e3YGTmiEgGX6bWmP5qKmXJPPkanFuOyYafNhAIY6fbTT/fJm5IVCJ7Fge76yJC
+	 TyXWmCaoyFqo+EBDnjGnCcC6FR1qGXAOyOO6TDRNzlfkg+w5q6I1SiEw8nmLY9bFyJqND
+	 nEzbxOeC1Ayz4OdCTnJu1sw5bwlWg+NHyGRGXfor7Kp0orUBIBcev/MLA/cnx9mqPdrE/
+	 KauOY49gch+NbfdAvAJfqn3/DQfbDshuXfAehY2diUInvbcPQ5OWuP0eLu52Hd1kcux+P
+	 Q8ZkWaPmYV7n7Fata6Sr6Vl3qEn9WIF/ejV7d4geZm5Jk+LvqMdMmKs2uRhlA08KrwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795782818;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=UruTXZxxiLvetKzSZp7hmCf6qHi2zqy13sjBi3H5//8=;
-	b=qipZDeDCVbpsVZu/afDI3yaoDXuOSZ9TA1OVCcFM4i+NFYMKmTdsr8lwLgKeSw0vMy+U
-	 oqIopvT7mGYfQ2mQCkI0WzNZ+iatYdfVvwUbfPH1tYzBzHn8xVdT7GSGlMfr1sSwQXfns
-	 OZopuE9ThwnbxnhILAq1mGP2CWG8oovqIGe0It36pi9gltSzR1CQ3Wnxw6O9YB8hxjUts
-	 cNwSUZf3Dp3jd0cOVjYRBrWXGS9v4wprtLqoEaas/dK33jEwlX9E6VvWVK0Wh9Hu45dl9
-	 kZv2vy8nDu1siKC7lveRGQD80BCCFqjnCAAfuYurSoaNxsLaHB9C1QylQYIiIXjuH3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795787532;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition;
+	bh=SMA/kJPlMDk9z1lOpWmlCHS9TiE0+16O1BYeHJBkwx0=;
+	b=iTvcHh/PS6tsHie4bgY8YFFBpRN7VhmtIJtrgnonMoU3KuVV4qV4uNUwaLsBx2VKUkfx
+	 uFrI/y3BmhE1NCVoF/z0AmzGPIC8KGyUunTIlkXmGJUmhH/KwM+/pY3gzyA0+FHn4MT5d
+	 Bg8MstTnOMOL+jD4CDExDY8LFh+xuE4nujtVYo4+pEkABpgTtLZ38J8wjIkqFTMTaJV4g
+	 Q3+gRDgO9wkBLq8Fg8/iaYz+CP74YMGLWxQI726PlMUjuswo+7QiEUFUUdXCR7GYvdgvS
+	 Uavda4cz9kLberynReSA+K8Wehsp7M//YH5jWWCeXBFZcVb6f2qqdnvbQGlkyNNC7Qw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ac5GrRG8;
-	arc=none smtp.remote-ip=209.85.210.177
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=pxpDbaUc;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42831606A31F
-	for <linux-staging@lists.linux.dev>; Fri, 27 Nov 2026 12:33:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42831606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB60D606A31C;
+	Fri, 27 Nov 2026 13:52:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ac5GrRG8
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8b4c8b51b58so4709578b3a.1
-        for <linux-staging@lists.linux.dev>; Fri, 27 Nov 2026 04:33:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795782817; x=1796387617; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UruTXZxxiLvetKzSZp7hmCf6qHi2zqy13sjBi3H5//8=;
-        b=Ac5GrRG8v3wLmkuToWmsV4TGnLoqW60pVGtsVE0qJfyYP2kfRrAvQpfOnhMP3cK7aC
-         /kCsuIutzI0l3yrAa3c/t56XMt48UiPaohDvLX/WwsFJeqZ8494ypTty81PR9m24BLzv
-         DpawOeHGbHK6v2WQfV+PNX9yOqsNuQdHqN6iJkJ4Pp2Xaj+3efa+DsgEW3RxjY/qW9BL
-         0JyovZGw/tnJ8GLV/068W7ZKroygXM81RtznRkaVVxYGkLfZMl4sB76BkaPOYIZSVSIu
-         Iwc+ztAC/uB2fmrJnb3o4Ww2fNK675LbZOwn8I4N4ljSUgnS4KOZB2St3KJcJfxsa/lq
-         ZuWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795782817; x=1796387617;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UruTXZxxiLvetKzSZp7hmCf6qHi2zqy13sjBi3H5//8=;
-        b=yE+RKIUmvwvE4mOv0F/OLRTtGSujwyf6VbbpH/J8azujLVMexLyumcX22AWaFdtHID
-         qJB/q+5c8kHJCS3y+KALI5qLKKd2SvSJ+r4F9w9NwsA0mJbht5/Ebzm8jf92OEKUgvCR
-         GAYXPIr1tm1uSYY8LblzG3tIkfGqhD6hhaWwSlrcNFS5rHtfggbHjISWUb98xjQmGLYL
-         0C2uRPrAxlsDbO5QMAgabOmqlPIA0u4OWmxWI6tKVuANvHPPedUaeKlOERFoaf9OCccQ
-         2U6RdkTPmfC7ilVWE2dxQo5K5iQkUVJIPPbGWvDDdTXf4S49BGXtqTiJOwe8v4cbgPRi
-         Aaqw==
-X-Forwarded-Encrypted: i=1; AL+hErFGKuKCMnjgQ9Wz0hLNV4xv16749ov746YM+MO3mY/Vait3Udsq6MEcGVW/Ipw7LEy1y1UyLiCmrQHeboOu@lists.linux.dev
-X-Gm-Message-State: APuU4Z91HN/bEM0owp8TK3grCFtc46eGpNYfBiwP5W6h0GA5uhFa3k9p
-	CILToDvh4ROIR9g/DFt4/xaE+CK4JLdNqBRc5n7ViwfWgRewtp34oZE/
-X-Gm-Gg: AZFdTZe7y72q5kVYJvQ0t7XQCA/Ux8DZYthywenl1mnAE/jir6JiJVLdZipN1xglylF
-	+9GDbnkUFxJ1ouOzSNqdvLBxmi6tgwpSrmTLf537irIJpqQLHvMeJJkBDkFbM2TsLWmqLdas1s5
-	x5mvNps7C5F+ITOqnx/s3tgFzZ83HGgxc6fAFj46HGQ2WfkdD2zHloAAoxMpMfJSrNSwLown9Tz
-	jPJxTJzVFjRh5WjEE1uZnqLJwcojT5q00Ly9p7+0iNdKCdILAhsjab6r0gRWeJzQLZd5g3Fohk4
-	ByiJ9ygUj/kkDd/pwD8FE6helZNp63VUVL3Yqj73u8X/fTUWe7CzeUDOJTQOxmD6r5ga4zjkGv5
-	WPKYFT74WqiX8pWgbivazMI4kqQcx3tcn/xY/gj2FrJ3abqCGdjJacQ6vV5s5PzPNz9h+AKX6Tv
-	HFxVxjxBns4lnGqj6Y1BtpDS947+mnVGIFzpkzL5UtXV4c1vS9tg05rZvXFI1G6vPS+IElpswzA
-	g0PCmOie7xwF2YCyrLPyGUs5de3UFt/IcJXEOl5rRrFdLREbtSHvmJ1w3tdUGOsnmOXmtvypiHP
-	68DFKXjFY8Ys62J3//bf5KGDi8pWdIwSrfC6Y/k8pwN0GWtAyaRxWGbJ5p3e3/FFvxCGG0A=
-X-Received: by 2002:a05:6a20:430d:b0:3eb:aeb4:2c2c with SMTP id adf61e73a8af0-4014a17d41dmr27791319637.4.1795782817548;
-        Fri, 27 Nov 2026 04:33:37 -0800 (PST)
-Received: from localhost ([2401:4900:1c2a:12da:3176:e694:92eb:c932])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87077944bsm12568899b3a.2.2026.11.27.04.33.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 04:33:37 -0800 (PST)
-From: Punnay Sharma <punnaysharma805@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux@analog.com,
-	Punnay Sharma <punnaysharma805@gmail.com>
-Subject: [PATCH 4/4] staging: iio: impedance-analyzer: ad5933: keep old values on failed writes
-Date: Fri, 27 Nov 2026 18:03:03 +0530
-Message-ID: <20261127123303.144052-5-punnaysharma805@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261127123303.144052-1-punnaysharma805@gmail.com>
-References: <20261127123303.144052-1-punnaysharma805@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=pxpDbaUc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A9D1F000C1;
+	Fri, 27 Nov 2026 13:52:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795787532;
+	bh=SMA/kJPlMDk9z1lOpWmlCHS9TiE0+16O1BYeHJBkwx0=;
+	h=Date:From:To:Cc:Subject;
+	b=pxpDbaUcXmFXUCI23+GgUaJVDLR49bpSUDPiUML8bUlF9JbVHReG+D/LwF/bomcFY
+	 AzGchU8LyJVHBYJp0mol3kWfN+htpYelXxj73mOeoyRThQuO3hJZq2oVFqQJwKdBr4
+	 A1YMDpAsYElHMUYWPW0OaPDv9p7DVasS6XOBDBAI=
+Date: Fri, 27 Nov 2026 14:52:32 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver removal for 7.4-rc5
+Message-ID: <awmLIGoX6sME2IJQ@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -104,83 +52,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-ad5933_store() updates the driver's copy of a setting before it writes
-the setting to the chip. If the I2C write fails, userspace gets the
-error, but the driver keeps the new value.
+The following changes since commit d135ab453a7400a34930bdda1ef4bdc8acfac80e:
 
-For out_altvoltage0_raw (output range) and in_voltage0_scale (PGA
-gain), the new bits stay in st->ctrl_hb. ad5933_cmd() sends ctrl_hb
-with every command, so the next buffer enable programs the failed
-setting anyway. For example, if echo 198 > out_altvoltage0_raw fails,
-the next sweep still runs with the 198 mV range. For
-out_altvoltage0_settling_cycles and out_altvoltage0_frequency_points,
-the attribute reads back a value that never reached the chip.
+  Merge tag 'backlight-next-7.4' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight (2026-10-26 09:10:43 -1000)
 
-Save the old values before the switch and put them back when the
-write fails.
+are available in the Git repository at:
 
-Fixes: f94aa354d676 ("iio: impedance-analyzer: New driver for AD5933/4 Impedance Converter, Network Analyzer")
-Signed-off-by: Punnay Sharma <punnaysharma805@gmail.com>
----
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-7.4-rc5
 
-Notes:
-    Tested in a virtme-ng VM with a throwaway copy of i2c-stub that makes
-    the next write fail with -EIO. The copy is test code only. I have no
-    AD5933 hardware, so this does not show a real bus error.
-    
-    Before: echo 198 > out_altvoltage0_raw fails with -EIO but reads back
-    198. echo 1 > in_voltage0_scale fails but reads back 1. After a buffer
-    enable and disable, 0x80 is 0xa3, so the chip got both failed settings.
-    A failed settling_cycles write of 1023 reads back 1020, but 0x8A/0x8B
-    still hold 100. A failed frequency_points write of 200 reads back 200,
-    but 0x88/0x89 still hold 100.
-    
-    After: each failed write reads back the old value, and 0x80 stays 0xa0.
-    The same writes without a failure give the same results as before.
+for you to fetch changes up to 24934cb6b8cd925b7c86ad818929c272a360ec53:
 
- drivers/staging/iio/impedance-analyzer/ad5933.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+  staging: vme_user: delete driver (2026-10-27 17:54:34 +0100)
 
-diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-index bb72d9c55f6d..cd3c8661f4ff 100644
---- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-+++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-@@ -379,6 +379,9 @@ static ssize_t ad5933_store(struct device *dev,
- 	u16 val;
- 	int i, ret = 0;
- 	__be16 dat;
-+	unsigned char old_ctrl_hb;
-+	unsigned short old_settling_cycles;
-+	unsigned short old_freq_points;
- 
- 	if (this_attr->address != AD5933_IN_PGA_GAIN) {
- 		ret = kstrtou16(buf, 10, &val);
-@@ -390,6 +393,10 @@ static ssize_t ad5933_store(struct device *dev,
- 		return -EBUSY;
- 
- 	mutex_lock(&st->lock);
-+	old_ctrl_hb = st->ctrl_hb;
-+	old_settling_cycles = st->settling_cycles;
-+	old_freq_points = st->freq_points;
-+
- 	switch ((u32)this_attr->address) {
- 	case AD5933_OUT_RANGE:
- 		ret = -EINVAL;
-@@ -443,6 +450,12 @@ static ssize_t ad5933_store(struct device *dev,
- 		ret = -EINVAL;
- 	}
- 
-+	if (ret) {
-+		st->ctrl_hb = old_ctrl_hb;
-+		st->settling_cycles = old_settling_cycles;
-+		st->freq_points = old_freq_points;
-+	}
-+
- 	mutex_unlock(&st->lock);
- 
- 	iio_device_release_direct(indio_dev);
--- 
-2.56.0
+----------------------------------------------------------------
+Staging driver removal for 7.4-rc5
 
+Here is a single staging driver patch that removes the vme_user driver.
+There is no more users of it and the LLMs are falling all over
+themselves attempting to find all of the "security bugs" in this driver,
+despite no one ever actually use it.  So just remove it to keep from
+wasting everyone's time.
+
+This removal has been in linux-next for quite a while with no reported
+issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+LiuJunyuan (1):
+      staging: vme_user: delete driver
+
+ Documentation/driver-api/index.rst    |    1 -
+ Documentation/driver-api/vme.rst      |  297 ----
+ MAINTAINERS                           |    7 -
+ arch/powerpc/configs/86xx-hw.config   |    2 -
+ drivers/staging/Kconfig               |    2 -
+ drivers/staging/Makefile              |    1 -
+ drivers/staging/vme_user/Kconfig      |   53 -
+ drivers/staging/vme_user/Makefile     |    9 -
+ drivers/staging/vme_user/vme.c        | 1977 ------------------------
+ drivers/staging/vme_user/vme.h        |  190 ---
+ drivers/staging/vme_user/vme_bridge.h |  190 ---
+ drivers/staging/vme_user/vme_fake.c   | 1308 ----------------
+ drivers/staging/vme_user/vme_tsi148.c | 2643 ---------------------------------
+ drivers/staging/vme_user/vme_tsi148.h | 1392 -----------------
+ drivers/staging/vme_user/vme_user.c   |  812 ----------
+ drivers/staging/vme_user/vme_user.h   |   47 -
+ 16 files changed, 8931 deletions(-)
+ delete mode 100644 Documentation/driver-api/vme.rst
+ delete mode 100644 drivers/staging/vme_user/Kconfig
+ delete mode 100644 drivers/staging/vme_user/Makefile
+ delete mode 100644 drivers/staging/vme_user/vme.c
+ delete mode 100644 drivers/staging/vme_user/vme.h
+ delete mode 100644 drivers/staging/vme_user/vme_bridge.h
+ delete mode 100644 drivers/staging/vme_user/vme_fake.c
+ delete mode 100644 drivers/staging/vme_user/vme_tsi148.c
+ delete mode 100644 drivers/staging/vme_user/vme_tsi148.h
+ delete mode 100644 drivers/staging/vme_user/vme_user.c
+ delete mode 100644 drivers/staging/vme_user/vme_user.h
