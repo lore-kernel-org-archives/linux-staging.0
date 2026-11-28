@@ -1,67 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.3
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795822910;
-	b=ewHvn92Rv62vwMN5RjUfPbO43ZW36/ytdoVvlsEGrTJUWG0eT7harh2xYuOiKtm7odZ7
-	 w9rRS9CIvAU3/H5XoAnMobBKnVC+hyEH4GMH1wfa+gxbwPWkKq/Sjfc9Ak+r2MT7V8GJo
-	 YE/vmWZi8fir6EZjbNo30GPTXEK4vA5xmQPigfBIexKFWLOojPj7arFGAnz8Fi1POO9iE
-	 fhaO4cMK3Mgd/Q6hZAutB8/jlhgknIhLIhKMBMLyMM+uGoSr1u3GaMiEnvIGISgY5jsAE
-	 0xvt7JrH3/XE6DMvrT8POfrW1RdYZ0jeFSKOJ2ui6DUtr9Of2zjNtOA263UsHJyE5TQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795822910;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=mqsgecR7PqnKZ+BistIBVBvlZgZqI1OMCwkWI4zhdVM=;
-	b=kqqSxhv+6dy/MNpKyNqMN3DO2qiNPGY1qNJ890hzQiBrr/0RT+H8IbBVL5HA4qhgB6gU
-	 LyjNY+Jlylkk5oL8AFC5UtpXu84KEXPr1v43YKG5PVGIg9JX4w+hih5Ty0rX2Hetd+Zpc
-	 NcGeY96DOyCnHs0Wa4qUDfs702kNPjL2721gVzrECOqyDFZsZqLUOO4MuC/ZNh3vaBKpq
-	 HLnRNBgfUWFVjnFatWgWqwDATxnNNXQQOUbsmTgmyjfSWy2k38Q6aVoop9kwUnKz0Ob/O
-	 Oqr6v5JLwhgLKjVIWRPlzDLOgsmToSzovxqSoWXXAXNX6IcYxSyYK6jEj9rstMl+FpQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Kxl56kYC;
-	arc=none smtp.remote-ip=117.135.210.3
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795824947;
+	b=lfrbHfgGkHJuwXo/bZQzilifPUR+gKKQKlZs5Zkb5gF/zEZZSvF+RtO0WIxechUazRSz
+	 BkxsC0vEtBO0cvR1eb2Im0BxgmqIx+5Rik/jKF6xqUc+4pDmmV/3g08K3efXYYv2Y1mv5
+	 6gc45HkvLBcI1X8KPjZbriMBFnGLxs8uJWRs+iDJWrfV2RoIxxmb+74FY6S0KRiHta+Zw
+	 KgZf0QAXIwnUosory69bX64HWKnJ+o1/BZhAuy7RJIQH1KXsUA6/Wl+VxlLunmWCqwzRh
+	 ldsfW0sLHL6dSOs0uK/mvaAsSsPYLD1vzPDWBT0IkxKaDZPzhAJIXxVjNpCKpxHFPiA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795824947;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=EkG+Dr/aMoMzUSj5tk5nyxA5r22ol56pbCQ3Z9eMFeE=;
+	b=RVcZsN6bMmOMio3tjDj/Z4O2qAOcDOzOqNDaphcEkNHwRMvJQJEpdoHPW5IsjeZWu4D1
+	 lf8JU34aLgP8dUjoXAmWS55odZrlItWP3qxx40If+bH9WelbstEWhpbfi3PAizCUuqzpV
+	 saH1s7pNUW1Wmxs4xP5HKGeq9BHakX2PX1We0gtvs38MfkZmCpeheYcJWV1xpBE+Z1sHs
+	 jDWNZGcOQ5hG8J1Za5VsHvSTXUru8+Q4X5+AX39Dk1T0tkxMN3PTu3G45FpNadmDpeRXq
+	 OIv+4awh3vPcXkyxP8A4wS9rV9lS2EipMHF2m47K4LG0akEUL6ApXM5MY+xRCBUaQZw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X5KSnCc3;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF97606A31C;
+	Sat, 28 Nov 2026 00:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X5KSnCc3
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795824946;
+	b=0G1kl51kUIBufk8zyKl2SAzsy1WvmNI7UFnAsTeZCxvB7sQ9a6htL9K2TuA2NuVO4any
+	 xDqWuyqr6b65Da7nhUs9Tr68Hynvb1C/FZpJlip5X2O2VSOuQv1v8WW7c9y5uoYQtZBmb
+	 afDvor+zdGxpJ+GsV30CHIj/9RW8/WL1zJUHDpF+YXJ46R2wheZPKfpEBDQPQjg/4NAcb
+	 NiVWV+56SpQM00H0RazITZkQcjrcvuo+s/EAZqTGOtQ8KTBUsuQ+poKCdj9PM/zGemYzL
+	 Ta46xeqC0MStz71YJBAL147LwAx2uGzHOX/52BPTAoPtg+pLecDLMrmYl687fXtcacQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795824946;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=EkG+Dr/aMoMzUSj5tk5nyxA5r22ol56pbCQ3Z9eMFeE=;
+	b=HFcgasndquT2PBlmAW6uJ8QAi5DtjcLIDB0aVfdB2UHwjbORsN0U8IazmQj8b8SlkGxg
+	 ei+H9ix3ltYHoGErEk7yOEXDqqVyqSabC8P+kn1I5psv/0Lr6J5AKG1M/b3bFadIqEXhJ
+	 y5Jo4ExdfCuL0cnJsGnz0i5++2UD84hQumm5JgSqjJvAc7zu3pvMmftnxsAlz3MDLif3c
+	 uvwwU+jfywK+USqPaiVKdCoNOjDF/A2Lxvqrg0oBZYxUzWOMObXQN8xw0bPLVllkoD3aR
+	 +qWlxuwHwBudx0jhA3kXFoQqmNPO9wlu4waHWdeHN+CV47sUxug4oc9Zl4jxuEp740w==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9070F606A31C;
-	Fri, 27 Nov 2026 23:41:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9070F606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Kxl56kYC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version:
-	Content-Type; bh=mqsgecR7PqnKZ+BistIBVBvlZgZqI1OMCwkWI4zhdVM=;
-	b=Kxl56kYCm+Ih6QbjDPV2JZvJOYNAUwL0+k09ocKWVMDGCvsHmb1gma5qjdqdjl
-	XgJ6sCVW3muRrLYnDirmTvFnZS/tR1DTzNbx7pgW2a3w4BxhthU+Fdch2yulz7G3
-	kPBaxzNr4+j0nWdccXMzOBkryKDswwwzNoENuURp+boHQ=
-Received: from Ubuntu26.04LTS (unknown [])
-	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wDnb+YUFQprOPgvKQ--.24533S2;
-	Sat, 28 Nov 2026 07:41:09 +0800 (CST)
-From: Jiaqi Shi <shijiaqi_develop@163.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-staging@lists.linux.dev
-Cc: Jiaqi Shi <shijiaqi_develop@163.com>,
-	slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	Frank.Li@nxp.com,
-	kernel@pengutronix.de,
-	festevam@gmail.com
-Subject: Re: [PATCH v6 0/2] media: imx: staging cleanup and FIM export to v4l2-core
-Date: Sat, 28 Nov 2026 07:41:07 +0800
-Message-ID: <20261127234108.641406-1-shijiaqi_develop@163.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <479b6df1-3cd7-4609-b197-86bd937b1fdd@kernel.org>
-References: <20261122114205.494704-1-shijiaqi_develop@163.com> <479b6df1-3cd7-4609-b197-86bd937b1fdd@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 557E91F000C1;
+	Sat, 28 Nov 2026 00:15:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795824946;
+	bh=EkG+Dr/aMoMzUSj5tk5nyxA5r22ol56pbCQ3Z9eMFeE=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=X5KSnCc3RR5u9MtXkP5u6O66AlVgZNLqKGyvC3Gxpr0NoHSPrA1vQ9Tu5h4N5M2a4
+	 EYF9p9APgQMlLakThl6BihyrKLVHfZwJhMC6oZjsfHZcNr4SDmZKorpvudQuSzPmpR
+	 J8AznDSoGXwuwlkE1wmm3H6380uv8d1YGDo/ogHhBCoUHiy8hxyQPBNajG4uVp36wP
+	 CclKdQDZSTR72+OdYiY22RPWVKUnFrmhPYVj5oE130QFJJKh9WHteSCuoRiGw5AHb7
+	 jupn9/gp+Hp/t6YuckcoT8biTQ6uv2Hg/ugKoDiWTwuLpA+aIkLrSTocmN44YwD+0F
+	 CBWHYQHl18etA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id D78BC4DEA9;
+	Sat, 28 Nov 2026 00:15:44 +0000 (UTC)
+From: Felix Huang via B4 Relay <devnull+akafelixab.gmail.com@kernel.org>
+Date: Fri, 27 Nov 2026 19:16:55 -0500
+Subject: [PATCH] staging: fbtft: fb_tinylcd: align arguments with open
+ parenthesis
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Post: <mailto:linux-staging@lists.linux.dev>
@@ -71,38 +83,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-staging+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnb+YUFQprOPgvKQ--.24533S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZw1rZFW5Ww47KFW3ur1kGrg_yoWfZrb_Zr
-	1kC3Z7Aw4DGFWfAa17Jay0vasxWFZ2k34jvwnxJ343tFWjqrWrGFWvqr4rAr1fZ3s8Arnr
-	Gwsagw1Y9wnI9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7VUbjXdUUUUUU==
-X-CM-SenderInfo: xvklyxpdtlsvxhyhz0rs6rljoofrz/xtbCzRWn+msKFRU3BgAA3V
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261127-fbtft-align-v1-1-92de6f92ebe8@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQyNz3bSkkrQS3cSczPQ8XdNks8TkZEtzY4ukJCWgjoKi1LTMCrBp0bE
+ QfnFpUlZqcgnICKXaWgBeq9lObwAAAA==
+X-Change-ID: 20261127-fbtft-align-5c6acc9738bb
+To: Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Felix Huang <akafelixab@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795825022; l=1084;
+ i=akafelixab@gmail.com; s=20261128; h=from:subject:message-id;
+ bh=I+0cYZeTLzqxiZSLHzV9PNt605lEdXdHOIenXaZROZ8=;
+ b=JmL5hJ8fJbaXQJtTCdgX3n0mKDHm2kGaJuFYf4Oa/FIgQJFLQTK1Mgd97AahsOxXSa/QS/nvK
+ lZUCN+x83s7AA+GfI4FqTaz/m1ZQyf/tPe4Bc4ogDfbSW8kAEgh1B2z
+X-Developer-Key: i=akafelixab@gmail.com; a=ed25519;
+ pk=Axl3BM1UWa+m0/AWcEhRIdIk/WY9FnY4wZkyQn64uVY=
+X-Endpoint-Received: by B4 Relay for akafelixab@gmail.com/20261128 with
+ auth_id=1670
+X-Original-From: Felix Huang <akafelixab@gmail.com>
+Reply-To: akafelixab@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Hi Hans,
+From: Felix Huang <akafelixab@gmail.com>
 
-On Wed, Nov 25, 2026 at 12:00:52PM +0100, Hans Verkuil wrote:
-> In any case, don't move it to the core.
+Align multi-line function call arguments with the opening parenthesis
+to adhere to the Linux kernel coding style and fix checkpatch.pl
+alignment checks.
 
-Agreed, I'll drop the FIM export patch. For context, it was driven by the
-first item in drivers/staging/media/imx/TODO:
+Signed-off-by: Felix Huang <akafelixab@gmail.com>
+---
+ drivers/staging/fbtft/fb_tinylcd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  - The Frame Interval Monitor could be exported to v4l2-core for
-    general use.
+diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
+index afa8f1c74..d58b12472 100644
+--- a/drivers/staging/fbtft/fb_tinylcd.c
++++ b/drivers/staging/fbtft/fb_tinylcd.c
+@@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
+ 	write_reg(par, 0xE5, 0x00);
+ 	write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
+ 	write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
+-		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
++		  0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
+ 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+ 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+ 	fsleep(250);
 
-Since you don't want it in the core, that TODO item should probably be
-updated or removed, otherwise the next person will try the same thing.
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261127-fbtft-align-5c6acc9738bb
 
-On the FIM itself: I'm not aware of a documented userspace use-case for
-these private controls and events, so if you'd rather remove it, I can do
-that as a separate patch. It would only touch the imx FIM helper and the
-CSI driver. Would you like me to do that?
+Best regards,
+--  
+Felix Huang <akafelixab@gmail.com>
 
-The other patch in the series (removing legacy control inheritance and
-source-dependent format handling) is independent of FIM and implements the
-remaining TODO items. I'll resend it on its own.
-
-Regards,
-Jiaqi
 
